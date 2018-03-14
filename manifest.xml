@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.sweetlies.cn" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[【炫】金融分发系统]]></name>
+		<identifie><![CDATA[xuan_mixloan]]></identifie>
+		<version><![CDATA[2.0.6]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[【炫】金融分发系统]]></ability>
+		<description><![CDATA[【炫】金融分发系统]]></description>
+		<author><![CDATA[LF]]></author>
+		<url><![CDATA[http://www.sweetlies.cn]]></url>
+	</application>
+	<platform>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+  <cover>
+      <entry title="首页入口" do="index" state="" direct="false" />
+  </cover>
+	<menu>
+      <entry title="会员管理" do="member" state="" direct="false" />
+      <entry title="银行管理" do="bank" state="" direct="false" />
+      <entry title="贷款超市" do="loan" state="" direct="false" />
+      <entry title="代理产品" do="product" state="" direct="false" />
+      <entry title="代理会员" do="agent" state="" direct="false" />
+      <entry title="口子管理" do="channel" state="" direct="false" />
+      <entry title="朋友圈管理" do="friend" state="" direct="false" />
+	</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[
+ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_inviter`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_inviter` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `phone` (`phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_creditCard`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `realname` varchar(20) NOT NULL,
+  `certno` varchar(50) NOT NULL,
+  `banknum` varchar(50) NOT NULL,
+  `bankname` varchar(20) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_withdraw`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `bank_id` varchar(11) NOT NULL,
+  `bonus` decimal(6,2) NOT NULL,
+  `status` tinyint(2) NOT NULL COMMENT '-1失败 0审核中 1已打款',
+  `createtime` int(11) NOT NULL,
+  `ext_info` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `bank_id` (`bank_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_message`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `relate_id` int(11) NOT NULL,
+  `send` varchar(50) NOT NULL,
+  `receive` varchar(50) NOT NULL,
+  `desc` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `send` (`send`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_post_looks`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_post_looks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) NOT NULL,
+  `openid` varchar(50) NOT NULL,
+  `praise` tinyint(1) NOT NULL DEFAULT '0',
+  `type` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_friend_comment`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_friend_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `openid` varchar(50) NOT NULL,
+  `createtime` int(11) NOT NULL DEFAULT '0',
+  `content` text NOT NULL,
+  `pics` text NOT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT '0',
+  `floor` int(5) NOT NULL,
+  `uniacid` int(11) NOT NULL DEFAULT 0,
+  `parent_id` int(11) NOT NULL DEFAULT 0,
+  `friend_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `openid` (`openid`),
+  KEY `parent_id` (`parent_id`),
+  KEY `friend_id` (`friend_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_friend`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_friend` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `head` varchar(255) NOT NULL DEFAULT '0',
+  `biao` varchar(50) NOT NULL,
+  `uniacid` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `tag` int(3) NOT NULL DEFAULT '0',
+  `top` int(3) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `openid` varchar(100) NOT NULL DEFAULT '0',
+  `ctime` int(11) NOT NULL,
+  `htime` int(11) NOT NULL,
+  `avatar` text,
+  `nickname` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `openid` (`openid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_product_apply`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `certno` varchar(50) NOT NULL,
+  `realname` varchar(30) NOT NULL,
+  `relate_money` int(11) NOT NULL DEFAULT 0,
+  `inviter` int(11) NOT NULL,
+  `re_bonus` decimal(7,2) NOT NULL,
+  `done_bonus` decimal(7,2) NOT NULL,
+  `extra_bonus` decimal(7,2) NOT NULL,
+  `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已下款/发卡',
+  `createtime` int(11) NOT NULL,
+  `degree` tinyint(2) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`),
+  KEY `pid` (`pid`),
+  KEY `phone` (`phone`),
+  KEY `inviter` (`inviter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_shorturl`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_shorturl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `target_url` varchar(255) NOT NULL,
+  `short_url` varchar(255) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `target_url` (`target_url`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_poster`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `poster` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `pid` (`pid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_product_advs`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_advs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_product`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `relate_id` int(11) NOT NULL COMMENT '关联id',
+  `type` tinyint(2) NOT NULL COMMENT '1信用卡，2贷款',
+  `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
+  `count_time` tinyint(2) NOT NULL COMMENT '结算时间',
+  `done_reward_type` int(11) NOT NULL COMMENT '结束奖励方式，0不奖励，1奖励现金，2奖励点数',
+  `done_reward_money` int(11) NOT NULL COMMENT '结束奖励多少元',
+  `done_reward_per` decimal(5,2) NOT NULL COMMENT '结束奖励多少点',
+  `re_reward_type` int(11) NOT NULL COMMENT '填写资料奖励方式，0不奖励，1奖励现金，2奖励点数',
+  `re_reward_money` int(11) NOT NULL COMMENT '填写资料奖励多少元',
+  `re_reward_per` decimal(5,2) NOT NULL COMMENT '填写资料奖励多少点',
+  `createtime` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `relate_id` (`relate_id`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_jdwx_token`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_jdwx_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `token` varchar(150) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `subject_id` int(4) NOT NULL,
+  `type` tinyint(2) NOT NULL,
+  `is_hot` tinyint(2) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `apply_nums` int(11) NOT NULL DEFAULT 0,
+  `createtime` int(11) NOT NULL,
+  `ext_info` MediumText NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sort` (`sort`),
+  KEY `type` (`type`),
+  KEY `uniacid` (`uniacid`),
+  KEY `subject_id` (`subject_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel_subject`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_subject` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel_advs`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_advs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_loan_advs`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_loan_advs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_loan`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_loan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `money_high` int(11) NOT NULL,
+  `rate` decimal(5,2) NOT NULL,
+  `rate_type` int(2) NOT NULL COMMENT '1是天息，30是月息',
+  `time_blow` int(11) NOT NULL,
+  `time_high` int(11) NOT NULL,
+  `apply_nums` int(11) NOT NULL DEFAULT 0,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sort` (`sort`),
+  KEY `type` (`type`),
+  KEY `uniacid` (`uniacid`),
+  KEY `money_high` (`money_high`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_bank_card`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bank_card` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `icon_type` tinyint(2) NOT NULL,
+  `recommend_type` tinyint(2) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `year_fee` tinyint(2) NOT NULL,
+  `card_type` varchar(50) NOT NULL,
+  `bank_id` int(11) NOT NULL,
+  `apply_nums` int(11) NOT NULL DEFAULT 0,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sort` (`sort`),
+  KEY `card_type` (`card_type`),
+  KEY `uniacid` (`uniacid`),
+  KEY `bank_id` (`bank_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_bank_artical`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bank_artical` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `is_hot` tinyint(2) NOT NULL,
+  `bank_id` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` MediumText NOT NULL,
+  `title` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `bank_id` (`bank_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_bank`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bank` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_payment`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `msg` tinyint(2) NOT NULL DEFAULT 1,
+  `createtime` int(11) NOT NULL,
+  `effecttime` int(11) NOT NULL,
+  `days` int(11) NOT NULL,
+  `tid` varchar(100) NOT NULL,
+  `fee` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_member`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `uniacid` int(5) NOT NULL,
+  `certno` varchar(50) NOT NULL,
+  `status` tinyint(10) DEFAULT '2' COMMENT '是否开启',
+  `nickname` varchar(50) NOT NULL,
+  `openid` varchar(50) NOT NULL,
+  `realname` varchar(50) NOT NULL,
+  `wechat` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `province` varchar(50) NOT NULL,
+  `country` varchar(50) NOT NULL,
+  `avatar` text NOT NULL,
+  `sex` int(2) NOT NULL,
+  `createtime` int(20) NOT NULL,
+  `inviter` varchar(30) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `pass` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `area` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `phone` (`phone`),
+  KEY `openid` (`openid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_info`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(5) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `updatetime` int(11) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `type` (`type`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_cache`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_cache` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(25) NOT NULL,
+  `ip` varchar(30) NOT NULL,
+  `captche` varchar(10) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `cache` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `phone` (`phone`),
+  KEY `ip` (`ip`),
+  KEY `createtime` (`createtime`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+		]]></install>
+    <uninstall><![CDATA[
+DROP TABLE IF EXISTS `ims_xuan_mixloan_cache`;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_info`;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_member`;
+    ]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

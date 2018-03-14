@@ -1,0 +1,227 @@
+﻿
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>搜索</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <style type="text/css">
+    	div._next{text-align: right;padding-right:10px;margin-top:8px;padding-bottom: 10px;}
+    	div._next a{display: inline-block;padding:2px 10px; font-size: 12px;border-radius: 10px;margin-left: 10px;}
+    	div._next a.next,div._next a.to_display{color:#4cc2f1; border:1px solid #4cc2f1;}
+    	a.to_display{font-size: 12px;}
+    	div._next a._hide{color:rgba(0,0,0,0.8); border:1px solid rgba(0,0,0,0.6);}
+    	
+    </style>
+
+	{template 'common/wxshare'}
+</head>
+<body>
+	<div class="agent-header">
+    搜索
+    	<a class="return">返回</a>
+	</div>
+	<div class="search_part">
+		<form class="search-submit" onsubmit="return false">
+			<input class="search-content" placeholder="请输入关键词查询" />
+			<a class="search_btn"><img src="../addons/xuan_mixloan/template/style/images/search_2.png" /></a>
+			<div class="search_related">
+				<ul>
+				</ul>
+			</div>
+		</form>
+	</div>
+	
+	
+	<div class="hot-search">
+		<ul>
+			<li id="" onclick='hot_kouzi(this);'>央行新规</li></ul>
+	</div>	
+	<div class="_next"><a class="next" data-num="2">换一批</a><a class='auto_display _hide'>↑收起</a><a class='auto_display to_display' style="display: none;">↓看看热搜</a></div>
+	<div class="evdayhotlist search_result">
+            
+    </div>
+</body>
+<script type="text/javascript">
+var count;
+var kouziFlag;
+var classify;
+	$(document).ready(function(){
+		function GetQueryString(name) {
+	       var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	       var r = window.location.search.substr(1).match(reg);
+	       if (r != null) return unescape(r[2]); return null;
+	    };
+	    count = GetQueryString("count");
+	    kouziFlag=GetQueryString("kouziFlag");
+	    classify=GetQueryString("classify");
+	    $('.search-content').focus();
+
+	    //判断有没有热搜词
+	    if($("div.hot-search ul").find("li").length==0){
+	    	$("div.hot-search").hide();
+        	$(".next").hide();
+        	$("._hide").hide();
+        	$(".to_display").show();
+        	$("._next").css("border-bottom","none");
+	    }
+	})
+	//搜索输入框监听事件
+	$('.search-content').bind('input focus propertychange', function() {
+	    var keyword=$(this).val();
+	    if(keyword!=""){
+	    	$.post("{php echo $this->createMobileUrl('channel', array('op'=>'keyword'))}",{'keyword':keyword},
+	            function(data){
+	            	if(data!=""&&data!=null&&data!=undefined){
+	            		console.log(data);
+	                	$("div.search_related").show();
+	                	$("div.search_related ul").show();
+	                	var _width=$(".search-content").width();
+						$("div.search_related").css("width",_width);
+						$("div.search_related ul").html("");
+						for(i=0;i<data.data.length;i++){
+							var name=data.data[i].title;
+							var id=data.data[i].id;
+							$("div.search_related ul").append("<li data-id="+ id +" onclick=\'li_kouzi(this);\'>"+ name +"</li>")
+						}					
+	            	}else{
+	            		$("div.search_related ul").html("").hide();
+	            	}                                                   
+	        },'json')
+	    }else{
+	    	$("div.search_related ul").html("").hide();
+	    }	    	    
+	});	
+	//搜索框搜索	
+	function searchResult(keyword){
+		$.post("{php echo $this->createMobileUrl('channel', array('op'=>'search', 'post'=>1))}",{'keyword':keyword},
+            function(data){
+                console.log(data);
+                if(data.code == 1){
+                	//热搜框隐藏
+                	$("div.hot-search").hide();
+                	$(".next").hide();
+                	$("._hide").hide();
+                	$(".to_display").show();
+                	$("._next").css("border-bottom","none");
+
+                	//相关搜索结果
+                	$("div.search_related").hide();
+	                $(".search_result").html("");
+	                data = data.data;
+	                for(var i=0;i<data.length;i++){
+	                    var _img=data[i].ext_info.pic;
+	                    var _title=data[i].title;
+	                    var _createTime=data[i].createtime;
+	                    var _reader=data[i].apply_nums;
+	                    var _urlId=data[i].id;
+                    	$(".search_result").append("<div class=\"loan-list\">"
+			                                                + "<div class=\"loan-main\" data-id=\'"+ _urlId +"\' data-condition=\'\' onclick=\'li_kouzi(this);\'>"
+			                                                    + "<a>"
+			                                                        + "<span class=\"fl\"><img src='"+ _img +"\' height=\"88px\" style=\"max-width:88px;\" alt=\"\"></span>"
+			                                                        + "<h3 class=\'s_title\'>"+ _title +"</h3>"
+			                                                        // + "<p class=\"sub-content\">"+ _intro +"</p>"
+			                                                        + "<p class=\"time-ad s_time\">"+ _createTime +"</p>"
+			                                                        + "<p class=\"readerNo s_read\">阅读量"+ ' ' +_reader+"</p>"
+			                                                    + "</a>"
+			                                                + "</div>"
+			                                            + "</div>"
+			                   )
+	                }
+                }else{
+                	layer.msg("未检索到相关文章！");
+                	return false;
+                }                                    
+        },'json')
+	}
+
+//热搜框展开与隐藏
+$(".to_display").click(function(){
+	//展开
+	$("div.hot-search").show();
+	$(".next").show();
+	$("._hide").show();
+	$(".to_display").hide();
+	$("._next").css("border-bottom","1px solid #ececec");
+})
+$("._hide").click(function(){
+	//收起
+	$("div.hot-search").hide();
+	$(".next").hide();
+	$("._hide").hide();
+	$(".to_display").show();
+	$("._next").css("border-bottom","none");
+})
+to_change();
+//换一批
+$(".next").click(function(){
+	to_change();
+})
+//换一批接口调取
+function to_change(){
+	$.post("{php echo $this->createMobileUrl('channel', array('op'=>'getCommendSubjects'))}",{},
+        function(data){
+        	if(data.code=="1"){
+        		console.log(data);
+        		var result=data.data;
+            	$("div.hot-search ul").html("");
+				for(i=0;i<result.length;i++){
+					var _keyword=result[i].name;
+					$("div.hot-search ul").append("<li onclick=\'hot_kouzi(this);\'>"+ _keyword +"</li>")
+				}		
+        	}else if(data.code=="-1"){
+        		layer.msg(data.msg);
+        	}                                                  
+    },'json')	
+}
+
+//点击热搜词
+function hot_kouzi(index){
+	$(".search-content").val("");
+	var keyword=$(index).html();
+	searchResult(keyword);
+}
+//点击li直接进入口子链接
+function li_kouzi(index){
+	var search=1;
+    var _id=$(index).attr("data-id");
+    var _url = "{php echo $this->createMobileUrl('channel', array('op'=>'artical'));}&id=" + _id;
+    location.href=_url;
+}
+
+//点击搜索
+	$(".search_btn").click(function(){
+		if($(".search-content").val()!=""){
+			$("div.search_related").hide();
+			var keyword=$(".search-content").val();
+			searchResult(keyword);
+		}else{
+			layer.msg("请输入查询关键词！");
+			$("div.search_related").hide();
+			return false;
+		}
+	})
+	//失去焦点时隐藏重置按钮
+    $(document).bind("click",function(e){
+    	var target = $(e.target); 
+    	if(target.closest(".search-content").length == 0){
+			$("div.search_related").hide();
+		}
+	})
+	//返回
+	$(".return").click(function(){
+		history.go(-1)
+	    location.href=_url;
+	})
+</script>
+</html>

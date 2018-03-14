@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>哎呀！页面维护中...</title>
+	<script type="text/javascript" src="/Public/Pc/js/jquery.js"></script>
+</head>
+<style type="text/css">
+	div.maintain{text-align: center;}
+	div.maintain img{display: inline-block; width: 100%;max-width: 700px;}
+</style>
+<body>
+	<div class="maintain">
+		<img src="maintain.png" />
+	</div>
+
+	<script type="text/javascript">
+		$(function(){
+			var window_height=$(window).height();
+		    var maintain_H=$("div.maintain").height();
+		    var maintain_T=(window_height-maintain_H)/2;
+		    $("div.maintain").css('margin-top',maintain_T);
+		})	    
+	</script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li class="active"><a href="./index.php?c=profile&a=module&do=setting&m=xuan_mixloan">参数设置</a></li>
+</ul>
+<div class="main">
+	{php load()->func('tpl');}
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#banpic" aria-controls="banpic" role="tab" data-toggle="tab">网站设置</a></li>
+			<li role="presentation" ><a href="#key" aria-controls="key" role="tab" data-toggle="tab">key设置</a></li>
+			<li role="presentation" ><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">协议设置</a></li>
+			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
+			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
+		</ul>
+		<!-- Tab panes -->
+		<div class="tab-content">
+
+			<div role="tabpanel" class="tab-pane active" id="banpic">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						网站设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" name="title" value="{$setting['title']}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号名称</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" name="wx_name" value="{$setting['wx_name']}" class="form-control">
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">logo</label>
+							<div class="col-sm-9 col-xs-12">
+								{php echo tpl_form_field_image(logo,$setting['logo']);}
+								<span class="help-block">推荐尺寸：正方形</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服QQ</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text" name="qqnum" value="{$setting['qqnum']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text" name="share_title" value="{$setting['share_title']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+							<div class="col-sm-6 col-xs-12">
+								{php echo tpl_form_field_image(share_image,$setting['share_image']);}
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text" name="share_desc" value="{$setting['share_desc']}" class="form-control" >
+								<span class="help-block">推荐尺寸：720*396</span>
+							</div>
+						</div>
+					</div>
+					<div class="panel-heading">
+						加入代理
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买代理地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$vip_buy}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">新手指南地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$mix_tutorials}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">在线客服地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$mix_service}" class="form-control" readonly>
+							</div>
+						</div>
+					</div>
+					<div class="panel-heading">
+						生活服务
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">贷款超市地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$loan}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请信用卡地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$want_subscribe}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">查询申卡进度</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$extend_query}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">提额小秘籍</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$extend_tips}" class="form-control" readonly>
+							</div>
+						</div>
+					</div>
+					<div class="panel-heading">
+						个人中心
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人中心地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$user}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">今日口子地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$channel}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理系统地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$product}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">我的代理店地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$createPostAllProduct}" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">金融朋友圈地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$friend}" class="form-control" readonly>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="key">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						key设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信接口</label>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="text" value="{$setting['smsuser']}" name="smsuser" class="form-control" placeholder="短信宝帐号" />
+								<span class="help-block">
+									短信接口使用的是短信宝，短信购买地址:<a href="http://www.smsbao.com/reg?r=10624 " target="_blank">http://www.smsbao.com/reg?r=10624 </a>
+								</span>
+							</div>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="password" value="{$setting['smspass']}" name="smspass" class="form-control" placeholder="短信宝密码"/>
+							</div>
+						</div>
+						<div class="form-group">
+			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">京东万象</label>
+			                <div class="col-sm-3 col-xs-6" >
+								<select class="form-control" name="jdwx_open">
+									<option value="1" {if $setting['jdwx_open'] == 1}selected{/if}>是</option>
+									<option value="0" {if $setting['jdwx_open'] == 0}selected{/if}>否</option>
+								</select>
+							</div>
+			                <div class="col-sm-3 col-xs-6">
+			                    <input type="password" class="form-control" name="jdwx_key" value="{$setting['jdwx_key']}" placeholder="京东万象key">
+			                    <span class="help-block">
+			                    申请地址：<a href="https://wx.jcloud.com/" target="_blank">https://wx.jcloud.com/</a>
+								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/16/11147" target="_blank">https://wx.jcloud.com/market/datas/16/11147</a>
+								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/10678" target="_blank">https://wx.jcloud.com/market/datas/5/10678</a>
+								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/11577" target="_blank">https://wx.jcloud.com/market/datas/5/11577</a>
+			                    </span>
+			                </div>
+			            </div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请已接受通知模板消息</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			<input type="text" value="{$setting['tpl_notice1']}" name="tpl_notice1" class="form-control" placeholder="邀请已接受通知"/>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]邀请已接受通知&nbsp;模板消息</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="monitor">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						协议设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">注册协议</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			{php echo tpl_ueditor('register_contract', $setting['register_contract']);}
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="pics">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						图片设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">新手指南图片</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_image(tutorials_pic,$setting['tutorials_pic']);}
+                    			<span class="help-block">建议上传单张介绍长图，描述新手指南</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服图片</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_image(service_pic,$setting['service_pic']);}
+                    			<span class="help-block">建议上传1712*1854尺寸图片，描述怎么联系客服</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理店logo</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_image(product_logo,$setting['product_logo']);}
+                    			<span class="help-block">建议上传正方形logo图片，背景一定要透明哦</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">生产全部产品代理图片</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_multi_image(vip_comm,$setting['vip_comm']);}
+                    			<span class="help-block">建议上传多张介绍1080*1146长图，描述加入代理好处</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品总代理海报设置</label>
+							<div class="col-sm-4 col-xs-6">
+								{php echo tpl_form_field_image(poster_image,$setting['poster_image']);}
+								<span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
+							</div>
+							<div class="col-sm-2 col-xs-3">
+								<select class="form-control" name="poster_avatar">
+									<option value="1" {if $setting['poster_avatar']==1}selected{/if}>是</option>
+									<option value="0" {if $setting['poster_avatar']==0}selected{/if}>否</option>
+								</select>
+								<span class="help-block">是否需要头像</span>
+							</div>
+							<div class="col-sm-2 col-xs-3">
+								{php echo tpl_form_field_color('poster_color',$setting['poster_color']);}
+								<span class="help-block">昵称颜色</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请海报设置</label>
+							<div class="col-sm-4 col-xs-6">
+								{php echo tpl_form_field_image(invite_image,$setting['invite_image']);}
+								<span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
+							</div>
+							<div class="col-sm-2 col-xs-3">
+								<select class="form-control" name="invite_avatar">
+									<option value="1" {if $setting['invite_avatar']==1}selected{/if}>是</option>
+									<option value="0" {if $setting['invite_avatar']==0}selected{/if}>否</option>
+								</select>
+								<span class="help-block">是否需要头像</span>
+							</div>
+							<div class="col-sm-2 col-xs-3">
+								{php echo tpl_form_field_color('invite_color',$setting['invite_color']);}
+								<span class="help-block">昵称颜色</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="buy_vip">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						购买代理设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入代理金额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="buy_vip_price" value="{$setting['buy_vip_price']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_one" value="{$setting['inviter_fee_one']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">一级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_two" value="{$setting['inviter_fee_two']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">二级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_three" value="{$setting['inviter_fee_three']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">三级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放今日口子</label>
+							<div class="col-sm-3 col-xs-12">
+								<select class="form-control" name="vip_channel">
+									<option value="0" {if $setting['vip_channel']==0}selected{/if}>否</option>
+									<option value="1" {if $setting['vip_channel']==1}selected{/if}>是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放金融圈</label>
+							<div class="col-sm-3 col-xs-12">
+								<select class="form-control" name="vip_friend">
+									<option value="0" {if $setting['vip_friend']==0}selected{/if}>否</option>
+									<option value="1" {if $setting['vip_friend']==1}selected{/if}>是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告图</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_multi_image(buy_adv_pics,$setting['buy_adv_pics']);}
+                    			<span class="help-block">建议上传多张广告图，描述加入代理有什么好处</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品介绍长图</label>
+							<div class="col-sm-9 col-xs-12" >
+								{php echo tpl_form_field_image(buy_intro_pic,$setting['buy_intro_pic']);}
+                    			<span class="help-block">建议上传单张介绍长图，描述加入代理有什么好处</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买须知</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			{php echo tpl_ueditor('buy_content', $setting['buy_content']);}
+                    			<span class="help-block">如果不填就使用默认的</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">常见问题</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			{php echo tpl_ueditor('buy_question', $setting['buy_question']);}
+                    			<span class="help-block">如果不填就使用默认的</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买须知</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			{php echo tpl_ueditor('buy_contract', $setting['buy_contract']);}
+                    			<span class="help-block">如果不填就使用默认的</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{template 'common/footer'}

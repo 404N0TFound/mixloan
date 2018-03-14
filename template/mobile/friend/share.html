@@ -1,0 +1,316 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>编辑内容</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <script src="../addons/xuan_mixloan/template/style/js/agent.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jweixin-1.2.0_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/friendscircle_1.css">
+    <link href="../addons/xuan_mixloan/template/style/css/imgup.css" type="text/css" rel="stylesheet"/><!-- 图片上传样式 -->
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+	<div class="agent-header">
+        编辑内容
+        <a class="return return_del" onclick="reback();"></a>
+        <a class="to_release">发送</a>
+    </div>
+    <div class="releaseMain">
+        <div class="add_tab">
+            <h3>请选择标签</h3>
+            <ul>
+                <li class="help_anwser" data-tab="1">帮你解答</li>
+                <li class="help_map" data-tab="2">帮你识图</li>
+                <li class="help_share" data-tab="3">朕要分享</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="release_content">
+        <div class="rCommon rtitle"><textarea  autoHeight="true" class="release_text" id="release_text" placeholder="请输入标题~"></textarea><a><span class="titleL">0</span>/40</a></div>
+    	<div class="rCommon rcontent"><textarea  autoHeight="true" class="release_text" id="contentor" placeholder="赶紧编辑您的内容吧~"></textarea><a><span class="titleL">0</span>/800</a></div>
+    </div>
+    <div class="img-box full">
+		<section class="img-section">
+			 <div class="imgBox">
+                <ul></ul>
+             </div>
+             <div class="pic_guide">
+                <!--<img id="emoji" src="../addons/xuan_mixloan/template/style/picture/emoji.png" class="add-emoji" id="emoji" style="width: 0.8rem;height: auto;margin-right: 10px;">-->
+                <img id="chooseImg" src="../addons/xuan_mixloan/template/style/picture/pic.png" class="add-pic" id="pic" style="width: 0.88rem;height: auto;">
+                <input type="file" name="pic" accept="image/png,image/jpeg,image/jpg" class="contentImgs2" id="contentImgs"  style="opacity: 0;" />
+                <div class="emojiBox remojiBox">
+                    <ul></ul>
+                </div>
+             </div>
+		 </section>
+	</div> 
+<!-- 预览图片 -->
+<div class="scrollImg">
+  <div class="scrollImgBox">
+    <div class="swiper-container scrollImg-swiper">
+      <div class="swiper-wrapper">
+      </div>
+      <div class="swiper-pagination scrollImg-pagination"></div>
+    </div>
+  </div>
+</div>
+<!-- 图片上传中 -->
+<div class="imgUploading">
+    <img src="../addons/xuan_mixloan/template/style/picture/uploading.png" />
+</div>
+</body>
+<!-- <script src="../addons/xuan_mixloan/template/style/js/imgup.js"></script> -->
+<script src="../addons/xuan_mixloan/template/style/js/emojis_1.js"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_1.js></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_1.js></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle_1.js"></script>
+<!-- <script src="../addons/xuan_mixloan/template/style/js/jquery.mcustomscrollbar.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/js/jquery.emoji.min.js"></script> -->
+<script type="text/javascript">
+    $(function(){
+        var wH=$(window).height();
+        $("div.scrollImg,div.imgUploading").css("height",wH);
+    })
+    $.fn.autoHeight = function(){
+        function autoHeight(elem){
+            elem.style.height = 'auto';
+            elem.scrollTop = 0; //防抖动
+            elem.style.height = elem.scrollHeight + 'px';
+        }
+        this.each(function(){
+            autoHeight(this);
+            // $(this).on('keyup', function(){
+            //     autoHeight(this);
+            // });
+            $(this).bind('input propertychange', function() { 
+                autoHeight(this);
+            });            
+        });
+    }
+    $('textarea[autoHeight]').autoHeight();
+    //添加图片
+    $(".add-pic").click(function(){
+        $("#file").click();
+    })
+    //添加标签
+    $("div.add_tab ul li").click(function(){
+        var tab=$(this).attr("data-tab");        
+        if(!$(this).hasClass("on")){
+            if(tab=="1"){
+                // $("div.rtitle").hide();
+                $("div.imgBox ul").hide();
+                $("#chooseImg").hide();
+            }else if(tab=="2"){
+                $("div.imgBox ul").show();
+                $("#chooseImg").show();
+            }else{
+                $("div.imgBox ul").show();
+                $("#chooseImg").show();
+            } 
+            $("div.add_tab ul li.on").removeClass("on");
+            $(this).addClass("on");        
+        }
+    })
+
+    /*选择图片*/
+    $("#chooseImg").click(function(){
+        $(".contentImgs2").click();
+    })
+    $(".contentImgs2").change(function(){
+      var idFile = $(this).attr("id");
+      var file = document.getElementById(idFile);
+      var fileList = file.files; //获取的图片文件
+      fileList = validateUp(fileList);
+      var before_L=$("div.imgBox ul li").length;
+      var choosing_L=fileList.length;
+      var total_L=before_L+choosing_L;
+      if(total_L<=9){
+        if(total_L>0){
+          for(i=0;i<fileList.length;i++){
+            $("div.imgUploading").show();
+            var _file=fileList[i];
+            readFile2(_file,i,fileList.length);
+          }
+        }    
+      }else{
+          layer.msg("上传图片不能超过9张");
+          return false;
+      }
+    })
+    //上传图片(接口)
+    function readFile2(file,x,y) {        
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            var url = e.target.result;
+            $("div.imgBox ul").append("<li><img src="+url+" onclick=\'pubmaxImg(this);\' /><a href=\'javascript:void(0);\' onclick=\'delImg2(this);\'><span>+</span></a></li>");
+            if(x==y-1){
+                $("div.imgUploading").hide();
+            }
+           
+        }
+    }
+    // 删除图片
+    function delImg2(index){
+        var _this=$(index);
+        _this.parent().remove();
+    }
+
+    //发送
+    $(".to_release").click(function(){
+        publishSubmit();
+    });
+    function publishSubmit(){
+        $(".to_release").unbind("click");
+        var tag=$("div.add_tab ul li.on").length;
+        var title=$.trim($("div.rtitle textarea").val());
+        var content=$.trim($("#contentor").val());
+        var imgs_url=[];
+        var upImg=$("div.imgBox ul li");
+        if(upImg.length>0){
+            for(i=0;i<upImg.length;i++){
+                var img_url=upImg.eq(i).find("img").attr("src");
+                imgs_url.push(img_url);
+            }
+        }
+        if(tag>0){
+            var tagIndex=$("div.add_tab ul li.on").attr("data-tab");
+            var data={"tagId":tagIndex,"title":title,"content":content,"imgs":imgs_url};
+            if(tagIndex=="1"){
+                if(title!=""&&content!=""){
+                    toRelease(data);
+                }else if(title==""){
+                    layer.msg("请输入标题");
+                    reClick();
+                    return false;
+                }else if(content==""){
+                    layer.msg("请编辑发布内容");
+                    reClick();
+                    return false;
+                }
+            }else if(tagIndex=="2"){
+                if(title!=""&&content!=""&&imgs_url!=""){
+                    toRelease(data);
+                }else if(title==""){
+                    layer.msg("请输入标题");
+                    reClick();
+                    return false;
+                }else if(imgs_url==""){
+                    layer.msg("请选择图片");
+                    reClick();
+                    return false;
+                }else if(content==""){
+                    layer.msg("请输入解答内容");
+                    reClick();
+                    return false;
+                }
+            }else if(tagIndex=="3"){
+                if(title!=""){
+                    if(content!=""){
+                        toRelease(data);
+                    }else{
+                        layer.msg("请编辑发布内容!");
+                        reClick();
+                        return false;
+                    }                    
+                }else{
+                    layer.msg("请输入标题");
+                    reClick();
+                    return false;
+                }
+            }
+        }else{
+            layer.msg("请选择标签");
+            reClick();
+            return false;
+        }
+        function toRelease(index){
+            $.ajax({
+                url:"{php echo $this->createMobileUrl('friend',array('op'=>'add'))}",
+                dataType:'JSON',
+                type:'POST',
+                data:index,
+                success:function(res){
+                    if(res.status=='OK'){
+                        layer.msg("发布成功",{time:800,shift: -1,},function(){
+                            location.href= res.url;
+                        })                        
+                    }else{
+                        layer.msg(res.status);
+                        reClick();
+                        return false;
+                    }
+                }
+            })
+        }
+    }
+    // 恢复发布点击事件(发送)
+    function reClick(){
+        $(".to_release").bind("click",function(){
+            publishSubmit();
+        });
+    }
+    function reback(){        
+        var imgL=$("div.imgBox ul li");
+        if(imgL.length>0){            
+            for(i=0;i<imgL.length;i++){
+                var url=imgL.eq(i).find("img").attr("src");
+                backdelImg(url,i,imgL.length);
+            }
+        }else{
+            var url="";
+            location.href=url;
+        }
+    }
+    function backdelImg(url,i,j){
+        $.post('',{'url':url},
+            function(res){
+              console.log(res);
+              if(res.code==0){
+                if(i==j-1){
+                    location.href="";
+                }
+              }else{
+                location.href="";
+              }
+        })
+    }
+// 输入标题字数监控
+$("div.rtitle textarea").on("propertychange input", function() {  
+    var $this = $(this),  
+        _val = $this.val(),  
+        count = "";  
+    if (_val.length > 40) {  
+        $this.val(_val.substring(0, 40));  
+    }  
+    count = $this.val().length;  
+    $("div.rtitle a span").html(count);
+});
+// 输入内容字数监控
+$("div.rcontent textarea").on("propertychange input", function() {  
+    var $this = $(this),  
+        _val = $this.val(),  
+        count = "";  
+    if (_val.length > 800) {  
+        $this.val(_val.substring(0,800));  
+    }  
+    count = $this.val().length;  
+    $("div.rcontent a span").html(count);
+});
+</script>
+</html>

@@ -1,0 +1,304 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>信用卡中心</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_2.css">
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+    <div class="filter_tab cards_tab">
+        <a href="javascript:void(0);" onclick="javascript:history.go(-1)"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
+        <ul>
+            <li id="banks" class="tab" data-filter="multiple"><span>选择银行</span></li>
+            <li class="tab" data-filter="cardType"><span>卡片类型</span></li>
+            <li class="tab" data-filter="currency"><span>币种</span></li>
+            <li class="tab" data-filter="annual"><span>年费</span></li>
+        </ul>
+    </div>
+    <div class="filter_frame">        
+        <div class="filter_result">
+            <div class="no_result">
+                <img src="../addons/xuan_mixloan/template/style/picture/no_result_1.png">
+                没有找到符合条件的信用卡
+            </div>
+            <div class="result_list"> 
+                <div class="loan_product card_core" data-id="116" data-productid="34" onclick="clickNum(this);">
+                    <a href="https://c.pingan.com/apply/public/newApplyCard.do?scc=900000510&amp;ccp=1a2a3a4a5a8a9a10a11a12a13&amp;showt=0 ">
+                        <ul>
+                            <li>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/59f985dee224b_1.png" /></span>
+                                <div class="loan_info">
+                                    <h2>平安1号店联名卡</h2>
+                                    <div class="rate_info">
+                                        <span>每月1号享5倍积分</span>
+                                    </div>
+                                    <div class="extra_info">
+                                        <dl>
+                                            <dd style="color: #6495ED;border:1px solid #6495ED;"><em style="font-family: '微软雅黑'!important;">金卡</em></dd><dd style="color: #2E8B57;border:1px solid #2E8B57;"><em style="font-family: '微软雅黑'!important;">银联</em></dd>                                        </dl>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pop_filter">
+        <div class="filter_floor"></div>
+        <div class="filter_list Cfilter_list">
+            <ul class="filter_layer filter_common multiple" id="multiple">
+                <li data-no="0" data-bank=""><span>全部银行</span></li>
+                {loop $banks $row}
+                <li data-bank="{$row['id']}"><span>{$row['name']}</span><em>{$row['ext_info']['subscribe_tips']}</em></li>
+                {/loop}
+            </ul>
+            <ul class="filter_layer filter_common cardType" id="cardType">
+                <li data-no="0" data-type=""><span>不限卡种</span></li>
+                <li data-type="1"><span>车主卡</span></li>
+                <li data-type="2"><span>商超卡</span></li>
+                <li data-type="3"><span>商旅卡</span></li>
+                <li data-type="4"><span>航空卡</span></li>
+                <li data-type="5"><span>境外卡</span></li>
+                <li data-type="6"><span>取现卡</span></li>
+                <li data-type="7"><span>标准卡</span></li>
+                <li data-type="8"><span>卡通卡</span></li>
+                <li data-type="9"><span>主题卡</span></li>
+                <li data-type="10"><span>保险卡</span></li>
+                <li data-type="11"><span>免3年年费</span></li>
+                <li data-type="12"><span>0外汇兑换手续费</span></li>
+                <li data-type="13"><span>世界卡</span></li> 
+            </ul>
+            <ul class="filter_layer filter_common currency" id="currency">
+                <li data-no="0" data-currency=""><span>不限币种</span></li>
+                <li data-currency="1"><span>单币种</span></li>
+                <li data-currency="2"><span>多币种</span></li>
+            </ul>
+            <ul class="filter_layer filter_common annual" id="annual">
+                <li data-no="0" data-annual=""><span>不限年费</span></li>
+                <li data-annual="1"><span>终身免年费</span></li>
+                <li data-annual="2"><span>交易免年费</span></li>
+                <li data-annual="3"><span>有年费</span></li>
+            </ul>
+        </div>
+    </div>
+
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
+<script type="text/javascript">
+var bank_id = {if !empty($_GPC['bank_id'])}{$_GPC['bank_id']}{else}null{/if};
+post_data (bank_id,null,null,null);
+var rollFlag=0;//监听页面滚动
+// 页面初始化
+$(document).ready(function(){
+    var fr_T=($("div.filter_tab").height())+3+"px";
+    $("div.filter_result").css("margin-top",fr_T);
+})
+$(function(){    
+    var classify_id={if !empty($_GPC['bank_id'])}{$_GPC['bank_id']}{else}null{/if};  
+    if(classify_id!=null){
+        var bank=$(".multiple li");
+        for(i=0;i<bank.length;i++){
+            var data_bank=bank.eq(i).attr("data-bank");
+            if(classify_id==data_bank){
+                bank.eq(i).addClass("filter_on");
+                var _bank=bank.eq(i).find('span').html();
+                $("div.filter_tab ul li[data-filter='multiple']").removeAttr("class").addClass("tab_on").find("span").html(_bank);
+                card_filter();
+            }
+        }
+    }    
+})
+// 外部筛选
+$("div.filter_tab ul li").click(function(){
+    var _this=$(this);
+    var _id=$(this).attr("data-filter");
+    // 移除所有class添加指定class 
+
+    if($("#"+_id).css("display")!="none"){
+        //已展开
+        if($("#"+_id).find("li.filter_on").length>0){
+            _this.removeAttr("class").addClass("tab_on");
+        }else{
+            _this.removeAttr("class").addClass("tab");
+        }            
+        $("#"+_id).css("display","none");
+        layer_cancel();     
+    }else{
+        //未展开
+        if($("div.filter_tab ul li.tab_onchoose").length>0){
+            // 当前展开的id
+            var current_id=$("div.filter_tab ul li.tab_onchoose").attr("data-filter");
+            if($("#"+current_id).find("li.filter_on").length>0){
+                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab_on");
+            }else{
+                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab");
+            }
+            _this.removeAttr("class").addClass("tab_onchoose");
+            $(".filter_layer").css("display","none");
+            if(_this.attr("id")=="banks"){
+                pop_filter1();
+            }else{
+                pop_filter2();
+            }            
+            $("body").addClass("forbid");
+            $("#"+_id).css("display","block");
+        }else{
+            _this.removeAttr("class").addClass("tab_onchoose");
+            $(".filter_layer").css("display","none");
+            if(_this.attr("id")=="banks"){
+                pop_filter1();
+            }else{
+                pop_filter2();
+            } 
+            $("body").addClass("forbid");
+            $("#"+_id).css("display","block");
+        } 
+        rollFlag=1;               
+    }    
+})
+// 内部筛选
+$("div.filter_list .filter_common li").click(function(){
+    var _this=$(this);
+    _this.parent().find("li").removeClass("filter_on");
+    _this.addClass("filter_on");
+    var _id=_this.parent().attr("id");
+    var no=_this.attr("data-no");//判断是否为不限制
+    var val=_this.find('span').html();
+    if(no=="0"){
+        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab").find("span").html(val);
+        _this.removeClass("filter_on");
+    }else{
+        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab_on").find("span").html(val);
+    }
+    $("#"+_id).css("display","none");   
+    layer_cancel();
+    //接口
+    card_filter();
+})
+// 弹层取消
+function layer_cancel(){
+    $("div.pop_filter").hide();
+    $("body").removeClass("forbid");
+    rollFlag=0;
+}
+function pop_filter1(){
+    //银行
+    var window_height=$(window).height();
+    var filter_tabH=$("div.filter_tab ul li").eq(0).outerHeight();
+    var pop_filterH=window_height-filter_tabH+"px";
+    $(".pop_filter").height(pop_filterH);
+    $("div.pop_filter").show();
+}
+function pop_filter2(){
+    //其他
+    var window_height=$(window).height();
+    var filter_tabH=$("div.filter_tab").outerHeight();
+    var pop_filterH=window_height-filter_tabH+"px";
+    $(".pop_filter").height(pop_filterH);
+    $("div.pop_filter").show();
+}
+$("div.filter_floor").click(function(){
+    $("div.filter_tab ul li.tab_onchoose").click();
+})
+// 返回值判断
+function dataTransform(res){
+    var ret="";
+    if(res==null||res==undefined){
+        ret="";
+    }else{
+        ret=res;
+    }
+    return ret;
+}
+// 筛选
+function card_filter(){
+    var bank=$(".multiple li.filter_on").attr("data-bank");
+    var type=$(".cardType li.filter_on").attr("data-type");
+    var currency=$(".currency li.filter_on").attr("data-currency");
+    var annual=$(".annual li.filter_on").attr("data-annual");
+    post_data (bank,type,currency,annual);
+}
+function post_data (bank,type,currency,annual) {
+    $.post("{php echo $this->createMobileUrl('bank', array('op'=>'bank_card_list'))}",{"bank_id":dataTransform(bank),"card_type":dataTransform(type),"icon_type":dataTransform(currency),"year_fee":dataTransform(annual)},
+        function(data){
+            if(data.code==1){
+                $("div.result_list").html("");
+                $("div.no_result").hide();
+                var _data=data.data;
+                result(_data);
+            }else{
+                $("div.result_list").html("");
+                $("div.no_result").show();
+                var _data=data.data;
+                result(_data);
+            }
+            function result(_data){
+                for(var j=0;j<_data.length;j++){
+                    var url=_data[j].ext_info.url;
+                    var _id=_data[j].id;
+                    var img=_data[j].ext_info.pic;
+                    var title=_data[j].name;
+                    var hit=_data[j].apply_nums;
+                    var intro=_data[j].ext_info.intro;
+                    var ele=_data[j].ext_info.tag;//标签
+                    $("div.result_list").append("<div class=\"loan_product card_core\" data-id="+ _id +" onclick=\"clickNum(this);\">"
+                                                    + "<a href="+ url +">"
+                                                        + "<ul>"
+                                                            + "<li>"
+                                                                + "<span><img src="+ img +" /></span>"
+                                                                + "<div class=\"loan_info\">"
+                                                                    + "<h2>"+ title +"</h2>"
+                                                                    + "<div class=\"rate_info\">"
+                                                                        + "<span></span>"
+                                                                    + "</div>"
+                                                                    + "<div class=\"extra_info\">"
+                                                                        + "<dl>"
+                                                                        + "</dl>"
+                                                                    + "</div>"
+                                                                + "</div>"
+                                                            + "</li>"
+                                                        + "</ul>"
+                                                    + "</a>"
+                                                + "</div>")
+                    $("div.result_list .loan_product").eq(j).find("div.rate_info span").html(intro);
+                    for(m=0;m<ele.length;m++){
+                        var tab=ele[m];
+                        var tab_style=ele[m][1];
+                        $("div.result_list .loan_product").eq(j).find("div.extra_info dl").append("<dd style=\"color: "+ tab_style +";border:1px solid "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ tab +"</em></dd>");
+                    }
+                }
+            }
+    }, 'json')
+}
+//监听页面滚动
+document.addEventListener('touchmove', function (event) {
+    if(rollFlag==1){
+        event.preventDefault();
+    } 
+})
+// 记录点击数
+function clickNum(index){
+    var channel=1;
+    var id=$(index).attr("data-id");
+    $.post("{php echo $this->createMobileUrl('bank', array('op'=>'cardView'))}",{"id":id},
+        function(data){
+            console.log(data);
+        },'json')
+}
+</script>
+</body>
+</html>

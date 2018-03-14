@@ -1,0 +1,118 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>口子中心</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
+  
+    <style>
+        .bglightgray{background-color: #eee;}
+        body{overflow:hidden;}
+        .agent-footer a.on p{border-bottom: 1px solid #ffac42;}
+        .agent-footer a.on p span{color: #ffac42!important;}
+        .dropload-down{text-align: center;padding:1% 0;color:#949494;font-size:12px;}
+    </style>
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+    <div class="agent-foot texttotal agent-footer">
+        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
+        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
+        <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
+    </div>
+    <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
+        <div class='margin-top'></div>
+        <div class="evdayhotlist newcomer" style='padding-top:0!important;overflow-y:scroll;-webkit-overflow-scrolling: touch;'>
+            {loop $course_list $course}
+            <div class="list_unit">            
+                <h2>{$course['title']}</h2>
+                <p>
+                <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">去学习</a>                
+                </p>            
+            </div>
+            {/loop}
+         </div>
+    </div>
+    <div class="to_search" data-condition="1">
+        <img src="../addons/xuan_mixloan/template/style/picture/search_white_1.png" />
+    </div>
+</body>
+<script>
+var kouziFlag="newcomer";
+$(document).ready(function(){
+    var li_length=$("#head-scroll ul li").length;
+    if(li_length==0){
+        $("div.margin-top").css("margin-top","50px");
+        $("div.margin-top").attr("data-height","50");
+    }else if(li_length==1){
+        $("div.margin-top").css("margin-top","125px");
+        $("div.margin-top").attr("data-height","125");
+    }else if(li_length==2){
+        $("div.margin-top").css("margin-top","160px");
+        $("div.margin-top").attr("data-height","160");
+    }else if(li_length==3){
+        $("div.margin-top").css("margin-top","195px");
+        $("div.margin-top").attr("data-height","195");
+    }
+
+    //设置滚动区域高度
+    var window_height=$(window).height();
+    var margin_height=$("div.margin-top").attr("data-height");
+    var wrapper_height=window_height-margin_height+"px";
+    $("div.newcomer").css({"height":wrapper_height});
+
+    //搜索框判断是否为代理
+    var _condition="1";
+    // if(_condition=="0"){
+    //     $(".dummy_input").addClass("buy_limit");
+    // }
+})
+
+
+//滚动条进入口子
+function li_click(index){
+    var data_condition=$(index).attr("data-condition");
+    var count=$(".evdayhotlist>div").length;
+    var _id=$(index).attr("data-id");
+    var _url = "/Wap/idai/kdetail.html?id=" + _id+"&count="+count+"&kouziFlag="+kouziFlag;
+    if(data_condition!="0"){
+        location.href=_url;
+    }
+}
+//点击进入口子链接
+function a_click(index){
+    var count=$(".evdayhotlist>div").length;
+    var _id=$(index).parent().attr("data-id");
+    var _url = "/Wap/idai/kdetail.html?id=" + _id+"&count="+count+"&kouziFlag="+kouziFlag;
+    var _condition=$(index).parent().attr("data-condition");
+    var _condition2=$(index).parent().attr("data-condition2");
+    if(_condition=="1"){
+        if(_condition2=="1"){
+            $(index).attr("href",_url);
+        }        
+    }else{
+        jump(_id);
+    }
+}
+//点击进入搜索页
+$(".to_search").click(function(){
+    var data_condition=$(this).attr("data-condition");
+    var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
+    location.href=_url;
+});
+</script>
+</html>

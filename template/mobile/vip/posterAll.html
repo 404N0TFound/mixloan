@@ -1,0 +1,115 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="e-mail=no" name="format-detection" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<title>代呗店</title>
+		<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+		<script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+		<script src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/super_1.css">
+		
+		<script>
+		
+			//////copy
+			function copyNum() {
+				var NumClip = document.getElementById("clip_num");
+				var NValue = NumClip.value;
+				var valueLength = NValue.length;
+				selectText(NumClip, 0, valueLength);
+				var cp=document.execCommand("Copy", "false", null); // 执行浏览器复制命令
+				console.log(cp);
+				if(cp){
+					alert("已复制,可分享给朋友啦，试试看。");
+				}else{
+					alert("由于您的版本较低,请长按进行复制链接。");
+				}
+				
+			}
+
+			function selectText(obj, startIndex, stopIndex) {
+				if(obj.setSelectionRange) {
+					obj.setSelectionRange(startIndex, stopIndex);
+				} else if(obj.createTextRange) {
+					var range = obj.createTextRange();
+					range.collapse(true);
+					range.moveStart('character', startIndex);
+					range.moveEnd('character', stopIndex - startIndex);
+					range.select();
+				}
+				obj.focus();
+			}
+			$(function() {
+				var hig_img=$("#pro_img img.big").height();
+				$("#pro_img").css('height',hig_img);
+
+			});
+		</script>
+		<style>
+			@media screen and (max-width:320px){ #pro_img{min-height: 426px;} }	
+			@media screen and (min-width:359px) and (max-width:360px){ #pro_img{min-height: 476px;} }	
+	    	@media screen and (min-width:361px) and (max-width:409px){ #pro_img{min-height: 499px;} }	
+			@media screen and (min-width:410px) and (max-width:412px){ #pro_img{min-height: 548px;} }
+			@media screen and (min-width:413px) and (max-width:414px){ #pro_img{min-height: 551px;} }
+			@media screen and (min-width:321px) and (max-width:358px){ #pro_img{min-height: 470px;} }
+
+			#up_imgs img{width:100%;height:auto;}	
+		</style> 	
+	
+	{template 'common/wxshare'}
+</head>
+
+	<body style="background: #f7f7f7;">
+		<div style="background: #fff;">
+			<div class="dn headr">
+				<div class="int_head">
+					<p><span></span>网站域名</p>
+				</div>
+				<div class="int_copy">
+					<p class="p1"><input name="type" value="{$url}" placeholder="{$url}" id="clip_num" readonly></p>
+					<p class="p2 btn" id="clip_button" onClick="copyNum()">复制</p>
+				</div>
+				<div class="lonely">将链接复制，通过网站、微信、QQ、多渠道推广方式</div>
+				<div class="int_head">
+					<p><span></span>网站海报</p>
+				</div>
+			</div>
+			<div class="int_img" id="pro_img"  >
+			  	<div>
+					<img src="{$poster_path}" class="big"  width="640"/>
+					<!-- <div class="twe">
+						<p><img src="../addons/xuan_mixloan/template/style/picture/763bd5ec2688ae78b6878e99ebfb5579_1.png"  style="width:41%;height:auto;" /></p>
+					</div> -->
+					<!-- <div class="twe_p dn">
+						<p style="font-size:14px;" ><span>15537198162</span>在代呗推荐您扫码申请</p>
+					</div> -->
+				</div>
+			</div>
+		</div>
+
+		<div id="up_imgs" style="width:100%;margin:0px auto 0;position: relative;"></div>
+		<div id="up_img" class="dn"><p>长按二维码保存图片发送和分享给好友</p></div>
+
+		<!-- end -->
+		<script>
+			$(document).ready(function(){
+			 	$(".headr").show();
+		 		$("#up_img").show();
+			});
+
+		</script>	
+	</body>
+
+</html>

@@ -1,0 +1,247 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/customlist_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/customlist_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+
+	{template 'common/wxshare'}
+</head>
+    <style type="text/css">
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:20px;}
+        }
+        .order_detail a {display: inline-block;width: 100%;padding-top: 0.2rem;padding-left: 1rem;}
+        .order_d_right {padding-right: 0.7rem; padding-top: 0.5rem}
+        .bglightgray{background-color: #f2f2f2;}
+        /**{font-family: "Helvetica"!important;}*/
+        div.backtabcontent{font-family: Helvetica!important;display: none;}
+    </style>
+<body style="background: #f0f0f0;">
+    <div class="agent-header">
+        {$config['title']}
+        <a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+    </div>
+    <div class="agent-foot">
+        <a href="javascript:;"  class="on">
+            <!-- <span class="iconfont icon-card2"></span> -->
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
+            <p>{$config['title']}</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>今日口子</p>
+       </a>
+        <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/picture/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+            <p>查网贷</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+            <p>个人中心</p>
+        </a>
+    </div>
+    <div style="height:2rem;"></div>
+    <!-- end -->
+    <div class="product_head">
+        <ul class="clearfix">
+            <li><a href="{php echo $this->createMobileUrl('product')}"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+            <li><a href="{php echo $this->createMobileUrl('product', ['op'=>'customer'])}"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+            <li class="on"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
+        </ul>
+        
+    </div>
+    <div class="backtabcontent tabcontent agent-main">
+        <div style="background-color: #f8f8f8;height:5px;width:100%;"></div>
+        <div class="tabmain exbalance" style="display: block;padding-bottom: 3rem;">
+            <div class="AC_main">
+                <div class="ACmain_top">
+                    <div class="accountData">
+                        <ul>
+                            <li><p>收入总额（元）：</p><h1>{$bonus['int']}.<em>{$bonus['dec']}</em></h1></li>
+                            <li><p>可结算（元）：</p><h1>{$can_use['int']}.<em>{$can_use['dec']}</em></h1></li>
+                        </ul>
+                    </div>
+                    <div class="txBtn">
+                        <a onclick="settle()">提 现</a>
+                        <a onclick="settle()">邀请列表</a>
+                     </div>
+                </div>
+                <div class="account_tab">
+                    <ul>
+                        <li data-id="percent"><a>收入记录</a></li>
+                        <li data-id="accounts" class="on"><a>提现记录</a></li>
+                    </ul>
+                </div>
+                <div class="orderLists">     
+
+                    <div id="percent" class="percent_list list_common" style="display: none;">
+                        {if $percent_list}
+                            {loop $percent_list $row}
+                            <div class="order_list">
+                                <h2>
+                                    <img src="{$row['logo']}">
+                                    {$row['name']}
+                                    <span>订单号：{$row['tid']}</span>
+                                </h2>
+                                <div class="order_detail">
+                                    <div style="width: 50%;float:left;">
+                                        <a>结算类型：月结</a>
+                                        <a>{php echo date('m-d H:i', $row['createtime']);}</a>
+                                    </div>
+                                    <div style="width: 50%;float:left;">
+                                        <div class="order_d_right">
+                                            <span>收入金额(元)：</span><span style="color:orange;font-size: 0.8rem">{$row['count_money']}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/loop}
+                        {else}
+                        <div class="norecord">暂无收入记录</div>  
+                        {/if}                                         
+                     </div>
+                    <div id="accounts" class="accounts_list list_common">
+                        {if $accounts_list}
+                            {loop $accounts_list $row}
+                             <div class="order_list">
+                                <h2 style="font-size: 0.58rem">
+                                    <img src="../addons/xuan_mixloan/template/style/picture/idcard2.png" style="width: 0.56rem">
+                                    {$row['tid']}
+                                    <span style="color:#47a0ff;font-size: 0.4rem;margin-right: 2%;">{$row['status']}</span>
+                                </h2>
+                                <div class="order_detail">
+                                    <div style="width: 40%;float:left;">
+                                        <a style="font-size: 0.7rem">{$row['year']}</a>
+                                        <a>{$row['hour']}</a>
+                                    </div>
+                                    <div style="width: 60%;float:left;">
+                                        <div class="order_d_right" style="padding-top: 0">
+                                            <span style="display: inline-block;">提现金额(元)：</span><span style="color:orange;font-size: 0.8rem">{$row['bonus']}</span>
+                                        </div>
+                                        <div class="order_d_right" style="padding-top: 0.2rem">
+                                            <span style="display: inline-block;">提现到：</span><span style="color:grey;">{$row['bankmes']}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/loop}
+                        {else}
+                        <div class="norecord">暂无提现记录</div>  
+                        {/if}                                            
+                    </div>
+                </div>
+                
+            </div>            
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            setTimeout(function(){
+                $("div.tabcontent").show();
+            },1000)
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'], //0.1透明度的白色背景
+                time: 1000,
+            });
+        })
+        // 提现 已结算 已提成 切换
+        $("div.account_tab ul li").click(function(){
+            var _this=$(this);
+            if(!_this.hasClass("on")){
+                $("div.account_tab ul li").removeClass("on");
+                _this.addClass("on");
+                var _id=_this.attr("data-id");
+                $("#"+_id).parent().find("div.list_common").hide();
+                $("#"+_id).show();          
+            }
+        })
+        //我的工资页面样式
+        var w_height=$(window).height();
+        var tab_H=$("div.tabtitle").height();
+        var head_H=$("div.agent-header").height();
+        var foot_H=$("div.agent-foot").height();
+        var min_H=w_height-tab_H-head_H-foot_H-10+"px";
+        var padding_B=foot_H+10+"px";
+
+        // 提现状态
+        $("#tx_status").click(function(){
+            {if !$verify}
+            $(".pop_art").show();
+            layer_style();
+            {else}
+            location.href="/wap/idai/tixian_status.html?paid=1&cate=2";
+            {/if}
+        })
+
+        //绑卡
+        $("#gongzi_bindcard").click(function(){
+            {if !$verify}
+            $(".pop_art").show();
+            layer_style();
+            {else}
+            location.href="{php echo $this->createMobileUrl('vip', array('op'=>'bind_card'))}";
+            {/if}
+        })
+        function settle() {
+            {if !$verify}
+            $(".pop_art").show();
+            layer_style();
+            {else}
+            location.href="{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}";
+            {/if}
+        }
+        document.writeln("<div class=\'pop_art\'>");
+        document.writeln("          <div class=\'temp_share_bg\'>");
+        document.writeln("              <div class=\'temp_share_contain_add temp_share_contain_new\' >");
+        document.writeln("                  <div class=\'temp_pic\'><img src=\'../addons/xuan_mixloan/template/style/images/head.png\' /></div>");
+        document.writeln("                  <h1>真遗憾！</h1>");
+        document.writeln("                  <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
+        document.writeln("                  <p>温馨提示：如有疑问,请联系客服</p>");
+        document.writeln("                  <div class=\'buy_hf clearfix\'>");
+        document.writeln("                      <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
+        document.writeln("                  </div>        ");
+        document.writeln("                  <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
+        document.writeln("              </div>");
+        document.writeln("          </div>    ");
+        document.writeln("      </div>");
+
+        // 层样式设置
+        function layer_style(){
+            var body_height=$(document).height();
+            var body_width=$(document).width();
+            var window_height=$(window).height();
+            var window_width=$(window).width();
+            $(".pop").width(window_width);
+            $(".pop").height(window_height);
+            var pop_imgW=(($(".pop_contain").width())/2)-55+"px";
+            var conain_top=(window_height-260)/2+"px";
+            $(".pop-img").css("left",pop_imgW);
+            $(".pop_contain").css("top",conain_top);
+        }
+        $(".layer_close,.floor").click(function(){
+            $(".pop,.pop_art").hide();      
+        })
+    </script>
+
+</body>
+</html>

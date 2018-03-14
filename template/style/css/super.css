@@ -1,0 +1,68 @@
+﻿
+body{font-family:Helvetica;}
+/*@font-face {
+    font-family: 'model';
+    src: url('../fonts/fang.ttf');
+}*/
+
+h2,h3,b{font-weight: normal;}
+.agent-header{position: fixed; top: 0px; left: 0px; right: 0px; height:2rem;line-height:2rem; color: #4e4e4e; background-color: #f8f8f8;
+ text-align: center; font-size: 0.7rem; z-index:1111; overflow: hidden; 
+ white-space: nowrap; text-overflow: ellipsis;}
+.agent-header a{position: absolute; top: 0px;}
+.agent-header a.return,.agent-header a.cancle{left: 0.5rem;}
+.agent-header a.return{color: #61b9ff;background:url("../images/left.png") center left no-repeat;background-size:0.4rem;height:2rem;width: 20%;}
+.agent-header a.return:before{display: inline; /*content: "＜";*/ content:''; vertical-align: middle; margin-right: 3px;}
+.agent-header a.return { color: #636363;}
+/*头部*/
+.super_center_head{width:100%;margin:0 auto;background:#ecedef;padding:1.4% 0;}
+.super_center{width:98%;margin:0% auto;background:#fff;border-radius:8px;overflow: hidden;}
+.super_center ul{width:94%;margin:0 auto;padding:2.5% 0;}
+.super_center ul li{float: left;}
+.super_center ul li.f1{width:7%;}
+.super_center ul li.f2{width:61%;}
+.super_center ul li.f3{width:31%;float:right;}
+.super_center ul li p{font-size:0.55rem;text-align:left;color:#3f3f3f;}
+.super_center ul li.f3 p {color:#0f96ff;}
+.super_center ul li.f3 p a{color:#0f96ff;}
+.super_center ul li.f3 p span{width:0.28rem;height:0.28rem;background: #c5e5fe;border-radius: 100%;display: inline-table;padding:0;vertical-align:middle;margin-right: 0.2rem;}
+.super_center ul li.f1 p img{width:0.8rem;height: auto;}
+.super_center ul li.f2 p img.small{width:0.25rem;height: auto;margin-left: 0.2rem;}
+
+
+/*轮播*/
+.loanindex_main{width:100%;margin:0 auto;}
+.swiper-pagination-bullet{width:6.5px;height:6.5px;}
+.swiper-container {width: 100%;height: 100%;}
+.swiper-slide {text-align: center;-webkit-box-pack: center;-ms-flex-pack: center;
+-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{bottom:3px;}
+.swiper-slide img{width:100%;height:auto;}
+.swiper-slide p{text-align: left;}
+.swiper-slide h2{width:82%;margin:0 auto;padding:2% 0 10%; }
+.swiper-pagination-bullet{background: #e6f3fb;opacity: 1;}
+.swiper-pagination-bullet-active{background: #0e97ff;opacity: 1;border-radius:5px;width: 15px;height: 6.5px;}
+.super_fot{width:100%;margin:0 auto;position:fixed;bottom:-2px;z-index:999;}
+.super_fot img{width:100%;height:auto;}
+
+/*2二维码*/
+.int_head{width:95.5%;margin:0 auto;}
+.int_head p{font-size:0.6rem;text-align:left;color:#454545;padding:2% 0;} 
+.int_head p span{width:0.18rem;height:0.55rem;background: #009cff;border-radius: 0%;margin-top:-0.5%;display: inline-table;padding:0;vertical-align:middle;margin-right: 0.2rem;}
+.int_copy{width:94%;margin:0 auto;overflow: hidden;}
+.int_copy p.p1{float: left;width:82%;height:1.6rem;background:#f3f3f3;border-radius: 5px;overflow: hidden;}
+.int_copy p.p2{float: right;width:16%;font-size:0.6rem;text-align:center;color:#808080;background: #f3f3f3;height:1.6rem;line-height:1.6rem;border-radius: 5px;overflow: hidden;}
+.int_copy p.p1 input{width:88%;margin-left:7%;background:#f3f3f3;padding:3.8% 0;font-size:0.6rem;text-align:left;color:#797778;}
+div.lonely{width:100%;margin:0 auto;font-size:0.5rem;text-align:center;color:#bebebe;padding:2% 0 1%;}
+.int_img{width:100%;margin:0% auto 0;position: relative;}
+.int_img img{width:100%;height:auto;}
+.int_img .twe{width:100%;margin:0 auto;position:absolute;bottom: 19.5%;}
+.int_img .twe p{width:100%;margin:0 auto;text-align: center;}
+.int_img .twe p img{width:6.5rem;height:6.5rem;}
+.int_img .twe_p{width:100%;margin:0 auto;position:absolute;bottom: 12.5%;}
+.int_img .twe_p p{width:100%;margin:0 auto;font-size:0.6rem;text-align:center;color:#fff;}
+.int_img .twe_p p span{padding-right: 3%;}
+.int_but{width:80%;margin:3% auto 0;}
+.int_but img{width:100%;height:auto;}
+#up_img{width:100%;margin:4% auto 3%;}	
+#up_img p{font-size:0.55rem;text-align:center;color:#bebebe;}

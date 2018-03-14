@@ -1,0 +1,180 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="e-mail=no" name="format-detection" />
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+		<title>{$config['title']}</title>
+		<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+		<script src="../addons/xuan_mixloan/template/style/js/lmy_1.js"></script>
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_1.css">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/super.css">
+		<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+{php echo register_jssdk();}
+<script>
+    //微信分享
+    var title = "{$config['share_title']}";
+    var imgUrl = "{php echo tomedia($config['share_image']);}";
+    var desc = "{$config['share_desc']}";
+    var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));}";
+    
+    wx.ready(function(){
+        wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+         },
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert("分享失败");
+            }
+});
+
+//分享给好友
+    wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+             desc: desc, // 分享描述
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+        },  
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert('分享失败');
+        }
+        });
+});
+    
+</script>
+</head>
+	<body style="background:#fff;">
+		<div class="super_center_head">
+			<div class="super_center">
+				<ul class="clearfix">
+					<li class="f1">
+						<p><img src="../addons/xuan_mixloan/template/style/picture/wen.png" /></p>
+					</li>
+					{if $re}
+					<li class="f2">
+						<p>您有以下代理产品尚未生成二维码点击快速生成 <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" class="small" /></p>
+					</li>
+					{/if}
+					<li class="f3">
+						<p><span></span><a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$re['id']))}">{$re['name']}</a></p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="loanindex_main">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					{loop $config['vip_comm'] $comm}
+					<div class="swiper-slide">
+						<p><img src="{php echo tomedia($comm);}" /></p>
+						<h2>
+							<a class="buy_limit" href="javascript:void(0);">
+								<img src="../addons/xuan_mixloan/template/style/picture/super_but.png" />
+							</a>
+						</h2>
+					</div>
+					{/loop}
+				</div>
+				<!-- Add Pagination -->
+				<div class="swiper-pagination"></div>
+			</div>
+			<!-- 轮播 end-->
+		</div>
+		<div class="super_fot"><img src="../addons/xuan_mixloan/template/style/picture/super_fot.png" /></div>
+		<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_1.js></script>	
+		
+		<script type="text/javascript">
+			document.writeln("<div class=\'pop_art\'>");
+			document.writeln("	        <div class=\'temp_share_bg\'>");
+			document.writeln("		       	<div class=\'temp_share_contain_add temp_share_contain_new\' >");
+			document.writeln("		            <div class=\'temp_pic\'><img src=\'../addons/xuan_mixloan/template/style/images/head.png\' /></div>");
+			document.writeln("		            <h1>真遗憾！</h1>");
+			document.writeln("		            <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
+			document.writeln("		            <p>温馨提示：如有疑问,请联系客服</p>");
+			document.writeln("		            <div class=\'buy_hf clearfix\'>");
+			document.writeln("			            <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
+			document.writeln("			        </div>        ");
+			document.writeln("			        <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
+			document.writeln("		        </div>");
+			document.writeln("		    </div>    ");
+			document.writeln("    	</div>");
+			//购买限制
+			$(document).on("click",".buy_limit",function(){
+				{if !$verify}
+				$(".pop_art").show();
+				layer_style();
+				{else}
+				craetePoster();
+				{/if}
+			})
+
+			// 层样式设置
+			function layer_style(){
+				var body_height=$(document).height();
+				var body_width=$(document).width();
+				var window_height=$(window).height();
+				var window_width=$(window).width();
+				$(".pop").width(window_width);
+				$(".pop").height(window_height);
+				var pop_imgW=(($(".pop_contain").width())/2)-55+"px";
+				var conain_top=(window_height-260)/2+"px";
+				$(".pop-img").css("left",pop_imgW);
+				$(".pop_contain").css("top",conain_top);
+			}
+			$(".layer_close,.floor").click(function(){
+				$(".pop,.pop_art").hide();	    
+			})
+			$(document).ready(function(){ 
+				var hml=$(".super_center_head").text();
+				if(hml==""){
+					$(".loanindex_main").css("margin-top","8%");
+				}
+
+			});
+
+			/////系统维护弹窗
+			$(".layer_close").click(function(){
+				$(".pop").fadeOut(500);
+			});
+
+			// 轮播插件
+			var swiper = new Swiper('.swiper-container', {
+				paginationClickable: true,
+				centeredSlides: true,
+				autoplay: 5000,
+				pagination: '.swiper-pagination',
+				autoplayDisableOnInteraction: false
+			});
+			function craetePoster(){
+			    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>2))}",{},
+			        function(data){
+			            if (data.code==1 || data.code==2) {
+			            	window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'posterAll'))}";
+			            } else {
+			            	layer.msg(data.msg);
+			            }
+			        },'json');
+			}
+		</script>
+	</body>
+
+</html>

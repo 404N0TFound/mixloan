@@ -1,0 +1,279 @@
+﻿@font-face {font-family:'newFont'; src: url("../fonts/helvetica_1.ttf");}
+*{font-family: "newFont"!important;font-weight: normal;}
+div.Japply_contents{padding-bottom: 80px;}
+div.Jcreditcard_list{padding-top:0;}
+div.loanPHeader{position: relative;}
+div.loanPHeader img{width: 100%;display: block;}
+div.loanPHeader .loanPHeaderMain{position: absolute;overflow: hidden; top: 0;left: 0;width: 100%;height:100%;}
+div.loanPHeaderMain>div{float: left;height:100%;}
+div.loanPHeaderMain div.productIndex{width: 15%;position: relative;}
+div.loanPHeaderMain div.productIndex img{position: absolute;top:50%;left: 0;transform: translate(30%,-51%); display: block;width: 68%;margin: 0 auto;border-radius: 8px;}
+div.loanPHeaderMain div.productRate{position: relative; width: 62%;}
+div.productRate div.productRateInfo{width: 100%; position: absolute;top:55%;left: 50%;transform: translate(-50%,-50%);}
+div.productRate div.productRateInfo h2{color: #fff;font-size: 0.72rem;margin-bottom: 2px;font-weight: normal;padding-left: 2%;}
+div.productRate div.productRateInfo ul{overflow: hidden;padding-left: 2%;}
+div.productRate div.productRateInfo ul li{float: left;width: 50%;color: #fff;font-size: 0.5rem;padding-top:5px;}
+div.productRate div.productRateInfo ul li:first-child,div.loanPHeaderMain div.productRate ul li:nth-child(2){border-bottom: 1px dashed #fff;padding-bottom:5px;}
+div.productRate div.productRateInfo ul li:nth-child(3),div.loanPHeaderMain div.productRate ul li:nth-child(4){padding-top:5px;}
+div.productRate div.productRateInfo ul li:nth-child(1),div.loanPHeaderMain div.productRate ul li:nth-child(3){width: 55%;}
+div.productRate div.productRateInfo ul li:nth-child(2),div.loanPHeaderMain div.productRate ul li:nth-child(4){width: 45%;}
+div.productRate div.productRateInfo ul li span{color: #fed73f;font-size: 0.5rem;}
+div.loanPHeaderMain div.productMaxEdu{position:relative; width: 23%;}
+div.productMaxEdu .maxEdu{position: absolute;width: 100%;text-align: center; top:50%;left: 50%;transform: translate(-50%,-50%);color: #fff;padding:10px 0;border-top-width: 1px; background: url('../images/headerline_1.png');background-repeat: no-repeat;background-size: 100% 100%;background-position: center;}
+div.productMaxEdu .maxEdu h1{font-size: 0.7rem;font-weight: normal;}
+div.productMaxEdu .maxEdu p{font-size: 0.5rem;margin-top:5px;}
+
+
+div.loanPDetail .loanDetailCommon{background-color: #fff;padding:0 2.5%;}
+div.loanPDetail .loanInterest{margin: 0 auto;padding-bottom: 10px;}
+div.loanInterest{overflow: hidden;background-color: #fff;}
+div.loanInterest h1{}
+div.loanInterest>div{float: left;}
+div.loanInterest h1{font-size: 0.65rem;padding:12px 0;color: #666;font-weight: normal;}
+div.loanInterest .loanInterestMain{width: 100%;overflow: hidden;}
+div.loanInterestMain .loanInterestData{width:55%;float: left;}
+div.loanInterestMain .loanInterestIco{position: relative; float: left;width: 45%;height:100%;}
+div.loanInterestMain .loanInterestIco .totalRepay{position: absolute; top:50%;left:45%;transform: translate(-50%,-50%);text-align: center;color: #666;}
+div.loanInterestMain .loanInterestIco .totalRepay h2{font-size: 0.65rem;}
+div.loanInterestMain .loanInterestIco .totalRepay p{font-size: 0.4rem;}
+div.loanInterestMain .loanInterestIco .IcoTip{position: absolute;bottom: 0;right: -4%;width: 2rem;}
+div.loanInterestMain .loanInterestIco .IcoTip ul li{margin-top: 1px;}
+div.loanInterestMain .loanInterestIco .IcoTip ul li span{display: inline-block;color: #666;font-size: 0.55rem;}
+div.loanInterestMain .loanInterestIco .IcoTip ul li:nth-child(1)::before{display: inline-block;content: "";width: 0.4rem;height:0.25rem;background-color: #30e3f8;margin:-2px 4px 0 0;vertical-align: middle;}
+div.loanInterestMain .loanInterestIco .IcoTip ul li:nth-child(2)::before{display: inline-block;content: "";width: 0.4rem;height:0.25rem;background-color: #0097ff;margin:-2px 4px 0 0;vertical-align: middle;}
+div.loanInterestData ul.repayInfo{overflow: hidden;}
+div.loanInterestData ul.repayInfo li{float: left;text-align: center;color: #fff;width: 46%;margin-right: 4%;background-color: #0097ff;border-radius: 8px;padding:6px 0;}
+div.loanInterestData ul.repayInfo li h2{font-size: 0.7rem;font-weight: normal;margin-bottom: 3px;}
+div.loanInterestData ul.repayInfo li p{font-size: 0.5rem;}
+div.loanInterestData ul.freeCount{margin-top: 15px;}
+div.loanInterestData ul.freeCount li{position: relative;box-sizing: border-box;border:1px solid #e8e8e8;background-color: #f6f6f6;border-radius: 20px;height: 1.6rem; margin:5px 0;}
+div.loanInterestData ul.freeCount li label{position: absolute;top:0;left: 0;display: inline-block;width: 25%;font-size: 0.6rem;color: #999;text-align: center;height:0.75rem;line-height: 1.6rem;}
+div.loanInterestData ul.freeCount li input{position: absolute;top:50%;left: 55%;transform: translate(-50%,-50%); width: 63%;outline: none;font-size: 0.7rem;border:none;background-color: transparent;color: #666;text-align: right;background: transparent;display: inline-block;}
+div.loanInterestData ul.freeCount li span,div.loanInterestData ul.freeCount li select{position: absolute;right:5px;top:36%; display: inline-block;width: 10%;text-align: center;font-size: 0.5rem;color: #666;}
+div.loanInterestData ul.freeCount li select{right: 5px;width: 2.5rem;top:17%; height: 70%;font-size: 0.6rem; background:url('../images/select_1.png');background-repeat: no-repeat;background-size:0.5rem 0.3rem;background-position: right center;}
+div.loanInterestData ul.freeCount li select{appearance:none;-moz-appearance:none;-webkit-appearance:none;border:none;outline: none;background-color: transparent;}
+div.loanInterestData ul.freeCount li span img{width: 100%;}
+
+div.loanDetailCommon2{}
+div.applyInfoCommon{background-color: #fff;margin-top: 8px;padding-bottom: 8px;}
+div.applyInfoCommon h1{color: #666;font-size: 0.65rem;padding:10px 2.5%;box-sizing: border-box;border-bottom: 1px solid #ddd;}
+div.applyInfoCommon h1 span{display: inline-block;font-size: 0.5rem;color: #666;}
+div.Imphink ul{overflow: hidden;padding-bottom: 15px;}
+div.Imphink ul li{float: left;width: 25%;margin-top:15px;}
+div.Imphink ul li img{display: block;height: 0.85rem;margin:0 auto;}
+div.Imphink ul li h3{text-align: center;color: #666;font-size: 0.54rem;padding-top:5px;}
+div.Imphink ul li.hink h3{color: #0195ff;}
+div.applyRule ul{padding:5px 2.5% 0 5%;}
+div.applyRule ul li{color: #666;font-size: 0.6rem;margin:5px 0;line-height: 0.9rem;}
+div.applyFlow img{width: 100%;display: block;margin:8px auto 0 auto;}
+div.applyFlow p{text-align: center;font-size: 0.56rem;color: #666;}
+div.applyAttention ul{padding:8px 2.5% 0 3%;}
+div.applyAttention ul li{overflow: hidden;line-height:0.9rem;padding:1px 0;}
+div.applyAttention ul li img{display: inline-block; width: 0.5rem;float: left;margin-right: 8px;margin-top: 3px;}
+div.applyAttention ul li span{display: inline-block;float: left;color: #666;font-size: 0.6rem;max-width: 94%;}
+
+div.toApply{position: fixed;width: 100%; bottom: 0;left: 0; padding:12px 0;box-sizing: border-box;border:1px solid #ddd;background-color: #fff;z-index: 100;}
+div.toApply a{display: block;width: 90%;margin: 0 auto;background-color: #3487ef;border-radius: 8px;color: #fff;font-size: 0.68rem;padding:15px 0;text-align: center;font-weight: bold;box-shadow:0px 0px 12px rgba(255,255,255,0.4);letter-spacing: 0.2rem;}
+
+div.strategys{position: fixed;top:0;left: 0;width: 100%;z-index: 99;display: none;}
+div.strategys .strgyFloor{width: 100%;height:100%; background: rgba(0,0,0,0.35);}
+div.strategys .strgyMain{position: absolute;width: 65%; top:46%;left: 50%;transform: translate(-50%,-50%);background: url('../images/gonglue_1.png');background-repeat: no-repeat;background-position: top center;background-size: 100%;border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;}
+/*div.strategys .strgyMain img{display: block;width: 100%;}*/
+div.strgyMain .strgyContent{position: relative;width: 100%;top:0;left: 0;}
+div.strgyMain .strgyContent>img{display: block;height: 1.4rem;margin: 14px auto;}
+div.strgyMain .strgyContent div{width: 100%;margin:0 auto;margin-top:30%;color: #666;font-size: 0.6rem;line-height: 16px;background: #f6f6f6;border-radius: 6px; padding-bottom: 20px;}
+div.strgyMain .strgyContent div p{width: 82%;margin:0 auto;}
+
+div.loanApplyInfo ul{background-color: #fff;}
+div.loanApplyInfo ul li{position: relative; overflow: hidden; border-bottom: 1px solid #f3f3f3;box-sizing: border-box;padding:10px 2% 10px 10%;}
+div.loanApplyInfo ul li label,div.loanApplyInfo ul li input,div.loanApplyInfo ul li a{float: left;vertical-align: middle;height:1.2rem;line-height: 1.2rem;}
+div.loanApplyInfo ul li label{display: inline-block; width: 14%;}
+div.loanApplyInfo ul li label img{width: 0.7rem;display: inline-block;vertical-align: middle;}
+div.loanApplyInfo ul li input{width: 64%;border:none;outline: none;color: #999;font-size: 0.65rem;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.loanApplyInfo ul li a{line-height: 1.3rem; display: inline-block;width: 20%; background: #0097ff;border-radius: 5px; text-align: center;font-size: 0.58rem;color: #fff;}
+div.loanApplyInfo ul li a.imgvalid{position: absolute;top:14%;right:5%;height:72%; border-radius: 0;}
+div.loanApplyInfo ul li a img{width: 100%;height: 100%;}
+div.loanApplyInfo p{color: #aeaeae;font-size: 0.4rem;padding-left: 8%;height:20px;line-height: 18px;padding-top: 12px;}
+div.loanApplyInfo p label{position: relative; float: left; display: inline-block;width: 15px;height:15px;text-align: center;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.loanApplyInfo p label.notchoose{background: url('../images/wx_noselect_1.png') center center;background-size: 15px 15px;background-repeat: no-repeat;}
+div.loanApplyInfo p label.choosed{background: url('../images/wx_select_1.png') center center;background-size: 15px 15px;background-repeat: no-repeat;}
+/*div.loanApplyInfo p label img{position: absolute;display: inline-block; top:0px;left: 0px;width: 15px;}*/
+div.loanApplyInfo p span{display: inline-block;float: left;margin-left: 7px;font-size: 0.58rem;}
+div.loanApplyInfo p a{float: left;display: inline-block; color: #63c0fd;font-size: 0.58rem;}
+div.loanApplyInfo p.ppdTip{padding-left: 0; }
+div.loanApplyInfo p.ppdTip a{color: #67bfff;display: inline;}
+div.loanApplyInfo p.sxdTip{padding-left: 5%;padding-right: 3%;}
+div.loanApplyInfo p.sxdTip::before{display: inline-block;vertical-align: middle;content: "*";margin-right:5px; color: #f00;font-size: 15px;}
+div.loanApplyBtn{margin-top:35px;}
+div.loanApplyBtn a{display: block;margin:0 auto;text-align: center; width: 80%;color: #fff;font-size: 0.75rem;padding:15px 0;background: #0097ff;border-radius: 8px;letter-spacing: 2px;}
+div.applyTips{padding-left: 3%;margin-top: 5%;}
+div.applyTips p{color: #999;font-size: 0.56rem;line-height: 18px;}
+div.yrdNewer{position: absolute;top:0;left: 0;width: 100%;height:100%;background-color: rgba(0,0,0,0.2);z-index: 999;}
+div.yrdNewerC{position: relative;top:20%; width: 70%;margin: 0 auto;background-color: #fff;border-radius: 10px;padding:1.2rem 6% 15px 6%;}
+div.yrdNewerC>a{display: inline-block;margin: 1.2rem 0 0.8rem 0;width: 100%;}
+div.yrdNewerC>a img{display: block;width: 100%;}
+div.yrdSms{position: relative;}
+div.yrdSms input{font-size: 0.65rem; display: inline-block;width: 100%; border:none;outline: none;box-sizing: border-box;border-bottom: 1px solid #dcdcdc; -webkit-tap-highlight-color:rgba(255,255,255,0);height: 1.6rem;background-color: transparent;text-indent: 0.2rem;}
+div.yrdSms a{font-size: 0.56rem; display: inline-block;position: absolute;right: 0;bottom: 0.25rem;background: #64c0ff;min-width: 35px;height:1.1rem;line-height: 1.1rem; padding:0 10px;border-radius: 4px;text-align: center;color: #f7ffff;}
+
+div.bankTag{background-color: #3f8dec;height:100px;overflow: hidden;}
+div.bankTag .bankImg,div.bankTag .bankDesc{float: left;}
+div.bankTag .bankImg{width: 30%;height:100%;text-align: center; line-height: 100px;}
+div.bankTag .bankImg img{width: 60%;display: inline-block;vertical-align: middle;border-radius: 100%;}
+div.bankTag .bankDesc{position: relative; height:100%; width: 70%;}
+div.bankDesc .bankDescMain{position: absolute;width:100%; top:53%;left:50%;transform: translate(-50%,-50%);}
+div.bankDescMain h2{color: #fff;font-size: 0.75rem;}
+div.bankDescMain p{padding-top: 15px;float: left;color: #fff;font-size: 0.56rem;}
+div.bankDescMain ul{overflow: hidden;padding-top: 10px;}
+div.bankDescMain ul li{float: left;color: #fff;font-size: 0.56rem;padding:5px 5px 0 0;}
+
+div.ppRec .ppRecHead{padding:25px 0;text-align: center;color: #666;font-size: 0.65rem;background-color: #fff;}
+div.ppRec .ppRecHead img{width: 23px;margin-right: 8px;display: inline-block;vertical-align: middle;margin-top: -3px;}
+div.ppRec .ppRecMain{margin-top: 8px;background: #fff;}
+div.ppRec .ppRecMain>h2{color: #999;font-size: 0.56rem;padding:10px 0;border-bottom: 1px solid #ddd;padding:15px 2% 10px 5%;}
+div.ppRec .ppRecMain h2 a{display: inline-block;float: right;color: #0394ff;font-size: 0.52rem;}
+div.ppRec .ppRecMain ul li{overflow: hidden;padding:5px 0;border-bottom: 1px solid #ddd;}
+div.ppRec .ppRecMain ul li:last-child{border:none;}
+div.ppRec .ppRecMain ul li img.recProduct{float: left; width: 15%;height:56px;display: inline-block;margin:0 2% 0 3%;border-radius: 6px;}
+div.ppRec .ppRecMain ul li img.link{height: 21px;margin-top:22px;}
+div.ppRec .ppRecMain ul li h2{float: left;width: 28%;color: #64c0fc;height:65px;line-height: 65px;font-size: 0.7rem;}
+div.ppRec .ppRecMain ul li div.recMComm{float: left;width: 23%;}
+div.ppRec .ppRecMain ul li div.recMComm h3{text-align: center;color: #666;height:35px;line-height: 42px;font-size: 0.63rem;}
+div.ppRec .ppRecMain ul li div.recMComm p{text-align: center;color: #64c0fc;height:20px;line-height: 20px;}
+
+div.cJframe .inform{position: relative;height:25px; line-height: 22px;background: #fff;box-sizing: border-box;border:1px solid #ddd;overflow: hidden;}
+div.cJframe .inform p{color: #999;position: absolute;left: 100%;top:0;font-size: 0.5rem;width: 150%;transform: translate(-50%,0%);animation:mymove 5s infinite linear;
+-webkit-animation:mymove 10s infinite linear;}
+@keyframes mymove
+{
+from {left:100%;}
+to {left:0%;}
+}
+
+@-webkit-keyframes mymove /*Safari and Chrome*/
+{
+from {left:100%;}
+to {left:0%;}
+}
+div.cJframe .credit_basicinfo{margin-top: 0;border:0;padding-top: 10px;}
+div.cJframe .credit_basicinfo>img{display: block;width: 86%;margin:0px auto 10px auto;border-radius: 10px;}
+div.cardAdv{padding:3px 5% 15px 5%;position: relative;}
+div.cardAdv h1{color: #333!important;font-size: 0.68rem;}
+div.cardAdv p{color: #999;font-size: 0.56rem;margin:10px 0;}
+div.cardAdv ul{overflow: hidden;}
+div.cardAdv ul li{float: left;color: #0195ff;border:1px solid #0195ff;border-radius: 3px;margin-right: 5px;font-size: 0.5rem;padding:0px 5px;height:0.65rem;line-height: 0.7rem;}
+div.cardAdv .cardApplyNum{position: absolute;right: 5%;bottom: 10px;}
+div.cardAdv .cardApplyNum h2{color: #0195ff;font-size: 0.65rem;text-align: center;}
+div.cardAdv .cardApplyNum p{font-size: 0.5rem;color: #999;margin-top:10px;}
+
+/*产品下线*/
+div.tempDown,div.productDown{position: absolute;width: 100%; top:46%;left: 50%;transform: translate(-50%,-50%);text-align: center;}
+div.tempDown img,div.productDown img{display: inline-block;width: 40%;max-width: 220px;}
+div.tempDown p.tip1{color: rgba(0,0,0,0.9);font-size: 16px;margin-top: 10px;}
+div.tempDown p.tip2{font-size: 13px;color: #666;line-height: 32px;}
+
+/*优款*/
+div.yk_ApplyInfo{padding-bottom: 0.6rem;}
+div.ykbanner img,div.ykgap img{display: block;width: 100%;}
+div.ykloan{width: 90%;margin:0 auto;margin-top:0.85rem;}
+div.ykloanterm{background-color: #f7f7f7; border:1px solid #d5d5d5;border-bottom: none; border-top-left-radius: 15px;border-top-right-radius: 15px; box-sizing: border-box;}
+div.ykloanterm>ul{overflow: hidden;margin-top: 0.8rem;background-color: transparent;}
+div.ykloanterm>ul li{float: left;width: 50%;height: 1.2rem;line-height: 1.2rem; text-align: center;color: #333333;font-size: 0.62rem;border:none;}
+div.ykloanInfo{background-color: #f7f7f7;border:1px solid #d5d5d5;border-top: none; border-bottom-left-radius: 15px;border-bottom-right-radius: 15px; box-sizing: border-box;}
+div.ykloanInfo{padding:0.6rem 5%;}
+div.ykloanInfo>ul{background-color: transparent;}
+div.ykloanInfo>ul li{padding:0;background-color: #fff;border-radius: 1rem;border:1px solid #e2e2e2;margin:0.6rem 0;overflow: hidden;}
+div.ykloanInfo>ul li label{position: relative; float: left; display: inline-block;width: 30%;height: 1.8rem;line-height: 1.9rem;box-sizing: border-box; color: #323232;text-align: center;/*box-sizing: border-box;border-right: 1px solid #d6d6d6;*/}
+div.ykloanInfo>ul li label span{display: block;width: 66%;margin: 0 auto;text-align: justify; font-size: 0.6rem;}
+div.ykloanInfo>ul li label span em{display: inline-block;width: 100%;}
+div.ykloanInfo>ul li label::after{display: inline-block;position: absolute;right: 0;top:13%; content: "";width: 1px;height: 74%;background-color: #d6d6d6;}
+div.ykloanInfo>ul li:first-child label{letter-spacing: 0.15rem;}
+div.ykloanInfo>ul li .ykloandetail{float: left; width: 70%;height: 1.8rem;line-height: 1.8rem;}
+div.ykloanInfo>ul li input{color: #333333; width: 100%;border:none;margin: 0;padding: 0; outline: none;height: 0.9rem; box-sizing: border-box; display: inline-block;background-color: transparent;text-indent: 1rem;font-size: 0.62rem;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+
+div.ykloanInfo>ul li input[disabled]{color:#333333;opacity:1}
+div.loanApplyBtn .ykapplybtn{width: 86%;background: url('../images/ykapplybtn_1.png') center transparent;height: 1.75rem;line-height: 1.75rem; background-size: 100% 1.75rem;background-repeat: no-repeat;font-size: 0.65rem;}
+div.ykprotocol{width: 86%;margin:0 auto;color: #676767;font-size: 0.5rem;line-height: 0.75rem;}
+div.ykprotocol a{display: inline;color: #0096ff;font-size: 0.5rem;}
+
+/*优款期限选择样式*/
+div.loanTermContainer{position: relative; overflow: hidden;height: 4.5rem;margin-top: 0.5rem;}
+div.ykloanApplyBtn{margin-top:0.8rem;}
+div.loanTermContainer .swiper-container{width: 50%;float: left;padding-top: 0.6rem;height:3rem;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.loanTermContainer .ykMount  .swiper-wrapper,div.loanTermContainer .ykTerm  .swiper-wrapper{padding-top: 0.8rem;height: 1.2rem;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.loanTermContainer .ykMount  .swiper-wrapper .swiper-slide,div.loanTermContainer .ykTerm  .swiper-wrapper .swiper-slide{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.loanTermContainer .swiper-container .swiper-slide{text-align: center;font-size: 0.55rem;color: #a6a6a6;}
+div.loanTermContainer .swiper-container .swiper-slide span{font-size: 0.55rem;}
+div.ykMount .swiper-wrapper .swiper-slide-prev{line-height: 34px;}
+div.ykMount .swiper-wrapper .swiper-slide-active{height:1.4rem!important; position: relative; color: #333333;font-size: 0.7rem;}
+div.ykMount .swiper-wrapper .swiper-slide-active::before{position: absolute;top:0rem;left: 26%; content:"¥";display: inline-block;color: #333333;}
+div.ykTerm .swiper-wrapper .swiper-slide-prev{line-height: 92px;}
+div.ykTerm .swiper-wrapper .swiper-slide-active{position: relative; height: 1.4rem!important; color: #333333;font-size: 0.62rem;}
+div.ykTerm .swiper-wrapper .swiper-slide-active span{display:inline-block;font-size:0.7rem;}
+
+div.ykloanLine{position: absolute;top:0.9rem;left: 5%;width: 90%;height: 1.5rem;border:1px solid #0096ff;border-radius: 0.8rem;}
+div.ykloanLine::before{position: absolute;content: "";width: 1px;height: 80%;background-color: #0096ff;top:10%;left: 50%;}
+div.multi-picker-btn-box .multi-picker-btn{color: #383838;}
+
+/*i代客弹窗申请样式*/
+div.cJframe{-webkit-overflow-scrolling: touch;}
+div.popLoanApplyCommon{position: absolute;width: 100%;top:0;left:0;z-index: 99;background-color: rgba(0,0,0,0.3);display: none;}
+div.popLoanApplyCommon .popLoanMain{opacity: 0;transition: all 0.15s ease; position: absolute;width: 90%;left: 5%; margin: 0 auto; top: 95%;padding-bottom: 1rem; border-radius: 0.5rem; background-color: #fff;z-index: 90;}
+div.popLoanApply .popLoanApplyCover{position: relative;width: 100%;top:0;left: 0;height: 100%;background-color: transparent;z-index: 9;}
+div.popLoanMain .popLoanLink{width: 60%;margin: 0 auto;text-align: center;background-color: #0195ff;border-bottom-left-radius: 0.5rem;border-bottom-right-radius: 0.5rem;height: 1.5rem;line-height: 1.4rem;}
+div.popLoanLink img{display: inline-block;height: 0.8rem;margin-right: 0.2rem;vertical-align: middle;margin-top: -2px;}
+div.popLoanLink a{display: inline-block;color: #fff;font-size: 0.5rem;color: rgba(255,255,255,0.9);}
+div.popLoanInfo{width: 90%;margin: 1.2rem auto 0 auto;}
+div.popLoanInfo ul li{position: relative; box-sizing: border-box;border-bottom: 1px solid #eee;overflow: hidden;margin-top: 0.7rem;padding-bottom: 0.2rem;}
+div.popLoanInfo ul li label{position: relative; display: inline-block;float: left;width: 2rem;height: 1.5rem;line-height: 1.5rem; text-align: center;}
+div.popLoanInfo ul li label::after{content: ""; display: inline-block;position: absolute;width: 1px;height: 60%; right: 0;top:20%;background-color: #eee;}
+div.popLoanInfo ul li label img{display: inline-block;height: 0.8rem;vertical-align: middle;margin-top: -2px;}
+div.popLoanInfo ul li input{float: left; display: inline-block;width: 80%; margin:0;padding: 0;height:1.5rem;line-height: 1.5rem;border: none;outline: none;-webkit-tap-highlight-color:rgba(255,255,255,0);font-size: 0.62rem;color: #666;text-indent: 0.7rem;}
+div.popLoanInfo ul li input::-webkit-input-placeholder{color:#aaa;}
+div.popLoanInfo ul li input:-moz-placeholder{color:#aaa;}
+div.popLoanInfo ul li input:-ms-placeholder{color:#aaa;}
+div.popLoanInfo ul li a{display: inline-block;position: absolute;right: 0;top:0rem;min-width: 2rem; min-height: 1.3rem;text-align: center;line-height: 1.3rem;background-color: #0195ff;border-radius: 0.25rem;color: #fff;}
+div.popLoanInfo ul li a.sendMess{padding: 0 0.25rem;}
+div.popLoanInfo ul li a img{display: block;width: 3rem; height: 1.3rem;}
+div.popLoanInfo p{color: #aeaeae;font-size: 0.4rem;height:20px;line-height: 18px;padding-top: 12px;}
+div.popLoanInfo p label{position: relative; float: left; display: inline-block;width: 15px;height:15px;text-align: center;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.popLoanInfo p label.notchoose{background: url('../images/wx_noselect_1.png') center center;background-size: 13px 13px;background-repeat: no-repeat;}
+div.popLoanInfo p label.choosed{background: url('../images/protocols_1.png') center center;background-size: 13px 13px;background-repeat: no-repeat;}
+div.popLoanInfo p span{display: inline-block;float: left;margin-left: 0.2rem;font-size: 0.5rem;}
+div.popLoanInfo p a{float: left;display: inline-block; color: #0195ff;font-size: 0.5rem;}
+div.popLoanInfo p.ppdTip{padding-left: 0; }
+div.popLoanInfo p.ppdTip a{color: #67bfff;display: inline;}
+div.popLoanInfo p.sxdTip{padding-left: 5%;padding-right: 3%;}
+div.popLoanInfo p.sxdTip::before{display: inline-block;vertical-align: middle;content: "*";margin-right:5px; color: #f00;font-size: 15px;}
+/*已有宜人贷账号*/
+div.yrdConfirm .popLoanMain,div.yrdValid .popLoanMain{top:40%;opacity: 1;padding-bottom: 0.2rem;}
+div.yrdValid .popLoanMain{top:32%;}
+div.yrdConfirm .popLoanMain p{height:4rem;padding-top: 2rem;text-align: center;color: #333333;font-size: 0.62rem;}
+div.popLoanMain .yrdChoose{width: 96%;margin: 0 auto; overflow: hidden;box-sizing: border-box;border-top:1px solid #bbb;padding-top: 0.2rem;}
+div.yrdChoose a{display: inline-block; float: left;width: 50%;text-align: center;color: #aaaaaa;font-size: 0.62rem;height: 1.6rem;line-height:1.6rem;letter-spacing: 0.16rem; -webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.yrdChoose a.toApplyYrd{color: #0096ff;box-sizing: border-box;border-right: 1px solid #bbb;}
+/*宜人贷验证码*/
+div.yrdValidMain{width: 84%;margin: 0 auto;}
+div.yrdValidMain .yrdValidPhone{overflow: hidden;margin-top: 1.5rem;} 
+div.yrdValidMain .yrdValidPhone p{float: left;height: 1.2rem;line-height: 1.2rem;font-size: 0.5rem;color: #b0b0b0;}
+div.yrdValidMain .yrdValidPhone span{display: inline-block;float: left;font-size: 0.6rem;color: #333333;height: 1.2rem;line-height: 1.2rem;letter-spacing: 0.01rem;}
+div.yrdValidMain>p{color: #333;font-size: 0.6rem;margin: 1rem 0 0.3rem 0;}
+div.yrdValidMain .yrdValidCode{position: relative;overflow: hidden;}
+div.yrdValidMain .yrdValidCode ul{overflow: hidden;width: 100%;margin-top: 0.5rem;}
+div.yrdValidMain .yrdValidCode ul li{float: left;width: 12.5%;height: 1.2rem;line-height: 1.2rem; margin-right: 5%;box-sizing: border-box;border-bottom: 1px solid #bbb;-webkit-tap-highlight-color:rgba(255,255,255,0);}
+div.yrdValidMain .yrdValidCode ul li.light{border-bottom:1px solid #0295fd;}
+div.yrdValidMain .yrdValidCode ul li:last-child{margin-right: 0;}
+div.yrdValidMain .yrdValidCode input{position: absolute;width: 95.5%; top:0.5rem;left: 0;color:transparent;text-shadow:0 0 0 #0295fd; padding-left: 3%; letter-spacing: 1.4rem; height: 1.2rem;line-height: 1rem;font-size: 1.2rem; display: inline-block;border:0;outline: none;-webkit-tap-highlight-color:rgba(255,255,255,0);overflow: hidden;background-color: transparent;}
+div.yrdValidMain .yrdValidCode a{display: inline-block;float: right;min-width: 1.5rem;padding:0.1rem 0.2rem;color: #b3b3b3;font-size: 0.5rem;margin-top: 0.6rem;height: 1rem;line-height: 0.9rem;box-sizing: border-box;}
+div.yrdValidMain .yrdValidCode a span{display: inline-block;width: 1rem;text-align: center;color: #0097ff;font-size: 0.56rem;}
+div.yrdValidMain .yrdValidCode a.reGet{color: #0b9bfe;box-sizing: border-box;border:1px solid #0b9bfe;border-radius: 0.5rem;}
+div.yrdValidMain>a{display: block;margin: 0 auto;height: 1.6rem;line-height: 1.6rem;color: #fff;letter-spacing: 0.2rem;font-size: 0.62rem;text-align: center;background-color: #0195ff;margin:1rem 0;border-radius: 0.8rem;}
+/*不同产品提示样式*/
+div.popLoanInfo p.ppdTip{padding-left: 0; }
+div.popLoanInfo p.ppdTip a{color: #67bfff;display: inline;}
+div.popLoanInfo p.ppdTip span{margin-left: 0;font-size: 0.45rem;}
+div.popLoanInfo p.sxdTip{padding-left: 0%;padding-right: 3%;font-size: 0.5rem;}
+div.popLoanInfo p.sxdTip::before{display: inline-block;vertical-align: middle;content: "*";margin-right:5px; color: #f00;font-size: 15px;}
+/*信用卡弹窗*/
+div.popLoanInfo .applyTips{margin-top: 3%;}
+div.popLoanInfo .applyTips p{padding-top: 0;}

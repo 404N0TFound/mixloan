@@ -1,0 +1,293 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>评论回复</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/friendscircle.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jweixin-1.2.0.js"></script>
+    <style type="text/css">
+      html,body{height: 100%;}
+      body{background-color: #f1f1f1;}
+      @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+          div.content_detail{height:615px!important;}
+          div.commentArea{padding-bottom:18px;background: #fff;}
+          div.to_comment{border-bottom: none;}
+      }
+      /*表情包*/
+      div.emoji_container{position: fixed!important;bottom: 50px!important;top:auto!important;}
+    </style>
+
+	{template 'common/wxshare'}
+</head>
+<body>
+  <div class="agent-header">
+      主题
+      <a class="return" onclick="history.go(-1);">返回</a>    
+  </div>
+  <div class="content_detail" >
+    <!-- 楼主 -->
+    <div class="result_common" id="fc_new">
+      <div class="list_common">
+        <div class="agent-main pt44">
+          <div class="main-contain">
+             <div class="evdayhotlist friendlist">
+                <div class="loan-list" data-commId="{$info['id']}" onclick="reply({$info['id']}, 'landlord')">
+                    <div class="loan-main"> 
+                     <span class="fl"><img src="{$info['avatar']}" width="35px" height="35px" alt="" /></span> 
+                     <div class="list-main" data-userName="{$info['nickname']}"> 
+                        <h3 style="height:auto!important;margin-bottom: 0;"> {$info['nickname']} <a class="fc_label floor_guest">楼主</a></h3> 
+                        <p class="main">{php echo urldecode($info['content'])}</p> 
+                        {if $info['pics']}
+                        <div class="loanMainImg">
+                          {loop $info['pics'] $pic}
+                            <img src="{php echo tomedia($pic);}" onclick="maxImg(this)">
+                          {/loop}
+                        </div>
+                        {/if}
+                        <p class="time">{php echo date('Y-m-d H:i',$info['createtime'])}</p> 
+                     </div> 
+                    </div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 评论 -->
+    <div class="fc_content contentDetail" data-page="1">
+      <div class="content_list">
+        <div class="list_common">
+          <div class="agent-main pt44">
+            <div class="main-contain">
+              <div class="evdayhotlist friendlist">
+                {loop $comments $comment}
+                  {php $comment['pics'] = json_decode($comment['pics'], 1)}
+                  <div class="loan-list sec_grade">
+                      <div class="loan-main" data-commId="{$comment['id']}" onclick="reply({$comment['id']}, 'layer')">
+                          <span class="fl">
+                              <img src="{$comment['avatar']}" width="35px" height="35px" alt="">
+                          </span>
+                          <div class="list-main" data-userName="{$comment['nickname']}" >
+                              <h3 style="height:auto!important;margin-bottom: 0;">
+                                  {$comment['nickname']}
+                                  <a class="fc_label floor_guest">
+                                      {$comment['floor']}楼
+                                  </a>
+                              </h3>
+                              <p class="main">
+                                  {php echo urldecode($comment['content']);}
+                              </p>
+                              <p class="time">
+                                  {php echo date('Y-m-d H:i',$comment['createtime']);}
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                {/loop}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 评论 -->
+  <div class="commentArea">
+        <div class="to_comment">
+      <div class="ico">
+        <img id="emoji" src="../addons/xuan_mixloan/template/style/picture/emoji.png" />
+        <img id="dummyImgs" src="../addons/xuan_mixloan/template/style/picture/pic.png" />
+      </div>
+      <textarea autoHeight="true" class="contentor" id="contentor" placeholder="尽情的吐槽吧~"></textarea>
+      <!-- <input type="text" placeholder="尽情的吐槽吧~" /> -->
+      <a class="to_submit" send="1">发送</a>
+      <form>
+        <input type="text" name="" id="contents" style="display: none;">
+        <input type="file" name="" accept="image/*;capture=camera" class="contentImgs" id="contentImgs" style="display: none;" multiple="multiple">
+        <div class="waitImgs">
+          <div class="swiper-container imgSwiper">
+            <div class="swiper-wrapper">
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="emojiBox">
+      <ul></ul>
+    </div>
+  </div>
+<!-- 预览图片 -->
+<div class="scrollImg">
+  <div class="scrollImgBox">
+    <div class="swiper-container scrollImg-swiper">
+      <div class="swiper-wrapper">
+      </div>
+      <div class="swiper-pagination scrollImg-pagination"></div>
+    </div>
+  </div>
+</div>
+<!-- 图片上传中 -->
+<div class="imgUploading">
+    <img src="../addons/xuan_mixloan/template/style/picture/uploading.png" />
+</div>
+
+<!--end -->
+<script src="../addons/xuan_mixloan/template/style/js/emojis.js"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/ajaxupload.3.9.js"></script>
+<!-- <script src="../addons/xuan_mixloan/template/style/js/commlist.js"></script> -->
+<!-- 表情包 -->
+<!-- <script src="../addons/xuan_mixloan/template/style/js/jquery.mcustomscrollbar.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/js/jquery.emoji.min.js"></script> -->
+<script type="text/javascript">
+var reply_type = 'landlord';
+var reply_id = {$info['id']};
+$(function(){
+  // 页面初始化  
+  var wH=$(window).height();
+  $("div.scrollImg").css("height",wH);
+  $("div.imgUploading").css("height",wH);
+  $("div.realAuth").css("height",wH);
+  $("div.ban,div.banTip,div.noteIdai").css("height",wH);
+  var headH=$("div.agent-header").outerHeight();
+  var commentH=$("div.to_comment").outerHeight();
+  var contentH=wH-headH-45+"px";
+  $("div.content_detail").css({"height":contentH,"padding-bottom":commentH});
+  var hostH=$("div.result_common").outerHeight(true);
+  var titleH=$("div.fc_content h3").outerHeight(true);
+  var psnC_emptyH=wH-hostH-titleH-commentH-48;
+  if(psnC_emptyH>120){
+    $("div.psnC_empty").css("height",psnC_emptyH+"px");
+  }else{
+    $("div.psnC_empty").css("height","120px");
+  }
+  
+  
+})
+$('textarea[autoHeight]').autoHeight();
+
+var interval;
+var bfscrolltop = document.body.scrollTop;//获取软键盘唤起前浏览器滚动部分的高度
+$("#contentor").click(function(){
+  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {  
+    var ver = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+    ver1 = parseInt(ver[1], 10);
+    ver2 = parseInt(ver[2]);
+    if(ver1>=11&&ver2>0){
+    }else{
+      interval = setInterval(function(){    
+      document.body.scrollTop = document.body.scrollHeight;//获取焦点后将浏览器内所有内容高度赋给浏览器滚动部分高度
+      },10)
+    }  
+  }
+})
+$(function(){
+  $("#contentor").blur(function(){
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+      clearInterval(interval);//清除计时器
+      document.body.scrollTop = bfscrolltop; //将软键盘唤起前的浏览器滚动部分高度重新赋给改变后的高度
+    }      
+  });
+}) 
+
+
+// 发表评论（发送）
+$(".to_submit").click(function(){
+  if ($(".to_submit").attr("send") == 1) {
+    toSubmit();
+  }
+})
+function toSubmit(){
+  $(".to_submit").attr("send", 0);
+  var id={$_GPC['id']};
+  var content=$("#contentor").val();
+  var imgs_url=[];
+  var imgsL=$("div.imgSwiper .swiper-slide").length;
+  if(imgsL>0){
+    for(i=0;i<imgsL;i++){
+      var img_url=$("div.imgSwiper .swiper-slide").eq(i).find("img").attr("src");
+      imgs_url.push(img_url);
+    }
+  }
+  $.post("{php echo $this->createMobileUrl('friend', array('op'=>'post_reply'));}",{parent_id:id, content:content, imgs_url:imgs_url, reply_type:reply_type, reply_id:reply_id},
+    function(res){  
+      if (res.type == 'success') {
+        layer.msg("评论成功",{time:1000});
+        history.go(0);
+      } else {
+        $(".to_submit").attr("send", 1);
+        layer.msg(res.message,{time:1000});
+      }
+    },'json');
+}
+
+
+//上传图片(接口)
+var ajaxupload1 = new AjaxUpload($("#dummyImgs"), {
+    action: "{php echo $this->createMobileUrl('friend', array('op'=>'upload'))}",
+    type: "POST",
+    data: {},
+    autoSubmit: true,
+    responseType: "json",
+    name: 'file',
+    onChange: function(file, ext) {
+        if (!ext || !/^(jpg|png|jpeg|gif|JPG)$/.test(ext)) {
+            layer.msg('请上传格式为.png .jpg .jpeg的图片');
+            return false;
+        }
+        $("div.imgUploading").show();
+    },
+    onComplete: function(file, resp) {
+        $("div.imgUploading").hide();
+        if (resp.error != undefined) {
+            layer.alert(resp.error.message);
+            return false;
+        }
+        var imgL=$("div.imgSwiper .swiper-slide").length+1;
+        $("div.imgSwiper .swiper-wrapper").append("<div class=\"swiper-slide\"><img src="+ resp.url +" onclick=\'tomaxImg(this);\' /><a onclick=\"delImg(this);\"><img src=\"../addons/xuan_mixloan/template/style/images/del.png\" /><input type=\"hidden\" name=\"images["+imgL+"]\" value=\""+resp.filename+"\"></a></div>");
+        $("div.commentArea form").show();
+        $(".waitImgs").show();
+    }
+});
+
+// 删除图片
+function delImg(index){
+  var _this=$(index);
+  var url=_this.parent().find('img').attr("src");  
+  _this.parent().remove();
+  var imgL=$("div.imgSwiper .swiper-slide").length;        
+  if(imgL==0){
+    $("div.commentArea form").hide();
+  }
+}
+
+//点击回复谁
+function reply(id, type) {
+  reply_type = type;
+  reply_id = id;
+  var username = $("div[data-commId="+ id +"]").find("div[class='list-main']").attr("data-userName");
+  $("#contentor").attr("placeholder", "回复 "+username+":");
+}
+</script>
+</body>
+</html>
