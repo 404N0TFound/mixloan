@@ -39,8 +39,8 @@ DROP TABLE IF EXISTS `ims_xuan_mixloan_inviter`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_inviter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
-  `uid` int(11) NOT NULL,
-  `phone` varchar(30) NOT NULL,
+  `uid` int(11) NOT NULL COMMENT '邀请者',
+  `phone` varchar(30) NOT NULL COMMENT '被邀请者',
   `createtime` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

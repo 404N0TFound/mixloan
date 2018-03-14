@@ -136,7 +136,7 @@
                     <td>   {$row['bonus']}</td>
                     <td>   {$row['left_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="lebel label-danger">申请失败</span>{/if}</td>
+                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
                     <td  style="overflow:visible;">
                         
                         <div class="btn-group btn-group-sm" >
@@ -275,7 +275,12 @@
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status']==0}邀请用户已注册{else if $row['status']==-1}注册失败{else if $row['status']==1}已邀请{else if $row['status']==1}已注册{else if $row['status']==2}已下款/卡{/if}</td>
+                    <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
+                            {else if $row['status']==-1}<span class="label label-warnin">注册失败</span>
+                            {else if $row['status']==0}<span class="label label-info">邀请中</span>
+                            {else if $row['status']==1}<span class="label label-primary">已注册</span>
+                            {else if $row['status']==2}<span class="label label-success">已完成</span>
+                        {/if}</td>
                     <td  style="overflow:visible;">
                         
                         <div class="btn-group btn-group-sm" >
@@ -401,9 +406,13 @@
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[status]" onchange="change_stauts()">
                         <option value="-1" {if $item['status']==-1}selected{/if}>注册失败</option>
+                        {if $item['pid'] !=0}
                         <option value="0" {if $item['status']==0}selected{/if}>邀请中</option>
                         <option value="1" {if $item['status']==1}selected{/if}>已注册</option>
-                        <option value="2" {if $item['status']==2}selected{/if}>已下款/卡</option>
+                        {/if}
+                        <option value="2" {if $item['status']==2}selected{/if}> 
+                                {if $item['pid']==0}已完成{else}已下款/卡{/if}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -413,6 +422,7 @@
                     <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
                 </div>
             </div>
+            {if $item['pid'] !=0}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -431,7 +441,7 @@
                     <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
                 </div>
             </div>
-
+            {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -502,12 +512,12 @@
                     <select class="form-control" name="data[status]" onchange="change_stauts()">
                         <option value="-1" {if $item['status']==-1}selected{/if}>拒绝</option>
                         <option value="0" {if $item['status']==0}selected{/if}>申请中</option>
-                        <option value="1" {if $item['status']==1}selected{/if}>已打款</option>
+                        <option value="1" {if $item['status']==1}selected{/if}>打款</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">操作原因</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">操作说明</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[ext_info][reason]" value="{$item['ext_info']['reason']}"/>
                 </div>
@@ -515,7 +525,7 @@
             <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="number">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款流水号</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[ext_info][number]" value="{$item['ext_info']['number']}"/>
+                    <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" placeholder="此处打款后会自动生成" readonly="" />
                 </div>
             </div>
             <div class="form-group">

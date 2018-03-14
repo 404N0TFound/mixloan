@@ -198,13 +198,14 @@ function shortUrl($target) {
 *   获取格式化金额
 **/
 function formatMoney($number) {
-    $decimal = $number % 1;
-    $integer = $number - $decimal;
-    if ($decimal != 0) {
+    $integer = floor($number);
+    $decimal = $number - $integer;
+     if ($decimal != 0) {
         $decimal *= 100;
-    } else {
+        $decimal = ceil($decimal);
+     } else {
         $decimal = "00";
-    }
+     }
     return ['int'=>$integer, 'dec'=>$decimal];
 }
 
