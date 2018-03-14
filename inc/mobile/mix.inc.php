@@ -11,5 +11,8 @@ if($operation=='service'){
 } else if ($operation == 'tutorials') {
 	//新手指南
 	include $this->template('mix/tutorials');
+} else if ($operation == 'questions') {
+	//问题中心
+	include $this->template('mix/questions');
 }
 ?>

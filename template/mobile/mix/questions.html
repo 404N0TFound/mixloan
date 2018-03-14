@@ -1,0 +1,66 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>i代客</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/newadd.css">
+    <style>
+        .ques-section dd{width:95%;margin:0 auto;text-align: left;padding:0;} 
+        .ques-section dd img{width:100% !important; height:auto;padding:0;}  
+    </style>
+</head>
+<body class="bglightgray">
+    <div class="agent-header">
+        常见问题
+      <!--   <a class="return" onclick="javascript:history.go(-1)">返回</a> -->
+    </div>
+
+    <div class="agent-main pt44">
+        <dl class="ques-section">
+            <dt>基本问题</dt>
+            <dd>{$config['normal_questions']} </dd>
+        </dl><dl class="ques-section">
+            <dt>推广问题</dt>
+            <dd>{$config['extend_questions']} </dd>
+        </dl><dl class="ques-section">
+            <dt>工资问题</dt>
+            <dd>{$config['salary_questions']} </dd>
+        </dl><dl class="ques-section">
+            <dt>热门问题</dt>
+            <dd>{$config['hot_questions']} </dd>
+        </dl>
+    </div>
+
+    
+    <script type="text/javascript">
+
+        $(function(){
+            $(".ques-section dt").click(function(){
+                var on=$(this).hasClass("on");
+                $(".ques-section dt").removeClass("on");
+                $(".ques-section dd").slideUp(150);
+
+                if(on){
+                    $(this).removeClass("on");
+                    $(this).next("dd").stop().slideUp(150);
+                }else{
+                    $(this).addClass("on");
+                    $(this).next("dd").stop().slideDown(150);                
+                }
+
+            })
+        })
+
+
+    </script>
+</body>
