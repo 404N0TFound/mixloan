@@ -51,7 +51,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'extra_bonus'=>0,
 						'done_bonus'=>0,
 						're_bonus'=>$config['inviter_fee_one'],
-						'status'=>1,
+						'status'=>2,
 						'createtime'=>time()
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
@@ -69,7 +69,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'extra_bonus'=>0,
 							'done_bonus'=>0,
 							're_bonus'=>$config['inviter_fee_two'],
-							'status'=>1,
+							'status'=>2,
 							'createtime'=>time(),
 							'degree'=>2
 						);
@@ -88,7 +88,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'extra_bonus'=>0,
 								'done_bonus'=>0,
 								're_bonus'=>$config['inviter_fee_three'],
-								'status'=>1,
+								'status'=>2,
 								'createtime'=>time(),
 								'degree'=>3
 							);
