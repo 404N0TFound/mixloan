@@ -32,12 +32,11 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    $member = m('member')->getMember($_GPC['id']);
-    pdo_delete('xuan_mixloan_member', array("id" => $_GPC["id"]));
+    pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0), array('id'=>$_GPC['id']));
     pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
     pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
-    pdo_delete('ims_xuan_mixloan_payment', array("uid" => $_GPC["id"]));
-    message("删除成功");
+    pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
+    message("删除成功", $this->createWebUrl('member'), 'success');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
