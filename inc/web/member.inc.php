@@ -10,7 +10,7 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = '';
+    $wheres = ' AND status!=-1';
     if (!empty($_GPC['openid'])) {
         $wheres.= " AND openid='{$openid}'";
     }
@@ -32,8 +32,12 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    pdo_delete('xuan_mixloan_member', array("id" => $_GPC["id"]));
-    message("删除成功");
+    $member = m('member')->getMember($_GPC['id']);
+    pdo_update('xuan_mixloan_member', array("status" => -1), array('id'=>$_GPC['id']));
+    pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
+    pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
+    pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
+    message("删除成功", $this->createWebUrl('member'), 'success');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);

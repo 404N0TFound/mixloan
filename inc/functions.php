@@ -15,7 +15,6 @@ function m($name = '')
     $_modules[$name] = new $class_name();
     return $_modules[$name];
 }
-
 function is_array2($array)
 {
     if (is_array($array)) {
@@ -55,8 +54,6 @@ function is_weixin()
     }
     return true;
 }
-
-
 function baoSendSMS($mobile,$content,$config) {
     load()->func('communication');
     $user = $config['smsuser'];
@@ -69,7 +66,6 @@ function baoSendSMS($mobile,$content,$config) {
     }
     return $content;
 }
-
 /**
  * 获取今天
  */
@@ -78,9 +74,6 @@ function getTime(){
     $arr = explode('-', $cTime);
     return $arr;
 }
-
-
-
 function getServerIp(){
     if(!empty($_SERVER["HTTP_CLIENT_IP"])){
       $cip = $_SERVER["HTTP_CLIENT_IP"];
@@ -96,7 +89,6 @@ function getServerIp(){
     }
     return $cip;
 }
-
 /**
 * 获取当前根域名
 **/
@@ -104,7 +96,6 @@ function getNowHostUrl() {
     $http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
     return $http_type .  $_SERVER['HTTP_HOST'];
 }
-
 /**
 * get
 **/
@@ -119,7 +110,6 @@ function curl_file_get_contents($durl){
    curl_close($ch);
    return $r;
  }
-
  /**
  * 十六进制 转 RGB
  */
@@ -172,7 +162,6 @@ function RGBToHex($rgb){
     }
     return $hexColor;
 }
-
 /**
 *   缩短地址
 **/
@@ -193,21 +182,20 @@ function shortUrl($target) {
         return $short['short_url'];
     }
 }
-
 /**
 *   获取格式化金额
 **/
 function formatMoney($number) {
-    $decimal = $number % 1;
-    $integer = $number - $decimal;
-    if ($decimal != 0) {
+    $integer = floor($number);
+    $decimal = $number - $integer;
+     if ($decimal != 0) {
         $decimal *= 100;
-    } else {
+        $decimal = ceil($decimal);
+     } else {
         $decimal = "00";
-    }
+     }
     return ['int'=>$integer, 'dec'=>$decimal];
 }
-
 /*
 *   发送信息
 */
@@ -233,7 +221,6 @@ function sendCustomNotice($openid, $msg, $url = '', $account = null)
     }
     m('wechat')->sendtxtmsg($openid,$content);
 }
-
 /**
  * [将Base64图片转换为本地图片并保存]
  * @param  [Base64] $base64_image_content [要保存的Base64]

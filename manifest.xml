@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `uid` int(11) NOT NULL,
   `uniacid` int(5) NOT NULL,
   `certno` varchar(50) NOT NULL,
-  `status` tinyint(10) DEFAULT '2' COMMENT '是否开启',
+  `status` tinyint(10) DEFAULT '2' COMMENT '是否开启 -1软删除',
   `nickname` varchar(50) NOT NULL,
   `openid` varchar(50) NOT NULL,
   `realname` varchar(50) NOT NULL,
