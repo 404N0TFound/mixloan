@@ -31,6 +31,10 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
+				$agent = m('member')->checkAgent($member['id']);
+				if ($agent['code'] == 1) {
+					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
+				}
 				$insert = array(
 						"uniacid"=>$_W["uniacid"],
 						"uid"=>$member['id'],
@@ -39,6 +43,25 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						"fee"=>$fee,
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
+				pdo_run("LOCK TABLES ".tablename("xuan_mixloan_payment")." READ");
+				//模板消息提醒
+				$datam = array(
+		            "first" => array(
+		                "value" => "您好，您已购买成功",
+		                "color" => "#173177"
+		            ) ,
+		            "name" => array(
+		                "value" => "{$config['title']}代理会员",
+		                "color" => "#173177"
+		            ) ,
+		            "remark" => array(
+		                "value" => '点击查看详情',
+		                "color" => "#4a5077"
+		            ) ,
+		        );
+		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user');
+		        $account = WeAccount::create($_W['acid']);
+		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
 				$inviter = m('member')->getInviter($member['phone']);
 				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(
@@ -51,13 +74,13 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'extra_bonus'=>0,
 						'done_bonus'=>0,
 						're_bonus'=>$config['inviter_fee_one'],
-						'status'=>1,
+						'status'=>2,
 						'createtime'=>time()
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//二级
-					$man = m('member')->getMember($inviter);
-					$inviter = m('member')->getInviter($man['phone']);
+					$man_phone = m('member')->getInviterPhone($inviter);
+					$inviter = m('member')->getInviter($man_phone);
 					if ($inviter && $config['inviter_fee_two']) {
 						$insert_i = array(
 							'uniacid' => $_W['uniacid'],
@@ -69,14 +92,14 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'extra_bonus'=>0,
 							'done_bonus'=>0,
 							're_bonus'=>$config['inviter_fee_two'],
-							'status'=>1,
+							'status'=>2,
 							'createtime'=>time(),
 							'degree'=>2
 						);
 						pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						//三级
-						$man = m('member')->getMember($inviter);
-						$inviter = m('member')->getInviter($man['phone']);
+						$man_phone = m('member')->getInviterPhone($inviter);
+						$inviter = m('member')->getInviter($man_phone);
 						if ($inviter && $config['inviter_fee_three']) {
 							$insert_i = array(
 								'uniacid' => $_W['uniacid'],
@@ -88,7 +111,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'extra_bonus'=>0,
 								'done_bonus'=>0,
 								're_bonus'=>$config['inviter_fee_three'],
-								'status'=>1,
+								'status'=>2,
 								'createtime'=>time(),
 								'degree'=>3
 							);
@@ -96,6 +119,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						}
 					}
 				}
+				pdo_run("UNLOCK TABLES");
 				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
 		}

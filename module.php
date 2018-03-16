@@ -31,6 +31,7 @@ class Xuan_mixloanModule extends WeModule {
                     'jdwx_open' => $_GPC['jdwx_open'],
                     'jdwx_key' => $_GPC['jdwx_key'],
                     'tpl_notice1'=>$_GPC['tpl_notice1'],
+                    'tpl_notice2'=>$_GPC['tpl_notice2'],
                     'register_contract'=> htmlspecialchars_decode($_GPC['register_contract']),
                     'normal_questions'=> htmlspecialchars_decode($_GPC['normal_questions']),
                     'extend_questions'=> htmlspecialchars_decode($_GPC['extend_questions']),
