@@ -43,7 +43,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						"fee"=>$fee,
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
-				pdo_run("LOCK TABLES ".tablename("xuan_mixloan_payment")." READ");
 				$inviter = m('member')->getInviter($member['phone']);
 				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(
@@ -57,7 +56,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'done_bonus'=>0,
 						're_bonus'=>$config['inviter_fee_one'],
 						'status'=>2,
-						'createtime'=>time()
+						'createtime'=>time(),
+						'degree'=>1
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//二级
@@ -101,7 +101,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						}
 					}
 				}
-				pdo_run("UNLOCK TABLES");
 				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
 		}

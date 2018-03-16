@@ -22,7 +22,7 @@ class Xuan_mixloan_Pay
      * @param $bank_no
      * @param $true_name
      * @param $bank_code
-     * @param $amount
+     * @param $amount 单位：分
      * @param $desc
      * @return array
      */
@@ -47,7 +47,7 @@ class Xuan_mixloan_Pay
         $params["enc_bank_no"] = $this->rsa_encrypt($bank_no);
         $params["enc_true_name"] = $this->rsa_encrypt($true_name);
         $params["bank_code"] = $bank_code;
-        $params["amount"] = (double)$amount;
+        $params["amount"] = intval($amount*100);
         $params["desc"] = $desc;
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
