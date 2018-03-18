@@ -77,10 +77,6 @@
 			<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
 			<div class="dayProduct">
 				<ul>
-					<!-- <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>极速钱包</h2><em>+60</em><a></a></li>
-					<li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>现金卡</h2><em>+23</em><a></a></li>
-					<li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>民生信用卡</h2><em>+0</em><a></a></li>
-					<li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>浦发信用卡</h2><em>+9</em><a></a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -95,33 +91,6 @@
 				</ul>
 			</div>
 			<div class="productLstC productData weekProduct">
-				<!-- <ul>
-					<li>光大信用卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul>
-				<ul class="productZero">
-					<li>玖富万卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul>
-				<ul class="productXrf">
-					<li>信而富</li>
-					<li>69</li>
-					<li>
-						<p><span>有效:</span><label>8位</label></p>
-						<p><span>放款:</span><label>5位</label></p>
-					</li>
-					<li>￥360</li>
-				</ul>
-				<ul>
-					<li>民生信用卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul> -->
 			</div>
 		</div>
 		<div class="accCommon monthAccount">
@@ -135,33 +104,19 @@
 				</ul>
 			</div>
 			<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
-				<!-- <ul>
-					<li>光大信用卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul>
-				<ul class="productZero">
-					<li>玖富万卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul>
-				<ul class="productXrf">
-					<li>信而富</li>
-					<li>69</li>
-					<li>
-						<p><span>有效:</span><label>8位</label></p>
-						<p><span>放款:</span><label>5位</label></p>
-					</li>
-					<li>￥360</li>
-				</ul>
+			</div>
+		</div>
+		<div class="accCommon monthAccount">
+			<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下级代理</h1>
+			<div class="productLstC monthATitle">
 				<ul>
-					<li>民生信用卡</li>
-					<li>69</li>
-					<li>26元</li>
-					<li>￥360</li>
-				</ul> -->
+					<li>徒弟名称</li>
+					<li>关注时间</li>
+					<li>是否开通</li>
+					<li>奖金/元</li>
+				</ul>
+			</div>
+			<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
 			</div>
 		</div>
 	</div>
@@ -288,6 +243,28 @@ function ajaxData(year,month){
 					monthStr += '<li>¥ '+ mrewards +'</li>';
 					monthStr += '</ul>';
 					$("div.monthProduct").append(monthStr);
+				}
+
+				$("div.inviteProduct").html("");				
+				var invite=data.invite_list;//月结
+				for(j=0;j<invite.length;j++){
+					var inviteStr='';
+					var mTitle=invite[j].nickname;
+					var mCreatetime=invite[j].createtime;
+					if (invite[j].pay == 1) {
+						var mPay = '是'
+					} else {
+						var mPay = '否';
+					}
+					var mrewards=invite[j].re_bonus;
+							inviteStr += '<ul>'
+					inviteStr += '<li>'+ mTitle +'</li>';
+					inviteStr += '<li>'+ mCreatetime +'</li>';
+					
+						inviteStr += '<li>'+ mPay +'</li>';
+					inviteStr += '<li>¥ '+ mrewards +'</li>';
+					inviteStr += '</ul>';
+					$("div.inviteProduct").append(inviteStr);
 				}
 			}else{
 				layer.close(layerindex);

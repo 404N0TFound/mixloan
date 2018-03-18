@@ -193,22 +193,20 @@ function shortUrl($target) {
         return $short['short_url'];
     }
 }
-
 /**
 *   获取格式化金额
 **/
 function formatMoney($number) {
     $integer = floor($number);
     $decimal = $number - $integer;
-     if ($decimal != 0) {
+    if ($decimal != 0) {
         $decimal *= 100;
         $decimal = ceil($decimal);
-     } else {
+    } else {
         $decimal = "00";
-     }
+    }
     return ['int'=>$integer, 'dec'=>$decimal];
 }
-
 /*
 *   发送信息
 */

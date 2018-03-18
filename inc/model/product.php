@@ -274,7 +274,7 @@ class Xuan_mixloan_Product
         if ($params['begin']) {
             $begin = strtotime($params['begin']);
             $end = strtotime($params['begin']." +1 month -1 day");
-            $wheres .= " AND createtime>={$begin} AND createtime<={$end}";
+            $wheres .= " AND createtime>={$begin} AND createtime<{$end}";
         }
         if ($type == 1) {
             $fields = "pid, COUNT(1) AS count";
@@ -298,9 +298,7 @@ class Xuan_mixloan_Product
 
 
     /**
-    *   1申请位数 
-    *   2贷款放款成功&申请信用卡成功 
-    *   4奖金
+    *   申请位数 
     **/
     public function getApplys($params=[]) {
         global $_W;
@@ -308,13 +306,56 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
         $fields = "COUNT(1) AS count";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<={$end} AND inviter={$inviter}";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0";
         $res = pdo_fetchcolumn($sql);
-        if ($res) {
-            return $res;
+        if (!$res) {
+            $count = 0;
         } else {
-            return 0;
+            $count = $res;
         }
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        if (!$res) {
+            $count += 0;
+        } else {
+            $count += $res;
+        }
+        return $count;
+    }
+
+    /**
+    *   邀请列表 
+    **/
+    public function getInviteList($params=[]) {
+        global $_W;
+        $inviter = (int)$params['inviter'];
+        $begin = strtotime($params['begin']);
+        $end = strtotime($params['begin']." +1 month -1 day");
+        $fields = "b.nickname,a.openid,a.createtime,c.id,d.re_bonus";
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
+        $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
+        if (!$list) {
+            $list = [];
+        } else {
+            foreach ($list as &$row) {
+                if (!$row['nickname']) {
+                    $uid = mc_openid2uid($row['openid']);
+                    $fans = mc_fetch($uid,array('nickname'));
+                    $row['nickname'] = $fans['nickname'];
+                }
+                if ($row['id']) {
+                    $row['pay'] = 1;
+                } else {
+                    $row['pay'] = 0;
+                }
+                if (!$row['re_bonus']) {
+                    $row['re_bonus'] = 0;
+                }
+                $row['createtime'] = date('Y-m-d', $row['createtime']);
+            }
+            unset($row);
+        }
+        return $list;
     }
 
     /**

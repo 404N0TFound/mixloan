@@ -53,6 +53,13 @@ if ($operation == 'list') {
     );
     pdo_insert("xuan_mixloan_payment",$insert);
     message("设置成功", $this->createWebUrl('member'), "success");
+} else if ($operation == 'update') {
+    $id = $_GPC['id'];
+    $member = pdo_fetch("select * from ".tablename("xuan_mixloan_member")." where id={$id}");
+    if ($_GPC['post'] == 1) {
+        pdo_update("xuan_mixloan_member", $_GPC['data'], array("id"=>$id));
+        message('更新成功', $this->createWebUrl('member'), 'success');
+    }
 } else if ($operation == 'send_msg') {
     //发送信息
     if ($_GPC['post'] == 1) {
@@ -64,12 +71,51 @@ if ($operation == 'list') {
         }
         message('发送成功', '', 'success');
     }
-} else if ($operation == 'update') {
-    $id = $_GPC['id'];
-    $member = pdo_fetch("select * from ".tablename("xuan_mixloan_member")." where id={$id}");
+} else if ($operation == 'send_notice') {
+    //发送模板消息，签档提醒
     if ($_GPC['post'] == 1) {
-        pdo_update("xuan_mixloan_member", $_GPC['data'], array("id"=>$id));
-        message('更新成功', $this->createWebUrl('member'), 'success');
+        $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
+        $title = $_GPC['title'];
+        $author = $_GPC['author'];
+        $time = date("Y-m-d H-i");
+        $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
+        $url = $_GPC['url'];
+        $members = pdo_fetchall("select b.openid from ".tablename('xuan_mixloan_payment').' a left join '. tablename('xuan_mixloan_member').' b on a.uid=b.id where a.msg=1 and a.uniacid=:uniacid group by a.uid', [':uniacid'=>$_W['uniacid']]);
+        $successCount = $filedCount = 0;
+        foreach ($members as $member) {
+            $datam = array(
+                "first" => array(
+                    "value" => $first,
+                    "color" => "#173177"
+                ) ,
+                "keyword1" => array(
+                    "value" => $title,
+                    "color" => "#FF0000"
+                ) ,
+                "keyword2" => array(
+                    "value" => $author,
+                    "color" => "#173177"
+                ) ,
+                "keyword3" => array(
+                    "value" => $time,
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => $remark,
+                    "color" => "#A4D3EE"
+                ) ,
+            );
+            $account = WeAccount::create($_W['acid']);
+            $res = $account->sendTplNotice($member["openid"], $config['tpl_notice3'], $datam, $url);
+            if ($res == true) {
+                $successCount += 1;
+            } else {
+                $filedCount +=1;
+            }
+        }
+        $count = $successCount + $filedCount;
+        message("发送成功，总计发送{$count}条，成功{$successCount}条，失败{$filedCount}条", "", "success");
+        
     }
 }
 include $this->template('member');

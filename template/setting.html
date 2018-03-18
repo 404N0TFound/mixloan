@@ -22,47 +22,39 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
-							<div class="col-sm-9 col-xs-12">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站设置</label>
+							<div class="col-sm-3 col-xs-4">
 								<input type="text" name="title" value="{$setting['title']}" class="form-control">
+								<span class="help-block">网站名称</span>
 							</div>
-						</div>
-						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号名称</label>
-							<div class="col-sm-9 col-xs-12">
+							<div class="col-sm-3 col-xs-4">
 								<input type="text" name="wx_name" value="{$setting['wx_name']}" class="form-control">
+								<span class="help-block">公众号名称</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								{php echo tpl_form_field_image(logo,$setting['logo']);}
+								<span class="help-block">网站logo，推荐尺寸：正方形</span>
 							</div>
 						</div>
 						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">logo</label>
-							<div class="col-sm-9 col-xs-12">
-								{php echo tpl_form_field_image(logo,$setting['logo']);}
-								<span class="help-block">推荐尺寸：正方形</span>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享设置</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="share_title" value="{$setting['share_title']}" class="form-control" >
+								<span class="help-block">分享标题</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="share_desc" value="{$setting['share_desc']}" class="form-control" >
+								<span class="help-block">分享描述</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								{php echo tpl_form_field_image(share_image,$setting['share_image']);}
+								<span class="help-block">分享图片，推荐尺寸：720*396</span>
 							</div>
 						</div>
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">客服QQ</label>
 							<div class="col-sm-6 col-xs-12">
 								<input type="text" name="qqnum" value="{$setting['qqnum']}" class="form-control" >
-							</div>
-						</div>
-						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享标题</label>
-							<div class="col-sm-6 col-xs-12">
-								<input type="text" name="share_title" value="{$setting['share_title']}" class="form-control" >
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
-							<div class="col-sm-6 col-xs-12">
-								{php echo tpl_form_field_image(share_image,$setting['share_image']);}
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">分享描述</label>
-							<div class="col-sm-6 col-xs-12">
-								<input type="text" name="share_desc" value="{$setting['share_desc']}" class="form-control" >
-								<span class="help-block">推荐尺寸：720*396</span>
 							</div>
 						</div>
 					</div>
@@ -192,10 +184,38 @@
 			                </div>
 			            </div>
 						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请已接受通知模板消息</label>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请已接受通知</label>
 							<div class="col-sm-9 col-xs-12" >
                     			<input type="text" value="{$setting['tpl_notice1']}" name="tpl_notice1" class="form-control" placeholder="邀请已接受通知"/>
-                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]邀请已接受通知&nbsp;模板消息</span>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]邀请已接受通知&nbsp;模板消息，编号为OPENTM412357807</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买成功通知</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			<input type="text" value="{$setting['tpl_notice2']}" name="tpl_notice2" class="form-control" placeholder="购买成功通知"/>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]购买成功通知&nbsp;模板消息，编号为TM00001</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">文档签署提醒</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			<input type="text" value="{$setting['tpl_notice3']}" name="tpl_notice3" class="form-control" placeholder="文档签署提醒"/>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]文档签署提醒&nbsp;模板消息，编号为OPENTM406622845</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">关注成功通知</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			<input type="text" value="{$setting['tpl_notice4']}" name="tpl_notice4" class="form-control" placeholder="关注成功通知"/>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]关注成功通知&nbsp;模板消息，编号为OPENTM405896778</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">返现到账通知</label>
+							<div class="col-sm-9 col-xs-12" >
+                    			<input type="text" value="{$setting['tpl_notice5']}" name="tpl_notice5" class="form-control" placeholder="返现到账通知"/>
+                    			<span class="help-block">请添加：[IT科技 - 互联网|电子商务]返现到账通知&nbsp;模板消息，编号为TM00211</span>
 							</div>
 						</div>
 					</div>

@@ -181,6 +181,7 @@ if($operation=='index'){
 	$days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
 	$weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
 	$months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
+	$invite_list = m('product')->getInviteList($params);
 	$days_ids = m('product')->getIds($days_list);
 	$weeks_ids = m('product')->getIds($weeks_list);
 	$months_ids = m('product')->getIds($months_list);
@@ -216,7 +217,7 @@ if($operation=='index'){
 		$row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
 	}
 	unset($row);
-	$arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'applys'=>$applys];
+	$arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];
 	show_json(1, $arr);
 }
 
