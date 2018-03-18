@@ -296,11 +296,8 @@ class Xuan_mixloan_Product
         return $ret;
     }
 
-
     /**
-    *   1申请位数 
-    *   2贷款放款成功&申请信用卡成功 
-    *   4奖金
+    *   申请位数 
     **/
     public function getApplys($params=[]) {
         global $_W;
@@ -308,15 +305,23 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
         $fields = "COUNT(1) AS count";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<={$end} AND inviter={$inviter}";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0";
         $res = pdo_fetchcolumn($sql);
-        if ($res) {
-            return $res;
+        if (!$res) {
+            $count = 0;
         } else {
-            return 0;
+            $count = $res;
         }
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        if (!$res) {
+            $count += 0;
+        } else {
+            $count += $res;
+        }
+        return $count;
     }
-
+    
     /**
     *   获取前10奖金
     **/
