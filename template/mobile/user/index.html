@@ -145,6 +145,15 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    {if $config['predict_limit']}
+                    <li>
+                        <a href="{$config['predict_limit']}">
+                            <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
+                            建行预审
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     <li>
                         <a href="{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />

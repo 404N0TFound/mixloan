@@ -65,6 +65,9 @@ class Xuan_mixloan_Channel
                 }
             }
         }
+        if ($offset) {
+            $wheres .= " AND id>{$offset}";
+        }
         $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_channel_subject')." WHERE uniacid={$_W['uniacid']} {$wheres} ";
         if ($orderBy) {
             $sql .= " ORDER BY {$orderBy}";
@@ -73,9 +76,6 @@ class Xuan_mixloan_Channel
         }
         if ($limit) {
             $sql .= " LIMIT {$limit}";
-        }
-        if ($offset) {
-            $sql .= " OFFSET {$offset}";
         }
         $list = pdo_fetchall($sql);
         if (!empty($list)) {

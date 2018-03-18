@@ -16,6 +16,7 @@ class Xuan_mixloanModule extends WeModule {
                     'wx_name'=>$_GPC['wx_name'],
                     'logo'=>$_GPC['logo'],
                     'vip_comm'=>$_GPC['vip_comm'],
+                    'predict_limit'=>$_GPC['predict_limit'],
                     'poster_avatar'=>$_GPC['poster_avatar'],
                     'poster_image'=>$_GPC['poster_image'],
                     'poster_color'=>$_GPC['poster_color'],

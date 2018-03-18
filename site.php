@@ -43,7 +43,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						"fee"=>$fee,
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
-				pdo_run("LOCK TABLES ".tablename("xuan_mixloan_payment")." READ");
 				//模板消息提醒
 				$datam = array(
 		            "first" => array(
@@ -119,7 +118,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						}
 					}
 				}
-				pdo_run("UNLOCK TABLES");
 				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
 		}

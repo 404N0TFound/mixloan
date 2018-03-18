@@ -63,7 +63,9 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     if ($_GPC['post'] == 1) {
+        pdo_delete('xuan_mixloan_poster', array('pid'=>$item['id']));
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
+        pdo_update('xuan_mixloan_product', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
     }
 } else if ($operation == 'advs_list') {
