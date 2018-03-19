@@ -51,7 +51,7 @@
             <div class="swiper-container pro-swiper">
                 <div class="swiper-wrapper">
                 {loop $advs $adv}
-                <div class="swiper-slide" style="width:90%;"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
+                <div class="swiper-slide" style="width:90%;" data-swiper-slide-index="0"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
                 {/loop}
                 </div>
             <div class="swiper-pagination pro-pagination"></div>
