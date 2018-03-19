@@ -28,9 +28,9 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             'value' => date("Y-m-d H:i:s",time()),
                             "color" => "#4a5077"
                         ),
-                        'remask' => array(
+                        'remark' => array(
                             'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$config['inviter_fee_one']}元奖励",
-                            "color" => "#4a5077"
+                            "color" => "#A4D3EE"
                         ),
                     );
                     $templateId=$config['tpl_notice4'];
