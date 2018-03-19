@@ -143,15 +143,13 @@
                 </div>
             </div>
             <!-- 专题 -->
-            <div class="swiper-container topic-swiper">
-              <div class="swiper-wrapper">
-                     {loop $subjects $subject}
-                    <div class="swiper-slide" style="width:90%;">
-                        <a id="topic" class="topic" data-id="{$subject['id']}"><img src="{php echo tomedia($subject['ext_info']['pic'])}" width="100%" alt=""></a>
-                    </div>
-                    {/loop}
+            <div class="swiper-container pro-swiper">
+                <div class="swiper-wrapper">
+                {loop $subjects $subject}
+                <div class="swiper-slide" style="width:90%;"><a id="topic" class="topic" data-id="{$subject['id']}"><img src="{php echo tomedia($subject['ext_info']['pic'])}" width="100%" alt=""></a></div>
+                {/loop}
                 </div>
-              <div class="swiper-pagination topic-pagination"></div>
+            <div class="swiper-pagination pro-pagination"></div>
             </div>
             <!-- 口子文章循环 -->
             <div class="loan-lists loan-main-lists">

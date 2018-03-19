@@ -46,23 +46,14 @@
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
         <div class="scroller">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    {loop $advs $adv}
-                    <div class="swiper-slide" style="width:90%;"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
-                    {/loop}
-                </div>
-                <!-- 如果需要分页器 -->
-                <div class="swiper-pagination"></div>
-            </div>
-            <!-- <div class="swiper-container pro-swiper">
+            <div class="swiper-container pro-swiper">
                 <div class="swiper-wrapper">
                 {loop $advs $adv}
                 <div class="swiper-slide" style="width:90%;"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
                 {/loop}
                 </div>
             <div class="swiper-pagination pro-pagination"></div>
-            </div> -->
+            </div>
             <!-- 口子文章循环 -->
             <div class="loan-lists">
                 {loop $channel_list $channel}
@@ -150,15 +141,13 @@
                 </div>
             </div>
             <!-- 专题 -->
-            <div class="swiper-container topic-swiper">
-              <div class="swiper-wrapper">
-                 {loop $subjects $subject}
-                <div class="swiper-slide" style="width:90%;">
-                        <a id="topic" class="topic" data-id="{$subject['id']}"><img src="{php echo tomedia($subject['ext_info']['pic'])}" width="100%" alt=""></a>
-                </div>    
+            <div class="swiper-container pro-swiper">
+                <div class="swiper-wrapper">
+                {loop $subjects $subject}
+                <div class="swiper-slide" style="width:90%;"><a id="topic" class="topic" data-id="{$subject['id']}"><img src="{php echo tomedia($subject['ext_info']['pic'])}" width="100%" alt=""></a></div>
                 {/loop}
                 </div>
-              <div class="swiper-pagination topic-pagination"></div>
+            <div class="swiper-pagination pro-pagination"></div>
             </div>
             <!-- 口子文章循环 -->
             <div class="loan-lists">

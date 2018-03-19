@@ -80,12 +80,15 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
+    //删除会员
     pdo_delete('xuan_mixloan_payment', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => '')), "sccuess");
 } else if ($operation == 'apply_delete') {
+    //删除申请
     pdo_delete('xuan_mixloan_product_apply', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
 } else if ($operation == 'withdraw_delete') {
+    //删除提现
     pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
 } else if ($operation == 'apply_update') {
@@ -114,6 +117,15 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
+        if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
+            $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
+            if ($pay['code'] > 0) {
+                message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
+            } else {
+                $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
+                $_GPC['data']['ext_info']['payment_no'] = $pay['data']['payment_no'];
+            }
+        }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
