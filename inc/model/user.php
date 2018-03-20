@@ -8,10 +8,14 @@ class Xuan_mixloan_User
         global $_W;
         $this->sessionid = "__cookie_xuan_mixloan_201603240000_{$_W['uniacid']}";
     }
-    function getOpenid()
+    function getOpenid($uid="")
     {
-        $userinfo = $this->getInfo(false, true);
-        return $userinfo['openid'];
+        if ($uid) {
+            return pdo_fetchcolumn("select openid from ".tablename("xuan_mixloan_member")." where id={$uid}");
+        } else {
+            $userinfo = $this->getInfo(false, true);
+            return $userinfo['openid'];
+        }
     }
     function getPerOpenid()
     {
