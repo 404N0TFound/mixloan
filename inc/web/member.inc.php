@@ -78,11 +78,12 @@ if ($operation == 'list') {
         $title = $_GPC['title'];
         $author = $_GPC['author'];
         $time = date("Y-m-d H-i");
+        $createtime = time();
         $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
         $url = $_GPC['url'];
-        $members = pdo_fetchall("select b.openid from ".tablename('xuan_mixloan_payment').' a left join '. tablename('xuan_mixloan_member').' b on a.uid=b.id where a.msg=1 and a.uniacid=:uniacid group by a.uid', [':uniacid'=>$_W['uniacid']]);
-        $successCount = $filedCount = 0;
+        $members = pdo_fetchall("SELECT openid FROM `ims_mc_mapping_fans` WHERE uniacid=:uniacid AND follow=1", [':uniacid'=>$_W['uniacid']]);
         foreach ($members as $member) {
+            $openid = $member['openid'];
             $datam = array(
                 "first" => array(
                     "value" => $first,
@@ -105,16 +106,25 @@ if ($operation == 'list') {
                     "color" => "#A4D3EE"
                 ) ,
             );
-            $account = WeAccount::create($_W['acid']);
-            $res = $account->sendTplNotice($member["openid"], $config['tpl_notice3'], $datam, $url);
-            if ($res == true) {
-                $successCount += 1;
-            } else {
-                $filedCount +=1;
-            }
+            $temp = array(
+                'uniacid' => $_W['uniacid'],
+                'openid' => "'{$openid}'",
+                'template_id' => "'{$config['tpl_notice3']}'",
+                'data' => "'" . addslashes(json_encode($datam)) . "'",
+                'url' => "'{$url}'",
+                'createtime'=>$createtime,
+                'status'=>0
+            );
+            $temp_string = '('. implode(',', array_values($temp)) . ')';
+            $insert[] = $temp_string;
         }
-        $count = $successCount + $filedCount;
-        message("发送成功，总计发送{$count}条，成功{$successCount}条，失败{$filedCount}条", "", "success");
+        if (!empty($insert)) {
+            $insert_string =  implode(',', $insert);
+            pdo_run("INSERT ".tablename("xuan_mixloan_notice"). " ( `uniacid`, `openid`, `template_id`, `data`, `url`, `createtime`, `status`) VALUES {$insert_string}");
+        }
+        
+        $count = count($insert);
+        message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
         
     }
 }

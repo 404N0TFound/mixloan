@@ -272,10 +272,10 @@ class Xuan_mixloan_Member
     *   获取用户手机号
     **/
     public function getInviterPhone($uid) {
-        if ($uid) {
+        if (!$uid) {
             return false;
         }
-        $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_inviter"). " WHERE id=:id", array(":id"=>$uid));
+        $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
         return $res;
     }
 }

@@ -35,6 +35,20 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_notice`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `openid` varchar(50) NOT NULL COMMENT '发送的openid',
+  `template_id` varchar(50) NOT NULL COMMENT '模板消息id',
+  `data` TEXT NOT NULL COMMENT '发送的信息',
+  `url` varchar(255) NOT NULL COMMENT '跳转链接',
+  `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_inviter`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_inviter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -15,7 +15,21 @@ define('XUAN_MIXLOAN_DEBUG', false);
 require_once XUAN_MIXLOAN_INC.'functions.php'; 
 class Xuan_mixloanModuleSite extends WeModuleSite {
 	public function __construct(){
-		if (strexists($_SERVER['REQUEST_URI'], '/app/') && !strexists($_SERVER['REQUEST_URI'], 'allProduct') && !strexists($_SERVER['REQUEST_URI'], 'apply')) {
+		$condition =  array(
+			strexists($_SERVER['REQUEST_URI'], '/app/'),
+			!strexists($_SERVER['REQUEST_URI'], 'allProduct'),
+			!strexists($_SERVER['REQUEST_URI'], 'apply'),
+			!strexists($_SERVER['REQUEST_URI'], 'queue'),
+		);
+		foreach ($condition as $value) {
+			if ($value == false) {
+				$con = false;
+				break;
+			} else {
+				$con = true;
+			}
+		}
+		if ($con) {
 			m('member')->checkMember();
 		}
 	}
