@@ -168,7 +168,12 @@ if($operation=='index'){
         'createtime'=>time()
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
-    show_json(1, $pro['ext_info']['url']);
+    if ($info['type'] == 1) {
+        $redirect_url = $pro['ext_info']['url'];
+    } else {
+        $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id']));
+    }
+    show_json(1, $redirect_url);
 } else if ($operation == 'customer') {
     //客户列表
     include $this->template('product/customer');

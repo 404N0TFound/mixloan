@@ -119,7 +119,7 @@ if ($operation == 'list') {
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
             $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
-            if ($pay['code'] > 0) {
+            if ($pay['code'] > 1) {
                 message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
             } else {
                 $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];

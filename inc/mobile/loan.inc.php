@@ -61,5 +61,13 @@ if($operation=='index'){
 		unset($row);
 		show_json(1, array_values($list));
 	}
+} else if ($operation == 'apply') {
+	//申请详情
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message("出错了", "", "error");
+    }
+    $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
+	include $this->template('loan/apply');
 }
 ?>

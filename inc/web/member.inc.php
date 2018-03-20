@@ -71,6 +71,62 @@ if ($operation == 'list') {
         pdo_update("xuan_mixloan_member", $_GPC['data'], array("id"=>$id));
         message('更新成功', $this->createWebUrl('member'), 'success');
     }
+} else if ($operation == 'send_notice') {
+    //发送模板消息，签档提醒
+    if ($_GPC['post'] == 1) {
+        $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
+        $title = $_GPC['title'];
+        $author = $_GPC['author'];
+        $time = date("Y-m-d H-i");
+        $createtime = time();
+        $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
+        $url = $_GPC['url'];
+        $members = pdo_fetchall("SELECT openid FROM `ims_mc_mapping_fans` WHERE uniacid=:uniacid AND follow=1", [':uniacid'=>$_W['uniacid']]);
+        foreach ($members as $member) {
+            $openid = $member['openid'];
+            $datam = array(
+                "first" => array(
+                    "value" => $first,
+                    "color" => "#173177"
+                ) ,
+                "keyword1" => array(
+                    "value" => $title,
+                    "color" => "#FF0000"
+                ) ,
+                "keyword2" => array(
+                    "value" => $author,
+                    "color" => "#173177"
+                ) ,
+                "keyword3" => array(
+                    "value" => $time,
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => $remark,
+                    "color" => "#A4D3EE"
+                ) ,
+            );
+            $temp = array(
+                'uniacid' => $_W['uniacid'],
+                'openid' => "'{$openid}'",
+                'template_id' => "'{$config['tpl_notice3']}'",
+                'data' => "'" . addslashes(json_encode($datam)) . "'",
+                'url' => "'{$url}'",
+                'createtime'=>$createtime,
+                'status'=>0
+            );
+            $temp_string = '('. implode(',', array_values($temp)) . ')';
+            $insert[] = $temp_string;
+        }
+        if (!empty($insert)) {
+            $insert_string =  implode(',', $insert);
+            pdo_run("INSERT ".tablename("xuan_mixloan_notice"). " ( `uniacid`, `openid`, `template_id`, `data`, `url`, `createtime`, `status`) VALUES {$insert_string}");
+        }
+        
+        $count = count($insert);
+        message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
+        
+    }
 }
 include $this->template('member');
 ?>

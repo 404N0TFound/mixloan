@@ -149,6 +149,26 @@ if($operation == 'getCode'){
 		$result['error']['message'] = '请选择要上传的图片！';
 		die(json_encode($result));
 	}
+} else if ($operation == 'queue') {
+	//队列消耗模板信息
+	$notices = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_notice")." WHERE uniacid=:uniacid AND status=0 ORDER BY id ASC LIMIT 50", array(':uniacid'=>$_W['uniacid']));
+	if (!empty($notices)) {
+		$count = 0;
+		$filed = array();
+        $account = WeAccount::create($_W['acid']);
+		foreach ($notices as $row) {
+			$data = json_decode($row['data'], 1);
+			$res = $account->sendTplNotice($row['openid'], $row['template_id'], $data, $row['url']);
+			if (!is_array($res)) {
+				$count += pdo_update('xuan_mixloan_notice', array('status'=>1), array('id'=>$row['id']));
+			} else {
+				$filed[$row['id']] = $res['message'];
+			}
+		}
+		echo json_encode(['success_count'=>$count, 'filed'=>$filed]);
+	} else {
+		echo json_encode(['msg'=>'the queue is empty']);
+	}
 }
 
 
