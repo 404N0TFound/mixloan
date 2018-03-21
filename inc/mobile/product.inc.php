@@ -34,7 +34,11 @@ if($operation=='index'){
     }
     $id = intval($_GPC['id']);
     $info = m('product')->getList([],['id'=>$id])[$id];
-    $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+    if ($info['type'] == 1) {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+    } else {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'pid'=>$id, 'inviter'=>$member['id'])));
+    }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
     $top_list = m('product')->getTopBonus($id);
     include $this->template('product/info');
