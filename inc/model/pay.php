@@ -26,7 +26,7 @@ class Xuan_mixloan_Pay
      * @param $desc
      * @return array
      */
-    function pay($bank_no, $true_name, $bank_code, $amount, $desc)
+    function pay($bank_no, $true_name, $bank_code, $amount, $desc, $trade_no="")
     {
         if (empty($bank_no)) {
             return ["code"=>-1, "msg"=>"银行卡号不能为空"];
@@ -40,7 +40,9 @@ class Xuan_mixloan_Pay
         if (empty($desc)) {
             return ["code"=>-1, "msg"=>"说明不能为空"];
         }
-        $trade_no = "ZML".date("YmdHis");
+        if ($trade_no == "") {
+            $trade_no = "ZML".date("YmdHis");
+        }
         $params["mch_id"] = $this->mchid;
         $params["partner_trade_no"] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));

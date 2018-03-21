@@ -114,9 +114,12 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
-        if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
-            $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
-            if ($pay['code'] != 1) {
+        if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['payment_no'])) {
+            $pay = m('pay')->pay($bank['banknum'],
+                $bank['realname'], $_GPC['data']['ext_info']['bank_code'],
+                $item['bonus'], $_GPC['data']['ext_info']['reason'],
+                $item['ext_info']['partner_trade_no']);
+            if ($pay['code']>1) {
                 message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
             } else {
                 $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
