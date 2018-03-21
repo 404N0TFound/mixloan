@@ -67,6 +67,7 @@ if($operation=='index'){
     if (empty($id)) {
         message("出错了", "", "error");
     }
+    $pid = intval($_GPC['pid']);
     $inviter = intval($_GPC['id']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
 	include $this->template('loan/apply');
@@ -74,7 +75,7 @@ if($operation=='index'){
     //申请提交
     $id = intval($_GPC['id']);
     if (empty($id)) {
-        message("出错了", "", "error");
+        show_json(-1, [], "出错了");
     }
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
@@ -87,6 +88,12 @@ if($operation=='index'){
     $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
     if ($record) {
         show_json(-1, [], "您已经申请过啦");
+    }
+    $info = m('product')->getList(['id', 'name', 'type', 'relate_id'],['id'=>$id])[$id];
+    if ($info['type'] == 1) {
+        $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+    } else {
+        $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
     if ($config['jdwx_open'] == 1) {
         $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
@@ -149,5 +156,6 @@ if($operation=='index'){
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     $redirect_url = $pro['ext_info']['url'];
+    show_json(1,$redirect_url);
 }
 ?>

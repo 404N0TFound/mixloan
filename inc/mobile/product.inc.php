@@ -171,7 +171,7 @@ if($operation=='index'){
         pdo_insert('xuan_mixloan_product_apply', $insert);
         $redirect_url = $pro['ext_info']['url'];
     } else {
-        $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter));
+        $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));
     }
     show_json(1, $redirect_url);
 } else if ($operation == 'customer') {
