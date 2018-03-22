@@ -163,6 +163,7 @@ if($operation == 'getCode'){
 				$count += pdo_update('xuan_mixloan_notice', array('status'=>1), array('id'=>$row['id']));
 			} else {
 				$filed[$row['id']] = $res['message'];
+				pdo_update('xuan_mixloan_notice', array('status'=>-1), array('id'=>$row['id']));
 			}
 		}
 		echo json_encode(['success_count'=>$count, 'filed'=>$filed]);
