@@ -5,12 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-if ($config['vip_channel']) {
-	$agent = m('member')->checkAgent($member['id']);
-	if ($agent['code']!=1) {
-        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
-	}
-}
+$agent = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//首页
 	$advs = m('channel')->getAdvs();
@@ -57,6 +52,11 @@ if($operation=='index'){
 	show_json(1,array_values($list));
 } else if ($operation == 'artical') {
 	//详情
+	if ($config['vip_channel']) {
+		if ($agent['code']!=1) {
+	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+		}
+	}
 	$id = intval($_GPC['id']);
 	if (!$id) {
 		message('id不能为空', '', 'error');
