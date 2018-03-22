@@ -13,7 +13,7 @@ class Xuan_mixloan_Product
         }
         if (!empty($conditon)) {
             foreach ($conditon as $k => $v) {
-                if ($k == 'id' && is_array($v)) {
+                if (is_array($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
                 } else {

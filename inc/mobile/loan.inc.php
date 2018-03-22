@@ -11,6 +11,19 @@ if($operation=='index'){
 	$list = m('loan')->getList();
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
+	foreach ($list as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>2]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($list as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	include $this->template('loan/index');
 } else if ($operation == 'loan_select') {
 	//全部贷款
@@ -21,6 +34,19 @@ if($operation=='index'){
 	if (empty($recommends)) {
 		show_json(-1);
 	}
+	foreach ($recommends as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>2]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($recommends as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	show_json(1, array_values($recommends));
 } else if ($operation == 'loanView') {
 	//更新申请人数
@@ -55,7 +81,17 @@ if($operation=='index'){
 	if (empty($list)) {
 		show_json(-1);
 	} else {
+		foreach ($list as $row) {
+			$ids[] = $row['id'];
+		}
+		$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>2]);
+		foreach ($pros as $pro) {
+			$relate_ids[$pro['relate_id']] = $pro['id'];
+		}
 		foreach ($list as &$row) {
+			if ($relate_ids[$row['id']]) {
+				$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+			}
 			$row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
 		}
 		unset($row);

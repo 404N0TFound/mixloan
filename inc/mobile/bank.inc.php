@@ -69,6 +69,19 @@ if ($operation == 'extend_limit') {
 	$banks = m('bank')->getList();
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
 	$list = m('bank')->getCard($get);
+	foreach ($list as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($list as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	$recommends = m('bank')->getRecommendCard($list);
 	include $this->template('bank/want_subscribe');
 } else if ($operation =='cardView') {
@@ -106,6 +119,19 @@ if ($operation == 'extend_limit') {
 		unset($row);
 	}
 	if (!empty($list)) {
+		foreach ($list as $row) {
+			$ids[] = $row['id'];
+		}
+		$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+		foreach ($pros as $pro) {
+			$relate_ids[$pro['relate_id']] = $pro['id'];
+		}
+		foreach ($list as &$row) {
+			if ($relate_ids[$row['id']]) {
+				$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+			}
+		}
+		unset($row);
 		$list = array_values($list);
 		show_json(1, $list);
 	} else {
@@ -114,19 +140,85 @@ if ($operation == 'extend_limit') {
 } else if ($operation == 'first_card') {
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
 	$cards = m('bank')->getCard($get, ['recommend_type'=>1], FALSE, 6);
+	foreach ($cards as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($cards as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	include $this->template('bank/first_card');
 } else if ($operation == 'fast_card') {
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
+	$cards = m('bank')->getCard($get, ['recommend_type'=>1], FALSE, 6);
+	foreach ($cards as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($cards as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	$cards = m('bank')->getCard($get, ['recommend_type'=>2], FALSE, 10);
 	include $this->template('bank/fast_card');
 } else if ($operation == 'hot_card') {
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
 	$hots = m('bank')->getCard($get, [], 'apply_nums DESC', 6);
+	foreach ($hots as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($hots as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	$cards = m('bank')->getCard($get, ['recommend_type'=>3], FALSE, 6);
+	foreach ($cards as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($cards as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	include $this->template('bank/hot_card');
 } else if ($operation == 'high_card') {
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
 	$cards = m('bank')->getCard($get, ['recommend_type'=>4], FALSE, 6);
+	foreach ($cards as $row) {
+		$ids[] = $row['id'];
+	}
+	$pros = m('product')->getList(['id', 'relate_id'], ['relate_id'=>$ids, 'type'=>1]);
+	foreach ($pros as $pro) {
+		$relate_ids[$pro['relate_id']] = $pro['id'];
+	}
+	foreach ($cards as &$row) {
+		if ($relate_ids[$row['id']]) {
+			$row['ext_info']['url'] = $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$relate_ids[$row['id']]));
+		}
+	}
+	unset($row);
 	include $this->template('bank/high_card');
 } else if ($operation == 'artical') {
 	//详情

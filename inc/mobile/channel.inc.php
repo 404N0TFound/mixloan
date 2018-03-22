@@ -5,8 +5,8 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
+$agent = m('member')->checkAgent($member['id']);
 if ($config['vip_channel']) {
-	$agent = m('member')->checkAgent($member['id']);
 	if ($agent['code']!=1) {
         header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
 	}
@@ -61,6 +61,9 @@ if($operation=='index'){
 	if (!$id) {
 		message('id不能为空', '', 'error');
 	}
+	if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+	}
 	$res = m('channel')->getList([],['id'=>$id]);
 	if (!$res) {
 		message('抱歉，文章已不存在', '', 'error');
@@ -71,6 +74,11 @@ if($operation=='index'){
 		$share_image = $result[1];
 	} else {
 		$share_image = tomedia($config['share_image']);
+	}
+	if ($agent['code'] == 1) {
+		$share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id, 'inviter'=>$member['id']));
+	} else {
+		$share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id));
 	}
 	include $this->template('channel/artical');
 } else if ($operation == 'search') {

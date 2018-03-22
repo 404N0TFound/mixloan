@@ -259,12 +259,15 @@ class Xuan_mixloan_Member
     /**
     *   获取邀请
     **/
-    public function getInviter($phone) {
+    public function getInviter($phone, $openid="") {
         global $_W;
         if (!$phone) {
             return false;
         }
         $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
+        if (!$res && $openid) {
+            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        }
         return $res;
     }
 
@@ -277,5 +280,26 @@ class Xuan_mixloan_Member
         }
         $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_inviter"). " WHERE id=:id", array(":id"=>$uid));
         return $res;
+    }
+
+    /**
+    *   口子进来的锁定上级
+    **/
+    public function checkFirstInviter($openid, $inviter) {
+        global $_W;
+        $res = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 AND qrcid=:qrcid ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"], ":qrcid"=>$inviter));
+        if (!$res) {
+            $insert =array(
+                'uniacid'=>$_W['uniacid'],
+                'acid'=>0,
+                'qid'=>0,
+                'openid'=>$openid,
+                'type'=>1,
+                'qrcid'=>$inviter,
+                'scene_str'=>$inviter,
+                'createtime'=>time(),
+            );
+            pdo_insert('qrcode_stat', $insert);
+        }
     }
 }
