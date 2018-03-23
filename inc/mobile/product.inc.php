@@ -89,6 +89,13 @@ if($operation=='index'){
 	$id = intval($_GPC['id']);
 	$inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
 	$inviter = $inviter_uid ? : intval($_GPC['inviter']);
+	if (!$inviter) {
+		//如果两者都为空，那么判断一下自己是不是代理
+		$agent = m('member')->checkAgent($member['id']);
+		if ($agent['code']==1) {
+			show_json(-1, [], "您不能自己邀请自己");
+		}
+	}
 	if ($inviter == $member['id']) {
 		show_json(-1, [], "您不能自己邀请自己");
 	}
