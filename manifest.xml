@@ -11,6 +11,10 @@
 		<url><![CDATA[http://www.sweetlies.cn]]></url>
 	</application>
 	<platform>
+    <subscribes>
+        <message type="subscribe" />
+        <message type="text" />
+    </subscribes>
 		<handles>
 		</handles>
 		<rule embed="false" />
