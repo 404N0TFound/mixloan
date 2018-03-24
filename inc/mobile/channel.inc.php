@@ -65,6 +65,9 @@ if($operation=='index'){
 	if (!$res) {
 		message('抱歉，文章已不存在', '', 'error');
 	}
+	if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+	}
 	$item = $res[$id];
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
 	// if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
@@ -81,6 +84,11 @@ if($operation=='index'){
 		$share_image = tomedia($item['ext_info']['pic']);
 	} else {
 		$share_image = tomedia($config['share_image']);
+	}
+	if ($agent['code'] == 1) {
+		$share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id, 'inviter'=>$member['id']));
+	} else {
+		$share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id));
 	}
 	include $this->template('channel/artical');
 } else if ($operation == 'search') {

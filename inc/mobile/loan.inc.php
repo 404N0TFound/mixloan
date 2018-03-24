@@ -77,7 +77,7 @@ if($operation=='index'){
     if (empty($id)) {
         show_json(-1, [], "出错了");
     }
-    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
+    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");

@@ -91,7 +91,7 @@ if($operation=='index'){
 } else if ($operation == 'apply_submit') {
     //申请产品
     $id = intval($_GPC['id']);
-    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
+    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");
