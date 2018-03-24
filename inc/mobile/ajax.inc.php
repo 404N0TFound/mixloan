@@ -178,6 +178,38 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'setLevel') {
+	//设置等级
+	$list = pdo_fetchall("SELECT uid FROM ".tablename('xuan_mixloan_product_apply'). ' WHERE degree=1 AND uniacid=:uniacid AND pid=0', array(':uniacid'=>$_W['uniacid']));
+	$result = array(
+		'init'=>count($list),
+		'mid'=>0,
+		'height'=>0
+	);
+	foreach ($list as $row) {
+		//团队多少人
+		$mid_team_arr = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_product_apply'). ' WHERE uniacid=:uniacid AND pid=0 AND inviter=:inviter', array(':inviter'=>$row['uid'], ':uniacid'=>$_W['uniacid']));
+		$mid_team_num = count($mid_team_arr);
+		//直推多少人
+		$mid_buy_num = pdo_fetchcolumn('SELECT count(*) FROM '.tablename('xuan_mixloan_product_apply'). ' WHERE uniacid=:uniacid AND pid=0 AND inviter=:inviter AND degree=1', array(':inviter'=>$row['uid'], ':uniacid'=>$_W['uniacid']));
+		if ($mid_team_num>=$config['mid_team_num'] && $mid_buy_num>=$config['mid_buy_num']) {
+			pdo_update('xuan_mixloan_member', array('level'=>2), array('id'=>$row['uid']));
+			$result['init'] --;
+			$result['mid'] ++;
+			foreach ($mid_team_arr as $value) {
+				$mid_team_uid[] = $value['uid'];
+			}
+			$mid_team_string = '(' . implode(',', $mid_team_uid) . ')';
+			$height_vip_mid = pdo_fetchcolumn('SELECT COUNT(*) FROM '.tablename('xuan_mixloan_member')." WHERE id IN {$mid_team_string} AND level=2");
+			if ($height_vip_mid >= $config['height_vip_mid']) {
+				pdo_update('xuan_mixloan_member', array('level'=>3), array('id'=>$row['uid']));
+				$result['init'] --;
+				$result['mid'] --;
+				$result['height'] ++;
+			}
+		}
+	}
+	echo json_encode($result);
 }
 
 

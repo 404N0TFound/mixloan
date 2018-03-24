@@ -218,19 +218,104 @@
                         <option value="2" {if $item['done_reward_type']==2}selected{/if}>点数</option>
                     </select>
                 </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['done_reward_type']!=1}style="display: none"{/if}>
+            </div>
+            <div class="form-group done_reward_type2"  {if $item['done_reward_type']!=2}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;一级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
-                        <input type="text" class="form-control"  name="data[done_reward_money]" value="{$item['done_reward_money']}" placeholder="请填写固定金额" />
-                        <span class="input-group-addon" >元</span>
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_init_reward_per]" value="{$item['ext_info']['done_one_init_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
                     </div>
+                    <span class="help-block">初级会员奖励</span>
                 </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['done_reward_type']!=2}style="display: none"{/if}>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
-                        <input type="text" class="form-control"  name="data[done_reward_per]" value="{$item['done_reward_per']}" placeholder="请填写点数" />
-                        <span class="input-group-addon" >点</span>
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_mid_reward_per]" value="{$item['ext_info']['done_one_mid_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
                     </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_height_reward_per]" value="{$item['ext_info']['done_one_height_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
                 </div>
             </div>
+            <div class="form-group done_reward_type2"  {if $item['done_reward_type']!=2}style="display: none"{/if} >
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;二级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_init_reward_per]" value="{$item['ext_info']['done_two_init_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_mid_reward_per]" value="{$item['ext_info']['done_two_mid_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_height_reward_per]" value="{$item['ext_info']['done_two_height_reward_per']}" placeholder="请填写点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+            <div class="form-group done_reward_type1"  {if $item['done_reward_type']!=1}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;一级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_init_reward_money]" value="{$item['ext_info']['done_one_init_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_mid_reward_money]" value="{$item['ext_info']['done_one_mid_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_one_height_reward_money]" value="{$item['ext_info']['done_one_height_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+            <div class="form-group done_reward_type1"  {if $item['done_reward_type']!=1}style="display: none"{/if} >
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;二级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_init_reward_money]" value="{$item['ext_info']['done_two_init_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_mid_reward_money]" value="{$item['ext_info']['done_two_mid_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][done_two_height_reward_money]" value="{$item['ext_info']['done_two_height_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册款/卡&nbsp;奖励方式</label>
                 <div class="col-sm-3 col-lg-3 col-xs-12">
@@ -240,19 +325,104 @@
                         <option value="2" {if $item['re_reward_type']==2}selected{/if}>点数</option>
                     </select>
                 </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['re_reward_type']!=1}style="display: none"{/if}>
+            </div>
+            <div class="form-group re_reward_type1"  {if $item['re_reward_type']!=1}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;一级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
-                        <input type="text" class="form-control"  name="data[re_reward_money]" value="{$item['re_reward_money']}" placeholder="请填写固定金额" />
-                        <span class="input-group-addon" >元</span>
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_init_reward_money]" value="{$item['ext_info']['re_one_init_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
                     </div>
+                    <span class="help-block">初级会员奖励</span>
                 </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12"  {if $item['re_reward_type']!=2}style="display: none"{/if}>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
-                        <input type="text" class="form-control"  name="data[re_reward_per]" value="{$item['re_reward_per']}" placeholder="请填写点数" />
-                        <span class="input-group-addon" >点</span>
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_mid_reward_money]" value="{$item['ext_info']['re_one_mid_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
                     </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_height_reward_money]" value="{$item['ext_info']['re_one_height_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
                 </div>
             </div>
+            <div class="form-group re_reward_type1"  {if $item['re_reward_type']!=1}style="display: none"{/if} >
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;二级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_init_reward_money]" value="{$item['ext_info']['re_two_init_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_mid_reward_money]" value="{$item['ext_info']['re_two_mid_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_height_reward_money]" value="{$item['ext_info']['re_two_height_reward_money']}" placeholder="请填写奖励金额" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+            <div class="form-group re_reward_type2"  {if $item['re_reward_type']!=2}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;一级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_init_reward_per]" value="{$item['ext_info']['re_one_init_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_mid_reward_per]" value="{$item['ext_info']['re_one_mid_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_one_height_reward_per]" value="{$item['ext_info']['re_one_height_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+            <div class="form-group re_reward_type2"  {if $item['re_reward_type']!=2}style="display: none"{/if} >
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;二级奖励</label>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_init_reward_per]" value="{$item['ext_info']['re_two_init_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">初级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_mid_reward_per]" value="{$item['ext_info']['re_two_mid_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">中级会员奖励</span>
+                </div>
+                <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][re_two_height_reward_per]" value="{$item['ext_info']['re_two_height_reward_per']}" placeholder="请填写奖励点数" />
+                        <span class="input-group-addon">点</span>
+                    </div>
+                    <span class="help-block">高级会员奖励</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖金</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -387,28 +557,28 @@
     var change_done_type =function (){
         var value = $("select[name='data[done_reward_type]']").val();
         if (value == 1) {
-            $("input[name='data[done_reward_money]']").parent().parent().show(500);
-            $("input[name='data[done_reward_per]']").parent().parent().hide(500);
+            $('.done_reward_type1').show(300);
+            $('.done_reward_type2').hide(300);
         } else if (value == 2) {
-            $("input[name='data[done_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[done_reward_per]']").parent().parent().show(500);
+            $('.done_reward_type1').hide(300);
+            $('.done_reward_type2').show(300);
         } else {
-            $("input[name='data[done_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[done_reward_per]']").parent().parent().hide(500);
+            $('.done_reward_type1').hide(300);
+            $('.done_reward_type2').hide(300);
         }
     }
 
     var change_re_type =function (){
         var value = $("select[name='data[re_reward_type]']").val();
         if (value == 1) {
-            $("input[name='data[re_reward_money]']").parent().parent().show(500);
-            $("input[name='data[re_reward_per]']").parent().parent().hide(500);
+            $('.re_reward_type1').show(300);
+            $('.re_reward_type2').hide(300);
         } else if (value == 2) {
-            $("input[name='data[re_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[re_reward_per]']").parent().parent().show(500);
+            $('.re_reward_type2').show(300);
+            $('.re_reward_type1').hide(300);
         } else {
-            $("input[name='data[re_reward_money]']").hide(500);
-            $("input[name='data[re_reward_per]']").parent().parent().hide(500);
+            $('.re_reward_type1').hide(300);
+            $('.re_reward_type2').hide(300);
         }
     }
     var additional = function (){

@@ -7,6 +7,40 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $card = m('product')->getList([], ['type'=>1], FALSE);
+    $loan = m('product')->getList([], ['type'=>2], FALSE);
+    foreach ($card as &$row) {
+        if ($row['done_reward_type'] == 1) {
+            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_money'] . '元';
+            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
+            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+        } else if ($row['done_reward_type'] == 2) {
+            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_per'] . '点';
+            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
+            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+        } else {
+            $row['ext_info']['init'] = '无奖励';
+            $row['ext_info']['mid'] = '无奖励';
+            $row['ext_info']['height'] = '无奖励';
+        }
+    }
+    unset($row);
+    foreach ($loan as &$row) {
+        if ($row['done_reward_type'] == 1) {
+            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_money'] . '元';
+            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
+            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+        } else if ($row['done_reward_type'] == 2) {
+            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_per'] . '点';
+            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
+            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+        } else {
+            $row['ext_info']['init'] = '无奖励';
+            $row['ext_info']['mid'] = '无奖励';
+            $row['ext_info']['height'] = '无奖励';
+        }
+    }
+    unset($row);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
@@ -26,7 +60,7 @@ if($operation=='index'){
     show_json(1, $arr);
 } else if ($operation == 'info') {
     //产品详情
-    $agent = m('member')->checkAgent($member['id']);
+    $agent = m('member')->checkAgent($member['id'], $config);
     if ($agent['code']==1) {
         $verify = 1;
     } else {
@@ -170,9 +204,17 @@ if($operation=='index'){
             'done_bonus'=>0,
             'extra_bonus'=>0,
             'status'=>$status,
-            'createtime'=>time()
+            'createtime'=>time(),
+            'degree'=>1,
         );
         pdo_insert('xuan_mixloan_product_apply', $insert);
+        $inviter_info = m('member')->getInviterInfo($inviter);
+        $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+        if ($second_inviter) {
+            $insert['inviter'] = $second_inviter;
+            $insert['degree'] = 2;
+            pdo_insert('xuan_mixloan_product_apply', $insert);
+        }
         $redirect_url = $pro['ext_info']['url'];
     } else {
         $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));

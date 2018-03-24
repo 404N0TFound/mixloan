@@ -40,7 +40,7 @@ if ($operation == 'list') {
     message("删除成功", $this->createWebUrl('member'), 'success');
 } else if ($operation == 'agent') {
     //设为代理
-    $res = m('member')->checkAgent($_GPC['id']);
+    $res = m('member')->checkAgent($_GPC['id'], $config);
     if ($res['code'] == 1) {
         message("此会员已经是代理，取消代理可以去“代理会员”取消", "", "error");
     }

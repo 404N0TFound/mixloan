@@ -45,7 +45,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
-				$agent = m('member')->checkAgent($member['id']);
+				$agent = m('member')->checkAgent($member['id'], $config);
 				if ($agent['code'] == 1) {
 					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
 				}

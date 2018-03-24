@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$member['user_type'] = m('member')->checkAgent($member['id']);
+$member['user_type'] = m('member')->checkAgent($member['id'], $config);
 if($operation=='index'){
 	//贷款中心首页
 	$list = m('loan')->getList();
@@ -80,7 +80,7 @@ if($operation=='index'){
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
     if ($inviter == $member['id']) {
-        show_json(-1, [], "您不能自己邀请自己");
+        // show_json(-1, [], "您不能自己邀请自己");
     }
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
@@ -155,6 +155,13 @@ if($operation=='index'){
         'createtime'=>time()
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
+    $inviter_info = m('member')->getInviterInfo($inviter);
+    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    if ($second_inviter) {
+        $insert['inviter'] = $second_inviter;
+        $insert['degree'] = 2;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+    }
     $redirect_url = $pro['ext_info']['url'];
     show_json(1,$redirect_url);
 }
