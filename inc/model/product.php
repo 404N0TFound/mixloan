@@ -330,7 +330,7 @@ class Xuan_mixloan_Product
             return [];
         }
         $ret = [];
-        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} GROUP BY inviter HAVING money<>0 OR inviter<>0 ORDER BY money,count DESC LIMIT 10");
+        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} GROUP BY inviter HAVING money<>0 AND inviter<>0 ORDER BY money,count DESC LIMIT 10");
         foreach ($list as $row) {
             $inviter_ids[] = $row['inviter'];
         }
