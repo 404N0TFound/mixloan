@@ -26,7 +26,7 @@ if($operation=='index'){
 	show_json(1, $arr);
 } else if ($operation == 'info') {
 	//产品详情
-	$agent = m('member')->checkAgent($member['id']);
+	$agent = m('member')->checkAgent($member['id'], $config);
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
@@ -91,7 +91,7 @@ if($operation=='index'){
 	$inviter = $inviter_uid ? : intval($_GPC['inviter']);
 	if (!$inviter) {
 		//如果两者都为空，那么判断一下自己是不是代理
-		$agent = m('member')->checkAgent($member['id']);
+		$agent = m('member')->checkAgent($member['id'], $config);
 		if ($agent['code']==1) {
 			show_json(-1, [], "您不能自己邀请自己");
 		}

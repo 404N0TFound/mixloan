@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='extend_limit';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$member['user_type'] = m('member')->checkAgent($member['id']);
+$member['user_type'] = m('member')->checkAgent($member['id'], $config);
 if ($operation == 'extend_limit') {
 	//提升额度
 	$banks = m('bank')->getList();

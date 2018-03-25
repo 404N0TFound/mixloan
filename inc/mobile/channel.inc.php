@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$agent = m('member')->checkAgent($member['id']);
+$agent = m('member')->checkAgent($member['id'], $config);
 if ($config['vip_channel']) {
 	if ($agent['code']!=1) {
         header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");

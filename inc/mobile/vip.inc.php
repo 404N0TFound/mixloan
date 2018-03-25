@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$agent = m('member')->checkAgent($member['id']);
+$agent = m('member')->checkAgent($member['id'], $config);
 if($operation=='buy'){
 	//购买会员
 	if (!$member['phone']) {
