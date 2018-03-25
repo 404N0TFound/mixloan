@@ -247,11 +247,50 @@ if ($operation == 'list') {
     message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
 } else if ($operation == 'apply_update') {
     //申请编辑
+    //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
     if ($item['pid']) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
+        $agent = m('member')->checkAgent($item['inviter'], $config);
         $info['ext_info'] = json_decode($info['ext_info'], true);
+        if ($agent['level'] == 1) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_init_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_init_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+            }
+        } else if ($agent['level'] == 2) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_mid_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_mid_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_mid_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_mid_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_mid_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_mid_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_mid_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_mid_reward_per'];
+            }
+        } else if ($agent['level'] == 3) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_height_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_height_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_height_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_height_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_height_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_height_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_height_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_height_reward_per'];
+            }
+        }
     } else {
         $info['name'] = '邀请购买代理奖励';
     }

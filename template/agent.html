@@ -265,6 +265,7 @@
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
                     <th style='width:200px;'>邀请时间</th>
+                    <th style='width:80px;'>邀请等级</th>
                     <th style='width:120px;'>状态</th>
                     <th>操作</th>
                 </tr>
@@ -277,6 +278,10 @@
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   
+                        {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
+                        {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}
+                    </td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
                             {else if $row['status']==-1}<span class="label label-warnin">注册失败</span>
                             {else if $row['status']==0}<span class="label label-info">邀请中</span>
@@ -284,7 +289,6 @@
                             {else if $row['status']==2}<span class="label label-success">已完成</span>
                         {/if}</td>
                     <td  style="overflow:visible;">
-                        
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
@@ -316,7 +320,12 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">邀请人</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
-                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px"> {$inviter['nickname']}</p>
+                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px"> 
+                        {$inviter['nickname']}  
+                            {if $itme['degree']==1}<span class="label label-info">一级{$agent['name']}</span
+                            {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
+                            {/if}
+                    </p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static" style="color:red">已邀请成功人数：{$inviter['count']}</p>
@@ -345,7 +354,7 @@
             </div>
             {if $item['pid']}
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品奖励信息</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     <p class="form-control-static">方式：{if $info['count_time']==1}日{else if $info['count_time']==7}周{else}月{/if}结</p>
                 </div>
@@ -373,7 +382,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励信息</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
                 {if $info['ext_info']['is_extra_reward']}
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     {if $info['ext_info']['extra_reward_type'] == 0}
@@ -456,7 +465,6 @@
         </form>
     </div>
 </div>
-
 <script type="text/javascript">
     var change_stauts = function () {
         var value = $("select[name='data[status]']").val();
@@ -473,7 +481,6 @@
         }
     }
 </script>
-
 {else if $operation == 'withdraw_update'}
 <div class="panel panel-info">
     <div class="panel-heading">提现管理</div>

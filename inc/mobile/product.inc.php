@@ -175,6 +175,13 @@ if($operation=='index'){
 		'createtime'=>time()
 	);
 	pdo_insert('xuan_mixloan_product_apply', $insert);
+    $inviter_info = m('member')->getInviterInfo($inviter);
+    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    if ($second_inviter) {
+        $insert['inviter'] = $second_inviter;
+        $insert['degree'] = 2;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+    }
 	show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
 	//客户列表
