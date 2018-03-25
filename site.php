@@ -90,6 +90,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'status'=>2,
 						'createtime'=>time()
 					);
+					pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//模板消息提醒
 					$one_openid = m('user')->getOpenid($inviter);

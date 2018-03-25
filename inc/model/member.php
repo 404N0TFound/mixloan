@@ -250,7 +250,7 @@ class Xuan_mixloan_Member
             } else if ($level == 3) {
                 $name = $config['height_vip_name'];
             }
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id'], 'level'=>$level];
+            return ['code'=>'1','name'=>$name, 'msg'=>$check['msg'], 'id'=>$check['id'], 'level'=>$level];
         } else {
             return ['code'=>'0','name'=>'用户'];
         }
