@@ -286,7 +286,7 @@ class Xuan_mixloan_Member
         if ($uid) {
             return false;
         }
-        $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_inviter"). " WHERE id=:id", array(":id"=>$uid));
+        $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id=:id", array(":id"=>$uid));
         return $res;
     }
 
