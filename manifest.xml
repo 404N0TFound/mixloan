@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `inviter` varchar(30) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `pass` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `level` tinyint(1) NOT NULL DEFAULT 0,
   `area` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

@@ -31,7 +31,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
-				$agent = m('member')->checkAgent($member['id']);
+				$agent = m('member')->checkAgent($member['id'], $config);
 				if ($agent['code'] == 1) {
 					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
 				}
@@ -43,6 +43,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						"fee"=>$fee,
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
+				pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
 				$inviter = m('member')->getInviter($member['phone'], $openid);
 				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(

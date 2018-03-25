@@ -15,9 +15,52 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
     }
-    $sql = 'select a.id,a.uid,b.nickname,b.avatar,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $sql = 'select a.id,a.uid,b.nickname,b.avatar,b.phone,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
+    if ($_GPC['export'] == 1) {
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "代理资料",
+            "columns" => array(
+                array(
+                    'title' => '会员id',
+                    'field' => 'uid',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '会员昵称',
+                    'field' => 'nickname',
+                    'width' => 50
+                ),
+                array(
+                    'title' => '订单号',
+                    'field' => 'tid',
+                    'width' => 50
+                ),
+                array(
+                    'title' => '购买费用',
+                    'field' => 'fee',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '手机号',
+                    'field' => 'phone',
+                    'width' => 50
+                ),
+                array(
+                    'title' => '购买时间',
+                    'field' => 'createtime',
+                    'width' => 50
+                ),
+            )
+        ));
+    }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
@@ -49,16 +92,130 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
         if (!$row['pid']) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
         }
-        $row['inviter'] = pdo_fetch("select avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
+    if ($_GPC['export'] == 1) {
+        foreach ($list as &$row) {
+            if ($row['status'] == -2){
+                $row['status'] = '邀请用户已注册过，不产生佣金';
+            } else if ($row['status'] == -1){
+                $row['status'] = '注册失败';
+            } else if ($row['status'] == 0){
+                $row['status'] = '邀请中';
+            } else if ($row['status'] == 1){
+                $row['status'] = '已注册';
+            } else if ($row['status'] == 1){
+                $row['status'] = '已完成';
+            }
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            if ($row['inviter']) {
+                $row['inviter_name'] = $row['inviter']['nickname'];
+                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+            } else {
+                $row['inviter_name'] = '无';
+                $row['inviter_count'] = 0;
+                $row['inviter_sum'] = 0;
+            }
+            if ($row['count_time'] == 1) {
+                $row['count_time'] = '日结';
+            } else if ($row['count_time'] == 7) {
+                $row['count_time'] = '周结';
+            } else if ($row['count_time'] == 30) {
+                $row['count_time'] = '月结';
+            } else {
+                $row['count_time'] = '现结';
+            }
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "申请资料",
+            "columns" => array(
+                array(
+                    'title' => 'id',
+                    'field' => 'id',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '邀请人',
+                    'field' => 'inviter_name',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '被邀请人',
+                    'field' => 'realname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '关联产品',
+                    'field' => 'name',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '身份证',
+                    'field' => 'certno',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '手机号',
+                    'field' => 'phone',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '结算方式',
+                    'field' => 'count_time',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '下款金额',
+                    'field' => 'relate_money',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '注册奖励',
+                    'field' => 're_bonus',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '下款/卡奖励',
+                    'field' => 'done_bonus',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '额外奖励',
+                    'field' => 'extra_bonus',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '邀请时间',
+                    'field' => 'createtime',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '该产品已成功邀请总数',
+                    'field' => 'inviter_count',
+                    'width' => 30
+                ),
+                array(
+                    'title' => '该产品已邀请下款总额',
+                    'field' => 'inviter_sum',
+                    'width' => 30
+                ),
+            )
+        ));
+        unset($row);
+    }
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {

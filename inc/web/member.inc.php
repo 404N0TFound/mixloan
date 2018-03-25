@@ -22,12 +22,35 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'])['code'];
+            $row['type'] = m('member')->checkAgent($row['id'], $config)['code'];
         }
         unset($row);
     } else {
         $list = pdo_fetchall($sql);
-        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12),)));
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "会员资料",
+            "columns" => array(
+                array(
+                    'title' => '昵称',
+                    'field' => 'nickname',
+                    'width' => 50
+                ),
+                array(
+                    'title' => '手机号',
+                    'field' => 'phone',
+                    'width' => 50
+                ),
+                array(
+                    'title' => '时间',
+                    'field' => 'createtime',
+                    'width' => 50
+                ),
+            )
+        ));
     }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
@@ -40,7 +63,7 @@ if ($operation == 'list') {
     message("删除成功", $this->createWebUrl('member'), 'success');
 } else if ($operation == 'agent') {
     //设为代理
-    $res = m('member')->checkAgent($_GPC['id']);
+    $res = m('member')->checkAgent($_GPC['id'], $config);
     if ($res['code'] == 1) {
         message("此会员已经是代理，取消代理可以去“代理会员”取消", "", "error");
     }

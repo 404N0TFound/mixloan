@@ -27,6 +27,7 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    {if $_W["username"] == 'admin'}<button type="submit" name="export" value="1" class="btn btn-primary">导出 Excel</button>{/if}
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
@@ -194,6 +195,7 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    {if $_W["username"] == 'admin'}<button type="submit" name="export" value="1" class="btn btn-primary">导出 Excel</button>{/if}
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>

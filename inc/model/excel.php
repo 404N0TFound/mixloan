@@ -146,6 +146,7 @@ class Xuan_mixloan_Excel
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment;filename="' . $filename . '.xls"');
         header('Cache-Control: max-age=0');
+        header("Content-type:text/html;charset=utf-8");
         $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
         $writer->save('php://output');
         exit;

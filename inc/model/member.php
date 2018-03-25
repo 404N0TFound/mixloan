@@ -236,13 +236,21 @@ class Xuan_mixloan_Member
             }
         }
     }
-    /*
+     /*
     *   查看是否加入过代理
     */
-    function checkAgent($uid) {
+    function checkAgent($uid, $config) {
         $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
         if ($check) {
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            $level = pdo_fetchcolumn("SELECT level FROM ".tablename("xuan_mixloan_member"). " WHERE id=:id", array(':id'=>$uid));
+            if ($level == 1) {
+                $name = $config['init_vip_name'];
+            } else if ($level == 2) {
+                $name = $config['mid_vip_name'];
+            } else if ($level == 3) {
+                $name = $config['height_vip_name'];
+            }
+            return ['code'=>'1','name'=>$name, 'msg'=>$check['msg'], 'id'=>$check['id'], 'level'=>$level];
         } else {
             return ['code'=>'0','name'=>'用户'];
         }
@@ -301,5 +309,17 @@ class Xuan_mixloan_Member
             );
             pdo_insert('qrcode_stat', $insert);
         }
+    }
+
+    
+   /**
+    *   获取用户手机号和openid
+    **/
+    public function getInviterInfo($uid) {
+        if (!$uid) {
+            return false;
+        }
+        $res = pdo_fetch("SELECT phone,openid FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        return $res;
     }
 }
