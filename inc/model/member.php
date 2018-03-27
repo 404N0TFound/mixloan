@@ -301,4 +301,14 @@ class Xuan_mixloan_Member
             pdo_insert('qrcode_stat', $insert);
         }
     }
+    /**
+    *   获取用户手机号和openid
+    **/
+    public function getInviterInfo($uid) {
+        if (!$uid) {
+            return false;
+        }
+        $res = pdo_fetch("SELECT phone,openid FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        return $res;
+    }
 }
