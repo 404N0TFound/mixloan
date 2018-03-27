@@ -40,9 +40,19 @@ if ($operation == 'list') {
                     'width' => 50
                 ),
                 array(
+                    'title' => '姓名',
+                    'field' => 'realname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '身份证',
+                    'field' => 'certno',
+                    'width' => 30
+                ),
+                array(
                     'title' => '手机号',
                     'field' => 'phone',
-                    'width' => 50
+                    'width' => 30
                 ),
                 array(
                     'title' => '时间',

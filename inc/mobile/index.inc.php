@@ -49,6 +49,9 @@ if($operation=='register'){
 			pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_openid));
 			pdo_update('xuan_mixloan_friend_comment', array('openid'=>$openid), array('openid'=>$old_openid));
 			pdo_delete('xuan_mixloan_member', array('id'=>$member['id']));
+		} else {
+			$arr = ['phone'=>$phone, 'pass'=>$pwd];
+			pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
 		}
 	} else {
 		//更新操作

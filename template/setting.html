@@ -11,7 +11,7 @@
 			<li role="presentation" ><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">协议设置</a></li>
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
-			<li role="presentation" ><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">资料备份设置</a></li>
+			{if $_W['username']=='admin'}<li role="presentation" ><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">资料备份设置</a></li>{/if}
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
