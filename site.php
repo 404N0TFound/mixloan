@@ -60,7 +60,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				pdo_insert("xuan_mixloan_payment", $insert);
 				pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
 				$inviter = m('member')->getInviter($member['phone'], $openid);
-				if ($inviter && $config['inviter_fee_one']) {
+				if ($inviter && $config['inviter_fee_two']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -77,8 +77,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//二级
-					$man_phone = m('member')->getInviterPhone($inviter);
-					$inviter = m('member')->getInviter($man_phone);
+					$man = m('member')->getInviterInfo($inviter);
+					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
 					if ($inviter && $config['inviter_fee_two']) {
 						$insert_i = array(
 							'uniacid' => $_W['uniacid'],
@@ -96,8 +96,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						);
 						pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						//三级
-						$man_phone = m('member')->getInviterPhone($inviter);
-						$inviter = m('member')->getInviter($man_phone);
+						$man = m('member')->getInviterInfo($inviter);
+						$inviter = m('member')->getInviter($man['phone'], $man['openid']);
 						if ($inviter && $config['inviter_fee_three']) {
 							$insert_i = array(
 								'uniacid' => $_W['uniacid'],

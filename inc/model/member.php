@@ -283,7 +283,7 @@ class Xuan_mixloan_Member
     *   获取用户手机号
     **/
     public function getInviterPhone($uid) {
-        if ($uid) {
+        if (empty($uid)) {
             return false;
         }
         $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id=:id", array(":id"=>$uid));
