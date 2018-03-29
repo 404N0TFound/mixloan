@@ -177,9 +177,6 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
-	if ($bonus < 30) {
-		show_json(-1, null, "提现最低限额为30元哦");
-	}
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
@@ -188,6 +185,9 @@ if($operation=='buy'){
 	$use = $all - $used;
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
+	}
+	if ($bonus < 30) {
+		show_json(-1, null, "提现最低限额为30元哦");
 	}
 	$bank = pdo_fetch('SELECT * FROM '.tablename('xuan_mixloan_creditCard').' WHERE id=:id', array(':id'=>$bank_id));
 	$bank_code = m('pay')->getBankCode($bank['bankname']);
