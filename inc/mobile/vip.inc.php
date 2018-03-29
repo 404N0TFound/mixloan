@@ -177,6 +177,9 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
+	if ($bonus < 30) {
+		show_json(-1, null, "提现最低限额为30元哦");
+	}
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
