@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,12 +32,12 @@
         .dropload-down{text-align: center;padding:1% 0;color:#949494;font-size:12px;}
     </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body class="bglightgray">
 
 <div class="agent-foot texttotal agent-footer">
-    <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
+    <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>最新口子</span></p></a>
     <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
     <a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
 </div>
@@ -54,9 +52,103 @@
                 </div>
             <div class="swiper-pagination pro-pagination"></div>
             </div>
-           
             <!-- 口子文章循环 -->
-            <div class="loan-lists loan-main-lists">
+            <div class="loan-lists">
+                {loop $channel_list $channel}
+                <div class="loan-list">                
+                    <div class="loan-main"> 
+                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$channel['id']))}">
+                            <span class="fl"><img class="lazy" data-attr="{$channel['ext_info']['pic']}" src="{$channel['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
+                            <h3>{$channel['title']}</h3>
+                            <!-- <p class="sub-content"></p> -->
+                            <p class="time-ad">{$channel['createtime']}</p>
+                            <p class="readerNo">{$channel['apply_nums']}人已学习</p>
+                        </a>                
+                    </div>                
+                </div>   
+                {/loop}       
+            </div>
+            <!-- 信用卡 -->
+            <div class="loan-list special_article new_course">
+                <div class="new_courseDirect"><label></label><span>信用卡</span><a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}">全部></a></div>
+                <div class="loan-main">
+                    <img class="lazy" data-attr="../addons/xuan_mixloan/template/style/picture/5a54ace58b937.png" src="../addons/xuan_mixloan/template/style/picture/pre_img2_1.png" width="100%" />
+                    <p>
+                    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}">去学习</a>
+                    </p>
+                </div>
+            </div>
+            <!-- 口子文章循环 -->
+            <div class="loan-lists">
+                {loop $credit_list $credit}
+                <div class="loan-list">                
+                    <div class="loan-main"> 
+                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$credit['id']))}">
+                            <span class="fl"><img class="lazy" data-attr="{$credit['ext_info']['pic']}" src="{$credit['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
+                            <h3>{$credit['title']}</h3>
+                            <p class="time-ad">{$credit['createtime']}</p>
+                            <p class="readerNo">{$credit['apply_nums']}人已学习</p>
+                        </a>                
+                    </div>                
+                </div>   
+                {/loop}               
+            </div>    
+            <!-- 新手教程 -->
+            <div class="loan-list special_article new_course">
+                <div class="new_courseDirect"><label></label><span>新手教程</span><a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}">全部></a></div>
+                <div class="loan-main">
+                    <img class="lazy" data-attr="../addons/xuan_mixloan/template/style/picture/5a54acf785a9b.png" src="../addons/xuan_mixloan/template/style/picture/pre_img2_1.png" width="100%" />
+                    <p>
+                    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}">去学习</a>                
+                    </p>
+                </div>
+            </div>
+            <!-- 口子文章循环 -->
+            <div class="loan-lists">
+                {loop $course_list $course}
+                <div class="loan-list">                
+                    <div class="loan-main"> 
+                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">
+                            <span class="fl"><img class="lazy" data-attr="{$course['ext_info']['pic']}" src="{$course['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
+                            <h3>{$course['title']}</h3>
+                            <p class="time-ad">{$course['createtime']}</p>
+                            <p class="readerNo">{$course['apply_nums']}人已学习</p>
+                        </a>                
+                    </div>                
+                </div>   
+                {/loop}   
+             </div>
+            <!-- 热点文章 -->
+            <div class="kouzi_hotarticle">
+                <img class="lazy" data-attr="../addons/xuan_mixloan/template/style/picture/5a0e5519cf718.png" src="../addons/xuan_mixloan/template/style/picture/pre_img2_1.png" width="100%" />
+                <div class="hotarticle_deputy">
+                    <ul>
+                        {loop $hot_list $hot}
+                        <li>
+                            <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$hot['id']))}">                            
+                                <span class="hotarticle">
+                                   <b>{$hot['apply_nums']}人</b>
+                                   <b>已学习</b>
+                                </span>
+                                <h3>{$hot['title']}</h3>
+                            </a>                                
+                        </li>  
+                        {/loop}                    
+                        <li class="more_hotarticle"><a>查看更多</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 专题 -->
+            <div class="swiper-container pro-swiper">
+                <div class="swiper-wrapper">
+                {loop $subjects $subject}
+                <div class="swiper-slide" style="width:90%;"><a id="topic" class="topic" data-id="{$subject['id']}"><img src="{php echo tomedia($subject['ext_info']['pic'])}" width="100%" alt=""></a></div>
+                {/loop}
+                </div>
+            <div class="swiper-pagination pro-pagination"></div>
+            </div>
+            <!-- 口子文章循环 -->
+            <div class="loan-lists">
                 {loop $channel_low_list $low}
                 <div class="loan-list">                
                     <div class="loan-main"> 
@@ -96,7 +188,6 @@ var mySwiper = new Swiper('.pro-swiper', {
         // slidesOffsetBefore : swiper_gap,
         // slidesOffsetAfter : swiper_gap,
         // pagination: '.pro-pagination',
-
     });
 var mySwiper = new Swiper('.topic-swiper', {
         autoplay: 5000,//可选选项，自动滑动
@@ -115,7 +206,6 @@ $(function() {
     // $('img.lazy').trigger('appear');
     $("img.lazy").lazyload();
 });
-
 function share_style(){
     var window_height=$(window).height();
     var window_width=$(window).width();
@@ -133,7 +223,7 @@ $("div.no_remind label").click(function(){
     }    
 })
 var kouziFlag="kouzi";
-var rollcount={$low['id']};
+var rollcount=0;
 $(document).ready(function(){
     //定位margin-top
     var li_length=$("#head-scroll ul li").length;
@@ -167,7 +257,6 @@ $(document).ready(function(){
     if($("div#wrapper").hasClass("ready_load")){
         dropload();
     }
-
     function dropload(){
         $('#wrapper').dropload({
             scrollArea : $('#wrapper'),
@@ -194,7 +283,7 @@ $(document).ready(function(){
                                 var _reader=content[i].apply_nums;
                                 var _urlId=content[i].id;
                                 var stress=content[i].stress;//判断是否为重点文章图
-                                rollcount = content[i].id;
+                                rollcount = content[i].subject_id;
                                 if(stress=="1"){
                                     $("div.scroller").append("<div class=\"loan-list special_article vip_article\">"
                                                                     + "<div class=\"loan-main\">"
@@ -224,7 +313,6 @@ $(document).ready(function(){
                                         me.resetload();                                  
                                 }
                             }
-
                         }else if(data.code=="-1"){
                             me.lock();
                             $("div.dropload-down").html("");
@@ -234,9 +322,7 @@ $(document).ready(function(){
             }
         });
     }
-
 })
-
 //点击进入热点文章
 $(".more_hotarticle a").click(function(){
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'hot'))}";
