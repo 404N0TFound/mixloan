@@ -27,18 +27,31 @@ if($operation=='register'){
 		show_json(-1, null, "手机已绑定");
 	}
 	//邀请处理
-	$qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-	if ($qrcid) {
-		$res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone AND uid=:uid ORDER BY id DESC",array(":uid"=>$qrcid,":phone"=>$phone));
-		if (!$res_i && $qrcid!=$member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $qrcid,
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
+	$inviter = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone ORDER BY id DESC",array(":phone"=>$phone));
+	$qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id ASC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+	if ($inviter) {
+		if ($inviter != $qrcid) {
+			pdo_update('qrcode_stat', array('type'=>2), array('openid'=>$openid));
+			$insert =array(
+                'uniacid'=>$_W['uniacid'],
+                'acid'=>0,
+                'qid'=>0,
+                'openid'=>$openid,
+                'type'=>1,
+                'qrcid'=>$inviter,
+                'scene_str'=>$inviter,
+                'createtime'=>time(),
+            );
+            pdo_insert('qrcode_stat', $insert);
 		}
+	} else {
+		$insert_i = array(
+			'uniacid' => $_W['uniacid'],
+			'uid' => $qrcid,
+			'phone' => $phone,
+			'createtime' => time(),
+		);
+		pdo_insert('xuan_mixloan_inviter', $insert_i);
 	}
 	if ($config['backup'] == 1) {
 		//开启备份

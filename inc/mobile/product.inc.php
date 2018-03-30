@@ -155,6 +155,19 @@ if($operation=='index'){
 				'createtime' => time()
 			);
 			pdo_insert('xuan_mixloan_inviter', $insert_i);
+			if (!empty($openid)) {
+				$insert =array(
+	                'uniacid'=>$_W['uniacid'],
+	                'acid'=>0,
+	                'qid'=>0,
+	                'openid'=>$openid,
+	                'type'=>1,
+	                'qrcid'=>$inviter,
+	                'scene_str'=>$inviter,
+	                'createtime'=>time(),
+	            );
+	            pdo_insert('qrcode_stat', $insert);
+			}
 		}
 		$status = 0;
 	} else {

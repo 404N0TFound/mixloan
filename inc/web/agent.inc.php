@@ -20,6 +20,27 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $first_teams = pdo_fetchall("SELECT b.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid={$row['uid']} AND a.type=1 GROUP BY a.openid");
+        $row['count_nums'] = count($first_teams);
+        if ($first_teams) {
+            $two_team_openids = [];
+            $two_team_ids = [];
+            foreach ($first_teams as $value) {
+                if ($value['id']) {
+                    $two_team_ids[] = $value['id'];
+                    $two_team_openids[] = $value['openid'];
+                }
+            }
+            if ($two_team_ids) {
+                $two_team_openids_string = "('" . implode("','", $two_team_openids) . "')"; 
+                $two_team_ids_string = '(' . implode(',', $two_team_ids) . ')';
+                $two_team_nums = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string} AND a.type=1 GROUP BY a.openid");
+                $row['count_nums'] += $two_team_nums;  
+            }
+        } 
+    }
+    unset($row);
     if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
@@ -325,6 +346,52 @@ if ($operation == 'list') {
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    }
+} else if ($operation == 'below_list') {
+    //查看下级
+    $uid = intval($_GPC['uid']);
+    $first_teams = pdo_fetchall("SELECT a.createtime,a.openid,b.id,b.nickname,b.avatar FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid={$uid} AND a.type=1 GROUP BY a.openid");
+    if ($first_teams) {
+        $two_team_openids = [];
+        $tow_team_ids = [];
+        foreach ($first_teams as &$value) {
+            $value['agent'] = m('member')->checkAgent($value['id'], $config);
+            if ($value['id']) {
+                $two_team_ids[] = $value['id'];
+                $two_team_openids[] = $value['openid'];
+            } else {
+                $uid = mc_openid2uid($value['openid']);
+                $fans = mc_fetch($uid, array(
+                    'avatar',
+                    'nickname'
+                ));
+                $value['nickname'] = $fans['nickname'];
+                $value['avatar'] = $fans['avatar'];
+            }
+        }
+        unset($value);
+        if ($two_team_ids) {
+            $two_team_openids_string = "('" . implode("','", $two_team_openids) . "')"; 
+            $two_team_ids_string = '(' . implode(',', $two_team_ids) . ')';
+            $two_teams = pdo_fetchall("SELECT a.createtime,b.id,b.nickname,b.avatar,b.phone,a.openid FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string}AND a.type=1 GROUP BY a.openid");
+            if ($two_teams) {
+                foreach ($two_teams as &$value) {
+                    $value['agent'] = m('member')->checkAgent($value['id'], $config);
+                    if ($value['id']) {
+                        $uid = mc_openid2uid($value['openid']);
+                        $fans = mc_fetch($uid, array(
+                            'avatar',
+                            'nickname'
+                        ));
+                        $value['nickname'] = $fans['nickname'];
+                        $value['avatar'] = $fans['avatar'];
+                        $inviter = m('member')->getInviter($value['phone'], $value['openid']);
+                        $value['inviter'] = pdo_fetch('SELECT nickname,avatar FROM '.tablename('xuan_mixloan_member').' WHERE id=:id',array(':id'=>$inviter));
+                    }
+                }
+                unset($value);
+            }
+        }
     }
 }
 include $this->template('agent');
