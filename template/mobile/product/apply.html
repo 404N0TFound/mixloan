@@ -135,7 +135,7 @@ $("#to_apply").click(function(){
 })   
 
 function upSubmit() {
-    $("#to_apply").unbind('click');
+    // $("#to_apply").unbind('click');
     var _name=$("#applyname").val();
     var phone =$("#phone").val();
     var idcard =$("#idcard").val();
@@ -195,19 +195,6 @@ function upSubmit() {
                 click();
                 return false;
             }
-        }
-        if(smscode=='' || smscode=="请输入短信验证码"){
-            document.getElementById('smscode').focus();
-
-            layer.tips('请输入短信验证码', '#smscode', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            click();
-            return false;
         }
         if (idcard == '请输入身份证号' || idcard == '') {
             document.getElementById('idcard').focus();
