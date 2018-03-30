@@ -164,7 +164,7 @@ if($operation=='index'){
             'phone' => trim($_GPC['phone']),
             'certno' => trim($_GPC['idcard']),
             'realname' => trim($_GPC['name']),
-            'pid' => $id,
+            'relate_id' => $id,
             'inviter' => $inviter,
             're_bonus'=>0,
             'done_bonus'=>0,

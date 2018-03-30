@@ -78,11 +78,11 @@ class Xuan_mixloan_Product
         }
         if (!empty($conditon)) {
             foreach ($conditon as $k => $v) {
-                if ($k == 'id' && is_array($v)) {
+                if (is_array($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
                 } else if ($k == 'la_status'){
-                    $wheres .= " AND `status` > ({$v})";
+                    $wheres .= " AND `status` > {$v}";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -267,7 +267,7 @@ class Xuan_mixloan_Product
         $wheres = "";
         if (!empty($product_ids) && !is_array($product_ids)) {
             $id_string = implode(',', $product_ids);
-            $wheres .= "AND pid IN ({$id_string})";
+            $wheres .= "AND relate_id IN ({$id_string}) AND type=1";
         }
         $ret = [];
         $inviter = (int)$params['inviter'];
@@ -277,20 +277,20 @@ class Xuan_mixloan_Product
             $wheres .= " AND createtime>={$begin} AND createtime<={$end}";
         }
         if ($type == 1) {
-            $fields = "pid, COUNT(1) AS count";
+            $fields = "relate_id, COUNT(1) AS count";
             $wheres .= " AND status<>-2";
         } else if ($type == 2) {
-            $fields = "pid, COUNT(1) AS count, SUM(relate_money) AS relate_money";
+            $fields = "relate_id, COUNT(1) AS count, SUM(relate_money) AS relate_money";
             $wheres .= " AND status>1";
         } else if ($type == 3) {
-            $fields .= "pid, SUM(re_bonus+done_bonus+extra_bonus) AS bonus";
+            $fields .= "relate_id, SUM(re_bonus+done_bonus+extra_bonus) AS bonus";
             $wheres .= " AND status>1";
         }
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$inviter} {$wheres} GROUP BY pid";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$inviter} {$wheres} GROUP BY relate_id";
         $list = pdo_fetchall($sql);
         if ($list) {
             foreach ($list as $key => $value) {
-                $ret[$value['pid']] = $value;
+                $ret[$value['relate_id']] = $value;
             }
         } 
         return $ret;
@@ -305,7 +305,7 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
         $fields = "COUNT(1) AS count";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND type=1";
         $res = pdo_fetchcolumn($sql);
         if (!$res) {
             $count = 0;
@@ -330,7 +330,7 @@ class Xuan_mixloan_Product
             return [];
         }
         $ret = [];
-        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_bonus")." WHERE pid={$id} GROUP BY inviter HAVING money<>0 AND inviter<>0 ORDER BY money,count DESC LIMIT 10");
+        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_bonus")." WHERE relate_id={$id} AND type=1 GROUP BY inviter HAVING money<>0 AND inviter<>0 ORDER BY money,count DESC LIMIT 10");
         foreach ($list as $row) {
             $inviter_ids[] = $row['inviter'];
         }

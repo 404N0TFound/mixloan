@@ -6,6 +6,7 @@
     <li {if $operation == 'subject_update' || $operation == 'subject_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'subject_add'));}">添加/编辑&nbsp;专题</a></li>
     <li {if $operation=='advs_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'advs_list'));}">幻灯片列表</a></li>
     <li {if $operation == 'advs_update' || $operation == 'advs_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'advs_add'));}">添加/编辑&nbsp;幻灯片</a></li>
+    <li {if $operation == 'buy_record'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'buy_record'));}">购买记录</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -65,6 +66,7 @@
                                 
                                 <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'update','id' => $row['id']));}" title='编辑口子'><i class='fa fa-edit'></i> 编辑口子</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'delete','id' => $row['id']));}" title='删除口子' onclick="return confirm('确定要删除该口子吗？');"><i class='fa fa-remove'></i> 删除口子</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'buy_record','id' => $row['id']));}" title='编辑口子'><i class='fa fa-book'></i> 口子购买记录</a></li>
                             </ul>
                         </div>
                         
@@ -105,6 +107,87 @@
                                 
                                 <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'advs_update','id' => $row['id']));}" title='编辑广告'><i class='fa fa-edit'></i> 编辑广告</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'advs_delete','id' => $row['id']));}" title='删除广告' onclick="return confirm('确定要删除该广告吗？');"><i class='fa fa-remove'></i> 删除广告</a></li>
+                            </ul>
+                        </div>
+                        
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'buy_record'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="channel" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$id}" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">口子名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="title" value="{$_GPC['title']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员昵称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="nickname" value="{$_GPC['nickname']}"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>id</th>
+                    <th style='width:120px;'>口子标题</th>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:120px;'>订单号</th>
+                    <th style='width:120px;'>付费</th>
+                    <th style='width:200px;'>购买时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody style="overflow: hidden;">
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td style="width: 100px">   {$row['title']}</td>
+                    <td>   <img src="{$row['avatar']}" width="30px">&nbsp;&nbsp;{$row['nickname']}</td>
+                    <td>   {$row['tid']}</td>
+                    <td>   {$row['fee']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'buy_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('删除记录后会员无法查看该文章，确定吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
                             </ul>
                         </div>
                         
@@ -218,6 +301,16 @@
                 </div>
             </div>
 
+            <div class="form-group"}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">用户是否能查看</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[ext_info][no_permission]">
+                        <option value="0" {if $item['ext_info']['no_permission']==0}seleted{/if}>否</option>
+                        <option value="1" {if $item['ext_info']['no_permission']==1}seleted{/if}>是</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">查看付费</label>
                 <div class="col-sm-3 col-lg-3 col-xs-12">
@@ -225,21 +318,21 @@
                         <input type="text" class="form-control"  name="data[ext_info][no_fee]" value="{$item['ext_info']['no_fee']}" />
                         <span class="input-group-addon">元</span>
                     </div>
-                    <span class="help-block">普通会员</span>
+                    <span class="help-block">用户</span>
                 </div>
                 <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
                         <input type="text" class="form-control"  name="data[ext_info][init_fee]" value="{$item['ext_info']['init_fee']}" />
                         <span class="input-group-addon">元</span>
                     </div>
-                    <span class="help-block">初级代理</span>
+                    <span class="help-block">会员</span>
                 </div>
                 <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
                         <input type="text" class="form-control"  name="data[ext_info][mid_fee]" value="{$item['ext_info']['mid_fee']}" />
                         <span class="input-group-addon">元</span>
                     </div>
-                    <span class="help-block">高级代理</span>
+                    <span class="help-block">代理</span>
                 </div>
             </div>
 
@@ -250,14 +343,14 @@
                         <input type="text" class="form-control"  name="data[ext_info][init_fee_back]" value="{$item['ext_info']['init_fee_back']}" />
                         <span class="input-group-addon">%</span>
                     </div>
-                    <span class="help-block">给初级代理返佣比例</span>
+                    <span class="help-block">给会员返佣比例</span>
                 </div>
                 <div class="col-sm-4 col-lg-4 col-xs-12">
                     <div class="input-group">
                         <input type="text" class="form-control"  name="data[ext_info][mid_fee_back]" value="{$item['ext_info']['mid_fee_back']}" />
                         <span class="input-group-addon">%</span>
                     </div>
-                    <span class="help-block">给高级代理返佣比例</span>
+                    <span class="help-block">给代理返佣比例</span>
                 </div>
             </div>
                        

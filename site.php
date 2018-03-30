@@ -117,8 +117,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'status'=>2,
 								'createtime'=>time(),
 								'degree'=>3,
-								'type'=>2,
-								'relate_id'=>$cid
+								'type'=>2
 							);
 							pdo_insert('xuan_mixloan_bonus', $insert_i);
 						}
@@ -166,7 +165,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'status'=>2,
 						'createtime'=>time(),
 						'degree'=>1,
-						'type'=>3
+						'type'=>3,
+						'relate_id'=>$cid
 					);
 					pdo_insert('xuan_mixloan_bonus', $insert_i);
 				}

@@ -24,7 +24,7 @@ if ($operation == 'list') {
     //申请列表
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = '';
+    $wheres = $join = '';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['realname']}%'";
     }
@@ -32,10 +32,19 @@ if ($operation == 'list') {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
     if (!empty($_GPC['type'])) {
-        $wheres.= " AND c.type='{$_GPC['type']}'";
+        $wheres.= " AND a.type='{$_GPC['type']}'";
     }
-    if (!empty($_GPC['relate_id'])) {
+    if ($_GPC['type'] == 1 && !empty($_GPC['p_type'])) {
+        $join .= " LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.relate_id=c.id";
+        $wheres.= " AND c.type='{$_GPC['p_type']}'";
+    }
+    if ($_GPC['type'] == 1 && !empty($_GPC['relate_id'])) {
+        $join .= " LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.relate_id=c.id";
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+    }
+    if ($_GPC['type'] == 3 && !empty($_GPC['title'])) {
+        $join .= " LEFT JOIN ".tablename("xuan_mixloan_channel")." c ON a.relate_id=c.id";
+        $wheres.= " AND c.title LIKE '%{$_GPC['title']}%'";
     }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
@@ -49,17 +58,21 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.*,b.avatar from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id {$join} where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 3) {
+            $row['name'] = '邀请购买文章';
+        } else {
+            $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
         $row['inviter'] = pdo_fetch("select avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id {$join} where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
@@ -97,15 +110,21 @@ if ($operation == 'list') {
     //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_bonus"). " where id={$id}");
-    if ($item['pid']) {
-        $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
+    if ($item['type'] == 1) {
+        $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['relate_id']));
         $info['ext_info'] = json_decode($info['ext_info'], true);
-    } else {
+    } else if ($item['type'] == 2) {
+        $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         $info['name'] = '邀请购买代理奖励';
+    } else {
+        $info = pdo_fetch('SELECT * FROM '.tablename('xuan_mixloan_channel').' WHERE id=:id', array(':id'=>$item['relate_id']));
+        $info['ext_info'] = json_decode($info['ext_info'], 1);
+        $info['ext_info']['logo'] = tomedia($info['ext_info']['pic']);
+        $info['name'] = $info['title'];
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
-    $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
-    $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
+    $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
+    $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
         pdo_update('xuan_mixloan_bonus', $_GPC['data'], array('id'=>$item['id']));

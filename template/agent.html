@@ -173,16 +173,33 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">返佣类型</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="type" onchange="change_s()">
-                        <option value="0">选择产品类型</option>
-                        <option value="1" {if $_GPC['type']==1}selected{/if}>信用卡</option>
-                        <option value="2" {if $_GPC['type']==2}selected{/if}>贷款</option>
+                    <select class="form-control" name="type" onchange="change_f()">
+                        <option value="0">选择返佣类型</option>
+                        <option value="1" {if $_GPC['type']==1}selected{/if}>产品</option>
+                        <option value="2" {if $_GPC['type']==2}selected{/if}>购买会员</option>
+                        <option value="3" {if $_GPC['type']==3}selected{/if}>购买文章</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" {if $_GPC['type']!=3}style="display: none"{/if} id='c_title'>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">口子标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="title" value="{$_GPC['title']}"/>
+                </div>
+            </div>
+            <div class="form-group" {if $_GPC['type']!=1}style="display: none"{/if} id='p_type'>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="p_type" onchange="change_s()">
+                        <option value="0">选择产品类型</option>
+                        <option value="1" {if $_GPC['p_type']==1}selected{/if}>信用卡</option>
+                        <option value="2" {if $_GPC['p_type']==2}selected{/if}>贷款</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group" {if $_GPC['type']!=1}style="display: none"{/if} id='relate_id'>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关联产品</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="relate_id">
@@ -198,15 +215,31 @@
                 </div>
             </div>
             <script type="text/javascript">
+                var change_f = function (){
+                    var value = $("select[name='type']").val();
+                    if (value == 1) {
+                        $('#c_title').hide(300);
+                        $('#p_type').show(300);
+                        $('#relate_id').show(300);
+                    } else if (value == 3) {
+                        $('#c_title').show(300);
+                        $('#p_type').hide(300);
+                        $('#relate_id').hide(300);
+                    } else {
+                        $('#c_title').hide(300);
+                        $('#p_type').hide(300);
+                        $('#relate_id').hide(300);
+                    }
+                }
                 var change_s = function (){
                     var c_json = {$c_json};
                     var s_json = {$s_json};
-                    var value = $("select[name='type']").val();
+                    var value = $("select[name='p_type']").val();
                     console.log(value);
                     if (value == 1) {
                         if (isEmptyObject(c_json)) {
                             $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
+                            $("select[name='relate_id']").parent().parent().hide(300);
                             alert('请先在银行管理中添加卡');
                             return false;
                         }
@@ -214,13 +247,13 @@
                     } else if (value == 2) {
                         if (isEmptyObject(s_json)) {
                             $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
+                            $("select[name='relate_id']").parent().parent().hide(300);
                             alert('请先在贷款超市中添加贷款');
                             return false;
                         }
                         change_c(s_json)
                     } else {
-                        $("select[name='relate_id']").parent().parent().hide(500);
+                        $("select[name='relate_id']").parent().parent().hide(300);
                     }
                 }
                 var change_c = function(a_json) {
@@ -237,7 +270,7 @@
                     }
                     $("select[name='relate_id']").html("");
                     $("select[name='relate_id']").html(a_html);
-                    $("select[name='relate_id']").parent().parent().show(500);
+                    $("select[name='relate_id']").parent().parent().show(300);
                 }
                 function isEmptyObject(e) {  
                     var t;  
@@ -262,6 +295,7 @@
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
+                    <th style='width:40px;'>等级</th>
                     <th style='width:200px;'>邀请时间</th>
                     <th style='width:120px;'>状态</th>
                     <th>操作</th>
@@ -274,6 +308,7 @@
                     <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
+                    <td>   {if $row['degree']==1}<span class="label label-success">一级</span>{else if $row['degree']==2}<span class="label label-primary">二级</span>{else if $row['degree']==3}<span class="label label-info">三级</span>{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
                             {else if $row['status']==-1}<span class="label label-warnin">注册失败</span>
@@ -319,9 +354,13 @@
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static" style="color:red">已邀请成功人数：{$inviter['count']}</p>
                 </div>
-                <div class="col-sm-3 col-lg-4 col-xs-12">
-                    <p class="form-control-static" style="color:red">已邀请下款：{$inviter['sum']}</p>
-                </div>
+                {if $item['type'] == 1}
+                    {if $info['type'] == 2}
+                    <div class="col-sm-3 col-lg-4 col-xs-12">
+                        <p class="form-control-static" style="color:red">已邀请下款：{$inviter['sum']}</p>
+                    </div>
+                    {/if}
+                {/if}
             </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">被邀请人</label>
@@ -331,9 +370,11 @@
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">手机：{$item['phone']}</p>
                 </div>
+                {if $item['type'] == 1}
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">身份证：{$item['certno']}</p>
                 </div>
+                {/if}
             </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品信息</label>
@@ -341,7 +382,7 @@
                     <p class="form-control-static"><img src="{php echo tomedia($info['ext_info']['logo']);}" width="30px"> {$info['name']}</p>
                 </div>
             </div>
-            {if $item['pid']}
+            {if $item['type'] == 1}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
@@ -406,23 +447,25 @@
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[status]" onchange="change_stauts()">
                         <option value="-1" {if $item['status']==-1}selected{/if}>注册失败</option>
-                        {if $item['pid'] !=0}
+                        {if $item['type'] == 1}
                         <option value="0" {if $item['status']==0}selected{/if}>邀请中</option>
                         <option value="1" {if $item['status']==1}selected{/if}>已注册</option>
                         {/if}
                         <option value="2" {if $item['status']==2}selected{/if}> 
-                                {if $item['pid']==0}已完成{else}已下款/卡{/if}
+                                {if $item['type']!=1}已完成{else}已下款/卡{/if}
                         </option>
                     </select>
                 </div>
             </div>
+            {if $item['type'] != 3}
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
                 </div>
             </div>
-            {if $item['pid'] !=0}
+            {/if}
+            {if $item['type'] == 1}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -435,6 +478,8 @@
                     <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
                 </div>
             </div>
+            {/if}
+            {if $item['type'] != 2}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">

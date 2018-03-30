@@ -127,6 +127,31 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_channel_subject', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('channel', array('op' => 'subject_list')), "sccuess");
     }
+} else if ($operation == 'buy_record') {
+    //口子购买记录
+    $id = intval($_GPC['id']);
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($id)) {
+        $wheres.= " AND a.cid = {$id}";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['title'])) {
+        $wheres.= " AND c.title LIKE '%{$_GPC['title']}%'";
+    }
+    $sql = 'select a.*,b.nickname,b.avatar,c.title from ' . tablename('xuan_mixloan_channel_pay') . " a left join ".tablename('xuan_mixloan_member')." b ON a.uid=b.id LEFT JOIN ".tablename('xuan_mixloan_channel')." c ON a.cid=c.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(1) ' . tablename('xuan_mixloan_channel_pay') . " a left join ".tablename('xuan_mixloan_member')." b ON a.uid=b.id LEFT JOIN ".tablename('xuan_mixloan_channel')." c ON a.cid=c.id where a.uniacid={$_W['uniacid']} " . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'buy_delete') {
+    //购买记录删除
+    $id = $_GPC['id'];
+    pdo_delete('xuan_mixloan_channel_pay', array('id' => $id));
+    message('删除成功', $this->createWebUrl('channel', array('op'=>'buy_record')), 'sccuess');
 }
 include $this->template('channel');
 ?>

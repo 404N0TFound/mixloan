@@ -63,6 +63,9 @@ if($operation=='index'){
 	}
 	if ($config['vip_channel']) {
 		if ($agent['code']!=1) {
+			if ($item['ext_info']['no_permission'] == 0) {
+				header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+			}
 			if ($item['ext_info']['no_fee'] > 0) {
 				if (!m('channel')->checkPayArtical($id, $member['id'])) {
 					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
