@@ -75,7 +75,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
 		        $account = WeAccount::create($_W['acid']);
 		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
-				$inviter = m('member')->getInviter($member['phone']);
+				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
 				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],

@@ -54,7 +54,7 @@
                 <div class="swiper-slide" style="width:90%;"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
                 {/loop}
                 </div>
-            <div class="swiper-pagination pro-pagination"></div>
+                <div class="swiper-pagination pro-pagination"></div>
             </div>
             <!-- 口子文章循环 -->
             <div class="loan-lists loan-main-lists">
@@ -73,7 +73,7 @@
                 {/loop}   
             </div>
             <!-- 重点文章循环 -->
-           
+         </div>  
     </div>
 </div>
 <div class="to_search" data-condition="1">
@@ -81,8 +81,8 @@
 </div>
 
 </body>
-<script>
-var swiper_w=($(window).width())*0.94;
+<script type="text/javascript">
+ var swiper_w=($(window).width())*0.94;
 var swiper_gap=($(window).width())*0.02;
 var mySwiper = new Swiper('.pro-swiper', {
         // width:swiper_w,
@@ -99,6 +99,9 @@ var mySwiper = new Swiper('.pro-swiper', {
         // pagination: '.pro-pagination',
 
     });
+</script>
+<script>
+
 
 //图片懒加载
 $(function() {
