@@ -244,9 +244,9 @@ class Xuan_mixloan_Member
         if ($check) {
             $level = pdo_fetchcolumn("SELECT `level` FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$uid));
             if ($level == 1 ){
-                $name = '初级代理';
+                $name = '会员';
             } else {
-                $name = '高级代理';
+                $name = '代理';
             }
             return ['code'=>'1','name'=>$name, 'msg'=>$check['msg'], 'id'=>$check['id'], 'level'=>$level];
         } else {

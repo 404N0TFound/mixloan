@@ -62,7 +62,26 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				} else {
 					pdo_update("xuan_mixloan_member", array('level'=>2), array('id'=>$member['id']));
 				}
+				//模板消息提醒
+		        $account = WeAccount::create($_W['acid']);
+		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+				$datam = array(
+		            "first" => array(
+		                "value" => "您好，您已购买成功",
+		                "color" => "#173177"
+		            ) ,
+		            "name" => array(
+		                "value" => "{$config['title']}代理会员",
+		                "color" => "#173177"
+		            ) ,
+		            "remark" => array(
+		                "value" => '点击查看详情',
+		                "color" => "#4a5077"
+		            ) ,
+		        );
+		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
 				$inviter = m('member')->getInviter($member['phone'], $openid);
+				$man = m('member')->getInviterInfo($inviter);
 				if ($inviter && $config['inviter_fee_two']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
@@ -80,6 +99,25 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'type'=>2
 					);
 					pdo_insert('xuan_mixloan_bonus', $insert_i);
+					$datam = array(
+			            "first" => array(
+			                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+			                "color" => "#173177"
+			            ) ,
+			            "order" => array(
+			                "value" => $params['tid'],
+			                "color" => "#173177"
+			            ) ,
+			            "money" => array(
+			                "value" => $config['inviter_fee_one'],
+			                "color" => "#173177"
+			            ) ,
+			            "remark" => array(
+			                "value" => '点击查看详情',
+			                "color" => "#4a5077"
+			            ) ,
+			        );
+			        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
 					//二级
 					$man = m('member')->getInviterInfo($inviter);
 					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
@@ -100,6 +138,25 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'type'=>2
 						);
 						pdo_insert('xuan_mixloan_bonus', $insert_i);
+						$datam = array(
+				            "first" => array(
+				                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+				                "color" => "#173177"
+				            ) ,
+				            "order" => array(
+				                "value" => $params['tid'],
+				                "color" => "#173177"
+				            ) ,
+				            "money" => array(
+				                "value" => $config['inviter_fee_two'],
+				                "color" => "#173177"
+				            ) ,
+				            "remark" => array(
+				                "value" => '点击查看详情',
+				                "color" => "#4a5077"
+				            ) ,
+				        );
+				        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
 						//三级
 						$man = m('member')->getInviterInfo($inviter);
 						$inviter = m('member')->getInviter($man['phone'], $man['openid']);
@@ -120,6 +177,25 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'type'=>2
 							);
 							pdo_insert('xuan_mixloan_bonus', $insert_i);
+							$datam = array(
+					            "first" => array(
+					                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+					                "color" => "#173177"
+					            ) ,
+					            "order" => array(
+					                "value" => $params['tid'],
+					                "color" => "#173177"
+					            ) ,
+					            "money" => array(
+					                "value" => $config['inviter_fee_three'],
+					                "color" => "#173177"
+					            ) ,
+					            "remark" => array(
+					                "value" => '点击查看详情',
+					                "color" => "#4a5077"
+					            ) ,
+					        );
+					        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
 						}
 					}
 				}
@@ -151,6 +227,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				} else if ($inviter_agent['level'] == 2) {
 					$fee_back = $ext_info['mid_fee_back'] * 0.01 * $fee;
 				}
+		        $account = WeAccount::create($_W['acid']);
+		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+				$man = m('member')->getInviterInfo($inviter);
 				if ($inviter && $fee_back) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
@@ -169,6 +248,25 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'relate_id'=>$cid
 					);
 					pdo_insert('xuan_mixloan_bonus', $insert_i);
+					$datam = array(
+			            "first" => array(
+			                "value" => "您好，您的徒弟{$member['nickname']}成功购买了口子文章，奖励您推广佣金，继续推荐口子文章，即可获得更多佣金奖励",
+			                "color" => "#173177"
+			            ) ,
+			            "order" => array(
+			                "value" => $params['tid'],
+			                "color" => "#173177"
+			            ) ,
+			            "money" => array(
+			                "value" => $fee_back,
+			                "color" => "#173177"
+			            ) ,
+			            "remark" => array(
+			                "value" => '点击查看详情',
+			                "color" => "#4a5077"
+			            ) ,
+			        );
+			        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
 				}
 				message("支付成功", $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$cid)), "success");
 			}

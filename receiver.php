@@ -13,8 +13,12 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                 if($this->message['scene'] && !empty($fans)){
                     //进行粉丝增加通知，锁定第一个关注的上级
                     $scene = pdo_fetchcolumn("SELECT qrcid FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND type=1 ORDER BY id ASC",array(":openid"=>$from));
+                    if ($scene) {
+                        pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$scene}");
+                    } else {
+                        $scene = $this->message['scene'];
+                    }
                     $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$scene));
-                    pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$scene}");
                     $wx = WeAccount::create();
                     $msg = array(
                         'first' => array(
