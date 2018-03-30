@@ -23,6 +23,7 @@ if ($operation == 'list') {
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
             $row['type'] = m('member')->checkAgent($row['id'])['code'];
+            $row['user_type'] = m('member')->checkAgent($row['id'])['name'];
         }
         unset($row);
     } else {
@@ -52,6 +53,7 @@ if ($operation == 'list') {
             "fee"=>0,
     );
     pdo_insert("xuan_mixloan_payment",$insert);
+    pdo_update("xuan_mixloan_member", array('level'=>2), array('id'=>$_GPC['id']));
     message("设置成功", $this->createWebUrl('member'), "success");
 } else if ($operation == 'send_msg') {
     //发送信息

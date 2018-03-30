@@ -68,7 +68,7 @@
                     </td>
                     <td>{$row['realname']}</td>
                     <td>{$row['phone']}</td>
-                    <td>{if $row['type']==1}<span class="label label-info">代理</span>{else}<span class="label label-default">用户</span>{/if}</td>
+                    <td>{if $row['type']==1}<span class="label label-info">{$row['user_type']}</span>{else}<span class="label label-default">{$row['user_type']}</span>{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
                         

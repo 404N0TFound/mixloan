@@ -154,7 +154,7 @@ if($operation=='index'){
         'status'=>$status,
         'createtime'=>time()
     );
-    pdo_insert('xuan_mixloan_product_apply', $insert);
+    pdo_insert('xuan_mixloan_bonus', $insert);
     $redirect_url = $pro['ext_info']['url'];
     show_json(1,$redirect_url);
 }

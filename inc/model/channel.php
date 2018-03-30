@@ -108,4 +108,14 @@ class Xuan_mixloan_Channel
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         return $list;
     }
+
+    /**
+    *   检查是否购买过付费文章
+    **/
+    public function checkPayArtical($id, $uid) {
+        if (empty($id) || empty($uid)) {
+            return false;
+        }
+        return pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_channel_pay')." WHERE uid=:uid AND cid=:cid", array(':uid'=>$uid, ':cid'=>$id));
+    }
 }

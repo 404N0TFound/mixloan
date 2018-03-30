@@ -52,29 +52,39 @@ if($operation=='index'){
 	show_json(1,array_values($list));
 } else if ($operation == 'artical') {
 	//详情
-	if ($config['vip_channel']) {
-		if ($agent['code']!=1) {
-	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
-		}
-	}
 	$id = intval($_GPC['id']);
 	if (!$id) {
 		message('id不能为空', '', 'error');
 	}
 	$res = m('channel')->getList([],['id'=>$id]);
+	$item = $res[$id];
 	if (!$res) {
 		message('抱歉，文章已不存在', '', 'error');
+	}
+	if ($config['vip_channel']) {
+		if ($agent['code']!=1) {
+			if ($item['ext_info']['no_fee'] > 0) {
+				if (!m('channel')->checkPayArtical($id, $member['id'])) {
+					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+				}
+			}
+		}else {
+			if ($item['ext_info']['init_fee'] > 0) {
+				if ($agent['level'] == 1 && !m('channel')->checkPayArtical($id, $member['id'])) {
+					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+				}
+			}
+			if ($item['ext_info']['mid_fee'] > 0) {
+				if ($agent['level'] == 2 && !m('channel')->checkPayArtical($id, $member['id'])){
+					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+				}
+			}
+		}
 	}
 	if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
 		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
 	}
-	$item = $res[$id];
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
-	// if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
-	// 	$share_image = $result[1];
-	// } else {
-	// 	$share_image = tomedia($config['share_image']);
-	// }
 	if (strip_tags($item['ext_info']['content'])) {
 		$share_desc = strip_tags($item['ext_info']['content']);
 	} else {
@@ -144,5 +154,36 @@ if($operation=='index'){
 	}
 	$list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['subject_id'=>$subjectRes['id']]);
 	include $this->template('channel/subject');
+} else if ($operation == 'payArtical') {
+	//付费查看口子详情
+	$id = intval($_GPC['id']);
+	$res = m('channel')->getList([],['id'=>$id]);
+	$item = $res[$id];
+	if (empty($item)) {
+		message("文章不存在", "", "error");
+	}
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		$fee = $item['ext_info']['no_fee'];
+	} else {
+		if ($agent['level'] == 1) {
+			$fee = $item['ext_info']['init_fee'];
+		} else {
+			$fee = $item['ext_info']['mid_fee'];
+		}
+	}
+	$_SESSION['channel_id'] = $id;
+	$title = "付费阅读文章";
+	$tid = "10002" . date('YmdHis', time());
+	$params = array(
+	    'tid' => $tid, 
+	    'ordersn' => $tid, 
+	    'title' => $title, 
+	    'fee' => $fee, 
+	    'user' => $member['id'], 
+	);
+	//调用pay方法
+	$this->pay($params);
+	exit;
 }
 ?>

@@ -82,7 +82,32 @@
 		div.temp_share p{text-align: center;text-indent: 0;}
 		/*轮播滚动*/
 		/*div.swiper-slide{margin:0 2%!important;}*/
-		  
+		#layer_notice{
+			padding: 50px;
+			text-align: center;
+			display: none
+		}
+		#layer_notice .item{
+			display: flex;
+		    width: 9.2rem;
+		    -ms-flex-flow: row nowrap;
+		    flex-flow: row nowrap;
+		    -ms-flex-align: center;
+		    align-items: center;
+		    -ms-flex-pack: start;
+		    justify-content: flex-start;
+		    border: 1px solid #e3e3e3;
+		    padding: .24rem .4rem;
+		    border-radius: .4rem;
+		    margin-top: .66rem;
+		}
+		.part-left{
+		    width: 60%;
+		}
+		.price-area .price {
+		    font-size: 0.7rem;
+		    color: #0195ff
+		}
 	</style>
 
 	{template 'common/wxshare'}
@@ -102,10 +127,10 @@
 				</span>
 				
 			</div>
-			<span>
+			<!-- <span>
 				<font style="font-size: 0.6rem;margin-right: 1px; color: #fd661d">¥</font>
 				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font>
-			</span>
+			</span> -->
 
 			<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>    		
     	</div>		
@@ -279,7 +304,20 @@
         <!-- <img class="close" src="../addons/xuan_mixloan/template/style/picture/del_3.png" /> -->
         <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>       
     </div>
-
+  	<div id="layer_notice">
+  		<div class="item active" onclick="toPurchase(1)">
+  			<div class="part-left">
+  				<div class="title"><h2>初级代理</h2></div> 
+  			</div>
+  			<div class="price-area"><span class="price">￥<i>{$config['buy_init_vip_price']}</i></span></div>
+  		</div>
+  		<div class="item active" onclick="toPurchase(2)">
+  			<div class="part-left">
+  				<div class="title"><h2>高级代理</h2></div> 
+  			</div>
+  			<div class="price-area"><span class="price">￥<i>{$config['buy_mid_vip_price']}</i></span></div>
+  		</div>
+  	</div>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
@@ -323,10 +361,16 @@
 		})
 		//购买
 		$("#to_buy").click(function(){
-			toPurchase();			
+			layer.open({
+			  type: 1,
+			  shade: false,
+			  title: false, 
+			  content: $('#layer_notice')
+			});
+			// toPurchase();			
 		})
 
-		function toPurchase(){			
+		function toPurchase(type){			
 			$("#to_buy").unbind("click");
 			layer.closeAll();
 			payingLoading = layer.load(1, {
@@ -334,7 +378,7 @@
 			});
 			var userId=341794;
 			if($(".to_read").hasClass("read")){
-				window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
+				window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type
 			}else{
 				layer.msg("请先阅读{$config['title']}用户服务协议");
 				rePurchase();

@@ -1,13 +1,26 @@
-<?>php
+<?php
 $sql = "
-ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE re_bonus re_bonus decimal(7,2) NOT NULL;
-ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE done_bonus done_bonus decimal(7,2) NOT NULL;
-ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE extra_bonus extra_bonus decimal(7,2) NOT NULL;
+ALTER TABLE `ims_xuan_mixloan_bonus` CHANGE re_bonus re_bonus decimal(7,2) NOT NULL;
+ALTER TABLE `ims_xuan_mixloan_bonus` CHANGE done_bonus done_bonus decimal(7,2) NOT NULL;
+ALTER TABLE `ims_xuan_mixloan_bonus` CHANGE extra_bonus extra_bonus decimal(7,2) NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_channel` CHANGE ext_info ext_info MediumText NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_bank_artical` CHANGE ext_info ext_info MediumText NOT NULL;
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
-ALTER TABLE `ims_xuan_mixloan_product_apply` ADD `degree` tinyint(2) DEFAULT 1;
+ALTER TABLE `ims_xuan_mixloan_member` CHANGE `password` `level` tinyint(2) DEFAULT 0;
 
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_pay` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `cid` int(11) NOT NULL COMMENT '口子id',
+  `tid` varchar(50) NOT NULL,
+  `fee` decimal(10,2) NOT NULL COMMENT '付费多少钱',
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`),
+  KEY `cid` (`cid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
@@ -24,6 +37,6 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
 
 pdo_run($sql);
 
-if(!pdo_fieldexists('xuan_mixloan_product_apply', 'degree')) {
-	pdo_run("ALTER TABLE `ims_xuan_mixloan_product_apply` ADD `degree` tinyint(2) DEFAULT 1 ");
+if(!pdo_fieldexists('xuan_mixloan_bonus', 'degree')) {
+	pdo_run("ALTER TABLE `ims_xuan_mixloan_bonus` ADD `degree` tinyint(2) DEFAULT 1 ");
 }
