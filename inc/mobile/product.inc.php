@@ -95,6 +95,12 @@ if($operation=='index'){
 		if ($agent['code']==1) {
 			show_json(-1, [], "您不能自己邀请自己");
 		}
+	} else {
+		//检测是否是代理
+		$res = m('member')->checkAgent($inviter, $config);
+		if ($res['code'] != 1) {
+			$inviter = 0;
+		}
 	}
 	if ($inviter == $member['id']) {
 		show_json(-1, [], "您不能自己邀请自己");
