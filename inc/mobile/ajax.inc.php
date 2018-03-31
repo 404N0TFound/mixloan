@@ -170,6 +170,10 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'test') {
+	require_once '../addons/xuan_mixloan/inc/model/yunpay.php';
+	$params['']
+	$yunpay = new Xuan_Mixloan_Yunpay($params);
 }
 
 

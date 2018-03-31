@@ -172,6 +172,21 @@
 								<input type="password" value="{$setting['smspass']}" name="smspass" class="form-control" placeholder="短信宝密码"/>
 							</div>
 						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">云通付</label>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="text" value="{$setting['yunpay_partner']}" name="yunpay_partner" class="form-control" placeholder="合作身份者PID" />
+								<span class="help-block">合作身份者PID</span>
+							</div>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="text" value="{$setting['yunpay_user_seller']}" name="yunpay_user_seller" class="form-control" placeholder="商户号" />
+								<span class="help-block">商户号</span>
+							</div>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="password" value="{$setting['yunpay_md5key']}" name="yunpay_md5key" class="form-control" placeholder="安全检验码" />
+								<span class="help-block">安全检验码</span>
+							</div>
+						</div>
 						<div class="form-group">
 			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">京东万象</label>
 			                <div class="col-sm-3 col-xs-6" >
