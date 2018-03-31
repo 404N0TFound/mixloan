@@ -172,8 +172,17 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'test') {
 	require_once '../addons/xuan_mixloan/inc/model/yunpay.php';
-	$params['']
+	$params['partner'] = $config['yunpay_partner'];
+	$params['user_seller'] = $config['yunpay_user_seller'];
+	$params['md5key'] = $config['yunpay_md5key'];
+	$params['notify_url'] = "http://baidu.com";
+	$params['return_url'] = "http://baidu.com";
 	$yunpay = new Xuan_Mixloan_Yunpay($params);
+	$payParams['subject'] = '购买会员';
+	$payParams['total_fee'] = 0.01;
+	$payParams['body'] = '订单描述';
+	$payParams['out_order_no'] = date('YmdHis');
+	$yunpay->pay($payParams);
 }
 
 

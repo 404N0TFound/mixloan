@@ -11,8 +11,6 @@ class Xuan_Mixloan_Yunpay
 	private $user_seller;
 	// MD5密钥，安全检验码，由数字和字母组成的32位字符串
 	private $md5key;
-	//商户网站订单系统中唯一订单号，必填
-	private $out_order_no;
 	//服务器异步通知页面路径
 	private $notify_url;
 	//页面跳转同步通知页面路径
@@ -56,13 +54,13 @@ class Xuan_Mixloan_Yunpay
 		if (empty($params['total_fee'])) {
 			return ['code'=>-1, 'msg'=>'缺少付款金额'];
 		}
-		if (empty($params['订单描述'])) {
+		if (empty($params['body'])) {
 			return ['code'=>-1, 'msg'=>'缺少订单描述'];
 		}
 		$parameter = array(
 			"partner" => $this->partner,
 		    "user_seller" => $this->user_seller,
-			"out_order_no" => $this->out_order_no,
+			"out_order_no" => $params['out_order_no'],
 			"subject" => $params['subject'],
 			"total_fee"	=> $params['total_fee'],
 			"body" => $params['body'],
@@ -71,5 +69,6 @@ class Xuan_Mixloan_Yunpay
 		);
 		//建立请求
 		$html_text = buildRequestFormShan($parameter, $this->md5key);
+		var_dump($html_text);die;
 	}
 }
