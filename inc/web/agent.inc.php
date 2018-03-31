@@ -21,7 +21,7 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        $first_teams = pdo_fetchall("SELECT b.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid={$row['uid']} AND a.type=1 GROUP BY a.openid");
+        $first_teams = pdo_fetchall("SELECT b.id,a.openid FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid={$row['uid']} AND a.type=1 GROUP BY a.openid");
         $row['count_nums'] = count($first_teams);
         if ($first_teams) {
             $two_team_openids = [];
@@ -35,7 +35,7 @@ if ($operation == 'list') {
             if ($two_team_ids) {
                 $two_team_openids_string = "('" . implode("','", $two_team_openids) . "')"; 
                 $two_team_ids_string = '(' . implode(',', $two_team_ids) . ')';
-                $two_team_nums = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string} AND a.type=1 GROUP BY a.openid");
+                $two_team_nums = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string} AND a.type=1");
                 $row['count_nums'] += $two_team_nums;  
             }
         } 
@@ -373,7 +373,7 @@ if ($operation == 'list') {
         if ($two_team_ids) {
             $two_team_openids_string = "('" . implode("','", $two_team_openids) . "')"; 
             $two_team_ids_string = '(' . implode(',', $two_team_ids) . ')';
-            $two_teams = pdo_fetchall("SELECT a.createtime,b.id,b.nickname,b.avatar,b.phone,a.openid FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string}AND a.type=1 GROUP BY a.openid");
+            $two_teams = pdo_fetchall("SELECT a.createtime,b.id,b.nickname,b.avatar,b.phone,a.openid FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid IN {$two_team_ids_string} AND a.openid NOT IN {$two_team_openids_string} AND a.type=1 GROUP BY a.openid");
             if ($two_teams) {
                 foreach ($two_teams as &$value) {
                     $value['agent'] = m('member')->checkAgent($value['id'], $config);
