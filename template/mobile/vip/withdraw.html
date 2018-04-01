@@ -46,20 +46,31 @@
         <div class="settleCards">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
-                    {loop $banks $row}
-                    <div class="swiper-slide" data-id="{$row['id']}">
-                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                        <div class="cardsInfo"><h2{$row['bankname']}h2><span>储蓄卡</span>
-                            <p style="font-family: numFont!important;">
-                                {if $row['numbers_type'] == 1}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
-                                {else}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
-                                {/if}
-                            </p>
-                        </div>
-                    </div> 
-                    {/loop}                   
+                    {if $banks}
+                        {loop $banks $row}
+                        <div class="swiper-slide" data-id="{$row['id']}">
+                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                            <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
+                                <p style="font-family: numFont!important;">
+                                    {if $row['numbers_type'] == 1}
+                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
+                                    {else}
+                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
+                                    {/if}
+                                </p>
+                            </div>
+                        </div> 
+                        {/loop}
+                    {else}
+                        <div class="swiper-slide" data-id="0">
+                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                            <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
+                                <p style="font-family: numFont!important;">
+                                <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
+                                </p>
+                            </div>
+                        </div> 
+                    {/if}                            
                 </div>
                 <div class="addCards">
                     <a class="dailiFlag" href="javascript:;">+</a>
