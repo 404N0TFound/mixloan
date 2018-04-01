@@ -19,7 +19,7 @@ class Xuan_mixloan_Poster
         $item = pdo_fetch($sql);
         return $item;
     }
-    /**
+     /**
     *   生成海报
     **/
     public function createPoster($config, $params) {
