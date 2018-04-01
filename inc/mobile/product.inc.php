@@ -11,33 +11,51 @@ if($operation=='index'){
     $loan = m('product')->getList([], ['type'=>2], FALSE);
     foreach ($card as &$row) {
         if ($row['done_reward_type'] == 1) {
-            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_money'] . '元';
-            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
-            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+            $row['ext_info']['init_one'] = $row['ext_info']['done_one_init_reward_money'] . '元';
+            $row['ext_info']['mid_one'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
+            $row['ext_info']['height_one'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+            $row['ext_info']['init_two'] = $row['ext_info']['done_two_init_reward_money'] . '元';
+            $row['ext_info']['mid_two'] = $row['ext_info']['done_two_mid_reward_money'] . '元';
+            $row['ext_info']['height_two'] = $row['ext_info']['done_two_height_reward_money'] . '元';
         } else if ($row['done_reward_type'] == 2) {
-            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_per'] . '点';
-            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
-            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+            $row['ext_info']['init_one'] = $row['ext_info']['done_one_init_reward_per'] . '点';
+            $row['ext_info']['mid_one'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
+            $row['ext_info']['height_one'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+            $row['ext_info']['init_two'] = $row['ext_info']['done_two_init_reward_per'] . '点';
+            $row['ext_info']['mid_two'] = $row['ext_info']['done_two_mid_reward_per'] . '点';
+            $row['ext_info']['height_two'] = $row['ext_info']['done_two_height_reward_per'] . '点';
         } else {
-            $row['ext_info']['init'] = '无奖励';
-            $row['ext_info']['mid'] = '无奖励';
-            $row['ext_info']['height'] = '无奖励';
+            $row['ext_info']['init_one'] = '无奖励';
+            $row['ext_info']['mid_one'] = '无奖励';
+            $row['ext_info']['height_one'] = '无奖励';
+            $row['ext_info']['init_two'] = '无奖励';
+            $row['ext_info']['mid_two'] = '无奖励';
+            $row['ext_info']['height_two'] = '无奖励';
         }
     }
     unset($row);
     foreach ($loan as &$row) {
         if ($row['done_reward_type'] == 1) {
-            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_money'] . '元';
-            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
-            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+            $row['ext_info']['init_one'] = $row['ext_info']['done_one_init_reward_money'] . '元';
+            $row['ext_info']['mid_one'] = $row['ext_info']['done_one_mid_reward_money'] . '元';
+            $row['ext_info']['height_one'] = $row['ext_info']['done_one_height_reward_money'] . '元';
+            $row['ext_info']['init_two'] = $row['ext_info']['done_two_init_reward_money'] . '元';
+            $row['ext_info']['mid_two'] = $row['ext_info']['done_two_mid_reward_money'] . '元';
+            $row['ext_info']['height_two'] = $row['ext_info']['done_two_height_reward_money'] . '元';
         } else if ($row['done_reward_type'] == 2) {
-            $row['ext_info']['init'] = $row['ext_info']['done_one_init_reward_per'] . '点';
-            $row['ext_info']['mid'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
-            $row['ext_info']['height'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+            $row['ext_info']['init_one'] = $row['ext_info']['done_one_init_reward_per'] . '点';
+            $row['ext_info']['mid_one'] = $row['ext_info']['done_one_mid_reward_per'] . '点';
+            $row['ext_info']['height_one'] = $row['ext_info']['done_one_height_reward_per'] . '点';
+            $row['ext_info']['init_two'] = $row['ext_info']['done_two_init_reward_per'] . '点';
+            $row['ext_info']['mid_two'] = $row['ext_info']['done_two_mid_reward_per'] . '点';
+            $row['ext_info']['height_two'] = $row['ext_info']['done_two_height_reward_per'] . '点';
         } else {
-            $row['ext_info']['init'] = '无奖励';
-            $row['ext_info']['mid'] = '无奖励';
-            $row['ext_info']['height'] = '无奖励';
+            $row['ext_info']['init_one'] = '无奖励';
+            $row['ext_info']['mid_one'] = '无奖励';
+            $row['ext_info']['height_one'] = '无奖励';
+            $row['ext_info']['init_two'] = '无奖励';
+            $row['ext_info']['mid_two'] = '无奖励';
+            $row['ext_info']['height_two'] = '无奖励';
         }
     }
     unset($row);

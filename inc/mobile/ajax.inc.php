@@ -206,11 +206,16 @@ if($operation == 'getCode'){
 				$result['init'] --;
 				$result['mid'] --;
 				$result['height'] ++;
+			} else {
+				//降级
+				pdo_update('xuan_mixloan_member', array('level'=>2), array('id'=>$row['uid']));
 			}
+		} else {
+			//降级
+			pdo_update('xuan_mixloan_member', array('level'=>1), array('id'=>$row['uid']));
 		}
 	}
 	echo json_encode($result);
 }
-
 
 ?>
