@@ -19,7 +19,7 @@ class Xuan_mixloan_Poster
         $item = pdo_fetch($sql);
         return $item;
     }
-    /**
+     /**
     *   生成海报
     **/
     public function createPoster($config, $params) {
@@ -32,6 +32,7 @@ class Xuan_mixloan_Poster
         $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
         $bgpng = imagecreatefrompng($bgpath);
         if ($config['poster_avatar']) {
+            //头像
             if (strstr($params['member']['avatar'], 'mix_loan')) {
                 $avatar = imagecreatefromstring(file_get_contents($params['member']['avatar']));
             } else {
@@ -43,10 +44,18 @@ class Xuan_mixloan_Poster
         }
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.35,imagesx($bgpng)*0.35);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.35,imagesx($bgpng)*0.35,imagesx($QR),imagesy($QR));
-        $poster_color = hex2rgb($config['poster_color']);
-        $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
-        imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,$params['member']['nickname']);
-        imagecopymerge($bgpng,$newl,imagesx($bgpng)*0.33,imagesy($bgpng)*0.4,0,0,imagesx($newl),imagesy($newl),100);
+        if ($config['poster_avatar']) {
+            //字体
+            $poster_color = hex2rgb($config['poster_color']);
+            $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
+            imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,$params['member']['nickname']);
+        }
+        if (!$config['poster_avatar']) {
+            $height = 0.55;
+        } else {
+            $height = 0.4;
+        }
+        imagecopymerge($bgpng,$newl,imagesx($bgpng)*0.33,imagesy($bgpng)*$height,0,0,imagesx($newl),imagesy($newl),100);
         $res = imagepng($bgpng,$params['out']);
         imagedestroy($QR);
         imagedestroy($bgpng);
