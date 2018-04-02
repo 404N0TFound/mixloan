@@ -187,6 +187,18 @@ if($operation == 'getCode'){
 		}
 	}
 	echo json_encode($result);
+} else if ($operation == 'update_inviter') {
+	$count = 0;
+	$list = pdo_fetchall("SELECT openid,COUNT(*) as count FROM ".tablename('qrcode_stat')." GROUP BY openid HAVING count>1");
+	if (!empty($list)) {
+		foreach ($list as $row) {
+			$qrcid = pdo_fetchcolumn("select qrcid from ".tablename('qrcode_stat')." WHERE openid=:openid AND type=1 ORDER BY id ASC", array(':openid'=>$row['openid']));
+			if (!empty($qrcid)) {
+				$count += pdo_run("UPDATE ".tablename('qrcode_stat')." SET type=2 WHERE openid='{$row['openid']}' AND qrcid<>{$qrcid}");
+			}
+		}
+	}
+	echo json_encode(['code'=>1, 'count'=>$count]);
 }
 
 
