@@ -69,6 +69,7 @@ class Xuan_Mixloan_Yunpay
 		);
 		//建立请求
 		$html_text = buildRequestFormShan($parameter, $this->md5key);
-		var_dump($html_text);die;
+		return ['code'=>1, 'template'=>$html_text];
 	}
+
 }
