@@ -87,7 +87,7 @@ if($operation=='index'){
 } else if ($operation == 'apply_submit') {
 	//申请产品
 	$id = intval($_GPC['id']);
-	$inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
+	$inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $member['openid']);
 	$inviter = $inviter_uid ? : intval($_GPC['inviter']);
 	if ($inviter == $member['id']) {
 		show_json(-1, [], "您不能自己邀请自己");
@@ -103,10 +103,10 @@ if($operation=='index'){
 		show_json(-1, [], "您已经申请过啦");
 	}
 	if ($config['jdwx_open'] == 1) {
-		$res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-		if ($res['code'] == -1) {
-			show_json($res['code'], [], $res['msg']);
-		}
+		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
+		// if ($res['code'] == -1) {
+		// 	show_json($res['code'], [], $res['msg']);
+		// }
 	}
 	$info = m('product')->getList(['id', 'name', 'type', 'relate_id'],['id'=>$id])[$id];
 	if ($info['type'] == 1) {
