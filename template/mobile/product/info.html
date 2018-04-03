@@ -111,20 +111,20 @@
         </div>
     </div>
     <div class="nb_basic nb_desc">
-    	<div class="nb_title"><span>工资介绍</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
+        <div class="nb_title"><span>工资介绍</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
         <div class="reback_frame">
             {if $info['ext_info']['is_extra_reward']}
-    		<div class="reback_img">
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<ul class="reback_money">
+            <div class="reback_img">
+                <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+                <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+                <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+                <ul class="reback_money">
                    <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_money']}元</span></li>
                     <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_money']}元</span></li>
-                    <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>			
+                    <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>         
                 </ul>
-    		</div>
-    		<ul class="invite_reback">
+            </div>
+            <ul class="invite_reback">
                 <li>{$info['ext_info']['extra_reward_one']}</li>
                 <li>{$info['ext_info']['extra_reward_two']}</li>
                 <li>{$info['ext_info']['extra_reward_thr']}</li>
@@ -140,9 +140,40 @@
                      </li>
                     <li>首次注册申请借款符合结算标准。</li>
                     <li>备注：非新用户申请不计入结算标准，请知晓。</li>
+                    {if $info['done_reward_type']==1}
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_money']}元
+                    </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
+                    </li>
+                    {else}
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
+                    </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_per']}点
+                    </li>
+                    {/if}
+
+                    {if $info['re_reward_type']==1}
+                    <li>
+                        注册直推：{$info['ext_info']['re_one_init_reward_money']}元
+                    </li>
+                    <li>
+                       注册二级：{$info['ext_info']['re_two_init_reward_money']}元
+                    </li>
+                    {else if $info['re_reward_type']==2}
+                    <li>
+                        注册直推：{$info['ext_info']['re_one_init_reward_per']}点
+                    </li>
+                    <li>
+                        注册二级：{$info['ext_info']['re_two_init_reward_per']}点
+                    </li>
+                    {/if}
                 </ul>
-    		</div>
-    	</div>
+            </div>
+        </div>
     </div>
     {if $info['ext_info']['is_extra_reward']}
     <div class="nb_basic nb_rank">

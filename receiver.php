@@ -21,7 +21,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     } else {
                         $qrcid = $this->message['scene'];
                     }
-                    $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
+                    $man_one = pdo_fetch("SELECT nickname,openid,phone FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                     $wx = WeAccount::create();
                     $msg = array(
                         'first' => array(
@@ -42,8 +42,38 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                         ),
                     );
                     $templateId=$config['tpl_notice4'];
-                    $wx->sendTplNotice($openid,$templateId,$msg);
-                    
+                    $wx->sendTplNotice($man_one['openid'],$templateId,$msg);
+                    //二级通知
+                    if ($man_one['phone']) {
+                        $inviter_two = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
+                        if (!$inviter_two && $man_one['openid']) {
+                            $inviter_two = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND type=1 ORDER BY id DESC",array(":openid"=>$man_one['openid']));
+                        }
+                    }
+                    if ($inviter_two) {
+                        $man_two = pdo_fetch("SELECT nickname,openid,phone FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$inviter_two));
+                        $wx = WeAccount::create();
+                        $msg = array(
+                            'first' => array(
+                                'value' => "您好，您的好友已通过您的朋友{$man_one['nickname']}的推广二维码关注{$config['title']}",
+                                "color" => "#4a5077"
+                            ),
+                            'keyword1' => array(
+                                'value' => $fans['nickname'],
+                                "color" => "#4a5077"
+                            ),
+                            'keyword2' => array(
+                                'value' => date("Y-m-d H:i:s",time()),
+                                "color" => "#4a5077"
+                            ),
+                            'remark' => array(
+                                'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$config['inviter_fee_two']}元奖励",
+                                "color" => "#A4D3EE"
+                            ),
+                        );
+                        $templateId=$config['tpl_notice4'];
+                        $wx->sendTplNotice($man_two['openid'],$templateId,$msg);
+                    }
                 }
             }
         }
