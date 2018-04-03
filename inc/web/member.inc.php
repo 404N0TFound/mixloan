@@ -11,8 +11,8 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = ' AND status!=-1';
-    if (!empty($_GPC['openid'])) {
-        $wheres.= " AND openid='{$openid}'";
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND id='{$_GPC['id']}'";
     }
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";

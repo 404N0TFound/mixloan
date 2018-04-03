@@ -1,4 +1,4 @@
-<?>php
+<?php
 $sql = "
 ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE re_bonus re_bonus decimal(7,2) NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE done_bonus done_bonus decimal(7,2) NOT NULL;
