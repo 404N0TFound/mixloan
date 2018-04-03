@@ -89,7 +89,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						're_bonus'=>$config['inviter_fee_one'],
 						'status'=>2,
 						'createtime'=>time(),
-						'degere'=>1
+						'degree'=>1
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//模板消息提醒
