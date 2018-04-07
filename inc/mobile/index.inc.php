@@ -56,7 +56,7 @@ if($operation=='register'){
 	if ($config['backup'] == 1) {
 		//开启备份
 		$old_openid = pdo_fetchcolumn('SELECT openid FROM '.tablename('xuan_mixloan_member').' WHERE phone=:phone ORDER BY id ASC', array(':phone'=>$phone));
-		if ($old_openid != $openid) {
+		if (!empty($old_openid) && $old_openid != $openid) {
 			pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'pass'=>$pwd, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('openid'=>$old_openid));
 			pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_openid));
 			pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_openid));
