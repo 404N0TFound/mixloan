@@ -115,7 +115,7 @@ if($operation=='index'){
 		$pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	}
 	if ($inviter) {
-		$inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
+		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
 		$datam = array(
             "first" => array(
                 "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
@@ -136,7 +136,7 @@ if($operation=='index'){
         );
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
-        $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
+        $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
 		if ($openid) {
 			pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
 		}
@@ -175,10 +175,10 @@ if($operation=='index'){
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
         pdo_insert('xuan_mixloan_product_apply', $insert);
-        $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+        $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
 		$datam = array(
             "first" => array(
-                "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
                 "color" => "#173177"
             ) ,
             "keyword1" => array(
@@ -194,7 +194,7 @@ if($operation=='index'){
                 "color" => "#4a5077"
             ) ,
         );
-        $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
+        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
     }
 	show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
