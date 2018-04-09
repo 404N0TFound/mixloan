@@ -89,7 +89,7 @@ if($operation=='index'){
     if ($info['type'] == 1) {
         $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
     } else {
-        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$inviter, 'pid'=>$info['id'])));
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'])));
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
     $top_list = m('product')->getTopBonus($id);
@@ -262,27 +262,36 @@ if($operation=='index'){
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
     foreach ($days_list as &$row) {
-        $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num_one'] = $days_count_list[$row['id']][1]['count'] ? : 0;
+        $row['count_num_two'] = $days_count_list[$row['id']][2]['count'] ? : 0;
     }
     unset($row);
     foreach ($weeks_list as &$row) {
-        $row['count_num'] = $weeks_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num_one'] = $weeks_count_list[$row['id']][1]['count'] ? : 0;
+        $row['count_num_two'] = $weeks_count_list[$row['id']][2]['count'] ? : 0;
         if ($row['type'] == 1) {
-            $row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
+            $row['succ_one'] = $weeks_succ_list[$row['id']][1]['count'] ? $weeks_succ_list[$row['id']][1]['count'].'位' : '0'.'位';
+            $row['succ_two'] = $weeks_succ_list[$row['id']][2]['count'] ? $weeks_succ_list[$row['id']][2]['count'].'位' : '0'.'位';
         } else {
-            $row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+            $row['succ_one'] = $weeks_succ_list[$row['id']][1]['relate_money'] ? $weeks_succ_list[$row['id']][1]['relate_money'].'元' : '0'.'元';
+            $row['succ_two'] = $weeks_succ_list[$row['id']][2]['relate_money'] ? $weeks_succ_list[$row['id']][2]['relate_money'].'元' : '0'.'元';
         }
-        $row['count_bonus'] = $weeks_bonus_list[$row['id']]['bonus'] ? : 0;
+        $row['count_bonus_one'] = $weeks_bonus_list[$row['id']][1]['bonus'] ? : 0;
+        $row['count_bonus_two'] = $weeks_bonus_list[$row['id']][2]['bonus'] ? : 0;
     }
     unset($row);
     foreach ($months_list as &$row) {
-        $row['count_num'] = $months_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num_one'] = $months_count_list[$row['id']][1]['count'] ? : 0;
+        $row['count_num_two'] = $months_count_list[$row['id']][2]['count'] ? : 0;
         if ($row['type'] == 1) {
-            $row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
+            $row['succ_one'] = $months_succ_list[$row['id']][1]['count'] ? $months_succ_list[$row['id']][1]['count'].'位' : '0'.'位';
+            $row['succ_two'] = $months_succ_list[$row['id']][2]['count'] ? $months_succ_list[$row['id']][2]['count'].'位' : '0'.'位';
         } else {
-            $row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+            $row['succ_one'] = $months_succ_list[$row['id']][1]['relate_money'] ? $months_succ_list[$row['id']][1]['relate_money'].'元' : '0'.'元';
+            $row['succ_two'] = $months_succ_list[$row['id']][2]['relate_money'] ? $months_succ_list[$row['id']][2]['relate_money'].'元' : '0'.'元';
         }
-        $row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
+        $row['count_bonus_one'] = $months_bonus_list[$row['id']][1]['bonus'] ? : 0;
+        $row['count_bonus_two'] = $months_bonus_list[$row['id']][2]['bonus'] ? : 0;
     }
     unset($row);
     $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'applys'=>$applys];

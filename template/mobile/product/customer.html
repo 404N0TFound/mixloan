@@ -29,7 +29,18 @@
         	div.agent-foot{padding-bottom:20px; }
         	div.agent-main{padding-bottom:20px;}
     	}
-		
+    	div.monthAccount .productData .product_div{
+    		border-bottom: 1px dashed #f2f2f2;
+    	}
+		div.monthAccount .productData ul {
+		    border-bottom: none;
+		}
+		div.monthAccount .productData ul li {
+		    text-align: center;
+		    height: 1.3rem;
+		    line-height: 1.3rem;
+		    font-size: 0.4rem;
+		}
 	</style>
 <body style="background:#fff;">
 	<div class="agent-header">
@@ -85,7 +96,7 @@
 			</div>
 		</div>
 		<div class="accCommon monthAccount">
-			<h1><img src="../addons/xuan_mixloan/template/style/picture/weekaccount_1.png" />周结产品<span>(玖富万卡为官方接口，申请数不显示)</span></h1>
+			<h1><img src="../addons/xuan_mixloan/template/style/picture/weekaccount_1.png" />周结产品<!-- <span>(玖富万卡为官方接口，申请数不显示)</span> --></h1>
 			<div class="productLstC monthATitle">
 				<ul>
 					<li>产品</li>
@@ -207,7 +218,7 @@ function ajaxData(year,month){
 					var dId=days[i].id;
 					var dTitle=days[i].name;
 					var dImgs=days[i].ext_info.logo;
-					var dCount=days[i].count_num;
+					var dCount=days[i].count_num_one+days[i].count_num_two;
 					dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';					
 					if(dCount=='0'){
 						dayStr += '<span></span></li>';
@@ -221,52 +232,22 @@ function ajaxData(year,month){
 				var week=data.weeks_list;//周结
 				for(j=0;j<week.length;j++){
 					var weekStr='';
-					var mId=week[j].id;
-					var mTitle=week[j].name;
-					var mapply=week[j].count_num;
-					var mvalid=0;
-					var mloan=week[j].succ;
-					var mrewards=week[j].count_bonus;
-					// var unit=week[j].unit;
-					if(mId=="2"||mId=="21"){
-						if(mId=="21"){
-							if(gdFlag){
-								//2018/1/1之前数据
-								if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productZero">'
-								}else{
-									weekStr += '<ul>'
-								}	
-							}else{
-								//2018/1/1之后数据
-								if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productXrf productZero">';
-								}else{
-									weekStr += '<ul class="productXrf">'
-								}
-							}
-						}else{
-							//2 信而富;
-							if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-								weekStr += '<ul class="productXrf productZero">';
-							}else{
-								weekStr += '<ul class="productXrf">'
-							}
-						}																	
-					}else{
-						if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-							weekStr += '<ul class="productZero">'
-						}else{
-							weekStr += '<ul>'
-						}												
-					}
-
-					weekStr += '<li>'+ mTitle +'</li>';
-					weekStr += '<li>'+ mapply +'</li>';
-					
-						weekStr += '<li>'+ mloan +'</li>';
-					weekStr += '<li>¥ '+ mrewards +'</li>';
+					//一级
+					weekStr += '<div class="product_div">'
+					weekStr += '<ul>'
+					weekStr += '<li style="font-size:0.6rem">'+ week[j].name +'</li>';
+					weekStr += '<li style="font-size:0.6rem">'+ week[j].count_num_one +'</li>';
+					weekStr += '<li style="font-size:0.6rem">'+ week[j].succ_one +'</li>';
+					weekStr += '<li style="font-size:0.6rem">¥ '+ week[j].count_bonus_one +'</li>';
 					weekStr += '</ul>';
+					//二级
+					weekStr += '<ul>'
+					weekStr += '<li>二级</li>';
+					weekStr += '<li>'+ week[j].count_num_two +'</li>';
+					weekStr += '<li>'+ week[j].succ_two +'</li>';
+					weekStr += '<li>¥ '+ week[j].count_bonus_two +'</li>';
+					weekStr += '</ul>';
+					weekStr += '</div>'
 					$("div.weekProduct").append(weekStr);
 				}
 
@@ -274,19 +255,22 @@ function ajaxData(year,month){
 				var month=data.months_list;//月结
 				for(j=0;j<month.length;j++){
 					var monthStr='';
-					var mId=month[j].id;
-					var mTitle=month[j].name;
-					var mapply=month[j].count_num;
-					var mvalid=0;
-					var mloan=month[j].succ;
-					var mrewards=month[j].count_bonus;
-							monthStr += '<ul>'
-					monthStr += '<li>'+ mTitle +'</li>';
-					monthStr += '<li>'+ mapply +'</li>';
-					
-						monthStr += '<li>'+ mloan +'</li>';
-					monthStr += '<li>¥ '+ mrewards +'</li>';
+					//一级
+					monthStr += '<div class="product_div">'
+					monthStr += '<ul>'
+					monthStr += '<li style="font-size:0.6rem">'+ month[j].name +'</li>';
+					monthStr += '<li style="font-size:0.6rem">'+ month[j].count_num_one +'</li>';
+					monthStr += '<li style="font-size:0.6rem">'+ month[j].succ_one +'</li>';
+					monthStr += '<li style="font-size:0.6rem">¥ '+ month[j].count_bonus_one +'</li>';
 					monthStr += '</ul>';
+					//二级
+					monthStr += '<ul>'
+					monthStr += '<li>二级</li>';
+					monthStr += '<li>'+ month[j].count_num_two +'</li>';
+					monthStr += '<li>'+ month[j].succ_two +'</li>';
+					monthStr += '<li>¥ '+ month[j].count_bonus_two +'</li>';
+					monthStr += '</ul>';
+					monthStr += '</div>'
 					$("div.monthProduct").append(monthStr);
 				}
 			}else{

@@ -68,7 +68,7 @@ if($operation=='index'){
         message("出错了", "", "error");
     }
     $pid = intval($_GPC['pid']);
-    $inviter = intval($_GPC['id']);
+    $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
 	include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
@@ -77,7 +77,7 @@ if($operation=='index'){
     if (empty($id)) {
         show_json(-1, [], "出错了");
     }
-    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']));
+    $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $member['openid']);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
     if ($inviter == $member['id']) {
         // show_json(-1, [], "您不能自己邀请自己");
