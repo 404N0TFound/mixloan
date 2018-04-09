@@ -12,7 +12,14 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                 $config = $this->module['config'];
                 if($this->message['scene'] && !empty($fans)){
                     //进行粉丝增加通知
-                    $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$this->message['scene']));
+                    $qrcid = pdo_fetchcolumn("SELECT qrcid FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND type=1 ORDER BY id ASC",array(":openid"=>$from));
+                    //锁粉
+                    if ($qrcid) {
+                        pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
+                    } else {
+                        $qrcid = $this->message['scene'];
+                    }
+                    $man_one = pdo_fetch("SELECT nickname,openid,phone FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                     $wx = WeAccount::create();
                     $msg = array(
                         'first' => array(
@@ -33,7 +40,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                         ),
                     );
                     $templateId=$config['tpl_notice4'];
-                    $res = $wx->sendTplNotice($openid,$templateId,$msg);
+                    $res = $wx->sendTplNotice($man_one['openid'],$templateId,$msg);
                 }
             }
         }
