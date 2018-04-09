@@ -137,7 +137,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						$two_openid = m('user')->getOpenid($inviter);
 						$datam = array(
 				            "first" => array(
-				                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+				                "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
 				                "color" => "#173177"
 				            ) ,
 				            "order" => array(
