@@ -95,6 +95,17 @@ if ($operation == 'list') {
     if ($item['pid']) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
         $info['ext_info'] = json_decode($info['ext_info'], true);
+        if ($item['degree'] == 1) {
+            $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
+            $info['done_reward_per'] = $info['ext_info']['done_one_init_reward_per'];
+            $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
+            $info['re_reward_per'] = $info['ext_info']['re_one_init_reward_per'];
+        } else if ($item['degree'] == 2) {
+            $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
+            $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
+            $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
+            $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+        }
     } else {
         $info['name'] = '邀请购买代理奖励';
     }

@@ -88,7 +88,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'done_bonus'=>0,
 						're_bonus'=>$config['inviter_fee_one'],
 						'status'=>2,
-						'createtime'=>time()
+						'createtime'=>time(),
+						'degree'=>1
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					//模板消息提醒
@@ -113,6 +114,48 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			        );
 			        $account = WeAccount::create($_W['acid']);
 			        $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+			        //二级
+					$man = m('member')->getInviterInfo($inviter);
+					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
+					if ($inviter && $config['inviter_fee_two']) {
+						$insert_i = array(
+							'uniacid' => $_W['uniacid'],
+							'uid' => $member['id'],
+							'phone' => $member['phone'],
+							'certno' => $member['certno'],
+							'realname' => $member['realname'],
+							'inviter' => $inviter,
+							'extra_bonus'=>0,
+							'done_bonus'=>0,
+							're_bonus'=>$config['inviter_fee_two'],
+							'status'=>2,
+							'createtime'=>time(),
+							'degree'=>2
+						);
+						pdo_insert('xuan_mixloan_product_apply', $insert_i);
+						//模板消息提醒
+						$two_openid = m('user')->getOpenid($inviter);
+						$datam = array(
+				            "first" => array(
+				                "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+				                "color" => "#173177"
+				            ) ,
+				            "order" => array(
+				                "value" => $params['tid'],
+				                "color" => "#173177"
+				            ) ,
+				            "money" => array(
+				                "value" => $config['inviter_fee_two'],
+				                "color" => "#173177"
+				            ) ,
+				            "remark" => array(
+				                "value" => '点击查看详情',
+				                "color" => "#4a5077"
+				            ) ,
+				        );
+				        $account = WeAccount::create($_W['acid']);
+				        $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
