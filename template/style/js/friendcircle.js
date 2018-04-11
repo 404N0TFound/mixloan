@@ -288,29 +288,29 @@ $("#contentor").focus(function(){
 $("#dummyImgs").click(function(){
   $("#contentImgs").click();
 })
-// $(".contentImgs").change(function(){
-//   var idFile = $(this).attr("id");
-//   var file = document.getElementById(idFile);
-//   var fileList = file.files; //获取的图片文件
-//   fileList = validateUp(fileList);
-//   var before_L=$("div.imgSwiper .swiper-wrapper .swiper-slide").length;
-//   var choosing_L=fileList.length;
-//   var total_L=before_L+choosing_L;
-//   if(total_L<=9){
-//     if(total_L>0){
-//       $("div.waitImgs").show();
-//       slidePerView(total_L);
-//       for(i=0;i<fileList.length;i++){
-//         $("div.imgUploading").show();
-//         var _file=fileList[i];
-//         readFile(_file,i,fileList.length);
-//       }
-//     }    
-//   }else{
-//       layer.msg("上传图片不能超过9张");
-//       return false;
-//   }
-// })
+$(".contentImgs").change(function(){
+  var idFile = $(this).attr("id");
+  var file = document.getElementById(idFile);
+  var fileList = file.files; //获取的图片文件
+  fileList = validateUp(fileList);
+  var before_L=$("div.imgSwiper .swiper-wrapper .swiper-slide").length;
+  var choosing_L=fileList.length;
+  var total_L=before_L+choosing_L;
+  if(total_L<=9){
+    if(total_L>0){
+      $("div.waitImgs").show();
+      slidePerView(total_L);
+      for(i=0;i<fileList.length;i++){
+        $("div.imgUploading").show();
+        var _file=fileList[i];
+        readFile(_file,i,fileList.length);
+      }
+    }    
+  }else{
+      layer.msg("上传图片不能超过9张");
+      return false;
+  }
+})
 //上传图片(接口)
 function readFile(file,x,y) {
     var reader = new FileReader();

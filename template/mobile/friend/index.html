@@ -1,32 +1,30 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="e-mail=no" name="format-detection"/>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-    <meta http-equiv="Pragma" content="no-cache"/>
-    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <title>金融朋友圈</title>
-    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/friendscircle.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jweixin-1.2.0_1.js"></script>
     <style type="text/css">
-        body {
-            background-color: #f1f1f1;
-        }
+      body{background-color: #f1f1f1;}
     </style>
 
 	{template 'common/wxshare'}
@@ -298,195 +296,196 @@
 
 
 <script src="../addons/xuan_mixloan/template/style/js/emojis.js"></script>
-<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js?v01"></script>
 <script type="text/javascript">
-    var new_flag = true;//tab各内容下拉开关
-    var search_flag = false;//search结果下拉开关
-    var searchPage;
-    var rollFlag = 0;
-    $(function () {
-        $("#fc_search").val("");
-        // 页面初始化
-        var wH = $(window).height();
-        var headerH = $("div.agent-header").outerHeight(true);
-        var guideH = $("div.fc_guider").outerHeight(true);
-        var tabSwiperH = wH - headerH - guideH + 5 + "px";
-        var mainH = wH - 1 + "px";
-        $("div.scrollImg").css("height", wH);
-        $("div.realAuth").css("height", wH);
-        $("div.ban,div.banTip,div.noteIdai").css("height", wH);
-        $("div.fcMainList").css("height", mainH);
-        $("div.tabSwiper").css("min-height", tabSwiperH);
-        //滑动
-        var mySwiper = new Swiper('.tabSwiper', {
-            direction: 'horizontal',
-            slidesPerView: "auto",
-            centeredSlides: true,
-            resistanceRatio: 0,
-            touchRatio: 0.5,
-            touchAngle: 10,
-            // spaceBetween: 10,
-            //autoplay: 4000,//可选选项，自动滑动
-            // loop : true,
-            autoplayDisableOnInteraction: false,
-            onSlideChangeEnd: function (swiper) {
-                var swiperIndex = swiper.activeIndex;//切换结束时，告诉我现在是第几个slide
-                $("div.guide_index ul li").find("a").removeClass("guide_on");
-                $("div.guide_index ul li").eq(swiperIndex).find("a").addClass("guide_on");
-                new_flag = true;
-                limitHeight();
-            }
-        });
-        PreventScroll('.fcMainList');
+var new_flag=true;//tab各内容下拉开关
+var search_flag=false;//search结果下拉开关
+var searchPage;
+var rollFlag=0;
+$(function(){
+  $("#fc_search").val("");
+  // 页面初始化
+  var wH=$(window).height();
+  var headerH=$("div.agent-header").outerHeight(true);
+  var guideH=$("div.fc_guider").outerHeight(true);
+  var tabSwiperH=wH-headerH-guideH+5+"px";
+  var mainH=wH-1+"px";
+  $("div.scrollImg").css("height",wH);
+  $("div.realAuth").css("height",wH);
+  $("div.ban,div.banTip,div.noteIdai").css("height",wH);
+  $("div.fcMainList").css("height",mainH);
+  $("div.tabSwiper").css("min-height",tabSwiperH);
+  //滑动
+  var mySwiper = new Swiper('.tabSwiper', {
+    direction: 'horizontal',
+    slidesPerView: "auto",
+    centeredSlides:true,
+    resistanceRatio:0,
+    touchRatio : 0.5,
+    touchAngle : 10,
+    // spaceBetween: 10,
+    //autoplay: 4000,//可选选项，自动滑动
+    // loop : true,
+    autoplayDisableOnInteraction : false,
+    onSlideChangeEnd: function(swiper){
+      var swiperIndex=swiper.activeIndex;//切换结束时，告诉我现在是第几个slide
+      $("div.guide_index ul li").find("a").removeClass("guide_on");
+      $("div.guide_index ul li").eq(swiperIndex).find("a").addClass("guide_on");
+      new_flag=true;
+      limitHeight();
+    }
+  });
+PreventScroll('.fcMainList');
 //修复ios输入框获取焦点时不支持fixed的bug
-        $(document).ready(function () {
-            var isIOS = (/iphone|ipad/gi).test(navigator.appVersion);
-            if (isIOS) {
-                $('.authContent ul li input').on('focus', function () {
-                    rollFlag = 1;
-                    var scrollTop = $(window).scrollTop();
-                    $('div.realAuth').css({"position": "absolute", "height": $("body").outerHeight(true)});
-                    $('div.authMain').css("top", scrollTop + 300);
+$(document).ready(function(){
+   var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
+   if(isIOS){
+     $('.authContent ul li input').on('focus',function(){
+        rollFlag=1;
+        var scrollTop=$(window).scrollTop();
+        $('div.realAuth').css({"position":"absolute","height":$("body").outerHeight(true)});  
+        $('div.authMain').css("top",scrollTop+300);                            
 
-                }).on('focusout', function () {
-                    rollFlag = 0;
-                    $('div.realAuth').css({"position": "fixed", "height": $(window).height()});
-                    $('div.authMain').css("top", "50%");
-                });
-            }
-        });
+     }).on('focusout',function(){
+        rollFlag=0;
+        $('div.realAuth').css({"position":"fixed","height":$(window).height()});    
+        $('div.authMain').css("top","50%");
+     });
+   }
+});
 //监听页面滚动
-        document.addEventListener('touchmove', function (event) {
-            if (rollFlag == 1) {
-                event.preventDefault();
-            }
-        })
+document.addEventListener('touchmove', function (event) {
+  if(rollFlag==1){
+      event.preventDefault();
+  } 
+})
 
 // 搜索框切换开始
-        $("#fc_search").focus(function () {
-            $("div.static_style").hide();
-            $(this).css("width", "82%").addClass("searching");
-            $(this).parent().find("a").show();
-            searching();
-            $("div.search_rec").show();
-        });
-        $("div.search_rec").click(function () {
-            var searchValue = $("#fc_search").val();
-            if (searchValue == '') {
-                $("div.static_style").show();
-                $("div.fc_search").find("a").hide();
-                $("div.fc_search").find("input").css("width", "94%");
-            } else {
-                $("div.static_style").hide();
-                $("div.fc_search").find("a").show();
-                $("div.fc_search").find("input").css("width", "82%");
-            }
-            $("div.search_rec").hide();
-        });
-
-        function searching() {
-            var window_H = $(window).height();
-            var search_recH = window_H - 85 + "px";
-            $("div.search_rec").css("height", search_recH);
-        }
-
+  $("#fc_search").focus(function(){
+    $("div.static_style").hide();
+    $(this).css("width","82%").addClass("searching");
+    $(this).parent().find("a").show();
+    searching();
+    $("div.search_rec").show();
+  });
+  $("div.search_rec").click(function(){
+    var searchValue=$("#fc_search").val();
+    if(searchValue=='') { 
+      $("div.static_style").show();
+      $("div.fc_search").find("a").hide();
+      $("div.fc_search").find("input").css("width","94%");
+    }else{
+      $("div.static_style").hide();
+      $("div.fc_search").find("a").show();
+      $("div.fc_search").find("input").css("width","82%");
+    }
+    $("div.search_rec").hide(); 
+  });
+  function searching(){
+    var window_H=$(window).height();
+    var search_recH=window_H-85+"px";
+    $("div.search_rec").css("height",search_recH);    
+  }
 // 搜索框切换结束
 // 标签切换开始
-        $("div.guide_index ul li").click(function () {
-            search_flag = false;
-            new_flag = true;
-            $("div.tabSwiper").show();
-            $("div.searchSwiper").hide();
-            PreventScroll('.fcMainList');
-            var _index = $(this).index();
-            if (!$(this).find("a").hasClass("guide_on")) {
-                $(this).parent().find("li a").removeClass("guide_on");
-                $(this).find("a").addClass("guide_on");
-                mySwiper.slideTo(_index, 300, false);//切换到第一个slide，速度为1秒
-                limitHeight();
-            }
-        })
-// 标签切换结束  
-    });
-    //首页标签内容展示
-    $(document).ready(function () {
-        setTimeout(function () {
-            limitHeight();
-        }, 1000);
-    })
-
-    // 重新定义页面高度
-    function limitHeight() {
-        var indexHeight = $("div.tabSwiper .swiper-wrapper .swiper-slide-active .result_common").outerHeight(true);
-        $("div.tabSwiper .swiper-wrapper").css("height", indexHeight);
-        PreventScroll('.fcMainList');
+  $("div.guide_index ul li").click(function(){    
+    search_flag=false;
+    new_flag=true;
+    $("div.tabSwiper").show();
+    $("div.searchSwiper").hide();
+    PreventScroll('.fcMainList');
+    var _index=$(this).index();
+    if(!$(this).find("a").hasClass("guide_on")){
+      $(this).parent().find("li a").removeClass("guide_on");
+      $(this).find("a").addClass("guide_on");
+      mySwiper.slideTo(_index, 300, false);//切换到第一个slide，速度为1秒
+      limitHeight();
     }
-
-    $(document).ready(function () {
-        var range = 100;             //距下边界长度/单位px
-        var totalheight = 0;                    //主体元素
-        var newPage = 1;
-        var answerPage = 1;
-        var imgPage = 1;
-        var sharePage = 1;
-        $("div.fcMainList").unbind("scroll").bind("scroll", function (e) {
-            // var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
-            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());
-            //console.log("页面的文档高度 ："+$(document).height());
-            //console.log('浏览器的高度：'+$(window).height());
-            var sum = this.scrollHeight;
-            // totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
-            if (sum - range <= $(this).scrollTop() + $(this).outerHeight()) {
-                if (new_flag) {
-                    $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").show();
-                    limitHeight();
-                    new_flag = false;
-                    var tagId = $("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-tagId");
-                    var maxPage = $("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-Page");
-                    if (tagId == "0") {
-                        newPage++;
-                        var page = newPage;
-                    } else if (tagId == "1") {
-                        imgPage++;
-                        var page = imgPage;
-                    } else if (tagId == "2") {
-                        answerPage++;
-                        var page = answerPage;
-                    } else if (tagId == "3") {
-                        sharePage++;
-                        var page = sharePage;
-                    }
-                    if (page > maxPage) {
-                        $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").hide();
-                        $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLimit").show();
-                        limitHeight();
-                        return;
-                    }
-                    var url = "{php echo $this->createMobileUrl('friend', array('op'=>'getFriends'))}";
-                    $.ajax({
-                        url: url,
-                        type: 'post',
-                        data: {'tagId': tagId, 'page': page},
-                        async: false,
-                        dataType: 'json',
-                        success: function (res) {
-                            if (res.code == 0) {
-                                var _data = res.data;
-                                ajaxResult(_data, 0, tagId);
-                            } else {
-                                layer.msg(res.message);
-                                return flase;
-                            }
-                        }
-                    })
-                } else if (search_flag) {
-                    search_flag = false;
-                    toSearch();
-                }
-            }
-        });
-    })
+  })
+// 标签切换结束  
+});
+//首页标签内容展示
+$(document).ready(function(){
+  setTimeout(function(){
+    limitHeight();
+  },1000);
+})
+// 重新定义页面高度
+function limitHeight(){
+  var indexHeight=$("div.tabSwiper .swiper-wrapper .swiper-slide-active .result_common").outerHeight(true);
+  $("div.tabSwiper .swiper-wrapper").css("height",indexHeight);
+  PreventScroll('.fcMainList');
+}
+$(document).ready(function(){
+  var range = 100;             //距下边界长度/单位px
+  var totalheight = 0;                    //主体元素  
+  var newPage = 1;
+  var answerPage = 1;
+  var imgPage = 1;
+  var sharePage = 1;
+  $("div.fcMainList").unbind("scroll").bind("scroll",function(e){  
+      // var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+      //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
+      //console.log("页面的文档高度 ："+$(document).height());  
+      //console.log('浏览器的高度：'+$(window).height());
+      var sum = this.scrollHeight;  
+      // totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
+      if(sum-range <= $(this).scrollTop() + $(this).outerHeight()) { 
+        if(new_flag) {
+          $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").show();
+          limitHeight();
+          new_flag=false;
+          var tagId=$("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-tagId");
+          var maxPage=$("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-Page");
+          if(tagId=="0"){
+            newPage++;
+            var page=newPage;
+          }else if(tagId=="1"){
+            imgPage++;
+            var page=imgPage;
+          }else if(tagId=="2"){
+            answerPage++;
+            var page=answerPage;
+          }else if(tagId=="3"){
+            sharePage++;
+            var page=sharePage;
+          }    
+          if(page>maxPage){
+            $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").hide();
+            $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLimit").show();
+            limitHeight();
+            return;
+          }
+          var url = '/Wap/FriendCircle/getMainList';
+          $.ajax({
+             url:url,
+             type:'post',
+             data:{'tagId':tagId,'page':page},
+             async: false,
+             dataType:'json',
+             success:function (res) {
+                if(res.code==0){
+                  var _data=res.data;
+                  ajaxResult(_data,0,tagId); 
+                }else{
+                  layer.msg(res.message);
+                  return flase;
+                }                                               
+             },
+             error: function(XMLHttpRequest, textStatus, errorThrown) {
+                 // alert(XMLHttpRequest.status);
+                 // alert(XMLHttpRequest.readyState);
+                 // alert(textStatus);
+             }
+           })
+        }else if(search_flag){ 
+          search_flag=false;         
+          toSearch();
+        }
+      }  
+  });
+})
     // 搜索
     $(".to_search").click(function () {
         searchPage = 0;
