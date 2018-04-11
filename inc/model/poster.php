@@ -49,9 +49,9 @@ class Xuan_mixloan_Poster
         $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
         imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,$params['member']['nickname']);
         if (!$config['poster_avatar']) {
-            $height = 0.4;
+            $height = 0.55;
         } else {
-            $height = 0.4;
+            $height = 0.55;
         }
         imagecopymerge($bgpng,$newl,imagesx($bgpng)*0.33,imagesy($bgpng)*$height,0,0,imagesx($newl),imagesy($newl),100);
         $res = imagepng($bgpng,$params['out']);
