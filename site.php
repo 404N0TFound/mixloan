@@ -59,7 +59,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				pdo_insert("xuan_mixloan_payment", $insert);
 				pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
 				$inviter = m('member')->getInviter($member['phone'], $openid);
-				if ($inviter && $config['inviter_fee_two']) {
+				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
