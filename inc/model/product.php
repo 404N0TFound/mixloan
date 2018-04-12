@@ -312,13 +312,13 @@ class Xuan_mixloan_Product
         } else {
             $count = $res;
         }
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
-        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
-        if (!$res) {
-            $count += 0;
-        } else {
-            $count += $res;
-        }
+        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        // $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        // if (!$res) {
+        //     $count += 0;
+        // } else {
+        //     $count += $res;
+        // }
         return $count;
     }
     
