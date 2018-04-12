@@ -313,13 +313,13 @@ class Xuan_mixloan_Product
         } else {
             $count = $res;
         }
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
-        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
-        if (!$res) {
-            $count += 0;
-        } else {
-            $count += $res;
-        }
+        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        // $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        // if (!$res) {
+        //     $count += 0;
+        // } else {
+        //     $count += $res;
+        // }
         return $count;
     }
 
@@ -331,8 +331,9 @@ class Xuan_mixloan_Product
         $inviter = (int)$params['inviter'];
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
-        $fields = "b.nickname,a.openid,a.createtime,c.id,d.re_bonus";
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
+        $fields = "b.id,b.nickname,a.openid,a.createtime";
+        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} ORDER BY a.id DESC";
         $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
         if (!$list) {
             $list = [];
@@ -343,11 +344,13 @@ class Xuan_mixloan_Product
                     $fans = mc_fetch($uid,array('nickname'));
                     $row['nickname'] = $fans['nickname'];
                 }
-                if ($row['id']) {
+                $pay = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$row['id']));
+                if ($pay) {
                     $row['pay'] = 1;
                 } else {
                     $row['pay'] = 0;
                 }
+                $row['re_bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM ".tablename('xuan_mixloan_product_apply').' WHERE uid=:uid AND pid=0', array(':uid'=>$row['id']));
                 if (!$row['re_bonus']) {
                     $row['re_bonus'] = 0;
                 }
