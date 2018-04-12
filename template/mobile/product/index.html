@@ -21,6 +21,8 @@
 		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
 		<script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
 		<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
+
 		<style>
 		@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         	div.agent-foot{padding-bottom:20px; }
@@ -29,7 +31,32 @@
     	.swiper-pagination-bullet{background: #ccc;opacity: 1;}
 		.swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
 		.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
-		
+		div.loanindex_inform {
+		    padding: 5px 0;
+		    height: 20px;
+		    background-color: #fff;
+		    overflow: hidden;
+		}
+		div.loanindex_inform span {
+		    display: inline-block;
+		    width: 10%;
+		    text-align: center;
+		    float: left;
+		}
+		div.loanindex_inform span img {
+		    display: block;
+		    width: 50%;
+		    margin: 0 auto;
+		}
+		div.loanindex_inform ul {
+		    float: left;
+		    width: 80%;
+		    height: 20px;
+		    overflow: hidden;
+		}
+		div.loanindex_inform li{
+			font-size: 0.6rem
+		}
 		</style>
 	
 	{template 'common/wxshare'}
@@ -42,14 +69,14 @@
 		</div>
 		<div style="height:2rem;"></div>
 		<!-- end -->
-		<div class="product_head">
+		<!-- <div class="product_head">
 			<ul class="clearfix">
 		      	<li class="on"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></li>
 		      	<li><a href="{php echo $this->createMobileUrl('product', array('op'=>'customer'))}" id="href_list"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
 
 		      	<li><a href="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}"><h2><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></a></li>
 	 		</ul>
-		</div>
+		</div> -->
 		<div class="fjx"></div>
 		<div class="wapper dn">
 			<div class="cet_pic">
@@ -66,7 +93,14 @@
 				<!-- lunbotu- -->
 				
 			</div>
-			<div class="validRule"><p>有效规则：新用户注册申请</p></div>
+			<div class="loanindex_inform">
+                <span><img src="../addons/xuan_mixloan/template/style/picture/inform_1.png" /></span>
+                <ul class="carousel">
+                    {loop $barrages $barrage}
+                        <li style="margin-top: 0px;">{$barrage['name']} 获得<em>{$barrage['type']}</em><em>{$barrage['money']}元</em></li>   
+                    {/loop}    
+                </ul>
+            </div>
 			<!-- fjx -->
 			<!-- <div class="fjx"></div> -->
 			<!-- fjx -->
@@ -122,21 +156,21 @@
 	    <div class="agent-foot">
 	        <a href="javascript:;"  class="on">
 	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-	            <p>{$config['title']}</p>
+	            <p>推广中心</p>
 	        </a>
 	        <a href="{php echo $this->createMobileUrl('channel')}" class="today-cell">
 	          	<p class="foot_img">
 	          		<img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" />
 	          			          	</p>
-	            <p>今日口子</p>
+	            <p>新闻中心</p>
 	        </a>
 	        <a class="home" href="{php echo $this->createMobileUrl('friend')}">
 	            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" width="45px" alt="">
-	            <!-- <p>金融朋友圈</p> -->
+            	<p>会员交流</p>
 	        </a>
 	        <a href="{php echo $this->createMobileUrl('loan')}">
 	           	<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-	            <p>查网贷</p>
+	            <p>信贷大全</p>
 	        </a>
 	        <a href="{php echo $this->createMobileUrl('user')}" >
 	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
@@ -151,6 +185,7 @@
 		  	shade: [0.1,'#fff'] //0.1透明度的白色背景
 		});
 		
+		$(".carousel").slideUp(); 
 		layer_loan();
 		
 		/////系统维护弹窗

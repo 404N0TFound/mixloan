@@ -8,9 +8,9 @@ $member = m('member')->getMember($openid);
 $agent = m('member')->checkAgent($member['id']);
 if($operation=='buy'){
 	//购买会员
-	if (!$member['phone']) {
-		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
-	}
+	// if (!$member['phone']) {
+	// 	message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	// }
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
@@ -267,4 +267,7 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+} else if ($operation == 'extend_list') {
+	//新下级列表
+	include $this->template('vip/extend_list');
 }

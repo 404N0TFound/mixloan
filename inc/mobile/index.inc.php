@@ -7,6 +7,7 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='register'){
 	//注册
+	header("location:{$this->createMobileUrl('user')}");
 	include $this->template('index/register');
 } elseif ($operation == 'register_contract') {
 	//注册协议

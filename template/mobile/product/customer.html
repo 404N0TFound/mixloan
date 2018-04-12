@@ -37,36 +37,37 @@
 		<a class="return" href="{php echo $this->createMobileUrl('mix' ,['op'=>'tutorials'])}" ><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 	</div>
 	<div class="agent-foot">
-        <a href="javascript:;"  class="on">
+        <a href="{php echo $this->createMobileUrl('product', array('op'=>''))}">
             <!-- <span class="iconfont icon-card2"></span> -->
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-            <p>{$config['title']}</p>
+            <p>推广中心</p>
         </a>
         <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-            <p>今日口子</p>
+            <p>新闻中心</p>
        </a>
         <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
             <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+            <p>会员交流</p>
         </a>
         <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-            <p>查网贷</p>
+            <p>信贷大全</p>
         </a>
-        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}"  class="on">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
             <p>个人中心</p>
         </a>
     </div>
 	<div style="height:2rem;"></div>
 	<!-- end -->
-	<div class="product_head">
+	<!-- <div class="product_head">
 		<ul class="clearfix">
 	      	<li><a href="{php echo $this->createMobileUrl('product')}"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
 	      	<li class="on"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></li>
 	      	<li><a href="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}"><h2><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></a></li>
  		</ul>
-	</div>
+	</div> -->
 	<div class="cusLMain agent-main" style="height:auto;">
 		<div class="cusLtop">
 			<img src="../addons/xuan_mixloan/template/style/picture/cusbg_1.png" />
@@ -81,12 +82,12 @@
 			</div>
 		</div>
 		<div class="accCommon monthAccount">
-			<h1><img src="../addons/xuan_mixloan/template/style/picture/weekaccount_1.png" />周结产品<span>(玖富万卡为官方接口，申请数不显示)</span></h1>
+			<h1><img src="../addons/xuan_mixloan/template/style/picture/weekaccount_1.png" />周结产品</h1>
 			<div class="productLstC monthATitle">
 				<ul>
 					<li>产品</li>
 					<li>申请数/位</li>
-					<li>放款成功</li>
+					<li>办理成功</li>
 					<li>奖金/元</li>
 				</ul>
 			</div>
@@ -99,26 +100,26 @@
 				<ul>
 					<li>产品</li>
 					<li>申请数/位</li>
-					<li>放款成功</li>
+					<li>办理成功</li>
 					<li>奖金/元</li>
 				</ul>
 			</div>
 			<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
 			</div>
 		</div>
-		<div class="accCommon monthAccount">
+		<!-- <div class="accCommon monthAccount">
 			<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下级代理</h1>
 			<div class="productLstC monthATitle">
 				<ul>
-					<li>徒弟名称</li>
+					<li>代理名称</li>
 					<li>关注时间</li>
 					<li>是否开通</li>
-					<li>奖金/元</li>
+					<li>奖金</li>
 				</ul>
 			</div>
 			<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
 			</div>
-		</div>
+		</div> -->
 	</div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
 <script type="text/javascript">
@@ -245,27 +246,27 @@ function ajaxData(year,month){
 					$("div.monthProduct").append(monthStr);
 				}
 
-				$("div.inviteProduct").html("");				
-				var invite=data.invite_list;//月结
-				for(j=0;j<invite.length;j++){
-					var inviteStr='';
-					var mTitle=invite[j].nickname;
-					var mCreatetime=invite[j].createtime;
-					if (invite[j].pay == 1) {
-						var mPay = '是'
-					} else {
-						var mPay = '否';
-					}
-					var mrewards=invite[j].re_bonus;
-							inviteStr += '<ul>'
-					inviteStr += '<li>'+ mTitle +'</li>';
-					inviteStr += '<li>'+ mCreatetime +'</li>';
+				// $("div.inviteProduct").html("");				
+				// var invite=data.invite_list;//月结
+				// for(j=0;j<invite.length;j++){
+				// 	var inviteStr='';
+				// 	var mTitle=invite[j].nickname;
+				// 	var mCreatetime=invite[j].createtime;
+				// 	if (invite[j].pay == 1) {
+				// 		var mPay = '是'
+				// 	} else {
+				// 		var mPay = '否';
+				// 	}
+				// 	var mrewards=invite[j].re_bonus;
+				// 			inviteStr += '<ul>'
+				// 	inviteStr += '<li>'+ mTitle +'</li>';
+				// 	inviteStr += '<li>'+ mCreatetime +'</li>';
 					
-						inviteStr += '<li>'+ mPay +'</li>';
-					inviteStr += '<li>¥ '+ mrewards +'</li>';
-					inviteStr += '</ul>';
-					$("div.inviteProduct").append(inviteStr);
-				}
+				// 		inviteStr += '<li>'+ mPay +'</li>';
+				// 	inviteStr += '<li>¥ '+ mrewards +'</li>';
+				// 	inviteStr += '</ul>';
+				// 	$("div.inviteProduct").append(inviteStr);
+				// }
 			}else{
 				layer.close(layerindex);
 				layer.msg("接口数据错误，请重试！");

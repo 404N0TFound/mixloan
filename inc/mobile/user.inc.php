@@ -17,6 +17,7 @@ if($operation=='index'){
 	$all = number_format($all, 2);
 	$used = number_format($used, 2);
 	$use = number_format($use, 2);
+	$member['number'] = strtoupper(substr(base64_encode($member['id']), 0, 2).'1000'.$member['id']);
 	include $this->template('user/index');
 } else if ($operation == 'bind_card') {
 	//绑卡
@@ -108,4 +109,25 @@ if($operation=='index'){
 	} else {
 		show_json(-1);
 	}
+} else if ($operation == 'rank') {
+	//天梯榜
+	$list = pdo_fetchall("SELECT inviter,SUM(`re_bonus`+`done_bonus`+`extra_bonus`) AS sum_money FROM ".tablename('xuan_mixloan_product_apply')." WHERE uniacid=:uniacid AND status>0 GROUP BY inviter ORDER BY sum_money DESC LIMIT 10", array(':uniacid'=>$_W['uniacid']));
+	if (!empty($list)) {
+		$inviters = [];
+		foreach ($list as $value) {
+			$inviters[] = $value['inviter'];
+		}
+		$inviters_string = '('. implode(',', $inviters) .')';
+		$temp = pdo_fetchall("SELECT id,nickname,avatar FROM ".tablename('xuan_mixloan_member')." WHERE id IN {$inviters_string}");
+		$members = [];
+		foreach ($temp as $v) {
+			$members[$v['id']] = $v;
+		}
+		foreach ($list as &$row) {
+			$row['nickname'] = $members[$row['inviter']]['nickname'];
+			$row['avatar'] = $members[$row['inviter']]['avatar'];
+		}
+		unset($row);
+	}
+	include $this->template('user/rank');
 }

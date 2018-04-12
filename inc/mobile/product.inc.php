@@ -7,6 +7,7 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
 	//首页
+	$barrages = m('product')->getNewBarrages();
 	include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
 	//得到产品
@@ -82,7 +83,7 @@ if($operation=='index'){
 	//申请产品
 	$id = intval($_GPC['id']);
 	$inviter = intval($_GPC['inviter']);
-	$info = m('product')->getList(['id', 'ext_info'],['id'=>$id])[$id];
+	$info = m('product')->getList(['id', 'type', 'ext_info'],['id'=>$id])[$id];
 	include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
 	//申请产品

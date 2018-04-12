@@ -313,13 +313,13 @@ class Xuan_mixloan_Product
         } else {
             $count = $res;
         }
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
-        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
-        if (!$res) {
-            $count += 0;
-        } else {
-            $count += $res;
-        }
+        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        // $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        // if (!$res) {
+        //     $count += 0;
+        // } else {
+        //     $count += $res;
+        // }
         return $count;
     }
 
@@ -400,5 +400,31 @@ class Xuan_mixloan_Product
             $ret[$k+1] = $v;
         }
         return $ret;
+    }
+
+    /**
+    *   获取新的虚假弹幕
+    **/
+    public function getNewBarrages()
+    {
+        $type_arr = array(
+            '下级代理分润',
+            '贷款佣金',
+            '下卡佣金',
+        );
+        $name_arr = array(
+            '孙','李','周','吴','郑','王','冯','陈','褚','卫','蒋','沈','韩','杨','朱','秦','尤','许','何','吕','施','张','孔','曹','严','华','金','魏','陶','姜','戚','谢','邹','喻',
+        );
+        $count = count($name_arr)-1;
+        for ($i=0; $i < 20; $i++) { 
+            $rand_name = rand(0, $count);
+            $rand_type = rand(0, 2);
+            $rand_money = rand(100,2400)/10;
+            $ret['name'] = $name_arr[$rand_name] . '**';
+            $ret['type'] = $type_arr[$rand_type];
+            $ret['money'] = $rand_money;
+            $list[] = $ret;
+        }
+        return $list;
     }
 }

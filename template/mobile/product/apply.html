@@ -41,14 +41,14 @@
 <div class="popLoanApplyCommon popLoanApply">
     <div class="popLoanApplyCover"></div>
     <div class="popLoanMain">
-        <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{$config['title']}提供技术支持</a></div>
+        <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{if $info['type']==1}高额信用卡{else}高额贷款{/if}特邀通道</a></div>
         <div class="popLoanInfo">
             <ul>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
             </ul>
-            <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}服务协议》</a>。</p>
+            <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《服务协议》</a>。</p>
             <div class="applyTips">
                 <p>1.请务必填写本人真实个人信息。</p>
                 <p>2.银行审核通知将以短信形式直接发送到手机。</p>
