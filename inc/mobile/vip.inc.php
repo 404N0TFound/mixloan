@@ -19,18 +19,38 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
+	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
 	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if ($config['pay_type'] == 1) {
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	} else {
+		require_once '../addons/xuan_mixloan/inc/model/yunpay.php';
+		$params['partner'] = $config['yunpay_partner'];
+		$params['user_seller'] = $config['yunpay_user_seller'];
+		$params['md5key'] = $config['yunpay_md5key'];
+		$params['notify_url'] =  $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'yun_pay'));
+		$params['return_url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'yun_pay'));
+		$yunpay = new Xuan_Mixloan_Yunpay($params);
+		$payParams['subject'] = $title;
+		$payParams['total_fee'] = $fee;
+		$payParams['body'] = $title;
+		$payParams['out_order_no'] = $tid;
+		$result = $yunpay->pay($payParams);
+		if ($result['code'] == 1) {
+			echo $result['template'];
+		} else {
+			message($result['msg'], "", "error");
+		}
+	}
 	exit;
 } else if ($operation == 'createPost') {
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理

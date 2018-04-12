@@ -54,7 +54,11 @@ class Xuan_mixloanModule extends WeModule {
                     'tutorials_pic'=>$_GPC['tutorials_pic'],
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
-                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract'])
+                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
+                    'yunpay_partner'=>$_GPC['yunpay_partner'],
+                    'yunpay_user_seller'=>$_GPC['yunpay_user_seller'],
+                    'yunpay_md5key'=>$_GPC['yunpay_md5key'],
+                    'pay_type'=>$_GPC['pay_type'],
             	);
 
             if ($this->saveSettings($cfg)) {
