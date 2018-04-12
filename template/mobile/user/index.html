@@ -26,8 +26,8 @@
             div.agent-foot{padding-bottom:20px; }
             div.agent-main{padding-bottom:0px;}
         }
-        div.agent-secmes .mes-list li dl dd{width: 55%}
-        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+        div.agent-secmes .mes-list li dl dd{width: 51%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 35%}
     </style>
 
 	{template 'common/wxshare'}
@@ -119,6 +119,13 @@
                         <a href="{php echo $this->createMobileUrl('vip', array('op' => 'extend_list'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
                             下级列表
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('user', array('op' => 'rank'))}">
+                            <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
+                            收入排名
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>

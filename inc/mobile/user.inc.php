@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$member['user_type'] = m('member')->checkAgent($member['id']);
+$member['user_type'] = m('member')->checkAgent($member['id'], $config);;
 if($operation=='index'){
 	//会员中心
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
@@ -67,8 +67,9 @@ if($operation=='index'){
 	//修改资料
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
 	if ($agent) {
-		$inviter = pdo_fetchcolumn('SELECT b.nickname FROM '.tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member').' b ON a.inviter=b.id WHERE a.uid=:uid ORDER BY a.id ASC', array(':uid'=>$member['id']));
-		$agent['inviter'] = $inviter ? : '平台';
+		$inviter = m('member')->getInviter($member['phone'], $member['openid']);
+		$inviterInfo = m('member')->getInviterInfo($inviter);
+		$agent['inviter'] = $inviterInfo['nickname'] ? : '平台';
 	}
 	include $this->template('user/set');
 } else if ($operation == 'uploadImage') {

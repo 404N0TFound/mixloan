@@ -142,33 +142,33 @@
                     <li>备注：非新用户申请不计入结算标准，请知晓。</li>
                     {if $info['done_reward_type']==1}
                     <li>
-                        {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_money']}元
+                        {if $info['type']==1}下卡{else}下款{/if}直推：{$config['init_vip_name']}：{$info['ext_info']['done_one_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['done_one_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['done_one_height_reward_money']}元
                     </li>
                     <li>
-                        {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
+                        {if $info['type']==1}下卡{else}下款{/if}二级：{$config['init_vip_name']}：{$info['ext_info']['done_two_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['done_two_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['done_two_height_reward_money']}元
                     </li>
                     {else}
                     <li>
-                        {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
+                        {if $info['type']==1}下卡{else}下款{/if}直推：{$config['init_vip_name']}：{$info['ext_info']['done_one_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_one_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_one_height_reward_per']}点
                     </li>
                     <li>
-                        {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_per']}点
+                        {if $info['type']==1}下卡{else}下款{/if}二级：{$config['init_vip_name']}：{$info['ext_info']['done_two_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_two_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_two_height_reward_per']}点
                     </li>
                     {/if}
 
                     {if $info['re_reward_type']==1}
                     <li>
-                        注册直推：{$info['ext_info']['re_one_init_reward_money']}元
+                        注册直推：{$config['init_vip_name']}：{$info['ext_info']['re_one_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['re_one_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['re_one_height_reward_money']}元
                     </li>
                     <li>
-                       注册二级：{$info['ext_info']['re_two_init_reward_money']}元
+                       注册二级：{$config['init_vip_name']}：{$info['ext_info']['re_two_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['re_two_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['re_two_height_reward_money']}元
                     </li>
                     {else if $info['re_reward_type']==2}
                     <li>
-                        注册直推：{$info['ext_info']['re_one_init_reward_per']}点
+                        注册直推：{$config['init_vip_name']}：{$info['ext_info']['re_one_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['re_one_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['re_one_height_reward_per']}点
                     </li>
                     <li>
-                        注册二级：{$info['ext_info']['re_two_init_reward_per']}点
+                        注册二级：{$config['init_vip_name']}：{$info['ext_info']['re_two_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['re_two_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['re_two_height_reward_per']}点
                     </li>
                     {/if}
                 </ul>

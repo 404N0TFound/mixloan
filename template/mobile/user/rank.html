@@ -6,7 +6,7 @@
 <meta name="format-detection" content="telephone=no" >
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<title>排行榜</title>
+<title收入排行榜</title>
 <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen_1.css">
 <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer.css">
 <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
@@ -18,25 +18,39 @@
 <!-- <div class="daibei-top1 line-bottom" style="margin-top: 0px;">
 <img src="picture/15082959993605.jpg" alt=""><span class="daibei-top1-name">软件开发许要炫</span><span>，欢迎加入卡神大师</span></p>
 </div> -->
-
-<div style="margin-top:1rem">
+<div class="header">
+	<img src="{php echo tomedia($config['rank_back']);}" style="width: 100%">
+</div>
+<div>
 	<ul class="xiaolists">
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number number1"></span><img src="picture/14980496769552.jpg" class="imgleft3"><h4>劉灿森。 </h4><div class="jin-div"><span class="jin-span1">¥15304</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number number2"></span><img src="picture/15053025277703.jpg" class="imgleft3"><h4>擎天柱</h4><div class="jin-div"><span class="jin-span1">¥12572</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number number3"></span><img src="picture/20170929125108.jpg" class="imgleft3"><h4>生产队长</h4><div class="jin-div"><span class="jin-span1">¥8613</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">4</span><img src="picture/15065566492897.jpg" class="imgleft3"><h4>专业信用卡&网贷</h4><div class="jin-div"><span class="jin-span1">¥6180</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">5</span><img src="picture/20170929123151.jpg" class="imgleft3"><h4>欣姐</h4><div class="jin-div"><span class="jin-span1">¥5507</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">6</span><img src="picture/14985499549281.jpg" class="imgleft3"><h4>掌柳、一两素粉</h4><div class="jin-div"><span class="jin-span1">¥5228</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">7</span><img src="picture/14980496768772.jpg" class="imgleft3"><h4>xiao@_牛</h4><div class="jin-div"><span class="jin-span1">¥4549</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">8</span><img src="picture/15059040897694.jpg" class="imgleft3"><h4>贷AAAA张经理</h4><div class="jin-div"><span class="jin-span1">¥2952</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">9</span><img src="picture/15006109786674.jpg" class="imgleft3"><h4>A信誉金融</h4><div class="jin-div"><span class="jin-span1">¥2710</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">10</span><img src="picture/15035457196409.jpg" class="imgleft3"><h4>低调奢华有内涵</h4><div class="jin-div"><span class="jin-span1">¥1581</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">11</span><img src="picture/15023513748288.jpg" class="imgleft3"><h4>贷款徐经理</h4><div class="jin-div"><span class="jin-span1">¥1400</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">12</span><img src="picture/14980496767644.jpg" class="imgleft3"><h4>皮皮虾</h4><div class="jin-div"><span class="jin-span1">¥1148</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">13</span><img src="picture/15057208447628.jpg" class="imgleft3"><h4>天道℡金融。</h4><div class="jin-div"><span class="jin-span1">¥956</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">14</span><img src="picture/20170929123115.jpg" class="imgleft3"><h4>网商零零歲</h4><div class="jin-div"><span class="jin-span1">¥880</span><p class="jin-p">累计奖金总额</p></div></a></li>
-				<li class="xiao_list line-bottom"><a href="javascript:;"><span class="number ">15</span><img src="picture/15028151034743.jpg" class="imgleft3"><h4>A信用贷款柳林💯15161006548</h4><div class="jin-div"><span class="jin-span1">¥760</span><p class="jin-p">累计奖金总额</p></div></a></li>
-		
+
+	{loop $list $key $value}
+	<li class="xiao_list line-bottom">
+	    <a href="javascript:;">
+	    	{if $key == 0}
+	        <span class="number number1"> </span>
+	        {else if $key == 1}
+	        <span class="number number2"> </span>
+	        {else if $key == 2}
+	        <span class="number number3"> </span>
+	        {else}
+	        <span class="number number"> {php echo $key+1}</span>
+	        {/if}
+	        <img src="{$value['avatar']}" class="imgleft3">
+	        <h4>
+	            {$value['nickname']}
+	        </h4>
+	        <div class="jin-div">
+	            <span class="jin-span1">
+	                ¥{$value['sum_money']}
+	            </span>
+	            <p class="jin-p">
+	                累计奖金总额
+	            </p>
+	        </div>
+	    </a>
+	</li>
+	{/loop}	
 	</ul>
 	</div>
 

@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$agent = m('member')->checkAgent($member['id']);
+$agent = m('member')->checkAgent($member['id'], $config);;
 if($operation=='buy'){
 	//购买会员
 	// if (!$member['phone']) {
@@ -13,15 +13,59 @@ if($operation=='buy'){
 	// }
 	if ($agent['code']==1) {
 		$verify = 1;
+		if ($agent['level'] == 1) {
+			$upgrade['mid_vip_fee'] = $config['mid_vip_fee'] - $config['init_vip_fee'];
+			$upgrade['height_vip_fee'] = $config['height_vip_fee'] - $config['init_vip_fee'];
+		} else if ($agent['level'] == 2) {
+			$upgrade['height_vip_fee'] = $config['height_vip_fee'] - $config['mid_vip_fee'];
+		}
 	} else {
 		$verify = 0;
 	}
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
+	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
+	if ($_GPC['type'] == 1) {
+		$fee = $config['init_vip_fee'];
+	} else if ($_GPC['type'] == 2) {
+		$fee = $config['mid_vip_fee'];
+	} else if ($_GPC['type'] == 3) {
+		$fee = $config['height_vip_fee'];
+	}
+	$params = array(
+	    'tid' => $tid, 
+	    'ordersn' => $tid, 
+	    'title' => $title, 
+	    'fee' => $fee, 
+	    'user' => $member['id'], 
+	);
+	//调用pay方法
+	$this->pay($params);
+	exit;
+} else if ($operation == 'upgrade') {
+	//升级会员
+	$tid = "10002" . date('YmdHis', time());
+	$title = "升级{$config['title']}代理会员";
+	if ($agent['code']!=1) {
+		message('您还不是会员','','error');
+	}
+	if ($agent['level'] == 1) {
+		$upgrade['mid_vip_fee'] = $config['mid_vip_fee'] - $config['init_vip_fee'];
+		$upgrade['height_vip_fee'] = $config['height_vip_fee'] - $config['init_vip_fee'];
+	} else if ($agent['level'] == 2) {
+		$upgrade['height_vip_fee'] = $config['height_vip_fee'] - $config['mid_vip_fee'];
+	}
+	if ($_GPC['type'] == 2) {
+		$fee = $upgrade['mid_vip_fee'];
+	} elseif ($_GPC['type'] == 3) {
+		$fee = $upgrade['height_vip_fee'];
+	}
+	if (!$fee) {
+		message('没有有效升级方式','','error');
+	}
+	$_SESSION['upgrade_level'] = intval($_GPC['type']);
 	$params = array(
 	    'tid' => $tid, 
 	    'ordersn' => $tid, 
@@ -115,11 +159,14 @@ if($operation=='buy'){
 		if ($row['pid'] == 0){
 			$row['name'] = '邀请购买代理';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else if ($row['pid'] == -1) {
+			$row['name'] = '邀请升级代理';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
 		} else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
 		}
-		if ($row['pid'] == 0 || $pros[$row['pid']]['count_time'] == 1) {
+		if ($row['pid'] <= 0 || $pros[$row['pid']]['count_time'] == 1) {
 			$row['type'] = '日结';
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '周结';

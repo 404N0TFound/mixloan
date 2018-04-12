@@ -57,9 +57,12 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['pid'] == 0) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
+        } else if ($row['pid'] == -1) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['name'] = '升级代理';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -97,22 +100,51 @@ if ($operation == 'list') {
     //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
-    if ($item['pid']) {
+    if ($item['pid']>0) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
+        $agent = m('member')->checkAgent($item['inviter'], $config);
         $info['ext_info'] = json_decode($info['ext_info'], true);
-        if ($item['degree'] == 1) {
-            $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
-            $info['done_reward_per'] = $info['ext_info']['done_one_init_reward_per'];
-            $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
-            $info['re_reward_per'] = $info['ext_info']['re_one_init_reward_per'];
-        } else if ($item['degree'] == 2) {
-            $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
-            $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
-            $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
-            $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+        if ($agent['level'] == 1) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_init_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_init_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+            }
+        } else if ($agent['level'] == 2) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_mid_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_mid_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_mid_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_mid_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_mid_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_mid_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_mid_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_mid_reward_per'];
+            }
+        } else if ($agent['level'] == 3) {
+            if ($item['degree'] == 1) {
+                $info['done_reward_money'] = $info['ext_info']['done_one_height_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_one_height_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_one_height_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_one_height_reward_per'];
+            } else if ($item['degree'] == 2) {
+                $info['done_reward_money'] = $info['ext_info']['done_two_height_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_two_height_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_two_height_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_two_height_reward_per'];
+            }
         }
-    } else {
+    } else if ($row['pid'] == 0){
         $info['name'] = '邀请购买代理奖励';
+    } else if ($row['pid'] == -1){
+        $info['name'] = '邀请升级代理奖励';
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;

@@ -27,7 +27,7 @@ if($operation=='index'){
 	show_json(1, $arr);
 } else if ($operation == 'info') {
 	//产品详情
-	$agent = m('member')->checkAgent($member['id']);
+	$agent = m('member')->checkAgent($member['id'], $config);;
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {

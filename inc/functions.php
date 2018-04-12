@@ -198,10 +198,12 @@ function shortUrl($target) {
 **/
 function formatMoney($number) {
     $integer = floor($number);
-    $decimal = $number - $integer;
+    $decimal = bcsub((string)$number, (string)$integer, 2);
     if ($decimal != 0) {
         $decimal *= 100;
-        $decimal = ceil($decimal);
+        if ($decimal<10) {
+            $decimal = "0".$decimal;
+        }
     } else {
         $decimal = "00";
     }

@@ -37,8 +37,18 @@ class Xuan_mixloanModule extends WeModule {
                     'tpl_notice5'=>$_GPC['tpl_notice5'],
                     'register_contract'=> htmlspecialchars_decode($_GPC['register_contract']),
                     'buy_vip_price' =>$_GPC['buy_vip_price'],
-                    'inviter_fee_one'=>$_GPC['inviter_fee_one'],
-                    'inviter_fee_two'=>$_GPC['inviter_fee_two'],
+                    'init_vip_name'=>$_GPC['init_vip_name'],
+                    'init_vip_fee'=>$_GPC['init_vip_fee'],
+                    'mid_vip_name'=>$_GPC['mid_vip_name'],
+                    'mid_vip_fee'=>$_GPC['mid_vip_fee'],
+                    'height_vip_name'=>$_GPC['height_vip_name'],
+                    'height_vip_fee'=>$_GPC['height_vip_fee'],
+                    'inviter_fee_one_init'=>$_GPC['inviter_fee_one_init'],
+                    'inviter_fee_one_mid'=>$_GPC['inviter_fee_one_mid'],
+                    'inviter_fee_one_height'=>$_GPC['inviter_fee_one_height'],
+                    'inviter_fee_two_init'=>$_GPC['inviter_fee_two_init'],
+                    'inviter_fee_two_mid'=>$_GPC['inviter_fee_two_mid'],
+                    'inviter_fee_two_height'=>$_GPC['inviter_fee_two_height'],
                     'vip_friend'=>$_GPC['vip_friend'],
                     'vip_channel'=>$_GPC['vip_channel'],
                     'buy_adv_pics'=>$_GPC['buy_adv_pics'],
@@ -48,7 +58,8 @@ class Xuan_mixloanModule extends WeModule {
                     'tutorials_pic'=>$_GPC['tutorials_pic'],
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
-                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract'])
+                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
+                    'rank_back'=>$_GPC['rank_back'],
             	);
 
             if ($this->saveSettings($cfg)) {

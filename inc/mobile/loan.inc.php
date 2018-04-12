@@ -5,7 +5,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$member['user_type'] = m('member')->checkAgent($member['id']);
+$member['user_type'] = m('member')->checkAgent($member['id'], $config);;
 if($operation=='index'){
 	//贷款中心首页
 	$list = m('loan')->getList();
