@@ -25,6 +25,7 @@
       <entry title="首页入口" do="index" state="" direct="false" />
   </cover>
 	<menu>
+      <entry title="海报管理" do="poster" state="" direct="false" />
       <entry title="会员管理" do="member" state="" direct="false" />
       <entry title="银行管理" do="bank" state="" direct="false" />
       <entry title="贷款超市" do="loan" state="" direct="false" />
