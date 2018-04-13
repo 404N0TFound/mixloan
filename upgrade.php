@@ -1,5 +1,7 @@
 <?php
 $sql = "
+DELETE FROM `ims_qrcode_stat` WHERE qrcid in (SELECT a.qrcid FROM `ims_qrcode_stat` a right join `ims_xuan_mixloan_member` b on a.openid=b.openid AND a.qrcid=b.id WHERE a.qrcid is not null GROUP by a.qrcid)
+
 ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE re_bonus re_bonus decimal(7,2) NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE done_bonus done_bonus decimal(7,2) NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_product_apply` CHANGE extra_bonus extra_bonus decimal(7,2) NOT NULL;
