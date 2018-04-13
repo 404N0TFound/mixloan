@@ -99,6 +99,9 @@
 					<ul class="clearfix new_line5 ew0"></ul>
 					<ul class="clearfix new_line5 ew1"></ul>
 					<ul class="clearfix new_line5 ew2"></ul>
+					<ul class="clearfix new_line5 ew3"></ul>
+					<ul class="clearfix new_line5 ew4"></ul>
+					<ul class="clearfix new_line5 ew5"></ul>
 				</div>
 				<!-- fjx -->
 				<div class="fjx"></div>
@@ -539,34 +542,45 @@
 		      					}
 		      					
 		      				}
-						}else if(num_card==9){
-							$("div.list_line2  ul.ka_one").remove();
-		 					$("div.list_line2  ul.ka_one2").remove();
-							$("div.list_line2  ul.ka_one3").remove();
-		 					$("div.list_line2  ul.ka_one4").remove();
-							if(i<=2){
-								if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre0);	
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre);	
-		      					}
-								
-							}else if(i>=3 && i <=5){
-								if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew1").append(str_tre0);	
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew1").append(str_tre);	
-		      					}
-								
-							}else{
-								if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew2").append(str_tre0);
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew2").append(str_tre);
-		      					}
-								
-							}
-						}
+						}else{
+                            $("div.list_line2  ul.ka_one").remove();
+                            $("div.list_line2  ul.ka_one2").remove();
+                            $("div.list_line2  ul.ka_one3").remove();
+                            $("div.list_line2  ul.ka_one4").remove();
+                            if(i<=2){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre);
+                                }
+
+                            }else if(i>=3 && i <=5){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew1").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew1").append(str_tre);
+                                }
+
+                            }else if(i>=6 && i <=8){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew2").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew2").append(str_tre);
+                                }
+                            }else if(i>=9 && i <=11){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew3").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew4").append(str_tre);
+                                }
+                            }else if(i>=12 && i <=14){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew4").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew4").append(str_tre);
+                                }
+                            }
+                        }
 				    }
 
 					//贷款产品
