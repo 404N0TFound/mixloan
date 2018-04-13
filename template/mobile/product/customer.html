@@ -163,7 +163,7 @@ function ajaxData(year,month){
 					var dTitle=days[i].name;
 					var dImgs=days[i].ext_info.logo;
 					var dCount=days[i].count_num;
-					dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';					
+					dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +'  href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
 					if(dCount=='0'){
 						dayStr += '<span></span></li>';
 					}else{
