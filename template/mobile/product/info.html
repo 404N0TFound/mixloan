@@ -240,11 +240,12 @@ document.writeln("    </div>");
 $("#daili_toapply").click(function(){
     //图片合成并弹出
     {if $verify}
-    $("div.daili_ewm").show();
-    $(".daili_ewm").height($(window).height());                 
-    setTimeout(function(){
-        ewm_style();
-    },20)            
+    // $("div.daili_ewm").show();
+    // $(".daili_ewm").height($(window).height());                 
+    // setTimeout(function(){
+    //     ewm_style();
+    // },20) 
+    window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode', 'type'=>1, 'pid'=>$_GPC['id']))}"          
     {else}
     $('.pop_art').show();
     {/if}

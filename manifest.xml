@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
+  `type` int(11) NOT NULL COMMENT '3邀请海报,2全部产品海报,1产品海报',
   `pid` int(11) NOT NULL,
   `createtime` int(11) NOT NULL,
   `poster` varchar(200) NOT NULL,

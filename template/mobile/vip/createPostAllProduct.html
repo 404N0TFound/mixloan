@@ -165,14 +165,7 @@
 				autoplayDisableOnInteraction: false
 			});
 			function craetePoster(){
-			    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>2))}",{},
-			        function(data){
-			            if (data.code==1 || data.code==2) {
-			            	window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'posterAll'))}";
-			            } else {
-			            	layer.msg(data.msg);
-			            }
-			        },'json');
+			    window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode','type'=>2))}";
 			}
 		</script>
 	</body>
