@@ -115,6 +115,11 @@ if ($operation == 'list') {
                 $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
                 $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
                 $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+            } else if ($item['degree'] == 3) {
+                $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_thr_init_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_thr_init_reward_per'];
             }
         } else if ($agent['level'] == 2) {
             if ($item['degree'] == 1) {
@@ -127,6 +132,11 @@ if ($operation == 'list') {
                 $info['done_reward_per'] = $info['ext_info']['done_two_mid_reward_per'];
                 $info['re_reward_money'] = $info['ext_info']['re_two_mid_reward_money'];
                 $info['re_reward_per'] = $info['ext_info']['re_two_mid_reward_per'];
+            } else if ($item['degree'] == 3) {
+                $info['done_reward_money'] = $info['ext_info']['done_thr_mid_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_thr_mid_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_thr_mid_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_thr_mid_reward_per'];
             }
         } else if ($agent['level'] == 3) {
             if ($item['degree'] == 1) {
@@ -139,6 +149,11 @@ if ($operation == 'list') {
                 $info['done_reward_per'] = $info['ext_info']['done_two_height_reward_per'];
                 $info['re_reward_money'] = $info['ext_info']['re_two_height_reward_money'];
                 $info['re_reward_per'] = $info['ext_info']['re_two_height_reward_per'];
+            } else if ($item['degree'] == 3) {
+                $info['done_reward_money'] = $info['ext_info']['done_thr_height_reward_money'];
+                $info['done_reward_per'] = $info['ext_info']['done_thr_height_reward_per'];
+                $info['re_reward_money'] = $info['ext_info']['re_thr_height_reward_money'];
+                $info['re_reward_per'] = $info['ext_info']['re_thr_height_reward_per'];
             }
         }
     } else if ($row['pid'] == 0){
@@ -259,6 +274,10 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
-} 
+} else if ($operation == 'qrcode') {
+    //二维码海报
+    $invite_list = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=3', array(':uid'=>$_GPC['uid']));
+    $product_list = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=2', array(':uid'=>$_GPC['uid']));
+}
 include $this->template('agent');
 ?>

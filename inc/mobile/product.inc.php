@@ -36,7 +36,7 @@ if($operation=='index'){
 	$id = intval($_GPC['id']);
 	$info = m('product')->getList([],['id'=>$id])[$id];
 	$poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
-	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
+	$poster_path = pdo_fetchcolumn("SELECT poster FROM ".tablename('xuan_mixloan_poster')." WHERE uid={$member['id']} AND pid={$id} AND type=1");
 	$top_list = m('product')->getTopBonus($id);
 	include $this->template('product/info');
 } else if ($operation == 'allProduct') {
@@ -116,7 +116,7 @@ if($operation=='index'){
 		$pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	}
 	if ($inviter) {
-		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
+		$inviter_one = m('member')->getInviterInfo($inviter);
 		$datam = array(
             "first" => array(
                 "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
@@ -170,13 +170,12 @@ if($operation=='index'){
 	);
 	pdo_insert('xuan_mixloan_product_apply', $insert);
 	//二级
-	$inviter_info = m('member')->getInviterInfo($inviter);
-    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    $second_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
     if ($second_inviter) {
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
         pdo_insert('xuan_mixloan_product_apply', $insert);
-        $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+        $inviter_two =m('member')->getInviterInfo($second_inviter);
 		$datam = array(
             "first" => array(
                 "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
@@ -197,6 +196,33 @@ if($operation=='index'){
         );
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
     }
+    //三级
+    $third_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
+    if ($third_inviter) {
+        $insert['inviter'] = $third_inviter;
+        $insert['degree'] = 3;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+        $inviter_thr = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$third_inviter));
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_two['nickname']}的下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_thr['openid'], $config['tpl_notice1'], $datam, $url);
+    }
 	show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
 	//客户列表
@@ -210,7 +236,6 @@ if($operation=='index'){
 	$days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
 	$weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
 	$months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
-	$invite_list = m('product')->getInviteList($params);
 	$days_ids = m('product')->getIds($days_list);
 	$weeks_ids = m('product')->getIds($weeks_list);
 	$months_ids = m('product')->getIds($months_list);
@@ -246,7 +271,14 @@ if($operation=='index'){
 		$row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
 	}
 	unset($row);
-	$arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];
+	$arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'applys'=>$applys];
+	show_json(1, $arr);
+} else if ($operation == 'inviter_list'){
+	//邀请接口
+	$inviter = intval($_GPC['uid']) ?  : $member['id'];
+	$params['inviter'] = $inviter;
+	$invite_list = m('product')->getInviteList($params);
+	$arr = ['invite_list'=>array_values($invite_list)];
 	show_json(1, $arr);
 }
 

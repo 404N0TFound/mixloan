@@ -149,6 +149,7 @@ function ajaxData(year,month){
 	});
 	$.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_list'))}",{'year':year,'month':month},
 		function(res){
+			layer.closeAll();
 			if(res.code==1){
 				layer.close(layerindex);
 				$("div.cusLMain").show();
@@ -268,7 +269,6 @@ function ajaxData(year,month){
 				// 	$("div.inviteProduct").append(inviteStr);
 				// }
 			}else{
-				layer.close(layerindex);
 				layer.msg("接口数据错误，请重试！");
 				return false;
 			}
@@ -281,7 +281,7 @@ function dayDetail(index){
 	var month=$("#pointM").html();
 	var year=$("#pointY").html();
 	var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-	location.href=url;
+	// location.href=url;
 }
 </script>
 </body>

@@ -29,10 +29,13 @@ if($operation=='buy'){
 	$title = "购买{$config['title']}代理会员";
 	if ($_GPC['type'] == 1) {
 		$fee = $config['init_vip_fee'];
+		$_SESSION['buy_level'] = 1;
 	} else if ($_GPC['type'] == 2) {
 		$fee = $config['mid_vip_fee'];
+		$_SESSION['buy_level'] = 2;
 	} else if ($_GPC['type'] == 3) {
 		$fee = $config['height_vip_fee'];
+		$_SESSION['buy_level'] = 3;
 	}
 	$params = array(
 	    'tid' => $tid, 
@@ -262,12 +265,16 @@ if($operation=='buy'){
 	include $this->template('vip/inviteCode');
 } else if ($operation == 'createPoster') {
 	//生成邀请二维码
+	$uid = intval($_GPC['uid']) ? : $member['id'];
 	$type = intval($_GPC['type']) ? : 1;
 	$pid = intval($_GPC['pid']) ? : 0;
+	$member = m('member')->getInfo($uid);
 	$posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
+	$created = true;
 	if ($type == 3) {
 		$tips = "";
 		if (!$posterArr) {
+			$created = false;
 			$wx = WeAccount::create();
 		    $barcode = array(
 		        'action_name'=>"QR_LIMIT_SCENE",
@@ -309,6 +316,7 @@ if($operation=='buy'){
 		$share_url = shortUrl( $url );
 		$tips = "快进来，这里有下卡下款通道：{$share_url}";
 		if (!$posterArr) {
+			$created = false;
 			if (empty($config['product_poster'])) {
 				message("请检查海报是否上传", "", "error");
 			}
@@ -341,18 +349,19 @@ if($operation=='buy'){
 		$share_url = shortUrl( $url );
     	$tips = "快进来，{$share_url}";
 		if (!$posterArr) {
+			$created = false;
 			if (empty($product['ext_info']['poster'])) {
 				message("请检查海报是否上传", "", "error");
 			}
 			foreach ($product['ext_info']['poster'] as $row) {
-				$out = XUAN_MIXLOAN_PATH."data/poster/product_{$id}_{$member['id']}_{$row}.png";
-				$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$id}_{$member['id']}_{$row}.png";
+				$out = XUAN_MIXLOAN_PATH."data/poster/product_{$pid}_{$member['id']}_{$row}.png";
+				$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$pid}_{$member['id']}_{$row}.png";
 				$params = array(
 					"poster_id" => $row,
 					"url" => $url,
 					"member" => $member,
-					"type" => 2,
-					"pid" => 0,
+					"type" => 1,
+					"pid" => $pid,
 					"out" => $out,
 					"poster_path" => $poster_path
 				);
@@ -367,7 +376,7 @@ if($operation=='buy'){
 			}
 		}
 	} 
-	$ret = array('tips'=>$tips, 'posterArr'=>$posterArr);
+	$ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
 	message($ret, '', 'success');
 } else if ($operation == 'followList') {
 	//关注列表

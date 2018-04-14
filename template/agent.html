@@ -64,6 +64,7 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'qrcode','uid' => $row['uid']));}" title='二维码'><i class='fa fa-edit'></i> 二维码</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='删除代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 删除代理</a></li>
                             </ul>
                         </div>
@@ -279,6 +280,7 @@
                     <td>   
                         {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
                         {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}
+                        {if $row['degree'] == 3}<span class="label label-success">三级</span>{/if}
                     </td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
                             {else if $row['status']==-1}<span class="label label-warning">注册失败</span>
@@ -322,6 +324,7 @@
                         {$inviter['nickname']}  
                             {if $item['degree']==1}<span class="label label-info">一级{$agent['name']}</span>
                             {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
+                            {else if $item['degree']==3}<span class="label label-success">三级{$agent['name']}</span>
                             {/if}
                     </p>
                 </div>
@@ -560,6 +563,42 @@
             $('#number').hide(500)
         }
     }
+</script>
+{else if $operation == 'qrcode'}
+<div class="panel panel-info">
+    <div class="panel-heading">邀请二维码</div>
+    <div class="panel-body">
+        <div style="text-align: center;">
+            {loop $invite_list $row}
+            <img src="{$row['poster']}" width="160px" style="margin: 15px">
+            {/loop}
+        </div>
+    </div>
+    <div class="panel-heading">代呗店二维码</div>
+    <div class="panel-body">
+        <div style="text-align: center;">
+            {loop $product_list $row}
+            <img src="{$row['poster']}" width="160px" style="margin: 15px">
+            {/loop}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $.post("http://90i0.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=3&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
+        if (data.type=='success') {
+            $.post("http://90i0.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=2&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
+                if (data.type=='success') {
+                    if (data.message.created == false) {
+                        history.go(0);
+                    }
+                } else {
+                    layer.msg(data.message);
+                }
+            },"json");
+        } else {
+            layer.msg(data.message);
+        }
+    },"json");
 </script>
 {/if}
 {template 'common/footer'}

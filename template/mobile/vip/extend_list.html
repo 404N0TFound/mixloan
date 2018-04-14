@@ -101,10 +101,10 @@ function ajaxData(year,month){
 	layerindex = layer.load(1, {
 	  	shade: [0.1,'#fff'], //0.1透明度的白色背景
 	});
-	$.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_list'))}",{'year':year,'month':month},
+	$.post("{php echo $this->createMobileUrl('product', array('op'=>'inviter_list', 'uid'=>$_GPC['uid']))}",{},
 		function(res){
+			layer.closeAll();
 			if(res.code==1){
-				layer.close(layerindex);
 				$("div.cusLMain").show();
 				var data=res.data;
 				var applys=data.applys;//申请数
@@ -121,7 +121,7 @@ function ajaxData(year,month){
 						var mPay = '否';
 					}
 					var mrewards=invite[j].re_bonus;
-							inviteStr += '<ul>'
+							inviteStr += '<ul onclick="detail('+ invite[j].uid +')">'
 					inviteStr += '<li>'+ mTitle +'</li>';
 					inviteStr += '<li>'+ mCreatetime +'</li>';
 					
@@ -131,20 +131,14 @@ function ajaxData(year,month){
 					$("div.inviteProduct").append(inviteStr);
 				}
 			}else{
-				layer.close(layerindex);
 				layer.msg("接口数据错误，请重试！");
 				return false;
 			}
 		},'json')
 }
 // 日结产品跳转
-function dayDetail(index){
-	var id=$(index).attr("data-id");
-	var diff=$(index).attr("data-diff");
-	var month=$("#pointM").html();
-	var year=$("#pointY").html();
-	var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-	location.href=url;
+function detail(index){
+	location.href="{php echo $this->createMobileUrl('vip', array('op'=>'extend_list'))}&uid="+index;
 }
 </script>
 </body>

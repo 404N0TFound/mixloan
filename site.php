@@ -18,6 +18,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$condition =  array(
 			strexists($_SERVER['REQUEST_URI'], '/app/'),
 			!strexists($_SERVER['REQUEST_URI'], 'allProduct'),
+			!strexists($_SERVER['REQUEST_URI'], 'createPoster'),
 			!strexists($_SERVER['REQUEST_URI'], 'apply'),
 			!strexists($_SERVER['REQUEST_URI'], 'queue'),
 		);
@@ -49,7 +50,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				if ($agent['code'] == 1) {
 					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
 				}
-				pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
+				pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
 				$insert = array(
 						"uniacid"=>$_W["uniacid"],
 						"uid"=>$member['id'],
@@ -76,6 +77,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
 		        $account = WeAccount::create($_W['acid']);
 		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+		        //一级
 				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
 				if ($inviter) {
 					$agent = m('member')->checkAgent($inviter, $config);
@@ -126,10 +128,10 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			        $account = WeAccount::create($_W['acid']);
 			        $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
 			        //二级
-					$man = m('member')->getInviterInfo($inviter);
-					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
-					if ($inviter) {
-						$agent = m('member')->checkAgent($inviter, $config);
+					$man_one = m('member')->getInviterInfo($inviter);
+					$inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
+					if ($inviter_two) {
+						$agent = m('member')->checkAgent($inviter_two, $config);
 						if ($agent['level'] == 1) {
 							$re_bonus = $config['inviter_fee_two_init'] * 0.01 * $fee;
 						} else if ($agent['level'] == 2) {
@@ -144,7 +146,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'phone' => $member['phone'],
 								'certno' => $member['certno'],
 								'realname' => $member['realname'],
-								'inviter' => $inviter,
+								'inviter' => $inviter_two,
 								'extra_bonus'=>0,
 								'done_bonus'=>0,
 								're_bonus'=>$re_bonus,
@@ -155,10 +157,10 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						}
 						//模板消息提醒
-						$two_openid = m('user')->getOpenid($inviter);
+						$two_openid = m('user')->getOpenid($inviter_two);
 						$datam = array(
 				            "first" => array(
-				                "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+				                "value" => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
 				                "color" => "#173177"
 				            ) ,
 				            "order" => array(
@@ -176,6 +178,58 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				        );
 				        $account = WeAccount::create($_W['acid']);
 				        $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+				        //三级
+				        $man_two = m('member')->getInviterInfo($inviter_two);
+						$inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+						if ($inviter_thr) {
+							$agent = m('member')->checkAgent($inviter_thr, $config);
+							if ($agent['level'] == 1) {
+								$re_bonus = $config['inviter_fee_thr_init'] * 0.01 * $fee;
+							} else if ($agent['level'] == 2) {
+								$re_bonus = $config['inviter_fee_thr_mid'] * 0.01 * $fee;
+							} else if ($agent['level'] == 3) {
+								$re_bonus = $config['inviter_fee_thr_height'] * 0.01 * $fee;
+							}
+							if ($re_bonus) {
+								$insert_i = array(
+									'uniacid' => $_W['uniacid'],
+									'uid' => $member['id'],
+									'phone' => $member['phone'],
+									'certno' => $member['certno'],
+									'realname' => $member['realname'],
+									'inviter' => $inviter_thr,
+									'extra_bonus'=>0,
+									'done_bonus'=>0,
+									're_bonus'=>$re_bonus,
+									'status'=>2,
+									'createtime'=>time(),
+									'degree'=>3
+								);
+								pdo_insert('xuan_mixloan_product_apply', $insert_i);
+							}
+							//模板消息提醒
+							$thr_openid = m('user')->getOpenid($inviter_thr);
+							$datam = array(
+					            "first" => array(
+					                "value" => "您好，您的徒弟{$man_two['nickname']}的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+					                "color" => "#173177"
+					            ) ,
+					            "order" => array(
+					                "value" => $params['tid'],
+					                "color" => "#173177"
+					            ) ,
+					            "money" => array(
+					                "value" => $re_bonus,
+					                "color" => "#173177"
+					            ) ,
+					            "remark" => array(
+					                "value" => '点击查看详情',
+					                "color" => "#4a5077"
+					            ) ,
+					        );
+					        $account = WeAccount::create($_W['acid']);
+					        $account->sendTplNotice($thr_openid, $config['tpl_notice5'], $datam, $url);
+						}
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");

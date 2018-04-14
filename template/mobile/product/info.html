@@ -83,9 +83,13 @@
 <script type="text/javascript">
     var aa = "{$poster_path}";
     var daili_url = "{$poster_url}";
-    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
-        if (data.code==1) {
-            history.go(0);
+    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPoster', 'type'=>1, 'pid'=>$_GPC['id']))}", function(data){
+        if (data.type=='success') {
+            if (data.message.created == false) {
+                history.go(0);
+            }
+        } else {
+            layer.msg(data.message);
         }
     },"json");
 </script>
@@ -147,12 +151,18 @@
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}二级：{$config['init_vip_name']}：{$info['ext_info']['done_two_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['done_two_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['done_two_height_reward_money']}元
                     </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}三级：{$config['init_vip_name']}：{$info['ext_info']['done_thr_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['done_thr_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['done_thr_height_reward_money']}元
+                    </li>
                     {else}
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}直推：{$config['init_vip_name']}：{$info['ext_info']['done_one_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_one_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_one_height_reward_per']}点
                     </li>
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}二级：{$config['init_vip_name']}：{$info['ext_info']['done_two_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_two_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_two_height_reward_per']}点
+                    </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}三级：{$config['init_vip_name']}：{$info['ext_info']['done_thr_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_thr_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_thr_height_reward_per']}点
                     </li>
                     {/if}
 
@@ -163,12 +173,18 @@
                     <li>
                        注册二级：{$config['init_vip_name']}：{$info['ext_info']['re_two_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['re_two_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['re_two_height_reward_money']}元
                     </li>
+                    <li>
+                       注册三级：{$config['init_vip_name']}：{$info['ext_info']['re_thr_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['re_thr_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['re_thr_height_reward_money']}元
+                    </li>
                     {else if $info['re_reward_type']==2}
                     <li>
                         注册直推：{$config['init_vip_name']}：{$info['ext_info']['re_one_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['re_one_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['re_one_height_reward_per']}点
                     </li>
                     <li>
                         注册二级：{$config['init_vip_name']}：{$info['ext_info']['re_two_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['re_two_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['re_two_height_reward_per']}点
+                    </li>
+                    <li>
+                        注册三级：{$config['init_vip_name']}：{$info['ext_info']['re_thr_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['re_thr_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['re_thr_height_reward_per']}点
                     </li>
                     {/if}
                 </ul>
@@ -240,12 +256,11 @@ document.writeln("    </div>");
 $("#daili_toapply").click(function(){
     //图片合成并弹出
     {if $verify}
-    // $("div.daili_ewm").show();
-    // $(".daili_ewm").height($(window).height());                 
-    // setTimeout(function(){
-    //     ewm_style();
-    // },20) 
-    window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode', 'type'=>1, 'pid'=>$_GPC['id']))}"          
+    $("div.daili_ewm").show();
+    $(".daili_ewm").height($(window).height());                 
+    setTimeout(function(){
+        ewm_style();
+    },20)        
     {else}
     $('.pop_art').show();
     {/if}
