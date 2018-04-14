@@ -571,13 +571,19 @@
 								if(card_maintain==0){
 		      						$("div.list_line2  ul.new_line5.ew3").append(str_tre0);
 		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew4").append(str_tre);
+		      						$("div.list_line2  ul.new_line5.ew3").append(str_tre);
 		      					}
 							}else if(i>=12 && i <=14){
 								if(card_maintain==0){
 		      						$("div.list_line2  ul.new_line5.ew4").append(str_tre0);
 		      					}else{
 		      						$("div.list_line2  ul.new_line5.ew4").append(str_tre);
+		      					}
+							}else if(i>=15 && i <=17){
+								if(card_maintain==0){
+		      						$("div.list_line2  ul.new_line5.ew5").append(str_tre0);
+		      					}else{
+		      						$("div.list_line2  ul.new_line5.ew5").append(str_tre);
 		      					}
 							}
 						}
@@ -602,7 +608,6 @@
 							 }else{
 							 	var day_img_card='../addons/xuan_mixloan/template/style/images/week.png ';
 							 }
-
 
 							 if(hot_card==1){
 				      			var hot_img_card='../addons/xuan_mixloan/template/style/images/fire.png';
@@ -640,14 +645,9 @@
 					      		
 					    	if(loan_maintain==0){
 					    		$("div.three_head  ul").append(three_head0);
-
 			      			}else{
 			      				$("div.three_head  ul").append(three_head);
 			      			}	
-
-					      	
-
-					      		
 			      	}	
 
 					var add_li=$("div.three_head ul li");
