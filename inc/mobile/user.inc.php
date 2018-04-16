@@ -108,4 +108,7 @@ if($operation=='index'){
 	} else {
 		show_json(-1);
 	}
+} else if ($operation == 'extend_bonus') {
+	//推荐有奖
+	include $this->template('user/extend_bonus');
 }

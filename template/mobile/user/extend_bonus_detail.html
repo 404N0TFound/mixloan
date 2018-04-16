@@ -1,0 +1,570 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>{$config['title']}- 推荐有钱</title>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy_1.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/lmy_3.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/add_prize_1.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jweixin-1.2.0_1.js"></script>
+
+    <script  type="text/javascript">
+        var dai_li='1';  ///1代理
+        var userid='204559';
+        var
+            s_title = 'Hi，朋友，为你介绍一款赚钱神器,让生活变得更小康~~',  // 分享标题
+            s_link ='http://www.kakacaifu.com/app/daili/reward?share_id='+userid,  // 分享链接
+            s_desc = '我一直在使用i代，推荐他人申卡办贷，日日领工资，想邀你一起体验！',  //分享描述
+            s_imgUrl = 'http://www.kakacaifu.com/Public/Wap/../addons/xuan_mixloan/template/style/images/prize/lq.png', // 分享图标
+            appId = 'wx4108058f7b82e498', // 必填，公众号的唯一标识
+            timestamp = '1522144714', // 必填，生成签名的时间戳
+            nonceStr = 'ta86gCAqmNZibJzN', // 必填，生成签名的随机串
+            signature = '20a93a8ad5d54b52df5fdaaec5a86bbb9acf6f4e';
+    </script> 
+    <script type="text/javascript">
+         //s_title
+        $(function() {
+            $(".sub_receive").click(function(){
+                s_title="Hi，朋友，我刚在i代赚了50元，立马就到账了！想邀你一起体验~~";
+                wx.ready(function (){
+                    wx.onMenuShareTimeline({  
+                          title: s_title,  
+                          link: s_link,  
+                          imgUrl: s_imgUrl,  
+                          trigger: function (res) {  
+                          },  
+                          success: function (res) {  
+                            alert('分享成功');  
+                            //分享之后增加游戏次数   
+                          },  
+                          cancel: function (res) {  
+                            alert('已取消分享');   
+                          },  
+                          fail: function (res) {  
+                            alert('分享失败');  
+                          }  
+                    });
+                     //分享到朋友
+                    wx.onMenuShareAppMessage({
+                        title: s_title, // 分享标题
+                        link: s_link,  
+                        imgUrl: s_imgUrl,
+                        desc: s_desc,
+                        type: '', // 分享类型,music、video或link，不填默认为link
+                        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                        success: function () { 
+                          //alert(s_title);
+                            // 用户确认分享后执行的回调函数
+                            alert('分享成功！'); 
+                        },
+                        cancel: function () { 
+                            alert('已取消分享');
+                            // 用户取消分享后执行的回调函数
+                        }
+                    });
+                    
+                     //分享到QQ
+                    wx.onMenuShareQQ({
+                      title: s_title, // 分享标题
+                      link: s_link, // 分享链接
+                      imgUrl: s_imgUrl, // 分享图标
+                      desc: s_desc,
+                      success: function () { 
+                          // 用户确认分享后执行的回调函数
+                        alert("分享成功");
+                      },
+                      cancel: function () { 
+                        alert("分享失败");
+                          // 用户取消分享后执行的回调函数
+                      }
+                    });
+
+                     //分享到QQ空间
+                    wx.onMenuShareQZone({
+                      title: s_title, // 分享标题
+                      link: s_link, // 分享链接
+                      imgUrl: s_imgUrl, // 分享图标
+                      desc: s_desc,
+                      success: function () { 
+                          // 用户确认分享后执行的回调函数
+                        alert("分享成功");
+                      },
+                      cancel: function () { 
+                        alert("分享失败");
+                          // 用户取消分享后执行的回调函数
+                      }
+                    });
+                });
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+
+        $(function() {
+            if(dai_li!='1'){
+                function onBridgeReady() {
+                    WeixinJSBridge.call('hideOptionMenu');
+                }
+
+                if (typeof WeixinJSBridge == "undefined") {
+                    if (document.addEventListener) {
+                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                    } else if (document.attachEvent) {
+                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                    }
+                } else {
+                    onBridgeReady();
+                }
+            }else{
+                function onBridgeReady(){
+                 WeixinJSBridge.call('showOptionMenu');
+                }
+
+                if (typeof WeixinJSBridge == "undefined"){
+                    if( document.addEventListener ){
+                        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, true);
+                    }else if (document.attachEvent){
+                        document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+                        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                    }
+                }else{
+                    onBridgeReady();
+                }
+            }
+         });
+    </script>
+   
+       
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jssdk_re_1.js"></script>
+</head>
+<style>
+    .prize_text{ background:url(../addons/xuan_mixloan/template/style/images/bag_1.png) center top no-repeat;background-size:100%;}
+    .prize_center .prizeInx_text{background:#feffe6 url(../addons/xuan_mixloan/template/style/images/prizeinx_top_1.png) center top no-repeat;background-size:100%;}
+    .prize_ljbt{background:url(../addons/xuan_mixloan/template/style/images/zy1_1.png) center top no-repeat;background-size:98%;}
+    /*苹果X*/
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            .prize_button{bottom:19%;}
+        }
+
+</style>
+<body> 
+<audio id="a1" class="dn"  auto  controls  preload="auto" >
+    <source src='/Public/Wap/../addons/xuan_mixloan/template/style/images/prize/fifty.wav'>
+</audio>
+<audio id="a2" class="dn"  auto  controls  preload="auto" >
+    <source src='/Public/Wap/../addons/xuan_mixloan/template/style/images/prize/fivehands.wav'>
+</audio>
+
+    <div class="prize_tail" data-source="1">
+        <div class="prize_head">
+           <img src="../addons/xuan_mixloan/template/style/picture/gift_top_1.png" /> 
+           <div class="prize_text" id="s1">
+                <ul class="clearfix">
+                    <li><a href="javascript:;">尾号4343的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号4167的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号3336的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号5987的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号2051的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号4181的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号2207的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号3314的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号7848的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号0225的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号7939的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号4115的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号0311的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号4520的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号8379的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号0009的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号7832的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号2070的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号0367的用户,领取了50元现金</a></li><li><a href="javascript:;">尾号6216的用户,领取了50元现金</a></li>                </ul>
+            </div>
+            <div class="prize_money"><img src="../addons/xuan_mixloan/template/style/picture/money_1.png" /> </div>
+            <div class="prize_money_s prize_money_s1"><img src="../addons/xuan_mixloan/template/style/picture/jb1_1.png" /> </div>
+            <div class="prize_money_s prize_money_s2"><img src="../addons/xuan_mixloan/template/style/picture/jb3_1.png" /> </div>
+            <div class="prize_money_s prize_money_s3"><img src="../addons/xuan_mixloan/template/style/picture/jb4_1.png" /> </div>
+            <div class="prize_money_s prize_money_s4"><img src="../addons/xuan_mixloan/template/style/picture/jb5_1.png" /> </div>
+            <div class="prize_money_s prize_money_s5"><img src="../addons/xuan_mixloan/template/style/picture/jb4_1.png" /> </div>
+            <div class="prize_money_s prize_money_s6"><img src="../addons/xuan_mixloan/template/style/picture/jb3_1.png" /> </div>
+            <div class="prize_rule">
+                <a href="javascript:;" id="re_rule"><span>活动规则</span> 
+                    <img src="../addons/xuan_mixloan/template/style/picture/right_two_1.png" />
+                </a>
+            </div>
+        </div>
+        <!-- center -->
+
+        <div class="prize_center">
+            <img src="../addons/xuan_mixloan/template/style/picture/gift_center_1.png" /> 
+            <div class="prize_inx">
+                <div class="prizeInx_top" >
+                    <img src="../addons/xuan_mixloan/template/style/picture/prizeinx_top_1.png" /> 
+                    <ul class="clearfix">
+                        <li>
+                            <h2>
+                                <b id="expect">50</b>元
+                            </h2><p>预计收益</p>
+                        </li>
+                        <li>
+                            <h2>
+                                <b id="fact">0</b>元
+                             </h2><p>实际收益</p></li>
+                        <li><h2>
+                                <b id="success">0</b>人
+                            </h2><p>成功邀请</p></li>
+                    </ul>
+                    <div class="prizeInx_logo">
+                        <p><!-- <img src="../addons/xuan_mixloan/template/style/picture/bg1_1.jpg" />  -->
+                            <img src="../addons/xuan_mixloan/template/style/picture/f611c416fcd84a45848e7f319cb87364.gif" />
+                                                    </p>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="prizeInx_text" >
+                     <img src="../addons/xuan_mixloan/template/style/picture/prizeinx_pic_1.png" /> 
+                     <div class="prizeInx_ul" >
+                        <ul  class="clearfix">
+                            <li>
+                                <div class="votebox">
+                                    <dl class="barbox">
+                                        <dd class="barline">
+                                            <div data-w="0" style="width:0px;" class="charts"></div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="votebox_num votebox_one"><p>0</p></div>
+                                <div class="votebox_num votebox_two"><p>5</p></div>
+                                <div class="votebox_num votebox_tre"><p>10</p></div>
+                            </li>
+                            <!--   -->
+                            <li>
+                                                                    <p>还差10人</p>                            </li>
+                        </ul>
+                        <p class="tj">每推荐10名新用户，即可额外获得500元现金奖励</p>
+                     </div>
+                    <!-- 3 -->
+                    <div class="prizeInx_cheage">
+                        <div class="prizeInx_cheage_one">
+                            <ul class="clearfix">
+                                <li class="on"><p>已购买</p></li>
+                                <li><p>未购买</p></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- list -->
+                    <div class="centerMain">
+                        <div class="prizeInx_list">
+                        <!-- 已购买 -->
+                            <ul class="clearfix">
+                                                            </ul>
+                            <div class="centerMain_shou centerMain_shi dn">
+                                <img src="../addons/xuan_mixloan/template/style/picture/null_1.png" />
+                                <p>您还没有邀请过好友哦~</p>
+                                <p class="p2">赶紧去推荐好友领取奖金吧~</p>
+                            </div>
+                        </div>
+                        <div class="prizeInx_list dn">
+                            <ul class="clearfix">
+                                <li class="clearfix">
+                                        <p class="k1 add_phone">
+                                            132****1520                                        </p>
+                                        <p class="k2">03/27 17:51</p>
+                                        <h2 class="k3">未购买</h2>
+                                    </li>                            </ul>
+                            <div class="centerMain_shou centerMain_yuji dn">
+                                <img src="../addons/xuan_mixloan/template/style/picture/null_1.png" />
+                                <p>您还没有邀请过好友哦~</p>
+                                <p class="p2">赶紧去推荐好友领取奖金吧~</p>
+                            </div>
+                        </div>
+
+                        <!-- 无数据 -->
+                        
+                    </div>    
+
+                </div><!-- end -->
+            </div>
+        </div>        
+        
+        <!-- centerEND -->
+        <!-- foot -->
+        <p id="bottom_img" class="bottom_ons">
+            <img src="../addons/xuan_mixloan/template/style/picture/gift_bottom_1.png"  />
+        </p>    
+       
+    </div> 
+    <!-- end -->
+    <div class="prize_button"> 
+        <img src="../addons/xuan_mixloan/template/style/picture/button_1.png"  id="sub_button"/>
+           
+
+        <div class="prize_left"><img src="../addons/xuan_mixloan/template/style/picture/left_1.png" /></div>
+        <div class="prize_right"><img src="../addons/xuan_mixloan/template/style/picture/right_1.png" /></div>
+    </div>
+    <!-- 弹窗 -->
+    <div id="prize_art" class="prize_art dn">
+        <div class="prize_botm">
+            <div  class="prize_head">
+                <img src="../addons/xuan_mixloan/template/style/picture/prize_top_1.png"  />
+                <p style="line-height: 1.8em">i代代理才能参加活动哦~<br/>请先购买</p>
+            </div>
+            <div class="submit_foot"><img src="../addons/xuan_mixloan/template/style/picture/prize_but_1.png" /></div>
+           
+
+            <div class="close_shan" id="close_shan"><img src="../addons/xuan_mixloan/template/style/picture/prize_shan_1.png" /></div>
+        </div>
+    </div>
+    <!-- 领奖弹窗 -->
+    <div id="prize_lj" class="prize_lj dn"> 
+        <div class="rotateIn"><img src="../addons/xuan_mixloan/template/style/picture/prize_bs_1.png"  /></div>
+        <div class="prize_ljbt">
+            <p class="p1">领取成功</p>
+            <h2><b id="fif_btn">50</b>元</h2>
+            <p class="p2">现金已到账</p>
+            <p  class="p3">可以在<span>[i代APP-我的工资]</span>查看</p>
+            <img src="../addons/xuan_mixloan/template/style/picture/zy_btn_1.png" id="show_off" />
+            <div class="close_lq" id="close_lq" onclick="close_lq();"><img src="../addons/xuan_mixloan/template/style/picture/colse_1.png"  ></div>
+        </div>
+    </div>
+
+
+    <!-- 分享弹窗 -->
+    <div id="tong" class="dn layer_wrap">
+        <img src="../addons/xuan_mixloan/template/style/picture/shear_1.png" style="margin-right:5%;" />
+        <p><img src="../addons/xuan_mixloan/template/style/picture/shear_btn_1.png"  id="shear_close" /></p>
+    </div>
+    <!-- 规则弹窗 -->
+    <div id="gz_tong" class="dn gz_tong">
+        <img src="../addons/xuan_mixloan/template/style/picture/gz_1.png"  />
+        <!-- <p><img src="../addons/xuan_mixloan/template/style/picture/shear_btn_1.png"  id="shear_close" /></p> -->
+        <div class="close_lq" id="gz_tong_close"><img src="../addons/xuan_mixloan/template/style/picture/colse_1.png"  ></div>
+    </div>
+
+
+</body>
+
+
+<script type="text/javascript">
+        
+    //监听页面滚动
+    window.addEventListener("scroll",function(e){
+        var t =document.documentElement.scrollTop||document.body.scrollTop;
+        var isIphoneX=/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375);
+        //console.log(t)
+        if(t <= 0){
+            $('.prize_inx').css('top','20'+'%');
+            $('.bottom_on').css('margin-top','5'+'%');
+        }else{
+            $('.prize_inx').css('top','10'+'%');
+            $('.bottom_on').css('margin-top','-5'+'%');
+        }
+        if(isIphoneX && t <= 0){
+            $('.prize_button').css('bottom','19'+'%');
+        }else{
+            $('.prize_button').css('bottom','3'+'%');
+        }
+    });
+    function  close_lq(){
+        $('#prize_lj').hide();
+    }
+    var surplus=$(".charts").attr("data-w");
+    function animate(aw){
+        if(aw==0){aw=0.2;}
+        if(aw==10 || aw>10){aw=9.9;}
+        $(".charts").animate({
+            width: aw*10+"%"
+        },800);
+      
+    };
+    animate(surplus);
+    
+    $(function() {
+        if(dai_li!='1'){
+            $('#bottom_img').addClass('bottom_on');
+        }
+        //立即推荐prize_foter
+        $("#sub_button").click(function(){
+           if(dai_li==0){
+                $('#prize_art').show();
+            }else if(dai_li==1){
+                $("#tong").show();
+            }
+
+        })
+
+    
+        //购买
+        var expect=$('#expect').text();  ///未购买
+        var fact=$('#fact').text();///已购买
+        if(expect==0 || expect==''){
+            $('.centerMain_yuji').show();
+
+        }if(fact==0 || fact==''){
+            $('.centerMain_shi').show();
+
+        }if(expect==fact){
+             $('.centerMain_yuji').show();
+        }
+
+        //炫耀一下show_off
+        $("#show_off").click(function(){
+            $("#prize_lj").hide();
+            $("#tong").show();
+        })
+        //活动规则re_rule gz_tong_close
+        $("#re_rule").click(function(){
+            $("#gz_tong").show();
+        })
+        $("#gz_tong_close").click(function(){
+            $("#gz_tong").hide();
+        })
+    })
+   
+    // music
+    var isPlaying_one = false; 
+    var isPlaying_two = false; 
+    function play() {
+        var player = document.querySelector('#a1');
+        if (isPlaying_one) {
+            player.pause();
+            player.src = '';
+        } else {
+            player.src = '/Public/Wap/../addons/xuan_mixloan/template/style/images/prize/fifty.wav';
+            player.play();
+            document.addEventListener("WeixinJSBridgeReady", function () {  
+                 document.getElementById('a1').play();
+            }, false);  
+            
+        }
+    }
+    
+
+    function play_ten() {
+        var player = document.querySelector('#a2');
+        if (isPlaying_two) {
+            player.pause();
+            player.src = '';
+        } else {
+            player.src = '/Public/Wap/../addons/xuan_mixloan/template/style/images/prize/fivehands.wav';
+            player.play();
+            document.addEventListener("WeixinJSBridgeReady", function () {  
+                 document.getElementById('a2').play();
+            }, false);  
+        }
+    }
+   
+
+    // 现金奖励 fif_cha 500
+    function Receive_ten(index){
+        var arrow = $(index);
+        $('#fif_btn').text('500');
+        $.post("/Wap/Reward/getExtra",{},function(data){
+            console.log(data);
+            if(data.code==0){
+                var surplus=$(".charts").attr("data-w")-10;
+                $(".charts").attr("data-w",surplus);
+                if(surplus<10){
+                    arrow.addClass('audio_music_ten');
+                    setTimeout(function(){
+                        play_ten();   
+                    },1); 
+                    arrow.removeClass("lq_cha");
+                    arrow.text("已领取");
+                }
+                $('#prize_lj').show();
+                animate(surplus);
+               
+            }else{
+                layer.msg('不符合领取奖励条件');
+                return false;
+            }
+        },'json')
+    }
+    
+    //领取  50
+    function Receive(index){
+        var arrow = $(index);
+        $('#fif_btn').text('50');
+        var phone = arrow.parent().find('.add_phone').attr('data-phone');
+        $.post("/Wap/Reward/getReward", { "phone": phone },function(data){
+            console.log(data); 
+            if(data.code==0){
+                $('#prize_lj').show();
+                arrow.addClass('audio_music');
+                setTimeout(function(){
+                    play();
+                },1); 
+                arrow.removeClass("tabActive");
+                arrow.text("已领取");
+            }else{
+                layer.msg('不符合领取奖励条件~');
+                return false;
+            }   
+        }, "json");
+    }
+
+    // music end
+    $(function() {
+        $('#close_shan').click(function() {     
+            $('#prize_art').hide();
+        });
+        
+        var source=$('.prize_tail').attr('data-source');
+        $("#sub_button_two").click(function(){
+            var ua = navigator.userAgent.toLowerCase(); 
+            if (/iphone|ipad|ipod/.test(ua)) {
+                window.location.href="https://itunes.apple.com/us/app/i代/id1342466690?l=zh&ls=1&mt=8";
+            } else if (/android/.test(ua)) {
+                window.location.href="http://a.app.qq.com/o/simple.jsp?pkgname=com.cl.idaike";
+            }   
+        }) 
+
+
+        $('.submit_foot').click(function() {   
+            if(source==1){
+                 window.location.href="/Wap/goods/index/id/1";
+            }   
+        });
+
+        ///切换
+        $('.prizeInx_cheage_one ul li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+            var index =$(this).index();
+            $('.centerMain').children().eq(index).show().siblings().hide();
+        })
+       
+        //分享弹窗
+        
+        $('#shear_close').click(function() {     
+            $('#tong').hide();
+        });
+    })
+
+    function AutoScroll(obj){
+        var margin_top=$(obj).find("ul li").height();
+        $(obj).find("ul:first").animate({
+            marginTop:-margin_top
+        },500,function(){
+            $(this).css({marginTop:"0px"}).find("li:first").appendTo(this);
+        });
+    }
+    $(document).ready(function(){
+        setInterval('AutoScroll("#s1")',3000);
+    });
+
+    
+    //百度统计
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?fee237279ab090060a1003d4feab07de";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    //友盟
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1272961492'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1272961492' type='text/javascript'%3E%3C/script%3E"));
+ 
+</script>
+
+<!-- END -->
+
+</html>
