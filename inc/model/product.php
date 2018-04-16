@@ -389,8 +389,13 @@ class Xuan_mixloan_Product
         if (empty($id)) {
             return [];
         }
+        $pro = $this->getList(['id','type'], ['id'=>$id])[$id];
+        if ($pro['type'] == 1) {
+            $list = pdo_fetchall("SELECT inviter,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} AND status>0 GROUP BY inviter HAVING count<>0 ORDER BY count DESC LIMIT 10");
+        } else {
+            $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money` FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} AND status>0 GROUP BY inviter HAVING money<>0 ORDER BY money DESC LIMIT 10");
+        }
         $ret = [];
-        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} AND status>0 GROUP BY inviter HAVING money<>0 OR count<>0 ORDER BY money,count DESC LIMIT 10");
         foreach ($list as $row) {
             $inviter_ids[] = $row['inviter'];
         }
