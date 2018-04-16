@@ -9,6 +9,12 @@ if($operation == 'getCode'){
 	//发送验证码
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
+	if ($_GPC['activity'] == 1) {
+		$verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array('phone'=>$_GPC['phone']));
+		if ($verify) {
+			show_json(102);
+		}
+	}
 	if($_GPC['type']=='register'){
 		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
 	}
