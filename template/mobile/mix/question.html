@@ -1,0 +1,189 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
+    <style>
+    .ques-section dt{
+        font-size: 16px;
+        line-height: 2.5;
+        padding:0 10px;
+        border-top: 1px #e4e4e4 solid;
+        border-bottom: 1px #e4e4e4 solid;
+        margin-top: 5px;
+        background:url(../addons/xuan_mixloan/template/style/images/arrow.png) no-repeat 96% 15px;
+        background-color: #fff;
+        background-size: 20px;
+    }
+    .ques-section dt.on{
+        background-position: 96% -30px;
+    }
+    .ques-section dd{
+        line-height: 1.5;
+        font-size: 14px;
+        color: #666;
+        padding:0 10px;
+        display: none;
+    }
+    .ques-section dd h2{
+        color: #555;
+        line-height: 2.0;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .login-title{
+        font-size: 14px;
+        color: #666;
+        margin: 10px;
+    }
+    .kk-login input[type=number]{
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        font-size: 16px;
+        color: #444;
+        border-width: 0;
+    }
+    .kk-login p{
+        border-bottom: 1px #d6d6d6 solid;
+        padding: 0 10px;
+        background-color: #fff;
+    }
+    .kk-login p:nth-child(1){
+        border-top: 1px #d6d6d6 solid;
+    }
+    .kk-login  p.ver-code input{
+        width: 70%;
+    }
+    .kk-login  p.ver-code img{
+        vertical-align: middle;
+    }
+    .kk-login  p.ver-code a.codeBtn{
+        display: inline-block;
+        font-size: 12px;
+        padding: 3px 10px;
+        border: 1px #ccc solid;
+        border-radius: 32px;
+    }
+    .submit-btn{
+        display: block;
+        width: 90%;
+        font-size: 16px;
+        color: #fff!important;
+        height: 40px;
+        line-height: 40px;
+        background-color: #1bb9de;
+        border-width: 0;
+        margin: 10px auto;
+    }
+    .login-agree{
+        width: 90%;
+        margin: auto;
+        color: #555;
+    }
+    .login-agree input{
+        width: 16px;
+        height: 16px;
+        border: 1px #ccc solid;
+        vertical-align: bottom;
+        position: relative;
+    }
+    .login-agree input:checked:before{
+        display: block;
+        content: "\2714";
+        text-align: center;
+        font-size: 16px;
+        color: #88b688;
+        margin-left: 3px;
+        margin-bottom: 3px;
+        position: absolute;
+        top: -4px;
+        left: -2px;
+    }
+    .login-agree  span{
+        color: #1bb9de;
+    }
+
+
+    .db-content-img{
+        width:100%;
+        position: fixed;
+        top: 44px;
+        bottom: 0;
+        text-align: center; 
+        background:url(../images/dbbg.png) no-repeat center center #c7e8fb; 
+        background-size: cover;
+    }
+    .db-content-img .bot-btn{
+        width: 50%;
+        position: absolute;
+        bottom: 3%;
+        left: 25%;
+    }
+    .db-content-img .bot-btn a:first-child{
+        width: 100%;
+        display: block;    
+        padding-bottom: 19.34%;
+        background:url(../images/getnumbtn.png) no-repeat center center;
+        background-size: cover;
+    }
+    .db-content-img .bot-btn a:nth-child(2){
+        display: block;
+        color: #fff;
+        line-height: 2.0;
+        margin-top: 20px;
+    }
+    .db-content-img .bot-btn .trangle{
+        display: inline-block;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent transparent #fff;
+        margin-left: 5px;
+    }
+        .ques-section dd{width:95%;margin:0 auto;text-align: left;padding:0;} 
+        .ques-section dd img{width:100% !important; height:auto;padding:0;}  
+    </style>
+</head>
+<body class="bglightgray">
+    <div class="agent-header">
+        常见问题
+      <!--   <a class="return" onclick="javascript:history.go(-1)">返回</a> -->
+    </div>
+
+    <div class="agent-main pt44">
+        {loop $questions $question}
+        <dl class="ques-section">
+            <dt>{$question['title']}</dt>
+            <dd>{$question['ext_info']['content']} </dd>
+        </dl>
+        {/loop}
+    </div>
+
+    
+    <script type="text/javascript">
+        $(function(){
+            $(".ques-section dt").click(function(){
+                var on=$(this).hasClass("on");
+                $(".ques-section dt").removeClass("on");
+                $(".ques-section dd").slideUp(150);
+                if(on){
+                    $(this).removeClass("on");
+                    $(this).next("dd").stop().slideUp(150);
+                }else{
+                    $(this).addClass("on");
+                    $(this).next("dd").stop().slideDown(150);                
+                }
+            })
+        })
+    </script>
+</body>

@@ -109,6 +109,13 @@
                 <ul class="clearfix">
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
+                        <a href="{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}">
+                            <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
+                            我的徒弟
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li class="new_guide">
                         <a href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
                             邀请代理二维码
@@ -149,6 +156,20 @@
                         <a href="{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
                             新手指南
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li class="new_guide">
+                        <a href="{php echo $this->createMobileUrl('mix', array('op' => 'question'))}">
+                            <img src="../addons/xuan_mixloan/template/style/images/anwser.png" />
+                            常见问题
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li class="new_guide">
+                        <a href="{php echo $this->createMobileUrl('mix', array('op' => 'announce'))}">
+                            <img src="../addons/xuan_mixloan/template/style/images/message_l_2.png" />
+                            系统公告
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>

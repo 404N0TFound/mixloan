@@ -15,6 +15,7 @@ if($operation=='register'){
 	//注册提交
 	$phone = $_GPC['phone'];
 	$pwd = $_GPC['pwd'];
+	$qrcode = $_GPC['qrcode'];
 	$smsCode = $_GPC['smsCode'];
 	if (md5($smsCode) != $_COOKIE['cache_code']) {
 		show_json(-1, null, "验证码不符或验证码已失效");
@@ -41,7 +42,7 @@ if($operation=='register'){
 		}
 	}
 	//更新操作
-	$arr = ['phone'=>$phone, 'pass'=>$pwd];
+	$arr = ['phone'=>$phone, 'pass'=>$pwd, 'qrcode'=>$qrcode];
 	pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
 	show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
 }

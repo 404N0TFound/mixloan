@@ -25,6 +25,7 @@
       <entry title="首页入口" do="index" state="" direct="false" />
   </cover>
 	<menu>
+      <entry title="帮助公告" do="help" state="" direct="false" />
       <entry title="会员管理" do="member" state="" direct="false" />
       <entry title="银行管理" do="bank" state="" direct="false" />
       <entry title="贷款超市" do="loan" state="" direct="false" />
@@ -38,6 +39,18 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_help`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_help` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1帮助2公告',
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_notice`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
@@ -417,7 +430,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `inviter` varchar(30) NOT NULL,
   `phone` varchar(50) NOT NULL,
   `pass` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `level` tinyint(2) NOT NULL,
+  `qrcode` varchar(255) NOT NULL,
   `area` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

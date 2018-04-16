@@ -24,15 +24,32 @@
     .service_header img{width:100%;height: auto;}
     .service_one p.p2{width:62%;margin:10% auto 0;} 
     .service_two{width:8%;margin:0 auto;position:absolute;left:15%;bottom:9%;}
+    .inviter_header{margin-top: 1rem}
+    .inviter_header,.inviter_phone,.inviter_info,.inviter_qrcode{text-align: center; font-size: 1.6rem; color:black; margin-bottom: 1rem}
+    .inviter_info a{display: inline-block;}
 </style>
 <body  style="background:url(../addons/xuan_mixloan/template/style/images/bag.png) center bottom no-repeat;background-size:100% 100%;">
     
     <div class="service_header">
         <div class="service_one">
             <p class="p1"><img src="{php echo tomedia($config['service_pic'])}" /></p>
-            <p class="p2" id="BizQQWPA"><img src="../addons/xuan_mixloan/template/style/picture/button.png" /></p>
-            <div class="service_two"><img src="../addons/xuan_mixloan/template/style/picture/xian.png" /></div> 
-        </div> 
+            <!-- <p class="p2" id="BizQQWPA"><img src="../addons/xuan_mixloan/template/style/picture/button.png" /></p>
+            <div class="service_two"><img src="../addons/xuan_mixloan/template/style/picture/xian.png" /></div>  -->
+        </div>
+        {if $inviterInfo}
+        <div class="inviter">
+            <div class="inviter_header">专属客服</div>
+            <div class="inviter_body">
+                <div class="inviter_info">
+                    <a><img src="{$inviterInfo['avatar']}" style="border-radius: 50%; width: 5rem"> &nbsp; {$inviterInfo['nickname']}</a>
+                </div>
+                <div class="inviter_phone">手机号：{$inviterInfo['phone']}</div>
+                <div class="inviter_qrcode">
+                    <img src="{$inviterInfo['qrcode']}" style="width: 15rem">
+                </div>
+            </div>
+        </div>
+        {/if}
     </div>
 <script type="text/javascript">
     $(function() {

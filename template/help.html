@@ -1,0 +1,120 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('help')}">列表</a></li>
+    <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('help', array('op' => 'add'));}">添加/编辑&nbsp;</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="help" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="title" value="{$_GPC['title']}"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>id</th>
+                    <th style='width:120px;'>名称</th>
+                    <th style='width:200px;'>所属分类</th>
+                    <th style='width:120px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['title']}</td>
+                    <td>   {if $row['type']==1}常见问题{else if $row['type']==2}系统公告{/if}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('help',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('help',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除该吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+                        
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'add' || $operation == 'update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="help" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[title]" value="{$item['title']}" />
+                </div>
+            </div>
+            <div class="form-group" >
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">所属专题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[type]">
+                        <option value="1" {if $item['type'] == 1}selected{/if}>常见问题</option>
+                        <option value="2" {if $item['type'] == 2}selected{/if}>系统公告</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">内容</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][content]', $item['ext_info']['content']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{/if}
+{template 'common/footer'}

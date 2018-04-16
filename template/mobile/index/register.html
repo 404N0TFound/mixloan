@@ -45,6 +45,9 @@
 		div.regProtocol label img{width: 15px;height: 15px;display: inline-block;vertical-align: middle;margin-top: -3px;}
 		div.regProtocol span{color: #9a989b;font-style: 12px;display: inline;}
 		div.regProtocol a{display: inline;color: #0194fc;font-style: 12px;}
+		.qrcode{
+			margin: 0 auto;background: white; padding: 10px;width: 80px;margin-bottom: 10px
+		}
 	</style>
 	{template 'common/wxshare'}
 </head>
@@ -65,6 +68,11 @@
 				<label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
 				<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
 			</li>
+			<li style="text-align: center">
+				<div class="qrcode"><img src="../addons/xuan_mixloan/template/style/images/camera2.png" width="75px"></div>
+				<input type="hidden" id="qrcode" value="">
+				<div>请上传您的二维码</div>
+			</li>
 		</ul>
 		<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
 		<div class="submit_btn">
@@ -76,6 +84,7 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/common_3.js></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/ajaxupload.3.9.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -115,6 +124,7 @@ return temp
 		var validcode=$("#validcode").val();
 		var psw=$("#psw").val();
 		var psw_l=$("#psw").val().length;
+        var qrcode = $('#qrcode').val();
 		// if(name==""){
 		// 	layer.msg("请输入姓名");
 		// 	bind_click();
@@ -151,7 +161,12 @@ return temp
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
+        if (qrcode == "") {
+        	layer.msg("请上传您的微信二维码");
+        	bind_click();
+        	return false;
+        }
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw,"qrcode":qrcode},
         	function(data){
         		console.log(data);
         		if(data.code==1){
@@ -255,6 +270,25 @@ $('input').on('focus',function(){
         }
     }
 })
+//上传图片(接口)
+var ajaxupload1 = new AjaxUpload($(".qrcode"), {
+    action: "{php echo $this->createMobileUrl('friend', array('op'=>'upload'))}",
+    type: "POST",
+    data: {},
+    autoSubmit: true,
+    responseType: "json",
+    name: 'file',
+    onChange: function(file, ext) {
+        if (!ext || !/^(jpg|png|jpeg|gif|JPG)$/.test(ext)) {
+            layer.msg('请上传格式为.png .jpg .jpeg的图片');
+            return false;
+        }
+    },
+    onComplete: function(file, resp) {
+        $('.qrcode img').attr('src', resp.url);
+        $('#qrcode').val(resp.url);
+    }
+});
 </script>
 </body>
 </html>
