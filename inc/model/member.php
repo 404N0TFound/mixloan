@@ -265,14 +265,17 @@ class Xuan_mixloan_Member
     }
 
     /**
-    *   获取邀请
-    **/
-    public function getInviter($phone) {
+     *   获取邀请
+     **/
+    public function getInviter($phone, $openid="") {
         global $_W;
-        if (!$phone) {
-            return false;
+        $res = false;
+        if ($phone) {
+            $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
         }
-        $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone={$phone}");
+        if (!$res && $openid) {
+            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        }
         return $res;
     }
 
