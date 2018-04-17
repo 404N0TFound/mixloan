@@ -35,6 +35,9 @@ if($operation=='buy'){
 } else if ($operation == 'createPost') {
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
+        if ($agent['code'] != 1) {
+            show_json(-1, [], '您不是代理');
+        }
 		$id = intval($_GPC['id']);
 		$product = m('product')->getList(['id', 'type', 'relate_id', 'ext_info'], ['id'=>$id])[$id];
 		$cfg = [];
@@ -202,6 +205,9 @@ if($operation=='buy'){
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
+    if ($agent['code'] != 1) {
+        message('您不是代理', '', 'error');
+    }
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
 		$wx = WeAccount::create();
