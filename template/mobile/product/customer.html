@@ -106,7 +106,7 @@
 			<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
 			</div>
 		</div>
-		<div class="accCommon monthAccount">
+		<!-- <div class="accCommon monthAccount">
 			<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下级代理</h1>
 			<div class="productLstC monthATitle">
 				<ul>
@@ -118,7 +118,7 @@
 			</div>
 			<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
 			</div>
-		</div>
+		</div> -->
 	</div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
 <script type="text/javascript">
@@ -245,27 +245,27 @@ function ajaxData(year,month){
 					$("div.monthProduct").append(monthStr);
 				}
 
-				$("div.inviteProduct").html("");				
-				var invite=data.invite_list;//月结
-				for(j=0;j<invite.length;j++){
-					var inviteStr='';
-					var mTitle=invite[j].nickname;
-					var mCreatetime=invite[j].createtime;
-					if (invite[j].pay == 1) {
-						var mPay = '是'
-					} else {
-						var mPay = '否';
-					}
-					var mrewards=invite[j].re_bonus;
-							inviteStr += '<ul>'
-					inviteStr += '<li>'+ mTitle +'</li>';
-					inviteStr += '<li>'+ mCreatetime +'</li>';
+				// $("div.inviteProduct").html("");				
+				// var invite=data.invite_list;//月结
+				// for(j=0;j<invite.length;j++){
+				// 	var inviteStr='';
+				// 	var mTitle=invite[j].nickname;
+				// 	var mCreatetime=invite[j].createtime;
+				// 	if (invite[j].pay == 1) {
+				// 		var mPay = '是'
+				// 	} else {
+				// 		var mPay = '否';
+				// 	}
+				// 	var mrewards=invite[j].re_bonus;
+				// 			inviteStr += '<ul>'
+				// 	inviteStr += '<li>'+ mTitle +'</li>';
+				// 	inviteStr += '<li>'+ mCreatetime +'</li>';
 					
-						inviteStr += '<li>'+ mPay +'</li>';
-					inviteStr += '<li>¥ '+ mrewards +'</li>';
-					inviteStr += '</ul>';
-					$("div.inviteProduct").append(inviteStr);
-				}
+				// 		inviteStr += '<li>'+ mPay +'</li>';
+				// 	inviteStr += '<li>¥ '+ mrewards +'</li>';
+				// 	inviteStr += '</ul>';
+				// 	$("div.inviteProduct").append(inviteStr);
+				// }
 			}else{
 				layer.close(layerindex);
 				layer.msg("接口数据错误，请重试！");
