@@ -28,7 +28,7 @@ class Xuan_mixloan_Bank
                 $wheres .= " AND `{$k}` = '{$v}'";
             }
         }
-        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_bank_artical')." WHERE uniacid={$_W['uniacid']} {$wheres}";
+        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_bank_artical')." WHERE uniacid={$_W['uniacid']} {$wheres} ORDER BY id DESC";
         $list = pdo_fetchall($sql);
         foreach ($list as $key => $value) {
             if (!empty($value['ext_info'])) $value['ext_info'] = json_decode($value['ext_info'], true);

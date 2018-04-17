@@ -150,8 +150,10 @@
         border-color: transparent transparent transparent #fff;
         margin-left: 5px;
     }
-        .ques-section dd{width:95%;margin:0 auto;text-align: left;padding:0;} 
-        .ques-section dd img{width:100% !important; height:auto;padding:0;}  
+    .ques-section dd{width:95%;margin:0 auto;text-align: left;padding:0;} 
+    .ques-section dd img{width:100% !important; height:auto;padding:0;}  
+    .author {display: flex;justify-content:space-between;margin: 10px 0;color: #d4cccc;}
+    .author em{color: #00a2ff}
     </style>
 </head>
 <body class="bglightgray">
@@ -164,7 +166,13 @@
         {loop $questions $question}
         <dl class="ques-section">
             <dt>{$question['title']}</dt>
-            <dd>{$question['ext_info']['content']} </dd>
+            <dd>
+                <div class="author">
+                    <div><em>发布人：</em>{$config['title']}</div>
+                    <div><em>发布时间：</em>{php echo date('Y-m-d H:i', $question['createtime'])}</div>
+                </div>
+                <div class="content">{$question['ext_info']['content']} </div>
+            </dd>
         </dl>
         {/loop}
     </div>

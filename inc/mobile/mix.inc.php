@@ -17,7 +17,7 @@ if($operation=='service'){
 	include $this->template('mix/tutorials');
 } else if ($operation == 'question') {
 	//常见问题
-	$questions = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_help')." WHERE uniacid=:uniacid AND type=1", array(':uniacid'=>$_W['uniacid']));
+	$questions = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_help')." WHERE uniacid=:uniacid AND type=1 ORDER BY id DESC", array(':uniacid'=>$_W['uniacid']));
 	foreach ($questions as &$question) {
 		$question['ext_info'] = json_decode($question['ext_info'], 1);
 	}
@@ -25,7 +25,7 @@ if($operation=='service'){
 	include $this->template('mix/question');
 } else if ($operation == 'announce') {
 	//常见问题
-	$announces = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_help')." WHERE uniacid=:uniacid AND type=2", array(':uniacid'=>$_W['uniacid']));
+	$announces = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_help')." WHERE uniacid=:uniacid AND type=2 ORDER BY id DESC", array(':uniacid'=>$_W['uniacid']));
 	foreach ($announces as &$announce) {
 		$announce['ext_info'] = json_decode($announce['ext_info'], 1);
 	}

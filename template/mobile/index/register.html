@@ -69,7 +69,7 @@
 				<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
 			</li>
 			<li style="text-align: center">
-				<div class="qrcode"><img src="../addons/xuan_mixloan/template/style/images/camera2.png" width="75px"></div>
+				<div class="qrcode"><img src="../addons/xuan_mixloan/template/style/images/camera2.png" width="75px" id="qrcode_img"></div>
 				<input type="hidden" id="qrcode" value="">
 				<div>请上传您的二维码</div>
 			</li>
@@ -271,7 +271,7 @@ $('input').on('focus',function(){
     }
 })
 //上传图片(接口)
-var ajaxupload1 = new AjaxUpload($(".qrcode"), {
+var ajaxupload1 = new AjaxUpload($(".qrcode img"), {
     action: "{php echo $this->createMobileUrl('friend', array('op'=>'upload'))}",
     type: "POST",
     data: {},
@@ -283,10 +283,16 @@ var ajaxupload1 = new AjaxUpload($(".qrcode"), {
             layer.msg('请上传格式为.png .jpg .jpeg的图片');
             return false;
         }
+    	layer.load(1, {
+            shade: [0.1,'#fff'], 
+        });
     },
     onComplete: function(file, resp) {
         $('.qrcode img').attr('src', resp.url);
         $('#qrcode').val(resp.url);
+        document.getElementById('qrcode_img').onload = function(e){
+        	layer.closeAll()
+        }
     }
 });
 </script>
