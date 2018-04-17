@@ -109,6 +109,24 @@ if($operation=='index'){
 		show_json(-1);
 	}
 } else if ($operation == 'extend_bonus') {
-	//推荐有奖
+	$agent = m('member')->checkAgent($member['id']);
+	$temp_time = date('Y-m-d',time() - ((date('w') == 0 ? 7 : date('w')) - 1) * 24 * 3600);
+	$start_time = strtotime($temp_time);
+	$end_time = strtotime("+1 weeks {$temp_time}");
+	$phones = [];
+	for ($i=0; $i < 10; $i++) { 
+		$phones[] = rand(1111,9999);
+	}
+	$list = pdo_fetchall("SELECT inviter,SUM(re_bonus) AS bonus FROM ".tablename('xuan_mixloan_product_apply')." WHERE degree=1 AND pid=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter ORDER BY bonus DESC");
+	if (!empty($list)) {
+		foreach ($list as $row) {
+			$member = pdo_fetch("SELECT nickname,avatar FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['inviter']));
+			$row['nickname'] = $member['nickname'];
+			$row['avatar'] = $member['avatar'];
+		}
+		unset($row);
+	}
+	$follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
+	$money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0 AND degree=1") ? : 0;
 	include $this->template('user/extend_bonus');
 }

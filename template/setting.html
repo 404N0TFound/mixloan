@@ -11,6 +11,7 @@
 			<li role="presentation" ><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">协议设置</a></li>
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
+			<li role="presentation" ><a href="#extend_bonus" aria-controls="extend_bonus" role="tab" data-toggle="tab">推荐有奖设置</a></li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -393,7 +394,71 @@
 					</div>
 				</div>
 			</div>
-
+			
+			<div role="tabpanel" class="tab-pane" id="extend_bonus">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						推荐有奖设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">奖励设置</label>
+							<div class="col-sm-4 col-xs-12">
+								<input type="text" name="extend_bonus_nums" value="{$setting['extend_bonus_nums']}" class="form-control" >
+								<span class="help-block">满多少人</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								<input type="text" name="extend_bonus_money" value="{$setting['extend_bonus_money']}" class="form-control" >
+								<span class="help-block">奖励多少元</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片1</label>
+							<div class="col-sm-4 col-xs-12">
+								<img src="../addons/xuan_mixloan/template/style/picture/gift_top_2.png" width="300px">
+								<span class="help-block">示例</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								{php echo tpl_form_field_image(extend_bonus_pic1,$setting['extend_bonus_pic1']);}
+								<span class="help-block">尺寸：750*585</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片2</label>
+							<div class="col-sm-4 col-xs-12">
+								<img src="../addons/xuan_mixloan/template/style/picture/gift_top_two.png" width="300px">
+								<span class="help-block">示例</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								{php echo tpl_form_field_image(extend_bonus_pic2,$setting['extend_bonus_pic2']);}
+								<span class="help-block">尺寸：750*646</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片3</label>
+							<div class="col-sm-4 col-xs-12">
+								<img src="../addons/xuan_mixloan/template/style/picture/gz.png" width="300px">
+								<span class="help-block">示例</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								{php echo tpl_form_field_image(extend_bonus_pic3,$setting['extend_bonus_pic3']);}
+								<span class="help-block">尺寸：750*1333</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">图片4</label>
+							<div class="col-sm-4 col-xs-12">
+								<img src="../addons/xuan_mixloan/template/style/picture/top_bg.png" width="300px">
+								<span class="help-block">示例</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								{php echo tpl_form_field_image(extend_bonus_pic4,$setting['extend_bonus_pic4']);}
+								<span class="help-block">尺寸：1242*934</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 		<div class="form-group col-sm-12">

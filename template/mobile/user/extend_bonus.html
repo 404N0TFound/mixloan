@@ -1,5 +1,4 @@
 ﻿
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,11 +19,6 @@
 <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/add_prize_2.css">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
 
-<script  type="text/javascript">
-    var userid="204559";
-    var dai_li="1";
-    var source="1";
-</script> 
 </head>
 <style>
 .prize_text{ background:url(../addons/xuan_mixloan/template/style/images/bag_2.png) center top no-repeat;background-size:100% 100%;}
@@ -42,11 +36,13 @@
         </div>
 
         <div class="prize_head">
-           <img src="../addons/xuan_mixloan/template/style/picture/gift_top_2.png" /> 
+           <img src="{php echo tomedia($config['extend_bonus_pic1']);}" /> 
            <div class="prize_text">
                 <div  class="prize_text_bot" id="s1">
                     <ul class="clearfix" id="gun_ul">
-                        
+                        {loop $phones $phone}
+                        <li><a href="javascript:;">尾号{$phone}的用户,领取了{$config['extend_bonus_money']}元现金</a></li>
+                        {/loop}
                     </ul>
                 </div>    
             </div>
@@ -60,13 +56,13 @@
             <div class="prize_money_s prize_money_s6"><img src="../addons/xuan_mixloan/template/style/picture/jb3_2.png" /> </div>
             <!-- 动画end -->
             <div class="prize_rule">
-                <a href="/Wap/SecondRecomm/re_gz" id="re_rule">
+                <a onclick="showRules()" id="re_rule">
                     <img src="../addons/xuan_mixloan/template/style/picture/right_art.png" />
                 </a>
             </div>
         </div>
         <div class="gift_pic">
-            <img src="../addons/xuan_mixloan/template/style/picture/gift_top_two.png" /> 
+            <img src="{php echo tomedia($config['extend_bonus_pic2']);}" /> 
             <div class="gift_btns">
                 <a href="javascript:void(0);" id="sub_button">
                     <img src="../addons/xuan_mixloan/template/style/picture/btns.png" /> 
@@ -77,17 +73,28 @@
         <div class="prize_center">
             <img src="../addons/xuan_mixloan/template/style/picture/gift_center_2.png" /> 
             <div class="prize_moy">
-                <p><b id="reward"></b><span>元</span></p>
-                <p class="two"><b id="recomNum"></b><span>人</span></p>
+                <p><b id="reward">{$money_count}</b><span>元</span></p>
+                <p class="two"><b id="recomNum">{$follow_count}</b><span>人</span></p>
                 <div class="click_view">
-                    
+                    <a><span class="on"><img src="../addons/xuan_mixloan/template/style/picture/button_2.png"></span></a>
                 </div>
             </div>
         </div>
         <div class="prize_footer">
             <div class="prize_phb">
                 <img src="../addons/xuan_mixloan/template/style/picture/phb.png" /> 
-                <div class="ranking_list"></div>
+                <div class="ranking_list">
+                    {if $list}
+                        {loop $list $key $value}
+                        <dl class="clearfix">
+                            <dd><b>{if $key==0}<img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b>{else if $key==1}<img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b>{else if $key==2}<img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b>{else}{php echo $key+1;}{/if}</dd>
+                            <dd><img src="../addons/xuan_mixloan/template/style/picture/logo_pic.png"></dd><dd><h3>username</h3><p>11111111111</p></dd><dd><p><label>¥</label>100</p></dd>
+                        </dl>
+                        {/loop}
+                    {else}
+                        <dl><p style='font-size0.6rem;'>暂无数据</p></dl>
+                    {/if}
+                </div>
             </div>
         </div>
  
@@ -100,13 +107,15 @@
     <div class="prize_botm">
         <div  class="prize_head">
             <img src="../addons/xuan_mixloan/template/style/picture/prize_top_2.png"  />
-            <p style="line-height: 1.8em">i代代理才能参加活动哦~<br/>请先购买</p>
+            <p style="line-height: 1.8em">只有{$config['title']}代理才能参加活动哦~</p>
         </div>
-        <div class="submit_foot"><a id="share_href" href="javascript:;" ><img src="../addons/xuan_mixloan/template/style/picture/prize_but_2.png" /></a></div>
+        <div class="submit_foot"><a id="share_href" href="{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}" ><img src="../addons/xuan_mixloan/template/style/picture/prize_but_2.png" /></a></div>
         <div class="close_shan" id="close_shan"><img src="../addons/xuan_mixloan/template/style/picture/prize_shan_2.png" /></div>
     </div>
 </div>
-
+<div id="layer_rules" style="display: none">
+    <img src="{php echo tomedia($config['extend_bonus_pic3'])}">
+</div>
 </body>
 
 
@@ -114,35 +123,20 @@
 //接口  
   
 $(function() { 
-    $("#share_title").text(s_title);
-    $("#share_desc").text(s_desc);   
-    $("#share_imgUrl").text(s_imgUrl);
-
-    var u = navigator.userAgent;
-    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
-    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端  
-    if(isAndroid){
-        $("#share_link").text(s_link_two); 
-    }else if(isiOS){
-        $("#share_link").text(s_link); 
-    }   
-    
-
-
     $("#sub_button").click(function(){
-       if(dai_li==0){
+        {if $agent['code'] != 1}
             $('#prize_art').show();
-        }else if(dai_li==1){
-            var shareImgUrl="/Wap/SecondRecomm/re_Poster_two?source="+source+"&dai="+dai_li+"&userId="+userid+"";
-            //window.location.href="/Wap/SecondRecomm/re_Poster?source="+source+"&dai="+dai_li+"&userId="+userid+"";
-            $(this).attr("href",shareImgUrl)
-        }
-
+        {else}
+            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
+        {/if}
     })
-
-
-
-
+    $(".click_view a").click(function(){
+        {if $agent['code'] != 1}
+            $('#prize_art').show();
+        {else}
+            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}"
+        {/if}
+    })
     $('#close_shan').click(function() {     
         $('#prize_art').hide();
     });
@@ -151,97 +145,16 @@ $(function() {
     });
     //
    
-    $('#gun_ul').text(''); 
-    $("div.ranking_list").text('');
-    $.post("/Wap/SecondRecomm/secondRecomm",{'userId':userid},function(data){
-       
-        if(data.code==0){
-            var _data=data.data;    
-            //滚动的
-            var reciveLeg=_data.recive.length;
-            if(reciveLeg>0){
-              for(var i=0;i<reciveLeg;i++){
-                    var phone=_data.recive[i].phone;
-                    var str="";
-                        str+='<li><a href="javascript:;">尾号'+phone+'的用户,领取了100元现金</a></li>';
-                        $('#gun_ul').append(str);
-                }  
-            }else{
-                $('#gun_ul').append('<li><a href="javascript:;">尾号3456的用户,领取了100元现金</a></li>'); 
-            }
-            
-        //收益
-        var reward=_data.recom.reward;
-        var recomNum=_data.recom.recomNum;
-        if(reward==undefined || reward==null || reward=='' ){
-             $("#reward").text('0');
-        }else{
-            $("#reward").text(reward); 
-        }
-        if(recomNum==undefined || recomNum==null || recomNum=='' ){
-            $("#recomNum").text('0');
-        }else{
-            $("#recomNum").text(recomNum);
-        }
-
-        var reward_leg=$("#reward").text().length;
-        var recomNum_leg=$("#recomNum").text().length;
-        //alert(reward_leg);
-        if(reward_leg>9){
-            $("#reward").css('font-size',0.6+'rem');
-        }if(recomNum_leg>9){
-            $("#recomNum").css('font-size',0.6+'rem');
-
-        }
-
-        $('.click_view').append('<a href="/Wap/SecondRecomm/re_detail?userId='+userid+'&dai='+dai_li+'">'
-                    // +'<span class="prize_left"><img src="../addons/xuan_mixloan/template/style/picture/cu_left.png" /></span>'
-                    +'<span class="on"><img src="../addons/xuan_mixloan/template/style/picture/button_2.png"></span>'
-                    // +'<span class="prize_right"><img src="../addons/xuan_mixloan/template/style/picture/cu_right.png" /></span>'
-                    +'</a>');
-
-        //分享排行榜
-
-        var rankLeg=_data.rank.length;
-        if(rankLeg>0){
-            for(var j=0;j<rankLeg;j++){
-                var _id=_data.rank[j].id;
-                var _money=_data.rank[j].money;
-                var _phone=_data.rank[j].phone;
-                var user_name=_data.rank[j].user_name;
-                var headimgurl=_data.rank[j].headimgurl;
-                var str_one="";
-                str_one+='<dl class="clearfix">'
-                    if(j==0){
-                        str_one+='<dd><b><img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b></dd>'   
-                    }else if(j==1){
-                         str_one+='<dd><b><img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b></dd>'
-                    }else if(j==2){
-                         str_one+='<dd><b><img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b></dd>'
-                    }else{
-                        str_one+='<dd><b>'+(j+1)+'</b></dd>'
-                    }
-
-                if(headimgurl==""){
-                    str_one+='<dd><img src="../addons/xuan_mixloan/template/style/picture/logo_pic.png"></dd>'
-                 }else{
-                    str_one+='<dd><img src="'+headimgurl+'"></dd>' 
-                 }
-                str_one+='<dd><h3>'+user_name+'</h3><p>'+_phone+'</p></dd>'
-                    +'<dd><p><label>&yen;</label>'+_money+'</p></dd>'
-                    +'</dl>';
-                $("div.ranking_list").append(str_one);            
-            }    
-        }else{
-            $("div.ranking_list").append("<dl><p style='font-size0.6rem;'>暂无数据</p></dl>");      
-        }    
-        }else{
-             layer.msg(data.msg);
-             return false;
-        }
-    }, "json"); 
+    
 })
-
+function showRules(){
+    layer.open({
+      type: 1,
+      shade: false,
+      title: false, 
+      content: $('#layer_rules')
+    });
+}
 // 滚动
 function AutoScroll(obj){
     var margin_top=$(obj).find("ul li").height();
@@ -254,7 +167,6 @@ function AutoScroll(obj){
 $(document).ready(function(){
     setInterval('AutoScroll("#s1")',3000);
 });
-
 </script>
 
 <!-- END -->

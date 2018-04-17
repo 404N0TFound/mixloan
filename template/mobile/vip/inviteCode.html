@@ -1,5 +1,4 @@
 ﻿
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +9,44 @@
     <meta content="telephone=no" name="format-detection">
     <meta  content="e-mail=no" name="format-detection"/>
     <title>邀请二维码</title>
-
-	{template 'common/wxshare'}
+{php echo register_jssdk();}
+<script>
+    //微信分享
+    var title = "{$member['nickname']}邀请你加入{$config['title']}";
+    var imgUrl = "{$member['avatar']}";
+    var desc = "{$config['desc']}";
+    var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
+    wx.ready(function(){
+        wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+         },
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert("分享失败");
+            }
+    });
+//分享给好友
+    wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+        },  
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert('分享失败');
+        }
+        });
+});
+</script>
 </head>
 <body class="bglightgray">
     <div>

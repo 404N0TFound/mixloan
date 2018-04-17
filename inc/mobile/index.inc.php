@@ -14,7 +14,7 @@ if($operation=='register'){
 } else if ($operation == 'register_ajax') {
 	//注册提交
 	$phone = $_GPC['phone'];
-	$pwd = $_GPC['pwd'];
+	$pwd = $_GPC['pwd'] ? : '';
 	$smsCode = $_GPC['smsCode'];
 	if (md5($smsCode) != $_COOKIE['cache_code']) {
 		show_json(-1, null, "验证码不符或验证码已失效");
@@ -38,6 +38,25 @@ if($operation=='register'){
 				'createtime' => time(),
 			);
 			pdo_insert('xuan_mixloan_inviter', $insert_i);
+		}
+	} else {
+		if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+			$insert_i = array(
+				'uniacid' => $_W['uniacid'],
+				'uid' => $_GPC['inviter'],
+				'phone' => $phone,
+				'createtime' => time(),
+			);
+			pdo_insert('xuan_mixloan_inviter', $insert_i);
+			$insert_q = array(
+				'uniacid' => $_W['uniacid'],
+				'type'=>1,
+				'qrcid' => $_GPC['inviter'],
+				'scene_str' => $_GPC['inviter'],
+				'openid' => $member['openid'],
+				'createtime' => time(),
+			);
+			pdo_insert('qrcode_stat', $insert_q);
 		}
 	}
 	//更新操作
