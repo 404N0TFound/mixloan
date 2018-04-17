@@ -42,6 +42,8 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                         );
                         $templateId=$config['tpl_notice4'];
                         $res = $wx->sendTplNotice($openid,$templateId,$msg);
+                    } else {
+                         pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$my_id}");
                     }
                 }
             }
