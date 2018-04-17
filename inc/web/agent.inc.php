@@ -66,6 +66,8 @@ if ($operation == 'list') {
             $row['name'] = '邀请购买代理';
         } else if ($row['type'] == 3) {
             $row['name'] = '邀请购买文章';
+        } else if ($row['type'] == 4) {
+            $row['name'] = '邀请付费信用查询';
         } else {
             $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
@@ -116,11 +118,14 @@ if ($operation == 'list') {
     } else if ($item['type'] == 2) {
         $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         $info['name'] = '邀请购买代理奖励';
-    } else {
+    } else if ($item['type'] == 3) {
         $info = pdo_fetch('SELECT * FROM '.tablename('xuan_mixloan_channel').' WHERE id=:id', array(':id'=>$item['relate_id']));
         $info['ext_info'] = json_decode($info['ext_info'], 1);
         $info['ext_info']['logo'] = tomedia($info['ext_info']['pic']);
         $info['name'] = $info['title'];
+    } else if ($item['type'] == 4) {
+        $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        $info['name'] = '邀请付费信用查询';
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;

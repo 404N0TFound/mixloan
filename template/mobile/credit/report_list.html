@@ -22,17 +22,19 @@
 
     <div class="list-box">
         <ul>
+            {loop $list $row}
             <li>
                 <p>
-                    <strong>许要炫</strong>
-                    <span>报告编号：XN20180228410813</span>
-                    <span>报告时间：2018-02-28 13:15:18</span>
+                    <strong>{$row['realname']}</strong>
+                    <span>报告编号：{$row['tradeno']}</span>
+                    <span>报告时间：{php echo date('YmdHis', $row['createtime']);}</span>
                 </p>
                 <button>
                     <i></i>
-                    <span> <a href="/wanghei/infos.html?orderId=4252613&ifOld=0">查看报告</a></span>
+                    <span> <a href="{php echo $this->createMobileUrl('credit', array('op'=>'report_info', 'id'=>$row['id']))}">查看报告</a></span>
                 </button>
             </li>
+            {/loop}
         </ul>
     </div>
 

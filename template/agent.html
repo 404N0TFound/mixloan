@@ -180,6 +180,7 @@
                         <option value="1" {if $_GPC['type']==1}selected{/if}>产品</option>
                         <option value="2" {if $_GPC['type']==2}selected{/if}>购买会员</option>
                         <option value="3" {if $_GPC['type']==3}selected{/if}>购买文章</option>
+                        <option value="4" {if $_GPC['type']==4}selected{/if}>购买信用查询</option>
                     </select>
                 </div>
             </div>
@@ -457,7 +458,7 @@
                     </select>
                 </div>
             </div>
-            {if $item['type'] != 3}
+            {if $item['type']!=3 && $item['type']!=4}
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -487,6 +488,7 @@
                 </div>
             </div>
             {/if}
+            {if $item['type'] == 1}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -494,6 +496,7 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
+            {/if}
             <div class="form-group">
             </div>
         </form>
