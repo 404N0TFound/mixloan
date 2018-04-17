@@ -1,9 +1,5 @@
-﻿
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="html-full">
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
@@ -11,19 +7,15 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta content="telephone=no,email=no" name="format-detection"/>
     <title>支付确认</title>
-
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/mui.min_3.css"/>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/style_6.css"/>
+    
 </head>
 
 <body class="confirm">
 <div class="banner">
     <img src="../addons/xuan_mixloan/template/style/credit/picture/lc3@2x.png"/>
 </div>
-<input type="hidden" id="oldOrderId" maxlength="20" value="4252613"/>
-<input type="hidden" id="ifOldOrder" maxlength="20" value="2"/>
-<input type="hidden" id="orderId" maxlength="20" value="262157"/>
-<input type="hidden" id="openId" maxlength="20" value="o7NmNv2nuf4tk-klZAe4-0qCbQQw"/>
 <div class="options">
     
     
@@ -49,6 +41,14 @@
     $('#shareBtn').click(function () {
         sharebox();
     });
+    $('#searchBtn2').click(function(){
+        $.post("{php echo $this->createMobileUrl('credit', array('op'=>'share_submit', 'id'=>$_GPC['id']))}", {},
+            function(data) {
+                if (data.code == 1) {
+                    window.location.href="{php echo $this->createMobileUrl('index', array('op'=>'report_list'))}"
+                }
+        },'json');
+    })
     function sharebox() {
         var html = '<div class="tips-con">' +
             '<img class="tips-img" src="//images.51nbapi.com/images/loanrisk_wanghei/img/share.png"/>' +
@@ -65,6 +65,47 @@
             }
         });
     }
+</script>
+{php echo register_jssdk();}
+<script>
+    //微信分享
+    var title = "{$member['nickname']}邀请你一起来查信用";
+    var imgUrl = "{php echo tomedia($config['share_image']);}";
+    var desc = "{$config['desc']}";
+    var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>''))}"
+    wx.ready(function(){
+        wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+            $('#shareBtn').hide();
+            $('#searchBtn2').removeClass('mui-hidden');
+         },
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert("分享失败");
+        }
+    });
+    wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+             desc: desc, // 分享描述
+            imgUrl: imgUrl, // 分享图标
+            link:link,
+        success: function () { 
+        // 用户确认分享后执行的回调函数
+            alert('分享成功');
+            $('#shareBtn').hide();
+            $('#searchBtn2').removeClass('mui-hidden');
+        },  
+        cancel: function () { 
+        // 用户取消分享后执行的回调函数
+             alert('分享失败');
+        }
+        });
+    });
 </script>
 </body>
 </html>
