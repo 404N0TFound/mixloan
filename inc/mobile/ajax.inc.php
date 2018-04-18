@@ -17,6 +17,8 @@ if($operation == 'getCode'){
 	}
 	if($_GPC['type']=='register'){
 		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
+	} else {
+		$content = "尊敬的用户，您的验证码为：{$cache}";
 	}
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
