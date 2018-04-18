@@ -129,5 +129,8 @@ if($operation=='index'){
         $ext_info = json_decode($report['ext_info'], 1);
     }
     include $this->template('credit/report_info');
+} else if ($operation == 'example') {
+    //样例
+    include $this->template('credit/example');
 }
 ?>

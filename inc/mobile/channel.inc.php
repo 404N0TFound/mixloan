@@ -11,7 +11,7 @@ if($operation=='index'){
 	$advs = m('channel')->getAdvs();
 	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>1]);
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);
-	$channel_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'id DESC', 3);
+    $channel_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'id DESC');
 	$credit_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'sort DESC', 3);
 	$course_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>3], 'sort DESC', 3);
 	$hot_list = m('channel')->getList(['id', 'title', 'apply_nums'], ['type'=>1, 'is_hot'=>1], 'sort DESC', 3);
@@ -21,7 +21,7 @@ if($operation=='index'){
 	$advs = m('channel')->getAdvs();
 	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>2]);
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);
-	$credit_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'id DESC', 3);
+    $credit_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'id DESC');
 	$credit_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'sort DESC', 3);
 	$course_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>3], 'sort DESC', 3);
 	$hot_list = m('channel')->getList(['id', 'title', 'apply_nums'], ['type'=>2, 'is_hot'=>1], 'sort DESC', 3);
@@ -31,25 +31,25 @@ if($operation=='index'){
 	$course_list = m('channel')->getList(['id', 'title'], ['type'=>3], 'sort DESC');
 	include $this->template('channel/course');
 } else if ($operation == 'getNew') {
-	//ajax获取新数据
-	$type = intval($_GPC['type']);
-	$offset = intval($_GPC['rollcount']);
-	$subject = m('channel')->getSubjectList(['id', 'ext_info'], ['type'=>$type], 'id ASC', 1, $offset);
-	if (empty($subject)) {
-		show_json(-1);
-	} else {
-		$ids = array_keys($subject);
-		$subjectRes = $subject[$ids[0]];
-	}
-	$list = m('channel')->getList(['id', 'title', 'subject_id', 'createtime', 'ext_info', 'apply_nums'], ['subject_id'=>$subjectRes['id']], 'sort DESC', 3);
-	// $list = m('channel')->getList(['id', 'title', 'subject_id', 'createtime', 'ext_info', 'apply_nums'], ['type'=>$type], 'id DESC', 4, $offset);
-	if (empty($list)) {
-		show_json(-1);
-	}
-	$min_k = min(array_keys($list));
-	$list[$min_k]['stress'] = 1;
-	$list[$min_k]['ext_info']['pic'] = tomedia($subjectRes['ext_info']['pic']);
-	show_json(1,array_values($list));
+    //ajax获取新数据
+    $type = intval($_GPC['type']);
+    $offset = intval($_GPC['rollcount']);
+    // $subject = m('channel')->getSubjectList(['id', 'ext_info'], ['type'=>$type], FALSE, 1, $offset);
+    // if (empty($subject)) {
+    // 	show_json(-1);
+    // } else {
+    // 	$ids = array_keys($subject);
+    // 	$subjectRes = $subject[$ids[0]];
+    // }
+    // $list = m('channel')->getList(['id', 'title', 'subject_id', 'createtime', 'ext_info', 'apply_nums'], ['subject_id'=>$subjectRes['id']], 'sort DESC', 4);
+    $list = m('channel')->getList(['id', 'title', 'subject_id', 'createtime', 'ext_info', 'apply_nums'], ['type'=>$type], 'id DESC', 4, $offset);
+    if (empty($list)) {
+        show_json(-1);
+    }
+    // $min_k = min(array_keys($list));
+    // $list[$min_k]['stress'] = 1;
+    // $list[$min_k]['ext_info']['pic'] = tomedia($subjectRes['ext_info']['pic']);
+    show_json(1,array_values($list));
 } else if ($operation == 'artical') {
 	//详情
 	$id = intval($_GPC['id']);

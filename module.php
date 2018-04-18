@@ -78,6 +78,7 @@ class Xuan_mixloanModule extends WeModule {
         $want_subscribe = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('bank', array('op'=>'want_subscribe')) );
         $extend_query = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('bank', array('op'=>'extend_query')) );
         $extend_tips = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('bank', array('op'=>'extend_tips')) );
+        $credit = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'')) );
         $user = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'')) );
         $channel = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'')) );
         $product = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'')) );
