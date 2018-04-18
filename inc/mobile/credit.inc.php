@@ -91,42 +91,43 @@ if($operation=='index'){
     if (empty($report['ext_info'])) {
         $result = m('jdwx')->henypot4JD($config['jdwx_key'], $report['realname'], $report['certno'], $report['phone']);
         if ($result['code'] == 1) {
-            $ext_info['user_basic'] = $result['data']['user_basic'];
-            $ext_info['black_info_nums'] = count($result['data']['user_blacklist']['blacklist_category']);
-            $ext_info['bad_info_nums'] = count($result['data']['user_idcard_suspicion']['idcard_applied_in_orgs']);
-            $ext_info['search_info_nums'] = count($result['data']['user_searched_history_by_orgs']);
-            $ext_info['certno_suspect'] = $result['data']['user_idcard_suspicion']['idcard_applied_in_orgs'] ? true : false;
-            $ext_info['phone_suspect'] = $result['data']['user_phone_suspicion']['phone_applied_in_orgs'] ? true : false;
-            $ext_info['score'] = $result['data']['user_gray']['phone_gray_score'] ? : 99;
-            $ext_info['user_suspect'] = $ext_info['certno_suspect'] || $ext_info['phone_suspect'];
-            $ext_info['user_black'] = $ext_info['black_info_nums'] ? true : false;
-            $orgs = $result['data']['user_searched_history_by_orgs'];
-            $temp = [];
-            if (!empty($orgs)) {
-                foreach ($orgs as $key => $value) {
-                    if (empty($temp[$value['searched_org']])) {
-                        $temp[$value['searched_org']] = 0;
-                    }
-                    $temp[$value['searched_org']] += 1;
-                }  
-            }
-            $ext_info['orgs'] = $temp;
-            if ($ext_info['score'] > 50 && $ext_info['score'] < 80) {
-                $ext_info['evaluate'] = '良';
-                $ext_info['refuse_precent'] = '较低';
-            } else if ($ext_info['score'] >= 80) {
-                $ext_info['evaluate'] = '优';
-                $ext_info['refuse_precent'] = '低';
-            } else {
-                $ext_info['evaluate'] = '低';
-                $ext_info['refuse_precent'] = '较高';
-            }
-            pdo_update('xuan_mixloan_credit_data', array('ext_info'=>json_encode($ext_info)), array('id'=>$id));
+            // $ext_info['user_basic'] = $result['data']['user_basic'];
+            // $ext_info['black_info_nums'] = count($result['data']['user_blacklist']['blacklist_category']);
+            // $ext_info['bad_info_nums'] = count($result['data']['user_idcard_suspicion']['idcard_applied_in_orgs']);
+            // $ext_info['search_info_nums'] = count($result['data']['user_searched_history_by_orgs']);
+            // $ext_info['certno_suspect'] = $result['data']['user_idcard_suspicion']['idcard_applied_in_orgs'] ? true : false;
+            // $ext_info['phone_suspect'] = $result['data']['user_phone_suspicion']['phone_applied_in_orgs'] ? true : false;
+            // $ext_info['score'] = $result['data']['user_gray']['phone_gray_score'] ? : 99;
+            // $ext_info['user_suspect'] = $ext_info['certno_suspect'] || $ext_info['phone_suspect'];
+            // $ext_info['user_black'] = $ext_info['black_info_nums'] ? true : false;
+            // $orgs = $result['data']['user_searched_history_by_orgs'];
+            // $temp = [];
+            // if (!empty($orgs)) {
+            //     foreach ($orgs as $key => $value) {
+            //         if (empty($temp[$value['searched_org']])) {
+            //             $temp[$value['searched_org']] = 0;
+            //         }
+            //         $temp[$value['searched_org']] += 1;
+            //     }  
+            // }
+            // $ext_info['orgs'] = $temp;
+            // if ($ext_info['score'] > 50 && $ext_info['score'] < 80) {
+            //     $ext_info['evaluate'] = '良';
+            //     $ext_info['refuse_precent'] = '较低';
+            // } else if ($ext_info['score'] >= 80) {
+            //     $ext_info['evaluate'] = '优';
+            //     $ext_info['refuse_precent'] = '低';
+            // } else {
+            //     $ext_info['evaluate'] = '低';
+            //     $ext_info['refuse_precent'] = '较高';
+            // }
+            $list = $result;
+            pdo_update('xuan_mixloan_credit_data', array('ext_info'=>json_encode($list)), array('id'=>$id));
         } else {
             message($result['msg'], '', 'error');
         }
     } else {
-        $ext_info = json_decode($report['ext_info'], 1);
+        $list = json_decode($report['ext_info'], 1);
     }
     include $this->template('credit/report_info');
 } else if ($operation == 'example') {

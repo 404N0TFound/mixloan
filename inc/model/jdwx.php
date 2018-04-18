@@ -55,7 +55,7 @@ class Xuan_Mixloan_Jdwx
 
 	public function henypot4JD($key, $name, $idcard, $phone){
 		//银行卡四元素
-		$url = "https://way.jd.com/juxinli/henypot4JD?name={$name}&idCard={$idcard}&phone={$phone}&appkey=27c6ee5cfa24bd2f4875baa940effeb1";
+		$url = "https://way.jd.com/juxinli/henypot4JD?name={$name}&idCard={$idcard}&phone={$phone}&appkey={$key}";
 		$resJson = file_get_contents($url);
 		$res = json_decode($resJson,1);
 		if ($res['code'] == "10000") {
