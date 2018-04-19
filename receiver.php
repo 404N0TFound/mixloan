@@ -108,7 +108,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             $wx->sendTplNotice($man_thr['openid'],$templateId,$msg);
                         }
                     } else {
-                        pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
+                        pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$my_id}");
                     }
                 }
             }
