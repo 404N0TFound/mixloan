@@ -19,7 +19,7 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_help') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    pdo_delete('xuan_mixloan_help', array("uid" => $_GPC["id"]));
+    pdo_delete('xuan_mixloan_help', array("id" => $_GPC["id"]));
     message("删除成功", $this->createWebUrl('help', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
