@@ -148,7 +148,7 @@ if ($operation == 'list') {
         if ($_GPC['data']['status'] == 2 && $count_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
