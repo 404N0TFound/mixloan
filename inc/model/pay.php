@@ -2,14 +2,14 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx5c65b334ef89bd92";
-    private $mchid = "1483623762";
-    private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
+    private $appid = "wx642c33c7643e5b3b";
+    private $mchid = "1502375031";
+    private $secrect_key = "7787803c5b64adb7dc41fedaa9aea2df";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
-    private $publickey_path = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/key/ras.pub";
-    private $apiclient_cert = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
-    private $apiclient_key = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
+    private $publickey_path = "/www/wwwroot/90i0.com/addons/xuan_mixloan/data/key/ras.pub";
+    private $apiclient_cert = "/www/wwwroot/90i0.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
+    private $apiclient_key = "/www/wwwroot/90i0.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
     function __construct()
     {
         if (!file_exists($this->publickey_path)) {

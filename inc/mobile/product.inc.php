@@ -166,10 +166,10 @@ if($operation=='index'){
             show_json(-1, [], "您已经申请过啦");
         }
         if ($config['jdwx_open'] == 1) {
-            $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-            if ($res['code'] == -1) {
-                show_json($res['code'], [], $res['msg']);
-            }
+            // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
+            // if ($res['code'] == -1) {
+            //     show_json($res['code'], [], $res['msg']);
+            // }
         }
         if ($inviter) {
             $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
@@ -198,13 +198,16 @@ if($operation=='index'){
                 pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
             }
             if (!$inviter_uid) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
+                $check = m('member')->checkIfRelation($inviter, $_GPC['phone'], $member['openid']);
+                if ($check == false) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $inviter,
+                        'phone' => trim($_GPC['phone']),
+                        'createtime' => time()
+                    );
+                    pdo_insert('xuan_mixloan_inviter', $insert_i);
+                }
             }
             $status = 0;
         } else {
