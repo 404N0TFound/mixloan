@@ -141,21 +141,21 @@
             <div class="content1">
                 <div class="content1-div">
                     {if $list['data']['user_phone_suspicion']['phone_with_other_idcards']}
-                        <li><span>客户手机号码绑定的其他身份证</span></li>
+                        <li style="margin: 10px 0"><span>客户手机号码绑定的其他身份证</span></li>
                         {loop $list['data']['user_phone_suspicion']['phone_with_other_idcards'] $vo}
                         <p class="content1-p">绑定身份证 <span>{$vo['susp_idcard']}</span></p>
                         <p class="content1-p">绑定时间 <span>{$vo['susp_updt']}</span></p>
                         {/loop}
                     {/if}
                     {if $list['data']['user_phone_suspicion']['phone_with_other_names']}
-                        <li><span>客户手机号码绑定的其他姓名</span></li>
+                        <li style="margin: 10px 0"><span>客户手机号码绑定的其他姓名</span></li>
                         {loop $list['data']['user_phone_suspicion']['phone_with_other_names'] $vo}
                         <p class="content1-p">绑定姓名 <span>{$vo['susp_name']}</span></p>
                         <p class="content1-p">绑定时间 <span>{$vo['susp_updt']}</span></p>
                         {/loop}
                     {/if}
                     {if $list['data']['user_phone_suspicion']['phone_applied_in_orgs']}
-                        <li><span>客户手机号码在以下机构使用</span></li>
+                        <li style="margin: 10px 0"><span>客户手机号码在以下机构使用</span></li>
                         {loop $list['data']['user_phone_suspicion']['phone_applied_in_orgs'] $vo}
                         <div style="margin: 10px">
                             <p class="content1-p">机构所属分类 <span>{$vo['susp_org_type']}</span></p>
