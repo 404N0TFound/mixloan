@@ -53,11 +53,11 @@ class Xuan_mixloanModule extends WeModule {
             	);
 
             if ($this->saveSettings($cfg)) {
+                pdo_delete("xuan_mixloan_poster", array("pid"=>0));
                 message('保存成功', 'refresh');
             }
 		}
 		$setting = $this->module['config'];
-        pdo_delete("xuan_mixloan_poster", array("pid"=>0));
         
         $queue_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'queue'));
         $vip_buy = $this->shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')));
