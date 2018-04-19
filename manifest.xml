@@ -15,9 +15,10 @@
         <message type="subscribe" />
         <message type="text" />
     </subscribes>
-		<handles>
-		</handles>
-		<rule embed="false" />
+    <handles>
+        <message type="text" />
+    </handles>
+		<rule embed="true" />
 		<card embed="false" />
 	</platform>
 	<bindings>
@@ -230,6 +231,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster` (
   `pid` int(11) NOT NULL,
   `createtime` int(11) NOT NULL,
   `poster` varchar(200) NOT NULL,
+  `media_id` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `pid` (`pid`),

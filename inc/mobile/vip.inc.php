@@ -229,7 +229,6 @@ if($operation=='buy'){
 	        )
 	    );
 	    $res = $wx->barCodeCreateDisposable($barcode);
-		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
 		$cfg['poster_color'] = $config['invite_color'];
@@ -247,6 +246,9 @@ if($operation=='buy'){
 		$invite_res = m('poster')->createPoster($cfg, $params);
 	    if (!$invite_res) {
 	    	message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+	    } else {
+            $result = $wx->uploadMedia($out);
+            pdo_update('xuan_mixloan_poster', array('media_id'=>$result['media_id']), array('type'=>3, 'uid'=>$member['id']));
 	    }
 	}
 	include $this->template('vip/inviteCode');

@@ -24,7 +24,7 @@ class Xuan_mixloan_Poster
     **/
     public function createPoster($config, $params) {
         global $_W;
-        $tmplogo = IA_ROOT . '/attachment/' . $config['logo'];
+        $tmplogo = XUAN_MIXLOAN_PATH."data/poster/base.jpg";
         require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
