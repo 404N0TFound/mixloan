@@ -127,7 +127,7 @@ if ($operation == 'list') {
         if ($_GPC['data']['status'] == 1 && $re_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "您好，您的徒弟{$item['realname']}成功注册了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
@@ -144,34 +144,11 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
-            $two_id = m('member')->getInviter($one_man['phone'], $one_man['openid']);
-            if ($two_id) {
-                $two_man = m('member')->getInviterInfo($two_id);
-                $datam = array(
-                    "first" => array(
-                        "value" => "您好，您的徒弟{$two_man['nickname']}邀请了{$item['realname']}成功注册了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
-                        "color" => "#FF0000"
-                    ) ,
-                    "order" => array(
-                        "value" => '10000'.$item['id'],
-                        "color" => "#173177"
-                    ) ,
-                    "money" => array(
-                        "value" => $re_money,
-                        "color" => "#173177"
-                    ) ,
-                    "remark" => array(
-                        "value" => '点击后台“我的账户->去提现”，立享提现快感',
-                        "color" => "#912CEE"
-                    ) ,
-                );
-                $account->sendTplNotice($two_man['openid'], $config['tpl_notice5'], $datam, $url);
-            }
         }
         if ($_GPC['data']['status'] == 2 && $count_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "您好，您的徒弟{$item['realname']}成功注册了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
@@ -188,29 +165,6 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
-            $two_id = m('member')->getInviter($one_man['phone'], $one_man['openid']);
-            if ($two_id) {
-                $two_man = m('member')->getInviterInfo($two_id);
-                $datam = array(
-                    "first" => array(
-                        "value" => "您好，您的徒弟{$two_man['nickname']}邀请了{$item['realname']}成功注册了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
-                        "color" => "#FF0000"
-                    ) ,
-                    "order" => array(
-                        "value" => '10000'.$item['id'],
-                        "color" => "#173177"
-                    ) ,
-                    "money" => array(
-                        "value" => $re_money,
-                        "color" => "#173177"
-                    ) ,
-                    "remark" => array(
-                        "value" => '点击后台“我的账户->去提现”，立享提现快感',
-                        "color" => "#912CEE"
-                    ) ,
-                );
-                $account->sendTplNotice($two_man['openid'], $config['tpl_notice5'], $datam, $url);
-            }
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
