@@ -92,7 +92,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'inviter' => $inviter,
 						'extra_bonus'=>0,
 						'done_bonus'=>0,
-						're_bonus'=>$config['inviter_fee_one'],
+						're_bonus'=>$config['inviter_fee_one']*$fee*0.01,
 						'status'=>2,
 						'createtime'=>time(),
 						'degree'=>1,
@@ -109,7 +109,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			                "color" => "#173177"
 			            ) ,
 			            "money" => array(
-			                "value" => $config['inviter_fee_one'],
+			                "value" => $config['inviter_fee_one']*$fee*0.01,
 			                "color" => "#173177"
 			            ) ,
 			            "remark" => array(
@@ -131,7 +131,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'inviter' => $inviter,
 							'extra_bonus'=>0,
 							'done_bonus'=>0,
-							're_bonus'=>$config['inviter_fee_two'],
+							're_bonus'=>$config['inviter_fee_two']*$fee*0.01,
 							'status'=>2,
 							'createtime'=>time(),
 							'degree'=>2,
@@ -148,7 +148,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				                "color" => "#173177"
 				            ) ,
 				            "money" => array(
-				                "value" => $config['inviter_fee_two'],
+				                "value" => $config['inviter_fee_two']*$fee*0.01,
 				                "color" => "#173177"
 				            ) ,
 				            "remark" => array(
@@ -170,7 +170,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'inviter' => $inviter,
 								'extra_bonus'=>0,
 								'done_bonus'=>0,
-								're_bonus'=>$config['inviter_fee_three'],
+								're_bonus'=>$config['inviter_fee_three']*$fee*0.01,
 								'status'=>2,
 								'createtime'=>time(),
 								'degree'=>3,
@@ -187,7 +187,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					                "color" => "#173177"
 					            ) ,
 					            "money" => array(
-					                "value" => $config['inviter_fee_three'],
+					                "value" => $config['inviter_fee_three']*$fee*0.01,
 					                "color" => "#173177"
 					            ) ,
 					            "remark" => array(
