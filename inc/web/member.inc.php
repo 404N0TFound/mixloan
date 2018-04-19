@@ -129,12 +129,12 @@ if ($operation == 'list') {
 } else if ($operation == 'send_notice') {
     //发送模板消息，签档提醒
     if ($_GPC['post'] == 1) {
-        $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
+        $first = "尊敬的代理，您好！\n“新闻中心”内容已经更新，请订阅查看！";
         $title = $_GPC['title'];
         $author = $_GPC['author'];
         $time = date("Y-m-d H-i");
         $createtime = time();
-        $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
+        $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-新闻中心】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
         $url = $_GPC['url'];
         $members = pdo_fetchall("SELECT openid FROM `ims_mc_mapping_fans` WHERE uniacid=:uniacid AND follow=1", [':uniacid'=>$_W['uniacid']]);
         foreach ($members as $member) {

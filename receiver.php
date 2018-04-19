@@ -49,7 +49,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             "color" => "#4a5077"
                         ),
                         'remark' => array(
-                            'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$fee}点奖励",
+                            'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得佣金奖励",
                             "color" => "#A4D3EE"
                         ),
                     );
@@ -86,7 +86,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                                 "color" => "#4a5077"
                             ),
                             'remark' => array(
-                                'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$fee}点奖励",
+                                'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得佣金奖励",
                                 "color" => "#A4D3EE"
                             ),
                         );
@@ -123,7 +123,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                                     "color" => "#4a5077"
                                 ),
                                 'remark' => array(
-                                    'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$fee}点奖励",
+                                    'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得佣金奖励",
                                     "color" => "#A4D3EE"
                                 ),
                             );

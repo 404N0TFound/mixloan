@@ -245,7 +245,7 @@ if($operation=='buy'){
 		'status'=>0
 	);
 	pdo_insert('xuan_mixloan_withdraw', $insert);
-	show_json(1, null, "提现成功");
+	show_json(1, null, "提现成功，T+1日到账");
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
 	$type = intval($_GPC['type']);
@@ -314,7 +314,7 @@ if($operation=='buy'){
 	} else if ($type == 2) {
 		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
 		$share_url = shortUrl( $url );
-		$tips = "快进来，这里有下卡下款通道：{$share_url}";
+		$tips = "众金会—我的随身银行：{$share_url}";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($config['product_poster'])) {
@@ -347,7 +347,7 @@ if($operation=='buy'){
 		$product = m('product')->getList(['id','ext_info'], ['id'=>$pid])[$pid];
 		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
 		$share_url = shortUrl( $url );
-    	$tips = "快进来，{$share_url}";
+    	$tips = "众金会—我的随身银行：{$share_url}";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($product['ext_info']['poster'])) {

@@ -194,7 +194,7 @@
         ajax.data.card_id=bankId;
         ajax.success = function (data) {
             if (data.code == 1) {
-                layer.msg('提现成功', {
+                layer.msg('提现成功，T+1日到账', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
                     window.location.href = "{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}";
