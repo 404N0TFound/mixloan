@@ -41,6 +41,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$openid = m('user')->getOpenid();
 		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
+		if (empty($member['id'])) {
+			header("location:{$this->createMobileUrl('user')}");
+		}
 		if ($params['result'] == 'success' && $params['from'] == 'return') {
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {

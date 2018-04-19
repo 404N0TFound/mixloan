@@ -8,9 +8,6 @@ $member = m('member')->getMember($openid);
 $agent = m('member')->checkAgent($member['id']);
 if($operation=='buy'){
 	//购买会员
-	if (!$member['phone']) {
-		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
-	}
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
@@ -19,7 +16,10 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
+	if (!$member['phone']) {
+		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	}
+	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
 	$fee = $config['buy_vip_price'];
 	$params = array(
