@@ -60,8 +60,26 @@ if($operation=='register'){
 		}
 	}
 	//更新操作
-	$arr = ['phone'=>$phone, 'pass'=>$pwd];
-	pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-	show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+    if ($config['backup'] == 1) {
+        //开启备份
+        $old_man = pdo_fetch('SELECT id,openid,uniacid,uid FROM '.tablename('xuan_mixloan_member').' WHERE phone=:phone ORDER BY id DESC', array(':phone'=>$phone));
+        if (!empty($old_man['openid']) && $old_man['openid'] != $openid) {
+            pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'pass'=>$pwd, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('id'=>$old_man['id']));
+            pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_man['openid']));
+            pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_man['openid']));
+            pdo_update('xuan_mixloan_friend_comment', array('openid'=>$openid), array('openid'=>$old_man['openid']));
+            pdo_update('xuan_mixloan_member', array('openid'=>$old_man['openid'], 'pass'=>$pwd, 'uniacid'=>$old_man['uniacid'], 'uid'=>$old_man['uid']), array('id'=>$member['id']));
+			show_json(1, ['url'=>$this->createMobileUrl('user', ['op'=>''])], "找回账户成功");
+        } else {
+            $arr = ['phone'=>$phone, 'pass'=>$pwd];
+            pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
+			show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        }
+    } else {
+        //更新操作
+        $arr = ['phone'=>$phone, 'pass'=>$pwd];
+        pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
+		show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+    }
 }
 ?>
