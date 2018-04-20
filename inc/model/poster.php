@@ -24,12 +24,12 @@ class Xuan_mixloan_Poster
     **/
     public function createPoster($config, $params) {
         global $_W;
-        $tmplogo = XUAN_MIXLOAN_PATH."data/poster/base.jpg";
+        $tmplogo = IA_ROOT."/addons/xuan_mixloan/data/poster/base.jpg";
         require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
         $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
-        $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
+        $font = IA_ROOT."/addons/xuan_mixloan/data/fonts/msyh.ttf";
         $bgpng = imagecreatefrompng($bgpath);
         if ($config['poster_avatar']) {
             //头像
