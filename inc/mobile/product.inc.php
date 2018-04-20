@@ -154,26 +154,31 @@ if($operation=='index'){
 			pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
 		}
 		if (!$inviter_uid) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $inviter,
-				'phone' => trim($_GPC['phone']),
-				'createtime' => time()
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-			if (!empty($openid)) {
-				$insert =array(
-	                'uniacid'=>$_W['uniacid'],
-	                'acid'=>0,
-	                'qid'=>0,
-	                'openid'=>$openid,
-	                'type'=>1,
-	                'qrcid'=>$inviter,
-	                'scene_str'=>$inviter,
-	                'createtime'=>time(),
-	            );
-	            pdo_insert('qrcode_stat', $insert);
-			}
+            if (!$inviter_uid) {
+                $check = m('member')->checkIfRelation($inviter, $_GPC['phone'], $member['openid']);
+                if ($check == false) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $inviter,
+                        'phone' => trim($_GPC['phone']),
+                        'createtime' => time()
+                    );
+                    pdo_insert('xuan_mixloan_inviter', $insert_i);
+                    if (!empty($openid)) {
+                        $insert =array(
+                            'uniacid'=>$_W['uniacid'],
+                            'acid'=>0,
+                            'qid'=>0,
+                            'openid'=>$openid,
+                            'type'=>1,
+                            'qrcid'=>$inviter,
+                            'scene_str'=>$inviter,
+                            'createtime'=>time(),
+                        );
+                        pdo_insert('qrcode_stat', $insert);
+                    }
+                }
+            }
 		}
 		$status = 0;
 	} else {
