@@ -169,7 +169,7 @@ $(document).ready(function(){
             domDown:{
                         domClass : 'dropload-down',
                         domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
-                        domLoad : '<span><i class="dropload-load"></i>加载中</span>',
+                        domLoad : '<span><i class="dropload-load"></i></span>',
                         domNoData : '<div class="dropload-noData">暂无数据</div>'
                     },
             loadDownFn : function(me){
@@ -219,9 +219,9 @@ $(document).ready(function(){
                             }
 
                         }else if(data.code=="-1"){
-                            me.lock();
-                            $("div.dropload-down").html("");
-                            $("div.dropload-down").html("没有更多喽~");
+                            // me.lock();
+                            // $("div.dropload-down").html("");
+                            // $("div.dropload-down").html("没有更多喽~");
                         }                                        
                     },'json')
             }

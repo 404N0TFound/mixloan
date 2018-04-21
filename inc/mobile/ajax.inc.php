@@ -2,7 +2,6 @@
 session_start();
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
-if(isset($_SESSION['userid']))$member = m('member')->getMemberById();
 $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 if($operation == 'getCode'){
@@ -170,6 +169,9 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'checkMember') {
+	$openid = m('user')->getOpenid();
+	show_json(1, m('member')->getMember($openid));
 }
 
 

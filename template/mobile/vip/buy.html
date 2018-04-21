@@ -326,26 +326,34 @@
 			toPurchase();			
 		})
 
-		function toPurchase(){			
-			$("#to_buy").unbind("click");
-			layer.closeAll();
-			payingLoading = layer.load(1, {
-			  shade: [0.1,'#fff'] 
-			});
-			var userId=341794;
-			if($(".to_read").hasClass("read")){
-				window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
-			}else{
-				layer.msg("请先阅读{$config['title']}用户服务协议");
-				rePurchase();
-				return false;
-			}			
+		function toPurchase(){
+			$.post("{php echo $this->createMobileUrl('ajax', array('op'=>'checkMember'))}",{},
+	        	function(data){
+	        		if (!data.data.phone) {
+	        			layer.open({
+							type: 2,
+							title: '绑定手机',
+							shadeClose: true,
+							shade: 0.8,
+							area: ['80%', '80%'],
+							content: "{php echo $this->createMobileUrl('index', array('layer'=>1))}" //iframe的url
+						}); 
+						return false;
+	        		} else {
+	        			if($(".to_read").hasClass("read")){
+							window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
+						}else{
+							layer.msg("请先阅读{$config['title']}用户服务协议");
+							rePurchase();
+							return false;
+						}	
+	        		}
+	        	},'json')
 		}
 		function rePurchase(){
 			$("#to_buy").bind("click",function(){
 				toPurchase();
 			});
-			layer.close(payingLoading);
 		}
 		// 产品首页banner
 		var mySwiper = new Swiper('.swiper-container', {

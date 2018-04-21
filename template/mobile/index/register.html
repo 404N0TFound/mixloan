@@ -66,7 +66,9 @@
 				<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
 			</li>
 		</ul>
+		{if !$_GPC['layer']}
 		<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
+		{/if}
 		<div class="submit_btn">
 			<a class="to_buy">注册</a>
 		</div>		
@@ -106,7 +108,7 @@ return temp
 	})
 	//提交
 	$(".to_buy").click(function(){
-		to_buy();      
+		to_buy();     
 	})
 	function to_buy(){
 		$(".to_buy").unbind("click");
@@ -156,7 +158,11 @@ return temp
         		console.log(data);
         		if(data.code==1){
         			layer.msg("提交成功，正在跳转...",{time:2000},function(){
+						{if $_GPC['layer']}
+						parent.layer.closeAll(); 
+						{else}
         				location.href=data.data.url;
+						{/if} 
         			});
         		}else{
         			layer.msg(data.msg);
