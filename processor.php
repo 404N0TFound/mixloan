@@ -15,7 +15,8 @@ class Xuan_mixloanModuleProcessor extends WeModuleProcessor {
                 }
                 $check = pdo_fetchcolumn('SELECT COUNT(1) FROM '.tablename("xuan_mixloan_payment")." WHERE uid={$member['id']}");
                 if ($check == false) {
-                	return $this->respText("您还不是代理哦，请先购买代理，成为代理后即可拥有专属海报");
+                    $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy'));
+                	return $this->respText("您还不是代理哦，请先购买代理，成为代理后即可拥有专属海报\n<a href='{$url}'>点击购买</a>");
                 }
                 $poster = pdo_fetch('SELECT poster,media_id FROM '.tablename('xuan_mixloan_poster')." WHERE uid={$member['id']} AND type=3");
                 if (empty($poster)){
