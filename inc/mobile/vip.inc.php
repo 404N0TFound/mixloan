@@ -200,44 +200,23 @@ if($operation=='buy'){
 	pdo_insert('xuan_mixloan_withdraw', $insert);
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
-	//邀请二维码
-	if ($agent['code'] != 1) {
-	    message('您不是会员', '', 'error');
-	}
-	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
-	if (!$poster_path) {
-		$wx = WeAccount::create();
-	    $barcode = array(
-	        'action_name'=>"QR_LIMIT_SCENE",
-	        'action_info'=> array(
-	            'scene' => array(
-	                'scene_id'=>$member['id'],
-	            )
-	        )
-	    );
-	    $res = $wx->barCodeCreateDisposable($barcode);
-		$cfg['logo'] = $config['logo'];
-		$cfg['poster_avatar'] = $config['invite_avatar'];
-		$cfg['poster_image'] = $config['invite_image'];
-		$cfg['poster_color'] = $config['invite_color'];
-		$url = $res['url'];
-		$out = XUAN_MIXLOAN_PATH."data/poster/invite_{$member['id']}.png";
-		$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}.png";
-		$params = array(
-			"url" => $url,
-			"member" => $member,
-			"type" => 3,
-			"pid" => 0,
-			"out" => $out,
-			"poster_path" => $poster_path
-		);
-		$invite_res = m('poster')->createPoster($cfg, $params);
-	    if (!$invite_res) {
-	    	message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
-	    }
-	}
-	include $this->template('vip/inviteCode');
-} else if ($operation == 'followList') {
+    //邀请二维码
+    $type = intval($_GPC['type']);
+    if ($type == 1) {
+
+    } else if ($type == 2) {
+        $title = $config['share_title'];
+        $imgUrl = tomedia($config['share_image']);
+        $desc = $config['share_desc'];
+        $link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+    } else if ($type == 3) {
+        $title = $config['share_title'];
+        $imgUrl = tomedia($config['share_image']);
+        $desc = $config['share_desc'];
+        $link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+    }
+    include $this->template('vip/inviteCode');
+}else if ($operation == 'followList') {
 	//关注列表
 	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC");
 	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
@@ -273,4 +252,119 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+}else if ($operation == 'createPoster') {
+    //生成邀请二维码
+    $uid = intval($_GPC['uid']) ? : $member['id'];
+    $type = intval($_GPC['type']) ? : 1;
+    $pid = intval($_GPC['pid']) ? : 0;
+    $member = m('member')->getInfo($uid);
+    $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
+    $created = true;
+    if ($type == 3) {
+        $tips = "";
+        if (!$posterArr) {
+            $created = false;
+            $wx = WeAccount::create();
+            $barcode = array(
+                'action_name'=>"QR_LIMIT_SCENE",
+                'action_info'=> array(
+                    'scene' => array(
+                        'scene_id'=>$member['id'],
+                    )
+                )
+            );
+            $res = $wx->barCodeCreateDisposable($barcode);
+            $url = $res['url'];
+            if (empty($config['inviter_poster'])) {
+                message("请检查海报是否上传", "", "error");
+            }
+            foreach ($config['inviter_poster'] as $row) {
+                $out = XUAN_MIXLOAN_PATH."data/poster/invite_{$member['id']}_{$row}.png";
+                $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}_{$row}.png";
+                $params = array(
+                    "poster_id" => $row,
+                    "url" => $url,
+                    "member" => $member,
+                    "type" => 3,
+                    "pid" => 0,
+                    "out" => $out,
+                    "poster_path" => $poster_path
+                );
+                $invite_res = m('poster')->createNewPoster($params);
+                if (!$invite_res) {
+                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                } else {
+                    $temp = [];
+                    $temp['poster'] = $poster_path;
+                    $posterArr[] = $temp;
+                }
+            }
+        }
+    } else if ($type == 2) {
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+        $share_url = shortUrl( $url );
+        $tips = "{$config['title']}—我的随身银行：{$share_url}";
+        if (!$posterArr) {
+            $created = false;
+            if (empty($config['product_poster'])) {
+                message("请检查海报是否上传", "", "error");
+            }
+            foreach ($config['product_poster'] as $row) {
+                $out = XUAN_MIXLOAN_PATH."data/poster/product_{$member['id']}_{$row}.png";
+                $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$member['id']}_{$row}.png";
+                $params = array(
+                    "poster_id" => $row,
+                    "url" => $url,
+                    "member" => $member,
+                    "type" => 2,
+                    "pid" => 0,
+                    "out" => $out,
+                    "poster_path" => $poster_path
+                );
+                $invite_res = m('poster')->createNewPoster($params);
+                if (!$invite_res) {
+                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                } else {
+                    $temp = [];
+                    $temp['poster'] = $poster_path;
+                    $posterArr[] = $temp;
+                }
+            }
+        }
+    } else if ($type == 1){
+        $pid = intval($_GPC['pid']);
+        $product = m('product')->getList(['id','ext_info'], ['id'=>$pid])[$pid];
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
+        $share_url = shortUrl( $url );
+        $tips = "{$config['title']}—我的随身银行：{$share_url}";
+        if (!$posterArr) {
+            $created = false;
+            if (empty($product['ext_info']['poster'])) {
+                message("请检查海报是否上传", "", "error");
+            }
+            foreach ($product['ext_info']['poster'] as $row) {
+                $out = XUAN_MIXLOAN_PATH."data/poster/product_{$pid}_{$member['id']}_{$row}.png";
+                $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$pid}_{$member['id']}_{$row}.png";
+                $params = array(
+                    "poster_id" => $row,
+                    "url" => $url,
+                    "member" => $member,
+                    "type" => 1,
+                    "pid" => $pid,
+                    "out" => $out,
+                    "poster_path" => $poster_path
+                );
+                $invite_res = m('poster')->createNewPoster($params);
+                if (!$invite_res) {
+                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                } else {
+                    $temp = [];
+                    $temp['poster'] = $poster_path;
+                    $posterArr[] = $temp;
+                }
+            }
+        }
+    }
+    $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
+    message($ret, '', 'success');
 }

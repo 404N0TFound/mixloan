@@ -3,19 +3,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta  content="e-mail=no" name="format-detection"/>
-    <title>邀请二维码</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>我的专属海报</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/add_prize_1.css">
 
-	{template 'common/wxshare'}
+    <style>
+        body{margin:0;padding:0;-webkit-tap-highlight-color: rgba(0,0,0,0)}
+        a{text-decoration: none;margin: 0;padding: 0;outline: 0;border:none;}
+        a:hover{color: none}
+        div.posterT_app{padding:0.4rem 0.5rem 0.3rem;box-sizing: border-box;border-top: 1px solid #e0e0e0;
+            position: fixed;bottom:0;left:0;z-index:999;background:#f3f4f6;width:100%;}
+        div.posterT_app p{position: relative; color: #464646;font-size: 0.55rem;margin:0;padding:0; height: 1.2rem;
+            line-height: 1.2rem;}
+        div.posterT_app p a{color: #2498fb;text-decoration: none;display: inline-block;width:100%;border:none;
+            font-size: 0.6rem;font-family: Helvetica;}
+        div.posterT_app p a:active{background:none;}
+        div.posterT_app p input{position: absolute;left: -999px;bottom: 0;}
+        div.posterT_app p{width:50%;float: left;font-size:0.6rem;text-align:center;color:#2498fb;vertical-align: middle;}
+        div.posterT_app p:nth-child(1):before{content: '';width:1px;height:80%;position: absolute;top:7%;right:0;background:#e6e6e6;  }
+
+        input{
+            -webkit-user-select:none
+        }
+
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.posterT{padding-bottom:20px;}
+            div#recommend{padding-bottom:20px;}
+
+        }
+    </style>
+    {php echo register_jssdk();}
+    <script>
+        //微信分享
+        var title = "{$title}";
+        var imgUrl = "{$imgUrl}";
+        var desc =  "{$desc}";
+        var link =  "{$link}";
+
+        wx.ready(function(){
+            wx.onMenuShareTimeline({
+                title: title, // 分享标题
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert("分享失败");
+                }
+            });
+
+//分享给好友
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('分享失败');
+                }
+            });
+        });
+
+    </script>
 </head>
 <body class="bglightgray">
-    <div>
-        <img src="{$poster_path}" width="100%" height="100%">
+<div class="bglightgray_tail">
+    <div class="posterBuild">
+        <img src="../addons/xuan_mixloan/template/style/picture/uploading.png" />
+        <p>海报生成中，请稍等...</p>
     </div>
+    <div class="mpContainer" style="display: block;">
+        <div class="mPoster">
+            <div class="mpBig">
+                <div class="swiper-container posterImg">
+                    <div class="swiper-wrapper" id="mpBig_post">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="mpSmall">
+                <ul id="mpSmall_post">
+                </ul>
+                <dl class="mpSmall_dl"  id="mpSmall_dl">
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div style="height:1.0rem;" id="recommend" data-name=""></div>
+    <div class="posterT_app dn" id="posterT_app" style="display: none">
+        <!--  <p>点击右上角分享专属链接给好友</p> -->
+        <p><a id="savePoster" href="downPoster" title="">保存图片</a></p><p class="copyLink" >复制文本
+        <!-- <input id="clip_num" value="" readonly="" ></p> -->
+    </div>
+    <div class="posterT dn" id="posterT" style="display: none">
+        <!--  <p>点击右上角分享专属链接给好友</p> -->
+
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
+<script type="text/javascript">
+
+    var swiperIndex=0;
+    var imgData = [];
+    var recommenderColor;
+    var initialSwiper;
+
+    $(function() {
+
+
+        $('#mpBig_post').text('');
+        $('#mpSmall_post').text('');
+        $('#mpSmall_dl').text('');
+
+        $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPoster', 'type'=>$_GPC['type'], 'pid'=>$_GPC['pid']))}", {}, function(data) {
+            $("div.posterBuild").hide();
+            $('#posterT').show();
+            if(data.type=='success'){
+                var _data=data.message;
+                var list_leg=_data.posterArr.length;
+                for(var i=0;i<list_leg;i++){
+                    var str_one="";
+                    str_one+='<div class="swiper-slide">'
+                        +'<div class="initialImg">'
+                    str_one+='<img src="'+_data.posterArr[i].poster+'">'
+                        +'</div>';
+                    console.log(str_one);
+                    $('#mpBig_post').append(str_one);
+                    var str_two="";
+                    str_two+='<li  onClick="mpSmall_ock(this,'+i+')">'
+                        +'<div class="initialImg thumbnail" >'
+                    str_two+='<img class="ewm" src="'+_data.posterArr[i].poster+'">'
+                        +'</div>'
+                        +'<a id="sp_bot"></a>'
+                        +'</li>';
+                    $('#mpSmall_post').append(str_two);
+                    var str_tre="";
+                    if (i == 0) {
+                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.tips+'</p></dd>'
+                    } else {
+                        str_tre+='<dd class="dn"><p>'+_data.tips+'</p></dd>'
+                    }
+                    $('#mpSmall_dl').append(str_tre);
+                    initialSwiper = new Swiper('.posterImg', {
+                        autoplayDisableOnInteraction : false,
+                        onSlideChangeEnd: function(swiper){
+                            swiperIndex=swiper.activeIndex;
+                            $("#mpSmall_dl").find('dd').hide();
+                            $("#mpSmall_dl").find('dd').removeClass('on');
+                            $("#mpSmall_dl dd").eq(swiperIndex).show();
+                            $("#mpSmall_dl dd").eq(swiperIndex).addClass('on');
+                            $("div.mpSmall ul li").find('a').hide();
+                            $("div.mpSmall ul li").eq(swiperIndex).find('a').show();
+                            setTimeout(function(){drawJudge(swiperIndex)},300);
+                        },
+                        observer:true,
+                        observeParents:true
+                    });
+                }
+                $('#posterT').text('');
+                var str="";
+                str+='<p id="recommend_text">您可复制链接或长按海报分享给好友'
+                    +'<a class="copy copy-btn" href="javascript:void(0);" >复制文本</a>'
+                    +'<input id="clip_num"  readonly="" >'
+                    +'</p>';
+
+                {if $_GPC['type'] != 3}
+                $('#posterT').append(str);
+                {/if}
+
+                    $(".copyLink").click(function(){
+                        var tetx_dl2=$('#mpSmall_dl dd.on').find('p').text();
+                        $('#clip_num').val(etx_dl2);
+                        copyNum();
+                    })
+                    $(".copy-btn").click(function(){
+                        var tetx_dl=$('#mpSmall_dl dd.on').find('p').text();
+                        console.log(tetx_dl);
+                        $('#clip_num').val(tetx_dl);
+                        copyNum();
+                    })
+                }else{
+                    layer.msg(data.message);
+                    return false;
+                }
+            }, "JSON");
+    })
+
+
+</script>
+<script>
+    //////copy
+    function copyNum() {
+        var NumClip = document.getElementById("clip_num");
+        var NValue = NumClip.value;
+        var valueLength = NValue.length;
+        selectText(NumClip, 0, valueLength);
+        var cp=document.execCommand("Copy", "false", null); // 执行浏览器复制命令
+        //console.log(cp);
+        if(cp){
+            alert("已复制,可分享给朋友啦，试试看。");
+        }else{
+            alert("由于您的浏览器版本较低,请长按进行复制链接。");
+        }
+
+    }
+
+    function selectText(obj, startIndex, stopIndex) {
+        if(obj.setSelectionRange) {
+            obj.setSelectionRange(startIndex, stopIndex);
+        } else if(obj.createTextRange) {
+            var range = obj.createTextRange();
+            range.collapse(true);
+            range.moveStart('character', startIndex);
+            range.moveEnd('character', stopIndex - startIndex);
+            range.select();
+        }
+        obj.focus();
+    }
+    function mpSmall_ock(index,i){
+        var posterIndex=$(index).index();
+        initialSwiper.slideTo(posterIndex, 500, false);//切换到第一个slide，速度为1秒
+        $(index).parent().parent().find('a').hide();
+        $(index).find('a').show();
+        $(index).parent().parent().find('#mpSmall_dl dd').hide();
+        $(index).parent().parent().find('#mpSmall_dl dd').removeClass('on');
+        $(index).parent().parent().find('#mpSmall_dl dd:eq('+i+')').show();
+        $(index).parent().parent().find('#mpSmall_dl dd:eq('+i+')').addClass('on');
+    }
+</script>
+
 </body>
 </html>
