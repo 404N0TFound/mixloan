@@ -123,7 +123,7 @@ class Xuan_mixloan_Product
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_new=1 order by id desc limit 5";
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_new=1 order by id desc limit 6";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
