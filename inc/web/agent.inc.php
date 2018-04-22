@@ -80,6 +80,7 @@ if ($operation == 'list') {
     foreach ($list as &$row) {
         $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
         $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+        $row['left_bonus'] = round($row['left_bonus'], 2);
     }
     unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
