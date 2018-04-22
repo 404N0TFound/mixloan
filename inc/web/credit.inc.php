@@ -41,6 +41,7 @@ if ($operation == 'list') {
             }
         }
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
+        pdo_delete('xuan_mixloan_poster', array('pid'=>0));
         pdo_update('xuan_mixloan_credit_data', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('bank', array('op' => '')), "sccuess");
     }
