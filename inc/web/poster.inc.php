@@ -62,6 +62,7 @@ if ($operation == 'list') {
         $update['name'] = $_GPC['name'];
         $update['ext_info'] = json_encode($update['ext_info']);
         pdo_update('xuan_mixloan_poster_data', $update, array('id'=>$id));
+        pdo_delete('xuan_mixloan_poster', array('pid'=>0));
         message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
     }
 }
