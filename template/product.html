@@ -31,8 +31,6 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
-            
-            
             <div class="form-group">
             </div>
         </form>
@@ -170,6 +168,15 @@
                 <div class="col-sm-3 col-xs-3">
                     {php echo tpl_form_field_color('data[ext_info][poster_color]',$item['ext_info']['poster_color']);}
                     <span class="help-block">昵称颜色</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否上架</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[is_show]" >
+                        <option value="0" {if $item['is_show']==0}selected{/if}>否</option>
+                        <option value="1" {if $item['is_show']==1}selected{/if}>是</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">

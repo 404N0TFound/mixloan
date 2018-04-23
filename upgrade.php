@@ -7,6 +7,7 @@ ALTER TABLE `ims_xuan_mixloan_channel` CHANGE ext_info ext_info MediumText NOT N
 ALTER TABLE `ims_xuan_mixloan_bank_artical` CHANGE ext_info ext_info MediumText NOT NULL;
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 ALTER TABLE `ims_xuan_mixloan_product_apply` ADD `degree` tinyint(2) DEFAULT 1;
+ALTER TABLE `ims_xuan_mixloan_product` ADD `is_show` tinyint(2) DEFAULT 1;
 
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
