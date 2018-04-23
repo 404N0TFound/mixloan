@@ -84,9 +84,13 @@ if($operation=='index'){
     //报告详情
     $id = intval($_GPC['id']);
     $report = pdo_fetch("SELECT * FROM ".tablename('xuan_mixloan_credit_data')." WHERE id={$id}");
+    if (empty($report)) {
+        message('报告丢失了', '', 'error');
+    }
     if ($report['status'] == 0) {
         $location = $this->createMobileUrl('credit', array('op'=>'pay', 'id'=>$id));
         header("location:{$location}");
+        exit();
     }
     if (empty($report['ext_info'])) {
         $result = m('jdwx')->henypot4JD($config['jdwx_key'], $report['realname'], $report['certno'], $report['phone']);
