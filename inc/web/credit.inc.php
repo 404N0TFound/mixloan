@@ -1,4 +1,3 @@
-s (49 sloc)  2.1 KB
 <?php
 defined('IN_IA') or exit('Access Denied');
 global $_W, $_GPC;

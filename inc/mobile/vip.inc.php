@@ -118,11 +118,14 @@ if($operation=='buy'){
 		if ($row['pid'] == 0){
 			$row['name'] = '邀请购买代理';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else if ($row['pid'] == -1){
+			$row['name'] = '邀请信用查询';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
 		} else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
 		}
-		if ($row['pid'] == 0 || $pros[$row['pid']]['count_time'] == 1) {
+		if ($row['pid'] <= 0 || $pros[$row['pid']]['count_time'] == 1) {
 			$row['type'] = '日结';
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '周结';
@@ -201,6 +204,9 @@ if($operation=='buy'){
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
     //邀请二维码
+	if ($agent['code'] != 1) {
+	    message('您不是会员', '', 'error');
+	}
     $type = intval($_GPC['type']);
     if ($type == 1) {
 

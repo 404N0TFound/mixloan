@@ -79,6 +79,10 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		        $account = WeAccount::create($_W['acid']);
 		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
 				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
+				$check = m('member')->checkAgent($inviter);
+				if ($check['code'] != 1) {
+					message("支付成功", $this->createMobileUrl('user'), "success");
+				}
 				if ($inviter && $config['inviter_fee_one']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
@@ -205,7 +209,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         'pid'=>-1,
                         'degree'=>1,
                     );
-                    pdo_insert('xuan_mixloan_bonus', $insert_i);
+                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     $datam = array(
                         "first" => array(
                             "value" => "您好，您的一级徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
@@ -244,7 +248,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             'pid'=>-1,
                             'degree'=>2,
                         );
-                        pdo_insert('xuan_mixloan_bonus', $insert_i);
+                        pdo_insert('xuan_mixloan_product_apply', $insert_i);
                         $datam = array(
                             "first" => array(
                                 "value" => "您好，您的二级徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
@@ -283,7 +287,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                 'pid'=>-1,
                                 'degree'=>3,
                             );
-                            pdo_insert('xuan_mixloan_bonus', $insert_i);
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
                             $datam = array(
                                 "first" => array(
                                     "value" => "您好，您的徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",

@@ -32,7 +32,9 @@
         div.posterT_app p input{position: absolute;left: -999px;bottom: 0;}
         div.posterT_app p{width:50%;float: left;font-size:0.6rem;text-align:center;color:#2498fb;vertical-align: middle;}
         div.posterT_app p:nth-child(1):before{content: '';width:1px;height:80%;position: absolute;top:7%;right:0;background:#e6e6e6;  }
-
+        div.posterT p{
+            text-align: center;
+        }
         input{
             -webkit-user-select:none
         }
@@ -110,13 +112,13 @@
         </div>
     </div>
     <div style="height:1.0rem;" id="recommend" data-name=""></div>
-    <div class="posterT_app dn" id="posterT_app" style="display: none">
+    <div class="posterT_app dn" id="posterT_app">
         <!--  <p>点击右上角分享专属链接给好友</p> -->
         <p><a id="savePoster" href="downPoster" title="">保存图片</a></p><p class="copyLink" >复制文本
         <!-- <input id="clip_num" value="" readonly="" ></p> -->
     </div>
-    <div class="posterT dn" id="posterT" style="display: none">
-        <!--  <p>点击右上角分享专属链接给好友</p> -->
+    <div class="posterT dn" id="posterT" style="display: block">
+        <p id="recommend_text">长按图片保存分享朋友</p>
 
     </div>
 </div>
@@ -185,7 +187,7 @@
                         observeParents:true
                     });
                 }
-                $('#posterT').text('');
+                // $('#posterT').text('');
                 var str="";
                 str+='<p id="recommend_text">您可复制链接或长按海报分享给好友'
                     +'<a class="copy copy-btn" href="javascript:void(0);" >复制文本</a>'

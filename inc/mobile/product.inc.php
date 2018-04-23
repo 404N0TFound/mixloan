@@ -98,6 +98,10 @@ if($operation=='index'){
 	if ($inviter == $member['id']) {
 		show_json(-1, [], "您不能自己邀请自己");
 	}
+	$agent = m('member')->checkAgent($inviter);
+	if ($agent['code'] != 1) {
+		show_json(-1, [], "不是通过代理邀请的产品");
+	}
 	if ($id <= 0) {
 		show_json(-1, [], "id为空");
 	}
