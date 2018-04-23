@@ -13,8 +13,8 @@ if($operation=='index'){
 	$banner = m('product')->getAdvs();
 	$new = m('product')->getRecommends();
 	$new = m('product')->packupItems($new);
-	$card = m('product')->getList([], ['type'=>1], FALSE);
-	$loan = m('product')->getList([], ['type'=>2], FALSE);
+    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
 	$card = m('product')->packupItems($card);
 	$loan = m('product')->packupItems($loan);
 	$arr = array(
@@ -34,6 +34,9 @@ if($operation=='index'){
 	}
 	$id = intval($_GPC['id']);
 	$info = m('product')->getList([],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        message('该代理产品已被下架', '', 'info');
+    }
 	$poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
 	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
 	$top_list = m('product')->getTopBonus($id);
@@ -41,7 +44,7 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
 	//全部产品
 	$inviter = intval($_GPC['inviter']);
-	$credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1]);
+    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
 	foreach ($credits as $credit) {
 		$id[] = $credit['relate_id'];
 	}
@@ -82,7 +85,10 @@ if($operation=='index'){
 	//申请产品
 	$id = intval($_GPC['id']);
 	$inviter = intval($_GPC['inviter']);
-	$info = m('product')->getList(['id', 'ext_info'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'ext_info', 'is_show'],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        message('该代理产品已被下架', '', 'info');
+    }
 	include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
 	//申请产品
@@ -108,7 +114,10 @@ if($operation=='index'){
 		// 	show_json($res['code'], [], $res['msg']);
 		// }
 	}
-	$info = m('product')->getList(['id', 'name', 'type', 'relate_id'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        show_json(-1, [], '该代理产品已被下架');
+    }
 	if ($info['type'] == 1) {
 		$pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	} else {
