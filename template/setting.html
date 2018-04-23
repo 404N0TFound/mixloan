@@ -11,6 +11,7 @@
 			<li role="presentation" ><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">协议设置</a></li>
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
+			<li role="presentation" ><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">信用查询设置</a></li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -92,6 +93,12 @@
 						生活服务
 					</div>
 					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">信用查询</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$credit}" class="form-control" readonly>
+							</div>
+						</div>
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">贷款超市地址</label>
 							<div class="col-sm-6 col-xs-12">
@@ -182,11 +189,12 @@
 							</div>
 			                <div class="col-sm-3 col-xs-6">
 			                    <input type="password" class="form-control" name="jdwx_key" value="{$setting['jdwx_key']}" placeholder="京东万象key">
-			                    <span class="help-block">
+								<span class="help-block">
 			                    申请地址：<a href="https://wx.jcloud.com/" target="_blank">https://wx.jcloud.com/</a>
-								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/16/11147" target="_blank">https://wx.jcloud.com/market/datas/16/11147</a>
-								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/10678" target="_blank">https://wx.jcloud.com/market/datas/5/10678</a>
-								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/11577" target="_blank">https://wx.jcloud.com/market/datas/5/11577</a>
+									<!-- <br/>购买地址：<a href="https://wx.jcloud.com/market/datas/16/11147" target="_blank">手机号三元素</a> -->
+								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/10678" target="_blank">识别银行卡名称</a>
+								<br/>购买地址：<a href="https://wx.jcloud.com/market/datas/5/11577" target="_blank">识别银行卡四要素</a>
+								<br/>购买地址：<a href="https://wx.jdcloud.com/market/datas/5/11044" target="_blank">蜜罐数据</a>
 			                    </span>
 			                </div>
 			            </div>
@@ -389,7 +397,44 @@
 					</div>
 				</div>
 			</div>
-
+			<div role="tabpanel" class="tab-pane" id="credit">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						信用查询设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">信用查询金额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="credit_fee" value="{$setting['credit_fee']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
+							<div class="col-sm-3 col-xs-12">
+								<select class="form-control" name="credit_wx_free">
+									<option value="0" {if $setting['credit_wx_free']==0}selected{/if}>否</option>
+									<option value="1" {if $setting['credit_wx_free']==1}selected{/if}>是</option>
+								</select>
+								<span class="help-block">微信分享一次是否免费</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="credit_fee_one" value="{$setting['credit_fee_one']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">一级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="credit_fee_two" value="{$setting['credit_fee_two']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">二级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="credit_fee_three" value="{$setting['credit_fee_three']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">三级</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 		<div class="form-group col-sm-12">

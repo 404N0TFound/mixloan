@@ -1,0 +1,48 @@
+﻿
+
+
+
+<!DOCTYPE html>
+<html class="html-full">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <title>历史报告</title>
+
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/mui.min_3.css"/>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/style_4.css"/>
+</head>
+
+<body class="history">
+
+
+    <div class="list-box">
+        <ul>
+            {loop $list $row}
+            <li>
+                <p>
+                    <strong>{$row['realname']}</strong>
+                    <span>报告编号：{$row['tradeno']}</span>
+                    <span>报告时间：{php echo date('YmdHis', $row['createtime']);}</span>
+                </p>
+                <button>
+                    <i></i>
+                    <span> <a href="{php echo $this->createMobileUrl('credit', array('op'=>'report_info', 'id'=>$row['id']))}">查看报告</a></span>
+                </button>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+
+
+<script src="../addons/xuan_mixloan/template/style/credit/js/mui_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/layer_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/zepto.min_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/common_3.js"></script>
+</body>
+
+</html>
