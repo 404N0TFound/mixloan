@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `pid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL COMMENT '0会员 -1信用查询',
   `phone` varchar(30) NOT NULL,
   `certno` varchar(50) NOT NULL,
   `realname` varchar(30) NOT NULL,

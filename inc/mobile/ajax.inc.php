@@ -170,8 +170,55 @@ if($operation == 'getCode'){
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
 } else if ($operation == 'checkMember') {
+	//得到会员信息
 	$openid = m('user')->getOpenid();
 	show_json(1, m('member')->getMember($openid));
+} else if ($operation == 'apply_temp') {
+	//常规脚本
+	$ids = [];
+	if ($_GPC['type'] == 'product_apply') {
+		$list = pdo_fetchall('SELECT id,uid,inviter FROM '.tablename('xuan_mixloan_product_apply').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+		foreach ($list as $key => $value) {
+			if ($value['uid'] == $value['inviter']) {
+				$ids[] = $value['id'];
+			}
+		}
+	} else if ($_GPC['type'] == 'qrcode') {
+		$list = pdo_fetchall('SELECT a.id,a.qrcid,a.openid,b.id as uid FROM '.tablename('qrcode_stat').' a left join '.tablename('xuan_mixloan_member').' b ON a.openid=b.openid WHERE a.uniacid=:uniacid AND a.type=1 GROUP BY a.openid', array(':uniacid'=>$_W['uniacid']));
+		foreach ($list as $key => $value) {
+			if ($value['qrcid'] == $value['uid']) {
+				if ($_GPC['update']) {
+					pdo_update('qrcode_stat', array('type'=>2), array('qrcid'=>$value['uid'], 'openid'=>$value['openid']));
+				}
+				$ids[] = $value['id'];
+			}
+		}
+	} else if ($_GPC['type'] == 'inivter') {
+		$list = pdo_fetchall('SELECT a.id,a.phone,a.uid,b.id as member_id FROM '.tablename('xuan_mixloan_inviter').' a left join '.tablename('xuan_mixloan_member').' b ON a.phone=b.phone WHERE a.uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+		foreach ($list as $key => $value) {
+			if ($value['uid'] == $value['member_id']) {
+				if ($_GPC['update']) {
+					pdo_delete('xuan_mixloan_inviter', array('id'=>$value['id']));
+				}
+				$ids[] = $value['id'];
+			}
+		}
+	} else if ($_GPC['type'] == 'temp') {
+		$list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+		foreach ($list as $row) {
+	        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+	        $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+	        if ($row['left_bonus']<0) {
+	        	var_dump($row['left_bonus']);
+	        	$ids[] = $row['uid'];
+	        }
+		}
+	}
+	if (!empty($ids)) {
+		echo implode(',', $ids);
+	} else {
+		echo 'empty';
+	}
 }
 
 

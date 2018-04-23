@@ -202,8 +202,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         're_bonus'=>0,
                         'status'=>2,
                         'createtime'=>time(),
+                        'pid'=>-1,
                         'degree'=>1,
-                        'type'=>4
                     );
                     pdo_insert('xuan_mixloan_bonus', $insert_i);
                     $datam = array(
@@ -241,8 +241,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             're_bonus'=>0,
                             'status'=>2,
                             'createtime'=>time(),
+                            'pid'=>-1,
                             'degree'=>2,
-                            'type'=>4
                         );
                         pdo_insert('xuan_mixloan_bonus', $insert_i);
                         $datam = array(
@@ -280,8 +280,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                 're_bonus'=>0,
                                 'status'=>2,
                                 'createtime'=>time(),
+                                'pid'=>-1,
                                 'degree'=>3,
-                                'type'=>4
                             );
                             pdo_insert('xuan_mixloan_bonus', $insert_i);
                             $datam = array(
