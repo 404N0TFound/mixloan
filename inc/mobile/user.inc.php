@@ -88,10 +88,10 @@ if($operation=='index'){
 		show_json(-1, [], '资料不能留空');
 	}
 	if ($config['jdwx_open'] == 1) {
-		$res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['realname']), trim($_GPC['phone']), trim($_GPC['idcard']));
-		if ($res['code'] == -1) {
-			show_json($res['code'], [], $res['msg']);
-		}
+		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['realname']), trim($_GPC['phone']), trim($_GPC['idcard']));
+		// if ($res['code'] == -1) {
+		// 	show_json($res['code'], [], $res['msg']);
+		// }
 	}
 	pdo_update('xuan_mixloan_member', array(
 		'avatar'=>trim($_GPC['headimgurl']),

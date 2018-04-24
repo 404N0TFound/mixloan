@@ -64,21 +64,21 @@
 </head>
 	<body style="background:#fff;">
 		<div class="super_center_head">
+			{if $re}
 			<div class="super_center">
 				<ul class="clearfix">
 					<li class="f1">
 						<p><img src="../addons/xuan_mixloan/template/style/picture/wen.png" /></p>
 					</li>
-					{if $re}
 					<li class="f2">
 						<p>您有以下代理产品尚未生成二维码点击快速生成 <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" class="small" /></p>
 					</li>
-					{/if}
 					<li class="f3">
 						<p><span></span><a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$re['id']))}">{$re['name']}</a></p>
 					</li>
 				</ul>
 			</div>
+			{/if}
 		</div>
 		<div class="loanindex_main">
 			<div class="swiper-container">

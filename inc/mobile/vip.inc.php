@@ -126,15 +126,15 @@ if($operation=='buy'){
 	} else {
 		$verify = 0;
 	}
-	$pids = pdo_fetchall("SELECT pid FROM ".tablename("xuan_mixloan_poster")." WHERE uid=:uid", array(":uid"=>$member['id']));
+	$pids = pdo_fetchall("SELECT pid FROM ".tablename("xuan_mixloan_poster")." WHERE uid=:uid AND pid<>0 GROUP BY pid", array(":uid"=>$member['id']));
 	if ($pids) {
 		foreach ($pids as $value) {
 			$res[] = $value['pid'];
 		}
 		$pids_string = '(' . implode(',', $res) . ')';
-		$re = pdo_fetch("SELECT id,name FROM ".tablename("xuan_mixloan_product"). " WHERE id NOT IN {$pids_string} LIMIT 1");
+		$re = pdo_fetch("SELECT id,name FROM ".tablename("xuan_mixloan_product"). " WHERE uniacid={$_W['uniacid']} AND id NOT IN {$pids_string} LIMIT 1");
 	} else {
-		$re = pdo_fetch("SELECT id,name FROM ".tablename("xuan_mixloan_product"). " LIMIT 1");
+		$re = pdo_fetch("SELECT id,name FROM ".tablename("xuan_mixloan_product"). " WHERE uniacid={$_W['uniacid']}  LIMIT 1");
 	}
 	include $this->template('vip/createPostAllProduct');
 } else if ($operation == 'posterAll') {
