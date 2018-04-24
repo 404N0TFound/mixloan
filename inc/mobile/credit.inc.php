@@ -17,10 +17,10 @@ if($operation=='index'){
     $idcard = trim($_GPC['idcard']);
     $name = trim($_GPC['name']);
     $mobile = trim($_GPC['mobile']);
-    $res = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('xuan_mixloan_credit_data').' WHERE uid=:uid AND phone=:phone', array(':phone'=>$mobile, ':uid'=>$member['id']));
-    if ($res) {
-        show_json(-1, null, "你已经查询过了，请去历史报告中查看记录");
-    }
+    // $res = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('xuan_mixloan_credit_data').' WHERE uid=:uid AND phone=:phone', array(':phone'=>$mobile, ':uid'=>$member['id']));
+    // if ($res) {
+    //     show_json(-1, null, "你已经查询过了，请去历史报告中查看记录");
+    // }
     if (empty($idcard)) {
         show_json(-1, null, "请输入身份证");
     }
