@@ -329,7 +329,7 @@
 		function toPurchase(){
 			$.post("{php echo $this->createMobileUrl('ajax', array('op'=>'checkMember'))}",{},
 	        	function(data){
-	        		if (!data.data.phone) {
+	        		if (false) {
 	        			layer.open({
 							type: 2,
 							title: '绑定手机',
