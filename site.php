@@ -314,7 +314,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         }
                     }
                 }
-                message("支付成功", $this->createMobileUrl('credit', array('op'=>'report_list')), "success");
+                message("支付成功", $this->createMobileUrl('credit', array('op'=>'report_info', 'id'=>$id)), "success");
             }
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {
