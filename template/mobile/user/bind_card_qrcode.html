@@ -12,7 +12,7 @@
     <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
     <meta http - equiv = "Pragma" content = "no-cache" / >
     <meta http - equiv = "Expires" content = "0" / >
-    <title>编辑资料</title>
+    <title>上传微信收款二维码</title>
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/aui.css"/>
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/intial.css" />
     <!-- pic -->
@@ -35,71 +35,22 @@
         <div class="personfile">
             <input type="hidden" value="1"  id="userid" name="userid">
             <ul class="clearfix">
+                <li class="border clearfix">
+                    <div class="list-name">二维码名称</div>
+                    <div class="input-wap"><input type="text" name="name" id="name" value="{$item['name']}" placeholder="为这个二维码起一个名称"  ></div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
                 <li class="border first clearfix">
-                    <div class="list-name">头像</div>
+                    <div class="list-name">收款二维码</div>
                     <div class="input-wap" >
-                        <img src="{$member['avatar']}" id="btn"/>
-                        <input type="hidden" value="" id="headimgurl"  name="headimgurl" data-name="{$member['avatar']}">
+                        <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn"/>
+                        <input type="hidden" value="" id="headimgurl"  name="headimgurl" data-name="">
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
-
-                <li class="border clearfix">
-                    <div class="list-name">昵称</div>
-                    <div class="input-wap"><input type="text" name="nickname" id="nickname" value="{$member['nickname']}" placeholder="请输入您的昵称"  onkeyup="value=value.replace(/[\d]|\s+/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]|\s+/g,''))"  maxlength="30" ></div>
-                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
-                <li class="input-list  clearfix">
-                    <div class="list-name">微信号</div>
-                    <div class="input-wap"><input type="text" name="wechatnum" value="{$member['wechat']}" placeholder="输入微信号码" ></div>
-                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
-                
             </ul>
         </div>
-        <h5 class="file-title"></h5>
-        <div class="personfile">
-            <ul class="clearfix">
-                <li class="border clearfix">
-                    <div class="list-name">姓名</div>
-                    <div class="input-wap"><input type="text" name="realname" id="realname" value="{$member['realname']}" placeholder="输入真实姓名" style="color: #666 !important;"></div>
-                    <div class="pic pic_one"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
-                <li class="input-list border clearfix">
-                    <div class="list-name">手机号</div>
-                    <div class="input-wap"><input type="tel" name="phone" id="phone" value="{$member['phone']}" placeholder="输入手机号"></div>
-                    <div class="pic pic_two"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
-                <li class="input-list  clearfix">
-                    <div class="list-name">身份证号</div>
-                    <div class="input-wap"><input type="text" name="idcard" id="idcard" value="{$member['certno']}" placeholder="输入身份证号码"></div>
-                    <div class="pic pic_tre"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
-                <h5 class="file-title"></h5>
-                {if $agent}
-                <li class="input-list border clearfix">
-                    <div class="list-name">代理编号</div>
-                    <div class="input-wap">
-                        <p>{$agent['id']}</p>
-                    </div>
-                </li>
-                {/if}
-                <li class="input-list border clearfix">
-                    <div class="list-name">职务</div>
-                    <div class="input-wap">
-                        <p>{if $agent}代理{else}用户{/if}</p>
-                    </div>
-                </li>
-                {if $agent}
-                <li class="input-list clearfix">
-                    <div class="list-name">推荐人</div>
-                    <div class="input-wap">
-                        <p>{$agent['inviter']}</p>
-                    </div>
-                </li>
-                {/if}
-            </ul>
-        </div>
+        
 
     </div>
     <div class="agent_foot">
@@ -226,87 +177,24 @@
 
     function upSubmit() {
         $("#upSubmit").unbind('click');
-        var userid=$("input[name='userid']").val();  //id
         var headimgurl=$("#headimgurl").attr("data-name");  //头像
-        var nickname=$("input[name='nickname']").val();   //昵称
-        var wechatnum=$("input[name='wechatnum']").val();  //微信号
-        var realname=$("input[name='realname']").val();  //姓名
-        var phone=$("input[name='phone']").val();   //手机号
-        var idcard=$("input[name='idcard']").val();   //身份证
-
-        if (nickname == '输入您的昵称' || nickname == "") {
-            document.getElementById('nickname').focus();
-            layer.tips('请输入您的昵称', '#nickname', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
+        var name=$("input[name='name']").val();   //身份证
+        if (name == "") {
+            layer.msg("请填写名称");
             return false;
         }
-        
-        if (realname == '输入真实姓名' || realname == '') {
-            document.getElementById('realname').focus();
-            layer.tips('请输入真实姓名', '#realname', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
+        if (headimgurl == "") {
+            layer.msg("请上传微信收款二维码");
             return false;
         }
-
-
-        if (phone == '输入手机号' || phone == '') {
-            document.getElementById('phone').focus();
-            layer.tips('请输入联系人手机号', '#phone', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-        }
-        if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
-            document.getElementById('phone').focus();
-            $("input[name='phone']").attr("disabled",false);
-            $('.pic_two').show();
-            $("input[name='phone']").attr("disabled",false);
-            layer.tips('请输入正确手机号', '#phone', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-        }
-        if (idcard == '输入身份证号' || idcard == '') {
-            document.getElementById('idcard').focus();
-            layer.tips('请输入身份证号', '#idcard', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-        }
-
-        if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(idcard))) {
-            document.getElementById('idcard').focus();
-            $("input[name='idcard']").attr("disabled",false);
-            $('.pic_tre').show();
-            layer.tips('请填写正确身份证号', '#idcard', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-
-        }    
-
         var imguploadimg=layer.load(1, {
             shade: [0.5,'#000'] 
         });
         var ajax = {};
-        ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'setData'))}";
+        ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'bank_img'))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'phone':dataTransform(phone),'idcard':dataTransform(idcard)};
+        ajax.data = {'name':dataTransform(name),'headimgurl':dataTransform(headimgurl)};
         ajax.success = function (data) {
             //alert(data); 
             layer.close(imguploadimg);
@@ -317,7 +205,7 @@
                 layer.msg('资料提交成功', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = "{php echo $this->createMobileUrl('user')}";
+                    window.location.href = "{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}";
                 });
             }
             else {

@@ -45,7 +45,7 @@
     <div class="agent-main pt44" style="padding-top: 0;">
         <div class="settleCards">
             <div class="swiper-container">
-                <div class="swiper-wrapper">
+                <!-- <div class="swiper-wrapper">
                     {if $banks}
                         {loop $banks $row}
                         <div class="swiper-slide" data-id="{$row['id']}">
@@ -67,6 +67,27 @@
                             <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
                                 <p style="font-family: numFont!important;">
                                 <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
+                                </p>
+                            </div>
+                        </div> 
+                    {/if}                            
+                </div> -->
+                <div class="swiper-wrapper">
+                    {if $qrcodes}
+                        {loop $qrcodes $row}
+                        <div class="swiper-slide" data-id="{$row['id']}">
+                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                             <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
+                                <p style="font-family: numFont!important;">
+                                </p>
+                            </div>
+                        </div> 
+                        {/loop}
+                    {else}
+                        <div class="swiper-slide" data-id="0">
+                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                            <div class="cardsInfo"><h2>*****</h2><span>收款二维码</span>
+                                <p style="font-family: numFont!important;">
                                 </p>
                             </div>
                         </div> 
@@ -243,7 +264,7 @@
             layer.msg("最多可添加4张银行卡");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_card'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
             location.href=_url;
         }
     })
