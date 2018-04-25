@@ -35,20 +35,33 @@
 	{template 'common/wxshare'}
 </head>
 	<body style="background:#fff;">
-
+		<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+		<script type="text/javascript">
+		function openNew(url){
+		  mui.openWindow({url:url});
+		}
+		</script>
+		{if !is_weixin()}
+	    <style type="text/css">
+	        .agent-header{height: 3rem;line-height: 4rem}
+	    </style>
+		{/if}
 		<div class="agent-header">
 			{$config['title']}
 			<a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 		</div>
-		<div style="height:2rem;"></div>
+	    {if !is_weixin()}
+	    <div style="height:3rem;"></div>
+	    {else}
+	    <div style="height:2rem;"></div>
+	    {/if}
 		<!-- end -->
 		<div class="product_head">
 			<ul class="clearfix">
-		      	<li class="on"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></li>
-		      	<li><a href="{php echo $this->createMobileUrl('product', array('op'=>'customer'))}" id="href_list"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
-
-		      	<li><a href="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}"><h2><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></a></li>
-	 		</ul>
+	            <li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+	            <li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+            <li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
+	        </ul>
 		</div>
 		<div class="fjx"></div>
 		<div class="wapper dn">
@@ -118,34 +131,32 @@
 				<ul class="clearfix"></ul>
 			</div>
 			<!--代呗店star  -->
-			<div class="finndy"><a href="{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
+			<div class="finndy"><a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
 			<!--代呗店END -->
 		</div>
 		<div style="height:3.0rem;" class="agent-main"></div>
 	    <div class="agent-foot">
 	        <a href="javascript:;"  class="on">
+	            <!-- <span class="iconfont icon-card2"></span> -->
 	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
 	            <p>{$config['title']}</p>
 	        </a>
-	        <a href="{php echo $this->createMobileUrl('channel')}" class="today-cell">
-	          	<p class="foot_img">
-	          		<img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" />
-	          			          	</p>
+	        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
 	            <p>今日口子</p>
+	       </a>
+	        <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
+	            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
 	        </a>
-	        <a class="home" href="{php echo $this->createMobileUrl('friend')}">
-	            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" width="45px" alt="">
-	            <!-- <p>金融朋友圈</p> -->
-	        </a>
-	        <a href="{php echo $this->createMobileUrl('loan')}">
-	           	<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+	        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
 	            <p>查网贷</p>
 	        </a>
-	        <a href="{php echo $this->createMobileUrl('user')}" >
+	        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
 	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
 	            <p>个人中心</p>
 	        </a>
-    	</div>
+	    </div>
 
 	
 	<script type="text/javascript">
@@ -225,7 +236,7 @@
 							} 	
 
 				      		var two_li="<li class='clearfix' data-id="+ new_maintain +"  onclick=\"new_head(this);\">"
-				      		 	+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "'>"	
+				      		 	+"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "')\">"	
 						      		+"<div  class='clearfix lisi_li' >"
 						      			+"<div class='fl'>"
 						      				+"<img src='"+ imgs +"' />"
@@ -363,7 +374,7 @@
 						}    	
 
 			  			var str_tw="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				  			+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"	
+				      		+"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_hot + "')\">"	
 					      		+"<div  class='clearfix lisi_li' >"
 					      			+"<div class='fl'>"
 					      				+"<img src='"+ imgs_loan +"' />"
@@ -393,7 +404,7 @@
 					      	+"</a>"	
 				      	+"</li>";
 				      	var str_tre="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				      		+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+				      		+"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_hot + "')\">"	
 					      		+"<div  class='clearfix lisi_li' >"
 					      			+"<div class='fl'>"
 					      				+"<img src='"+ imgs_loan +"'  />"
@@ -612,7 +623,7 @@
 
 			      			
 					    	var three_head="<li class='clearfix'  data-id="+ loan_maintain +"   onclick=\"three_head(this);\">"
-					    		+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_card + "'>"
+				      			+"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_card + "')\">"	
 						      		+"<div class='line_three'>"
 							      		+"<div class='line_img' >"
 							      			+"<img src='"+ imgs_card +"' />"

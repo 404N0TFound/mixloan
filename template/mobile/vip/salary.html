@@ -33,9 +33,20 @@
         div.backtabcontent{font-family: Helvetica!important;display: none;}
     </style>
 <body style="background: #f0f0f0;">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .agent-header{height: 3rem;line-height: 4rem}
+    </style>
+    {/if}
     <div class="agent-header">
         {$config['title']}
-        <a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+        <a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
     </div>
     <div class="agent-foot">
         <a href="javascript:;"  class="on">
@@ -43,28 +54,32 @@
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
             <p>{$config['title']}</p>
         </a>
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
             <p>今日口子</p>
        </a>
-        <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+        <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
             <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
         </a>
-        <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
             <p>查网贷</p>
         </a>
-        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
             <p>个人中心</p>
         </a>
     </div>
+    {if !is_weixin()}
+    <div style="height:3rem;"></div>
+    {else}
     <div style="height:2rem;"></div>
+    {/if}
     <!-- end -->
     <div class="product_head">
         <ul class="clearfix">
-            <li><a href="{php echo $this->createMobileUrl('product')}"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
-            <li><a href="{php echo $this->createMobileUrl('product', ['op'=>'customer'])}"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
             <li class="on"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
         </ul>
         
@@ -188,7 +203,7 @@
             $(".pop_art").show();
             layer_style();
             {else}
-            location.href="/wap/idai/tixian_status.html?paid=1&cate=2";
+            openNew('');
             {/if}
         })
 
@@ -198,7 +213,7 @@
             $(".pop_art").show();
             layer_style();
             {else}
-            location.href="{php echo $this->createMobileUrl('vip', array('op'=>'bind_card'))}";
+            openNew('{php echo $this->createMobileUrl('vip', array('op'=>'bind_card'))}');
             {/if}
         })
         function settle() {
@@ -206,7 +221,7 @@
             $(".pop_art").show();
             layer_style();
             {else}
-            location.href="{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}";
+            openNew('{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}');
             {/if}
         }
         document.writeln("<div class=\'pop_art\'>");
@@ -217,7 +232,7 @@
         document.writeln("                  <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
         document.writeln("                  <p>温馨提示：如有疑问,请联系客服</p>");
         document.writeln("                  <div class=\'buy_hf clearfix\'>");
-        document.writeln("                      <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
+        document.writeln("                      <a onclick=\"openNew(\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\')\" ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
         document.writeln("                  </div>        ");
         document.writeln("                  <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
         document.writeln("              </div>");

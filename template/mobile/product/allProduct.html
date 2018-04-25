@@ -35,6 +35,27 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray" style="background:#fff;" >
+  <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+  <script type="text/javascript">
+  function openNew(url){
+      mui.openWindow({url:url});
+  }
+  </script>
+  {if !is_weixin()}
+  <style type="text/css">
+      .app_header{height: 80px;width: 100%;background: #ffffff}
+      .app_header_back{text-align: center;color: white}
+      .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+      .app_header_back img{float:left;width: 12px;}
+      .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+  </style>
+  <div class="app_header">
+      <div class="app_header_back">
+          <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('product')}')">
+          <span>贷款中心</span>
+      </div>
+  </div>
+  {/if}
     <div class="loanindex_main" >
       <div class="loanindex_inform clearfix">
        <span><img src="../addons/xuan_mixloan/template/style/picture/gonggao_black.png" /></span>
@@ -60,7 +81,7 @@
                 <ul class="clearfix">
                   {loop $credit_thr $cre}
                   <li>
-                    <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cre['id'], 'inviter'=>$inviter))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cre['id'], 'inviter'=>$inviter))}')">
                       <div class="swiper_div">
                         <p class="c2" style="background:#8296b2"><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />{$cre['v_name']}</p>
                         <div class="top_img1"><img src="{$cre['card_pic']}" /></div>
@@ -79,7 +100,7 @@
        <!-- 轮播 end-->
         <div class="loanindex_shortcut">
             {loop $credits_blow $cred}
-            <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cred['id'], 'inviter'=>$inviter))}">
+            <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cred['id'], 'inviter'=>$inviter))}')">
               <ul class="clearfix">
                 <li class="clearfix">
                   <div class="f1"><img src="{$cred['ext_info']['logo']}" /></div>
@@ -96,7 +117,7 @@
       <div class="fix"></div>  
 
       <div class="loanindex_inform2 loanindex_inform_jindu clearfix">
-        <a href="{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}">
+        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}')">
            <span style="width:80%"><leabl style="margin-right:2.5%;"></leabl>申卡进度查询</span>
            <p> <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow.png" /> </p>
        </a>
@@ -115,7 +136,7 @@
                 <ul class="clearfix">
                   {loop $speed $sp}
                   <li>
-                      <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                      <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
                       <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                         <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                         <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -133,7 +154,7 @@
        </div>
        <div class="loanindex_shortcut2">
           {loop $speed_loans $loan}
-          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+          <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
               <ul class="clearfix">
                 <li class="clearfix">
                   <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
@@ -169,7 +190,7 @@
                 <ul class="clearfix">
                   {loop $speed $sp}
                   <li>
-                      <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                      <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
                       <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                         <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                         <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -187,7 +208,7 @@
        </div>
        <div class="loanindex_shortcut2">
           {loop $large_loans $loan}
-          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+          <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
               <ul class="clearfix">
                 <li class="clearfix">
                   <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>

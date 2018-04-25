@@ -30,6 +30,27 @@
 	{template 'common/wxshare'}
 </head>
 <body class="pp-bg" style="background-color: #eaeaea;">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+function openNew(url){
+  mui.openWindow({url:url});
+}
+</script>
+{if !is_weixin()}
+<style type="text/css">
+  .app_header{height: 80px;width: 100%;background: #ffffff}
+  .app_header_back{text-align: center;color: white}
+  .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+  .app_header_back img{float:left;width: 12px;}
+  .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+  <div class="app_header_back">
+      <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)">
+      <span>申请</span>
+  </div>
+</div>
+{/if}
 <div class="cJframe">
     <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />    
 </div>
@@ -48,7 +69,7 @@
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
             </ul>
-            <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}服务协议》</a>。</p>
+            <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a onclick="openNew('{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}')">《{$config['title']}服务协议》</a>。</p>
             <div class="applyTips">
                 <p>1.请务必填写本人真实个人信息。</p>
                 <p>2.银行审核通知将以短信形式直接发送到手机。</p>
@@ -250,7 +271,7 @@ function upSubmit() {
                 layer.msg('注册成功，正在跳转...', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = data.data;
+                    openNew(data.data);
                 });
             }else{
                 layer.msg(data.msg);
@@ -303,7 +324,7 @@ $("div.popLoanInfo input").click(function(e){
 // logo跳转贷款超市
 $("div.popLoanLink").click(function(){
     var _url="{php echo $this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$inviter))}";
-    location.href=_url;
+    openNew(_url)
 })
 // {$config['title']}服务协议勾选
 $("#protocol").click(function(){

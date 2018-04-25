@@ -85,16 +85,32 @@
     var daili_url = "{$poster_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
-            history.go(0);
+            openNew('{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$_GPC['id']))}');
         }
     },"json");
 </script>
 <body class="bglightgray">
-    
-    <div class="agent-header">
-        {$info['name']}
-        <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+      mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+      .app_header{height: 80px;width: 100%;background: #f3f4f6}
+      .app_header_back{text-align: center;color: white}
+      .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+      .app_header_back img{float:left;width: 12px;}
+      .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    </style>
+    <div class="app_header">
+      <div class="app_header_back">
+          <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+          <span>{$info['name']}</span>
+      </div>
     </div>
+    {/if}
     <div class="nb_banner">
     	<img src="{$info['ext_info']['pic']}" />
     </div>
@@ -179,7 +195,7 @@ document.writeln("                  <h1>真遗憾！</h1>");
 document.writeln("                  <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
 document.writeln("                  <p>温馨提示：如有疑问,请联系客服</p>");
 document.writeln("                  <div class=\'buy_hf clearfix\'>");
-document.writeln("                      <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
+document.writeln("                      <a onclick=\"openNew(\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\')\" ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
 document.writeln("                  </div>        ");
 document.writeln("                  <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
 document.writeln("              </div>");
@@ -191,7 +207,9 @@ document.writeln("      </div>");
 document.writeln("<div class=\'daili_ewm\'>");
 document.writeln("        <div class=\'ewm_floor\'></div>");
 document.writeln("        <div class=\'ewm_main\'>");
+{if is_weixin()}
 document.writeln("            <h1>点击右上角分享专属链接给好友</h1>");
+{/if}
 document.writeln("                <div class=\'text-center agentcode poster\' id=\'poster\'>");
 document.writeln("                    <div class=\'pro_img\' id=\'pro_img\'>");
 document.writeln("                        <img id=\'source_img\'  src=\'"+aa+"\' width=\'100%\' alt=\'\'>");

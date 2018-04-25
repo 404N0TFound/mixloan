@@ -9,7 +9,8 @@
     <meta  content="e-mail=no" name="format-detection"/>
 	<title>{$config['title']}登陆</title>
 	<script src="../addons/xuan_mixloan/template/style/js//jquery_3.js"></script>
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_3.css" id="layui_layer_skinlayercss">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_3.css">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_5.css">
@@ -48,8 +49,15 @@
 	</style>
 	{template 'common/wxshare'}
 </head>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 70px;width: 100%}
+</style>
+<div class="app_header">
+</div>
+{/if}
 <body class="bgcolor">
-	<div class="fill_info" data-id="341794">
+	<div class="fill_info">
 		<img src="{php echo tomedia($config['logo']);}" />
 		<ul>
 			<li>
@@ -99,7 +107,6 @@ return temp
 		to_buy();      
 	})
 	function to_buy(){
-		$(".to_buy").unbind("click");
 		// var name=$("#name").val();
 		var phone=$("#phone").val();
 		var validcode=$("#validcode").val();
@@ -135,8 +142,8 @@ return temp
         	function(data){
         		console.log(data);
         		if(data.code==1){
-        			layer.msg("提交成功，正在跳转...",{time:2000},function(){
-        				location.href=data.data.url;
+        			layer.msg("提交成功，正在跳转...",function(){
+        				mui.openWindow({url:data.data.url});
         			});
         		}else{
         			layer.msg(data.msg);
@@ -164,6 +171,12 @@ $('input').on('focus',function(){
         }
     }
 })
+mui.init({
+	swipeBack:true, //启用右滑关闭功能,
+	keyEventBind: {
+		backbutton: false  //关闭back按键监听
+	}
+});
 </script>
 </body>
 </html>

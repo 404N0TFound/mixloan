@@ -47,5 +47,16 @@ if($operation=='register'){
 } else if ($operation == 'login') {
 	//登陆
 	include $this->template('index/login');
+} else if ($operation == 'login_ajax') {
+	$phone = intval($_GPC['phone']);
+	$member = pdo_fetch("SELECT id,pass FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array(':phone'=>$phone));
+	if (empty($member)) {
+		show_json(-1, [], '手机号不存在');
+	}
+	if ($member['pass'] != trim($_GPC['pass'])) {
+		show_json(-1, [], '密码不正确');
+	}
+	setcookie('user_id', $member['id'], time()+86400);
+	show_json(1, ['url'=>$this->createMobileUrl('user')], '登陆成功');
 }
 ?>
