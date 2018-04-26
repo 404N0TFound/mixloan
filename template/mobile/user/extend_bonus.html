@@ -89,7 +89,7 @@
                 {loop $list $key $value}
                 <dl class="clearfix">
                     <dd><b>{if $key==0}<img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b>{else if $key==1}<img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b>{else if $key==2}<img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b>{else}{php echo $key+1;}</b>{/if}</dd>
-                    <dd><img src="{$value['avatar']}"></dd><dd><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd><dd><p><label>¥</label>{$config['extend_bonus_money']}</p></dd>
+                    <dd><img src="{$value['avatar']}"></dd><dd><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd><dd><p><label>¥</label>{$value['bonus']}</p></dd>
                 </dl>
                 {/loop}
                 {else}
