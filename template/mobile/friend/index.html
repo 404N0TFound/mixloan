@@ -40,6 +40,14 @@ function openNew(url){
 }
 </script>
 {if !is_weixin()}
+<script type="text/javascript">
+    mui.plusReady(function() {
+        console.log(mui.currentWebview.id);
+        window.addEventListener('refresh', function(event) {
+            mui.currentWebview.reload();
+        });
+    });
+</script>
 <style type="text/css">
     div.fc_guide{top: 70px}
     .agent-header{height: 70px;line-height: 90px}

@@ -34,14 +34,21 @@
 </head>
 <body class="bglightgray" > 
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+        function openNew(url){
+          mui.openWindow({url:url});
+        }
+    </script>
     {if !is_weixin()}
     <script type="text/javascript">
         mui.plusReady(function() {
-         console.log(11);
-        console.log(mui.currentWebview.id);
+            console.log(mui.currentWebview.id);
             window.addEventListener('refresh', function(event) {
                 mui.currentWebview.reload();
             });
+            var wv=plus.webview.currentWebview();
+            // 关闭侧滑返回功能
+            wv.setStyle({'popGesture':'none'});
         });
     </script>
     <style type="text/css">
@@ -170,15 +177,25 @@
                         </a>
                     </li>
                     {/if}
-                    <li class="customer">
+                    <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                         <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
                             我的客服
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                </ul>                
+                    {if !is_weixin()}
+                    <li class="customer">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" />
+                            退出登录
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
+                </ul> 
             </div>
+            <div style="height: 3rem"></div>
         </div>
     </div>
     
@@ -227,10 +244,6 @@ function switchButton(index){
         function(data){
             console.log(data);
         },'json')
-}
-
-function openNew(url){
-    mui.openWindow({url:url});
 }
 
 </script>
