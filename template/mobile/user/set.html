@@ -60,7 +60,7 @@ function openNew(url){
                     <div class="list-name">头像</div>
                     <div class="input-wap" >
                         <img src="{$member['avatar']}" id="btn"/>
-                        <input type="hidden" value="" id="headimgurl"  name="headimgurl" data-name={$member['avatar']}">
+                        <input type="hidden" value="" id="headimgurl"  name="headimgurl" data-name="{$member['avatar']}">
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
@@ -189,7 +189,6 @@ function openNew(url){
             function(data) {
                 if(data.code==1){
                     var avatar_url=data.data.avatar_url;
-
                     $("#headimgurl").attr("data-name",avatar_url).addClass("uploadindex");
                     layer.close(imguploadimg);
                 }else{
@@ -246,7 +245,7 @@ function openNew(url){
 
 
     function upSubmit() {
-        $("#upSubmit").unbind('click');
+        // $("#upSubmit").unbind('click');
         var userid=$("input[name='userid']").val();  //id
         var headimgurl=$("#headimgurl").attr("data-name");  //头像
         var nickname=$("input[name='nickname']").val();   //昵称
@@ -336,9 +335,19 @@ function openNew(url){
                 $('.pic_two').hide();
                 $('.pic_tre').hide();
                 layer.msg('资料提交成功', {
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    mui.openWindow({url:"{php echo $this->createMobileUrl('user')}"});
+                    mui.plusReady(function(){
+                        mui.init({
+                            beforeback: function(){
+                                var list = plus.webview.getWebviewById('user_index');
+                                mui.fire(user_index,'refresh');
+                                return true;
+                            }
+                        });
+                    })
+                    mui.back();
+                    // mui.openWindow({url:"{php echo $this->createMobileUrl('user')}", id:"user_index"});
                 });
             }
             else {

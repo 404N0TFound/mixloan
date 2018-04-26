@@ -24,6 +24,19 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+      mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .agent-header{height: 70px;line-height: 90px}
+        .to_release{top:30px !important}
+        div.releaseMain{padding-top: 70px}
+    </style>
+    {/if}
 	<div class="agent-header">
         编辑内容
         <a class="return return_del" onclick="reback();"></a>
@@ -176,7 +189,7 @@
         publishSubmit();
     });
     function publishSubmit(){
-        $(".to_release").unbind("click");
+        // $(".to_release").unbind("click");
         var tag=$("div.add_tab ul li.on").length;
         var title=$.trim($("div.rtitle textarea").val());
         var content=$.trim($("#contentor").val());
@@ -240,15 +253,19 @@
             return false;
         }
         function toRelease(index){
+            layer.load(1, {
+                shade: [0.5,'#000'] 
+            });
             $.ajax({
                 url:"{php echo $this->createMobileUrl('friend',array('op'=>'add'))}",
                 dataType:'JSON',
                 type:'POST',
                 data:index,
                 success:function(res){
+                    layer.closeAll();
                     if(res.status=='OK'){
                         layer.msg("发布成功",{time:800,shift: -1,},function(){
-                            location.href= res.url;
+                            openNew(res.url);
                         })                        
                     }else{
                         layer.msg(res.status);

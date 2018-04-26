@@ -33,11 +33,25 @@
 	{template 'common/wxshare'}
 </head>
 <body class="body">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+function openNew(url){
+  mui.openWindow({url:url});
+}
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    div.fc_guide{top: 70px}
+    .agent-header{height: 70px;line-height: 90px}
+    div.search_rec{top: 119px}
+    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 160px}
+</style>
+{/if}
 <div class="fcMainList">
     <div class="agent-header">
         金融朋友圈
-        <a class="return" href="javascript:history.go(-1);">返回</a>
-        <a class="fc_header" href="{php echo $this->createMobileUrl('friend',array('op'=>'center'))}">
+        <a class="return" onclick="openNew('{php echo $this->createMobileUrl('user')}')">返回</a>
+        <a class="fc_header" onclick="openNew('{php echo $this->createMobileUrl('friend',array('op'=>'center'))}')">
             <!-- <img id="toPersonal" src="../addons/xuan_mixloan/template/style/picture/fc_header.png"/> -->
             <img id="toPersonal" src="{$member['avatar']}"/>
         </a>
@@ -295,7 +309,7 @@
 <!-- 关注公众号 -->
 <!--  -->
 <!-- 发布 -->
-<a class="release" href="{php echo $this->createMobileUrl('friend',array('op'=>'share'))}"><img src="../addons/xuan_mixloan/template/style/picture/release.png"/></a>
+<a class="release" onclick="openNew('{php echo $this->createMobileUrl('friend',array('op'=>'share'))}')"><img src="../addons/xuan_mixloan/template/style/picture/release.png"/></a>
 
 
 <script src="../addons/xuan_mixloan/template/style/js/emojis.js"></script>
@@ -508,7 +522,8 @@
     }
 
     function return_info(id) {
-        window.location.href = "{php echo $this->createMobileUrl('friend', array('op'=>'info'));}&id="+id;
+        var temp = "{php echo $this->createMobileUrl('friend', array('op'=>'info'));}&id="+id;
+        openNew(temp);
     }
     function ajaxResult(_data,root,tagId){
         for(i=0;i<_data.length;i++){

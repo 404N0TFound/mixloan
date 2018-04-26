@@ -35,6 +35,15 @@
 <body class="bglightgray" > 
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
     {if !is_weixin()}
+    <script type="text/javascript">
+        mui.plusReady(function() {
+         console.log(11);
+        console.log(mui.currentWebview.id);
+            window.addEventListener('refresh', function(event) {
+                mui.currentWebview.reload();
+            });
+        });
+    </script>
     <style type="text/css">
         .app_header{height: 80px;width: 100%;background: #00a2ff}
         .app_header_back{text-align: center;color: white}

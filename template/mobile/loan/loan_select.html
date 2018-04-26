@@ -23,11 +23,28 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+      mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+        div.filter_tab{
+            top: 70px
+        }
+    </style>
+    {/if}
     <div class="loan_tab">
         <ul>
-            <li><a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">首页</a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">首页</a></li>
             <li class="on"><a href="javascript:;">贷款</a></li>
-            <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}">办卡</a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}')">办卡</a></li>
         </ul>
     </div>
     <div class="filter_frame">
@@ -252,7 +269,7 @@ function post_data(order, begin, end, from, to, _id){
                     var click=_data[i].apply_nums;
                     var ele=_data[i].ext_info.tag;//标签
                     $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                                    + "<a href="+ dataTransform(url) +">"
+                                                    + "<a onclick=\"openNew('"+ dataTransform(url) +"')\">"
                                                         + "<ul>"
                                                             + "<li>"
                                                                 + "<span><img src="+ imgs +" /></span>"
