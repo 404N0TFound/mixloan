@@ -155,7 +155,7 @@ if($operation=='index'){
 		}
 		if (!$inviter_uid) {
             if (!$inviter_uid) {
-                $check = m('member')->checkIfRelation($inviter, $_GPC['phone'], $member['openid']);
+                $check = m('member')->checkIfRelation($inviter, $member['id']);
                 if ($check == false) {
                     $insert_i = array(
                         'uniacid' => $_W['uniacid'],
