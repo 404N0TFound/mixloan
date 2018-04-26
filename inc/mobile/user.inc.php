@@ -119,10 +119,11 @@ if($operation=='index'){
 	}
 	$list = pdo_fetchall("SELECT inviter,SUM(re_bonus) AS bonus FROM ".tablename('xuan_mixloan_product_apply')." WHERE degree=1 AND pid=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter ORDER BY bonus DESC");
 	if (!empty($list)) {
-		foreach ($list as $row) {
-			$temp_member = pdo_fetch("SELECT nickname,avatar FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['inviter']));
+		foreach ($list as &$row) {
+			$temp_member = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['inviter']));
 			$row['nickname'] = $temp_member['nickname'];
 			$row['avatar'] = $temp_member['avatar'];
+			$row['phone'] = substr($temp_member['phone'], 0, 4) . '****' . substr($temp_member['phone'], -3, 3);
 		}
 		unset($row);
 	}
