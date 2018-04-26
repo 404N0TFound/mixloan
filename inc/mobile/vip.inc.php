@@ -33,6 +33,9 @@ if($operation=='buy'){
 	$this->pay($params);
 	exit;
 } else if ($operation == 'createPost') {
+    if ($agent['code'] != 1) {
+        show_json(-1, [], '您还不是代理哦');
+    }
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
 		$id = intval($_GPC['id']);
@@ -198,6 +201,9 @@ if($operation=='buy'){
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
+    if ($agent['code'] != 1) {
+        message('您还不是代理哦', '', 'error');
+    }
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
 		$wx = WeAccount::create();
@@ -264,7 +270,7 @@ if($operation=='buy'){
 } else if ($operation == 'degreeDetail') {
 	//对应等级
 	$uid = intval($_GPC['uid']);
-	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
+    $list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} AND a.pid=0 ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
 }
