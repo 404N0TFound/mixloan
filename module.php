@@ -40,6 +40,7 @@ class Xuan_mixloanModule extends WeModule {
                     'inviter_fee_one'=>$_GPC['inviter_fee_one'],
                     'inviter_fee_two'=>$_GPC['inviter_fee_two'],
                     'inviter_fee_three'=>$_GPC['inviter_fee_three'],
+                    'pay_type'=>$_GPC['pay_type'],
                     'vip_friend'=>$_GPC['vip_friend'],
                     'vip_channel'=>$_GPC['vip_channel'],
                     'buy_adv_pics'=>$_GPC['buy_adv_pics'],
@@ -53,11 +54,11 @@ class Xuan_mixloanModule extends WeModule {
             	);
 
             if ($this->saveSettings($cfg)) {
+                pdo_delete("xuan_mixloan_poster", array("pid"=>0));
                 message('保存成功', 'refresh');
             }
 		}
 		$setting = $this->module['config'];
-        pdo_delete("xuan_mixloan_poster", array("pid"=>0));
         
         $queue_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'queue'));
         $vip_buy = $this->shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')));
