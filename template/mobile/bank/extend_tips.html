@@ -19,11 +19,34 @@
 
 	{template 'common/wxshare'}
 </head>
-<body class="bglightgray">    
-    <div class="agent-header">
+<body class="bglightgray"> 
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+      function openNew(url){
+        mui.openWindow({url:url});
+      }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .app_header{height: 80px;width: 100%;background: #ffffff}
+        .app_header_back{text-align: center;color: white}
+        .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+        .app_header_back img{float:left;width: 12px;}
+        .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+        div.rate_main{margin-top: 0;padding-top: 0}
+    </style>
+    <div class="app_header">
+        <div class="app_header_back">
+            <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+            <span>提额干货</span>
+        </div>
+    </div>
+    {else}
+    <div class="agent-header"> 
         提额干货
         <a class="return" onclick="javascript:history.go(-1)">返回</a>
     </div>
+    {/if}   
     <div class="rate_main">
         <div class="rate_common tier_raw">
             <h2><span>提额干货</span><a class="bank_list" style="display: none;"><img src="../addons/xuan_mixloan/template/style/picture/bank_list_1.png" /></a></h2>
@@ -58,7 +81,7 @@
             <h2><span>热门技巧</span></h2>
             <ul>
                 {loop $tips $v}
-                <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
+                <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}')"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
                 {/loop}
             </ul>
             {if count($tips) > 5}
@@ -139,7 +162,7 @@
                     for(i=0;i<_data.length;i++){
                         var title=_data[i].title;
                         var _id=_data[i].id;
-                        $("div.bankgh_content ul").append("<li><a href=\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\">"+ title +"</a></li>");
+                        $("div.bankgh_content ul").append("<li><a onclick='openNew(\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\")'>"+ title +"</a></li>");
                     }
                 }
             },'json')
@@ -176,7 +199,7 @@
                                                                 + "<h1>"+ title +"</h1>"
                                                                 + "<span><img src="+imgs+" /></span>"
                                                                 + "<p>"+ title2 +"</p>"
-                                                                + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
+                                                                + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
                                                             + "</li>")
                         }                        
                     }else{

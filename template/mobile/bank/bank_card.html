@@ -20,6 +20,19 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+      function openNew(url){
+        mui.openWindow({url:url});
+      }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+    div.filter_tab ul li{padding-top: 30px}
+    #banks{padding-top: 40px}
+    .cards_tab a{top: 30px}
+    </style>
+    {/if}
     <div class="filter_tab cards_tab">
         <a href="javascript:void(0);" onclick="javascript:history.go(-1)"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
         <ul>
@@ -256,7 +269,7 @@ function post_data (bank,type,currency,annual) {
                     var intro=_data[j].ext_info.intro;
                     var ele=_data[j].ext_info.tag;//标签
                     $("div.result_list").append("<div class=\"loan_product card_core\" data-id="+ _id +" onclick=\"clickNum(this);\">"
-                                                    + "<a href="+ url +">"
+                                                    + "<a onclick=\"openNew('"+ url +"')\">"
                                                         + "<ul>"
                                                             + "<li>"
                                                                 + "<span><img src="+ img +" /></span>"

@@ -51,6 +51,7 @@ function openNew(url){
   .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
   .app_header_back img{float:left;width: 12px;}
   .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+  div.content_detail{padding-top: 0px}
 </style>
 <div class="app_header">
   <div class="app_header_back">
@@ -250,7 +251,14 @@ function toSubmit(){
     function(res){  
       if (res.type == 'success') {
         layer.msg("评论成功",{time:1000});
+        {if is_weixin()}
         history.go(0);
+        {else}
+        mui.plusReady(function(){
+            var self = plus.webview.currentWebview();
+            self.reload(true);
+        })
+        {/if}
       } else {
         $(".to_submit").attr("send", 1);
         layer.msg(res.message,{time:1000});

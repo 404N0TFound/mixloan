@@ -29,9 +29,25 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+      function openNew(url){
+        mui.openWindow({url:url});
+      }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .agent-foot.texttotal{align-items:normal;}
+        div.agent-footer{height: 70px}
+        div.agent-foot.texttotal p{
+            line-height: 90px;
+        }
+        div.scroller{padding-top: 80px}
+    </style>
+    {/if}
     <div class="agent-foot texttotal agent-footer">
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
         <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
     </div>
     <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
@@ -41,7 +57,7 @@
             <div class="list_unit">            
                 <h2>{$course['title']}</h2>
                 <p>
-                <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">去学习</a>                
+                <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}')">去学习</a>                
                 </p>            
             </div>
             {/loop}
@@ -112,7 +128,8 @@ function a_click(index){
 $(".to_search").click(function(){
     var data_condition=$(this).attr("data-condition");
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
-    location.href=_url;
+    openNew(_url)
+    // location.href=_url;
 });
 </script>
 </html>

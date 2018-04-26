@@ -38,10 +38,26 @@
 </head>
 <body class="bglightgray">
 
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+      function openNew(url){
+        mui.openWindow({url:url});
+      }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .agent-foot.texttotal{align-items:normal;}
+        div.agent-footer{height: 70px}
+        div.agent-foot.texttotal p{
+            line-height: 90px;
+        }
+        div.scroller{padding-top: 80px}
+    </style>
+    {/if}
 <div class="agent-foot texttotal agent-footer">
     <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
-    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
-    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
 </div>
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
@@ -49,7 +65,7 @@
             <div class="swiper-container pro-swiper">
                 <div class="swiper-wrapper">
                 {loop $advs $adv}
-                <div class="swiper-slide" style="width:90%;"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
+                <div class="swiper-slide" style="width:90%;"><a onclick="openNew('{$adv['ext_info']['url']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
                 {/loop}
                 </div>
             <div class="swiper-pagination pro-pagination"></div>
@@ -60,7 +76,7 @@
                 {loop $channel_low_list $low}
                 <div class="loan-list">                
                     <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$low['ext_info']['pic']}" src="{$low['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$low['title']}</h3>
                             <!-- <p class="sub-content"></p> -->
@@ -176,7 +192,7 @@ $(document).ready(function(){
             domDown:{
                         domClass : 'dropload-down',
                         domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
-                        domLoad : '<span><i class="dropload-load"></i>加载中</span>',
+                        domLoad : '<span><i class="dropload-load"></i></span>',
                         domNoData : '<div class="dropload-noData">暂无数据</div>'
                     },
             loadDownFn : function(me){
@@ -227,8 +243,8 @@ $(document).ready(function(){
 
                         }else if(data.code=="-1"){
                             me.lock();
-                            $("div.dropload-down").html("");
-                            $("div.dropload-down").html("没有更多喽~");
+                            // $("div.dropload-down").html("");
+                            // $("div.dropload-down").html("没有更多喽~");
                         }                                        
                     },'json')
             }
@@ -253,7 +269,8 @@ $(".to_search").click(function(){
     var data_condition=$(this).attr("data-condition");
     var classify="0";
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
-    location.href=_url;
+    openNew(_url);
+    // location.href=_url;
 })
 </script>
 </html>

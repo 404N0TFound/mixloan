@@ -21,20 +21,34 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+      mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+    </style>
+    {/if}
     <div class="loan_tab">
         <ul>
-            <li><a href="{php echo $this->createMobileUrl('loan')}">首页</a></li>
-            <li><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}">贷款</a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('loan')}')">首页</a></li>
+            <li><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')">贷款</a></li>
             <li class="on"><a href="javascript:;">办卡</a></li>
         </ul>
     </div>
     <div class="cards_frame">
         <div class="common_frame hot_bank">
-            <h1><span>热门银行</span><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">全部<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <h1><span>热门银行</span><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}')">全部<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
             <ul>
                 {loop $banks $row}
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card', 'bank_id'=>$row['id']))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card', 'bank_id'=>$row['id']))}')">
                         <p><img src="{php echo tomedia($row['ext_info']['logo'])}" /></p>
                         <p>{$row['name']}</p>
                     </a>
@@ -45,7 +59,7 @@
         <div class="common_frame shutcut_recommend">
             <ul>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op' => 'first_card'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'first_card'))}')">
                         <div class="shortcut_title">
                             <h2>人生首卡</h2>
                             <p>超低门槛,稳下</p>
@@ -54,7 +68,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op' => 'fast_card'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'fast_card'))}')">
                         <div class="shortcut_title">
                             <h2>极速下卡</h2>
                             <p>最快3秒核卡</p>
@@ -63,7 +77,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op' => 'hot_card'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'hot_card'))}')">
                         <div class="shortcut_title">
                             <h2>热门推荐</h2>
                             <p>下卡排行</p>
@@ -72,7 +86,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op' => 'high_card'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'high_card'))}')">
                         <div class="shortcut_title">
                             <h2>高额度卡</h2>
                             <p>想刷就刷</p>
@@ -85,19 +99,19 @@
         <div class="common_frame extend_main">
             <ul>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}')">
                         <p><img src="../addons/xuan_mixloan/template/style/picture/progress_1.png" /></p>
                         <p>进度查询</p>
                     </a>
                 </li>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op'=>'extend_limit'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_limit'))}')">
                         <p><img src="../addons/xuan_mixloan/template/style/picture/online_tier_1.png" /></p>
                         <p>在线提额</p>
                     </a>
                 </li>
                 <li>
-                    <a href="{php echo $this->createMobileUrl('bank', array('op'=>'extend_tips'))}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_tips'))}')">
                         <p><img src="../addons/xuan_mixloan/template/style/picture/tier_skill_1.png" /></p>
                         <p>提额干货</p>
                     </a>
@@ -108,7 +122,7 @@
             <h1><span>智能推荐</span></h1>
             {loop $recommends $re}
                 <div class="recommend_main cards_recommend" data-id="{$re['id']}"onclick="clickNum(this);">
-                    <a href="{$re['ext_info']['url']}">
+                    <a onclick="openNew('{$re['ext_info']['url']}')">
                         <h2>{$re['name']}</h2>
                         <div class="recommend_detail">
                             <span class="card_img"><img src="{php echo tomedia($re['ext_info']['pic'])}" /></span>
@@ -127,11 +141,11 @@
             {/loop}
         </div>
         <div class="common_frame hot_cards">
-            <h1><span>热门卡种</span><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <h1><span>热门卡种</span><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}')">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
             <div class="hotC_list">
                 {loop $list $card}
                 <div class="hot_main" data-id="{$card['id']}" onclick="clickNum(this);">
-                    <a href="{$card['ext_info']['url']}">
+                    <a onclick="openNew('{$card['ext_info']['url']}')">
                         <span><img src="{php echo tomedia($card['ext_info']['pic'])}" /></span>
                         <div class="hot_detail">
                             <h2>{$card['name']}</h2>
