@@ -50,6 +50,9 @@
             // 关闭侧滑返回功能
             wv.setStyle({'popGesture':'none'});
         });
+        mui.back = function(){
+            return false;
+        }
     </script>
     <style type="text/css">
         .app_header{height: 80px;width: 100%;background: #00a2ff}
@@ -170,7 +173,7 @@
                     </li>
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode','type'=>3))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
                             邀请二维码
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
