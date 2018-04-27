@@ -39,7 +39,7 @@ if($operation=='buy'){
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
 		$id = intval($_GPC['id']);
-		$product = m('product')->getList(['id','ext_info'], ['id'=>$id])[$id];
+		$product = m('product')->getList(['id','ext_info','type','relate_id'], ['id'=>$id])[$id];
 		$cfg = [];
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $product['ext_info']['poster_avatar'];
@@ -50,7 +50,6 @@ if($operation=='buy'){
         } else {
             $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
         }
-		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
 	} else {
