@@ -70,6 +70,10 @@ if($operation=='index'){
     $pid = intval($_GPC['pid']);
     $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
+    $info = m('product')->getList(['id','is_show'], ['id'=>$pid])[$pid];
+    if (empty($info['is_show'])){
+        message('该产品已被下架');
+    }
 	include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
@@ -89,7 +93,10 @@ if($operation=='index'){
     if ($record) {
         show_json(-1, [], "您已经申请过啦");
     }
-    $info = m('product')->getList(['id', 'name', 'type', 'relate_id'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
+    if (empty($info['is_show'])) {
+        show_json(-1, [], "该产品已被下架");
+    }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
