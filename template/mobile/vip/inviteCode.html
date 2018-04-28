@@ -48,11 +48,10 @@
     {php echo register_jssdk();}
     <script>
         //微信分享
-        var title = "{$title}";
-        var imgUrl = "{$imgUrl}";
-        var desc =  "{$desc}";
-        var link =  "{$link}";
-
+        var title = "{$member['nickname']}邀请你加入{$config['title']}";
+        var imgUrl = "{$member['avatar']}";
+        var desc = "{$config['desc']}";
+        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
@@ -67,7 +66,6 @@
                     alert("分享失败");
                 }
             });
-
 //分享给好友
             wx.onMenuShareAppMessage({
                 title: title, // 分享标题
@@ -84,9 +82,7 @@
                 }
             });
         });
-
     </script>
-</head>
 <body class="bglightgray">
 <div class="bglightgray_tail">
     <div class="posterBuild">
