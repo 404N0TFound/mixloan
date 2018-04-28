@@ -184,6 +184,11 @@
     </div>
 </div>
 {else if $operation == 'send_notice'}
+<style type="text/css">
+    .type1,.type2,.type3{
+        display: none
+    }
+</style>
 <div class="panel panel-info">
     <div class="panel-heading">发送模板信息</div>
     <div class="panel-body">
@@ -195,34 +200,109 @@
             <input type="hidden" name="op" value="{$operation}" />
             <input type="hidden" name="post" value="1" />
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">模板类型</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="type" onchange="change_type()">
+                        <option value="">选择类型</option>
+                        <option value="1">签署文档</option>
+                        <option value="2">产品上架</option>
+                        <option value="3">产品下架</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group type1">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">文档名称</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="title" class="form-control"  name="title" />
+                    <input type="title" class="form-control"  name="type1_title" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group type1">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">发起人</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="author" />
+                    <input type="text" class="form-control"  name="type1_author" />
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group type1">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">跳转链接</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="url" />
+                    <input type="text" class="form-control"  name="type1_url" />
                 </div>
             </div>
+
+            <div class="form-group type2">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">发布项目</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="title" class="form-control"  name="type2_keyword1" />
+                </div>
+            </div>
+            <div class="form-group type2">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">发布内容</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="type2_keyword2" />
+                </div>
+            </div>
+            <div class="form-group type2">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">负责人员</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="type2_keyword4" />
+                </div>
+            </div>
+            <div class="form-group type2">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">跳转链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="type2_url" />
+                </div>
+            </div>
+
+            <div class="form-group type3">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">商品名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="title" class="form-control"  name="type3_keyword1" />
+                </div>
+            </div>
+            <div class="form-group type3">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下架原因</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="type3_keyword3" />
+                </div>
+            </div>
+            <div class="form-group type3">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">跳转链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="type3_url" />
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
-                    <input class="btn btn-default" type="submit" value="提交" oncancel="$(this).unbind("click");">
+                    <input class="btn btn-default" type="submit" value="提交" onclick="$(this).unbind("click");">
                     <span class="help-block">发送模板消息需要一定时间，请提交后耐心等候</span>
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
+
             <div class="form-group"> </div>
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    var change_type = function(){
+        var val = $("select[name='type']").val();
+        if (val == 1) {
+            $('.type2').hide();
+            $('.type3').hide();
+            $('.type1').show(300);
+        } else if (val == 2) {
+            $('.type1').hide();
+            $('.type3').hide();
+            $('.type2').show(300);
+        } else if (val == 3) {
+            $('.type1').hide();
+            $('.type2').hide();
+            $('.type3').show(300);
+        }
+    }
+</script>
 {/if}
 {template 'common/footer'}

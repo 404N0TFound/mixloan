@@ -74,42 +74,118 @@ if ($operation == 'list') {
 } else if ($operation == 'send_notice') {
     //发送模板消息，签档提醒
     if ($_GPC['post'] == 1) {
-        $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
-        $title = $_GPC['title'];
-        $author = $_GPC['author'];
         $time = date("Y-m-d H-i");
         $createtime = time();
-        $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
-        $url = $_GPC['url'];
+        if ($_GPC['type'] == 1) {
+            $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
+            $title = $_GPC['type1_title'];
+            $author = $_GPC['type1_author'];
+            $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
+            $url = $_GPC['type1_url'];
+            $template_id = $config['tpl_notice3'];
+        } else if ($_GPC['type'] == 2) {
+            $keyword1 = $_GPC['type2_keyword1'];
+            $keyword2 = $_GPC['type2_keyword2'];
+            $keyword4 = $_GPC['type2_keyword4'];
+            $first = "尊敬的代理，您好！{$config['title']}上线{$keyword1}啦，特此通知，请知悉！";
+            $remark = "您可以点击【详情】生成自己的专属二维码，立马赚钱！感谢您对我们的支持";
+            $url = $_GPC['type2_url'];
+            $template_id = $config['tpl_notice6'];
+        } else if ($_GPC['type'] == 3) {
+            $keyword1 = $_GPC['type3_keyword1'];
+            $keyword3 = $_GPC['type3_keyword3'];
+            $first = "尊敬的代理，您好！{$keyword1}临时下架，特此通知，请知悉！";
+            $remark = "{$keyword1}在{$time}钱的佣金正常结算，之后将停止结算，请大家停止推广此产品，如有变动择日另行通知";
+            $url = $_GPC['type3_url'];
+            $template_id = $config['tpl_notice7'];
+        } else {
+            message('请选择发送消息类型', '', 'error');
+        }
         $members = pdo_fetchall("SELECT openid FROM `ims_mc_mapping_fans` WHERE uniacid=:uniacid AND follow=1", [':uniacid'=>$_W['uniacid']]);
         foreach ($members as $member) {
             $openid = $member['openid'];
-            $datam = array(
-                "first" => array(
-                    "value" => $first,
-                    "color" => "#173177"
-                ) ,
-                "keyword1" => array(
-                    "value" => $title,
-                    "color" => "#FF0000"
-                ) ,
-                "keyword2" => array(
-                    "value" => $author,
-                    "color" => "#173177"
-                ) ,
-                "keyword3" => array(
-                    "value" => $time,
-                    "color" => "#173177"
-                ) ,
-                "remark" => array(
-                    "value" => $remark,
-                    "color" => "#A4D3EE"
-                ) ,
-            );
+            if ($_GPC['type'] == 1) {
+                $datam = array(
+                    "first" => array(
+                        "value" => $first,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword1" => array(
+                        "value" => $title,
+                        "color" => "#FF0000"
+                    ) ,
+                    "keyword2" => array(
+                        "value" => $author,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword3" => array(
+                        "value" => $time,
+                        "color" => "#173177"
+                    ) ,
+                    "remark" => array(
+                        "value" => $remark,
+                        "color" => "#A4D3EE"
+                    ) ,
+                ); 
+            } else if ($_GPC['type'] == 2){
+                $datam = array(
+                    "first" => array(
+                        "value" => $first,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword1" => array(
+                        "value" => "【{$keyword1}】",
+                        "color" => "red"
+                    ) ,
+                    "keyword2" => array(
+                        "value" => $keyword2,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword3" => array(
+                        "value" => $time,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword4" => array(
+                        "value" => $keyword4,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword5" => array(
+                        "value" => $time,
+                        "color" => "#173177"
+                    ) ,
+                    "remark" => array(
+                        "value" => $remark,
+                        "color" => "#A4D3EE"
+                    ) ,
+                ); 
+            } else if ($_GPC['type'] == 3){
+                $datam = array(
+                    "first" => array(
+                        "value" => $first,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword1" => array(
+                        "value" => $keyword1,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword2" => array(
+                        "value" => $time,
+                        "color" => "#173177"
+                    ) ,
+                    "keyword3" => array(
+                        "value" => $keyword3,
+                        "color" => "#173177"
+                    ) ,
+                    "remark" => array(
+                        "value" => $remark,
+                        "color" => "#A4D3EE"
+                    ) ,
+                ); 
+            }
             $temp = array(
                 'uniacid' => $_W['uniacid'],
                 'openid' => "'{$openid}'",
-                'template_id' => "'{$config['tpl_notice3']}'",
+                'template_id' => "'{$template_id}'",
                 'data' => "'" . addslashes(json_encode($datam)) . "'",
                 'url' => "'{$url}'",
                 'createtime'=>$createtime,
