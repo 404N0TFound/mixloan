@@ -55,7 +55,6 @@
 			$retMsgJson = "{\"RetCode\":\"".$ret."\",\"RetMsg\":\"下订单接口返回错误!\"}";
 		}
 	} catch (Exception $e) {
-		var_dump($e);die;
 		$bOK=false;
 		$errCode  = $e->getMessage();
 		if(strcmp("E101", $errCode) == 0){
