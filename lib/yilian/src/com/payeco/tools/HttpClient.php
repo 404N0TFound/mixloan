@@ -46,7 +46,6 @@ class HttpClient{
 	 */
 	static function getHttpResponseGET($url, $cacert_url) {
 		$curl = curl_init($url);
-		var_dump($cacert_url);die;
 		curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); //SSL证书认证

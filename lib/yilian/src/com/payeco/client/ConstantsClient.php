@@ -32,7 +32,7 @@ class ConstantsClient {
   }
   static function getCaCertFileName() {
   	//return getcwd().'\\cacert.pem';   // 【\\】在在linux下使用可能会存在兼容性的问题
-  	return getcwd().DIRECTORY_SEPARATOR.'cacert.pem';
+  	return IA_ROOT . '/addons/xuan_mixloan/lib/yilian/cacert.pem';
   }
 }
 ?>

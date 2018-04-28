@@ -87,7 +87,6 @@ class TransactionClientH5 {
 		if(strcmp("0000", $retCode)){
 			return $retCode;
 		}
-
 		//获取返回数据
 		$retVer = Tools::getXMLValue($retStr, "Version");
 		$retMerchantId = Tools::getXMLValue($retStr, "MerchantId");

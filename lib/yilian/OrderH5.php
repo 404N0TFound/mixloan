@@ -16,13 +16,13 @@
 	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/merchant/demo/DemoTestH5.php';
 
 	//设置订单数据；  商户在实际使用情况会有部分数据为手机端提交的数据
-	$amount = 0.01;
-	$orderDesc = 'sdadsa';
+	$amount = $config['buy_vip_price'];
+	$orderDesc = $config['title'] . '代理购买';
 	$clientIp = $_SERVER["REMOTE_ADDR"]; //商户用户访问IP地址
-	$extData = "H5测试";
+	$extData = "代理购买";
 	//以下扩展参数是按互联网金融行业填写的；其他行业请参考接口文件说明进行填写
-	$miscData = "13922897656|0||张三|440121197511140912|62220040001154868428||PAYECO20151028543445||2|";  //互联网金融
-	
+	// $miscData = "{$phone}|0||{$realname}|{$certno}|{$bankcard}||PAYECO20151028543445||2|";  //互联网金融
+	$miscData = "{$phone}|0||{$realname}|{$certno}|{$bankcard}|||";
 	if(Tools::checkAmount($amount) == false){
 		$retMsgJson = "{\"RetCode\":\"E105\",\"RetMsg\":\"金额格式错!\"}";
 		echo $retMsgJson;
@@ -81,9 +81,7 @@
 // 		echo "</script>";
 		
 		//--页面确认后再转跳的方式
-		$retMsgJson = "<html><head><title>易联支付H5测试-支付请求</title></head><body>支付请求URL:".$redirectUrl."<br/>"
-				." <a href=\"".$redirectUrl."\">立即支付</a></body></html>";
-		echo $retMsgJson;
+		header("location:{$redirectUrl}");
 	}else{
 		//输出数据
 		Log::logFile("retMsgJson=".$retMsgJson);

@@ -33,9 +33,21 @@ if($operation=='buy'){
 		//调用pay方法
 		$this->pay($params);
 	} else {
-		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/yilian/OrderH5.php');
+		header("location:{$this->createMobileUrl('vip', ['op'=>'pay_by_card'])}");
 	}
 	exit();
+} else if ($operation == 'pay_by_card') {
+	if ($_GPC['post'] == 1) {
+		$phone = trim($_GPC['phone']);
+		$certno = trim($_GPC['idcard']);
+		$realname = trim($_GPC['realname']);
+		$bankcard = trim($_GPC['bankcard']);
+		if (empty($phone) || empty($certno) ||empty($realname) ||empty($bankcard)) {
+			message('参数不齐','','error');
+		}
+		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/yilian/OrderH5.php');
+	}
+	include $this->template('vip/pay_by_card');
 } else if ($operation == 'createPost') {
 	if ($agent['code']!=1) {
 	    show_json(-1, [], '您不是代理');

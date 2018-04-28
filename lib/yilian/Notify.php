@@ -1,31 +1,29 @@
 <?php
 	/**
 	 * 接收订单结果通知处理例子；本例子只举例了订单结果的参数获取；签名验证；订单状态的判断。 测试接口可以通过以下URL进行测试：
-	 * http://127.0.0.18080/phpdemo/Notify.php?Version=2.0.0&MerchantId=302020000058&MerchOrderId=1407893794150&Amount=1.00&ExtData=5rWL6K+V&OrderId=302014081300038222&Status=02&PayTime=20140814111645&SettleDate=20140909&Sign=iDQ6gBAebnh1kzSb4XN0PP3bTIXTkwG9iE8PDnNZBEiTWpBknH4XoBAotC5G/RF4E+HUa7f9esJWEI1mKw84EMDt+gBY2KABe7fejIdzqS8AH5niJEJkWAKwm4qYQTkT4Ate9lshcOZDfcyZ7eqblXXHUYOFBsYtslANOsb+/IA=
 	 */
 	header("Content-Type:text/html; charset=utf-8");
 	
-	require_once './src/com/payeco/tools/HttpClient.php';
-	require_once './src/com/payeco/tools/Log.php';
-	require_once './src/com/payeco/tools/Signatory.php';
-	require_once './src/com/payeco/tools/Tools.php';
-	require_once './src/com/payeco/tools/Xml.php';
-	require_once './src/com/payeco/client/ConstantsClient.php';
-	require_once './src/com/merchant/demo/Constants.php';
-	require_once './src/com/merchant/demo/DemoTest.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/tools/HttpClient.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/tools/Log.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/tools/Signatory.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/tools/Tools.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/tools/Xml.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/payeco/client/ConstantsClient.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/merchant/demo/Constants.php';
+	require_once IA_ROOT . '/addons/xuan_mixloan/lib/yilian/src/com/merchant/demo/DemoTest.php';
 
 	// 结果通知参数，易联异步通知采用GET提交
-	$version = $_GET["Version"];
-	$merchantId = $_GET["MerchantId"];
-	$merchOrderId = $_GET["MerchOrderId"];
-	$amount = $_GET["Amount"];
-	$extData = $_GET["ExtData"];
-	$orderId = $_GET["OrderId"];
-	$status = $_GET["Status"];
-	$payTime = $_GET["PayTime"];
-	$settleDate = $_GET["SettleDate"];
-	$sign = $_GET["Sign"];
-
+	$version = $_GPC["Version"];
+	$merchantId = $_GPC["MerchantId"];
+	$merchOrderId = $_GPC["MerchOrderId"];
+	$amount = $_GPC["Amount"];
+	$extData = $_GPC["ExtData"];
+	$orderId = $_GPC["OrderId"];
+	$status = $_GPC["Status"];
+	$payTime = $_GPC["PayTime"];
+	$settleDate = $_GPC["SettleDate"];
+	$sign = $_GPC["Sign"];
 	// 需要对必要输入的参数进行检查，本处省略...
 
 	// 订单结果逻辑处理
@@ -61,5 +59,5 @@
 	}
 	Log::logFile("-----处理完成----");
 	//返回数据
-	echo $retMsgJson;
+	$result = json_decode($retMsgJson, 1);
 ?>

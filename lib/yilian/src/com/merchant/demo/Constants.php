@@ -7,9 +7,9 @@ class Constants {
   // private static $MERCHANT_ID = "444420000074";		//内部测试商户号，商户需要替换该参数
   public static $MERCHANT_ID = "502053003427";     //互联网金融行业的商户号
   //商户接收订单通知接口地址（异步通知）；；
-  private static  $MERCHANT_NOTIFY_URL = "http://www.xxxxx.com/Notify.do";
+  private static  $MERCHANT_NOTIFY_URL = "http://pl.fuziyo.cn/app/index.php?i=2&c=entry&op=pay_result&do=ajax&m=xuan_mixloan";
   //商户接收订单通知接口地址(同步通知),H5版本对接需要该参数；
-  public static $MERCHANT_RETURN_URL = "http://127.0.0.1/phpdemo/ReturnH5.php";
+  public static $MERCHANT_RETURN_URL = "http://pl.fuziyo.cn/app/index.php?i=2&c=entry&op=pay_result&do=ajax&m=xuan_mixloan";
   //商户RSA私钥，商户自己产生
   private static $MERCHANT_RSA_PRIVATE_KEY = '/www/wwwroot/pl.fuziyo.cn/addons/xuan_mixloan/lib/yilian/key/rsa_pri_key.pem';
 

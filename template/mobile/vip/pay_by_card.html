@@ -1,0 +1,98 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>银联支付</title>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/intial.css" />
+    <!-- pic -->
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new.css">
+    <style>
+         input:disabled{
+            -webkit-text-fill-color: #666;
+            -webkit-opacity: 1;
+            color: #666;
+        }
+        .pic_one,.pic_two,.pic_tre{display: none;}
+    </style>
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+<div class="agent-main">
+    <div class="main-contain">
+        <div class="personfile">
+            <ul class="clearfix">
+                <li class="border clearfix">
+                    <div class="list-name">姓名</div>
+                    <div class="input-wap"><input type="text" name="realname" id="realname" value="{$member['realname']}" placeholder="输入真实姓名" style="color: #666 !important;"></div>
+                    <div class="pic pic_one"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                <li class="input-list border clearfix">
+                    <div class="list-name">手机号</div>
+                    <div class="input-wap"><input type="tel" name="phone" id="phone" value="{$member['phone']}" placeholder="输入手机号"></div>
+                    <div class="pic pic_two"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                <li class="input-list  clearfix">
+                    <div class="list-name">身份证号</div>
+                    <div class="input-wap"><input type="text" name="idcard" id="idcard" value="{$member['certno']}" placeholder="输入身份证号码"></div>
+                    <div class="pic pic_tre"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                <li class="input-list  clearfix">
+                    <div class="list-name">支付卡号</div>
+                    <div class="input-wap"><input type="text" name="bankcard" id="bankcard" placeholder="输入支付卡号"></div>
+                    <div class="pic pic_tre"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                
+            </ul>
+        </div>
+
+    </div>
+    <div class="agent_foot">
+        <a href="javascript:;"  id="upSubmit">提交</a>
+    </div>
+</div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
+
+<!-- js -->
+<script type="text/javascript">
+    $('#upSubmit').click(function(){
+        var realname = $('#realname').val();
+        var phone = $('#phone').val();
+        var idcard = $('#idcard').val();
+        var bankcard = $('#bankcard').val();
+        if (realname == "") {
+            layer.msg("请填写绑卡人姓名");
+            return false;
+        }
+        if (phone == "") {
+            layer.msg("请填写绑卡人手机号");
+            return false;
+        }
+        if (idcard == "") {
+            layer.msg("请填写绑卡人身份证");
+            return false;
+        }
+        if (bankcard == "") {
+            layer.msg("请填写卡号");
+            return false;
+        }
+        window.location.href="{php echo $this->createMobileUrl('vip',['op'=>'pay_by_card','post'=>1])}&realname=" + realname + "&phone=" + phone + "&idcard=" + idcard + "&bankcard=" + bankcard;
+    })
+</script>
+
+</body>
+</html>
