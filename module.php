@@ -87,6 +87,7 @@ class Xuan_mixloanModule extends WeModule {
 		include $this->template('setting');
 	}
     public function shortUrl($target) {
+        return $target;
         $target_url = urlencode($target);
         $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
         if (!$short || $short['createtime'] < time()-86400) {
