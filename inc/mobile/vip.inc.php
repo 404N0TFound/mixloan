@@ -160,6 +160,9 @@ if($operation=='buy'){
 				$row['status'] = '申请中';
 				break;
 			case '1':
+				$row['status'] = '打款中';
+				break;
+			case '2':
 				$row['status'] = '提现成功';
 				break;
 			case '-1':

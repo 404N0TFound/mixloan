@@ -178,6 +178,25 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
+        if ($_GPC['data']['status'] == 1) {
+            $ACC_NO = $bank['banknum'];
+            $ACC_NAME = $bank['realname'];
+            $AMOUNT = $item['bonus'];
+            $BANK_NAME = $bank['bankname'];
+            $BATCH_NO = 'RHB2000' . date('YmdHis');
+            require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
+            if ($res['TRANS_STATE'] != "0000") {
+                message('打款失败', '', 'error');
+            }
+            if ($res['PAY_STATE'] != '00A4') {
+                message($res['TRANS_DETAILS'][0]['REMARK'], '', 'error');
+            }
+            $SN = $res['TRANS_DETAILS'][0]['SN'];
+            $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
+            $_GPC['data']['ext_info']['SN'] = $SN;
+            $_GPC['data']['ext_info']['batchNo'] = $BATCH_NO;
+            $_GPC['data']['ext_info']['MER_ORDER_NO'] = $MER_ORDER_NO;
+        }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");

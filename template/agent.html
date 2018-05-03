@@ -95,7 +95,8 @@
                         <option value="" >选择状态</option>
                         <option value="0" {if  $_GPC['status']!="" && $_GPC['status']==0}selected{/if} >申请中</option>
                         <option value="-1" {if $_GPC['status']==-1}selected{/if} >申请失败</option>
-                        <option value="1" {if $_GPC['status']==1}selected{/if} >申请成功</option>
+                        <option value="1" {if $_GPC['status']==1}selected{/if} >等待银行处理</option>
+                        <option value="2" {if $_GPC['status']==2}selected{/if} >打款成功</option>
                     </select>
                 </div>
             </div>
@@ -137,7 +138,7 @@
                     <td>   {$row['bonus']}</td>
                     <td>   {$row['left_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
+                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-info">等待银行处理</span>{else if $row['status']==1}<span class="label label-success">打款成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
                     <td  style="overflow:visible;">
 
                         <div class="btn-group btn-group-sm" >
@@ -522,6 +523,7 @@
                         <option value="-1" {if $item['status']==-1}selected{/if}>拒绝</option>
                         <option value="0" {if $item['status']==0}selected{/if}>申请中</option>
                         <option value="1" {if $item['status']==1}selected{/if}>打款</option>
+                        <option value="2" {if $item['status']==2}selected{/if}>打款成功</option>
                     </select>
                 </div>
             </div>
@@ -534,7 +536,7 @@
             <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="number">
             <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款流水号</label>
             <div class="col-sm-8 col-lg-9 col-xs-12">
-                <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" />
+                <input type="text" class="form-control"  name="data[ext_info][batchNo]" value="{$item['ext_info']['batchNo']}" readonly="" />
             </div>
     </div>
     <div class="form-group">

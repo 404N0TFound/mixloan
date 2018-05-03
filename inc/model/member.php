@@ -283,6 +283,16 @@ class Xuan_mixloan_Member
         return $res;
     }
     /**
+     *   获取用户手机号和openid
+     **/
+    public function getInviterInfo($uid) {
+        if (!$uid) {
+            return false;
+        }
+        $res = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        return $res;
+    }
+    /**
      *   检查uid的上下三级是否和inviter存在关系
      **/
     public function checkIfRelation($inviter, $uid) {

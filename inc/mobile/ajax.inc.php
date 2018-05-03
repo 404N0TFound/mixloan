@@ -185,6 +185,9 @@ if($operation == 'getCode'){
 	if ($result['RetCode'] != "0000") {
 		message($result['RetMsg'], $this->createMobileUrl('vip', ['op'=>'buy']), 'error');
 	}
+    if (empty($member['id'])) {
+        header("location:{$this->createMobileUrl('user')}");
+    }
     $agent = m('member')->checkAgent($member['id']);
     if ($agent['code'] == 1) {
         message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
@@ -194,7 +197,7 @@ if($operation == 'getCode'){
         "uid"=>$member['id'],
         "createtime"=>time(),
         "tid"=>$orderId,
-        "fee"=>$amount,
+        "fee"=>$fee,
     );
     pdo_insert("xuan_mixloan_payment", $insert);
     //模板消息提醒
@@ -228,7 +231,8 @@ if($operation == 'getCode'){
             'done_bonus'=>0,
             're_bonus'=>$config['inviter_fee_one'],
             'status'=>2,
-            'createtime'=>time()
+            'createtime'=>time(),
+            'degree'=>1
         );
         pdo_insert('xuan_mixloan_product_apply', $insert_i);
         //模板消息提醒
@@ -253,9 +257,75 @@ if($operation == 'getCode'){
         );
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+        //二级
+        $man = m('member')->getInviterInfo($inviter);
+        $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+        if ($inviter && $config['inviter_fee_two']) {
+            $insert_i = array(
+                'uniacid' => $_W['uniacid'],
+                'uid' => $member['id'],
+                'phone' => $member['phone'],
+                'certno' => $member['certno'],
+                'realname' => $member['realname'],
+                'inviter' => $inviter,
+                'extra_bonus'=>0,
+                'done_bonus'=>0,
+                're_bonus'=>$config['inviter_fee_two'],
+                'status'=>2,
+                'createtime'=>time(),
+                'degree'=>2
+            );
+            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+            //模板消息提醒
+            $two_openid = m('user')->getOpenid($inviter);
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                    "color" => "#173177"
+                ) ,
+                "order" => array(
+                    "value" => $orderId,
+                    "color" => "#173177"
+                ) ,
+                "money" => array(
+                    "value" => $config['inviter_fee_two'],
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account = WeAccount::create($_W['acid']);
+            $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+        }
     }
     message("支付成功", $this->createMobileUrl('user'), "success");
      
+} else if ($operation == 'pay_query') {
+	//代付查询
+	$list = pdo_fetchall('SELECT id,ext_info FROM '.tablename('xuan_mixloan_withdraw').' WHERE uniacid=:uniacid AND status=1', array(':uniacid'=>$_W['uniacid']));
+	if (empty($list)) {
+		echo 'empty';
+	}
+	foreach ($list as $row) {
+		$ext_info = json_decode($row['ext_info'], true);
+		if (empty($ext_info)) {
+			continue;
+		}
+		$SN = $ext_info['SN'];
+		$MER_ORDER_NO = $ext_info['MER_ORDER_NO'];
+		$batchNo = $ext_info['batchNo'];
+		if (empty($SN) || empty($MER_ORDER_NO) || empty($batchNo)) {
+			continue;
+		}
+		require_once('../addons/xuan_mixloan/lib/yilian_pay/pay_query.php');
+		if ($res['TRANS_STATE'] == '0000') {
+			if ($res['TRANS_DETAILS'][0]['PAY_STATE'] == "0000") {
+				pdo_update('xuan_mixloan_withdraw', array('status'=>2), array('id'=>$row['id']));
+			}
+		}
+	}
 }
 
 
