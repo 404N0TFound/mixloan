@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
     <meta content = "yes" name = "apple-mobile-web-app-capable" >
     <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
@@ -23,47 +23,47 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/new_html2canvas_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/canvas2image_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1.js"></script>
-{php echo register_jssdk();}
-<script>
-    //微信分享
-    var title = "{$config['share_title']}";
-    var imgUrl = "{php echo tomedia($config['share_image']);}";
-    var desc = "{$config['share_desc']}";
-    var link = "{$poster_url}";
-    
-    wx.ready(function(){
-        wx.onMenuShareTimeline({
-            title: title, // 分享标题
-            imgUrl: imgUrl, // 分享图标
-            link:link,
-        success: function () { 
-        // 用户确认分享后执行的回调函数
-            alert('分享成功');
-         },
-        cancel: function () { 
-        // 用户取消分享后执行的回调函数
-             alert("分享失败");
-            }
-});
+    {php echo register_jssdk();}
+    <script>
+        //微信分享
+        var title = "{$config['share_title']}";
+        var imgUrl = "{php echo tomedia($config['share_image']);}";
+        var desc = "{$config['share_desc']}";
+        var link = "{$poster_url}";
+
+        wx.ready(function(){
+            wx.onMenuShareTimeline({
+                title: title, // 分享标题
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert("分享失败");
+                }
+            });
 
 //分享给好友
-    wx.onMenuShareAppMessage({
-            title: title, // 分享标题
-             desc: desc, // 分享描述
-            imgUrl: imgUrl, // 分享图标
-            link:link,
-        success: function () { 
-        // 用户确认分享后执行的回调函数
-            alert('分享成功');
-        },  
-        cancel: function () { 
-        // 用户取消分享后执行的回调函数
-             alert('分享失败');
-        }
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('分享失败');
+                }
+            });
         });
-});
-    
-</script>
+
+    </script>
 </head>
 <style type="text/css">
     body{padding-bottom: 80px;}
@@ -90,218 +90,249 @@
     },"json");
 </script>
 <body class="bglightgray">
-    
-    <div class="agent-header">
-        {$info['name']}
-        <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
+
+<div class="agent-header">
+    {$info['name']}
+    <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
+</div>
+<div class="nb_banner">
+    <img src="{$info['ext_info']['pic']}" />
+</div>
+<div class="daili_footer">
+    <div class="daili_toapply">
+        <a id="daili_toapply"><img src="../addons/xuan_mixloan/template/style/picture/ermapplybtn_1.png"></a>
+        <p></p>
     </div>
-    <div class="nb_banner">
-    	<img src="{$info['ext_info']['pic']}" />
+</div>
+<div class="nb_basic nb_flow">
+    <div class="nb_title"><span>参与方式</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
+    <div class="joinWayImg">
+        <img src="../addons/xuan_mixloan/template/style/picture/joinway_1.png" />
     </div>
-    <div class="daili_footer">
-        <div class="daili_toapply">
-            <a id="daili_toapply"><img src="../addons/xuan_mixloan/template/style/picture/ermapplybtn_1.png"></a>
-            <p></p>
-        </div>
-    </div>
-    <div class="nb_basic nb_flow">
-    	<div class="nb_title"><span>参与方式</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
-		<div class="joinWayImg">
-             <img src="../addons/xuan_mixloan/template/style/picture/joinway_1.png" />            
-        </div>
-    </div>
-    <div class="nb_basic nb_desc">
-    	<div class="nb_title"><span>工资介绍</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
-        <div class="reback_frame">
-            {if $info['ext_info']['is_extra_reward']}
-    		<div class="reback_img">
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
-    			<ul class="reback_money">
-                   <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_money']}元</span></li>
-                    <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_money']}元</span></li>
-                    <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>			
-                </ul>
-    		</div>
-    		<ul class="invite_reback">
-                <li>{$info['ext_info']['extra_reward_one']}</li>
-                <li>{$info['ext_info']['extra_reward_two']}</li>
-                <li>{$info['ext_info']['extra_reward_thr']}</li>
+</div>
+<div class="nb_basic nb_desc">
+    <div class="nb_title"><span>工资介绍</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png" /></div>
+    <div class="reback_frame">
+        {if $info['ext_info']['is_extra_reward']}
+        <div class="reback_img">
+            <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+            <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+            <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
+            <ul class="reback_money">
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_money']}元</span></li>
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_money']}元</span></li>
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>
             </ul>
-            {/if}
-            <span class="account_title">结算方式</span>
-            <div class="account_way">
-                <ul>
-                    <li>{if $info['count_time'] == 1}【日结】，当日发卡成功当日结算工资。
-                        {else if $info['count_time'] == 7}【周结】，每周一结算。
-                        {else if $info['count_time'] == 30}【月结】，每月初的前五个工作日开始结算。
-                        {/if}
-                     </li>
-                    <li>首次注册申请借款符合结算标准。</li>
-                    <li>备注：非新用户申请不计入结算标准，请知晓。</li>
-                </ul>
-    		</div>
-    	</div>
-    </div>
-    {if $info['ext_info']['is_extra_reward']}
-    <div class="nb_basic nb_rank">
-    	<div class="nb_title">
-            <span>排行榜</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png"/><em>2018年01月排行（前10名）</em>
         </div>
-        <div class="phb_table">
-            <div class="phb_title">
-                <ul>
-                    <li>排行</li>
-                    <li>手机号</li>
-                    <li>{if $info['ext_info']['extra_reward_type']==1}邀请人数{else}放款金额(元){/if}</li>
-                </ul>
-            </div>
-            <div class="phb_detail">
-                {loop $top_list $k $v}
-                <ul>
-                    <li>{$k}</li>
-                    <li>{$v['phone']}</li>
-                    <li>{if $info['ext_info']['extra_reward_type']==1}{$v['count']}{else}{$v['money']}{/if}</li>
-                </ul>
-                {/loop}
-            </div>
+        <ul class="invite_reback">
+            <li>{$info['ext_info']['extra_reward_one']}</li>
+            <li>{$info['ext_info']['extra_reward_two']}</li>
+            <li>{$info['ext_info']['extra_reward_thr']}</li>
+        </ul>
+        {/if}
+        <span class="account_title">结算方式</span>
+        <div class="account_way">
+            <ul>
+                <li>{if $info['count_time'] == 1}【日结】，当日发卡成功当日结算工资。
+                    {else if $info['count_time'] == 7}【周结】，每周一结算。
+                    {else if $info['count_time'] == 30}【月结】，每月初的前五个工作日开始结算。
+                    {/if}
+                </li>
+                <li>首次注册申请借款符合结算标准。</li>
+                <li>备注：非新用户申请不计入结算标准，请知晓。</li>
+                {if $info['done_reward_type']==1}
+                <li>
+                    {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_money']}元
+                </li>
+                <li>
+                    {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
+                </li>
+                {else}
+                <li>
+                    {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
+                </li>
+                <li>
+                    {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_per']}点
+                </li>
+                {/if}
+
+                {if $info['re_reward_type']==1}
+                <li>
+                    注册直推：{$info['ext_info']['re_one_init_reward_money']}元
+                </li>
+                <li>
+                    注册二级：{$info['ext_info']['re_two_init_reward_money']}元
+                </li>
+                {else if $info['re_reward_type']==2}
+                <li>
+                    注册直推：{$info['ext_info']['re_one_init_reward_per']}点
+                </li>
+                <li>
+                    注册二级：{$info['ext_info']['re_two_init_reward_per']}点
+                </li>
+                {/if}
+            </ul>
         </div>
     </div>
-    {/if}
+</div>
+{if $info['ext_info']['is_extra_reward']}
+<div class="nb_basic nb_rank">
+    <div class="nb_title">
+        <span>排行榜</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png"/><em>2018年01月排行（前10名）</em>
+    </div>
+    <div class="phb_table">
+        <div class="phb_title">
+            <ul>
+                <li>排行</li>
+                <li>手机号</li>
+                <li>{if $info['ext_info']['extra_reward_type']==1}邀请人数{else}放款金额(元){/if}</li>
+            </ul>
+        </div>
+        <div class="phb_detail">
+            {loop $top_list $k $v}
+            <ul>
+                <li>{$k}</li>
+                <li>{$v['phone']}</li>
+                <li>{if $info['ext_info']['extra_reward_type']==1}{$v['count']}{else}{$v['money']}{/if}</li>
+            </ul>
+            {/loop}
+        </div>
+    </div>
+</div>
+{/if}
 <!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/new_common_1.js?v001"></script> -->
 <script type="text/javascript">
-document.writeln("<div class=\'pop_art\'>");
-document.writeln("          <div class=\'temp_share_bg\'>");
-document.writeln("              <div class=\'temp_share_contain_add temp_share_contain_new\' >");
-document.writeln("                  <div class=\'temp_pic\'><img src=\'../addons/xuan_mixloan/template/style/images/head.png\' /></div>");
-document.writeln("                  <h1>真遗憾！</h1>");
-document.writeln("                  <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
-document.writeln("                  <p>温馨提示：如有疑问,请联系客服</p>");
-document.writeln("                  <div class=\'buy_hf clearfix\'>");
-document.writeln("                      <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
-document.writeln("                  </div>        ");
-document.writeln("                  <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
-document.writeln("              </div>");
-document.writeln("          </div>    ");
-document.writeln("      </div>");
+    document.writeln("<div class=\'pop_art\'>");
+    document.writeln("          <div class=\'temp_share_bg\'>");
+    document.writeln("              <div class=\'temp_share_contain_add temp_share_contain_new\' >");
+    document.writeln("                  <div class=\'temp_pic\'><img src=\'../addons/xuan_mixloan/template/style/images/head.png\' /></div>");
+    document.writeln("                  <h1>真遗憾！</h1>");
+    document.writeln("                  <h2>您还不是代理，点击下方“立即购买”使用此功能！</h2>");
+    document.writeln("                  <p>温馨提示：如有疑问,请联系客服</p>");
+    document.writeln("                  <div class=\'buy_hf clearfix\'>");
+    document.writeln("                      <a href=\'{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}\' ><img src=\'../addons/xuan_mixloan/template/style/images/buy.png\' /></a>");
+    document.writeln("                  </div>        ");
+    document.writeln("                  <div class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></div>");
+    document.writeln("              </div>");
+    document.writeln("          </div>    ");
+    document.writeln("      </div>");
 
 
 
-document.writeln("<div class=\'daili_ewm\'>");
-document.writeln("        <div class=\'ewm_floor\'></div>");
-document.writeln("        <div class=\'ewm_main\'>");
-document.writeln("            <h1>点击右上角分享专属链接给好友</h1>");
-document.writeln("                <div class=\'text-center agentcode poster\' id=\'poster\'>");
-document.writeln("                    <div class=\'pro_img\' id=\'pro_img\'>");
-document.writeln("                        <img id=\'source_img\'  src=\'"+aa+"\' width=\'100%\' alt=\'\'>");
-document.writeln("                    </div>");
-document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
-document.writeln("                </div>");    
-document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
-document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
-// }
-document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
-document.writeln("        </div>");
-document.writeln("    </div>");
+    document.writeln("<div class=\'daili_ewm\'>");
+    document.writeln("        <div class=\'ewm_floor\'></div>");
+    document.writeln("        <div class=\'ewm_main\'>");
+    document.writeln("            <h1>点击右上角分享专属链接给好友</h1>");
+    document.writeln("                <div class=\'text-center agentcode poster\' id=\'poster\'>");
+    document.writeln("                    <div class=\'pro_img\' id=\'pro_img\'>");
+    document.writeln("                        <img id=\'source_img\'  src=\'"+aa+"\' width=\'100%\' alt=\'\'>");
+    document.writeln("                    </div>");
+    document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
+    document.writeln("                </div>");
+    document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
+    document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
+    // }
+    document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
+    document.writeln("        </div>");
+    document.writeln("    </div>");
 
 
-$("#daili_toapply").click(function(){
-    //图片合成并弹出
-    {if $verify}
-    $("div.daili_ewm").show();
-    $(".daili_ewm").height($(window).height());                 
-    setTimeout(function(){
-        ewm_style();
-    },20)            
-    {else}
-    $('.pop_art').show();
-    {/if}
-})
+    $("#daili_toapply").click(function(){
+        //图片合成并弹出
+        {if $verify}
+        $("div.daili_ewm").show();
+        $(".daili_ewm").height($(window).height());
+        setTimeout(function(){
+            ewm_style();
+        },20)
+        {else}
+        $('.pop_art').show();
+        {/if}
+        })
 
 
-// 关闭弹窗
-$(".temp_share_floor,.layer_close").click(function(){
-    $(".pop").hide();
-    $(".temp_share").hide();
-    $("div.daili_ewm").hide();
-})
+    // 关闭弹窗
+    $(".temp_share_floor,.layer_close").click(function(){
+        $(".pop").hide();
+        $(".temp_share").hide();
+        $("div.daili_ewm").hide();
+    })
 
-// 二维码弹窗
-function ewm_style(){
-    $("div.ewm_main").css({"width":"94%","left":"3%"});   
-    $("div.ewm_main h1").show();    
-    var erm_H=$("div.ewm_main").height();    
-    var gap_H=$(window).height()-$("div.ewm_main").height();
-    var gap_height=$("#pro_img").height()*0.06;
-    var ajust_T=(gap_H+gap_height)/2+"px";
-    $("div.ewm_main").css("top",ajust_T);
-}
+    // 二维码弹窗
+    function ewm_style(){
+        $("div.ewm_main").css({"width":"94%","left":"3%"});
+        $("div.ewm_main h1").show();
+        var erm_H=$("div.ewm_main").height();
+        var gap_H=$(window).height()-$("div.ewm_main").height();
+        var gap_height=$("#pro_img").height()*0.06;
+        var ajust_T=(gap_H+gap_height)/2+"px";
+        $("div.ewm_main").css("top",ajust_T);
+    }
 
-function copyToClipboard(elem) {
-    // create hidden text element, if it doesn't already exist
-    var targetId = "_hiddenCopyText_";
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
 
-    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
 
-    var origSelectionStart, origSelectionEnd;
-    if (isInput) {
-        // can just use the original source element for the selection and copy
-        target = elem;
-        origSelectionStart = elem.selectionStart;
-        origSelectionEnd = elem.selectionEnd;
-    } else {
-        // must use a temporary form element for the selection and copy
-        target = document.getElementById(targetId);
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
 
-        if (!target) {
-            var target = document.createElement("textarea");
-            target.style.position = "absolute";
-            target.style.left = "-9999px";
-            target.style.top = "0";
-            target.id = targetId;
-            document.body.appendChild(target);
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
         }
-        target.textContent = elem.textContent;
-    }
-    // select the content
-    var currentFocus = document.activeElement;
-    target.focus();
-    target.setSelectionRange(0, target.value.length);
-    // copy the selection
-    try {
-        succeed = document.execCommand("copy");
-    } catch(e) {
-        succeed = false;
-    }
-    // restore original focus
-    if (currentFocus && typeof currentFocus.focus === "function") {
-        currentFocus.focus();
-    }
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+        // copy the selection
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
 
-    if (isInput) {
-        elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-    } else {
-        // clear temporary content
-        target.textContent = "";
-    }        
-    return succeed;
-}
-//点击复制事件
-$(".copy-btn").on("click",function(){
-    copyToClipboard(document.getElementsByTagName("textarea")[0]);
-    document.activeElement.blur();
-    if(succeed){
-        layer.msg("复制成功！");
-        $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
-    }else{
-        layer.msg("您的手机版本较低，请升级版本后重试！");
-        $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+        if (isInput) {
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
     }
-})
-$(".layer_close,.floor").click(function(){
-    $(".pop,.pop_art").hide();      
-})
+    //点击复制事件
+    $(".copy-btn").on("click",function(){
+        copyToClipboard(document.getElementsByTagName("textarea")[0]);
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+            $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+            $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+        }
+    })
+    $(".layer_close,.floor").click(function(){
+        $(".pop,.pop_art").hide();
+    })
 </script>
 </body>
 </html>

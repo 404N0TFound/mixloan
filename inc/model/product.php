@@ -123,7 +123,7 @@ class Xuan_mixloan_Product
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid order by id desc limit 5";
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_show=1 order by id desc limit 5";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
@@ -132,7 +132,7 @@ class Xuan_mixloan_Product
                     $row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
                     $row['ext_info']['pic'] = tomedia($row['ext_info']['pic']);
                 }
-               
+
             }
             unset($row);
         }
@@ -160,34 +160,34 @@ class Xuan_mixloan_Product
             }
             $res['imgs'] = $item['ext_info']['logo'];
             if ($item['done_reward_type'] == 1) {
-                if ($item['done_reward_money'] == intval($item['done_reward_money'])) {
-                    $done_money = intval($item['done_reward_money']);
+                if ($item['ext_info']['done_one_init_reward_money'] == intval($item['ext_info']['done_one_init_reward_money'])) {
+                    $done_money = intval($item['ext_info']['done_one_init_reward_money']);
                 } else {
-                    $done_money = $item['done_reward_money'];
+                    $done_money = $item['ext_info']['done_one_init_reward_money'];
                 }
                 $res['intro1'] = "{$done_money}";
             } else if ($item['done_reward_type'] == 2){
-                if ($item['done_reward_per'] == intval($item['done_reward_per'])) {
-                    $done_per = intval($item['done_reward_per']);
+                if ($item['ext_info']['done_one_init_reward_per'] == intval($item['ext_info']['done_one_init_reward_per'])) {
+                    $done_per = intval($item['ext_info']['done_one_init_reward_per']);
                 } else {
-                    $done_per = $item['done_reward_per'];
+                    $done_per = $item['ext_info']['done_one_init_reward_per'];
                 }
-                 $res['intro1'] = "{$done_per}点";
+                $res['intro1'] = "{$done_per}点";
             }
             if ($item['re_reward_type'] == 1) {
-                if ($item['re_reward_money'] == intval($item['re_reward_money'])) {
-                    $re_money = intval($item['re_reward_money']);
+                if ($item['ext_info']['re_one_init_reward_money'] == intval($item['ext_info']['re_one_init_reward_money'])) {
+                    $re_money = intval($item['ext_info']['re_one_init_reward_money']);
                 } else {
-                    $re_money = $item['re_reward_money'];
+                    $re_money = $item['ext_info']['re_one_init_reward_money'];
                 }
                 $res['intro1'] .= "+注册{$re_money}";
             } else if ($item['re_reward_type'] == 2){
-                if ($item['re_reward_per'] == intval($item['re_reward_per'])) {
-                    $re_per = intval($item['re_reward_per']);
+                if ($item['ext_info']['re_one_init_reward_per'] == intval($item['ext_info']['re_one_init_reward_per'])) {
+                    $re_per = intval($item['ext_info']['re_one_init_reward_per']);
                 } else {
-                    $re_per = $item['re_reward_per'];
+                    $re_per = $item['ext_info']['re_one_init_reward_per'];
                 }
-                 $res['intro1'] .= "+注册{$re_per}点";
+                $res['intro1'] .= "+注册{$re_per}点";
             }
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
@@ -197,11 +197,11 @@ class Xuan_mixloan_Product
     }
 
     /**
-    *   获取特殊贷款
-    **/
+     *   获取特殊贷款
+     **/
     public function getSpecialLoan($type) {
         global $_W;
-        $sql = "SELECT a.id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 ORDER BY b.id";
+        $sql = "SELECT a.id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 AND a.is_show=1 ORDER BY b.id";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
@@ -219,8 +219,8 @@ class Xuan_mixloan_Product
     }
 
     /**
-    *   获取虚假弹幕
-    **/
+     *   获取虚假弹幕
+     **/
     public function getBarrage($credit, $loan) {
         $name = $ret = [];
         if (!empty($credit)) {
@@ -258,10 +258,10 @@ class Xuan_mixloan_Product
     }
 
     /**
-    *   1申请位数 
-    *   2贷款放款成功&申请信用卡成功 
-    *   3奖金
-    **/
+     *   1申请位数
+     *   2贷款放款成功&申请信用卡成功
+     *   3奖金
+     **/
     public function getNums($product_ids=[], $params=[], $type) {
         global $_W;
         $wheres = "";
@@ -292,14 +292,14 @@ class Xuan_mixloan_Product
             foreach ($list as $key => $value) {
                 $ret[$value['pid']] = $value;
             }
-        } 
+        }
         return $ret;
     }
 
 
     /**
-    *   申请位数 
-    **/
+     *   申请位数
+     **/
     public function getApplys($params=[]) {
         global $_W;
         $inviter = (int)$params['inviter'];
@@ -313,28 +313,28 @@ class Xuan_mixloan_Product
         } else {
             $count = $res;
         }
-        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
-        // $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
-        // if (!$res) {
-        //     $count += 0;
-        // } else {
-        //     $count += $res;
-        // }
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
+        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
+        if (!$res) {
+            $count += 0;
+        } else {
+            $count += $res;
+        }
         return $count;
     }
 
     /**
-    *   邀请列表 
-    **/
+     *   邀请列表
+     **/
     public function getInviteList($params=[]) {
         global $_W;
         $inviter = (int)$params['inviter'];
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
-        $fields = "b.nickname,b.id as uid,a.openid,a.createtime";
+        $fields = "b.nickname,b.id as uid,a.openid,a.createtime,c.id,d.re_bonus";
         // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
         //取消时间限制
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} ORDER BY a.id DESC";
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']}  ORDER BY a.id DESC";
         $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
         foreach ($list as $value) {
             $uids[] = $value['uid'];
@@ -344,6 +344,7 @@ class Xuan_mixloan_Product
             $uids_string = '(' . implode(',', $uids) . ')';
             $con .= " AND a.uid NOT IN {$uids_string}";
         }
+        // $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.createtime>={$begin} AND a.createtime<{$end} AND a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
         $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
         if ($list && $new){
             $list = array_merge($list, $new);
@@ -362,18 +363,10 @@ class Xuan_mixloan_Product
                 if ($row['id']) {
                     $row['pay'] = 1;
                 } else {
-                    $pay = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$row['id']));
-                    if ($pay) {
-                        $row['pay'] = 1;
-                    } else {
-                        $row['pay'] = 0;
-                    }
+                    $row['pay'] = 0;
                 }
                 if (!$row['re_bonus']) {
-                    $row['re_bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM ".tablename('xuan_mixloan_product_apply').' WHERE uid=:uid AND pid=0', array(':uid'=>$row['id']));
-                    if (!$row['re_bonus']) {
-                        $row['re_bonus'] = 0;
-                    }
+                    $row['re_bonus'] = 0;
                 }
                 $row['createtime'] = date('Y-m-d', $row['createtime']);
             }
@@ -383,8 +376,8 @@ class Xuan_mixloan_Product
     }
 
     /**
-    *   获取前10奖金
-    **/
+     *   获取前10奖金
+     **/
     public function getTopBonus($id){
         if (empty($id)) {
             return [];
