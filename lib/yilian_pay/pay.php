@@ -16,7 +16,7 @@ $data = array(
     'PAY_STATE'=>'',
     'BATCH_NO'=> $BATCH_NO,
     'BANK_NAME'=>$BANK_NAME,
-    'MER_ORDER_NO'=>'RHB1000' . date('YmdHis')
+    'MER_ORDER_NO'=>$MER_ORDER_NO,
+    'SN'=>$SN
 );
-
 $res = $yilian->pay($data);

@@ -359,7 +359,6 @@ class YiLian{
 		$bean->MSG_TYPE = $this->getMsgType("pay");
 
 		//body
-		$data['SN'] = 'SN'.date('YmdHis');
 		$bean->addDetail($data);
 		//私钥 对签名加密rsa 然后放到xml中
 		$bean->MSG_SIGN = $this->rsa->sign($bean->toSign(), $this->rsa->priKey);

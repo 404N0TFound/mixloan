@@ -183,7 +183,9 @@ if ($operation == 'list') {
             $ACC_NAME = $bank['realname'];
             $AMOUNT = $item['bonus'];
             $BANK_NAME = $bank['bankname'];
-            $BATCH_NO = 'RHB2000' . date('YmdHis');
+            $SN = 'SN' . time();
+            $MER_ORDER_NO = 'ON' . time();
+            $BATCH_NO = 'RHB' . date('Ymd') . $SN;
             require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
             if ($res['TRANS_STATE'] != "0000") {
                 message('打款失败', '', 'error');
