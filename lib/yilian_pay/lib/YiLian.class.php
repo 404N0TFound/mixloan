@@ -21,12 +21,12 @@ class YiLian{
 
     public function __construct(){
 
-        $this->pub_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqWSfUW3fSyoOYzOG8joy3xldpBanLVg8gEDcvm9KxVjqvA/qJI7y0Rmkc1I7l9vAfWtNzphMC+wlulpaAsa/4PbfVj+WhoNQyhG+m4sP27BA8xuevNT9/W7/2ZVk4324NSowwWkaqo1yuZe1wQMcVhROz2h+g7j/uZD0fiCokWwIDAQAB';
+        $this->pub_key = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDc+L2JGUKlGtsFm2f/wuF2T6/8mc6yrN8tLPgsx7sxAatvMvunHLXKC8xjkChHqVfJgohV4OIWe8zCw7jPsJMiPvrNnFHJ2Mumg/zQ8eZOnzMA0LDqBNFvZnOpy2XtagQn4yxxzG9+9h4P5eNojC3vD2t3H/6q5V3Cd022/egIZQIDAQAB';
         $this->pfx_key = "/www/wwwroot/pl.fuziyo.cn/addons/xuan_mixloan/lib/yilian.pfx";
-        $this->pfx_pass = "11111111";
-        $this->URL = "https://testagent.payeco.com:9444/service";
+        $this->pfx_pass = "17402177";
+        $this->URL = "https://agent.payeco.com/service";
         $this->VERSION = "2.0";
-        $this->USER_NAME = "13728096874";
+        $this->USER_NAME = "15201727067";
         $this->RETURN_URL = "";
         $this->log['batchNo'] = $this->create_batch_no();
 
