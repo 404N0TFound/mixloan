@@ -108,13 +108,13 @@
         </div>
     </div>
     <div style="height:1.0rem;" id="recommend" data-name=""></div>
-    <div class="posterT_app dn" id="posterT_app">
+    <div class="posterT_app dn" id="posterT_app" style="display: none">
         <!--  <p>点击右上角分享专属链接给好友</p> -->
         <p><a id="savePoster" href="downPoster" title="">保存图片</a></p><p class="copyLink" >复制文本
         <!-- <input id="clip_num" value="" readonly="" ></p> -->
     </div>
-    <div class="posterT dn" id="posterT" style="display: block">
-        <p id="recommend_text">长按图片保存分享朋友</p>
+    <div class="posterT dn" id="posterT" style="display: none">
+        <!--  <p>点击右上角分享专属链接给好友</p> -->
 
     </div>
 </div>
@@ -183,16 +183,14 @@
                         observeParents:true
                     });
                 }
-                // $('#posterT').text('');
+                $('#posterT').text('');
                 var str="";
-                str+='<p id="recommend_text">您可复制链接或长按海报分享给好友'
+                str+='<p id="recommend_text">长按海报分享给好友'
                     +'<a class="copy copy-btn" href="javascript:void(0);" >复制文本</a>'
                     +'<input id="clip_num"  readonly="" >'
                     +'</p>';
 
-                {if $_GPC['type'] != 3}
                 $('#posterT').append(str);
-                {/if}
 
                     $(".copyLink").click(function(){
                         var tetx_dl2=$('#mpSmall_dl dd.on').find('p').text();
