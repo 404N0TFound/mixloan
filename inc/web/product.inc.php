@@ -41,6 +41,7 @@ if ($operation == 'list') {
         $data = $_GPC['data'];
         $data['uniacid'] = $_W['uniacid'];
         $data['createtime'] = time();
+        $data['ext_info']['pay_way'] = htmlspecialchars_decode($data['ext_info']['pay_way']);
         $data['ext_info'] = json_encode($data['ext_info']);
         pdo_insert('xuan_mixloan_product', $data);
         message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
@@ -64,6 +65,7 @@ if ($operation == 'list') {
     $item['ext_info'] = json_decode($item['ext_info'], true);
     if ($_GPC['post'] == 1) {
         pdo_delete('xuan_mixloan_poster', array('pid'=>$item['id']));
+        $_GPC['data']['ext_info']['pay_way'] = htmlspecialchars_decode($_GPC['data']['ext_info']['pay_way']);
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_product', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
