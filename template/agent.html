@@ -252,22 +252,23 @@
         </form>
     </div>
 </div><div class="clearfix">
-<div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
-    <div class="panel-body">
-        <table class="table table-hover" style="overflow:visible;">
-            <thead class="navbar-inner">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
                     <th style='width:200px;'>邀请时间</th>
+                    <th style='width:80px;'>邀请等级</th>
                     <th style='width:120px;'>状态</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
@@ -275,14 +276,18 @@
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>
+                        {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
+                        {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}
+                        {if $row['degree'] == 3}<span class="label label-success">三级</span>{/if}
+                    </td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
-                            {else if $row['status']==-1}<span class="label label-warnin">注册失败</span>
-                            {else if $row['status']==0}<span class="label label-info">邀请中</span>
-                            {else if $row['status']==1}<span class="label label-primary">已注册</span>
-                            {else if $row['status']==2}<span class="label label-success">已完成</span>
+                        {else if $row['status']==-1}<span class="label label-warning">注册失败</span>
+                        {else if $row['status']==0}<span class="label label-info">邀请中</span>
+                        {else if $row['status']==1}<span class="label label-primary">已注册</span>
+                        {else if $row['status']==2}<span class="label label-success">已完成</span>
                         {/if}</td>
                     <td  style="overflow:visible;">
-                        
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
@@ -293,11 +298,11 @@
                     </td>
                 </tr>
                 {/loop}
-            </tbody>
-        </table>
-        {$pager}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
     </div>
-</div>
 </div>
 {else if $operation == 'apply_update'}
 <div class="panel panel-info">
@@ -314,7 +319,12 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">邀请人</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
-                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px"> {$inviter['nickname']}</p>
+                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px">
+                        {$inviter['nickname']}
+                        {if $itme['degree']==1}<span class="label label-info">一级{$agent['name']}</span
+                                {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
+                        {/if}
+                    </p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static" style="color:red">已邀请成功人数：{$inviter['count']}</p>
@@ -343,35 +353,35 @@
             </div>
             {if $item['pid']}
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品奖励信息</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     <p class="form-control-static">方式：{if $info['count_time']==1}日{else if $info['count_time']==7}周{else}月{/if}结</p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">注册奖励：
                         {if $info['done_reward_type']==1}
-                            {$info['done_reward_money']}元
+                        {$info['done_reward_money']}元
                         {else if $info['done_reward_type']==2}
-                            {$info['done_reward_per']}点
+                        {$info['done_reward_per']}点
                         {else}
-                            无
+                        无
                         {/if}
                     </p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">下款/卡奖励：
                         {if $info['re_reward_type']==1}
-                            {$info['re_reward_money']}元
+                        {$info['re_reward_money']}元
                         {else if $info['re_reward_type']==2}
-                            {$info['re_reward_per']}点
+                        {$info['re_reward_per']}点
                         {else}
-                            无
+                        无
                         {/if}
                     </p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励信息</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
                 {if $info['ext_info']['is_extra_reward']}
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     {if $info['ext_info']['extra_reward_type'] == 0}
@@ -388,7 +398,7 @@
                     {/if}
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
-                        {if $info['ext_info']['extra_reward_type'] == 0}
+                    {if $info['ext_info']['extra_reward_type'] == 0}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_cond']}元奖励{$info['ext_info']['extra_reward_thr_money']}</p>
                     {else}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_con']}人奖励{$info['ext_info']['extra_reward_thr_money']}</p>
@@ -410,51 +420,50 @@
                         <option value="0" {if $item['status']==0}selected{/if}>邀请中</option>
                         <option value="1" {if $item['status']==1}selected{/if}>已注册</option>
                         {/if}
-                        <option value="2" {if $item['status']==2}selected{/if}> 
-                                {if $item['pid']==0}已完成{else}已下款/卡{/if}
+                        <option value="2" {if $item['status']==2}selected{/if}>
+                        {if $item['pid']==0}已完成{else}已下款/卡{/if}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
-                </div>
+            <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
+            <div class="col-sm-8 col-lg-9 col-xs-12">
+                <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
             </div>
-            {if $item['pid'] !=0}
-            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[relate_money]" value="{$item['relate_money']}"/>
-                </div>
-            </div>
-            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡奖励</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
-                </div>
-            </div>
-            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
-                </div>
-            </div>
-            {/if}
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
-                <div class="col-sm-7 col-lg-9 col-xs-12">
-                    <input class="btn btn-default" type="submit" value="提交">
-                    <input type="hidden" name="token" value="{$_W['token']}" />
-                </div>
-            </div>
-            <div class="form-group">
-            </div>
-        </form>
+    </div>
+    {if $item['pid'] !=0}
+    <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
+    <div class="col-sm-8 col-lg-9 col-xs-12">
+        <input type="text" class="form-control"  name="data[relate_money]" value="{$item['relate_money']}"/>
     </div>
 </div>
-
+<div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡奖励</label>
+<div class="col-sm-8 col-lg-9 col-xs-12">
+    <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
+</div>
+</div>
+<div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
+<div class="col-sm-8 col-lg-9 col-xs-12">
+    <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
+</div>
+</div>
+{/if}
+<div class="form-group">
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+    <div class="col-sm-7 col-lg-9 col-xs-12">
+        <input class="btn btn-default" type="submit" value="提交">
+        <input type="hidden" name="token" value="{$_W['token']}" />
+    </div>
+</div>
+<div class="form-group">
+</div>
+</form>
+</div>
+</div>
 <script type="text/javascript">
     var change_stauts = function () {
         var value = $("select[name='data[status]']").val();
@@ -471,7 +480,6 @@
         }
     }
 </script>
-
 {else if $operation == 'withdraw_update'}
 <div class="panel panel-info">
     <div class="panel-heading">提现管理</div>
