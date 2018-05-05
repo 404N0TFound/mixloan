@@ -287,7 +287,7 @@ if($operation=='index'){
     $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . ' WHERE inviter=:inviter AND pid=:pid', $arr) ? : 0;
     $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . ' WHERE inviter=:inviter AND pid=:pid AND status>0', $arr) ? : 0;
     $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_product_apply') . ' WHERE inviter=:inviter AND pid=:pid', $arr) ? : 0;
-    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
+    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
     $list = pdo_fetchall($sql, $arr);
     if (!empty($list)) {
         foreach ($list as &$row) {
@@ -302,6 +302,11 @@ if($operation=='index'){
                 $row['state'] = '申请中';
             } else if ($row['status'] == 2) {
                 $row['state'] = '已成功';
+            }
+            if ($row['degree'] == 1) {
+                $row['degree'] = '直推';
+            } else if ($row['degree'] == 2) {
+                $row['degree'] = '二级';
             }
         }
         unset($row);

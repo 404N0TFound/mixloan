@@ -16,7 +16,7 @@
 		<div class="particulars-box" id="app" v-cloak>
 			<!--小提示  -->
 			<div class="ptars-smts-box">
-				月结产品非实时状态,本月客户状态则在下月1-10日结算
+				月结产品非实时状态,本月客户状态则在下月5-15日结算
 			</div>
 
 			<!--人数显示  -->
@@ -58,7 +58,7 @@
 					<div class="list-li-box">
 						<div class="head-list-box">
 							<image src="{php echo tomedia($row['product']['ext_info']['logo']);}"></image>
-							<span class="tl-xt">{$row['product']['name']}</span>
+							<span class="tl-xt">{$row['product']['name']}（{if $row['degree']}）</span>
 							<span class="tm-xt">订单ID：1000{$row['id']}</span>
 						</div>
 
