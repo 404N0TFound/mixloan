@@ -30,8 +30,12 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             if (!empty($qrcid) && $qrcid != $this->message['scene']) {
                                 //已经有上级而且如果上级不是第一级
                                 pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
+                                return false;
                             }
-                            pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
+                            if (empty($qrcid)) {
+                                pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
+                                return false;
+                            }
                         }
                         $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                         $wx = WeAccount::create();
