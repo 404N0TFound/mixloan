@@ -61,6 +61,7 @@ class Xuan_mixloanModule extends WeModule {
                     'credit_fee_one'=>$_GPC['credit_fee_one'],
                     'credit_fee_two'=>$_GPC['credit_fee_two'],
                     'credit_fee_three'=>$_GPC['credit_fee_three'],
+                    'backup'=>$_GPC['backup'],
             	);
 
             if ($this->saveSettings($cfg)) {
@@ -94,6 +95,7 @@ class Xuan_mixloanModule extends WeModule {
                     pdo_update('xuan_mixloan_product_advs', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_product_apply', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_withdraw', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('qrcode_stat', array('uniacid'=>$_W['uniacid']));
                 }
                 message('保存成功', 'refresh');
             }
