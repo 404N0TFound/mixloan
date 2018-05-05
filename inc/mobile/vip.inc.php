@@ -270,8 +270,8 @@ if($operation=='buy'){
 	include $this->template('vip/followList');
 } else if ($operation == 'extendList') {
 	//推广成功
-	$extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND a.pid=0 AND a.degree=1 ORDER BY a.id DESC");
-	$two_extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND a.pid=0 AND a.degree=2 ORDER BY a.id DESC");
+	// $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND a.pid=0 AND a.degree=1 ORDER BY a.id DESC");
+	// $two_extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND a.pid=0 AND a.degree=2 ORDER BY a.id DESC");
 	$count_money = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
 	$count_money = $count_money ? : 0;
 	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname,c.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid LEFT JOIN ".tablename('xuan_mixloan_member')." c ON a.openid=c.openid WHERE a.qrcid={$member['id']} AND a.type=1 GROUP BY a.openid ORDER BY a.id DESC");
@@ -286,6 +286,22 @@ if($operation=='buy'){
 		$one_level_ids_string = '(' . implode(',', $one_level_ids) . ')';
 		$two_follow_list =  pdo_fetchall("SELECT a.createtime,b.nickname,c.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid LEFT JOIN ".tablename('xuan_mixloan_member')." c ON a.openid=c.openid WHERE a.qrcid IN {$one_level_ids_string} AND a.type=1 GROUP BY a.qrcid,a.openid ORDER BY a.id DESC");
 		$count_number += count($two_follow_list);
+		$extend_list = pdo_fetchall('SELECT a.uid,b.nickname,b.createtime FROM '.tablename('xuan_mixloan_payment'). ' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.uid IN {$one_level_ids_string}");
+		foreach ($extend_list as &$row) {
+			$row['re_bonus'] = pdo_fetchcolumn('SELECT re_bonus FROM '.tablename('xuan_mixloan_product_apply')." WHERE uid={$row['uid']} AND inviter={$member['id']} AND pid=0 AND degree=1") ? : 0;
+		}
+		unset($row);
+		foreach ($two_follow_list as $value) {
+			if (!empty($value['id'])) {
+				$two_level_ids[] = $value['id'];
+			}
+		}
+		$two_level_ids_string = '(' . implode(',', $two_level_ids) . ')';
+		$two_extend_list = pdo_fetchall('SELECT a.uid,b.nickname,b.createtime FROM '.tablename('xuan_mixloan_payment'). ' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.uid IN {$two_level_ids_string}");
+		foreach ($two_extend_list as &$row) {
+			$row['re_bonus'] = pdo_fetchcolumn('SELECT re_bonus FROM '.tablename('xuan_mixloan_product_apply')." WHERE uid={$row['uid']} AND inviter={$member['id']} AND pid=0 AND degree=1") ? : 0;
+		}
+		unset($row);
 	}
 	$cTime = getTime();
 	$star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");

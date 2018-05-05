@@ -216,6 +216,8 @@ if($operation == 'getCode'){
 		}
 	}
 	echo json_encode($result);
+} else if ($operation == 'temp') {
+	$temp_list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
 }
 
 ?>
