@@ -124,10 +124,15 @@ if ($operation == 'list') {
         $one_man = m('member')->getInviterInfo($item['inviter']);
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
+        if ($item['degree'] == 1) {
+            $degree = '直推';
+        } else {
+            $degree = '二级';
+        }
         if ($_GPC['data']['status'] == 1 && $re_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "你好，你的徒弟邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "你好，你的{$degree}邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
@@ -148,7 +153,7 @@ if ($operation == 'list') {
         if ($_GPC['data']['status'] == 2 && $count_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "你好，你的徒弟邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "你好，你的{$degree}邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
