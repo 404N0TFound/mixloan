@@ -180,7 +180,7 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'setLevel') {
 	//设置等级
-	$list = pdo_fetchall("SELECT uid FROM ".tablename('xuan_mixloan_product_apply'). ' WHERE degree=1 AND uniacid=:uniacid AND pid=0', array(':uniacid'=>$_W['uniacid']));
+	$list = pdo_fetchall("SELECT uid FROM ".tablename('xuan_mixloan_payment'). ' WHERE uniacid=:uniacid GROUP BY uid', array(':uniacid'=>$_W['uniacid']));
 	$result = array(
 		'init'=>count($list),
 		'mid'=>0,
@@ -188,16 +188,39 @@ if($operation == 'getCode'){
 	);
 	foreach ($list as $row) {
 		//团队多少人
-		$mid_team_arr = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_product_apply'). ' WHERE uniacid=:uniacid AND pid=0 AND inviter=:inviter', array(':inviter'=>$row['uid'], ':uniacid'=>$_W['uniacid']));
-		$mid_team_num = count($mid_team_arr);
+		$one_extend_list = $two_extend_list = [];
+		$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname,c.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid LEFT JOIN ".tablename('xuan_mixloan_member')." c ON a.openid=c.openid WHERE a.qrcid={$row['uid']} AND a.type=1 GROUP BY a.openid ORDER BY a.id DESC");
+		if (!empty($follow_list)) {
+			$one_level_ids = [];
+			foreach ($follow_list as $value) {
+				if (!empty($value['id'])) {
+					$one_level_ids[] = $value['id'];
+				}
+			}
+			$one_level_ids_string = '(' . implode(',', $one_level_ids) . ')';
+			$two_follow_list =  pdo_fetchall("SELECT a.createtime,b.nickname,c.id FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid LEFT JOIN ".tablename('xuan_mixloan_member')." c ON a.openid=c.openid WHERE a.qrcid IN {$one_level_ids_string} AND a.type=1 GROUP BY a.qrcid,a.openid ORDER BY a.id DESC");
+			foreach ($two_follow_list as $value) {
+				if (!empty($value['id'])) {
+					$two_level_ids[] = $value['id'];
+				}
+			}
+			$two_level_ids_string = '(' . implode(',', $two_level_ids) . ')';
+			//所有一级
+			$one_extend_list = pdo_fetchall('SELECT a.uid,b.nickname,b.createtime FROM '.tablename('xuan_mixloan_payment'). ' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.uid IN {$one_level_ids_string}");
+			//所有二级
+			$two_extend_list = pdo_fetchall('SELECT a.uid,b.nickname,b.createtime FROM '.tablename('xuan_mixloan_payment'). ' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.uid IN {$two_level_ids_string}");
+		}
+		$mid_team_num = count($one_extend_list) + count(two_extend_list);
 		//直推多少人
-		$mid_buy_num = pdo_fetchcolumn('SELECT count(*) FROM '.tablename('xuan_mixloan_product_apply'). ' WHERE uniacid=:uniacid AND pid=0 AND inviter=:inviter AND degree=1', array(':inviter'=>$row['uid'], ':uniacid'=>$_W['uniacid']));
+		$mid_buy_num = count($one_extend_list);
 		if ($mid_team_num>=$config['mid_team_num'] && $mid_buy_num>=$config['mid_buy_num']) {
 			pdo_update('xuan_mixloan_member', array('level'=>2), array('id'=>$row['uid']));
 			$result['init'] --;
 			$result['mid'] ++;
-			foreach ($mid_team_arr as $value) {
-				$mid_team_uid[] = $value['uid'];
+			foreach ($two_extend_list as $value) {
+				if (!empty($value['uid'])) {
+					$mid_team_uid[] = $value['uid'];
+				}
 			}
 			$mid_team_string = '(' . implode(',', $mid_team_uid) . ')';
 			$height_vip_mid = pdo_fetchcolumn('SELECT COUNT(*) FROM '.tablename('xuan_mixloan_member')." WHERE id IN {$mid_team_string} AND level=2");
@@ -217,7 +240,13 @@ if($operation == 'getCode'){
 	}
 	echo json_encode($result);
 } else if ($operation == 'temp') {
-	$temp_list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+	//临时脚本
+	$sql = 'SELECT count(*)as nums,openid FROM `ims_xuan_mixloan_member` GROUP BY openid HAVING nums>1';
+	$list = pdo_fetchall($sql);
+	foreach ($list as $row) {
+		$sql = "update ims_xuan_mixloan_member set uniacid=2 where openid='{$row['openid']}' ORDER BY id ASC LIMIT 1";
+		echo $sql . '<br/>';
+		pdo_run($sql);
+	}
 }
-
 ?>

@@ -11,6 +11,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = ' AND status!=-1';
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND id='{$_GPC['id']}'";
+    }
     if (!empty($_GPC['openid'])) {
         $wheres.= " AND openid='{$openid}'";
     }
@@ -22,7 +25,7 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'], $config)['code'];
+            $row['agent'] = m('member')->checkAgent($row['id'], $config);
         }
         unset($row);
     } else {
@@ -52,6 +55,64 @@ if ($operation == 'list') {
             "fee"=>0,
     );
     pdo_insert("xuan_mixloan_payment",$insert);
+    $member = m('member')->getInviterInfo($_GPC['id']);
+    pdo_update("xuan_mixloan_member", array('level'=>1), array('id'=>$member['id']));
+    $inviter = m('member')->getInviter($member['phone'], $member['openid']);
+    if ($inviter) {
+        $agent = m('member')->checkAgent($inviter, $config);
+        if ($agent['level'] == 1) {
+            $re_bonus = $config['inviter_fee_one_init'];
+        } else if ($agent['level'] == 2) {
+            $re_bonus = $config['inviter_fee_one_mid'];
+        } else if ($agent['level'] == 3) {
+            $re_bonus = $config['inviter_fee_one_height'];
+        }
+        if ($re_bonus) {
+            $insert_i = array(
+                'uniacid' => $_W['uniacid'],
+                'uid' => $member['id'],
+                'phone' => $member['phone'],
+                'inviter' => $inviter,
+                'extra_bonus'=>0,
+                'done_bonus'=>0,
+                're_bonus'=>$re_bonus,
+                'status'=>2,
+                'createtime'=>time(),
+                'degree'=>1
+            );
+            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+        }
+        //二级
+        $man = m('member')->getInviterInfo($inviter);
+        $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+        if ($inviter) {
+            $agent = m('member')->checkAgent($inviter, $config);
+            if ($agent['level'] == 1) {
+                $re_bonus = $config['inviter_fee_one_init'];
+            } else if ($agent['level'] == 2) {
+                $re_bonus = $config['inviter_fee_one_mid'];
+            } else if ($agent['level'] == 3) {
+                $re_bonus = $config['inviter_fee_one_height'];
+            }
+            if ($re_bonus) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $member['id'],
+                    'phone' => $member['phone'],
+                    'certno' => $member['certno'],
+                    'realname' => $member['realname'],
+                    'inviter' => $inviter,
+                    'extra_bonus'=>0,
+                    'done_bonus'=>0,
+                    're_bonus'=>$re_bonus,
+                    'status'=>2,
+                    'createtime'=>time(),
+                    'degree'=>2
+                );
+                pdo_insert('xuan_mixloan_product_apply', $insert_i);
+            }
+        }
+    }
     message("设置成功", $this->createWebUrl('member'), "success");
 } else if ($operation == 'send_msg') {
     //发送信息
