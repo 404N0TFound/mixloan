@@ -80,6 +80,7 @@
                 </div>    
             </div>
             <!-- center -->
+            {if $member['user_type']['code'] == 1}
             <div class="agent_basicInfo">
                 <div class="index_special">
                     <h2 id="get_paid"><img src="../addons/xuan_mixloan/template/style/picture/salary_1.png" />我的工资<a class="gz"><img class="gz" src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></a></h2>
@@ -92,6 +93,7 @@
                     </div>    
                 </div>
             </div>
+            {/if}
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
                 {if $member['user_type']['code'] == 1}
                 <div class="informAlert">

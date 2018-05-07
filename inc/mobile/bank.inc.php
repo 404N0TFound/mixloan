@@ -47,7 +47,7 @@ if ($operation == 'extend_limit') {
 	include $this->template('bank/extend_query');
 } else if ($operation == 'extend_tips') {
 	//提额技巧
-	$agent = m('code')->checkAgent($member['id']);
+	$agent = m('member')->checkAgent($member['id']);
 	if ($agent['code'] != 1) {
 		message('请先购买代理', $this->createMobileUrl('vip',['op'=>'buy']), 'error');
 	}
