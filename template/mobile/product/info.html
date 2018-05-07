@@ -119,9 +119,15 @@
             <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
             <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
             <ul class="reback_money">
+                {if $info['ext_info']['is_extra_reward']==1}
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_money']}元</span></li>
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_money']}元</span></li>
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>
+                {else if $info['ext_info']['is_extra_reward']==2}
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_per']}点</span></li>
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_per']}点</span></li>
+                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_per']}点</span></li>
+                {/if}
             </ul>
         </div>
         <ul class="invite_reback">

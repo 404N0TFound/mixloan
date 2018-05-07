@@ -384,7 +384,7 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
-                {if $info['ext_info']['is_extra_reward']}
+                {if $info['ext_info']['is_extra_reward'] == 1}
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     {if $info['ext_info']['extra_reward_type'] == 0}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_one_cond']}元奖励{$info['ext_info']['extra_reward_one_money']}</p>
@@ -404,6 +404,28 @@
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_cond']}元奖励{$info['ext_info']['extra_reward_thr_money']}</p>
                     {else}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_con']}人奖励{$info['ext_info']['extra_reward_thr_money']}</p>
+                    {/if}
+                </div>
+                {else if $info['ext_info']['is_extra_reward'] == 2}
+                <div class="col-sm-2 col-lg-3 col-xs-12">
+                    {if $info['ext_info']['extra_reward_type'] == 0}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_one_cond']}元奖励{$info['ext_info']['extra_reward_one_per']}点</p>
+                    {else}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_one_con']}人奖励{$info['ext_info']['extra_reward_one_per']}点</p>
+                    {/if}
+                </div>
+                <div class="col-sm-3 col-lg-4 col-xs-12">
+                    {if $info['ext_info']['extra_reward_type'] == 0}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_two_cond']}元奖励{$info['ext_info']['extra_reward_two_per']}点</p>
+                    {else}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_two_con']}人奖励{$info['ext_info']['extra_reward_two_per']}点</p>
+                    {/if}
+                </div>
+                <div class="col-sm-3 col-lg-4 col-xs-12">
+                    {if $info['ext_info']['extra_reward_type'] == 0}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_cond']}元奖励{$info['ext_info']['extra_reward_thr_per']}点</p>
+                    {else}
+                    <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_con']}人奖励{$info['ext_info']['extra_reward_thr_per']}点</p>
                     {/if}
                 </div>
                 {else}

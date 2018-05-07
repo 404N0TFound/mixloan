@@ -11,6 +11,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = ' AND status<>-1';
+    if (!empty($_GPC['id'])) {
+        $wheres .= " AND id={$_GPC['id']}";
+    }
     if (!empty($_GPC['openid'])) {
         $wheres.= " AND openid='{$_GPC['openid']}'";
     }
@@ -84,7 +87,8 @@ if ($operation == 'list') {
             'done_bonus'=>0,
             're_bonus'=>$config['inviter_fee_one'],
             'status'=>2,
-            'createtime'=>time()
+            'createtime'=>time(),
+            'degree'=>1
         );
         pdo_insert('xuan_mixloan_product_apply', $insert_i);
         //模板消息提醒
@@ -95,7 +99,7 @@ if ($operation == 'list') {
                 "color" => "#173177"
             ) ,
             "order" => array(
-                "value" => $tid,
+                "value" => $params['tid'],
                 "color" => "#173177"
             ) ,
             "money" => array(
@@ -109,6 +113,48 @@ if ($operation == 'list') {
         );
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+        //二级
+        $man = m('member')->getInviterInfo($inviter);
+        $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+        if ($inviter && $config['inviter_fee_two']) {
+            $insert_i = array(
+                'uniacid' => $_W['uniacid'],
+                'uid' => $member['id'],
+                'phone' => $member['phone'],
+                'certno' => $member['certno'],
+                'realname' => $member['realname'],
+                'inviter' => $inviter,
+                'extra_bonus'=>0,
+                'done_bonus'=>0,
+                're_bonus'=>$config['inviter_fee_two'],
+                'status'=>2,
+                'createtime'=>time(),
+                'degree'=>2
+            );
+            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+            //模板消息提醒
+            $two_openid = m('user')->getOpenid($inviter);
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                    "color" => "#173177"
+                ) ,
+                "order" => array(
+                    "value" => $params['tid'],
+                    "color" => "#173177"
+                ) ,
+                "money" => array(
+                    "value" => $config['inviter_fee_two'],
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account = WeAccount::create($_W['acid']);
+            $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+        }
     }
     message("设置成功", $this->createWebUrl('member'), "success");
 } else if ($operation == 'update') {

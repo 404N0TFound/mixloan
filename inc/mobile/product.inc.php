@@ -124,28 +124,33 @@ if($operation=='index'){
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
     if ($inviter) {
+        $phone = substr($_GPC['phone'], 0, 4) . '****' . substr($_GPC['phone'], -3);
         $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
         $datam = array(
             "first" => array(
-                "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
-                "color" => "#173177"
+                "value" => "尊敬的{$config['title']}客，您推荐的用户{$member['nickname']}({$phone})正在【{$info['name']}】产品页提交信息，请及时跟进用户是否注册，申请。",
+                "color" => "#1aad19"
             ) ,
             "keyword1" => array(
-                'value' => trim($_GPC['name']),
+                'value' => $info['name'],
                 "color" => "#4a5077"
             ) ,
             "keyword2" => array(
+                'value' => $phone,
+                "color" => "#4a5077"
+            ) ,
+            "keyword3" => array(
                 'value' => date('Y-m-d H:i:s', time()),
                 "color" => "#4a5077"
             ) ,
             "remark" => array(
-                "value" => '点击查看详情',
+                "value" => '温馨提示：用户在产品介绍页提交信息记录，不能视为产品官方申请订单',
                 "color" => "#4a5077"
             ) ,
         );
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
-        $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
+        $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice6'], $datam, $url);
         if ($openid) {
             pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
         }
@@ -188,25 +193,8 @@ if($operation=='index'){
         $insert['degree'] = 2;
         pdo_insert('xuan_mixloan_product_apply', $insert);
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
-        $datam = array(
-            "first" => array(
-                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
-                "color" => "#173177"
-            ) ,
-            "keyword1" => array(
-                'value' => trim($_GPC['name']),
-                "color" => "#4a5077"
-            ) ,
-            "keyword2" => array(
-                'value' => date('Y-m-d H:i:s', time()),
-                "color" => "#4a5077"
-            ) ,
-            "remark" => array(
-                "value" => '点击查看详情',
-                "color" => "#4a5077"
-            ) ,
-        );
-        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+        $datam['first']['value'] = "尊敬的{$config['title']}客，您徒弟{$inviter_one['nickname']}推荐的用户{$member['nickname']}({$phone})正在【{$info['name']}】产品页提交信息，请及时跟进用户是否注册，申请。";
+        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice6'], $datam, $url);
     }
     show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {

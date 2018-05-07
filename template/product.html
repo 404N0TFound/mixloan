@@ -317,7 +317,8 @@
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[ext_info][is_extra_reward]" onchange="additional();">
                         <option value="0" {if $item['ext_info']['is_extra_reward']==0}selected{/if}>不设奖金</option>
-                        <option value="1" {if $item['ext_info']['is_extra_reward']==1}selected{/if}>设置奖金</option>
+                        <option value="1" {if $item['ext_info']['is_extra_reward']==1}selected{/if}>固定奖金</option>
+                        <option value="2" {if $item['ext_info']['is_extra_reward']==2}selected{/if}>点数</option>
                     </select>
                 </div>
             </div>
@@ -331,7 +332,7 @@
                     <span class="help-block">提示：下卡奖励只能通过满人方式</span>
                 </div>
             </div>
-            <div class="form-group" id="cond" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']==1}style="display: none"{/if}>
+            <div class="form-group" id="cond" {if $item['ext_info']['is_extra_reward']<1 || $item['ext_info']['extra_reward_type']==1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
                  <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
@@ -352,7 +353,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group" id="con" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']!=1}style="display: none"{/if}>
+            <div class="form-group" id="con" {if $item['ext_info']['is_extra_reward']<1 || $item['ext_info']['extra_reward_type']!=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
                  <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
@@ -373,7 +374,7 @@
                     </div>
                 </div>
             </div>
-             <div class="form-group extra" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if}>
+             <div class="form-group" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if} id="extra_reward1">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励现金</label>
                  <div class="col-sm-3 col-lg-3 col-xs-12">
                     <div class="input-group">
@@ -391,6 +392,27 @@
                     <div class="input-group">
                         <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_money]" value="{$item['ext_info']['extra_reward_thr_money']}" placeholder="满足条件3后奖励多少" />
                         <span class="input-group-addon" >元</span>
+                    </div>
+                </div>
+            </div>
+             <div class="form-group" {if $item['ext_info']['is_extra_reward']!=2}style="display: none"{/if} id="extra_reward2">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励点数</label>
+                 <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_per]" value="{$item['ext_info']['extra_reward_one_per']}" placeholder="满足条件1后奖励多少点" />
+                        <span class="input-group-addon" >点</span>
+                    </div>
+                </div>
+                 <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_per]" value="{$item['ext_info']['extra_reward_two_per']}" placeholder="满足条件2后奖励多少点" />
+                        <span class="input-group-addon" >点</span>
+                    </div>
+                </div>
+                 <div class="col-sm-3 col-lg-3 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_per]" value="{$item['ext_info']['extra_reward_thr_per']}" placeholder="满足条件3后奖励多少点" />
+                        <span class="input-group-addon" >点</span>
                     </div>
                 </div>
             </div>
@@ -470,18 +492,28 @@
     }
     var additional = function (){
         var value = $("select[name='data[ext_info][is_extra_reward]']").val();
-        if (value == 1) {
+        if (value >= 1) {
             $('.extra').show(500);
-            {if $item['ext_info']['extra_reward_type']}
-            $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().show(500);
-            $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().hide();
-            {else}
-            $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().show(500);
-            $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().hide();
-            {/if}
+            var extra_reward_type = $("select[name='data[ext_info][extra_reward_type]']").val();
+            if (extra_reward_type) {
+                $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().show(500);
+                $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().hide();
+            } else {
+                $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().show(500);
+                $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().hide();
+            }
+            if (value==1) {
+                $('#extra_reward2').hide();
+                $('#extra_reward1').show(300);
+            } else {
+                $('#extra_reward1').hide();
+                $('#extra_reward2').show(300);
+            }
         } else {
             $('#cond').hide(500);
             $('#con').hide(500);
+            $('#extra_reward1').hide(500);
+            $('#extra_reward2').hide(500);
             $('.extra').hide(500);
         }
     }
