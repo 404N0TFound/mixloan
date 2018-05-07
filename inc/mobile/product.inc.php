@@ -105,15 +105,6 @@ if($operation=='index'){
 		show_json(-1, [], '资料不能为空');
 	}
 	$record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
-	if ($record) {
-		show_json(-1, [], "您已经申请过啦");
-	}
-	if ($config['jdwx_open'] == 1) {
-		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-		// if ($res['code'] == -1) {
-		// 	show_json($res['code'], [], $res['msg']);
-		// }
-	}
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         show_json(-1, [], '该代理产品已被下架');
@@ -122,6 +113,15 @@ if($operation=='index'){
 		$pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	} else {
 		$pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+	}
+	if ($record) {
+		show_json(1, $pro['ext_info']['url']);
+	}
+	if ($config['jdwx_open'] == 1) {
+		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
+		// if ($res['code'] == -1) {
+		// 	show_json($res['code'], [], $res['msg']);
+		// }
 	}
 	if ($inviter) {
 		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
