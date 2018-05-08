@@ -186,7 +186,7 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
-}
+} 
 
 
 ?>

@@ -18,24 +18,16 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     $memberClass = new Xuan_mixloan_Member();
                     $qrcid = $memberClass->getInviter($my_info['phone'], $my_info['openid']);
                     if ($my_id != $this->message['scene']) {
+                        //第一个上级
+                        $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
+                        if ($check && $check != 'up_one') {
+                            //检查上下三级是否存在有关系
+                            pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
+                        }
                         if ($qrcid) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
                         } else {
                             $qrcid = $this->message['scene'];
-                        }
-                        //第一个上级
-                        $check = $memberClass->checkIfRelation($qrcid, $my_id);
-                        if ($check) {
-                            //检查上下三级是否存在有关系
-                            if (!empty($qrcid) && $qrcid != $this->message['scene']) {
-                                //已经有上级而且如果上级不是第一级
-                                pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
-                                return false;
-                            }
-                            if (empty($qrcid)) {
-                                pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$qrcid}");
-                                return false;
-                            }
                         }
                         $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                         $wx = WeAccount::create();
