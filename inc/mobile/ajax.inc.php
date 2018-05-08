@@ -324,7 +324,7 @@ if($operation == 'getCode'){
 		if ($res['TRANS_STATE'] == '0000') {
 			if ($res['TRANS_DETAILS'][0]['PAY_STATE'] == "0000") {
 				pdo_update('xuan_mixloan_withdraw', array('status'=>2), array('id'=>$row['id']));
-				$ids[] = $row['id']
+				$ids[] = $row['id'];
 			}
 		}
 	}
