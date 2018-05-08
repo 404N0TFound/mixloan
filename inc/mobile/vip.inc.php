@@ -84,6 +84,7 @@ if($operation=='buy'){
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
+        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
 		$verify = 0;
 	}
 	$pids = pdo_fetchall("SELECT pid FROM ".tablename("xuan_mixloan_poster")." WHERE uid=:uid", array(":uid"=>$member['id']));

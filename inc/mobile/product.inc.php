@@ -7,6 +7,10 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code']!=1) {
+        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+    }
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
