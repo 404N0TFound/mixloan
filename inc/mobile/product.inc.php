@@ -199,6 +199,10 @@ if($operation=='index'){
     show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
     //客户列表
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code']!=1) {
+        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+    }
     include $this->template('product/customer');
 } else if ($operation == 'customer_list') {
     //客户列表接口
