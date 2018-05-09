@@ -138,7 +138,7 @@
                     <td>   {$row['bonus']}</td>
                     <td>   {$row['left_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-info">等待银行处理</span>{else if $row['status']==1}<span class="label label-success">打款成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
+                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-info">等待银行处理</span>{else if $row['status']==2}<span class="label label-success">打款成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
                     <td  style="overflow:visible;">
 
                         <div class="btn-group btn-group-sm" >
