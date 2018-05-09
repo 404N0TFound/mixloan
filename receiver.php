@@ -19,11 +19,11 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     $qrcid = $memberClass->getInviter($my_info['phone'], $my_info['openid']);
                     if ($my_id != $this->message['scene']) {
                         //第一个上级
-                        $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
-                        if ($check && $check != 'up_one') {
-                            //检查上下三级是否存在有关系
-                            pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
-                        }
+                        // $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
+                        // if ($check && $check != 'up_one') {
+                        //     //检查上下三级是否存在有关系
+                        //     pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
+                        // }
                         if ($qrcid) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
                         } else {
