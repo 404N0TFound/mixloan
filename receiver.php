@@ -25,11 +25,11 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                         } else {
                             $qrcid = $this->message['scene'];
                         }
-                        $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
-                        if ($check && $check != 'up_one') {
-                            //检查上下三级是否存在有关系
-                            pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
-                        }
+                        // $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
+                        // if ($check && $check != 'up_one') {
+                        //     //检查上下三级是否存在有关系
+                        //     pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
+                        // }
                         $man_one = pdo_fetch("SELECT nickname,openid,phone FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                         $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
                         $wx = WeAccount::create();
