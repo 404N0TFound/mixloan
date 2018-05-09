@@ -136,7 +136,7 @@
             <span class="account_title">结算方式</span>
             <div class="account_way">
                 <ul>
-                    <li>{if $info['count_time'] == 1}【日结】，当日发卡成功当日结算工资。
+                    <li>{if $info['count_time'] == 1}【日结】，当日批款次日结算佣金。
                         {else if $info['count_time'] == 7}【周结】，每周一结算。
                         {else if $info['count_time'] == 30}【月结】，每月初的前五个工作日开始结算。
                         {/if}
