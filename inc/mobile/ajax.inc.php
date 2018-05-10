@@ -171,28 +171,8 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'temp') {
 	//临时脚本
-	$openi = m('user')->getOpenid();
-	$key = 'accesstoken:'.$_W['uniacid'];
-	$man = pdo_fetch('select openid from '.tablename('xuan_mixloan_member').'
-		where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-	$access_token = curl_get($_W['account']['key'], $_W['account']['secret']);
-	$url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$man['openid']}";
-	$json = file_get_contents($url);
-	var_dump($json);die;
 }
 
-function curl_get($appid, $secret){ 
-	$url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $appid . "&secret=" + appsecret + "&code=" + Code + "&grant_type=authorization_code";
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    $output = curl_exec($ch);
-    curl_close($ch);
-    $jsoninfo = json_decode($output, true);
-    $access_token = $jsoninfo["access_token"];
-	return $access_token;//这个就是access_token
-}
+
 
 ?>
