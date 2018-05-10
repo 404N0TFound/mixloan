@@ -96,7 +96,7 @@
             {if $two_follow_list}
             <table class="kehu-table" style="table-layout:fixed;">
                 <tbody>
-                    {loop $follow_list $row}
+                    {loop $two_follow_list $row}
                     <tr class="list">
                         <td>{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
                         <td>{$row['nickname']}</td>
