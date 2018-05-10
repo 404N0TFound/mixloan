@@ -21,6 +21,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			!strexists($_SERVER['REQUEST_URI'], 'apply'),
 			!strexists($_SERVER['REQUEST_URI'], 'queue'),
 			!strexists($_SERVER['REQUEST_URI'], 'login'),
+			!strexists($_SERVER['REQUEST_URI'], 'wechat_app'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {

@@ -46,6 +46,7 @@
 		div.regProtocol label img{width: 15px;height: 15px;display: inline-block;vertical-align: middle;margin-top: -3px;}
 		div.regProtocol span{color: #9a989b;font-style: 12px;display: inline;}
 		div.regProtocol a{display: inline;color: #0194fc;font-style: 12px;}
+		.login_app_wechat{width: 100%;display: inline-block;margin-top: 3rem;text-align: center;}
 	</style>
 	{template 'common/wxshare'}
 </head>
@@ -84,6 +85,9 @@ mui.plusReady(function() {
 		<div class="submit_btn">
 			<a class="to_buy">登陆</a>
 		</div>		
+		<a class="login_app_wechat" href="{php echo $this->createMobileUrl('index', ['op'=>'wechat_login_app'])}">
+			<img src="../addons/xuan_mixloan/template/style/mui/images/icon-weixin.png" style="width: 5rem">
+		</a>
 		<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
 	</div>
 
