@@ -123,7 +123,7 @@ class Xuan_mixloan_Product
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid order by id desc limit 5";
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_show=1 order by id desc limit 5";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
@@ -160,34 +160,34 @@ class Xuan_mixloan_Product
             }
             $res['imgs'] = $item['ext_info']['logo'];
             if ($item['done_reward_type'] == 1) {
-                if ($item['done_reward_money'] == intval($item['done_reward_money'])) {
-                    $done_money = intval($item['done_reward_money']);
+                if ($item['ext_info']['done_one_init_reward_money'] == intval($item['ext_info']['done_one_init_reward_money'])) {
+                    $done_money = intval($item['ext_info']['done_one_init_reward_money']);
                 } else {
-                    $done_money = $item['done_reward_money'];
+                    $done_money = $item['ext_info']['done_one_init_reward_money'];
                 }
                 $res['intro1'] = "{$done_money}";
             } else if ($item['done_reward_type'] == 2){
-                if ($item['done_reward_per'] == intval($item['done_reward_per'])) {
-                    $done_per = intval($item['done_reward_per']);
+                if ($item['ext_info']['done_one_init_reward_per'] == intval($item['ext_info']['done_one_init_reward_per'])) {
+                    $done_per = intval($item['ext_info']['done_one_init_reward_per']);
                 } else {
-                    $done_per = $item['done_reward_per'];
+                    $done_per = $item['ext_info']['done_one_init_reward_per'];
                 }
-                 $res['intro1'] = "{$done_per}点";
+                $res['intro1'] = "{$done_per}点";
             }
             if ($item['re_reward_type'] == 1) {
-                if ($item['re_reward_money'] == intval($item['re_reward_money'])) {
-                    $re_money = intval($item['re_reward_money']);
+                if ($item['ext_info']['re_one_init_reward_money'] == intval($item['ext_info']['re_one_init_reward_money'])) {
+                    $re_money = intval($item['ext_info']['re_one_init_reward_money']);
                 } else {
-                    $re_money = $item['re_reward_money'];
+                    $re_money = $item['ext_info']['re_one_init_reward_money'];
                 }
                 $res['intro1'] .= "+注册{$re_money}";
             } else if ($item['re_reward_type'] == 2){
-                if ($item['re_reward_per'] == intval($item['re_reward_per'])) {
-                    $re_per = intval($item['re_reward_per']);
+                if ($item['ext_info']['re_one_init_reward_per'] == intval($item['ext_info']['re_one_init_reward_per'])) {
+                    $re_per = intval($item['ext_info']['re_one_init_reward_per']);
                 } else {
-                    $re_per = $item['re_reward_per'];
+                    $re_per = $item['ext_info']['re_one_init_reward_per'];
                 }
-                 $res['intro1'] .= "+注册{$re_per}点";
+                $res['intro1'] .= "+注册{$re_per}点";
             }
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
@@ -201,7 +201,7 @@ class Xuan_mixloan_Product
     **/
     public function getSpecialLoan($type) {
         global $_W;
-        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 ORDER BY b.id";
+        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 AND a.is_show=1 ORDER BY b.id";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {

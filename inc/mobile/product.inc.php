@@ -13,8 +13,8 @@ if($operation=='index'){
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1], FALSE);
-    $loan = m('product')->getList([], ['type'=>2], FALSE);
+    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
     $card = m('product')->packupItems($card);
     $loan = m('product')->packupItems($loan);
     $arr = array(
@@ -34,6 +34,9 @@ if($operation=='index'){
     }
     $id = intval($_GPC['id']);
     $info = m('product')->getList([],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        message('该代理产品已被下架', '', 'info');
+    }
     if ($info['type'] == 1) {
         $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
     } else {
@@ -45,7 +48,7 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
-    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1]);
+    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
     foreach ($credits as $credit) {
         $id[] = $credit['relate_id'];
     }
@@ -86,7 +89,10 @@ if($operation=='index'){
     //申请产品
     $id = intval($_GPC['id']);
     $inviter = intval($_GPC['inviter']);
-    $info = m('product')->getList(['id', 'type', 'ext_info'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'type', 'ext_info', 'is_show'],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        message('该代理产品已被下架', '', 'info');
+    }
     include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
     //申请产品
@@ -99,7 +105,10 @@ if($operation=='index'){
     if ($id <= 0) {
         show_json(-1, [], "id为空");
     }
-    $info = m('product')->getList(['id', 'name', 'type', 'relate_id'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
+    if ( empty($info['is_show']) ) {
+        show_json(-1, [], '该代理产品已被下架');
+    }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
@@ -176,6 +185,34 @@ if($operation=='index'){
             'createtime'=>time()
         );
         pdo_insert('xuan_mixloan_bonus', $insert);
+        //二级
+        $inviter_info = m('member')->getInviterInfo($inviter);
+        $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+        if ($second_inviter) {
+            $insert['inviter'] = $second_inviter;
+            $insert['degree'] = 2;
+            pdo_insert('xuan_mixloan_bonus', $insert);
+            $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+            $datam = array(
+                "first" => array(
+                    "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                    "color" => "#173177"
+                ) ,
+                "keyword1" => array(
+                    'value' => trim($_GPC['name']),
+                    "color" => "#4a5077"
+                ) ,
+                "keyword2" => array(
+                    'value' => date('Y-m-d H:i:s', time()),
+                    "color" => "#4a5077"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+        }
         $redirect_url = $pro['ext_info']['url'];
     } else {
         $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));
