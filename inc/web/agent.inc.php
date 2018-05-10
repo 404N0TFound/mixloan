@@ -191,14 +191,15 @@ if ($operation == 'list') {
             if ($res['TRANS_STATE'] != "0000") {
                 message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
             }
-            if ($res['PAY_STATE'] != '0000') {
+            if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A') {
+                $SN = $res['TRANS_DETAILS'][0]['SN'];
+                $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
+                $_GPC['data']['ext_info']['SN'] = $SN;
+                $_GPC['data']['ext_info']['batchNo'] = $BATCH_NO;
+                $_GPC['data']['ext_info']['MER_ORDER_NO'] = $MER_ORDER_NO;
+            } else {
                 message($res['TRANS_DETAILS'][0]['REMARK'], $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
             }
-            $SN = $res['TRANS_DETAILS'][0]['SN'];
-            $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
-            $_GPC['data']['ext_info']['SN'] = $SN;
-            $_GPC['data']['ext_info']['batchNo'] = $BATCH_NO;
-            $_GPC['data']['ext_info']['MER_ORDER_NO'] = $MER_ORDER_NO;
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
