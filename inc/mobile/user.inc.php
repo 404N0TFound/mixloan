@@ -65,6 +65,22 @@ if($operation=='index'){
 	);
 	pdo_insert('xuan_mixloan_creditCard', $insert);
 	show_json(1);
+} else if ($operation == 'bank_img') {
+    //上传收款二维码接口
+    $name = trim($_GPC['name']);
+    $headimgurl = trim($_GPC['headimgurl']);
+    if (empty($name) || empty($headimgurl)) {
+        show_json(-1, [], "缺少上传参数");
+    }
+    $insert = array(
+        'name'=>$name,
+        'uid'=>$member['id'],
+        'img_url'=>$headimgurl,
+        'createtime'=>time(),
+        'uniacid'=>$_W['uniacid'],
+    );
+    pdo_insert('xuan_mixloan_withdraw_qrcode', $insert);
+    show_json(1);
 }else if ($operation == 'set') {
 	//修改资料
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
