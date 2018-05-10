@@ -21,7 +21,10 @@ if($operation=='index'){
 } else if ($operation == 'bind_card') {
 	//绑卡
 	include $this->template('user/bind_card');
-} else if ($operation == 'checkBank') {
+}  else if ($operation == 'bind_qrcode') {
+    //绑卡
+    include $this->template('user/bind_card_qrcode');
+}else if ($operation == 'checkBank') {
 	//查银行卡是哪家的
 	$bankno = trim($_GPC['cardNo']);
 	if ($config['jdwx_open']) {

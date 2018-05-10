@@ -541,6 +541,14 @@
                     <p class="form-control-static">申请金额：{$item['bonus']}</p>
                 </div>
             </div>
+            {if $bank['img_url']}
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请信息</label>
+                <div class="col-sm-4 col-lg-5 col-xs-12">
+                    <p class="form-control-static">收款二维码：<img src="{$bank['img_url']}" width="350px"></p>
+                </div>
+            </div>
+            {else}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请信息</label>
                 <div class="col-sm-4 col-lg-5 col-xs-12">
@@ -553,7 +561,7 @@
                     <p class="form-control-static">手机：{$bank['phone']}</p>
                 </div>
             </div>
-           
+            {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提现状态</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -570,64 +578,30 @@
                     <input type="text" class="form-control"  name="data[ext_info][reason]" value="{$item['ext_info']['reason']}"/>
                 </div>
             </div>
-            <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="bank_code">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">所属银行</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="data[ext_info][bank_code]">
-                        <option value="1002" {if $item['ext_info']['bank_code'] == '1002'}selected{/if}>工商银行</option>
-                        <option value="1005" {if $item['ext_info']['bank_code'] == '1005'}selected{/if}>农业银行</option>
-                        <option value="1026" {if $item['ext_info']['bank_code'] == '1026'}selected{/if}>中国银行</option>
-                        <option value="1003" {if $item['ext_info']['bank_code'] == '1003'}selected{/if}>建设银行</option>
-                        <option value="1001" {if $item['ext_info']['bank_code'] == '1001'}selected{/if}>招商银行</option>
-                        <option value="1066" {if $item['ext_info']['bank_code'] == '1066'}selected{/if}>邮储银行</option>
-                        <option value="1020" {if $item['ext_info']['bank_code'] == '1020'}selected{/if}>交通银行</option>
-                        <option value="1004" {if $item['ext_info']['bank_code'] == '1004'}selected{/if}>浦发银行</option>
-                        <option value="1006" {if $item['ext_info']['bank_code'] == '1006'}selected{/if}>民生银行</option>
-                        <option value="1009" {if $item['ext_info']['bank_code'] == '1009'}selected{/if}>兴业银行</option>
-                        <option value="1010" {if $item['ext_info']['bank_code'] == '1010'}selected{/if}>平安银行</option>
-                        <option value="1021" {if $item['ext_info']['bank_code'] == '1021'}selected{/if}>中信银行</option>
-                        <option value="1025" {if $item['ext_info']['bank_code'] == '1025'}selected{/if}>华夏银行</option>
-                        <option value="1027" {if $item['ext_info']['bank_code'] == '1027'}selected{/if}>广发银行</option>
-                        <option value="1022" {if $item['ext_info']['bank_code'] == '1022'}selected{/if}>光大银行</option>
-                        <option value="1032" {if $item['ext_info']['bank_code'] == '1032'}selected{/if}>北京银行</option>
-                        <option value="1056" {if $item['ext_info']['bank_code'] == '1056'}selected{/if}>宁波银行</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="trade">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款订单号</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[ext_info][partner_trade_no]" value="{$item['ext_info']['partner_trade_no']}" placeholder="此处打款后会自动生成" readonly="" />
-                </div>
-            </div>
             <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="number">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款流水号</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" placeholder="此处打款后会自动生成" readonly="" />
-                </div>
+            <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款流水号</label>
+            <div class="col-sm-8 col-lg-9 col-xs-12">
+                <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" />
             </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
-                <div class="col-sm-7 col-lg-9 col-xs-12">
-                    <input class="btn btn-default" type="submit" value="提交">
-                    <input type="hidden" name="token" value="{$_W['token']}" />
-                </div>
-            </div>
-            <div class="form-group">
-            </div>
-        </form>
     </div>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+        <div class="col-sm-7 col-lg-9 col-xs-12">
+            <input class="btn btn-default" type="submit" value="提交">
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </div>
+    <div class="form-group">
+    </div>
+    </form>
+</div>
 </div>
 <script type="text/javascript">
     var change_stauts = function (){
         var value = $("select[name='data[status]']").val();
         if (value == 1) {
-            $('#bank_code').show(500);
-            $('#trade').show(500);
             $('#number').show(500)
         } else {
-            $('#bank_code').hide(500);
-            $('#trade').hide(500);
             $('#number').hide(500)
         }
     }

@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config.js"></script>    
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config.js"></script>
     <script>
-      var bb = "http://www.kakacaifu.com/Wap/goods/index/id/1.html";
-      var aa = "/Public/Wap";
+        var bb = "http://www.kakacaifu.com/Wap/goods/index/id/1.html";
+        var aa = "/Public/Wap";
     </script>
     <style type="text/css">
         @font-face {font-family:'zcCjt'; src: url("/Public/Wap/idai/new_font/zccjt.ttf");}
@@ -31,7 +31,7 @@
         h2,.validNo,.money{font-family: zcCjt!important;}*/
         .bglightgray{background-color: #eff0f2;}
         /*轮播图样式*/
-        .swiper-container .swiper-wrapper{width: 82%;}        
+        .swiper-container .swiper-wrapper{width: 82%;}
         .swiper-container .swiper-wrapper .swiper-slide-prev,.swiper-container .swiper-wrapper .swiper-slide-next{width: 84%;margin-top:4%;}
         .swiper-container .swiper-wrapper .swiper-slide-prev{margin-left: 11%;margin-right: 5%;}
         .swiper-container .swiper-wrapper .swiper-slide-next{margin-right: 11%;margin-left: 5%;}
@@ -39,79 +39,100 @@
         .swiper-pagination-bullet-active{background:#0084ff;}
     </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body class="bglightgray">
-    <div class="agent-main pt44" style="padding-top: 0;">
-        <div class="settleCards">
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    {if $banks}
-                        {loop $banks $row}
-                        <div class="swiper-slide" data-id="{$row['id']}">
-                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                            <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
-                                <p style="font-family: numFont!important;">
-                                    {if $row['numbers_type'] == 1}
-                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
-                                    {else}
-                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
-                                    {/if}
-                                </p>
-                            </div>
-                        </div> 
-                        {/loop}
-                    {else}
-                        <div class="swiper-slide" data-id="0">
-                            <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                            <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
-                                <p style="font-family: numFont!important;">
-                                <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
-                                </p>
-                            </div>
-                        </div> 
-                    {/if}           
-                </div>
-                <div class="addCards">
-                    <a class="dailiFlag" href="javascript:;">+</a>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        <div class="txInfo">
-            <div class="txFrame">
-                <h2>提现金额(元)</h2>
-                <div class="txMoney">
-                    <span><img src="../addons/xuan_mixloan/template/style/picture/money.png"></span>
-                    <input type="text" name="money" id="money" class="money" placeholder="请输入取现金额" />
-                        <a href="javascript:;" onclick="allMoney()">全部提现</a>
-                                    </div>
-                <p>可用余额：<span id="allmoney">{$can_use}</span><span>（元）</span></p>
-               <!--  <div class="validFrame">
-                    <div class="imgValid">
-                        <input type="text" name="verification" class="validNo" placeholder="请输入验证码" />
-                                                <img src="../addons/xuan_mixloan/template/style/picture/verify.html" onclick="this.src='/wap/daili/verify'" />
+<div class="agent-main pt44" style="padding-top: 0;">
+    <div class="settleCards">
+        <div class="swiper-container">
+            <!-- <div class="swiper-wrapper">
+                {if $banks}
+                    {loop $banks $row}
+                    <div class="swiper-slide" data-id="{$row['id']}">
+                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                        <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
+                            <p style="font-family: numFont!important;">
+                                {if $row['numbers_type'] == 1}
+                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
+                                {else}
+                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
+                                {/if}
+                            </p>
+                        </div>
                     </div>
-                </div>     -->            
+                    {/loop}
+                {else}
+                    <div class="swiper-slide" data-id="0">
+                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                        <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
+                            <p style="font-family: numFont!important;">
+                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
+                            </p>
+                        </div>
+                    </div>
+                {/if}
+            </div> -->
+            <div class="swiper-wrapper">
+                {if $qrcodes}
+                {loop $qrcodes $row}
+                <div class="swiper-slide" data-id="{$row['id']}">
+                    <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                    <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
+                        <p style="font-family: numFont!important;">
+                        </p>
+                    </div>
+                </div>
+                {/loop}
+                {else}
+                <div class="swiper-slide" data-id="0">
+                    <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                    <div class="cardsInfo"><h2>*****</h2><span>收款二维码</span>
+                        <p style="font-family: numFont!important;">
+                        </p>
+                    </div>
+                </div>
+                {/if}
             </div>
-            <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
+            <div class="addCards">
+                <a class="dailiFlag" href="javascript:;">+</a>
+            </div>
+            <div class="swiper-pagination"></div>
         </div>
     </div>
-    <div class="pop_common timealert">
-        <div class='floor'></div>
-        <div class='withdrawing_contain timealert_contain'>
-            <p>提现通道清算中</p>
-            <p>每日22:00-24:00期间不可提现</p>
+    <div class="txInfo">
+        <div class="txFrame">
+            <h2>提现金额(元)</h2>
+            <div class="txMoney">
+                <span><img src="../addons/xuan_mixloan/template/style/picture/money.png"></span>
+                <input type="text" name="money" id="money" class="money" placeholder="请输入取现金额" />
+                <a href="javascript:;" onclick="allMoney()">全部提现</a>
+            </div>
+            <p>可用余额：<span id="allmoney">{$can_use}</span><span>（元）</span></p>
+            <!--  <div class="validFrame">
+                 <div class="imgValid">
+                     <input type="text" name="verification" class="validNo" placeholder="请输入验证码" />
+                                             <img src="../addons/xuan_mixloan/template/style/picture/verify.html" onclick="this.src='/wap/daili/verify'" />
+                 </div>
+             </div>     -->
         </div>
+        <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
     </div>
-    <div class="pop_common withdrawing">
-        <div class='floor'></div>
-        <div class='withdrawing_contain'>
-            <img src="../addons/xuan_mixloan/template/style/picture/hb_withdrawing.png" />
-            <p>正在提现</p>
-        </div>
+</div>
+<div class="pop_common timealert">
+    <div class='floor'></div>
+    <div class='withdrawing_contain timealert_contain'>
+        <p>提现通道清算中</p>
+        <p>每日22:00-24:00期间不可提现</p>
     </div>
-<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>    
+</div>
+<div class="pop_common withdrawing">
+    <div class='floor'></div>
+    <div class='withdrawing_contain'>
+        <img src="../addons/xuan_mixloan/template/style/picture/hb_withdrawing.png" />
+        <p>正在提现</p>
+    </div>
+</div>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
 </body>
 <script type="text/javascript">
     // 产品首页banner
@@ -128,32 +149,32 @@
         $('#money').val(all);
     }
     //数字判断
-    $("#money").keyup(function () { 
-          var reg = $(this).val().match(/\d+\.?\d{0,2}/);
-          var txt = '';
-          if (reg != null) {
-              txt = reg[0];
-          }
-          $(this).val(txt);
-      }).change(function () {
-          $(this).keypress();
-         var v = $(this).val();
-         if (/\.$/.test(v))
-         {
-             $(this).val(v.substr(0, v.length - 1));
-         }
-     });
+    $("#money").keyup(function () {
+        var reg = $(this).val().match(/\d+\.?\d{0,2}/);
+        var txt = '';
+        if (reg != null) {
+            txt = reg[0];
+        }
+        $(this).val(txt);
+    }).change(function () {
+        $(this).keypress();
+        var v = $(this).val();
+        if (/\.$/.test(v))
+        {
+            $(this).val(v.substr(0, v.length - 1));
+        }
+    });
     // 申请提现
     function tixian(index){
         $("#lineblue-btn").css({"color":"rgba(0,0,0,0.4)","background-color":"rgba(0,0,0,0.2)","box-shadow":"0 3px 20px rgba(0,0,0,0.2)"});
-        $("#lineblue-btn").unbind("click");                   
+        $("#lineblue-btn").unbind("click");
         tiSubmit();
     }
 
-    function tiSubmit() {        
+    function tiSubmit() {
         //提现中
         $(".withdrawing").show();
-        layer_style(); 
+        layer_style();
 
         var money=$("#money").val();
         var validNum=$(".validNo").val();
@@ -206,7 +227,7 @@
             }
         }
         $.ajax(ajax);
-    }    
+    }
     // 恢复点击
     function _click(){
         $(".withdrawing").hide();
@@ -227,14 +248,14 @@
         $(".wd_pop").height(window_height);
         $("div.wdpop_main").css("top",wdpop_T);
     }
-    //提现中弹窗样式    
+    //提现中弹窗样式
     function layer_style(){
         var window_height=$(window).height();
         var window_width=$(window).width();
         $(".pop").width(window_width);
         $(".pop").height(window_height);
         $(".pop_common").width(window_width);
-        $(".pop_common").height(window_height);       
+        $(".pop_common").height(window_height);
     }
     //添加银行卡
     $("div.addCards a.dailiFlag").click(function(){
@@ -243,7 +264,7 @@
             layer.msg("最多可添加4张银行卡");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_card'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
             location.href=_url;
         }
     })
