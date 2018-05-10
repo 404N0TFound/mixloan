@@ -277,10 +277,10 @@ class Xuan_mixloan_Product
             $wheres .= " AND createtime>={$begin} AND createtime<={$end}";
         }
         if ($type == 1) {
-            $fields = "pid, degree, COUNT(1) AS count";
+            $fields = "pid, degree, COUNT(*) AS count";
             $wheres .= " AND status<>-2";
         } else if ($type == 2) {
-            $fields = "pid, degree, COUNT(1) AS count, SUM(relate_money) AS relate_money";
+            $fields = "pid, degree, COUNT(*) AS count, SUM(relate_money) AS relate_money";
             $wheres .= " AND status>1";
         } else if ($type == 3) {
             $fields .= "pid, degree, SUM(re_bonus+done_bonus+extra_bonus) AS bonus";
