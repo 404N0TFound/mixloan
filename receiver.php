@@ -14,11 +14,8 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                 $config = $this->module['config'];
                 if($this->message['scene'] && !empty($fans)){
                     //进行粉丝增加通知
-                    $my_info = pdo_fetch("SELECT id,phone,openid FROM ".tablename("xuan_mixloan_member")." WHERE openid=:openid",array(":openid"=>$from));
-                    $my_id = $my_info['id'];
-                    require_once(IA_ROOT . '/addons/xuan_mixloan/inc/model/member.php');
-                    $memberClass = new Xuan_mixloan_Member();
-                    $qrcid = $memberClass->getInviter($my_info['phone'], $my_info['openid']);
+                    $qrcid = pdo_fetchcolumn("SELECT qrcid FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND type=1 ORDER BY id ASC",array(":openid"=>$from));
+                    $my_id = pdo_fetchcolumn("SELECT id FROM ".tablename("xuan_mixloan_member")." WHERE openid=:openid",array(":openid"=>$from));
                     if ($my_id != $this->message['scene']) {
                         if ($qrcid && $qrcid != $this->message['scene']) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
