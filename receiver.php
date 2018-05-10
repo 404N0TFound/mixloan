@@ -19,7 +19,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     $qrcid = $memberClass->getInviter($my_info['phone'], $my_info['openid']);
                     if ($my_id != $this->message['scene']) {
                         //第一个上级
-                        if ($qrcid != $this->message['scene']) {
+                        if ($qrcid && $qrcid != $this->message['scene']) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
                         } else {
                             $qrcid = $this->message['scene'];
