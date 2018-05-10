@@ -19,35 +19,6 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     $qrcid = $memberClass->getInviter($my_info['phone'], $my_info['openid']);
                     if ($my_id != $this->message['scene']) {
                         //第一个上级
-                        $check = $memberClass->checkIfRelation($this->message['scene'], $my_id);
-                        if ($check && $check != 'up_one') {
-                            //检查上下三级是否存在有关系
-                            pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid={$this->message['scene']}");
-                            $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$this->message['scene']));
-                            $wx = WeAccount::create();
-                            $msg = array(
-                                'first' => array(
-                                    'value' => "您好，由于通过好友手机号或者历史关注记录，发现与您存在关系冲突，所以他不能成为您的徒弟",
-                                    "color" => "#4a5077"
-                                ),
-                                'keyword1' => array(
-                                    'value' => $fans['nickname'],
-                                    "color" => "#4a5077"
-                                ),
-                                'keyword2' => array(
-                                    'value' => date("Y-m-d H:i:s",time()),
-                                    "color" => "#4a5077"
-                                ),
-                                'remark' => array(
-                                    'value' => "如果发现手机号存在关系冲突，请联系徒弟在个人中心更换手机号后重新关注",
-                                    "color" => "#A4D3EE"
-                                ),
-                            );
-                            $templateId=$config['tpl_notice4'];
-                            $res = $wx->sendTplNotice($openid,$templateId,$msg);
-                            return false;
-                        }
-
                         if ($qrcid) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
                         } else {
