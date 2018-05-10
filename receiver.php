@@ -21,6 +21,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             $qrcid = $this->message['scene'];
                         }
                         $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
+                        $bonus = $config['inviter_fee_one'] * $config['buy_mid_vip_price'] * 0.01;
                         $wx = WeAccount::create();
                         $msg = array(
                             'first' => array(
@@ -36,7 +37,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                                 "color" => "#4a5077"
                             ),
                             'remark' => array(
-                                'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$config['inviter_fee_one']}元奖励",
+                                'value' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得{$bonus}元奖励",
                                 "color" => "#A4D3EE"
                             ),
                         );
