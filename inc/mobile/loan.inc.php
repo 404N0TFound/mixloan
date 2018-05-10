@@ -68,7 +68,7 @@ if($operation=='index'){
         message("出错了", "", "error");
     }
     $pid = intval($_GPC['pid']);
-    $inviter = intval($_GPC['id']);
+    $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
 	include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
