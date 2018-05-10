@@ -2,7 +2,6 @@
 session_start();
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
-if(isset($_SESSION['userid']))$member = m('member')->getMemberById();
 $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 if($operation == 'getCode'){
@@ -170,6 +169,24 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'temp') {
+	//临时脚本
+	$openi = m('user')->getOpenid();
+	$key = 'accesstoken:'.$_W['uniacid'];
+	$man = pdo_fetch('select openid from '.tablename('xuan_mixloan_member').'
+		where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+	$temp_info = pdo_fetchcolumn('select value from '.tablename('core_cache')."
+		where `key`='{$key}'");
+	if (!empty($temp_info)) {
+		$temp_info = unserialize($temp_info);
+	}
+	if ($temp_info['expire'] < time()) {
+		return false;
+	}
+	$access_token = $temp_info['token'];
+	$url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$man['openid']}";
+	$json = file_get_contents($url);
+	var_dump($json);die;
 }
 
 

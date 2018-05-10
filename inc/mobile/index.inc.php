@@ -80,7 +80,8 @@ if($operation=='register'){
 	if (empty($unionid)) {
 		show_json(-1, [], '获取信息出错');
 	}
-	$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_member').' where unionid=:unionid', array(':unionid'=>$unionid));
+	$id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
+		where unionid=:unionid', array(':unionid'=>$unionid));
 	if (empty($id)) {
 		$insert = array(
 			'uniacid'=>$_W['uniacid'],
