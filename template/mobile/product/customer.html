@@ -166,145 +166,142 @@
 		</div>
 	</div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
-<script type="text/javascript">
-var layerindex;
-var gdFlag=false;//广大白金卡2018/1/1之后数据(包含2018/1/1)
-$(function(){
-	layerindex = layer.load(1, {
-	  	shade: [0.1,'#fff'], //0.1透明度的白色背景
-	});
-})
+	<script type="text/javascript">
+        var layerindex;
+        var gdFlag=false;//广大白金卡2018/1/1之后数据(包含2018/1/1)
+        $(function(){
+            layerindex = layer.load(1, {
+                shade: [0.1,'#fff'], //0.1透明度的白色背景
+            });
+        })
 
-$(function(){
-	var date=new Date;
-	var curYear=date.getFullYear(); 
-	var curMonth=date.getMonth()+1;
-	//curMonth =(curMonth<10 ? "0"+curMonth:curMonth); 
-	var curDate = (curYear.toString()+'-'+curMonth.toString());
-	curUnix=DateToUnix(curDate);
-	$("#pointY").html(curYear);
-	$("#pointM").html(curMonth);
-	ajaxData(curYear,curMonth);
-})
-//根据时间调取数据
-function ajaxData(year,month){	
-	layerindex = layer.load(1, {
-	  	shade: [0.1,'#fff'], //0.1透明度的白色背景
-	});
-	$.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_list'))}",{'year':year,'month':month},
-		function(res){
-			if(res.code==1){
-				layer.close(layerindex);
-				$("div.cusLMain").show();
-				var data=res.data;
-				var applys=data.applys;//申请数
-				var days=data.days_list;//日结	
-				$("#applyNum").html(applys);		
-				$("div.dayProduct ul").html("");
-				for(i=0;i<days.length;i++){
-					var dayStr='';
-					var diff=0;
-					var dId=days[i].id;
-					var dTitle=days[i].name;
-					var dImgs=days[i].ext_info.logo;
-					var dCount=days[i].count_num;
-					dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';					
-					if(dCount=='0'){
-						dayStr += '<span></span></li>';
-					}else{
-						dayStr += '</li>';
-					}
-					$("div.dayProduct ul").append(dayStr);
-				}
+        $(function(){
+            var date=new Date;
+            var curYear=date.getFullYear();
+            var curMonth=date.getMonth()+1;
+            //curMonth =(curMonth<10 ? "0"+curMonth:curMonth);
+            var curDate = (curYear.toString()+'-'+curMonth.toString());
+            curUnix=DateToUnix(curDate);
+            $("#pointY").html(curYear);
+            $("#pointM").html(curMonth);
+            ajaxData(curYear,curMonth);
+        })
+        //根据时间调取数据
+        function ajaxData(year,month){
+            layerindex = layer.load(1, {
+                shade: [0.1,'#fff'], //0.1透明度的白色背景
+            });
+            $.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_list'))}",{'year':year,'month':month},
+                function(res){
+                    if(res.code==1){
+                        layer.close(layerindex);
+                        $("div.cusLMain").show();
+                        var data=res.data;
+                        var applys=data.applys;//申请数
+                        var days=data.days_list;//日结
+                        $("#applyNum").html(applys);
+                        $("div.dayProduct ul").html("");
+                        for(i=0;i<days.length;i++){
+                            var dayStr='';
+                            var diff=0;
+                            var dId=days[i].id;
+                            var dTitle=days[i].name;
+                            var dImgs=days[i].ext_info.logo;
+                            var dCount=days[i].count_num;
+                            dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
+                            if(dCount=='0'){
+                                dayStr += '<span></span></li>';
+                            }else{
+                                dayStr += '</li>';
+                            }
+                            $("div.dayProduct ul").append(dayStr);
+                        }
 
-				$("div.weekProduct").html("");				
-				var week=data.weeks_list;//周结
-				for(j=0;j<week.length;j++){
-					var weekStr='';
-					var mId=week[j].id;
-					var mTitle=week[j].name;
-					var mapply=week[j].count_num;
-					var mvalid=0;
-					var mloan=week[j].succ;
-					var mrewards=week[j].count_bonus;
-					// var unit=week[j].unit;
-					if(mId=="2"||mId=="21"){
-						if(mId=="21"){
-							if(gdFlag){
-								//2018/1/1之前数据
-								if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productZero">'
-								}else{
-									weekStr += '<ul>'
-								}	
-							}else{
-								//2018/1/1之后数据
-								if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productXrf productZero">';
-								}else{
-									weekStr += '<ul class="productXrf">'
-								}
-							}
-						}else{
-							//2 信而富;
-							if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-								weekStr += '<ul class="productXrf productZero">';
-							}else{
-								weekStr += '<ul class="productXrf">'
-							}
-						}																	
-					}else{
-						if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-							weekStr += '<ul class="productZero">'
-						}else{
-							weekStr += '<ul>'
-						}												
-					}
+                        $("div.weekProduct").html("");
+                        var week=data.weeks_list;//周结
+                        for(j=0;j<week.length;j++){
+                            var weekStr='';
+                            var mId=week[j].id;
+                            var mTitle=week[j].name;
+                            var mapply=week[j].count_num;
+                            var mvalid=0;
+                            var mloan=week[j].succ;
+                            var mrewards=week[j].count_bonus;
+                            // var unit=week[j].unit;
+                            // if(mId=="2"||mId=="21"){
+                            // 	if(mId=="21"){
+                            // 		if(gdFlag){
+                            // 			//2018/1/1之前数据
+                            // 			if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                            // 				weekStr += '<ul class="productZero">'
+                            // 			}else{
+                            // 				weekStr += '<ul>'
+                            // 			}
+                            // 		}else{
+                            // 			//2018/1/1之后数据
+                            // 			if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                            // 				weekStr += '<ul class="productXrf productZero">';
+                            // 			}else{
+                            // 				weekStr += '<ul class="productXrf">'
+                            // 			}
+                            // 		}
+                            // 	}else{
+                            // 		//2 信而富;
+                            // 		if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                            // 			weekStr += '<ul class="productXrf productZero">';
+                            // 		}else{
+                            // 			weekStr += '<ul class="productXrf">'
+                            // 		}
+                            // 	}
+                            // }else{
+                            // 	if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                            // 		weekStr += '<ul class="productZero">'
+                            // 	}else{
+                            // 		weekStr += '<ul>'
+                            // 	}
+                            // }
+                            weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                            weekStr += '<li>'+ mTitle +'</li>';
+                            weekStr += '<li>'+ mapply +'</li>';
 
-					weekStr += '<li>'+ mTitle +'</li>';
-					weekStr += '<li>'+ mapply +'</li>';
-					
-						weekStr += '<li>'+ mloan +'</li>';
-					weekStr += '<li>¥ '+ mrewards +'</li>';
-					weekStr += '</ul>';
-					$("div.weekProduct").append(weekStr);
-				}
+                            weekStr += '<li>'+ mloan +'</li>';
+                            weekStr += '<li>¥ '+ mrewards +'</li>';
+                            weekStr += '</ul>';
+                            $("div.weekProduct").append(weekStr);
+                        }
 
-				$("div.monthProduct").html("");				
-				var month=data.months_list;//月结
-				for(j=0;j<month.length;j++){
-					var monthStr='';
-					var mId=month[j].id;
-					var mTitle=month[j].name;
-					var mapply=month[j].count_num;
-					var mvalid=0;
-					var mloan=month[j].succ;
-					var mrewards=month[j].count_bonus;
-							monthStr += '<ul>'
-					monthStr += '<li>'+ mTitle +'</li>';
-					monthStr += '<li>'+ mapply +'</li>';
-					
-						monthStr += '<li>'+ mloan +'</li>';
-					monthStr += '<li>¥ '+ mrewards +'</li>';
-					monthStr += '</ul>';
-					$("div.monthProduct").append(monthStr);
-				}
-			}else{
-				layer.close(layerindex);
-				layer.msg("接口数据错误，请重试！");
-				return false;
-			}
-		},'json')
-}
-// 日结产品跳转
-function dayDetail(index){
-	var id=$(index).attr("data-id");
-	var diff=$(index).attr("data-diff");
-	var month=$("#pointM").html();
-	var year=$("#pointY").html();
-	// var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-	// location.href=url;
-}
-</script>
+                        $("div.monthProduct").html("");
+                        var month=data.months_list;//月结
+                        for(j=0;j<month.length;j++){
+                            var monthStr='';
+                            var mId=month[j].id;
+                            var mTitle=month[j].name;
+                            var mapply=month[j].count_num;
+                            var mvalid=0;
+                            var mloan=month[j].succ;
+                            var mrewards=month[j].count_bonus;
+                            monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                            monthStr += '<li>'+ mTitle +'</li>';
+                            monthStr += '<li>'+ mapply +'</li>';
+
+                            monthStr += '<li>'+ mloan +'</li>';
+                            monthStr += '<li>¥ '+ mrewards +'</li>';
+                            monthStr += '</ul>';
+                            $("div.monthProduct").append(monthStr);
+                        }
+                    }else{
+                        layer.close(layerindex);
+                        layer.msg("接口数据错误，请重试！");
+                        return false;
+                    }
+                },'json')
+        }
+        // 日结产品跳转
+        function dayDetail(index){
+            var id=$(index).attr("data-id");
+            var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
+            location.href=url;
+        }
+	</script>
 </body>
 </html>
