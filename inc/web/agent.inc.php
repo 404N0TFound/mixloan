@@ -12,25 +12,33 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
+    $cond = '';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+        $cond .= " and createtime>{$start} and createtime<={$end}";
+    } else {
+        $starttime = "";
+        $endtime = "";
     }
     $sql = 'select a.id,a.uid,b.nickname,b.avatar,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
 
-    $data = date('Y-m-d');
-    $last_day_time = strtotime("{$data} -1 days");
-    $today_time = strtotime("{$data}");
-
     $all_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). '
-        where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'])) ? : 0;
+        where uniacid=:uniacid' . $cond, array(':uniacid'=>$_W['uniacid'])) ? : 0;
 
-    $last_day_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). "
-        where uniacid=:uniacid and createtime>{$last_day_time} and createtime<={$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    $count_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' .tablename('xuan_mixloan_bonus'). '
+        where uniacid=:uniacid and type=2' . $cond, array(':uniacid'=>$_W['uniacid'])) ? : 0;
 
-    $today_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). "
-        where uniacid=:uniacid and createtime>{$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    $count_pay = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_payment'). '
+        where uniacid=:uniacid and fee<>0' . $cond, array(':uniacid'=>$_W['uniacid'])) ? : 0;
 
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
