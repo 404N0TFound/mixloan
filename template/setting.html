@@ -323,14 +323,32 @@
 						购买代理设置
 					</div>
 					<div class="panel-body">
+
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">成为会员模式</label>
+							<div class="col-sm-3 col-xs-12">
+								<select class="form-control" name="join_vip_type" onchange="change_s()" id="join_vip_type">
+									<option value="0" {if $setting['join_vip_type'] == 0}selected{/if}>免费加入</option>
+									<option value="1" {if $setting['join_vip_type'] == 1}selected{/if}>付费加入</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group join_vip_type2" {if $setting['join_vip_type'] != 0}style="display:none"{/if}>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">关注多少人后开放代呗</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="inviter_nums_product" value="{$setting['inviter_nums_product']}" class="form-control" >
+							</div>
+						</div>
+
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入代理金额</label>
 							<div class="col-sm-3 col-xs-12">
 								<input type="text" name="buy_vip_price" value="{$setting['buy_vip_price']}" class="form-control" >
 								<span class="help-block">单位为元</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">给上级返佣多少</label>
 							<div class="col-sm-3 col-xs-4">
 								<input type="text" name="inviter_fee_one" value="{$setting['inviter_fee_one']}" class="form-control" placeholder="单位为元">
@@ -341,7 +359,7 @@
 								<span class="help-block">二级</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放今日口子</label>
 							<div class="col-sm-3 col-xs-12">
 								<select class="form-control" name="vip_channel">
@@ -350,7 +368,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放金融圈</label>
 							<div class="col-sm-3 col-xs-12">
 								<select class="form-control" name="vip_friend">
@@ -359,35 +377,35 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">广告图</label>
 							<div class="col-sm-9 col-xs-12" >
 								{php echo tpl_form_field_multi_image(buy_adv_pics,$setting['buy_adv_pics']);}
                     			<span class="help-block">建议上传多张广告图，描述加入代理有什么好处</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品介绍长图</label>
 							<div class="col-sm-9 col-xs-12" >
 								{php echo tpl_form_field_image(buy_intro_pic,$setting['buy_intro_pic']);}
                     			<span class="help-block">建议上传单张介绍长图，描述加入代理有什么好处</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买须知</label>
 							<div class="col-sm-9 col-xs-12" >
                     			{php echo tpl_ueditor('buy_content', $setting['buy_content']);}
                     			<span class="help-block">如果不填就使用默认的</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">常见问题</label>
 							<div class="col-sm-9 col-xs-12" >
                     			{php echo tpl_ueditor('buy_question', $setting['buy_question']);}
                     			<span class="help-block">如果不填就使用默认的</span>
 							</div>
 						</div>
-						<div class="form-group" >
+						<div class="form-group join_vip_type1" {if $setting['join_vip_type'] != 1}style="display:none"{/if}>
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买须知</label>
 							<div class="col-sm-9 col-xs-12" >
                     			{php echo tpl_ueditor('buy_contract', $setting['buy_contract']);}
@@ -397,7 +415,18 @@
 					</div>
 				</div>
 			</div>
-
+		<script type="text/javascript">
+			var change_s = function(){
+				var value = $('#join_vip_type').val();
+				if (value == 0) {
+					$('.join_vip_type1').hide();
+					$('.join_vip_type2').show(300);
+				} else {
+					$('.join_vip_type2').hide();
+					$('.join_vip_type1').show(300);
+				}
+			}
+		</script>
 
 		</div>
 		<div class="form-group col-sm-12">
