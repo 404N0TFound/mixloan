@@ -150,7 +150,7 @@ if($operation=='index'){
             );
             $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
             $account = WeAccount::create($_W['acid']);
-            $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
+            //$account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
             if ($openid) {
                 pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
             }
@@ -211,7 +211,7 @@ if($operation=='index'){
                     "color" => "#4a5077"
                 ) ,
             );
-            $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+            //$account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
         }
         $redirect_url = $pro['ext_info']['url'];
     } else {

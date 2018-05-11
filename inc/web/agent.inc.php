@@ -48,7 +48,10 @@ if ($operation == 'list') {
     $psize = 20;
     $wheres = $join = '';
     if (!empty($_GPC['name'])) {
-        $wheres.= " AND a.realname LIKE '%{$_GPC['realname']}%'";
+        $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
     }
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
@@ -61,7 +64,6 @@ if ($operation == 'list') {
         $wheres.= " AND c.type='{$_GPC['p_type']}'";
     }
     if ($_GPC['type'] == 1 && !empty($_GPC['relate_id'])) {
-        // $join .= " LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.relate_id=c.id";
         $wheres.= " AND a.relate_id='{$_GPC['relate_id']}'";
     }
     if ($_GPC['type'] == 3 && !empty($_GPC['title'])) {
