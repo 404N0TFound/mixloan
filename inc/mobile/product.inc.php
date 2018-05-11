@@ -150,7 +150,7 @@ if($operation=='index'){
             );
             $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
             $account = WeAccount::create($_W['acid']);
-            //$account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
+            $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
             if ($openid) {
                 pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
             }
@@ -186,33 +186,61 @@ if($operation=='index'){
         );
         pdo_insert('xuan_mixloan_bonus', $insert);
         //二级
-        // $inviter_info = m('member')->getInviterInfo($inviter);
-        // $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
-        // if ($second_inviter) {
-        //     $insert['inviter'] = $second_inviter;
-        //     $insert['degree'] = 2;
-        //     pdo_insert('xuan_mixloan_bonus', $insert);
-        //     $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
-        //     $datam = array(
-        //         "first" => array(
-        //             "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
-        //             "color" => "#173177"
-        //         ) ,
-        //         "keyword1" => array(
-        //             'value' => trim($_GPC['name']),
-        //             "color" => "#4a5077"
-        //         ) ,
-        //         "keyword2" => array(
-        //             'value' => date('Y-m-d H:i:s', time()),
-        //             "color" => "#4a5077"
-        //         ) ,
-        //         "remark" => array(
-        //             "value" => '点击查看详情',
-        //             "color" => "#4a5077"
-        //         ) ,
-        //     );
-        //     $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
-        // }
+        $inviter_info = m('member')->getInviterInfo($inviter);
+        $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+        if ($second_inviter) {
+            $insert['inviter'] = $second_inviter;
+            $insert['degree'] = 2;
+            pdo_insert('xuan_mixloan_bonus', $insert);
+            $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+            $datam = array(
+                "first" => array(
+                    "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                    "color" => "#173177"
+                ) ,
+                "keyword1" => array(
+                    'value' => trim($_GPC['name']),
+                    "color" => "#4a5077"
+                ) ,
+                "keyword2" => array(
+                    'value' => date('Y-m-d H:i:s', time()),
+                    "color" => "#4a5077"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+        }
+        //三级
+        $inviter_info = m('member')->getInviterInfo($second_inviter);
+        $thr_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+        if ($thr_inviter) {
+            $insert['inviter'] = $thr_inviter;
+            $insert['degree'] = 2;
+            pdo_insert('xuan_mixloan_bonus', $insert);
+            $inviter_thr = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$thr_inviter));
+            $datam = array(
+                "first" => array(
+                    "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_two['nickname']}的下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                    "color" => "#173177"
+                ) ,
+                "keyword1" => array(
+                    'value' => trim($_GPC['name']),
+                    "color" => "#4a5077"
+                ) ,
+                "keyword2" => array(
+                    'value' => date('Y-m-d H:i:s', time()),
+                    "color" => "#4a5077"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account->sendTplNotice($inviter_thr['openid'], $config['tpl_notice1'], $datam, $url);
+        }
         $redirect_url = $pro['ext_info']['url'];
     } else {
         $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));
