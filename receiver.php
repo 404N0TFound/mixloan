@@ -21,7 +21,7 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                             $qrcid = $this->message['scene'];
                         }
                         $openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member")." WHERE id=:id", array(':id'=>$qrcid));
-                        $bonus = $config['inviter_fee_one'] * $config['buy_mid_vip_price'] * 0.01;
+                        $bonus = $config['inviter_fee_one'];
                         $wx = WeAccount::create();
                         $msg = array(
                             'first' => array(
