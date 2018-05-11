@@ -468,9 +468,6 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_cache` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 		]]></install>
 	<uninstall><![CDATA[
-DROP TABLE IF EXISTS `ims_xuan_mixloan_cache`;
-DROP TABLE IF EXISTS `ims_xuan_mixloan_info`;
-DROP TABLE IF EXISTS `ims_xuan_mixloan_member`;
     ]]></uninstall>
 	<upgrade><![CDATA[upgrade.php]]></upgrade>
 </manifest>
