@@ -33,7 +33,7 @@ if($operation=='buy'){
 	$this->pay($params);
 	exit;
 } else if ($operation == 'createPost') {
-	if ($agent['code'] != 1) {
+	if (($config['join_vip_type']=0 && $agent['product']!=1) || ($config['join_vip_type']=1 && $agent['code']!=1)) {
 	    show_json(-1, [], '您不是会员');
 	}
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
@@ -77,7 +77,7 @@ if($operation=='buy'){
 	
 } else if ($operation == 'createPostAllProduct') {
 	//我的代理店
-	if ($agent['code']==1) {
+	if (($config['join_vip_type']=0 && $agent['product']==1) || $agent['code'] = 1) {
 		$verify = 1;
 	} else {
 		$verify = 0;
@@ -95,6 +95,9 @@ if($operation=='buy'){
 	include $this->template('vip/createPostAllProduct');
 } else if ($operation == 'posterAll') {
 	//全部海报图片
+	if ($config['join_vip_type']=0 && $agent['product']!=1) {
+		message('您还没有升级成代理产品的会员', '', 'error');
+	}
 	$url = shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id'])) );
 	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	include $this->template('vip/posterAll');

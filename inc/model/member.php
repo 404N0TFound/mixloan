@@ -240,11 +240,25 @@ class Xuan_mixloan_Member
     *   查看是否加入过代理
     */
     function checkAgent($uid) {
-        $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
-        if ($check) {
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+        $baseClass = new Xuan_mixloanModuleSite();
+        $config = $baseClass->module['config'];
+        if ($config['join_vip_type'] == 1) {
+            $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")."
+                WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+            if ($check) {
+                return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            } else {
+                return ['code'=>'0','name'=>'用户'];
+            }
         } else {
-            return ['code'=>'0','name'=>'用户'];
+            $count = pdo_fetchcolumn('select count(*) from ' .tablename('qrcode_stat'). '
+                where qrcid=:qrcid and type=1 group by openid', array(':qrcid'=>$uid));
+            if ($count > $config['inviter_nums_product']) {
+                $product = 1;
+            } else {
+                $product = 0;
+            }
+            return ['code'=>'1','name'=>'代理', 'product'=>$product];
         }
     }
 

@@ -27,7 +27,7 @@ if($operation=='index'){
 } else if ($operation == 'info') {
     //产品详情
     $agent = m('member')->checkAgent($member['id']);
-    if ($agent['code']==1) {
+    if ($agent['product']==1) {
         $verify = 1;
     } else {
         $verify = 0;
