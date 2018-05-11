@@ -57,6 +57,12 @@ if($operation=='index'){
 	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
 		}
 	}
+	if ($config['join_vip_type'] == 0) {
+		$agent = m('member')->checkAgent($member['id']);
+		if ($agent['channel'] == 0) {
+			message('抱歉，您还有达到阅读口子内容的资格', '', 'error');
+		}
+	}
 	$id = intval($_GPC['id']);
 	if (!$id) {
 		message('id不能为空', '', 'error');

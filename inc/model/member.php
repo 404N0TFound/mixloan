@@ -253,12 +253,17 @@ class Xuan_mixloan_Member
         } else {
             $count = pdo_fetchcolumn('select count(*) from ' .tablename('qrcode_stat'). '
                 where qrcid=:qrcid and type=1 group by openid', array(':qrcid'=>$uid));
-            if ($count > $config['inviter_nums_product']) {
-                $product = 1;
-            } else {
+            if ($count < $config['inviter_nums_product']) {
                 $product = 0;
+            } else {
+                $product = 1;
             }
-            return ['code'=>'1','name'=>'代理', 'product'=>$product];
+            if ($count < $config['inviter_nums_channel']) {
+                $channel = 0;
+            } else {
+                $channel = 1;
+            }
+            return ['code'=>'1','name'=>'代理', 'product'=>$product, 'channel'=>$channel];
         }
     }
 

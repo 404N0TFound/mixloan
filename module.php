@@ -50,7 +50,8 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
                     'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
                     'join_vip_type'=>$_GPC['join_vip_type'],
-                    'inviter_nums_product'=>$_GPC['inviter_nums_product']
+                    'inviter_nums_product'=>$_GPC['inviter_nums_product'],
+                    'inviter_nums_channel'=>$_GPC['inviter_nums_channel']
             	);
 
             if ($this->saveSettings($cfg)) {
