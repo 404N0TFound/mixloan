@@ -43,10 +43,14 @@ if ($operation == 'list') {
     $date = date('Y-m-d');
     $last_day_time = strtotime("{$date} -1 days");
     $today_time = strtotime("{$date}");
+
     $count_lastday_pay = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_payment'). "
-        where uniacid=:uniacid and fee<>0 and createtime>{$last_day_time} and createtime<={$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+        where uniacid=:uniacid and fee<>0 
+        and createtime>{$last_day_time} and createtime<={$today_time}",array(':uniacid'=>$_W['uniacid'])) ? : 0;
+
     $count_today_pay = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_payment'). "
-        where uniacid=:uniacid and fee<>0 createtime>{$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+        where uniacid=:uniacid and fee<>0
+        and createtime>{$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
 
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);

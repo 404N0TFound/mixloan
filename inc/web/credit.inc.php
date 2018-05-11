@@ -17,14 +17,31 @@ if ($operation == 'list') {
     if (!empty($_GPC['phone'])) {
         $wheres.= " AND phone LIKE '%{$_GPC['phone']}%'";
     }
-    $sql = 'select id,uid,realname,phone,createtime,status,pay_type from ' . tablename('xuan_mixloan_credit_data') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql = 'select id,uid,realname,phone,createtime,status,pay_type from ' . tablename('xuan_mixloan_credit_data') . "
+        where uniacid={$_W['uniacid']} and status=1" . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        $row['member'] = pdo_fetch("select nickname,avatar from ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+        $row['member'] = pdo_fetch("select nickname,avatar from ".tablename('xuan_mixloan_member').'
+            WHERE id=:id', array(':id'=>$row['uid']));
     }
     unset($row);
-    $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_credit_data') . " where uniacid={$_W['uniacid']} " . $wheres);
+
+    $date = date('Y-m-d');
+    $last_day_time = strtotime("{$date} -1 days");
+    $today_time = strtotime("{$date}");
+
+    $all_pay = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_credit_data') . "
+        where uniacid={$_W['uniacid']} and status=1");
+    $count_lastday_pay = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_credit_data') . "
+        where uniacid={$_W['uniacid']} and status=1
+        and createtime>{$last_day_time} and createtime<={$today_time}");
+    $count_today_pay = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_credit_data') . "
+        where uniacid={$_W['uniacid']} and status=1
+        and createtime>{$today_time}" );
+
+    $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_credit_data') . "
+        where uniacid={$_W['uniacid']} and status=1" . $wheres);
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     pdo_delete('xuan_mixloan_credit_data_card', array('bank_id'=>$_GPC['id']));

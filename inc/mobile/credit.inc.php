@@ -87,8 +87,9 @@ if($operation=='index'){
     if ($report['status'] == 0) {
         $location = $this->createMobileUrl('credit', array('op'=>'pay', 'id'=>$id));
         header("location:{$location}");
+        exit();
     }
-    if (empty($report['ext_info'])) {
+    if (empty($report['ext_info']) && $report['status'] == 1) {
         $result = m('jdwx')->henypot4JD($config['jdwx_key'], $report['realname'], $report['certno'], $report['phone']);
         if ($result['code'] == 1) {
             // $ext_info['user_basic'] = $result['data']['user_basic'];

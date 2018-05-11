@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_credit_data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
+  `fee` decimal(7,2) NOT NULL,
   `certno` varchar(50) NOT NULL,
   `phone` varchar(22) NOT NULL,
   `realname` varchar(30) NOT NULL,
