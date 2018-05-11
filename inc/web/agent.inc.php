@@ -18,6 +18,20 @@ if ($operation == 'list') {
     $sql = 'select a.id,a.uid,b.nickname,b.avatar,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
+
+    $data = date('Y-m-d');
+    $last_day_time = strtotime("{$data} -1 days");
+    $today_time = strtotime("{$data}");
+
+    $all_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). '
+        where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'])) ? : 0;
+
+    $last_day_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). "
+        where uniacid=:uniacid and createtime>{$last_day_time} and createtime<={$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+
+    $today_money = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_payment'). "
+        where uniacid=:uniacid and createtime>{$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
@@ -39,8 +53,8 @@ if ($operation == 'list') {
         $wheres.= " AND c.type='{$_GPC['p_type']}'";
     }
     if ($_GPC['type'] == 1 && !empty($_GPC['relate_id'])) {
-        $join .= " LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.relate_id=c.id";
-        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+        // $join .= " LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.relate_id=c.id";
+        $wheres.= " AND a.relate_id='{$_GPC['relate_id']}'";
     }
     if ($_GPC['type'] == 3 && !empty($_GPC['title'])) {
         $join .= " LEFT JOIN ".tablename("xuan_mixloan_channel")." c ON a.relate_id=c.id";
@@ -94,7 +108,26 @@ if ($operation == 'list') {
         $row['left_bonus'] = $all - $apply_money;
     }
     unset($row);
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
+    $data = date('Y-m-d');
+    $last_day_time = strtotime("{$data} -1 days");
+    $today_time = strtotime("{$data}");
+    
+    $withdraw_all = pdo_fetchcolumn('select sum(bonus) from ' .tablename('xuan_mixloan_withdraw'). '
+        where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    
+    $last_day_all = pdo_fetchcolumn('select sum(bonus) from ' .tablename('xuan_mixloan_withdraw'). "
+        where uniacid=:uniacid and createtime>{$last_day_time} and createtime<={$today_time}", array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    
+    $applying_all = pdo_fetchcolumn('select sum(bonus) from ' .tablename('xuan_mixloan_withdraw'). '
+        where uniacid=:uniacid and status=0', array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    
+    $all_bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")."
+        WHERE uniacid={$_W['uniacid']} and status>0") ? : 0;
+    $withdraw_left = $all_bonus - $withdraw_all;
+
+    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . "
+        a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id
+        where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     //删除会员
