@@ -24,36 +24,38 @@
         var title = "{$item['title']}";
         var imgUrl = "{$share_image}";
         var desc = "{$share_desc}";
-        
+        var link = "{$share_link}";
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
                 imgUrl: imgUrl, // 分享图标
-            success: function () { 
-            // 用户确认分享后执行的回调函数
-                alert('分享成功');
-             },
-            cancel: function () { 
-            // 用户取消分享后执行的回调函数
-                 alert("分享失败");
+                link: link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert("分享失败");
                 }
-    });
-
-    //分享给好友
-        wx.onMenuShareAppMessage({
-                title: title, // 分享标题
-                 desc: desc, // 分享描述
-                imgUrl: imgUrl, // 分享图标
-            success: function () { 
-            // 用户确认分享后执行的回调函数
-                alert('分享成功');
-            },  
-            cancel: function () { 
-            // 用户取消分享后执行的回调函数
-                 alert('分享失败');
-            }
             });
-    });
+
+            //分享给好友
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                imgUrl: imgUrl, // 分享图标
+                link: link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('分享失败');
+                }
+            });
+        });
         
     </script>
 </head>

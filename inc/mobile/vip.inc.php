@@ -19,7 +19,7 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
+	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
 	$fee = $config['buy_vip_price'];
 	$params = array(
