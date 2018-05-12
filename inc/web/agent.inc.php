@@ -187,7 +187,6 @@ if ($operation == 'list') {
             $MER_ORDER_NO = 'ON' . time();
             $BATCH_NO = 'RHB' . date('Ymd') . $SN;
             require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
-            var_dump($res);die;
             if ($res['TRANS_STATE'] != "0000") {
                 message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
             }

@@ -209,13 +209,36 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+	$bank = pdo_fetch('select realname,bankname,banknum,phone from ' .tablename("xuan_mixloan_creditCard"). "
+		where id=:id",array(':id'=>$bank_id));
+	$ACC_NO = $bank['banknum'];
+    $ACC_NAME = $bank['realname'];
+    $AMOUNT = $bonus;
+    $BANK_NAME = $bank['bankname'];
+    $SN = 'SN' . time();
+    $MER_ORDER_NO = 'ON' . time();
+    $BATCH_NO = 'RHB' . date('Ymd') . $SN;
+    require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
+    if ($res['TRANS_STATE'] != "0000") {
+        message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
+    }
+    if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A') {
+        $SN = $res['TRANS_DETAILS'][0]['SN'];
+        $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
+        $ext_info['SN'] = $SN;
+        $ext_info['batchNo'] = $BATCH_NO;
+        $ext_info['MER_ORDER_NO'] = $MER_ORDER_NO;
+    } else {
+        message($res['TRANS_DETAILS'][0]['REMARK'], $this->createMobileUrl('user'), 'error');
+    }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
 		'bank_id'=>$bank_id,
 		'bonus'=>$bonus,
 		'createtime'=>time(),
-		'status'=>0
+		'status'=>1,
+		'ext_info'=>json_encode($ext_info)
 	);
 	pdo_insert('xuan_mixloan_withdraw', $insert);
 	show_json(1, null, "提现成功");
