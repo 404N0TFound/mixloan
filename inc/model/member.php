@@ -289,6 +289,26 @@ class Xuan_mixloan_Member
         $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
         return $res;
     }
+    /**
+     *   口子进来的锁定上级
+     **/
+    public function checkFirstInviter($openid, $inviter) {
+        global $_W;
+        $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        if (!$res) {
+            $insert =array(
+                'uniacid'=>$_W['uniacid'],
+                'acid'=>0,
+                'qid'=>0,
+                'openid'=>$openid,
+                'type'=>1,
+                'qrcid'=>$inviter,
+                'scene_str'=>$inviter,
+                'createtime'=>time(),
+            );
+            pdo_insert('qrcode_stat', $insert);
+        }
+    }
 
    /**
     *   获取用户手机号和openid
