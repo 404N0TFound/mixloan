@@ -286,7 +286,7 @@ class Xuan_mixloan_Member
     **/
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
-        $res = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 AND qrcid=:qrcid ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"], ":qrcid"=>$inviter));
+        $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
         if (!$res) {
             $insert =array(
                 'uniacid'=>$_W['uniacid'],
