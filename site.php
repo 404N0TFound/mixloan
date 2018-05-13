@@ -106,11 +106,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					if ($inviter) {
 						$agent = m('member')->checkAgent($inviter, $config);
 						if ($agent['level'] == 1) {
-							$re_bonus = $config['inviter_fee_one_init'];
+							$re_bonus = $config['inviter_fee_two_init'];
 						} else if ($agent['level'] == 2) {
-							$re_bonus = $config['inviter_fee_one_mid'];
+							$re_bonus = $config['inviter_fee_two_mid'];
 						} else if ($agent['level'] == 3) {
-							$re_bonus = $config['inviter_fee_one_height'];
+							$re_bonus = $config['inviter_fee_two_height'];
 						}
 						if ($re_bonus) {
 							$insert_i = array(
