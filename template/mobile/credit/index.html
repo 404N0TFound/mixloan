@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$config['title']}信用查询</title>
+<style type="text/css">
+	#im1 {
+		width: 100%;
+			
+	}
+	#im2 {
+		margin-right:400px;
+		width: 50px;
+		height: 50px;
+		margin-top: 18px;
+	}
+	#im3 {
+		margin-right:300px;
+		width: 50px;
+		height: 50px;
+		margin-top: 13px;
+	}
+	#im4 {
+		width: 70px;
+		height: 70px;
+		margin-left: 115px;
+	}
+	#im5 {
+		width: 70px;
+		height: 70px;
+		margin-left: 450px;
+	}
+	#im6 {
+		width: 70px;
+		height: 70px;
+		margin-left: 770px;
+	}
+	#im7 {
+		width: 70px;
+		height: 70px;
+		margin-left: 115px;
+	}
+	#im8 {
+		width: 70px;
+		height: 70px;
+		margin-left: 445px;		
+	}
+	#im9 {
+		width: 70px;
+		height: 70px;
+		margin-left: 765px;
+	}
+	#cx {
+		border:none;
+		width: 700px;
+		height: 100px;
+		margin-left:14%;
+		background-color: #2894ff;	
+		font-size: 50px; 
+		margin-top: 50px;	
+	}
+	a {
+		text-decoration: none;
+	}
+	#dd {
+		margin-top: 100px;	
+		font-size: 40px;	
+	}
+	.hrLine{
+	    vertical-align:middle; display:inline-block;    
+	}
+	#jd {
+		width: 300px;
+		height: 20px;
+		margin-left: 135px;
+		margin-top: 150px;
+	}
+	#bg {
+		width:300px;
+		height: 20px;
+		margin-left: 530px;
+		margin-top: -20px;
+	}
+	h5 {
+		margin-top: -45px;
+		margin-left: 60px;	
+		font-size: 30px;
+		color: #2894ff;
+	}
+	#s1 {
+		font-size: 30px;
+		
+		margin-left: 60px;
+	}
+	#s2 {
+		font-size: 30px;
+		
+		margin-left: 370px;
+	}
+	#s3 {
+		font-size: 30px;
+		
+		margin-left: 700px;
+	}
+	#s4 {
+		font-size: 30px;
+		
+		margin-left: 60px;
+	}
+	#s5 {
+		font-size: 30px;
+		
+		margin-left: 385px;
+	}
+	#s6 {
+		font-size: 30px;
+		margin-left: 705px;
+	}
+	button {
+		width: 300px;
+		height: 80px;
+		margin-top: -50px;
+		border: 1px solid;
+		background-color: white;
+		border-color: #2894ff;
+		border-radius:1%;
+	}
+	#div1 {
+		margin-top: 60px;
+	}
+	#div2 {
+		margin-top: -145px;
+	}
+	#div3 {
+		margin-top: -150px;
+	}
+	#div4 {
+		margin-top: 100px;
+	}
+	#div5 {
+	 	margin-top: -140px;
+	}
+	#div6 {
+		margin-top: -150px;
+	}
+</style>
+</head>
+<body>
+	<div >
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//1.jpg" id="im1">
+	</div>
+	<div>
+		<button id="cx" onclick="return_url()"><a style="color: #fff;font-size: 35px">点击查询</a></button>
+	</div>
+	<div id="jd">
+		<button>
+			<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_book.png" id="im2"> 
+			<a href="{php echo $this->createMobileUrl('credit', array('op'=>'example'))}" ><h5>详列报告解读</h5></a>	
+		</button>
+	</div>
+	<div id="bg">
+		<button>
+			<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_page.png" id="im3">
+			<a href="{php echo $this->createMobileUrl('credit', array('op'=>'report_list'))}" ><h5>查看历史报告</h5></a>
+		</button>	
+	</div>
+ 	<div id="dd" style="  text-align:left; margin-left:185px; margin-right:25px;">
+			<hr class="hrLine" style="width:20%;"/>&nbsp;&nbsp;版本功能说明&nbsp;&nbsp;
+			<hr class="hrLine" style="width:20%;"/>
+	</div>
+	<div id="div1">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_2.png" id="im4"> <br>
+		<p><span id="s1">芝麻风险监控</span></p>
+	</div>
+	<div id="div2">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_3.png" id="im5"> <br>
+		<p> <span id="s2">多平台借贷记录</span></p>
+	</div>
+	<div id="div3">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_4.png" id="im6"> <br>
+		<p><span id="s3">号码归属地监测</span></p>
+	</div>
+	<div id="div4">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_5.png" id="im7"> <br>
+		<p><span id="s4">不良信息扫描</span></p>
+	</div>
+	<div id="div5">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_6.png"id="im8"> <br>
+		<p><span id="s5">多平台黑名单</span></p>
+	</div>	
+	<div id="div6">
+		<img alt="" src="../addons/xuan_mixloan/template/style/credit/images//index_7.png" id="im9"> <br>
+		<p><span id="s6">客户行为监测</span></p>
+	</div>
+	<script type="text/javascript">
+		function return_url(){
+			window.location.href="{php echo $this->createMobileUrl('credit', array('op'=>'information'))}";
+		}
+	</script>
+</body>
+</html>
