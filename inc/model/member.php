@@ -240,6 +240,9 @@ class Xuan_mixloan_Member
     *   查看是否加入过代理
     */
     function checkAgent($uid, $config) {
+        if (empty($uid)) {
+            return ['code'=>'0','name'=>'anonymous'];
+        }
         $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
         if ($check) {
             $level = pdo_fetchcolumn("SELECT level FROM ".tablename("xuan_mixloan_member"). " WHERE id=:id", array(':id'=>$uid));
@@ -295,7 +298,9 @@ class Xuan_mixloan_Member
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
         $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-        if (!$res) {
+        $user_id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_member').' where openid=:openid', array(':openid'=>$openid));
+        $agnt = $this->checkAgent($user_id);
+        if (!$res && $agent['code']!=1) {
             $insert =array(
                 'uniacid'=>$_W['uniacid'],
                 'acid'=>0,
