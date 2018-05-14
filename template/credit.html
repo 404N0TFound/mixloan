@@ -1,0 +1,374 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('credit')}">列表</a></li>
+    <li {if $operation == 'update'}class="active"{/if}><a >查看详情</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="credit" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">被查询人名字</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="realname" value="{$_GPC['realname']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">被查询人手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>查询人</th>
+                    <th style='width:120px;'>被查姓名</th>
+                    <th style='width:120px;'>被查手机</th>
+                    <th style='width:120px;'>付费方式</th>
+                    <th style='width:120px;'>查询时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['member']['avatar']}" width="35px">&nbsp;{$row['member']['nickname']}</td>
+                    <td>   {$row['realname']}</td>
+                    <td>   {$row['phone']}</td>
+                    <td>
+                        {if $row['status']==0}
+                        <span class="label label-default">未付费</span>
+                        {else}
+                        {if $row['pay_type'] == 1}
+                        <span class="label label-success">现金支付</span>
+                        {else}
+                        <span class="label label-info">分享抵扣</span>
+                        {/if}
+                        {/if}
+                    </td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('credit',array('op'=>'update','id' => $row['id']));}" title='查看详情'><i class='fa fa-edit'></i> 查看详情</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('credit',array('op'=>'delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'update'}
+<link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/credit/css/content.css"/>
+<div class="panel panel-info">
+    <div class="panel-heading">查看详情</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="credit" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[realname]" value="{$item['realname']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">身份证</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[certno]" value="{$item['certno']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[phone]" value="{$item['phone']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交" style="background: #fff;">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+
+{if $item['ext_info']}
+{php $list = $item['ext_info']}
+{if $list['data']['user_blacklist']}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">网贷黑名单</div>
+        <div class="panel-body">
+            <div class="content1">
+                <div class="content1-div">
+                    <li><span>黑名单</span></li>
+                    {if $list['data']['user_blacklist']['blacklist_category']}
+                    <p class="content1-p">身份证姓名 <span>{if $list['data']['user_blacklist']['blacklist_name_with_idcard']}是{else}否{/if}</span></p>
+                    <p class="content1-p">更新时间 <span>{$list['data']['user_blacklist']['blacklist_update_time_name_idcard']}</span></p>
+                    <p class="content1-p">姓名手机号 <span>{if $list['data']['user_blacklist']['blacklist_name_with_phone']}是{else}否{/if}</span></p>
+                    <p class="content1-p">更新时间 <span>{$list['data']['user_blacklist']['blacklist_update_time_name_phone']}</span></p>
+                    <p class="content1-p">黑名单分类 <span>
+                            {loop $list['data']['user_blacklist']['blacklist_category'] $v}
+                            {$v}/
+                            {/loop}</span></p>
+                    {/if}
+                    <p class="content1-p4">黑名单</p>
+                </div>
+            </div>
+
+            <div class="content1">
+                <div class="content1-div">
+                    <li> <span>借款违约记录</span></li>
+                    {loop $list['data']['user_blacklist']['blacklist_details'] $vo}
+                    <p class="content1-p">{$vo['details_key']} <span>{$vo['details_value']}</span></p>
+                    {/loop}
+                    <p class="content1-p4">借贷违约分析</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{if $list['data']['user_idcard_suspicion']}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">借贷频次</div>
+        <div class="panel-body">
+            <div class="content1 ">
+                <div class="content1-div">
+
+                    {if $list['data']['user_idcard_suspicion']['idcard_with_other_names']}
+                    <li><span>发现被查客户身份证绑定其他姓名</span></li>
+                    {loop $list['data']['user_idcard_suspicion']['idcard_with_other_names'] $vo}
+                    <p class="content1-p">绑定姓名 <span>{$vo['susp_name']}</span></p>
+                    <p class="content1-p">绑定时间 <span>{$vo['susp_updt']}</span></p>
+                    {/loop}
+                    {/if}
+                    {if $list['data']['user_idcard_suspicion']['idcard_with_other_phones']}
+                    <li><span>发现被查客户身份证绑定其他姓名</span></li>
+                    {loop $list['data']['user_idcard_suspicion']['idcard_with_other_phones'] $vo}
+                    <p class="content1-p">省份 <span>{$vo['susp_phone_province']}</span></p>
+                    <p class="content1-p">运营商 <span>{$vo['susp_phone_operator']}</span></p>
+                    <p class="content1-p">最后绑定 <span>{$vo['susp_updt']}</span></p>
+                    <p class="content1-p">存疑手机号码 <span>{$vo['susp_phone']}</span></p>
+                    <p class="content1-p">号码所在地区 <span>{$vo['susp_phone_city']}</span></p>
+                    {/loop}
+                    {/if}
+
+                    {if $list['data']['user_idcard_suspicion']['idcard_applied_in_orgs']}
+                    <li><span>发现被查客户身份证在以下机构使用过</span></li>
+                    {loop $list['data']['user_idcard_suspicion']['idcard_applied_in_orgs'] $vo}
+                    <div style="margin: 10px 0">
+                        <p class="content1-p">机构所属分类 <span>{$vo['susp_org_type']}</span></p>
+                        <p class="content1-p">查询时间 <span>{$vo['susp_updt']}</span></p>
+                    </div>
+                    {/loop}
+                    {/if}
+
+                    {if $list['data']['user_searched_history_by_orgs']}
+                    <li><span>用户被机构查询历史</span></li>
+                    {loop $list['data']['user_searched_history_by_orgs'] $vo}
+                    <div style="margin: 10px 0">
+                        <p class="content1-p">主动查询用户的机构类型 <span>{$vo['searched_org']}</span></p>
+                        <p class="content1-p">是否是本机构查询 <span>{if $vo['org_self']}是{else}否{/if}</span></p>
+                        <p class="content1-p">查询时间 <span>{$vo['searched_date']}</span></p>
+                    </div>
+
+                    {/loop}
+                    {/if}
+
+                    <p class="content1-p4">身份证记录分析</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{if $list['data']['user_basic']}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">借贷频次</div>
+        <div class="panel-body">
+            <div class="content1">
+                <div class="content1-div">
+                    <li><span>身份实名校验</span></li>
+                    <p class="content1-p">省份 <span>{$list['data']['user_basic']['user_province']}</span></p>
+                    <p class="content1-p">城市 <span>{$list['data']['user_basic']['user_city']}</span></p>
+                    <p class="content1-p">区县 <span>{$list['data']['user_basic']['user_region']}</span></p>
+                    <p class="content1-p">身份证号码 <span>{$list['data']['user_basic']['user_idcard']}</span></p>
+                    <p class="content1-p">年龄 <span>{$list['data']['user_basic']['user_age']}</span></p>
+                    <p class="content1-p">性别 <span>{$list['data']['user_basic']['user_gender']}</span></p>
+                    <p class="content1-p">手机号码 <span>{$list['data']['user_basic']['user_phone']}</span></p>
+                    <p class="content1-p">身份证是否有效 <span>{$list['data']['user_basic']['user_idcard_valid']}</span></p>
+                    <p class="content1-p">姓名 <span>{$list['data']['user_basic']['user_name']}</span></p>
+                    <p class="content1-p">手机号所在城市 <span>{$list['data']['user_basic']['user_phone_city']}</span></p>
+                    <p class="content1-p">手机号所在省份 <span>{$list['data']['user_basic']['user_phone_province']}</span></p>
+                    <p class="content1-p">运营商 <span>{$list['data']['user_basic']['user_phone_operator']}</span></p>
+
+                    <p class="content1-p4">身份核实</p>
+                </div>
+            </div>
+            <div class="content1">
+                <div class="content1-div">
+
+                    <p class="content1-p">查询手机号码<span>{$list['data']['user_register_orgs']['phone_num']}</span></p>
+                    <p class="content1-p">注册总数量 <span>{php echo $list['data']['user_register_orgs']['register_cnt'] ? : 0;}条</span></p>
+
+                    {if $list['data']['user_register_orgs']['register_orgs_statistics']}
+
+                    {loop $list['data']['user_register_orgs']['register_orgs_statistics'] $vo}
+                    <p class="content1-p">{$vo['label']} <span>{$vo['count']}条</span></p>
+
+
+                    {/loop}
+                    {/if}
+                    <p class="content1-p4">注册情况</p>
+                </div>
+            </div>
+            <div class="content1">
+                <div class="content1-div">
+                    {if $list['data']['user_phone_suspicion']['phone_with_other_idcards']}
+                    <li style="margin: 10px 0"><span>客户手机号码绑定的其他身份证</span></li>
+                    {loop $list['data']['user_phone_suspicion']['phone_with_other_idcards'] $vo}
+                    <p class="content1-p">绑定身份证 <span>{$vo['susp_idcard']}</span></p>
+                    <p class="content1-p">绑定时间 <span>{$vo['susp_updt']}</span></p>
+                    {/loop}
+                    {/if}
+                    {if $list['data']['user_phone_suspicion']['phone_with_other_names']}
+                    <li style="margin: 10px 0"><span>客户手机号码绑定的其他姓名</span></li>
+                    {loop $list['data']['user_phone_suspicion']['phone_with_other_names'] $vo}
+                    <p class="content1-p">绑定姓名 <span>{$vo['susp_name']}</span></p>
+                    <p class="content1-p">绑定时间 <span>{$vo['susp_updt']}</span></p>
+                    {/loop}
+                    {/if}
+                    {if $list['data']['user_phone_suspicion']['phone_applied_in_orgs']}
+                    <li style="margin: 10px 0"><span>客户手机号码在以下机构使用</span></li>
+                    {loop $list['data']['user_phone_suspicion']['phone_applied_in_orgs'] $vo}
+                    <div style="margin: 10px">
+                        <p class="content1-p">机构所属分类 <span>{$vo['susp_org_type']}</span></p>
+                        <p class="content1-p">查询时间 <span>{$vo['susp_updt']}</span></p>
+                    </div>
+                    {/loop}
+                    {/if}
+                    <p class="content1-p4">手机号存疑</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{if $data}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">借贷频次</div>
+        <div class="panel-body">
+            <div class="content1">
+                <div class="content1-div">
+
+                    {loop $data $k $v}
+                    <li><span>轨迹{php echo $k+1}</span></li>
+                    {loop $v $key $vo}
+
+                    <?php if($v['data']){
+                                    }else{
+                                    continue;
+                                    } ?>
+
+                    {if $key=='data'}
+                    {loop $vo $voe}
+                    {loop $voe $ke $voer}
+
+                    {if $ke=='type'}
+                    <p class="content1-p">平台 <span>{php echo $voer==1 ? '银行' : '借贷平台'}</span></p>
+                    {elseif $ke=='platformCode'}
+                    <p class="content1-p">平台代码 <span>{$voer}</span></p>
+                    {elseif $ke=='applicationTime'}
+                    <p class="content1-p">申请时间 <span>{$voer}</span></p>
+                    {elseif $ke=='applicationAmount'}
+                    <p class="content1-p">申请金额区间 <span>{$voer}</span></p>
+
+
+                    {/if}
+                    {/loop}
+
+                    {/loop}
+
+                    {elseif $key=='countThree'}
+                    <p class="content1-p">近3个月申请次数 <span>{$vo}</span></p>
+                    {elseif $key=='countPlanformThree'}
+                    <p class="content1-p">近3个月申请平台数 <span>{$vo}</span></p>
+                    {elseif $key=='countSix'}
+                    <p class="content1-p">近6个月申请次数 <span>{$vo}</span></p>
+                    {elseif $key=='countPlanformSix'}
+                    <p class="content1-p">近6个月申请平台数 <span>{$vo}</span></p>
+                    {elseif $key=='countOneYear'}
+                    <p class="content1-p">近12个月申请次数 <span>{$vo}</span></p>
+                    {elseif $key=='countPlanformOneYear'}
+                    <p class="content1-p">近12个月申请平台数 <span>{$vo}</span></p>
+                    {elseif $key=='countTwoYear'}
+                    <p class="content1-p">近24个月申请次数 <span>{$vo}</span></p>
+                    {elseif $key=='countPlanformTwoYear'}
+                    <p class="content1-p">近24个月申请平台数 <span>{$vo}</span></p>
+                    {elseif $key=='counts'}
+                    <p class="content1-p">该平台的逾期数 <span>{$vo}</span></p>
+                    {elseif $key=='countPlanform'}
+                    <p class="content1-p">总逾期平台数 <span>{$vo}</span></p>
+                    {elseif $key=='lastOverdueTime'}
+                    <p class="content1-p">最近逾期数 <span>{$vo}</span></p>
+                    {/if}
+
+                    {/loop}
+                    {/loop}
+                    <p class="content1-p4">贷款</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{/if}
+
+{/if}
+{template 'common/footer'}

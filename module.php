@@ -49,7 +49,12 @@ class Xuan_mixloanModule extends WeModule {
                     'tutorials_pic'=>$_GPC['tutorials_pic'],
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
-                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract'])
+                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
+                    'credit_fee'=>$_GPC['credit_fee'],
+                    'credit_wx_free'=>$_GPC['credit_wx_free'],
+                    'credit_fee_one'=>$_GPC['credit_fee_one'],
+                    'credit_fee_two'=>$_GPC['credit_fee_two'],
+                    'credit_fee_three'=>$_GPC['credit_fee_three'],
             	);
 
             if ($this->saveSettings($cfg)) {
@@ -72,7 +77,8 @@ class Xuan_mixloanModule extends WeModule {
         $product = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'')) );
         $createPostAllProduct = $this->shortUrl(  $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'createPostAllProduct')) );
         $friend = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('friend', array('op'=>'')) );
-		include $this->template('setting');
+        $credit = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'')) );
+        include $this->template('setting');
 	}
     public function shortUrl($target) {
         return $target;
