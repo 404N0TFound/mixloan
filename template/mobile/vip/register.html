@@ -1,0 +1,339 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/recommendr2.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
+    <style type="text/css">
+        body{background-color: #f1f1f1;}
+    </style>
+    {php echo register_jssdk();}
+    <script>
+        //微信分享
+        var title = "{$inviter['nickname']}邀请你加入{$config['title']}";
+        var imgUrl = "{$inviter['avatar']}";
+        var desc = "{$config['desc']}";
+        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$_GPC['inviter']))}"
+        wx.ready(function(){
+            wx.onMenuShareTimeline({
+                title: title, // 分享标题
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert("分享失败");
+                }
+            });
+//分享给好友
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                imgUrl: imgUrl, // 分享图标
+                link:link,
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('分享失败');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="body_frame">
+    <div class="rec_main" data-shareId="204559">
+        <div class="rec_top"><img src="{php echo tomedia($config['extend_bonus_pic4']);}" /><p><img src="../addons/xuan_mixloan/template/style/picture/left_icon.png"/><a>推荐人：{$inviter['nickname']}</a><img src="../addons/xuan_mixloan/template/style/picture/right_icon.png"/></p></div>
+        <div class="recommendInfo">
+            <!-- 注册 -->
+            <div class="regInfoCommon regFillInfo">
+                <img src="../addons/xuan_mixloan/template/style/picture/beforereg2.png">
+                <div class="regMain">
+                    <div class="regBind">
+                        <div class="regBindCommon regBindPhone">
+                            <label><img src="../addons/xuan_mixloan/template/style/picture/phone1-1.png"></label>
+                            <input type="tel" name="phone" maxlength="11" id="phone" placeholder="请输入您的手机号" />
+                        </div>
+                        <div class="regBindCommon regBindCode">
+                            <label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png" style="width: 0.65rem;"></label>
+                            <input type="number" name="smsCode" id="smsCode" placeholder="请输入您的验证码" />
+                            <a id="sendMess" href="javascript:void(0);">获取验证码</a>
+                        </div>
+                    </div>
+                    <img id="to_regist" src="../addons/xuan_mixloan/template/style/picture/regorder.png">
+                </div>
+            </div>
+            <!-- 老代理 -->
+            <div class="regInfoCommon regDaili" style="display: none;">
+                <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
+                <a id="downloadApp" href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode'))}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+            </div>
+            <!-- i代用户提交过申请 -->
+            <div class="regInfoCommon userReSubmit" style="display: none;">
+                <img src="../addons/xuan_mixloan/template/style/picture/103.png">
+                <a id="downloadApp" href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode'))}" ><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+            </div>
+            <!-- i代用户第一次申请 -->
+            <div class="regInfoCommon userFirstSubmit" style="display: none;">
+                <img src="../addons/xuan_mixloan/template/style/picture/104.png">
+                <a id="downloadApp" href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode'))}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+            </div>
+            <!-- 非i代用户提交过申请 -->
+            <div class="regInfoCommon unuserReSubmit" style="display: none;">
+                <img src="../addons/xuan_mixloan/template/style/picture/105.png">
+                <a id="downloadApp" href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode'))}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+            </div>
+            <!-- 非i代用户第一次申请 -->
+            <div class="regInfoCommon unuserFirstSubmit" style="display: none;">
+                <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
+                <a id="downloadApp" href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode'))}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+            </div>
+        </div>
+        <div class="intro_common progress">
+            <img src="../addons/xuan_mixloan/template/style/picture/intro2-1.png" />
+            <div class="prog_main">
+                <p>最高奖励：<span><em>0</em>%</span></p>
+                <div class="prog_ani">
+                    <div class="progress-out" id="progress">
+                        <div class="percent-show"><label>%</label><em></em><span>0</span></div>
+                        <div class="progress-in"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro1-1.png" /></div>
+        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro3-1.png" /></div>
+        <!-- <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro4.png" /></div> -->
+        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro5-1.png" /></div>
+        <div class="btm_state"><p><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}用户注册协议》</a></p></div>
+    </div>
+</div>
+<!--end -->
+<script type="text/javascript">
+    // 进度条
+    (function ($) {
+        if (typeof($.fn.myProgress) != 'undefined') {
+            return false;
+        }
+        $.fn.myProgress = function (options) {
+            initOptions(options);
+            $(this).each(function () {
+                var this_ = $(this);
+                var $percent = $(this).find("div.percent-show>span");
+                var progress_in = $(this).find("div.progress-in");
+                initCss(options, $(this));
+                var t = setInterval(function () {
+                    $percent.html(parseInt(progress_in.width() / this_.width() * 10));
+                    $("div.prog_main p span em").html(parseInt(progress_in.width() / this_.width() * 10));
+                }, options.speed / 100);
+                progress_in.animate({
+                    width: options.percent + "%"
+                }, options.speed, function () {
+                    clearInterval(t);
+                    t = null;
+                    $percent.html(options.percent/10);
+                    $("div.prog_main p span em").html(options.percent/10);
+                    options.percent == 100 && progress_in.css("border-radius", 0);
+                });
+            });
+            return $(this);
+        }
+        function initOptions(options) {
+            (!options.hasOwnProperty("speed") || isNaN(options.speed)) && (options.speed = 1000);
+            (!options.hasOwnProperty("percent") || isNaN(options.percent)) && (options.percent = 100);
+            !options.hasOwnProperty("width") && (options.width = '180px');
+            !options.hasOwnProperty("height") && (options.height = '20px');
+            !options.hasOwnProperty("direction") && (options.direction = 'left');
+            options.fontSize = Math.floor(parseInt(options.height) * 6 / 10) + "px";
+            options.lineHeight = options.height;
+        }
+        function initCss(options, obj) {
+            obj.css({
+                "width": options.width,
+                "height": options.height
+            }).find("div.percent-show").css({
+                "lineHeight": options.lineHeight,
+                "fontSize": options.fontSize
+            });
+            if(options.direction =="right"){
+                obj.find("div.progress-in").addClass("direction-right");
+            }else{
+                obj.find("div.progress-in").addClass("direction-left");
+            }
+        }
+    })(jQuery);
+    $(function () {
+        $("#progress").myProgress({speed: 1000, percent: 40,width: "100%"});
+    })
+    //马上注册
+    $("#to_regist").click(function(){
+        submit();
+    })
+    // 恢复点击事件
+    function click(){
+        $("#to_regist").bind("click",function(){
+            submit();
+        });
+    }
+    function submit(){
+        $("#to_regist").unbind('click');
+        var phone=$("#phone").val();
+        var smsCode=$.trim($("#smsCode").val());
+        if(phone=='' || phone=="请输入您的手机号"){
+            document.getElementById('phone').focus();
+            layer.tips('请输入手机号码', '#phone', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            click();
+            return false;
+        }else{
+            if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
+                document.getElementById('phone').focus();
+                layer.tips('请输入正确的手机号码', '#phone', {
+                    tips: [3, '#f90'],
+                    time: 3000
+                });
+                click();
+                return false;
+            }
+        }
+        if(smsCode==""){
+            document.getElementById('smsCode').focus();
+            layer.tips('请输入验证码', '#smsCode', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            click();
+            return false;
+        }
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter'=>$_GPC['inviter']))}",{"phone":phone,"smsCode":smsCode},
+            function(res){
+                if(res.code==1){
+                    window.location.href="{php echo $this->createMobileUrl('user')}"
+                }else{
+                    layer.msg(res.message);
+                    click();
+                    return false;
+                }
+            },'json')
+    }
+    //发送验证码
+    $("#sendMess").click(function(){
+        getCheck();
+    })
+    function getCheck() {
+        $("#sendMess").unbind("click");
+        var phone = $("#phone").val();
+        if(phone=='' || phone=="请输入手机号码"){
+            document.getElementById('phone').focus();
+            layer.tips('请输入手机号码', '#phone', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            $("#sendMess").bind("click",function(){
+                getCheck();
+            });
+            return false;
+        }else{
+            if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
+                document.getElementById('phone').focus();
+                layer.tips('请输入正确的手机号码', '#phone', {
+                    tips: [3, '#f90'],
+                    time: 3000
+                });
+                $("#sendMess").bind("click",function(){
+                    getCheck();
+                });
+                return false;
+            }
+        }
+        $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'activity'=>1))}",{"phone":phone},
+            function(res){
+                if(res.code==102){
+                    //已经是代理
+                    $("div.regInfoCommon").hide();
+                    $("div.regDaili").show();
+                    return false;
+                }else if(res.code==1){
+                    // 非i代用户第一次申请
+                    layer.msg('短信发送成功');
+                    curCount = 60;
+                    InterValObj = window.setInterval(SetRemainTime, 1000);
+                }else{
+                    layer.msg(res.msg);
+                    $("#sendMess").bind("click",function(){
+                        getCheck();
+                    });
+                    return false;
+                }
+            },'json')
+    }
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            flagsms = true;
+            curCount = 60;
+            $("#sendMess").html("重新发送");
+            code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+            $("#sendMess").bind("click",function(){
+                getCheck();
+            });
+        }else {
+            curCount--;
+            $("#sendMess").html(curCount+"s");
+        }
+    }
+    // 下载App
+    function downloadApp(){
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            // alert("iPhone系统");
+            window.location.href = "https://itunes.apple.com/cn/app/id1342466690?mt=8";
+        } else if (/(Android)/i.test(navigator.userAgent)) {
+            // android系统
+            window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.cl.idaike";
+        } else {
+            var isMac = function() { return /macintosh|mac os x/i.test(navigator.userAgent); }();
+            var isWindows = function() { return /windows|Window/i.test(navigator.userAgent); }();
+            if(isMac){
+                // mac系统
+                window.location.href ="https://itunes.apple.com/cn/app/id1342466690?mt=8";
+            }else{
+                // windows系统
+                window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.cl.idaike";
+            }
+        };
+    }
+    // 防止点击图片放大
+    $('img').click(function(e){
+        // e.preventDefault();
+    })
+</script>
+
+
+</body>
+</html>
