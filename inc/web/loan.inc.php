@@ -14,7 +14,7 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND name LIKE '%{$_GPC['name']}%'";
     }
-    $sql = 'select id,name,createtime from ' . tablename('xuan_mixloan_loan') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql = 'select id,name,`sort`,createtime from ' . tablename('xuan_mixloan_loan') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_loan') . " where uniacid={$_W['uniacid']} " . $wheres);

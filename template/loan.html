@@ -42,6 +42,7 @@
             <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>贷款ID</th>
+                    <th style='width:120px;'>排序</th>
                     <th style='width:120px;'>贷款名称</th>
                     <th style='width:200px;'>添加时间</th>
                     <th>操作</th>
@@ -51,6 +52,7 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
+                    <td>   {$row['sort']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
