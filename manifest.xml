@@ -39,6 +39,35 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_poster_data`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_credit_data`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_credit_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `certno` varchar(50) NOT NULL,
+  `phone` varchar(22) NOT NULL,
+  `realname` varchar(30) NOT NULL,
+  `status` tinyint(2) NOT NULL COMMENT '0未付费，1已付费',
+  `pay_type` tinyint(2) NOT NULL COMMENT '1支付，2分享',
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `phone` (`phone`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_notice`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
