@@ -62,6 +62,12 @@ class Xuan_mixloanModule extends WeModule {
                     'credit_fee_one'=>$_GPC['credit_fee_one'],
                     'credit_fee_two'=>$_GPC['credit_fee_two'],
                     'credit_fee_three'=>$_GPC['credit_fee_three'],
+                    'extend_bonus_nums'=>$_GPC['extend_bonus_nums'],
+                    'extend_bonus_money'=>$_GPC['extend_bonus_money'],
+                    'extend_bonus_pic1'=>$_GPC['extend_bonus_pic1'],
+                    'extend_bonus_pic2'=>$_GPC['extend_bonus_pic2'],
+                    'extend_bonus_pic3'=>$_GPC['extend_bonus_pic3'],
+                    'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
             	);
 
             if ($this->saveSettings($cfg)) {
@@ -85,7 +91,8 @@ class Xuan_mixloanModule extends WeModule {
         $product = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'')) );
         $createPostAllProduct = $this->shortUrl(  $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'createPostAllProduct')) );
         $friend = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('friend', array('op'=>'')) );
-		include $this->template('setting');
+        $extend_bonus = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'extend_bonus')) );
+        include $this->template('setting');
 	}
     public function shortUrl($target) {
         return $target;
