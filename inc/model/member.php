@@ -299,7 +299,7 @@ class Xuan_mixloan_Member
         global $_W;
         $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
         $user_id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_member').' where openid=:openid', array(':openid'=>$openid));
-        $agnt = $this->checkAgent($user_id);
+        $agent = $this->checkAgent($user_id);
         if (!$res && $agent['code']!=1) {
             $insert =array(
                 'uniacid'=>$_W['uniacid'],
