@@ -13,6 +13,17 @@
 	</head>
 
 	<body>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+	<script type="text/javascript">
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+	</script>
+	{if !is_weixin()}
+	<style type="text/css">
+
+	</style>
+	{/if}
 		<div class="particulars-box" id="app" v-cloak>
 			<!--小提示  -->
 			<div class="ptars-smts-box">
@@ -42,11 +53,11 @@
 			<!--tab  -->
 			<div class="indent-tab-box">
 
-				<a {if $type==1}class="active"{/if} href="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>1])}" >所有订单<span></span></a>
+				<a {if $type==1}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl(\'product\',[\'op\'=>\'customer_detail\',\'pid\'=>$pid,\'inviter\'=>$inviter,\'type\'=>1])}')" >所有订单<span></span></a>
 
-				<a {if $type==2}class="active"{/if} href="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>2])}">有效订单<span></span></a>
+				<a {if $type==2}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl(\'product\',[\'op\'=>\'customer_detail\',\'pid\'=>$pid,\'inviter\'=>$inviter,\'type\'=>2])}')" >有效订单<span></span></a>
 
-				<a {if $type==3}class="active"{/if} href="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>3])}" >失效订单<span></span></a>
+				<a {if $type==3}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl(\'product\',[\'op\'=>\'customer_detail\',\'pid\'=>$pid,\'inviter\'=>$inviter,\'type\'=>3])}')" >失效订单<span></span></a>
 			</div>
 
 			<!--订单列表  -->
