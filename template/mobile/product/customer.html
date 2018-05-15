@@ -47,6 +47,11 @@
 		{$config['title']}
 		<a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 	</div>
+	{if !is_weixin()}
+	<div style="height:1rem;"></div>
+	{else}
+	<div style="height:2rem;"></div>
+	{/if}
 	<div class="agent-foot">
 		<a href="javascript:;"  class="on">
 			<!-- <span class="iconfont icon-card2"></span> -->
