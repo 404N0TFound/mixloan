@@ -21,6 +21,20 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    function openNew(url){
+      mui.openWindow({url:url});
+    }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+    </style>
+    {/if}
     <div class="loan_tab">
         <ul>
             <li><a href="{php echo $this->createMobileUrl('loan')}">首页</a></li>

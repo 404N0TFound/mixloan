@@ -81,5 +81,61 @@ if($operation=='register'){
         pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
 		show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
     }
+} else if ($operation == 'login') {
+    //登陆
+    if (isset($_COOKIE['user_id'])) {
+        header("location:{$this->createMobileUrl('user')}");
+    }
+    include $this->template('index/login');
+} else if ($operation == 'login_ajax') {
+    $phone = intval($_GPC['phone']);
+    $pass = trim($_GPC['pwd']);
+    if (empty($phone)) {
+        show_json(-1, [], '请填写手机');
+    }
+    if (empty($pass)) {
+        show_json(-1, [], '请填写密码');
+    }
+    $member = pdo_fetch("SELECT id,pass FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array(':phone'=>$phone));
+    if (empty($member)) {
+        show_json(-1, [], '手机号不存在');
+    }
+    if ($member['pass'] != $pass) {
+        show_json(-1, [], '密码不正确');
+    }
+    setcookie('user_id', $member['id'], time()+86400);
+    show_json(1, ['url'=>$this->createMobileUrl('user')], '登陆成功');
+} else if ($operation == 'loginout') {
+    setcookie('user_id', false, time()-86400);
+    header("location:{$this->createMobileUrl('index', ['op'=>'login'])}");
+}else if ($operation == 'wechat_login_app') {
+    //通过app登陆
+    include $this->template('index/wechat_login_app');
+} else if ($operation == 'wechat_app') {
+    //app登陆
+    $unionid = trim($_GPC['unionid']);
+    if (empty($unionid)) {
+        show_json(-1, [], '获取信息出错');
+    }
+    $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
+		where unionid=:unionid', array(':unionid'=>$unionid));
+    if (empty($id)) {
+        $insert = array(
+            'uniacid'=>$_W['uniacid'],
+            'openid'=>$_GPC['openid'],
+            'unionid'=>$unionid,
+            'avatar'=>$_GPC['headimgurl'],
+            'nickname'=>$_GPC['nickname'],
+            'country'=>$_GPC['country'],
+            'province'=>$_GPC['province'],
+            'city'=>$_GPC['city'],
+            'sex'=>$_GPC['sex'],
+            'createtime'=>time(),
+        );
+        pdo_insert('xuan_mixloan_member', $insert);
+        $id = pdo_insertid();
+    }
+    setcookie('user_id', $id, time()+86400);
+    show_json(1, ['url'=>$this->createMobileUrl('user')]);
 }
 ?>

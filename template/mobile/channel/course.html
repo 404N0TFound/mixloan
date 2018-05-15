@@ -29,6 +29,22 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .agent-foot.texttotal{align-items:normal;}
+        div.agent-footer{height: 70px}
+        div.agent-foot.texttotal p{
+            line-height: 90px;
+        }
+        div.scroller{padding-top: 80px}
+    </style>
+    {/if}
     <div class="agent-foot texttotal agent-footer">
         <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>最新口子</span></p></a>
         <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
