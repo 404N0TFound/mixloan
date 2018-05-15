@@ -255,7 +255,7 @@ function getRecommend(){
                 var title=result[i].name;
                 var desc=result[i].ext_info.v_name;
                 $("div.recommend ul").append("<li>"
-                                                + "<a href=\'"+ url +"\'>"
+                                                + "<a onclick=\"openNew(\'"+ url +"\')\">"
                                                     + "<img src='"+ imgs +"\' />"
                                                     + "<h3>"+ title +"</h3>"
                                                     + "<p>"+ desc +"</p>"

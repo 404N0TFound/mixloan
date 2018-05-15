@@ -24,37 +24,37 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css//layer5_3.css" id="layui_layer_skinlayercss">
     <style type="text/css">
-      html,body{height: 100%;}
-      body{background-color: #f1f1f1;}
-      @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-          div.content_detail{height:615px!important;}
-          div.commentArea{padding-bottom:18px;background: #fff;}
-          div.to_comment{border-bottom: none;}
-      }
-      div.toCollect label.noCollect {
-        background: url(../addons/xuan_mixloan/template/style/picture/nocollect_3.png);
-        background-size: 0.5rem 0.5rem;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      div.toCollect label.collected{background: url(../addons/xuan_mixloan/template/style/images/collected.png);background-size: 0.5rem 0.5rem;background-repeat:no-repeat;background-position: center; }
-      div.imgUploading{
-        height: 100%
-      }
-      .dtlMain img{
-        max-width:350px;
-        max-height: 350px; 
-      }
-      /*表情包*/
-      div.emoji_container{position: fixed!important;bottom: 50px!important;top:auto!important;}
-      .agent-header a.return:before{
-          display: inline;
-          content: url(../addons/xuan_mixloan/template/style/images/back_icon.png);
-          vertical-align: middle;
-          margin-right: 3px;
-      }
+        html,body{height: 100%;}
+        body{background-color: #f1f1f1;}
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.content_detail{height:615px!important;}
+            div.commentArea{padding-bottom:18px;background: #fff;}
+            div.to_comment{border-bottom: none;}
+        }
+        div.toCollect label.noCollect {
+            background: url(../addons/xuan_mixloan/template/style/picture/nocollect_3.png);
+            background-size: 0.5rem 0.5rem;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        div.toCollect label.collected{background: url(../addons/xuan_mixloan/template/style/images/collected.png);background-size: 0.5rem 0.5rem;background-repeat:no-repeat;background-position: center; }
+        div.imgUploading{
+            height: 100%
+        }
+        .dtlMain img{
+            max-width:350px;
+            max-height: 350px;
+        }
+        /*表情包*/
+        div.emoji_container{position: fixed!important;bottom: 50px!important;top:auto!important;}
+        .agent-header a.return:before{
+            display: inline;
+            content: url(../addons/xuan_mixloan/template/style/images/back_icon.png);
+            vertical-align: middle;
+            margin-right: 3px;
+        }
     </style>
-   
+
 
     {php echo register_jssdk();}
     <script>
@@ -62,198 +62,216 @@
         var title = "{$info['title']}";
         var imgUrl = "{php echo tomedia($config['share_image']);}";
         var desc = "{$config['share_desc']}";
-        
+
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
                 imgUrl: imgUrl, // 分享图标
-            success: function () { 
-            // 用户确认分享后执行的回调函数
-                alert('分享成功');
-             },
-            cancel: function () { 
-            // 用户取消分享后执行的回调函数
-                 alert("分享失败");
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert("分享失败");
                 }
-    });
-
-    //分享给好友
-        wx.onMenuShareAppMessage({
-                title: title, // 分享标题
-                 desc: desc, // 分享描述
-                imgUrl: imgUrl, // 分享图标
-            success: function () { 
-            // 用户确认分享后执行的回调函数
-                alert('分享成功');
-            },  
-            cancel: function () { 
-            // 用户取消分享后执行的回调函数
-                 alert('分享失败');
-            }
             });
-    });
-        
+
+            //分享给好友
+            wx.onMenuShareAppMessage({
+                title: title, // 分享标题
+                desc: desc, // 分享描述
+                imgUrl: imgUrl, // 分享图标
+                success: function () {
+                    // 用户确认分享后执行的回调函数
+                    alert('分享成功');
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                    alert('分享失败');
+                }
+            });
+        });
+
     </script>
 </head>
 <body>
-    <div class="agent-header">
-      {$info['title']}
-      <a class="return" onclick="history.go(-1)">返回</a>    
-  </div>
-  <div class="content_detail" data-mainId="4602" data-upUserId="9636" data-commId="0" data-userId="204559">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    div.content_detail{padding-top: 0px}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+        <span>回复</span>
+    </div>
+</div>
+{/if}
+<div class="content_detail" data-mainId="4602" data-upUserId="9636" data-commId="0" data-userId="204559">
     <!-- 楼主 -->
     <div class="result_common" id="fc_new">
-      <div class="list_common">
-        <div class="agent-main pt44">
-          <div class="main-contain">
-             <div class="evdayhotlist friendlist">
-                <div class="loan-list">
-                   <div class="loan-main" data-maxPage="1">
-                      <div class="mainHeader">
+        <div class="list_common">
+            <div class="agent-main pt44">
+                <div class="main-contain">
+                    <div class="evdayhotlist friendlist">
+                        <div class="loan-list">
+                            <div class="loan-main" data-maxPage="1">
+                                <div class="mainHeader">
                           <span class="fl">
                               <img src="{$info['avatar']}"
-                              width="35px" height="35px" alt="">
+                                   width="35px" height="35px" alt="">
                           </span>
-                          <div class="mainName">
-                              <h3>
-                                  {$info['nickname']}
-                                  <a class="fc_label fc_floor">
-                                      楼主
-                                  </a>
-                              </h3>
-                              <p>
-                                  {php echo date('Y-m-d H:i:s',$info['ctime']);}
-                              </p>
-                          </div>
-                      </div>
-                      <div class="mainContent dtlMainContent">
-                          <p class="mainTitle">
-                              {$info['title']}
-                          </p>
-                          <p class="contents dtlContents">
-                              {$info['name']}
-                          </p>
-                          <div class="loanMainImg">
-                            {if !empty($info['head'])}
-                                {loop $info['head'] $pimg}
-                                <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
-                                {/loop}
-                            {/if}
-                          </div>
-                          <div class="toCollect">
-                              <a class="colComm" onclick="collect()">
-                                  {if !$info['is_praise']['praise']}<label class="noCollect"> </label><span>收藏本帖</span>{else}<label class="collected"></label><span>已收藏</span>{/if}
-                              </a>
-                              <p class="viewInfo">
-                                  <img src="../addons/xuan_mixloan/template/style/picture/readnum.png" width="15px" />
-                                  <span>
+                                    <div class="mainName">
+                                        <h3>
+                                            {$info['nickname']}
+                                            <a class="fc_label fc_floor">
+                                                楼主
+                                            </a>
+                                        </h3>
+                                        <p>
+                                            {php echo date('Y-m-d H:i:s',$info['ctime']);}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="mainContent dtlMainContent">
+                                    <p class="mainTitle">
+                                        {$info['title']}
+                                    </p>
+                                    <p class="contents dtlContents">
+                                        {$info['name']}
+                                    </p>
+                                    <div class="loanMainImg">
+                                        {if !empty($info['head'])}
+                                        {loop $info['head'] $pimg}
+                                        <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
+                                        {/loop}
+                                        {/if}
+                                    </div>
+                                    <div class="toCollect">
+                                        <a class="colComm" onclick="collect()">
+                                            {if !$info['is_praise']['praise']}<label class="noCollect"> </label><span>收藏本帖</span>{else}<label class="collected"></label><span>已收藏</span>{/if}
+                                        </a>
+                                        <p class="viewInfo">
+                                            <img src="../addons/xuan_mixloan/template/style/picture/readnum.png" width="15px" />
+                                            <span>
                                       {if $info['l_detail']['looks']}{$info['l_detail']['looks']}{else}0{/if}
                                   </span>
-                                  <img src="../addons/xuan_mixloan/template/style/picture/reply.png" width="13px" />
-                                  <span id="commentNum">
+                                            <img src="../addons/xuan_mixloan/template/style/picture/reply.png" width="13px" />
+                                            <span id="commentNum">
                                       {if $comments}{php echo count($comments)}{else}0{/if}
                                   </span>
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 评论 -->
-    <div class="fc_content" data-page="1">
-      <h3>评论</h3>
-      <div class="content_list">
-        <div class="list_common">
-          <div class="agent-main pt44">
-            <div class="main-contain">
-                <div class="evdayhotlist friendlist">
-                  {loop $comments $comment}
-                    {php $comment['pics'] = json_decode($comment['pics'], 1)}
-                    <div class="loan-list" data-upUserId="905" data-commId="10404">
-                        <div class="loan-main">
-                            <span class="fl">
-                                <img src="{$comment['avatar']}" width="35px" height="35px" alt="">
-                            </span>
-                            <div class="list-main" onclick="toCommList({$comment['id']});">
-                                <h3 style="height:auto!important;margin-bottom: 0;">
-                                    {$comment['nickname']}
-                                    <a class="fc_label floor_guest">
-                                        {$comment['floor']}楼
-                                    </a>
-                                </h3>
-                                <p class="main dtlMain">
-                                    {php echo urldecode($comment['content'])}
-                                </p>
-                                <div class="loanMainImg">
-                                {loop $comment['pics'] $pic}
-                                  <img src="{php echo tomedia($pic);}" onclick="maxImg(this)">
-                                {/loop}
+                                        </p>
+                                    </div>
                                 </div>
-                                <p class="time">
-                                    {php echo date('Y-m-d H:i:s', $comment['createtime']);}
-                                </p>
-                                {if $comment['count_comment']}
-                                <div class="other_comment"> 
-                                  <ul> 
-                                  {loop $comment['comments'] $com}
-                                   <li><label> {$com['nickname']} </label>: {php echo urldecode($com['content']);}</li>
-                                  {/loop}
-                                  </ul> 
-                                  <p><a >查看{$comment['count_comment']}条评论</a></p> 
-                                </div> 
-                                {/if}
                             </div>
                         </div>
                     </div>
-                  {/loop}
                 </div>
             </div>
-          </div>
         </div>
-      </div>
-      <div style="height: 50px"></div>
     </div>
-  </div>
-  <!-- 评论 -->
-  <div class="commentArea">
-        <div class="to_comment">
-      <div class="ico">
-        <img id="emoji" src="../addons/xuan_mixloan/template/style/picture/emoji.png" />
-        <img id="dummyImgs" src="../addons/xuan_mixloan/template/style/picture/pic.png" />
-      </div>
-      <textarea contenteditable="true" autoHeight="true" class="contentor" id="contentor" placeholder="尽情的吐槽吧~" style="height:35px;"></textarea>
-      <!-- <input type="text" placeholder="尽情的吐槽吧~" /> -->
-      <a class="to_submit" send="1">发送</a>
-      <form>
-        <input type="text" name="" id="contents" style="display: none;">
-        <input type="file" name="" accept="image/*;capture=camera" class="contentImgs" id="contentImgs" style="display: none;" multiple="multiple">
-        <div class="waitImgs">
-          <div class="swiper-container imgSwiper">
-            <div class="swiper-wrapper">
-
+    <!-- 评论 -->
+    <div class="fc_content" data-page="1">
+        <h3>评论</h3>
+        <div class="content_list">
+            <div class="list_common">
+                <div class="agent-main pt44">
+                    <div class="main-contain">
+                        <div class="evdayhotlist friendlist">
+                            {loop $comments $comment}
+                            {php $comment['pics'] = json_decode($comment['pics'], 1)}
+                            <div class="loan-list" data-upUserId="905" data-commId="10404">
+                                <div class="loan-main">
+                            <span class="fl">
+                                <img src="{$comment['avatar']}" width="35px" height="35px" alt="">
+                            </span>
+                                    <div class="list-main" onclick="toCommList({$comment['id']});">
+                                        <h3 style="height:auto!important;margin-bottom: 0;">
+                                            {$comment['nickname']}
+                                            <a class="fc_label floor_guest">
+                                                {$comment['floor']}楼
+                                            </a>
+                                        </h3>
+                                        <p class="main dtlMain">
+                                            {php echo urldecode($comment['content'])}
+                                        </p>
+                                        <div class="loanMainImg">
+                                            {loop $comment['pics'] $pic}
+                                            <img src="{php echo tomedia($pic);}" onclick="maxImg(this)">
+                                            {/loop}
+                                        </div>
+                                        <p class="time">
+                                            {php echo date('Y-m-d H:i:s', $comment['createtime']);}
+                                        </p>
+                                        {if $comment['count_comment']}
+                                        <div class="other_comment">
+                                            <ul>
+                                                {loop $comment['comments'] $com}
+                                                <li><label> {$com['nickname']} </label>: {php echo urldecode($com['content']);}</li>
+                                                {/loop}
+                                            </ul>
+                                            <p><a >查看{$comment['count_comment']}条评论</a></p>
+                                        </div>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                            {/loop}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </form>      
+        <div style="height: 50px"></div>
+    </div>
+</div>
+<!-- 评论 -->
+<div class="commentArea">
+    <div class="to_comment">
+        <div class="ico">
+            <img id="emoji" src="../addons/xuan_mixloan/template/style/picture/emoji.png" />
+            <img id="dummyImgs" src="../addons/xuan_mixloan/template/style/picture/pic.png" />
+        </div>
+        <textarea contenteditable="true" autoHeight="true" class="contentor" id="contentor" placeholder="尽情的吐槽吧~" style="height:35px;"></textarea>
+        <!-- <input type="text" placeholder="尽情的吐槽吧~" /> -->
+        <a class="to_submit" send="1">发送</a>
+        <form>
+            <input type="text" name="" id="contents" style="display: none;">
+            <input type="file" name="" accept="image/*;capture=camera" class="contentImgs" id="contentImgs" style="display: none;" multiple="multiple">
+            <div class="waitImgs">
+                <div class="swiper-container imgSwiper">
+                    <div class="swiper-wrapper">
+
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="emojiBox">
-      <ul></ul>
+        <ul></ul>
     </div>
-  </div>
+</div>
 <!-- 预览图片 -->
 <div class="scrollImg">
-  <div class="scrollImgBox">
-    <div class="swiper-container scrollImg-swiper">
-      <div class="swiper-wrapper">
-      </div>
-      <div class="swiper-pagination scrollImg-pagination"></div>
+    <div class="scrollImgBox">
+        <div class="swiper-container scrollImg-swiper">
+            <div class="swiper-wrapper">
+            </div>
+            <div class="swiper-pagination scrollImg-pagination"></div>
+        </div>
     </div>
-  </div>
-</div> 
+</div>
 <!-- 图片上传中 -->
 <div class="imgUploading">
     <img src="../addons/xuan_mixloan/template/style/picture/uploading.png" />
@@ -268,154 +286,161 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/ajaxupload.3.9.js"></script>
 <script type="text/javascript">
 
-$(function(){
-  // 页面初始化  
-  var wH=$(window).height();
-  $("div.scrollImg").css("height",wH);
-  $("div.imgUploading").css("height",wH);
-  $("div.realAuth").css("height",wH);
-  $("div.ban,div.banTip,div.noteIdai").css("height",wH);
-  var headH=$("div.agent-header").outerHeight();
-  var commentH=$("div.to_comment").outerHeight();
-  var contentH=wH-headH-45+"px";
-  $("div.content_detail").css({"height":contentH,"padding-bottom":commentH});
-  var hostH=$("div.result_common").outerHeight(true);
-  var titleH=$("div.fc_content h3").outerHeight(true);
-  var psnC_emptyH=wH-hostH-titleH-commentH-48;
-  if(psnC_emptyH>120){
-    $("div.psnC_empty").css("height",psnC_emptyH+"px");
-  }else{
-    $("div.psnC_empty").css("height","120px");
-  }
-  
-  
-})
-$('textarea[autoHeight]').autoHeight();
-
-var interval;
-var bfscrolltop = document.body.scrollTop;//获取软键盘唤起前浏览器滚动部分的高度
-$("#contentor").click(function(){
-  if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {  
-    var ver = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-    ver1 = parseInt(ver[1], 10);
-    ver2 = parseInt(ver[2]);
-    if(ver1>=11&&ver2>0){
-    }else{
-      interval = setInterval(function(){    
-      document.body.scrollTop = document.body.scrollHeight;//获取焦点后将浏览器内所有内容高度赋给浏览器滚动部分高度
-      },10)
-    }  
-  }
-})
-$(function(){
-  $("#contentor").blur(function(){
-    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-      clearInterval(interval);//清除计时器
-      document.body.scrollTop = bfscrolltop; //将软键盘唤起前的浏览器滚动部分高度重新赋给改变后的高度
-    }      
-  });
-}) 
-
-// 加载评论
-
-
-// 发表评论（发送）
-$(".to_submit").click(function(){
-  if ($(".to_submit").attr("send") == 1) {
-    toSubmit();
-  }
-})
-function toSubmit(){
-  $(".to_submit").attr("send", 0);
-  var id={$info['id']};
-  var content=$("#contentor").val();
-  var imgs_url=[];
-  var imgsL=$("div.imgSwiper .swiper-slide").length;
-  if(imgsL>0){
-    for(i=0;i<imgsL;i++){
-      var img_url=$("div.imgSwiper .swiper-slide").eq(i).find("img").attr("src");
-      imgs_url.push(img_url);
-    }
-  }
-  $.post("{php echo $this->createMobileUrl('friend', array('op'=>'post_reply'));}",{friend_id:id, content:content, imgs_url:imgs_url},
-    function(res){  
-      if (res.type == 'success') {
-        layer.msg("评论成功",{time:1000});
-        history.go(0);
-      } else {
-        $(".to_submit").attr("send", 1);
-        layer.msg(res.message,{time:1000});
-      }
-    },'json');
-}
-// 点击进入评论详情页
-// function toCommList(index){
-//   var src=../addons/xuan_mixloan/template/style/picture/$(index).attr('data-src');
-//   location.href=src;
-// }
-
-
-function collect(){
-  $.post("{php echo $this->createMobileUrl('friend', array('op'=>'praise','id'=>$info['id']));}",{},
-    function(res){
-      if(res.type=='success'){
-          if(res.message=='collected'){
-            $(".colComm").find("label").attr("class","collected");
-            $(".colComm").find("span").html("已收藏");
-            layer.msg("已收藏",{time:1000});
-          }else{
-            $(".colComm").find("label").attr("class","noCollect");
-            $(".colComm").find("span").html("收藏本帖");
-            layer.msg("已取消收藏",{time:1000});
-          }
-      }else{
-        layer.msg(res.message);
-        return false;
-      }
-    },'json')
-}
-
-//上传图片(接口)
-var ajaxupload1 = new AjaxUpload($("#dummyImgs"), {
-    action: "{php echo $this->createMobileUrl('friend', array('op'=>'upload'))}",
-    type: "POST",
-    data: {},
-    autoSubmit: true,
-    responseType: "json",
-    name: 'file',
-    onChange: function(file, ext) {
-        if (!ext || !/^(jpg|png|jpeg|gif|JPG)$/.test(ext)) {
-            layer.msg('请上传格式为.png .jpg .jpeg的图片');
-            return false;
+    $(function(){
+        // 页面初始化
+        var wH=$(window).height();
+        $("div.scrollImg").css("height",wH);
+        $("div.imgUploading").css("height",wH);
+        $("div.realAuth").css("height",wH);
+        $("div.ban,div.banTip,div.noteIdai").css("height",wH);
+        var headH=$("div.agent-header").outerHeight();
+        var commentH=$("div.to_comment").outerHeight();
+        var contentH=wH-headH-45+"px";
+        $("div.content_detail").css({"height":contentH,"padding-bottom":commentH});
+        var hostH=$("div.result_common").outerHeight(true);
+        var titleH=$("div.fc_content h3").outerHeight(true);
+        var psnC_emptyH=wH-hostH-titleH-commentH-48;
+        if(psnC_emptyH>120){
+            $("div.psnC_empty").css("height",psnC_emptyH+"px");
+        }else{
+            $("div.psnC_empty").css("height","120px");
         }
-        $("div.imgUploading").show();
-    },
-    onComplete: function(file, resp) {
-        $("div.imgUploading").hide();
-        if (resp.error != undefined) {
-            layer.alert(resp.error.message);
-            return false;
-        }
-        var imgL=$("div.imgSwiper .swiper-slide").length+1;
-        $("div.imgSwiper .swiper-wrapper").append("<div class=\"swiper-slide\"><img src="+ resp.url +" onclick=\'tomaxImg(this);\' /><a onclick=\"delImg(this);\"><img src=\"../addons/xuan_mixloan/template/style/images/del.png\" /><input type=\"hidden\" name=\"images["+imgL+"]\" value=\""+resp.filename+"\"></a></div>");
-        $("div.commentArea form").show();
-        $(".waitImgs").show();
-    }
-});
 
-// 删除图片
-function delImg(index){
-  var _this=$(index);
-  var url=_this.parent().find('img').attr("src");  
-  _this.parent().remove();
-  var imgL=$("div.imgSwiper .swiper-slide").length;        
-  if(imgL==0){
-    $("div.commentArea form").hide();
-  }
-}
-function toCommList(id){
-  window.location.href="{php echo $this->createMobileUrl('friend', ['op'=>'comment_reply'])}&id="+id;
-}
+
+    })
+    $('textarea[autoHeight]').autoHeight();
+
+    var interval;
+    var bfscrolltop = document.body.scrollTop;//获取软键盘唤起前浏览器滚动部分的高度
+    $("#contentor").click(function(){
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            var ver = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+            ver1 = parseInt(ver[1], 10);
+            ver2 = parseInt(ver[2]);
+            if(ver1>=11&&ver2>0){
+            }else{
+                interval = setInterval(function(){
+                    document.body.scrollTop = document.body.scrollHeight;//获取焦点后将浏览器内所有内容高度赋给浏览器滚动部分高度
+                },10)
+            }
+        }
+    })
+    $(function(){
+        $("#contentor").blur(function(){
+            if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                clearInterval(interval);//清除计时器
+                document.body.scrollTop = bfscrolltop; //将软键盘唤起前的浏览器滚动部分高度重新赋给改变后的高度
+            }
+        });
+    })
+
+    // 加载评论
+
+
+    // 发表评论（发送）
+    $(".to_submit").click(function(){
+        if ($(".to_submit").attr("send") == 1) {
+            toSubmit();
+        }
+    })
+    function toSubmit(){
+        $(".to_submit").attr("send", 0);
+        var id={$info['id']};
+        var content=$("#contentor").val();
+        var imgs_url=[];
+        var imgsL=$("div.imgSwiper .swiper-slide").length;
+        if(imgsL>0){
+            for(i=0;i<imgsL;i++){
+                var img_url=$("div.imgSwiper .swiper-slide").eq(i).find("img").attr("src");
+                imgs_url.push(img_url);
+            }
+        }
+        $.post("{php echo $this->createMobileUrl('friend', array('op'=>'post_reply'));}",{friend_id:id, content:content, imgs_url:imgs_url},
+            function(res){
+                if (res.type == 'success') {
+                    layer.msg("评论成功",{time:1000});
+                    {if is_weixin()}
+                    history.go(0);
+                    {else}
+                    mui.plusReady(function(){
+                        var self = plus.webview.currentWebview();
+                        self.reload(true);
+                    })
+                    {/if}
+                    } else {
+                        $(".to_submit").attr("send", 1);
+                        layer.msg(res.message,{time:1000});
+                    }
+                },'json');
+    }
+    // 点击进入评论详情页
+    // function toCommList(index){
+    //   var src=../addons/xuan_mixloan/template/style/picture/$(index).attr('data-src');
+    //   location.href=src;
+    // }
+
+
+    function collect(){
+        $.post("{php echo $this->createMobileUrl('friend', array('op'=>'praise','id'=>$info['id']));}",{},
+            function(res){
+                if(res.type=='success'){
+                    if(res.message=='collected'){
+                        $(".colComm").find("label").attr("class","collected");
+                        $(".colComm").find("span").html("已收藏");
+                        layer.msg("已收藏",{time:1000});
+                    }else{
+                        $(".colComm").find("label").attr("class","noCollect");
+                        $(".colComm").find("span").html("收藏本帖");
+                        layer.msg("已取消收藏",{time:1000});
+                    }
+                }else{
+                    layer.msg(res.message);
+                    return false;
+                }
+            },'json')
+    }
+
+    //上传图片(接口)
+    var ajaxupload1 = new AjaxUpload($("#dummyImgs"), {
+        action: "{php echo $this->createMobileUrl('friend', array('op'=>'upload'))}",
+        type: "POST",
+        data: {},
+        autoSubmit: true,
+        responseType: "json",
+        name: 'file',
+        onChange: function(file, ext) {
+            if (!ext || !/^(jpg|png|jpeg|gif|JPG)$/.test(ext)) {
+                layer.msg('请上传格式为.png .jpg .jpeg的图片');
+                return false;
+            }
+            $("div.imgUploading").show();
+        },
+        onComplete: function(file, resp) {
+            $("div.imgUploading").hide();
+            if (resp.error != undefined) {
+                layer.alert(resp.error.message);
+                return false;
+            }
+            var imgL=$("div.imgSwiper .swiper-slide").length+1;
+            $("div.imgSwiper .swiper-wrapper").append("<div class=\"swiper-slide\"><img src="+ resp.url +" onclick=\'tomaxImg(this);\' /><a onclick=\"delImg(this);\"><img src=\"../addons/xuan_mixloan/template/style/images/del.png\" /><input type=\"hidden\" name=\"images["+imgL+"]\" value=\""+resp.filename+"\"></a></div>");
+            $("div.commentArea form").show();
+            $(".waitImgs").show();
+        }
+    });
+
+    // 删除图片
+    function delImg(index){
+        var _this=$(index);
+        var url=_this.parent().find('img').attr("src");
+        _this.parent().remove();
+        var imgL=$("div.imgSwiper .swiper-slide").length;
+        if(imgL==0){
+            $("div.commentArea form").hide();
+        }
+    }
+    function toCommList(id){
+        window.location.href="{php echo $this->createMobileUrl('friend', ['op'=>'comment_reply'])}&id="+id;
+    }
 </script>
 </body>
 </html>

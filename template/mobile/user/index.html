@@ -46,6 +46,11 @@
             window.addEventListener('refresh', function(event) {
                 mui.currentWebview.reload();
             });
+            plus.key.addEventListener('backbutton', function() {
+                if (confirm('确认退出？')) {
+                    plus.runtime.quit();
+                }
+            }, false);
             var wv=plus.webview.currentWebview();
             // 关闭侧滑返回功能
             wv.setStyle({'popGesture':'none'});
@@ -69,23 +74,23 @@
     </div>
     {/if}
     <div class="agent-foot">
-        <a href="{php echo $this->createMobileUrl('product', array('op'=>''))}">
+        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-            <p>指点点客</p>
+            <p>{$config['title']}客</p>
         </a>
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
             <p>今日口子</p>
-            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>       
-         </a>
-        <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
-            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/picture/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
         </a>
-        <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
+        <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
             <p>查网贷</p>
         </a>
-        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}" class="on">
+        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
             <p>个人中心</p>
         </a>
@@ -144,7 +149,7 @@
                 <ul class="clearfix">
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
-                        <a href="{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')">
                             <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
                             我的徒弟
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -152,7 +157,7 @@
                     </li>
                     <li class="new_guide">
                         <!-- <a href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}"> -->
-                        <a href="{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
                             推荐有钱
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -161,21 +166,21 @@
                     {/if}
                     <div style="height:0.4rem;background: #f3f3f3;"></div>
                     <li>
-                        <a href="{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                             我要办卡
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
                     <li class="new_guide">
-                        <a href="{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
                             新手指南
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
                     <li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op' => ''))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op' => ''))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
                             我要贷款
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -183,7 +188,7 @@
                     </li>
                     {if $config['predict_limit']}
                     <li>
-                        <a href="{$config['predict_limit']}">
+                        <a onclick="openNew('{$config['predict_limit']}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
                             建行预审
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -191,21 +196,31 @@
                     </li>
                     {/if}
                     <li>
-                        <a href="{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'extend_limit'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />
                             我要提额
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    <li class="customer">
-                        <a href="{php echo $this->createMobileUrl('mix', array('op' => 'service'))}">
+                    <li class="{if !is_weixin()}new_guide{else}customer{/if}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
                             我的客服
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    {if !is_weixin()}
+                    <li class="customer">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" />
+                            退出登录
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                 </ul>                
             </div>
+            <div style="height: 3rem"></div>
         </div>
     </div>
     

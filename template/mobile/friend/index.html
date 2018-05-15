@@ -1,17 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta content="e-mail=no" name="format-detection"/>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
 
     <title>金融朋友圈</title>
+
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_2.css">
@@ -19,36 +21,59 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/friendscircle.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/js/jweixin-1.2.0_1.js"></script>
     <style type="text/css">
-      body{background-color: #f1f1f1;}
+        body {
+            background-color: #f1f1f1;
+        }
     </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body class="body">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<script type="text/javascript">
+    mui.plusReady(function() {
+        console.log(mui.currentWebview.id);
+        window.addEventListener('refresh', function(event) {
+            mui.currentWebview.reload();
+        });
+    });
+</script>
+<style type="text/css">
+    div.fc_guide{top: 70px}
+    .agent-header{height: 70px;line-height: 90px}
+    div.search_rec{top: 119px}
+    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 160px}
+</style>
+{/if}
 <div class="fcMainList">
     <div class="agent-header">
         金融朋友圈
-        <a class="return" href="javascript:history.go(-1);">返回</a>
-        <a class="fc_header" href="{php echo $this->createMobileUrl('friend',array('op'=>'center'))}">
+        <a class="return" onclick="openNew('{php echo $this->createMobileUrl('user')}')">返回</a>
+        <a class="fc_header" onclick="openNew('{php echo $this->createMobileUrl('friend',array('op'=>'center'))}')">
             <!-- <img id="toPersonal" src="../addons/xuan_mixloan/template/style/picture/fc_header.png"/> -->
             <img id="toPersonal" src="{$member['avatar']}"/>
         </a>
     </div>
     <div class="fc_guide">
         <div class="fc_search">
-        <form action="{php echo $this->createMobileUrl('friend');}" method="post" id="form_post">
-            <input id='fc_search' name="title"/>
-            <a class="to_search" style="display: none;">确定</a>
-            <div class="static_style">
-                <img src="../addons/xuan_mixloan/template/style/picture/sos.png"/>
-                {if $_GPC['title']}{$_GPC['title']}{else}搜索关键内容{/if}
-            </div>
-        </form>
+            <form action="{php echo $this->createMobileUrl('friend');}" method="post" id="form_post">
+                <input id='fc_search' name="title"/>
+                <a class="to_search" style="display: none;">确定</a>
+                <div class="static_style">
+                    <img src="../addons/xuan_mixloan/template/style/picture/sos.png"/>
+                    {if $_GPC['title']}{$_GPC['title']}{else}搜索关键内容{/if}
+                </div>
+            </form>
         </div>
         <div class="guide_index">
             <ul>
@@ -96,10 +121,10 @@
                                                 <p class="contents">{$row['name']}</p>
                                                 <div class="loanMainImg">
                                                     {if $row['head']}
-                                                        
-                                                        {loop $row['head'] $pimg}
-                                                        <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg">
-                                                        {/loop}
+
+                                                    {loop $row['head'] $pimg}
+                                                    <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg">
+                                                    {/loop}
                                                     {/if}
                                                 </div>
                                                 <p class="mainListReply">
@@ -150,9 +175,9 @@
                                         </div>
                                     </div>
                                     {/loop}
-                                    
+
                                 </div>
-                                
+
                                 <div class="listLimit">没有更多咯~</div>
                             </div>
                         </div>
@@ -181,10 +206,10 @@
                                                 <p class="contents">{$row['name']}</p>
                                                 <div class="loanMainImg">
                                                     {if !empty($row['head'])}
-                                                        
-                                                        {loop $row['head'] $pimg}
-                                                        <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
-                                                        {/loop}
+
+                                                    {loop $row['head'] $pimg}
+                                                    <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
+                                                    {/loop}
                                                     {/if}
                                                 </div>
                                                 <p class="mainListReply">
@@ -198,7 +223,7 @@
                                     </div>
                                     {/loop}
                                 </div>
-                                
+
                                 <div class="listLimit">没有更多咯~</div>
                             </div>
                         </div>
@@ -227,10 +252,10 @@
                                                 <p class="contents">{$row['name']}</p>
                                                 <div class="loanMainImg">
                                                     {if !empty($row['head'])}
-                                                        
-                                                        {loop $row['head'] $pimg}
-                                                        <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
-                                                        {/loop}
+
+                                                    {loop $row['head'] $pimg}
+                                                    <img src="{$_W['attachurl']}{$pimg}" alt="" class="pimg" onclick="maxImg(this)">
+                                                    {/loop}
                                                     {/if}
                                                 </div>
                                                 <p class="mainListReply">
@@ -243,9 +268,9 @@
                                         </div>
                                     </div>
                                     {/loop}
-                                   
+
                                 </div>
-                                
+
                                 <div class="listLimit">没有更多咯~</div>
                             </div>
                         </div>
@@ -264,7 +289,7 @@
                         <div class="main-contain">
                             <div class="evdayhotlist friendlist">
                             </div>
-                            
+
                             <div class="listLimit">没有更多咯~</div>
                         </div>
                     </div>
@@ -292,200 +317,199 @@
 <!-- 关注公众号 -->
 <!--  -->
 <!-- 发布 -->
-<a class="release" href="{php echo $this->createMobileUrl('friend',array('op'=>'share'))}"><img src="../addons/xuan_mixloan/template/style/picture/release.png"/></a>
+<a class="release" onclick="openNew('{php echo $this->createMobileUrl('friend',array('op'=>'share'))}')"><img src="../addons/xuan_mixloan/template/style/picture/release.png"/></a>
 
 
 <script src="../addons/xuan_mixloan/template/style/js/emojis.js"></script>
-<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js?v01"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js"></script>
 <script type="text/javascript">
-var new_flag=true;//tab各内容下拉开关
-var search_flag=false;//search结果下拉开关
-var searchPage;
-var rollFlag=0;
-$(function(){
-  $("#fc_search").val("");
-  // 页面初始化
-  var wH=$(window).height();
-  var headerH=$("div.agent-header").outerHeight(true);
-  var guideH=$("div.fc_guider").outerHeight(true);
-  var tabSwiperH=wH-headerH-guideH+5+"px";
-  var mainH=wH-1+"px";
-  $("div.scrollImg").css("height",wH);
-  $("div.realAuth").css("height",wH);
-  $("div.ban,div.banTip,div.noteIdai").css("height",wH);
-  $("div.fcMainList").css("height",mainH);
-  $("div.tabSwiper").css("min-height",tabSwiperH);
-  //滑动
-  var mySwiper = new Swiper('.tabSwiper', {
-    direction: 'horizontal',
-    slidesPerView: "auto",
-    centeredSlides:true,
-    resistanceRatio:0,
-    touchRatio : 0.5,
-    touchAngle : 10,
-    // spaceBetween: 10,
-    //autoplay: 4000,//可选选项，自动滑动
-    // loop : true,
-    autoplayDisableOnInteraction : false,
-    onSlideChangeEnd: function(swiper){
-      var swiperIndex=swiper.activeIndex;//切换结束时，告诉我现在是第几个slide
-      $("div.guide_index ul li").find("a").removeClass("guide_on");
-      $("div.guide_index ul li").eq(swiperIndex).find("a").addClass("guide_on");
-      new_flag=true;
-      limitHeight();
-    }
-  });
-PreventScroll('.fcMainList');
+    var new_flag = true;//tab各内容下拉开关
+    var search_flag = false;//search结果下拉开关
+    var searchPage;
+    var rollFlag = 0;
+    $(function () {
+        $("#fc_search").val("");
+        // 页面初始化
+        var wH = $(window).height();
+        var headerH = $("div.agent-header").outerHeight(true);
+        var guideH = $("div.fc_guider").outerHeight(true);
+        var tabSwiperH = wH - headerH - guideH + 5 + "px";
+        var mainH = wH - 1 + "px";
+        $("div.scrollImg").css("height", wH);
+        $("div.realAuth").css("height", wH);
+        $("div.ban,div.banTip,div.noteIdai").css("height", wH);
+        $("div.fcMainList").css("height", mainH);
+        $("div.tabSwiper").css("min-height", tabSwiperH);
+        //滑动
+        var mySwiper = new Swiper('.tabSwiper', {
+            direction: 'horizontal',
+            slidesPerView: "auto",
+            centeredSlides: true,
+            resistanceRatio: 0,
+            touchRatio: 0.5,
+            touchAngle: 10,
+            // spaceBetween: 10,
+            //autoplay: 4000,//可选选项，自动滑动
+            // loop : true,
+            autoplayDisableOnInteraction: false,
+            onSlideChangeEnd: function (swiper) {
+                var swiperIndex = swiper.activeIndex;//切换结束时，告诉我现在是第几个slide
+                $("div.guide_index ul li").find("a").removeClass("guide_on");
+                $("div.guide_index ul li").eq(swiperIndex).find("a").addClass("guide_on");
+                new_flag = true;
+                limitHeight();
+            }
+        });
+        PreventScroll('.fcMainList');
 //修复ios输入框获取焦点时不支持fixed的bug
-$(document).ready(function(){
-   var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
-   if(isIOS){
-     $('.authContent ul li input').on('focus',function(){
-        rollFlag=1;
-        var scrollTop=$(window).scrollTop();
-        $('div.realAuth').css({"position":"absolute","height":$("body").outerHeight(true)});  
-        $('div.authMain').css("top",scrollTop+300);                            
+        $(document).ready(function () {
+            var isIOS = (/iphone|ipad/gi).test(navigator.appVersion);
+            if (isIOS) {
+                $('.authContent ul li input').on('focus', function () {
+                    rollFlag = 1;
+                    var scrollTop = $(window).scrollTop();
+                    $('div.realAuth').css({"position": "absolute", "height": $("body").outerHeight(true)});
+                    $('div.authMain').css("top", scrollTop + 300);
 
-     }).on('focusout',function(){
-        rollFlag=0;
-        $('div.realAuth').css({"position":"fixed","height":$(window).height()});    
-        $('div.authMain').css("top","50%");
-     });
-   }
-});
+                }).on('focusout', function () {
+                    rollFlag = 0;
+                    $('div.realAuth').css({"position": "fixed", "height": $(window).height()});
+                    $('div.authMain').css("top", "50%");
+                });
+            }
+        });
 //监听页面滚动
-document.addEventListener('touchmove', function (event) {
-  if(rollFlag==1){
-      event.preventDefault();
-  } 
-})
+        document.addEventListener('touchmove', function (event) {
+            if (rollFlag == 1) {
+                event.preventDefault();
+            }
+        })
 
 // 搜索框切换开始
-  $("#fc_search").focus(function(){
-    $("div.static_style").hide();
-    $(this).css("width","82%").addClass("searching");
-    $(this).parent().find("a").show();
-    searching();
-    $("div.search_rec").show();
-  });
-  $("div.search_rec").click(function(){
-    var searchValue=$("#fc_search").val();
-    if(searchValue=='') { 
-      $("div.static_style").show();
-      $("div.fc_search").find("a").hide();
-      $("div.fc_search").find("input").css("width","94%");
-    }else{
-      $("div.static_style").hide();
-      $("div.fc_search").find("a").show();
-      $("div.fc_search").find("input").css("width","82%");
-    }
-    $("div.search_rec").hide(); 
-  });
-  function searching(){
-    var window_H=$(window).height();
-    var search_recH=window_H-85+"px";
-    $("div.search_rec").css("height",search_recH);    
-  }
+        $("#fc_search").focus(function () {
+            $("div.static_style").hide();
+            $(this).css("width", "82%").addClass("searching");
+            $(this).parent().find("a").show();
+            searching();
+            $("div.search_rec").show();
+        });
+        $("div.search_rec").click(function () {
+            var searchValue = $("#fc_search").val();
+            if (searchValue == '') {
+                $("div.static_style").show();
+                $("div.fc_search").find("a").hide();
+                $("div.fc_search").find("input").css("width", "94%");
+            } else {
+                $("div.static_style").hide();
+                $("div.fc_search").find("a").show();
+                $("div.fc_search").find("input").css("width", "82%");
+            }
+            $("div.search_rec").hide();
+        });
+
+        function searching() {
+            var window_H = $(window).height();
+            var search_recH = window_H - 85 + "px";
+            $("div.search_rec").css("height", search_recH);
+        }
+
 // 搜索框切换结束
 // 标签切换开始
-  $("div.guide_index ul li").click(function(){    
-    search_flag=false;
-    new_flag=true;
-    $("div.tabSwiper").show();
-    $("div.searchSwiper").hide();
-    PreventScroll('.fcMainList');
-    var _index=$(this).index();
-    if(!$(this).find("a").hasClass("guide_on")){
-      $(this).parent().find("li a").removeClass("guide_on");
-      $(this).find("a").addClass("guide_on");
-      mySwiper.slideTo(_index, 300, false);//切换到第一个slide，速度为1秒
-      limitHeight();
-    }
-  })
-// 标签切换结束  
-});
-//首页标签内容展示
-$(document).ready(function(){
-  setTimeout(function(){
-    limitHeight();
-  },1000);
-})
-// 重新定义页面高度
-function limitHeight(){
-  var indexHeight=$("div.tabSwiper .swiper-wrapper .swiper-slide-active .result_common").outerHeight(true);
-  $("div.tabSwiper .swiper-wrapper").css("height",indexHeight);
-  PreventScroll('.fcMainList');
-}
-$(document).ready(function(){
-  var range = 100;             //距下边界长度/单位px
-  var totalheight = 0;                    //主体元素  
-  var newPage = 1;
-  var answerPage = 1;
-  var imgPage = 1;
-  var sharePage = 1;
-  $("div.fcMainList").unbind("scroll").bind("scroll",function(e){  
-      // var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
-      //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
-      //console.log("页面的文档高度 ："+$(document).height());  
-      //console.log('浏览器的高度：'+$(window).height());
-      var sum = this.scrollHeight;  
-      // totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
-      if(sum-range <= $(this).scrollTop() + $(this).outerHeight()) { 
-        if(new_flag) {
-          $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").show();
-          limitHeight();
-          new_flag=false;
-          var tagId=$("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-tagId");
-          var maxPage=$("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-Page");
-          if(tagId=="0"){
-            newPage++;
-            var page=newPage;
-          }else if(tagId=="1"){
-            imgPage++;
-            var page=imgPage;
-          }else if(tagId=="2"){
-            answerPage++;
-            var page=answerPage;
-          }else if(tagId=="3"){
-            sharePage++;
-            var page=sharePage;
-          }    
-          if(page>maxPage){
-            $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").hide();
-            $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLimit").show();
+        $("div.guide_index ul li").click(function () {
+            search_flag = false;
+            new_flag = true;
+            $("div.tabSwiper").show();
+            $("div.searchSwiper").hide();
+            PreventScroll('.fcMainList');
+            var _index = $(this).index();
+            if (!$(this).find("a").hasClass("guide_on")) {
+                $(this).parent().find("li a").removeClass("guide_on");
+                $(this).find("a").addClass("guide_on");
+                mySwiper.slideTo(_index, 300, false);//切换到第一个slide，速度为1秒
+                limitHeight();
+            }
+        })
+// 标签切换结束
+    });
+    //首页标签内容展示
+    $(document).ready(function () {
+        setTimeout(function () {
             limitHeight();
-            return;
-          }
-          var url = '/Wap/FriendCircle/getMainList';
-          $.ajax({
-             url:url,
-             type:'post',
-             data:{'tagId':tagId,'page':page},
-             async: false,
-             dataType:'json',
-             success:function (res) {
-                if(res.code==0){
-                  var _data=res.data;
-                  ajaxResult(_data,0,tagId); 
-                }else{
-                  layer.msg(res.message);
-                  return flase;
-                }                                               
-             },
-             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                 // alert(XMLHttpRequest.status);
-                 // alert(XMLHttpRequest.readyState);
-                 // alert(textStatus);
-             }
-           })
-        }else if(search_flag){ 
-          search_flag=false;         
-          toSearch();
-        }
-      }  
-  });
-})
+        }, 1000);
+    })
+
+    // 重新定义页面高度
+    function limitHeight() {
+        var indexHeight = $("div.tabSwiper .swiper-wrapper .swiper-slide-active .result_common").outerHeight(true);
+        $("div.tabSwiper .swiper-wrapper").css("height", indexHeight);
+        PreventScroll('.fcMainList');
+    }
+
+    $(document).ready(function () {
+        var range = 100;             //距下边界长度/单位px
+        var totalheight = 0;                    //主体元素
+        var newPage = 1;
+        var answerPage = 1;
+        var imgPage = 1;
+        var sharePage = 1;
+        $("div.fcMainList").unbind("scroll").bind("scroll", function (e) {
+            // var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());
+            //console.log("页面的文档高度 ："+$(document).height());
+            //console.log('浏览器的高度：'+$(window).height());
+            var sum = this.scrollHeight;
+            // totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+            if (sum - range <= $(this).scrollTop() + $(this).outerHeight()) {
+                if (new_flag) {
+                    $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").show();
+                    limitHeight();
+                    new_flag = false;
+                    var tagId = $("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-tagId");
+                    var maxPage = $("div.tabSwiper .swiper-wrapper .swiper-slide-active").attr("data-Page");
+                    if (tagId == "0") {
+                        newPage++;
+                        var page = newPage;
+                    } else if (tagId == "1") {
+                        imgPage++;
+                        var page = imgPage;
+                    } else if (tagId == "2") {
+                        answerPage++;
+                        var page = answerPage;
+                    } else if (tagId == "3") {
+                        sharePage++;
+                        var page = sharePage;
+                    }
+                    if (page > maxPage) {
+                        $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLoading").hide();
+                        $("div.tabSwiper .swiper-wrapper .swiper-slide-active").find("div.listLimit").show();
+                        limitHeight();
+                        return;
+                    }
+                    var url = "{php echo $this->createMobileUrl('friend', array('op'=>'getFriends'))}";
+                    $.ajax({
+                        url: url,
+                        type: 'post',
+                        data: {'tagId': tagId, 'page': page},
+                        async: false,
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.code == 0) {
+                                var _data = res.data;
+                                ajaxResult(_data, 0, tagId);
+                            } else {
+                                layer.msg(res.message);
+                                return flase;
+                            }
+                        }
+                    })
+                } else if (search_flag) {
+                    search_flag = false;
+                    toSearch();
+                }
+            }
+        });
+    })
     // 搜索
     $(".to_search").click(function () {
         searchPage = 0;
@@ -502,22 +526,23 @@ $(document).ready(function(){
     })
 
     function toSearch(kw, page) {
-       $('#form_post').submit();
+        $('#form_post').submit();
     }
 
     function return_info(id) {
-        window.location.href = "{php echo $this->createMobileUrl('friend', array('op'=>'info'));}&id="+id;
+        var temp = "{php echo $this->createMobileUrl('friend', array('op'=>'info'));}&id="+id;
+        openNew(temp);
     }
     function ajaxResult(_data,root,tagId){
         for(i=0;i<_data.length;i++){
             var user_img=_data[i].avatar;
-            var nickname=_data[i].nickname; 
+            var nickname=_data[i].nickname;
             var title=_data[i].title;
             var tag_id=_data[i].tag_id;
             var tag_name=_data[i].tag_name;
             var content=_data[i].content;
             var img=_data[i].img;
-            var user_name=_data[i].user_name;                
+            var user_name=_data[i].user_name;
             var user_id=_data[i].user_id;
             var view_num=_data[i].view_num;
             var comment_num=_data[i].comment_num;
@@ -525,41 +550,41 @@ $(document).ready(function(){
             var create_date=_data[i].create_date;
             var str="";
             var power="";
-            
+
             if(user_img!=""&&user_img!=null&&user_img!=undefined){
-              str += "<span class=\"fl\"><img src="+user_img+" width=\"35px\" height=\"35px\"></span>";
+                str += "<span class=\"fl\"><img src="+user_img+" width=\"35px\" height=\"35px\"></span>";
             }
             str += "<div class=\"mainName\">";
             var admin=0;
             if(tagId=="1"||tagId=="2"||tagId=="3"){
-              if(nickname!=""&&nickname!=null&&nickname!=undefined){
-                if(admin=="1"){
-                  str += "<h3>"+ nickname + power +"</h3>";
+                if(nickname!=""&&nickname!=null&&nickname!=undefined){
+                    if(admin=="1"){
+                        str += "<h3>"+ nickname + power +"</h3>";
+                    }else{
+                        str += "<h3>"+ nickname + "</h3>";
+                    }
                 }else{
-                  str += "<h3>"+ nickname + "</h3>";
-                }        
-              }else{
-                if(admin=="1"){
-                  str += "<h3>"+ user_name + power +"</h3>";
-                }else{
-                  str += "<h3>"+ user_name + "</h3>";
+                    if(admin=="1"){
+                        str += "<h3>"+ user_name + power +"</h3>";
+                    }else{
+                        str += "<h3>"+ user_name + "</h3>";
+                    }
                 }
-              }    
             }else{
-              if(nickname!=""&&nickname!=null&&nickname!=undefined){
-                if(admin=="1"){
-                  str += "<h3>"+ nickname + power +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>";
+                if(nickname!=""&&nickname!=null&&nickname!=undefined){
+                    if(admin=="1"){
+                        str += "<h3>"+ nickname + power +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>";
+                    }else{
+                        str += "<h3>"+ nickname +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
+                    }
                 }else{
-                  str += "<h3>"+ nickname +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
-                }        
-              }else{
-                if(admin=="1"){
-                  str += "<h3>"+ user_name + power +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
-                }else{
-                  str += "<h3>"+ user_name +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
-                }        
-              }      
-            }    
+                    if(admin=="1"){
+                        str += "<h3>"+ user_name + power +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
+                    }else{
+                        str += "<h3>"+ user_name +"<a class=\"fc_label label_"+ tag_id +"\">"+ tag_name +"</a></h3>"
+                    }
+                }
+            }
             str += "<p>"+ create_date +"</p>";
             str += "</div>";
             str += "</div>";
@@ -567,33 +592,33 @@ $(document).ready(function(){
             str += "<p class=\"mainTitle\">"+ title +"</p>";
             str += "<p class=\"contents\">"+ content +"</p>";
             if(img!=""&&img!=null&&img!=undefined){
-              str += "<div class=\"loanMainImg\">";
-              for(j=0;j<img.length;j++){
-                var s_img=img[j];
-                str += "<img src="+s_img+" class=\"pimg\" onclick=\"maxImg(this);\">";
-              }
-              str += "</div>";
+                str += "<div class=\"loanMainImg\">";
+                for(j=0;j<img.length;j++){
+                    var s_img=img[j];
+                    str += "<img src="+s_img+" class=\"pimg\" onclick=\"maxImg(this);\">";
+                }
+                str += "</div>";
             }
             str += "<p class=\"mainListReply\"><span href=\"javascript:void(0);\"><img src='../addons/xuan_mixloan/template/style/picture/reply.png' /><label></label></span></p>"
             str += "</div>";
             str += "</div>";
             str += "</div>";
             if(root=="0"){
-              $("div.tabSwiper .swiper-wrapper .swiper-slide-active .friendlist").append(str); 
-              if(i==_data.length-1){ 
-                $("div.tabSwiper .swiper-wrapper").find("div.listLoading").show();       
-                limitHeight();
-                new_flag=true;
-              }
+                $("div.tabSwiper .swiper-wrapper .swiper-slide-active .friendlist").append(str);
+                if(i==_data.length-1){
+                    $("div.tabSwiper .swiper-wrapper").find("div.listLoading").show();
+                    limitHeight();
+                    new_flag=true;
+                }
             }else{
-              $("div.guide_index ul li").find("a.guide_on").removeClass("guide_on");
-              $("div.searchSwiper .swiper-wrapper .friendlist").append(str);
-              if(i==_data.length-1){
-                $("div.searchSwiper .swiper-wrapper").find("div.listLoading").show();
-                search_flag=true;
-              }      
+                $("div.guide_index ul li").find("a.guide_on").removeClass("guide_on");
+                $("div.searchSwiper .swiper-wrapper .friendlist").append(str);
+                if(i==_data.length-1){
+                    $("div.searchSwiper .swiper-wrapper").find("div.listLoading").show();
+                    search_flag=true;
+                }
             }
-                                                    
+
         }
     }
 </script>

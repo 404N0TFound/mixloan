@@ -81,7 +81,7 @@
             <h2><span>热门技巧</span></h2>
             <ul>
                 {loop $tips $v}
-                <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
+                <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}')"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
                 {/loop}
             </ul>
             {if count($tips) > 5}
@@ -162,7 +162,7 @@
                     for(i=0;i<_data.length;i++){
                         var title=_data[i].title;
                         var _id=_data[i].id;
-                        $("div.bankgh_content ul").append("<li><a href=\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\">"+ title +"</a></li>");
+                        $("div.bankgh_content ul").append("<li><a onclick='openNew(\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\")'>"+ title +"</a></li>");
                     }
                 }
             },'json')
@@ -199,7 +199,7 @@
                                                                 + "<h1>"+ title +"</h1>"
                                                                 + "<span><img src="+imgs+" /></span>"
                                                                 + "<p>"+ title2 +"</p>"
-                                                                + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
+                                                                 + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
                                                             + "</li>")
                         }                        
                     }else{

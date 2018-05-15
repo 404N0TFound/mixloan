@@ -56,9 +56,9 @@
 </style>
 {/if}
 <div class="agent-foot texttotal agent-footer">
-    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>最新口子</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
     <a class="on"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
-    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
 </div>
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
@@ -66,7 +66,7 @@
             <div class="swiper-container pro-swiper">
                 <div class="swiper-wrapper">
                 {loop $advs $adv}
-                <div class="swiper-slide" style="width:90%;" data-swiper-slide-index="0"><a href="{$adv['ext_info']['url']}" ><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
+                    <div class="swiper-slide" style="width:90%;"><a onclick="openNew('{$adv['ext_info']['url']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
                 {/loop}
                 </div>
             <div class="swiper-pagination pro-pagination"></div>
@@ -75,8 +75,8 @@
             <div class="loan-{php echo $this->createMobileUrl('channel', array('op'=>'course'))}">
                 {loop $credit_list $credit}
                 <div class="loan-list">                
-                    <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$credit['id']))}">
+                    <div class="loan-main">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$credit['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$credit['ext_info']['pic']}" src="{$credit['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$credit['title']}</h3>
                             <!-- <p class="sub-content"></p> -->
@@ -89,11 +89,11 @@
              </div>   
             <!-- 信用卡 -->
             <div class="loan-list special_article new_course">
-                <div class="new_courseDirect"><label></label><span>口子</span><a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}">全部></a></div>
+                <div class="new_courseDirect"><label></label><span>口子</span><a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')">全部></a></div>
                 <div class="loan-main">
                     <img class="lazy" data-attr="../addons/xuan_mixloan/template/style/picture/5a0e9329f34b6.png" src="../addons/xuan_mixloan/template/style/picture/5a0e9329f34b6.png" width="100%" />
                     <p>
-                    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}">去学习</a>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')">去学习</a>
                     </p>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                 {loop $channel_list $channel}
                 <div class="loan-list">                
                     <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$channel['id']))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$channel['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$channel['ext_info']['pic']}" src="{$channel['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$channel['title']}</h3>
                             <p class="time-ad">{$channel['createtime']}</p>
@@ -114,11 +114,11 @@
             </div> 
             <!-- 新手教程 -->
             <div class="loan-list special_article new_course">
-                <div class="new_courseDirect"><label></label><span>新手教程</span><a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}">全部></a></div>
+                <div class="new_courseDirect"><label></label><span>新手教程</span><a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')">全部></a></div>
                 <div class="loan-main">
                     <img class="lazy" data-attr="../addons/xuan_mixloan/template/style/picture/5a54acf785a9b.png" src="../addons/xuan_mixloan/template/style/picture/pre_img2_1.png" width="100%" />
                     <p>
-                    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}">去学习</a>                
+                    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')">去学习</a>                
                     </p>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                 {loop $course_list $course}
                 <div class="loan-list">                
                     <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$course['ext_info']['pic']}" src="{$course['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$course['title']}</h3>
                             <p class="time-ad">{$course['createtime']}</p>
@@ -144,7 +144,7 @@
                     <ul>
                         {loop $hot_list $hot}
                         <li>
-                            <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$hot['id']))}">                            
+                            <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$hot['id']))}')">                            
                                 <span class="hotarticle">
                                    <b>{$hot['apply_nums']}人</b>
                                    <b>已学习</b>
@@ -171,7 +171,7 @@
                 {loop $credit_low_list $low}
                 <div class="loan-list">                
                     <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$low['ext_info']['pic']}" src="{$low['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$low['title']}</h3>
                             <!-- <p class="sub-content"></p> -->
@@ -340,20 +340,20 @@ $(document).ready(function(){
 //点击进入热点文章
 $(".more_hotarticle a").click(function(){
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'hot'))}";
-    location.href=_url;
+    openNew(_url);
 })
 //点击进入专题文章
 $(".topic").click(function(){
     var id=$(this).attr("data-id");
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'subject'))}&id="+id;
-    location.href=_url;
+    openNew(_url);
 })
 //点击进入搜索页
 $(".to_search").click(function(){
     var data_condition=$(this).attr("data-condition");
     var classify="0";
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
-    location.href=_url;
+    openNew(_url);
 })
 </script>
 </html>

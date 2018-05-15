@@ -120,6 +120,7 @@ if($operation=='register'){
     $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
 		where unionid=:unionid', array(':unionid'=>$unionid));
     if (empty($id)) {
+        show_json(-1, [], "请先公众号打开{$config['title']}一次再打开APP");
         $insert = array(
             'uniacid'=>$_W['uniacid'],
             'openid'=>$_GPC['openid'],

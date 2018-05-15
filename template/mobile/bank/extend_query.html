@@ -53,7 +53,7 @@
             <ul>
             {loop $banks $row}
                 <li>
-                    <a href="{$row['ext_info']['query_url']}">
+                    <a onclick="openNew('{$row['ext_info']['query_url']}')">
                         <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>                        
                         <span>{$row['name']}</span>
                     </a>
@@ -95,7 +95,7 @@
                                                                 + "<h1>"+ title +"</h1>"
                                                                 + "<span><img src="+imgs+" /></span>"
                                                                 + "<p>"+ title2 +"</p>"
-                                                                + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
+                                                                + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
                                                             + "</li>")
                         }                        
                     }else{

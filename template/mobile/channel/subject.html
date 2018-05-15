@@ -40,7 +40,15 @@
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
 
+{/if}
 
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
