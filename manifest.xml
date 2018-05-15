@@ -396,6 +396,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `status` tinyint(10) DEFAULT '2' COMMENT '是否开启',
   `nickname` varchar(50) NOT NULL,
   `openid` varchar(50) NOT NULL,
+  `unionid` varchar(100) NOT NULL,
   `realname` varchar(50) NOT NULL,
   `wechat` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,

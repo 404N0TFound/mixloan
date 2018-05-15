@@ -10,6 +10,12 @@ class Xuan_mixloan_User
     }
     function getOpenid($uid="")
     {
+        if (empty($uid)) {
+            if (!empty($_COOKIE['user_id'])) {
+                $uid = $_COOKIE['user_id'];
+            }
+        }
+        $uid = intval($uid);
         if ($uid) {
             return pdo_fetchcolumn("select openid from ".tablename("xuan_mixloan_member")." where id={$uid}");
         } else {

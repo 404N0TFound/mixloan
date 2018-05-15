@@ -53,15 +53,21 @@ class Xuan_mixloan_Member
         }
         return $info;
     }
-    public function getMember($openid = '')
+    public function getMember($openid = '', $unionid = '')
     {
         global $_W;
         $uid = intval($openid);
         if (empty($uid)) {
-            $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where  openid=:openid and uniacid=:uniacid limit 1', array(
+            $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where openid=:openid and uniacid=:uniacid limit 1', array(
                 ':uniacid' => $_W['uniacid'],
-                ':openid' => $openid
+                ':openid' => $openid,
             ));
+            if (empty($info) && $unionid) {
+                $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where unionid=:unionid and uniacid=:uniacid limit 1', array(
+                    ':uniacid' => $_W['uniacid'],
+                    ':unionid' => $unionid,
+                ));
+            }
         } else {
             $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where id=:id and uniacid=:uniacid limit 1', array(
                 ':uniacid' => $_W['uniacid'],
@@ -173,6 +179,10 @@ class Xuan_mixloan_Member
             </html>");
             return;
         }
+
+        $wx = WeAccount::create();
+        $token = $wx->getOauthAccessToken();
+        $tempinfo = $wx->getOauthUserInfo($token, $openid);
         $member   = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);
@@ -202,7 +212,8 @@ class Xuan_mixloan_Member
                 'country' => !empty($mc['country']) ? $mc['country'] : $userinfo['country'],
                 'sex'=> !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
                 'createtime' => time(),
-                'status' => -2
+                'status' => -2，
+                'unionid'=>$tempinfo['unionid']
             );
             pdo_insert('xuan_mixloan_member', $member);
         } else {
@@ -216,17 +227,12 @@ class Xuan_mixloan_Member
             // if ($userinfo['avatar'] != $member['avatar']) {
             //     $upgrade['avatar'] = $userinfo['avatar'];
             // }
+            if (!empty($tempinfo['unionid'])) {
+                $upgrade['unionid'] = $tempinfo['unionid'];
+            }
             if (!empty($uid)) {
                 if (empty($member['uid'])) {
                     $upgrade['uid'] = $uid;
-                }
-                if ($member['credit1'] > 0) {
-                    mc_credit_update($uid, 'credit1', $member['credit1']);
-                    $upgrade['credit1'] = 0;
-                }
-                if ($member['credit2'] > 0) {
-                    mc_credit_update($uid, 'credit2', $member['credit2']);
-                    $upgrade['credit2'] = 0;
                 }
             }
             if (!empty($upgrade)) {
