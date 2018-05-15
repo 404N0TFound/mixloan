@@ -248,13 +248,13 @@ $(document).ready(function(){
 //点击进入热点文章
 $(".more_hotarticle a").click(function(){
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'hot'))}";
-    location.href=_url;
+    openNew(_url)
 })
 //点击进入专题文章
 $(".topic").click(function(){
     var id=$(this).attr("data-id");
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'subject'))}&id="+id;
-    location.href=_url;
+    openNew(_url)
 })
 //点击进入搜索页
 $(".to_search").click(function(){

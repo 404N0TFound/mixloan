@@ -554,11 +554,12 @@ function openNew(url){
     })
 
     var return_url = function(id) {
-        window.location.href="{php echo $this->createMobileUrl('friend', array('op'=>'info'))}&id="+id;
+        _url="{php echo $this->createMobileUrl('friend', array('op'=>'info'))}&id="+id;
+        openNew(_url)
     }
 
     var return_url_notify = function(url){
-        window.location.href=url;
+        openNew(url)
     }
 </script>
 </body>
