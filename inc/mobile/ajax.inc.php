@@ -170,6 +170,44 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'apply_temp') {
+    //常规脚本
+    $ids = [];
+    if ($_GPC['type'] == 'temp') {
+        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        foreach ($list as $row) {
+            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+            if ($row['left_bonus']<0) {
+                $bonus = pdo_fetch('select id,extra_bonus from '.tablename('xuan_mixloan_bonus').' where inviter=:inviter and status>1', array(':inviter'=>$row['uid']));
+                if ($bonus) {
+                	pdo_update('xuan_mixloan_bonus', array('extra_bonus'=>$bonus['extra_bonus']-$row['left_bonus']), array('id'=>$bonus['id']));
+                } else {
+                	$insert = array(
+                		'uniacid'=>$_W['uniacid'],
+                		'uid'=>0,
+                		'relate_id'=>27,
+                		'phone'=>18678350582,
+                		'certno'=>'371402198803251212',
+                		'realname'=>'李龙',
+                		'inviter'=>$row['uid'],
+                		'extra_bonus'=>-$row['left_bonus'],
+                		'createtime'=>time(),
+                		'status'=>2,
+                		'degree'=>1,
+                		'type'=>1
+                	);
+                	pdo_insert('xuan_mixloan_bonus', $insert);
+                }
+                $ids[] = $row['uid'];
+            }
+        }
+    }
+    if (!empty($ids)) {
+        echo implode(',', $ids);
+    } else {
+        echo 'empty';
+    }
 }
 
 
