@@ -32,7 +32,42 @@
 
 	{template 'common/wxshare'}
 </head>
-<body class="bglightgray" > 
+<body class="bglightgray" >
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+    </script>
+    {if !is_weixin()}
+    <script type="text/javascript">
+        mui.plusReady(function() {
+            console.log(mui.currentWebview.id);
+            window.addEventListener('refresh', function(event) {
+                mui.currentWebview.reload();
+            });
+            var wv=plus.webview.currentWebview();
+            // 关闭侧滑返回功能
+            wv.setStyle({'popGesture':'none'});
+        });
+        mui.back = function(){
+            return false;
+        }
+    </script>
+    <style type="text/css">
+        .app_header{height: 80px;width: 100%;background: #00a2ff}
+        .app_header_back{text-align: center;color: white}
+        .app_header_back{padding-top: 48px;padding-left: 4%}
+        .app_header_back img{position: absolute;left:4%;width: 12px;}
+        .app_header_back span{margin-top: 10px;font-size: 17px}
+    </style>
+    <div class="app_header">
+        <div class="app_header_back">
+            <!-- <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)"> -->
+            <span>个人中心</span>
+        </div>
+    </div>
+    {/if}
     <div class="agent-foot">
         <a href="{php echo $this->createMobileUrl('product', array('op'=>''))}">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>

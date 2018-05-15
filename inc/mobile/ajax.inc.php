@@ -178,7 +178,26 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
-} 
+} else if ($operation == 'apply_temp') {
+    //常规脚本
+    $ids = [];
+    if ($_GPC['type'] == 'temp') {
+        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        foreach ($list as $row) {
+            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+            if ($row['left_bonus']<0) {
+                var_dump($row['left_bonus']);
+                $ids[] = $row['uid'];
+            }
+        }
+    }
+    if (!empty($ids)) {
+        echo implode(',', $ids);
+    } else {
+        echo 'empty';
+    }
+}
 
 
 ?>
