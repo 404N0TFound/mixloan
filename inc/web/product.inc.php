@@ -25,6 +25,10 @@ if ($operation == 'list') {
     message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
+    $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
+    if (empty($posters)) {
+        message('请先添加海报', $this->createWebUrl('poster'), 'error');
+    }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
@@ -48,6 +52,10 @@ if ($operation == 'list') {
 } else if ($operation == 'update') {
     //编辑
     $id = intval($_GPC['id']);
+    $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
+    if (empty($posters)) {
+        message('请先添加海报', $this->createWebUrl('poster'), 'error');
+    }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {

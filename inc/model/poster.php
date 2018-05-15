@@ -116,8 +116,8 @@ class Xuan_mixloan_Poster
         if (!empty($ext_info['poster']['nickname'])) {
             //昵称
             $poster_color = hex2rgb($ext_info['poster']['nickname']['color']);
-            $left = intval($ext_info['poster']['head']['left'])* $width_proportion;
-            $top = intval($ext_info['poster']['head']['top'])* ($width_proportion+0.2);
+            $left = intval($ext_info['poster']['nickname']['left'])* $width_proportion;
+            $top = intval($ext_info['poster']['nickname']['top'])* ($width_proportion+0.2);
             $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
             imagettftext($bgpng,$ext_info['poster']['nickname']['size']*$width_proportion,0,$left,$top,$color,$font,$params['member']['nickname']);
         }
