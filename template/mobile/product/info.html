@@ -111,6 +111,11 @@
             <span>{$info['name']}</span>
         </div>
     </div>
+    {else}
+    <div class="agent-header">
+        {$info['name']}
+        <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
+    </div>
     {/if}
     <div class="nb_banner">
     	<img src="{$info['ext_info']['pic']}" />
