@@ -83,7 +83,9 @@ if ($operation == 'list') {
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $sql = 'select a.*,b.avatar from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id {$join} where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
         if ($row['type'] == 2) {
