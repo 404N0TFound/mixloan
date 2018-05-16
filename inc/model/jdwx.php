@@ -59,9 +59,7 @@ class Xuan_Mixloan_Jdwx
         //蜜罐数据
 		$name = urlencode($name);
         $url = "https://way.jd.com/juxinli/henypot4JD?name={$name}&idCard={$idcard}&phone={$phone}&appkey={$key}";
-        echo $url;
         $resJson = file_get_contents($url);
-        echo $resJson;die;
         $res = json_decode($resJson,1);
         if ($res['code'] == "10000") {
             if ($res['result']['success'] == true) {
