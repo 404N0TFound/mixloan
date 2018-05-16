@@ -185,6 +185,9 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
+	if ($bonus<100) {
+		show_json(-1, null, "提现金额不能低于100");
+	}
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
