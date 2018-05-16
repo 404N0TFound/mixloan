@@ -45,10 +45,10 @@ if($operation=='index'){
 			show_json(-1, [], '参数不能为空');
 	}
 	if ($config['jdwx_open']) {
-		$res = m('jdwx')->QryBankCardBy4Element($config['jdwx_key'], $bank_num, $user_name, $id_card, $phone);
-		if ($res['code']!=1) {
-			show_json(-1, [], $res['msg']);
-		}
+		// $res = m('jdwx')->QryBankCardBy4Element($config['jdwx_key'], $bank_num, $user_name, $id_card, $phone);
+		// if ($res['code']!=1) {
+		// 	show_json(-1, [], $res['msg']);
+		// }
 	} 
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
