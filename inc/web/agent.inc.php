@@ -111,6 +111,11 @@ if ($operation == 'list') {
             $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
             $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
             $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+        } else if ($item['degree'] == 3) {
+            $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
+            $info['done_reward_per'] = $info['ext_info']['done_thr_init_reward_per'];
+            $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+            $info['re_reward_per'] = $info['ext_info']['re_thr_init_reward_per'];
         }
     } else {
         $info['name'] = '邀请购买代理奖励';
@@ -176,12 +181,7 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    if (true) {
-        //id 42之后改为微信二维码收款
-        $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
-    } else {
-        $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
-    }
+    $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));

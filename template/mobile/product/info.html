@@ -147,12 +147,18 @@
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
                     </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}三级：{$info['ext_info']['done_thr_init_reward_money']}元
+                    </li>
                     {else}
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
                     </li>
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_per']}点
+                    </li>
+                    <li>
+                        {if $info['type']==1}下卡{else}下款{/if}三级：{$info['ext_info']['done_thr_init_reward_per']}点
                     </li>
                     {/if}
 
@@ -163,12 +169,18 @@
                     <li>
                        注册二级：{$info['ext_info']['re_two_init_reward_money']}元
                     </li>
+                    <li>
+                        注册三级：{$info['ext_info']['re_thr_init_reward_money']}元
+                    </li>
                     {else if $info['re_reward_type']==2}
                     <li>
                         注册直推：{$info['ext_info']['re_one_init_reward_per']}点
                     </li>
                     <li>
                         注册二级：{$info['ext_info']['re_two_init_reward_per']}点
+                    </li>
+                    <li>
+                        注册三级：{$info['ext_info']['re_thr_init_reward_per']}点
                     </li>
                     {/if}
                 </ul>
