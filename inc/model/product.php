@@ -278,7 +278,7 @@ class Xuan_mixloan_Product
         }
         if ($type == 1) {
             $fields = "pid, COUNT(1) AS count";
-            $wheres .= " AND status<>-2";
+            $wheres .= " AND status<>-2 AND degree=1";
         } else if ($type == 2) {
             $fields = "pid, COUNT(1) AS count, SUM(relate_money) AS relate_money";
             $wheres .= " AND status>1";
