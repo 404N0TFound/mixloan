@@ -114,6 +114,11 @@ if ($operation == 'list') {
             $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
             $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
             $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+        } else if ($item['degree'] == 3) {
+            $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
+            $info['done_reward_per'] = $info['ext_info']['done_thr_init_reward_per'];
+            $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+            $info['re_reward_per'] = $info['ext_info']['re_thr_init_reward_per'];
         }
     } else {
         $info['name'] = '邀请购买代理奖励';
