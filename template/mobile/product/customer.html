@@ -174,56 +174,56 @@ function ajaxData(year,month){
 
 				$("div.weekProduct").html("");				
 				var week=data.weeks_list;//周结
-				for(j=0;j<week.length;j++){
-					var weekStr='';
-					var mId=week[j].id;
-					var mTitle=week[j].name;
-					var mapply=week[j].count_num;
-					var mvalid=0;
-					var mloan=week[j].succ;
-					var mrewards=week[j].count_bonus;
-					// var unit=week[j].unit;
-					if(mId=="2"||mId=="21"){
-						if(mId=="21"){
-							if(gdFlag){
-								//2018/1/1之前数据
-								if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productZero">'
-								}else{
-									weekStr += '<ul>'
-								}	
-							}else{
-								//2018/1/1之后数据
-								if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-									weekStr += '<ul class="productXrf productZero">';
-								}else{
-									weekStr += '<ul class="productXrf">'
-								}
-							}
-						}else{
-							//2 信而富;
-							if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-								weekStr += '<ul class="productXrf productZero">';
-							}else{
-								weekStr += '<ul class="productXrf">'
-							}
-						}																	
-					}else{
-						if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-							weekStr += '<ul class="productZero">'
-						}else{
-							weekStr += '<ul>'
-						}												
-					}
+                for(j=0;j<week.length;j++){
+                    var weekStr='';
+                    var mId=week[j].id;
+                    var mTitle=week[j].name;
+                    var mapply=week[j].count_num;
+                    var mvalid=0;
+                    var mloan=week[j].succ;
+                    var mrewards=week[j].count_bonus;
+                    // var unit=week[j].unit;
+                    // if(mId=="2"||mId=="21"){
+                    // 	if(mId=="21"){
+                    // 		if(gdFlag){
+                    // 			//2018/1/1之前数据
+                    // 			if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                    // 				weekStr += '<ul class="productZero">'
+                    // 			}else{
+                    // 				weekStr += '<ul>'
+                    // 			}
+                    // 		}else{
+                    // 			//2018/1/1之后数据
+                    // 			if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                    // 				weekStr += '<ul class="productXrf productZero">';
+                    // 			}else{
+                    // 				weekStr += '<ul class="productXrf">'
+                    // 			}
+                    // 		}
+                    // 	}else{
+                    // 		//2 信而富;
+                    // 		if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                    // 			weekStr += '<ul class="productXrf productZero">';
+                    // 		}else{
+                    // 			weekStr += '<ul class="productXrf">'
+                    // 		}
+                    // 	}
+                    // }else{
+                    // 	if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                    // 		weekStr += '<ul class="productZero">'
+                    // 	}else{
+                    // 		weekStr += '<ul>'
+                    // 	}
+                    // }
+                    weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                    weekStr += '<li>'+ mTitle +'</li>';
+                    weekStr += '<li>'+ mapply +'</li>';
 
-					weekStr += '<li>'+ mTitle +'</li>';
-					weekStr += '<li>'+ mapply +'</li>';
-					
-						weekStr += '<li>'+ mloan +'</li>';
-					weekStr += '<li>¥ '+ mrewards +'</li>';
-					weekStr += '</ul>';
-					$("div.weekProduct").append(weekStr);
-				}
+                    weekStr += '<li>'+ mloan +'</li>';
+                    weekStr += '<li>¥ '+ mrewards +'</li>';
+                    weekStr += '</ul>';
+                    $("div.weekProduct").append(weekStr);
+                }
 
 				$("div.monthProduct").html("");				
 				var month=data.months_list;//月结
@@ -235,7 +235,7 @@ function ajaxData(year,month){
 					var mvalid=0;
 					var mloan=month[j].succ;
 					var mrewards=month[j].count_bonus;
-							monthStr += '<ul>'
+                    monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
 					monthStr += '<li>'+ mTitle +'</li>';
 					monthStr += '<li>'+ mapply +'</li>';
 					
@@ -275,12 +275,9 @@ function ajaxData(year,month){
 }
 // 日结产品跳转
 function dayDetail(index){
-	var id=$(index).attr("data-id");
-	var diff=$(index).attr("data-diff");
-	var month=$("#pointM").html();
-	var year=$("#pointY").html();
-	var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-	// location.href=url;
+    var id=$(index).attr("data-id");
+    var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
+    openNew(url)
 }
 </script>
 </body>
