@@ -16,7 +16,7 @@ if($operation=='register'){
 	$phone = $_GPC['phone'];
 	$pwd = $_GPC['pwd'];
 	$smsCode = $_GPC['smsCode'];
-	if (md5($smsCode) != $_COOKIE['cache_code']) {
+    if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
 		show_json(-1, null, "验证码不符或验证码已失效");
 	}
 	if (!empty($member['phone'])) {
@@ -40,10 +40,18 @@ if($operation=='register'){
 			pdo_insert('xuan_mixloan_inviter', $insert_i);
 		}
 	}
+    if ($config['backup']) {
+        //开启备份
+        $record = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename("xuan_mixloan_member")."
+            WHERE phone=:phone", array(':phone'=>$phone));
+        if ($record) {
+            show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'find_user'])], "查找到此手机绑定过用户信息，建议使用找回账号功能");
+        }
+    }
 	//更新操作
 	$arr = ['phone'=>$phone, 'pass'=>$pwd];
 	pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-	show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+	show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "绑定手机号成功");
 } else if ($operation == 'find_user') {
     //找回账号
     if (!$config['backup']) {
