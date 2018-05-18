@@ -51,16 +51,18 @@
     <div class="rate_main">
         <div class="rate_common rate_check">
             <h2><span>电话提额</span></h2>
+            {loop $banks $row}
             <ul>
-                {loop $banks $row}
+                {loop $row $key}
                 <li>
-                    <a data-id="{$row['id']}">
-                        <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
-                        <span>{$row['name']}</span>
+                    <a data-id="{$key['id']}">
+                        <p><img src="{php echo tomedia($key['ext_info']['logo']);}" /></p>
+                        <span>{$key['name']}</span>
                     </a>
                 </li>
                 {/loop}
             </ul>
+            {/loop}
         </div>
         <div class="rate_common rate_recommend">
             <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next.png" /></a></h2>

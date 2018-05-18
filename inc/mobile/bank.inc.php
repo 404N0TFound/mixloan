@@ -8,7 +8,17 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if ($operation == 'extend_limit') {
 	//提升额度
-	$banks = m('bank')->getList();
+	$temp_list = m('bank')->getList();
+	$count = 0;
+	foreach ($temp_list as $value) {
+		$count++;
+		$temp[] = $value;
+		if ($count==3) {
+			$banks[] = $temp;
+			$temp = array();
+			$count = 0;
+		}
+	}
 	include $this->template('bank/extend_limit');
 } else if ($operation == 'extend_by_phone') {
 	//获取电话提额
