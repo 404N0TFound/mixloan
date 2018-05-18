@@ -33,15 +33,73 @@
         height: 70px;
         line-height: 95px
     }
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 20px;
+        z-index: 99;
+        line-height: 0px;
+        top: 1.8rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    div.agent-foot p.foot_img {
+        height: 2rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 1.8rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.5rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
 </style>
 {/if}
 <div class="loan_tab">
+    {if !is_weixin()}
+    <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
+    {/if}
     <ul>
         <li><a onclick="openNew('{php echo $this->createMobileUrl('loan')}')">首页</a></li>
         <li><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')">贷款</a></li>
         <li class="on"><a href="javascript:;">办卡</a></li>
     </ul>
 </div>
+{if !is_weixin()}
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>查网贷</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{/if}
 <div class="cards_frame">
     <div class="common_frame hot_bank">
         <h1><span>热门银行</span><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}')">全部<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>

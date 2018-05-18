@@ -39,6 +39,48 @@
         top: 70px
     }
 </style>
+
+<style type="text/css">
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    .app_back {
+        position: fixed;
+        display: inline-block;
+        padding: 0 10px 0 8px;
+        z-index: 999;
+        line-height: 0px;
+        top: 2rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    div.agent-foot p.foot_img {
+        height: 2rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 1.8rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.5rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
+    a.more_hotcards, a.no_hotcards{
+        bottom: 4rem
+    }
+</style>
+<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
 {/if}
 <div class="loan_tab">
     <ul>
@@ -47,6 +89,30 @@
         <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}')">办卡</a></li>
     </ul>
 </div>
+{if !is_weixin()}
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_cwd_1.png" /></p>
+        <p>查网贷</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{/if}
 <div class="filter_frame">
     <div class="filter_tab">
         <ul>
@@ -124,6 +190,9 @@
     </div>
 </div>
 
+{if !is_weixin()}
+<div style="height: 4rem"></div>
+{/if}
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
 <script type="text/javascript">
     var rollFlag=0;//监听页面滚动

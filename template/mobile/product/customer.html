@@ -42,6 +42,26 @@
     <style type="text/css">
         .agent-header{height: 3rem;line-height: 4rem}
     </style>
+	<style type="text/css">
+	    .app_back {
+	        position: absolute;
+	        display: inline-block;
+	        padding: 0 10px 0 10px;
+	        z-index: 999;
+	        line-height: 0px;
+	        top: 1.2rem
+	    }
+	    .app_back img {
+	        display: inline-block;
+	        height: 16px;
+	        margin: 13px 0;
+	        vertical-align: middle;
+	        left: 0;
+	        top: 0;
+	        transform: rotate(180deg);
+	    }
+	</style>
+	<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
     {/if}
 	<div class="agent-header">
 		{$config['title']}
