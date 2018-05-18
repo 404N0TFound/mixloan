@@ -30,6 +30,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
+    }
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
