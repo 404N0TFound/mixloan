@@ -81,7 +81,7 @@ if ($operation == 'extend_limit') {
 	foreach ($temp_list as $value) {
 		$count++;
 		$temp[] = $value;
-		if ($count==3) {
+		if ($count==4) {
 			$banks[] = $temp;
 			$temp = array();
 			$count = 0;
