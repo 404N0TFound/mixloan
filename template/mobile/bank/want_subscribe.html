@@ -103,16 +103,18 @@
 <div class="cards_frame">
     <div class="common_frame hot_bank">
         <h1><span>热门银行</span><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}')">全部<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+        {loop $banks $row}
         <ul>
-            {loop $banks $row}
+            {loop $row $key}
             <li>
-                <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card', 'bank_id'=>$row['id']))}')">
-                    <p><img src="{php echo tomedia($row['ext_info']['logo'])}" /></p>
-                    <p>{$row['name']}</p>
-                </a>
+            <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'bank_card', 'bank_id'=>$key['id']))}')">
+                <p><img src="{php echo tomedia($key['ext_info']['logo'])}" /></p>
+                <p>{$key['name']}</p>
+            </a>
             </li>
             {/loop}
         </ul>
+        {/loop}
     </div>
     <div class="common_frame shutcut_recommend">
         <ul>
