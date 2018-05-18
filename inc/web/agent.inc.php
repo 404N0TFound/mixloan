@@ -26,7 +26,7 @@ if ($operation == 'list') {
     $psize = 20;
     $wheres = $join = '';
     if (!empty($_GPC['name'])) {
-        $wheres.= " AND a.realname LIKE '%{$_GPC['realname']}%'";
+        $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";

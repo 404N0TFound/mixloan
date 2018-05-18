@@ -7,6 +7,7 @@ class Xuan_Mixloan_Jdwx
 {  
 	public function jd_credit_three($key,$realname,$phone,$certno){
 		//手机号三要素
+		$realname = urlencode($realname);
 		$url = "https://way.jd.com/yingyan/telvertify?id={$certno}&name={$realname}&telnumber={$phone}&appkey={$key}";
 		$resJson =file_get_contents($url);
 		$res = json_decode($resJson,1);
@@ -39,6 +40,7 @@ class Xuan_Mixloan_Jdwx
 
 	public function QryBankCardBy4Element($key, $bankno, $name, $idcard, $phone){
 		//银行卡四元素
+		$name = urlencode($name);
 		$url = "https://way.jd.com/youhuoBeijing/QryBankCardBy4Element?accountNo={$bankno}&name={$name}&idCardCode={$idcard}&bankPreMobile={$phone}&appkey={$key}";
 		$resJson =file_get_contents($url);
 		$res = json_decode($resJson,1);
@@ -54,7 +56,8 @@ class Xuan_Mixloan_Jdwx
 	}
 
 	public function henypot4JD($key, $name, $idcard, $phone){
-		//银行卡四元素
+		//蜜罐数据
+		$name = urlencode($name);
 		$url = "https://way.jd.com/juxinli/henypot4JD?name={$name}&idCard={$idcard}&phone={$phone}&appkey={$key}";
 		$resJson = file_get_contents($url);
 		$res = json_decode($resJson,1);
