@@ -96,7 +96,8 @@ if($operation=='register'){
     if (empty($pass)) {
         show_json(-1, [], '请填写密码');
     }
-    $member = pdo_fetch("SELECT id,pass FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array(':phone'=>$phone));
+    $member = pdo_fetch("SELECT id,pass FROM ".tablename('xuan_mixloan_member').'
+        WHERE phone=:phone and uniacid=:uniacid', array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
     if (empty($member)) {
         show_json(-1, [], '手机号不存在');
     }
