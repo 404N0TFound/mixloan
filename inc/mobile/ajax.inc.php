@@ -9,21 +9,22 @@ if($operation == 'getCode'){
 	//发送验证码
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
+	$phone = $_GPC['phone'];
 	if ($_GPC['activity'] == 1) {
-		$verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array('phone'=>$_GPC['phone']));
+		$verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array('phone'=>$phone));
 		if ($verify) {
 			show_json(102);
 		}
 	}
 	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
+		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
 	} else {
 		$content = "尊敬的用户，您的验证码为：{$cache}";
 	}
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
-	$res = setcookie('cache_code', md5($cache), time()+90);
+	$res = setcookie('cache_code', md5($phone.$cache), time()+90);
 	if (!$res) {
 		show_json(-1, null, "存储出错，请联系技术人员");
 	}
