@@ -90,6 +90,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'degree'=>1
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+					message("支付成功", $this->createMobileUrl('user'), "success");
 					//二级
 					$man = m('member')->getInviterInfo($inviter);
 					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
