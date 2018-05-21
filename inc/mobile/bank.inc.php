@@ -8,7 +8,17 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if ($operation == 'extend_limit') {
 	//提升额度
-	$banks = m('bank')->getList();
+    $temp_list = m('bank')->getList();
+    $count = 0;
+    foreach ($temp_list as $value) {
+        $count++;
+        $temp[] = $value;
+        if ($count==3) {
+            $banks[] = $temp;
+            $temp = array();
+            $count = 0;
+        }
+    }
 	include $this->template('bank/extend_limit');
 } else if ($operation == 'extend_by_phone') {
 	//获取电话提额
@@ -66,7 +76,17 @@ if ($operation == 'extend_limit') {
 	show_json(1, array_values($list));
 } else if ($operation == 'want_subscribe') {
 	//我要办卡
-	$banks = m('bank')->getList();
+    $temp_list = m('bank')->getList();
+    $count = 0;
+    foreach ($temp_list as $value) {
+        $count++;
+        $temp[] = $value;
+        if ($count==4) {
+            $banks[] = $temp;
+            $temp = array();
+            $count = 0;
+        }
+    }
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
 	$list = m('bank')->getCard($get);
 	$recommends = m('bank')->getRecommendCard($list);

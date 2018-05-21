@@ -19,18 +19,30 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if ($config['pay_type']==1) {
+		$tid = "10001" . date('YmdHis', time());
+		$title = "购买{$config['title']}代理会员";
+		$fee = $config['buy_vip_price'];
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	} else {
+		// 单号
+		$merchantOrderNumber = time().rand(10000, 99999);
+		// 金额(单位:分)
+		$tradeAmount = 1;
+		// 后台通知接口地址
+		$notify_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'ajax_buy_vip'));
+		// 前台跳转地址
+		$result_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'ajax_buy_vip'));
+		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/shbpay/submit.php');
+	}
 	exit;
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {

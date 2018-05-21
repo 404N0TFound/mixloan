@@ -22,7 +22,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/customlist_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/new_html2canvas_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/canvas2image_1.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script>
 {php echo register_jssdk();}
 <script>
     //微信分享
@@ -106,9 +106,14 @@
     </style>
     <div class="app_header">
       <div class="app_header_back">
-          <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+          <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
           <span>{$info['name']}</span>
       </div>
+    </div>
+    {else}
+    <div class="agent-header">
+        {$info['name']}
+        <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
     </div>
     {/if}
     <div class="nb_banner">
