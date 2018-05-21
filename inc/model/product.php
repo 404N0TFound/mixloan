@@ -123,7 +123,7 @@ class Xuan_mixloan_Product
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid order by id desc limit 5";
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_show=1 order by id desc limit 5";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
@@ -201,7 +201,7 @@ class Xuan_mixloan_Product
     **/
     public function getSpecialLoan($type) {
         global $_W;
-        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 ORDER BY b.id";
+        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 AND a.is_show=1 ORDER BY b.id";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
