@@ -167,8 +167,30 @@
 						key设置
 					</div>
 					<div class="panel-body">
-						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信接口</label>
+
+						<div class="form-group">
+			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">短信接口选择</label>
+			                <div class="col-sm-3 col-xs-6" >
+								<select class="form-control" name="sms_type" onchange="schange()" id="sms_type">
+									<option value="1" {if $setting['sms_type'] == 1}selected{/if}>短信宝帐号接口</option>
+									<option value="0" {if $setting['sms_type'] == 0}selected{/if}>聚合接口</option>
+								</select>
+							</div>
+			            </div>
+						<div class="form-group" id="juhe" {if $setting['sms_type']==1}style="display:none"{/if}>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">聚合接口</label>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="password" value="{$setting['juhe_key']}" name="juhe_key" class="form-control" placeholder="聚合接口key" />
+								<span class="help-block">
+									短信接口使用的是聚合接口，短信购买地址:<a href="https://www.juhe.cn/docs/api/id/54 target="_blank">https://www.juhe.cn/docs/api/id/54</a>
+								</span>
+							</div>
+							<div class="col-sm-3 col-xs-12" >
+								<input type="text" value="{$setting['juhe_tpl_id']}" name="juhe_tpl_id" class="form-control" placeholder="聚合短信模板id"/>
+							</div>
+						</div>
+						<div class="form-group" id="sms" {if $setting['sms_type']!=1}style="display:none"{/if}>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信宝接口</label>
 							<div class="col-sm-3 col-xs-12" >
 								<input type="text" value="{$setting['smsuser']}" name="smsuser" class="form-control" placeholder="短信宝帐号" />
 								<span class="help-block">
@@ -179,6 +201,18 @@
 								<input type="password" value="{$setting['smspass']}" name="smspass" class="form-control" placeholder="短信宝密码"/>
 							</div>
 						</div>
+						<script type="text/javascript">
+							var schange = function(){
+								var val = $('#sms_type').val();
+								if (val == 1) {
+									$('#juhe').hide()
+									$('#sms').show(500)
+								} else {
+									$('#sms').hide()
+									$('#juhe').show(500)
+								}
+							}
+						</script>
 						<div class="form-group">
 			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">京东万象</label>
 			                <div class="col-sm-3 col-xs-6" >

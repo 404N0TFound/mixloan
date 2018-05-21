@@ -56,6 +56,9 @@ class Xuan_mixloanModule extends WeModule {
                     'credit_fee_one'=>$_GPC['credit_fee_one'],
                     'credit_fee_two'=>$_GPC['credit_fee_two'],
                     'credit_fee_three'=>$_GPC['credit_fee_three'],
+                    'sms_type'=>$_GPC['sms_type'],
+                    'juhe_key'=>$_GPC['juhe_key'],
+                    'juhe_tpl_id'=>$_GPC['juhe_tpl_id']
             	);
 
             if ($this->saveSettings($cfg)) {

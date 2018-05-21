@@ -255,3 +255,20 @@ function base64_image_content($base64_image_content,$path){
         return false;
     }
 }
+
+/**
+*   聚合发短信接口
+**/
+function juheSend($mobile, $code, $config)
+{
+    $url = "http://v.juhe.cn/sms/send?";
+    $tpl_value = urlencode("#code#={$code}");
+    $query = "mobile={$mobile}&tpl_id={$config['juhe_tpl_id']}&tpl_value={$tpl_value}&key={$config['juhe_key']}";
+    $result = file_get_contents($url . $query);
+    $result = json_decode($result, true);
+    if ($result['error_code'] == 0) {
+        return array('code'=>1, 'msg'=>'发送成功');
+    } else {
+        return array('code'=>-1, 'msg'=>$result['reason']);
+    }
+}
