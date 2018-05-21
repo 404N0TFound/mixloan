@@ -145,7 +145,7 @@ if ($operation == 'list') {
     $sql = 'select a.*,b.nickname,b.avatar,c.title from ' . tablename('xuan_mixloan_channel_pay') . " a left join ".tablename('xuan_mixloan_member')." b ON a.uid=b.id LEFT JOIN ".tablename('xuan_mixloan_channel')." c ON a.cid=c.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
-    $total = pdo_fetchcolumn( 'select count(1) ' . tablename('xuan_mixloan_channel_pay') . " a left join ".tablename('xuan_mixloan_member')." b ON a.uid=b.id LEFT JOIN ".tablename('xuan_mixloan_channel')." c ON a.cid=c.id where a.uniacid={$_W['uniacid']} " . $wheres);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_channel_pay') . " a left join ".tablename('xuan_mixloan_member')." b ON a.uid=b.id LEFT JOIN ".tablename('xuan_mixloan_channel')." c ON a.cid=c.id where a.uniacid={$_W['uniacid']} " . $wheres);
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'buy_delete') {
     //购买记录删除

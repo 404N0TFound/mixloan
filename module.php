@@ -79,6 +79,9 @@ class Xuan_mixloanModule extends WeModule {
                     $old_settings = unserialize($old_settings);
                     $old_settings['backup'] = 1;
                     $this->saveSettings($old_settings);
+                    pdo_update('xuan_mixloan_withdraw_qrcode', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_credit_data', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_channel_pay', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_bank', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_bank_artical', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_bank_card', array('uniacid'=>$_W['uniacid']));
