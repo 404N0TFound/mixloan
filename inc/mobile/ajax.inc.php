@@ -9,27 +9,29 @@ if($operation == 'getCode'){
 	//发送验证码
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
-	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
-	}
-	if (isset($_COOKIE['cache_code'])) {
-		show_json(-1, null, "您的手太快啦，请休息会再获取");
-	}
-	$res = setcookie('cache_code', md5($cache), time()+90);
-	if (!$res) {
-		show_json(-1, null, "存储出错，请联系技术人员");
-	}
-	$res = baoSendSMS($_GPC['phone'],$content,$config);
-	if($res==0){
-		show_json(0, null, "发送验证码成功");
-	}else if($res==42){
-		show_json(-1, null, "短信帐号过期");
-	}else if($res==30){
-		show_json(-1, null, "短信密码错误");
-	}else if($res==41){
-		show_json(-1, null, "短信余额不足");
-	}else{
-		show_json(-1, null, "未知错误，错误代码{$res}");
+	$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
+	if ($config['sms_type']) {
+		if (isset($_COOKIE['cache_code'])) {
+			show_json(-1, null, "您的手太快啦，请休息会再获取");
+		}
+		$res = setcookie('cache_code', md5($cache), time()+90);
+		if (!$res) {
+			show_json(-1, null, "存储出错，请联系技术人员");
+		}
+		$res = baoSendSMS($_GPC['phone'],$content,$config);
+		if($res==0){
+			show_json(0, null, "发送验证码成功");
+		}else if($res==42){
+			show_json(-1, null, "短信帐号过期");
+		}else if($res==30){
+			show_json(-1, null, "短信密码错误");
+		}else if($res==41){
+			show_json(-1, null, "短信余额不足");
+		}else{
+			show_json(-1, null, "未知错误，错误代码{$res}");
+		}
+	} else {
+		m('sms')->send($_GPC['phone'], $content);
 	}
 }else if($operation == 'register'){
 	//注册
