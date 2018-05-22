@@ -338,7 +338,11 @@
 		})
 		//购买
 		$("#to_buy").click(function(){
-			toPurchase();			
+			{if is_weixin()}
+				toPurchase();		
+			{else}
+				layer.msg("请到公众号{$config['title']}购买会员");
+			{/if}	
 		})
 
 		function toPurchase(){			

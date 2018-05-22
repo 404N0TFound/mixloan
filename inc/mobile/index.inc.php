@@ -156,5 +156,9 @@ if($operation=='register'){
         show_json(-1, null, "未查到此手机记录");
     }
     pdo_update('xuan_mixloan_member', array('pass'=>$pwd), array('id'=>$res));
-    show_json(1, ['url'=>$this->createMobileUrl('index', array('op'=>'login'))], "更改密码成功，请牢记您的密码");
+    if (is_weixin()) {
+        show_json(1, ['url'=>$this->createMobileUrl('user', array('op'=>''))], "更改密码成功，请牢记您的密码");
+    } else {
+        show_json(1, ['url'=>$this->createMobileUrl('index', array('op'=>'login'))], "更改密码成功，请牢记您的密码");
+    }
 }
