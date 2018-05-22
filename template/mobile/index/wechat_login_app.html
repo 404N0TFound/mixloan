@@ -115,6 +115,8 @@
                 var jsonObj = s.userInfo;
                 // console.log("获取用户信息成功：" + josnStr);
                 // showData(type,jsonObj);
+                alert(jsonObj.unionid);
+                return false;
                 mui.ajax({
                     url: "{php echo $this->createMobileUrl('index',['op'=>'wechat_app'])}",
                     type: "GET",
