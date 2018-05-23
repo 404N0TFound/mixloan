@@ -26,7 +26,7 @@ if ($operation == 'list') {
     $psize = 20;
     $wheres = '';
     if (!empty($_GPC['name'])) {
-        $wheres.= " AND a.realname LIKE '%{$_GPC['realname']}%'";
+        $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
@@ -148,6 +148,62 @@ if ($operation == 'list') {
     $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
+        $re_money = $_GPC['data']['re_bonus'];
+        $count_money = $_GPC['data']['done_bonus'] + $_GPC['data']['extra_bonus'];
+        $one_man = m('member')->getInviterInfo($item['inviter']);
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $account = WeAccount::create($_W['acid']);
+        if ($_GPC['data']['status'] == 1 && $re_money>0) {
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "color" => "#FF0000"
+                ) ,
+                "keyword1" => array(
+                    "value" => '10000'.$item['id'],
+                    "color" => "#173177"
+                ) ,
+                "keyword2" => array(
+                    "value" => $re_money,
+                    "color" => "#173177"
+                ) ,
+                "keyword3" => array(
+                    "value" => date('Y-m-d H:i'),
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                    "color" => "#912CEE"
+                ) ,
+            );
+            $result = $account->sendTplNotice($one_man['openid'], $config['tpl_notice6'], $datam, $url);
+        }
+        if ($_GPC['data']['status'] == 2 && $count_money>0) {
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "color" => "#FF0000"
+                ) ,
+                "keyword1" => array(
+                    "value" => '10000'.$item['id'],
+                    "color" => "#173177"
+                ) ,
+                "keyword2" => array(
+                    "value" => $count_money,
+                    "color" => "#173177"
+                ) ,
+                "keyword3" => array(
+                    "value" => date('Y-m-d H:i'),
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                    "color" => "#912CEE"
+                ) ,
+            );
+            $account->sendTplNotice($one_man['openid'], $config['tpl_notice6'], $datam, $url);
+        }
+        if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
@@ -159,15 +215,6 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
-        // if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
-        //     $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
-        //     if ($pay['code'] > 1) {
-        //         message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
-        //     } else {
-        //         $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
-        //         $_GPC['data']['ext_info']['payment_no'] = $pay['data']['payment_no'];
-        //     }
-        // }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
