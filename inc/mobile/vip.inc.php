@@ -17,7 +17,7 @@ if($operation=='buy'){
 } else if ($operation == 'pay') {
 	//付钱
 	if (!$member['phone']) {
-		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+		//message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
 	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
