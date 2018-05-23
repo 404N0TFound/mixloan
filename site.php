@@ -285,7 +285,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 if (empty($id)) {
                     message('id失效','','error');
                 }
-                pdo_update("xuan_mixloan_credit_data", array('status'=>1, 'pay_type'=>1, 'fee'=>$fee), array('id'=>$id));
+                $result = pdo_update("xuan_mixloan_credit_data", array('status'=>1, 'pay_type'=>1, 'fee'=>$fee), array('id'=>$id));
                 //模板消息提醒
                 $account = WeAccount::create($_W['acid']);
                 $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'report_list'));
