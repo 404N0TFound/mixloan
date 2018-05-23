@@ -72,7 +72,6 @@
             <span>个人中心</span>
         </div>
     </div>
-    {/if}
     <div class="agent-foot">
         <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
@@ -95,6 +94,7 @@
             <p>个人中心</p>
         </a>
     </div>
+    {/if}
     <!-- cenetr -->
     <div class="agent-main rem2">
         <div class="main-contain">
@@ -186,7 +186,7 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    {if $config['predict_limit']}
+                    {if $config['predict_limit'] && is_weixin()}
                     <li>
                         <a onclick="openNew('{$config['predict_limit']}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />

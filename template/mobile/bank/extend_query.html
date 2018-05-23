@@ -35,11 +35,70 @@
         .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
         div.rate_main{margin-top: 0;padding-top: 0}
     </style>
+    <style type="text/css">
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+        .app_back {
+            position: absolute;
+            display: inline-block;
+            padding: 0 10px 0 20px;
+            z-index: 99;
+            line-height: 0px;
+            top: 1.8rem
+        }
+        .app_back img {
+            display: inline-block;
+            height: 16px;
+            margin: 13px 0;
+            vertical-align: middle;
+            left: 0;
+            top: 0;
+            transform: rotate(180deg);
+        }
+        div.agent-foot p.foot_img {
+            height: 2rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 1.8rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.5rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+    </style>
     <div class="app_header">
         <div class="app_header_back">
             <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
             <span>进度查询</span>
         </div>
+    </div>
+    <div class="agent-foot">
+        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+            <p>{$config['title']}客</p>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>今日口子</p>
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+            <p>查网贷</p>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+            <p>个人中心</p>
+        </a>
     </div>
     {else}
     <div class="agent-header">
@@ -52,14 +111,17 @@
             <h2><span>进度查询</span></h2>
             <ul>
             {loop $banks $row}
+            <ul>
+                {loop $row $key}
                 <li>
-                    <a onclick="openNew('{$row['ext_info']['query_url']}')">
-                        <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>                        
-                        <span>{$row['name']}</span>
+                    <a onclick="openNew('{$key['ext_info']['query_url']}')">
+                        <p><img src="{php echo tomedia($key['ext_info']['logo']);}" /></p>                        
+                        <span>{$key['name']}</span>
                     </a>
                 </li>
-            {/loop}
+                {/loop}
             </ul>
+            {/loop}
         </div>
         <div class="rate_common rate_recommend">
             <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next_1.png" /></a></h2>
@@ -73,7 +135,9 @@
             </ul>
         </div>
     </div>
-
+    {if !is_weixin()}
+    <div style="height: 4rem"></div>
+    {/if}
     <script type="text/javascript">
         getBank();
         $(".next_card").click(function(){

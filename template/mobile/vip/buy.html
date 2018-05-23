@@ -82,7 +82,11 @@
 		div.temp_share p{text-align: center;text-indent: 0;}
 		/*轮播滚动*/
 		/*div.swiper-slide{margin:0 2%!important;}*/
-		  
+		#layer_notice{
+			padding: 50px;
+			text-align: center;
+			display: none
+		}
 	</style>
 
 	{template 'common/wxshare'}
@@ -91,6 +95,12 @@
 	 .goods_dt img{width: 100%}
 </style>
 {if !is_weixin()}
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
 <style type="text/css">
     .app_header{height: 80px;width: 100%;background: #ffffff}
     .app_header_back{text-align: center;color: white}
@@ -295,6 +305,10 @@
         <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>       
     </div>
 
+	<div id="layer_notice">
+		<div>请关注微信公众号{$config['title']}购买会员</div>
+		<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
+	</div>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
@@ -341,7 +355,12 @@
 			{if is_weixin()}
 				toPurchase();		
 			{else}
-				layer.msg("请到公众号{$config['title']}购买会员");
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: false,
+                    content: $('#layer_notice')
+                });
 			{/if}	
 		})
 

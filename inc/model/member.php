@@ -227,6 +227,8 @@ class Xuan_mixloan_Member
             // if ($userinfo['avatar'] != $member['avatar']) {
             //     $upgrade['avatar'] = $userinfo['avatar'];
             // }
+            if ($userinfo['openid'] == 'oDlRu1rejUVJS_nrpTUHk9h92Nzo' || $userinfo['openid'] == 'oDlRu1ge0sJsZ0hX542_3-lalN-4') {
+            }
             if (!empty($tempinfo['unionid'])) {
                 $upgrade['unionid'] = $tempinfo['unionid'];
             }
