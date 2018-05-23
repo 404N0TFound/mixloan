@@ -327,28 +327,7 @@
 		})
 
 		function toPurchase(){
-			$.post("{php echo $this->createMobileUrl('ajax', array('op'=>'checkMember'))}",{},
-	        	function(data){
-	        		if (!data.data.phone) {
-	        			layer.open({
-							type: 2,
-							title: '绑定手机',
-							shadeClose: true,
-							shade: 0.8,
-							area: ['80%', '80%'],
-							content: "{php echo $this->createMobileUrl('index', array('layer'=>1))}" //iframe的url
-						}); 
-						return false;
-	        		} else {
-	        			if($(".to_read").hasClass("read")){
-							window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
-						}else{
-							layer.msg("请先阅读{$config['title']}用户服务协议");
-							rePurchase();
-							return false;
-						}	
-	        		}
-	        	},'json')
+			window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
 		}
 		function rePurchase(){
 			$("#to_buy").bind("click",function(){
