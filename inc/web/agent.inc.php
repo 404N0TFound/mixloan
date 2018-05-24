@@ -97,7 +97,7 @@ if ($operation == 'list') {
         } else {
             $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
-        $row['inviter'] = pdo_fetch("select avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
     if ($_GPC['export'] == 1) {
@@ -116,8 +116,8 @@ if ($operation == 'list') {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
                 $row['inviter_name'] = $row['inviter']['nickname'];
-                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
-                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
+                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
             } else {
                 $row['inviter_name'] = '无';
                 $row['inviter_count'] = 0;
