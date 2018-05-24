@@ -216,7 +216,8 @@ if($operation=='buy'){
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
 	if ($agent['code'] != 1) {
-	    message('您还不是会员哦', '', 'error');
+	    header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+	    exit();
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
