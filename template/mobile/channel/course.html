@@ -92,11 +92,11 @@
 </style>
 <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
 {/if}
-    <div class="agent-foot texttotal agent-footer">
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
-        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
-        <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
-    </div>
+<div class="agent-foot texttotal agent-footer">
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
+    <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
+</div>
 {if !is_weixin()}
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
