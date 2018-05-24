@@ -74,9 +74,9 @@
     </div>
     {/if}
     <div class="agent-foot">
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
-            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-            <p>{$config['title']}客</p>
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+            <p>首页</p>
         </a>
         <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
@@ -86,9 +86,9 @@
         <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
             <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
         </a>
-        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
-            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-            <p>查网贷</p>
+        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+            <p>{$config['title']}客</p>
         </a>
         <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
@@ -221,7 +221,7 @@
                     </li>
                     {if !is_weixin()}
                     <li class="customer">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}')">
+                        <a onclick="loginout()">
                             <img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" />
                             退出登录
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -273,6 +273,31 @@ $("div.informAlert .ifInform a").click(function(){
         switchButton(0);       
     }
 })
+//退出
+function loginout(){
+    plus.nativeUI.actionSheet({
+        cancel: "取消",
+        buttons: [{
+            title: "注销当前账号"
+        }]
+    }, function(e) {
+        var index = e.index;
+        switch (index) { //case 0: 取消
+            case 1: //
+                plus.storage.clear();
+                mui.openWindow({
+                   url: '{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}',
+                   id: 'loginout',
+                   show: {
+                       aniShow: 'pop-in'
+                   }
+                });
+                break;
+        }
+    });
+    // openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
+    
+}
 //文档签署提醒开关
 function switchButton(index){
     $.post('{php echo $this->createMobileUrl('user', ['op'=>'send_msg'])}',{'template_type':index},

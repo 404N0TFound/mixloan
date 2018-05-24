@@ -338,7 +338,20 @@
                 layer.msg('资料提交成功', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = "{php echo $this->createMobileUrl('user')}";
+                    {if !is_weixin()}
+                    mui.init({
+                        beforeback: function(){
+                            var user_index = plus.webview.getWebviewById('user_index');
+                            mui.fire(user_index,'refresh');
+                            var HBuilder = plus.webview.getWebviewById('HBuilder');
+                            mui.fire(HBuilder,'refresh');
+                            return true;
+                        }
+                    });
+                    mui.back();
+                    {else}
+                    mui.openWindow({url:"{php echo $this->createMobileUrl('user')}", id:"user_index"});
+                    {/if}
                 });
             }
             else {
