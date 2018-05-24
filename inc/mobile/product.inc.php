@@ -225,7 +225,8 @@ if($operation=='index'){
     $days_ids = m('product')->getIds($days_list);
     $weeks_ids = m('product')->getIds($weeks_list);
     $months_ids = m('product')->getIds($months_list);
-    $applys = m('product')->getApplys($params);
+    // $applys = m('product')->getApplys($params);
+    $applys = 0;
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);
@@ -234,11 +235,13 @@ if($operation=='index'){
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
     foreach ($days_list as &$row) {
-        $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        // $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num'] = 0;
     }
     unset($row);
     foreach ($weeks_list as &$row) {
-        $row['count_num'] = $weeks_count_list[$row['id']]['count'] ? : 0;
+        // $row['count_num'] = $weeks_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num'] = 0;
         if ($row['type'] == 1) {
             $row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
         } else {
@@ -248,7 +251,8 @@ if($operation=='index'){
     }
     unset($row);
     foreach ($months_list as &$row) {
-        $row['count_num'] = $months_count_list[$row['id']]['count'] ? : 0;
+        // $row['count_num'] = $months_count_list[$row['id']]['count'] ? : 0;
+        $row['count_num'] = 0;
         if ($row['type'] == 1) {
             $row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
         } else {
