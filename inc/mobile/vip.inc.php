@@ -388,4 +388,8 @@ if($operation=='buy'){
     }
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
     message($ret, '', 'success');
+} else if ($operation == 'register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }
