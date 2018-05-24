@@ -115,6 +115,9 @@
                                 <dd class="xian"></dd>
                                 <dd>职务：{$member['user_type']['name']}</dd>
                             </dl>
+                            <dl style="margin-top: 0.3rem">
+                                <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
+                            </dl>
                         </li>
                     </ul>
                 </div>    
