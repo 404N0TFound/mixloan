@@ -335,7 +335,7 @@ $(".to_search").click(function(){
     var data_condition=$(this).attr("data-condition");
     var classify="0";
     var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
-    location.href=_url;
+    openNew(_url);
 })
 </script>
 </html>

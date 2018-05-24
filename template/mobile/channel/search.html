@@ -219,7 +219,7 @@ function li_kouzi(index){
 	var search=1;
     var _id=$(index).attr("data-id");
     var _url = "{php echo $this->createMobileUrl('channel', array('op'=>'artical'));}&id=" + _id;
-    location.href=_url;
+    openNew(_url);
 }
 
 //点击搜索
@@ -243,8 +243,7 @@ function li_kouzi(index){
 	})
 	//返回
 	$(".return").click(function(){
-		history.go(-1)
-	    location.href=_url;
+		mui.back();
 	})
 </script>
 </html>
