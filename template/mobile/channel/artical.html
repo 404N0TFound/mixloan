@@ -22,8 +22,8 @@
     <script>
         //微信分享
         var title = "{$item['title']}";
-        var imgUrl = "{$share_image}";
-        var desc = "{$share_desc}";
+        var imgUrl = "{php echo $share_image;}";
+        var desc = "{$config['share_desc']}";
         var link = "{$share_link}";
         wx.ready(function(){
             wx.onMenuShareTimeline({
@@ -136,6 +136,7 @@
 </style>
 <body>
 
+
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -166,16 +167,19 @@
     <a class="return" onclick="javascript:history.go(-1)">返回</a>
 </div>
 {/if}
+
 <div class="agent-main pt44">
     <div class="main-contain">
         <h1>{$item['title']}</h1>
-        <p class="ag-h5 text-center"><span>下载：{$config['wx_name']}</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</p>
+        <p class="ag-h5 text-center"><span>微信关注：{$config['wx_name']}</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</p>
 
         {$item['ext_info']['content']}
         <!-- 非代理阅读全文 -->
         <h2 class="read_more"><a href="javascript:;" class="buy_limit"><img src="../addons/xuan_mixloan/template/style/picture/continue_1.png" /></a>
             <p>阅读全文</p></h2>
+        <!-- JiaThis Button BEGIN -->
 
+        <!-- JiaThis Button END -->
     </div>
 
 </div>
@@ -197,6 +201,8 @@
 <div id="outerdiv" style="position:fixed;top:0;left:0;background:rgba(0,0,0,0.7);z-index:2;width:100%;height:100%;display:none;z-index: 99;"><div id="innerdiv" style="position:absolute;"><img id="bigimg" style="border:1px solid #ddd;" src="" /></div></div>
 
 <script>
+
+
     {if !is_weixin()}
     mui.init({
         swipeBack:true //启用右滑关闭功能
@@ -376,7 +382,7 @@
                         var title=result[i].name;
                         var desc=result[i].ext_info.v_name;
                         $("div.recommend ul").append("<li>"
-                            + "<a onclick=\"openNew(\'"+ url +"\')\">"
+                            + "<a href=\'"+ url +"\'>"
                             + "<img src='"+ imgs +"\' />"
                             + "<h3>"+ title +"</h3>"
                             + "<p>"+ desc +"</p>"
@@ -409,9 +415,9 @@
                 var realHeight = this.height;//获取图片真实高度
                 var imgWidth, imgHeight;
                 var scale = 0.96;//缩放尺寸，当图片真实宽度和高度大于窗口宽度和高度时进行缩放
-                if(this.src=="http://wx.luohengwangluo.com/addons/xuan_mixloan/template/style/picture/share_botton.png") {
+                if(this.src=="http://fs.52-tao.cn/addons/xuan_mixloan/template/style/picture/share_botton.png") {
                     return false;
-                } else if(this.src=="http://wx.luohengwangluo.com/addons/xuan_mixloan/template/style/images/left_1.png") {
+                } else if(this.src=="http://fs.52-tao.cn/addons/xuan_mixloan/template/style/images/left_1.png") {
                     return false;
                 }
                 imgWidth = windowW;
