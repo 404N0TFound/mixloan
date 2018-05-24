@@ -8,13 +8,12 @@ if($operation == 'getCode'){
 	//发送验证码
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
-	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
-	}
+	$phone = trim($_GPC['phone']);
+	$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
-	$res = setcookie('cache_code', md5($cache), time()+90);
+	$res = setcookie('cache_code', md5($phone.$cache), time()+90);
 	if (!$res) {
 		show_json(-1, null, "存储出错，请联系技术人员");
 	}
@@ -33,7 +32,7 @@ if($operation == 'getCode'){
 }else if($operation == 'register'){
 	//注册
 	$sql = " SELECT count(*) FROM ".tablename("xuan_mixloan_member")." WHERE uniacid=:uniacid and phone=:phone";
-	$res = pdo_fetchcolumn($sql,array(":uniacid"=>$_W["uniacid"],"phone"=>$_GPC["phone"]));
+	$res = pdo_fetchcolumn($sql,array(":uniacid"=>$_W["uniacid"],"phone"=>$phone));
 	if($res){
 		die(json_encode(array("result"=>-1,"msg"=>"该手机号已被注册！")));
 	}

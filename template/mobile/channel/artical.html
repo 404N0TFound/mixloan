@@ -24,11 +24,12 @@
         var title = "{$item['title']}";
         var imgUrl = "{php echo $share_image;}";
         var desc = "{$config['share_desc']}";
-        
+        var link = "{$share_link}";
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
                 imgUrl: imgUrl, // 分享图标
+                link: link,
             success: function () { 
             // 用户确认分享后执行的回调函数
                 alert('分享成功');
@@ -42,8 +43,9 @@
     //分享给好友
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
-                 desc: desc, // 分享描述
+                desc: desc, // 分享描述
                 imgUrl: imgUrl, // 分享图标
+                link: link,
             success: function () { 
             // 用户确认分享后执行的回调函数
                 alert('分享成功');
@@ -133,11 +135,38 @@
     .agent-main a{text-decoration: underline;}
 </style>
 <body>
-    
-    <div class="agent-header"> 
-        {$config['title']}
-        <a class="return">返回</a>
+
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 6%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    .pt44{padding-top: 0}
+    .share_botton{position: absolute;right: 1.4rem;top: 47px}
+    .share_botton img{ width: 1.66rem;}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>{$config['title']}</span>
     </div>
+    <a class="share_botton" onclick="shareHref()"><img src="../addons/xuan_mixloan/template/style/picture/share_botton.png"></a>
+</div>
+{else}
+<div class="agent-header">
+    {$config['title']}
+    <a class="return" onclick="javascript:history.go(-1)">返回</a>
+</div>
+{/if}
     
     <div class="agent-main pt44">
         <div class="main-contain">            
@@ -173,6 +202,126 @@
 
 <script>
 
+
+    {if !is_weixin()}
+    mui.init({
+        swipeBack:true //启用右滑关闭功能
+    });
+
+    var Intent = null,
+        File = null,
+        Uri = null,
+        main = null;
+    var shares = null;
+    var shareImageUrl = '';
+    mui.plusReady(function() {
+        updateSerivces();
+        if (plus.os.name == "Android") {
+            Intent = plus.android.importClass("android.content.Intent");
+            File = plus.android.importClass("java.io.File");
+            Uri = plus.android.importClass("android.net.Uri");
+            main = plus.android.runtimeMainActivity();
+        }
+    })
+    /**
+     * 更新分享服务
+     */
+    function updateSerivces() {
+        plus.share.getServices(function(s) {
+            shares = {};
+            for (var i in s) {
+                var t = s[i];
+                shares[t.id] = t;
+            }
+            outSet("获取分享服务列表成功");
+        }, function(e) {
+            outSet("获取分享服务列表失败：" + e.message);
+        });
+    }
+    /**
+     * 分享操作
+     */
+    function shareAction(id, ex) {
+        console.log('id = ' + id);
+        console.log('ex = ' + ex);
+        console.log('shares[id]' + shares[id]);
+        var s = null;
+        if (!id || !(s = shares[id])) {
+            outLine("无效的分享服务！");
+            return;
+        }
+        if (s.authenticated) {
+            outSet("---已授权---");
+            shareMessage(s, ex);
+        } else {
+            outSet("---未授权---");
+            s.authorize(function() {
+                shareMessage(s, ex);
+            }, function(e) {
+                outLine("认证授权失败");
+            });
+        }
+    }
+    /**
+     * 发送分享消息
+     */
+    function shareMessage(s, ex) {
+        var msg = {
+            href: "{$share_link}",
+            title: "{$item['title']}",
+            content: "{$share_desc}",
+            thumbs: ["{php echo tomedia($config['logo']);}"],
+            pictures: ["{php echo tomedia($config['logo']);}"],
+            extra: {
+                scene: ex
+            }
+        };
+        s.send(msg, function() {
+            outLine("分享成功!");
+        }, function(e) {
+            console.log(JSON.stringify(e));
+            outLine("分享失败");
+        });
+    }
+    /**
+     * 分享按钮点击事件
+     * 注意这里的这些id值
+     */
+    function shareHref() {
+        var ids = [{
+                id: "weixin",
+                ex: "WXSceneSession"  /*微信好友*/
+            }, {
+                id: "weixin",
+                ex: "WXSceneTimeline" /*微信朋友圈*/
+            }],
+            bts = [{
+                title: "发送给微信好友"
+            }, {
+                title: "分享到微信朋友圈"
+            }];
+        plus.nativeUI.actionSheet({
+                cancel: "取消",
+                buttons: bts
+            },
+            function(e) {
+                var i = e.index;
+                console.log('i = ' + i);
+                if (i > 0) {
+                    shareAction(ids[i - 1].id, ids[i - 1].ex);
+                }
+            }
+        );
+    }
+    // 控制台输出日志
+    function outSet(msg) {
+        console.log(msg);
+    }
+    // 界面弹出吐司提示
+    function outLine(msg) {
+        mui.toast(msg);
+    }
+    {/if}
 
 var kouziFlag;
 $(document).ready(function(){
