@@ -68,6 +68,20 @@ if ($operation == 'list') {
     $id = $_GPC['id'];
     $member = pdo_fetch("select * from ".tablename("xuan_mixloan_member")." where id={$id}");
     if ($_GPC['post'] == 1) {
+        if (!empty($_GPC['data']['phone']) && $_GPC[['data']'phone'] != $member['phone']) {
+            $count = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_member'). '
+                where phon=:phone and uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'], ':phone'=>$_GPC['data']['phone']));
+            if ($count) {
+                message('该手机号已存在，请更换手机号绑定', $this->createWebUrl('member'), 'success');
+            }
+        }
+        if (!empty($_GPC['data']['certno']) && $_GPC['data']['certno'] != $member['certno']) {
+            $count = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_member'). '
+                where certno=:certno and uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'], ':phone'=>$_GPC['data']['certno']));
+            if ($count) {
+                message('该身份证已存在，请更换身份证绑定', $this->createWebUrl('member'), 'success');
+            }
+        }
         pdo_update("xuan_mixloan_member", $_GPC['data'], array("id"=>$id));
         message('更新成功', $this->createWebUrl('member'), 'success');
     }
