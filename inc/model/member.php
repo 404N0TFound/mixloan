@@ -290,11 +290,22 @@ class Xuan_mixloan_Member
         return $res;
     }
     /**
-    *   口子进来的锁定上级
-    **/
+     *   口子进来的锁定上级
+     **/
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
-        $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        $openid = trim($openid);
+        $inviter = intval($inviter);
+        if (empty($openid) || empty($inviter)) {
+            return false;
+        }
+        $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
+            where openid=:openid', array(':openid'=>$openid));
+        if ($id == $inviter) {
+            return false;
+        }
+        $res = pdo_fetchcolumn("SELECT count(*) FROM " .tablename("qrcode_stat"). "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
         if (!$res) {
             $insert =array(
                 'uniacid'=>$_W['uniacid'],
