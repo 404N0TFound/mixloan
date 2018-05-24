@@ -297,10 +297,19 @@ class Xuan_mixloan_Member
      **/
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
-        $res = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-        $user_id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_member').' where openid=:openid', array(':openid'=>$openid));
-        $agent = $this->checkAgent($user_id);
-        if (!$res && $agent['code']!=1) {
+        $openid = trim($openid);
+        $inviter = intval($inviter);
+        if (empty($openid) || empty($inviter)) {
+            return false;
+        }
+        $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
+            where openid=:openid', array(':openid'=>$openid));
+        if ($id == $inviter) {
+            return false;
+        }
+        $res = pdo_fetchcolumn("SELECT count(*) FROM " .tablename("qrcode_stat"). "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        if (!$res) {
             $insert =array(
                 'uniacid'=>$_W['uniacid'],
                 'acid'=>0,
