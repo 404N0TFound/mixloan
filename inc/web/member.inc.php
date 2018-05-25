@@ -218,7 +218,7 @@ if ($operation == 'list') {
         }
     }
     message("设置成功", $this->createWebUrl('member'), "success");
-}lse if ($operation == 'agent') {
+}else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
     if ($res['code'] == 1) {
