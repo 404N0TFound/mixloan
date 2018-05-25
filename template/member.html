@@ -77,6 +77,8 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'set_agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为初级代理</a></li>
+
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'update','id' => $row['id']));}" title='编辑会员' ><i class='fa fa-edit'></i> 编辑会员</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='删除会员' onclick="return confirm('确定要删除该会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li>
                             </ul>
