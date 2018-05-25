@@ -40,6 +40,18 @@ if ($operation == 'list') {
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
     }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+        $cond .= " and createtime>{$start} and createtime<={$end}";
+    } else {
+        $starttime = "";
+        $endtime = "";
+    }
+    $sql =
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
@@ -61,7 +73,7 @@ if ($operation == 'list') {
         if (!$row['pid']) {
             $row['name'] = '邀请购买代理';
         }
-        $row['inviter'] = pdo_fetch("select avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
     if ($_GPC['export'] == 1) {
@@ -80,8 +92,8 @@ if ($operation == 'list') {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
                 $row['inviter_name'] = $row['inviter']['nickname'];
-                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
-                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
+                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
             } else {
                 $row['inviter_name'] = '无';
                 $row['inviter_count'] = 0;
@@ -155,6 +167,11 @@ if ($operation == 'list') {
                     'title' => '额外奖励',
                     'field' => 'extra_bonus',
                     'width' => 20
+                ),
+                array(
+                    'title' => '状态',
+                    'field' => 'status',
+                    'width' => 10
                 ),
                 array(
                     'title' => '邀请时间',
@@ -310,6 +327,52 @@ if ($operation == 'list') {
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    }
+} else if ($operation == 'import') {
+    //导入excel
+    if ($_GPC['post']) {
+        $excel_file = $_FILES['excel_file'];
+        if ($excel_file['file_size'] > 2097152) {
+            message('不能上传超过2M的文件', '', 'error');
+        }
+        $values = m('excel')->import('excel_file');
+        $failed = $sccuess = 0;
+        foreach ($values as $value) {
+            if (empty($value[0])) {
+                continue;
+            }
+            switch (trim($value[11])) {
+                case '邀请中':
+                    $status = 0;
+                    break;
+                case '已注册':
+                    $status = 1;
+                    break;
+                case '已完成':
+                    $status = 2;
+                    break;
+            }
+            if (empty($status)) {
+                $failed += 1;
+                continue;
+            }
+            $update['status'] = $status;
+            //下款金额
+            $update['relate_money'] = trim($value[7]) ? : 0;
+            //注册奖励
+            $update['re_bonus'] = trim($value[8]) ? : 0;
+            //完成奖励
+            $update['done_bonus'] = trim($value[9]) ? : 0;
+            //额外奖励
+            $update['extra_bonus'] = trim($value[10]) ? : 0;
+            $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
+            if ($result) {
+                $sccuess += 1;
+            } else {
+                $failed += 1;
+            }
+        }
+        message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
 }
 include $this->template('agent');
