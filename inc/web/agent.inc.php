@@ -57,7 +57,6 @@ if ($operation == 'list') {
         $starttime = "";
         $endtime = "";
     }
-    $sql =
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
