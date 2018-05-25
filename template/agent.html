@@ -46,6 +46,7 @@
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>会员</th>
                     <th style='width:100px;'>购买费用</th>
+                    <th style='width:100px;'>剩余余额</th>
                     <th style='width:200px;'>购买id</th>
                     <th style='width:200px;'>加入时间</th>
                     <th>操作</th>
@@ -57,6 +58,7 @@
                     <td>   {$row['id']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
                     <td>   {$row['fee']}</td>
+                    <td>   {$row['left_bonus']}</td>
                     <td>   {$row['tid']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
