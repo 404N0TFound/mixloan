@@ -156,7 +156,7 @@ class Xuan_mixloan_Excel
         require_once IA_ROOT . '/framework/library/phpexcel/PHPExcel.php';
         require_once IA_ROOT . '/framework/library/phpexcel/PHPExcel/IOFactory.php';
         require_once IA_ROOT . '/framework/library/phpexcel/PHPExcel/Reader/Excel5.php';
-        $path = IA_ROOT . "/addons/c_shop/data/tmp/";
+        $path = IA_ROOT . "/addons/xuan_mixloan/data/excel/";
         if (!is_dir($path)) {
             load()->func('file');
             mkdirs($path, '0777');
@@ -177,7 +177,10 @@ class Xuan_mixloan_Excel
             message('上传Excel 文件失败, 请重新上传!', '', 'error');
         }
         $reader             = PHPExcel_IOFactory::createReader('Excel2007');
-        $excel              = $reader->load($uploadfile);
+        if(!$reader->canRead($uploadfile)){
+            $reader = PHPExcel_IOFactory::createReader('Excel5');
+        }
+        $excel              = $reader->load($uploadfile,$encode='utf-8');
         $sheet              = $excel->getActiveSheet();
         $highestRow         = $sheet->getHighestRow();
         $highestColumn      = $sheet->getHighestColumn();
