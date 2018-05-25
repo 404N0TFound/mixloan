@@ -171,7 +171,7 @@ if ($operation == 'list') {
                     'width' => 10
                 ),
                 array(
-                    'title' => '状态（0邀请中，1已注册，2已完成）',
+                    'title' => '状态（0邀请中，1已注册，2已完成，-1失败）',
                     'field' => 'status',
                     'width' => 35
                 ),
@@ -349,7 +349,7 @@ if ($operation == 'list') {
                 continue;
             }
             $status = trim($value[11]);
-            if (!in_array($status, array(0,1,2))) {
+            if (!in_array($status, array(0,1,2,-1))) {
                 $failed += 1;
                 continue;
             }
