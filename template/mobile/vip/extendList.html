@@ -1,80 +1,102 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="apple-touch-fullscreen" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title>推广奖励</title>
-        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen.css">
-        <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
-        <script src="../addons/xuan_mixloan/template/style/js/function.js"></script>
-        <style type="text/css">
-            .label-info{
-                background: #5190e7;
-                padding: 4px;
-                color: white;
-                border-radius: 4px;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <div class="kehuxinxi-top">
-            <span class="kehuxinxi-top-span">累计赚取（元）</span>
-            <h3>{$count}</h3></div>
-        <div>
-            <ul class="dailigongzi-top2">
-                <li class="line-right">
-                    <span>今日收入（元）</span>
-                    <h3>{$today_count}</h3></li>
-                <li>
-                    <span>本月收入（元）</span>
-                    <h3>{$month_count}</h3></li>
-            </ul>
-        </div>
-        <div class="tab-div tab-div3" style="margin-top:1rem">
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="line-bottom">
-                            <a href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}">关注成功({$follow_count})</a></td>
-                        <td class="line-bottom">
-                            <a href="{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}" class="tab-active2">购买成功({$buy_count})</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        {if $extend_list}
-        <table class="kehu-table" style="table-layout:fixed;">
-            <tbody>
-                {loop $extend_list $row}
-                <tr class="list" onclick="degreeDetail({$row['uid']})">
-                    <td>{php echo date('Y-m-d',$row['createtime']);}</td>
-                    <td>{$row['re_bonus']}元</td>
-                    <td>
-                        {$row['nickname']}
-                        <span class="label-info">{$row['degree']}级</span>
-                    </td>
-                </tr>
-                {/loop}
-            </tbody>
-        </table>
-        {else}
-        <div class="meiyou">
-            <img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt="">
-            <p>暂时没有更多数据啦！</p>
-        </div>
-        {/if}
 
-    <script type="text/javascript">
-        var degreeDetail = function(uid) {
-            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail'))}&uid="+uid;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>推广奖励</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen.css">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/function.js"></script>
+    <style type="text/css">
+        .label-info{
+            background: #5190e7;
+            padding: 4px;
+            color: white;
+            border-radius: 4px;
         }
-    </script>
-    </body>
+    </style>
+</head>
+
+<body>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>徒弟列表</span>
+    </div>
+</div>
+{/if}
+<div class="kehuxinxi-top">
+    <span class="kehuxinxi-top-span">累计赚取（元）</span>
+    <h3>{$count}</h3></div>
+<div>
+    <ul class="dailigongzi-top2">
+        <li class="line-right">
+            <span>今日收入（元）</span>
+            <h3>{$today_count}</h3></li>
+        <li>
+            <span>本月收入（元）</span>
+            <h3>{$month_count}</h3></li>
+    </ul>
+</div>
+<div class="tab-div tab-div3" style="margin-top:1rem">
+    <table>
+        <tbody>
+        <tr>
+            <td class="line-bottom">
+                <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}')">关注成功({$follow_count})</a></td>
+            <td class="line-bottom">
+                <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}')" class="tab-active2">购买成功({$buy_count})</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{if $extend_list}
+<table class="kehu-table" style="table-layout:fixed;">
+    <tbody>
+    {loop $extend_list $row}
+    <tr class="list" onclick="degreeDetail({$row['uid']})">
+        <td>{php echo date('Y-m-d',$row['createtime']);}</td>
+        <td>{$row['re_bonus']}元</td>
+        <td>
+            {$row['nickname']}
+            <span class="label-info">{$row['degree']}级</span>
+        </td>
+    </tr>
+    {/loop}
+    </tbody>
+</table>
+{else}
+<div class="meiyou">
+    <img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt="">
+    <p>暂时没有更多数据啦！</p>
+</div>
+{/if}
+
+<script type="text/javascript">
+    var degreeDetail = function(uid) {
+        _url="{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail'))}&uid="+uid;
+        openNew(_url)
+    }
+</script>
+</body>
 
 </html>
