@@ -5,7 +5,8 @@ class Xuan_mixloan_Pay
     private $appid = "wx5c65b334ef89bd92";
     private $mchid = "1483623762";
     private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
-    private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
+    private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+    private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
     private $publickey_path = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/key/ras.pub";
     private $apiclient_cert = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
@@ -17,7 +18,7 @@ class Xuan_mixloan_Pay
         }
     }
     /**
-     * 打款
+     * 打款银行卡
      * @param $bank_no
      * @param $true_name
      * @param $bank_code
@@ -25,7 +26,7 @@ class Xuan_mixloan_Pay
      * @param $desc
      * @return array
      */
-    function pay($bank_no, $true_name, $bank_code, $amount, $desc)
+    function payCard($bank_no, $true_name, $bank_code, $amount, $desc)
     {
         if (empty($bank_no)) {
             return ["code"=>-1, "msg"=>"银行卡号不能为空"];
@@ -51,7 +52,47 @@ class Xuan_mixloan_Pay
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
+        $result = $this->curl($this->pay_url_bank, $params, true);
+        if ($result['return_code'] == "SUCCESS") {
+            $data = array(
+                "partner_trade_no"=>$result["partner_trade_no"],
+                "payment_no"=>$result["payment_no"],
+            );
+            return ["code"=>1, "msg"=>$result["err_code_des"], "data"=>$data];
+        } else {
+            return ["code"=>-1, "msg"=>$result["err_code_des"]];
+        }
+    }
+    /**
+     * 打款微信个人账户
+     * @param $openid
+     * @param $amount 单位：分
+     * @param $desc
+     * @return array
+     */
+    function pay($openid, $amount, $desc)
+    {
+        if (empty($openid)) {
+            return ["code"=>-1, "msg"=>"银行卡号不能为空"];
+        }
+        if (empty($desc)) {
+            return ["code"=>-1, "msg"=>"说明不能为空"];
+        }
+        $trade_no = "ZML".date("YmdHis");
+        $params['openid'] = $openid;
+        $params["mch_appid"] = $this->appid;
+        $params["mchid"] = $this->mchid;
+        $params["partner_trade_no"] = $trade_no;
+        $params["nonce_str"] = strtoupper(md5($trade_no));
+        $params["check_name"] = "NO_CHECK";
+        $params["spbill_create_ip"] = $this->getRealIp();
+        $params["amount"] = intval($amount*100);
+        $params["desc"] = $desc;
+        $string = $this->GetHttpQueryString($params);
+        $sign = $this->GetSign($string);
+        $params["sign"] = $sign;
         $result = $this->curl($this->pay_url, $params, true);
+        var_dump($result);die;
         if ($result['return_code'] == "SUCCESS") {
             $data = array(
                 "partner_trade_no"=>$result["partner_trade_no"],
@@ -181,5 +222,26 @@ class Xuan_mixloan_Pay
         } else {
             die($xml["return_msg"]);
         }
+    }
+    /**
+     * 获取Ip
+     */
+    function getRealIp()
+    {
+        $ip=false;
+        if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+            $ip = $_SERVER["HTTP_CLIENT_IP"];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode (", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            if ($ip) { array_unshift($ips, $ip); $ip = FALSE; }
+            for ($i = 0; $i < count($ips); $i++) {
+                if (!eregi ("^(10│172.16│192.168).", $ips[$i])) {
+                    $ip = $ips[$i];
+                    break;
+                }
+            }
+        }
+        return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
     }
 }
