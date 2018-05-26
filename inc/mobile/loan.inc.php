@@ -133,7 +133,7 @@ if($operation=='index'){
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
         if ($openid) {
-            pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
+            // pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
         }
         if (!$inviter_uid) {
             $insert_i = array(
