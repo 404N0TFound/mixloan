@@ -185,9 +185,9 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
-	if (!$bank_id) {
-		show_json(-1, null, "请选择提现银行卡");
-	}
+	// if (!$bank_id) {
+	// 	show_json(-1, null, "请选择提现银行卡");
+	// }
     $date = date('Y-m-d');
     $today = strtotime("{$date}");
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
