@@ -109,7 +109,7 @@
 	</div>
 	<div class="int_img" id="pro_img"  >
 		<div>
-			<img src="{$poster_path}" class="big"  width="640"/>
+			<img src="{$poster_path}" class="big"  width="640" id="source_img"/>
 			<!-- <div class="twe">
                 <p><img src="../addons/xuan_mixloan/template/style/picture/763bd5ec2688ae78b6878e99ebfb5579_1.png"  style="width:41%;height:auto;" /></p>
             </div> -->
@@ -131,6 +131,34 @@
     });
 
 </script>
+{if !is_weixin()}
+<script type="text/javascript">
+    mui.plusReady(function(){
+        document.getElementById('source_img').addEventListener("click", function(){
+            var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+            var imgSrc = this.src;
+            plus.nativeUI.actionSheet(actionList,function(e){
+                if (e.index == 1) {
+                    var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                        console.log(status);
+                        if (status == 200) {
+                            plus.gallery.save(d.filename,function(){
+                                plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                    entry.remove();
+                                })
+                                return alert('图片已保存');
+                            })
+                        } else {
+                            return alert('保存失败' + status);
+                        }
+                    });
+                    imgDtask.start();
+                }
+            })
+        })
+    })
+</script>
+{/if}
 </body>
 
 </html>
