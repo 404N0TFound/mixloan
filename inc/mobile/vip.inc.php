@@ -190,6 +190,9 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+	if ($bonus < 100) {
+		show_json(-1, null, "超过100才能体现");
+	}
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
