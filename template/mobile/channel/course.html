@@ -16,8 +16,8 @@
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
-  
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+
     <style>
         .bglightgray{background-color: #eee;}
         body{overflow:hidden;}
@@ -126,11 +126,11 @@
         <div class='margin-top'></div>
         <div class="evdayhotlist newcomer" style='padding-top:0!important;overflow-y:scroll;-webkit-overflow-scrolling: touch;'>
             {loop $course_list $course}
-            <div class="list_unit">            
+            <div class="list_unit">
                 <h2>{$course['title']}</h2>
                 <p>
-                <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">去学习</a>                
-                </p>            
+                <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}">去学习</a>
+                </p>
             </div>
             {/loop}
             {if !is_weixin()}
@@ -194,7 +194,7 @@ function a_click(index){
     if(_condition=="1"){
         if(_condition2=="1"){
             $(index).attr("href",_url);
-        }        
+        }
     }else{
         jump(_id);
     }
