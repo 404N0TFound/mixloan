@@ -2,7 +2,7 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx5c65b334ef89bd92";
+    private $appid = "wx14679c8f0da025bc";
     private $mchid = "1483623762";
     private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
@@ -92,8 +92,7 @@ class Xuan_mixloan_Pay
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
         $result = $this->curl($this->pay_url, $params, true);
-        var_dump($result);die;
-        if ($result['return_code'] == "SUCCESS") {
+        if ($result['result_code'] != "FAIL") {
             $data = array(
                 "partner_trade_no"=>$result["partner_trade_no"],
                 "payment_no"=>$result["payment_no"],
