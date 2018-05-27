@@ -146,7 +146,7 @@ if($operation=='buy'){
 		if ($row['bank_id']) {
 			$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
 		} else {
-			$row['bankname'] = "微信账户";
+			$row['bankmes'] = "微信账户";
 		}
 		switch ($row['status']) {
 			case '0':
