@@ -56,8 +56,8 @@ function is_weixin()
 }
 function baoSendSMS($mobile,$content,$config) {
     load()->func('communication');
-    $user = $config['smsuser'];
-    $pass = md5($config['smspass']);
+    $user = 'lxs581005';
+    $pass = md5('lxs5810055');
     $result = ihttp_get("http://api.smsbao.com/sms?u={$user}&p={$pass}&m=".$mobile."&c=".urlencode($content));
     if ($result['code'] == 200) {
         $content = $result['content'];
