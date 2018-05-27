@@ -143,7 +143,11 @@ if($operation=='buy'){
 		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
 		$row['year'] = date('m-d', $row['createtime']);
 		$row['hour'] = date('H:i', $row['createtime']);
-		$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+		if ($row['bank_id']) {
+			$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+		} else {
+			$row['bankname'] = "微信账户";
+		}
 		switch ($row['status']) {
 			case '0':
 				$row['status'] = '申请中';
