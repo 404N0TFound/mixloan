@@ -49,11 +49,6 @@
             window.addEventListener('refresh', function(event) {
                 mui.currentWebview.reload();
             });
-            plus.key.addEventListener('backbutton', function() {
-                if (confirm('确认退出？')) {
-                    plus.runtime.quit();
-                }
-            }, false);
             var wv=plus.webview.currentWebview();
             // 关闭侧滑返回功能
             wv.setStyle({'popGesture':'none'});
