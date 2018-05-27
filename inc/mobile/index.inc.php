@@ -47,7 +47,7 @@ if($operation=='register'){
 } else if ($operation == 'login') {
     //登陆
     if (isset($_COOKIE['user_id'])) {
-        header("location:{$this->createMobileUrl('user')}");
+        header("location:{$this->createMobileUrl('loan')}");
     }
     include $this->template('index/login');
 } else if ($operation == 'login_ajax') {
@@ -68,7 +68,7 @@ if($operation=='register'){
         show_json(-1, [], '密码不正确');
     }
     setcookie('user_id', $member['id'], time()+86400);
-    show_json(1, ['url'=>$this->createMobileUrl('user')], '登陆成功');
+    show_json(1, ['url'=>$this->createMobileUrl('loan')], '登陆成功');
 } else if ($operation == 'loginout') {
     setcookie('user_id', false, time()-86400);
     header("location:{$this->createMobileUrl('index', ['op'=>'login'])}");

@@ -29,6 +29,18 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    mui.plusReady(function() {
+        console.log(mui.currentWebview.id);
+        window.addEventListener('refresh', function(event) {
+            mui.currentWebview.reload();
+        });
+        var wv=plus.webview.currentWebview();
+        // 关闭侧滑返回功能
+        wv.setStyle({'popGesture':'none'});
+    });
+    mui.back = function(){
+        return false;
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
