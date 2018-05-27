@@ -144,7 +144,7 @@ class Xuan_mixloan_Excel
         $excel->getActiveSheet()->setTitle($params['title']);
         $filename = urlencode($params['title'] . '-' . date('Y-m-d H:i', time()));
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment;filename="' . $filename . '.xls"');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
         header('Cache-Control: max-age=0');
         $writer = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
         $writer->save('php://output');
