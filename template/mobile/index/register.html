@@ -155,7 +155,7 @@ return temp
         	function(data){
         		console.log(data);
         		if(data.code==1){
-        			layer.msg(data,msg,{time:2000},function(){
+        			layer.msg(data.msg,{time:2000},function(){
         				location.href=data.data.url;
         			});
         		}else{
