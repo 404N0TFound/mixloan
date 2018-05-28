@@ -99,7 +99,7 @@ if($operation=='register'){
         show_json(-1, [], '请填写密码');
     }
     $member = pdo_fetch("SELECT id,pass FROM ".tablename('xuan_mixloan_member').'
-        WHERE phone=:phone and uniacid=:uniacid', array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        WHERE phone=:phone and uniacid=:uniacid and status<>-1', array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
     if (empty($member)) {
         show_json(-1, [], '手机号不存在');
     }
@@ -152,7 +152,7 @@ if($operation=='register'){
         show_json(-1, null, "验证码不符或验证码已失效");
     }
     $res = pdo_fetchcolumn("SELECT id FROM ".tablename("xuan_mixloan_member")."
-        WHERE phone=:phone AND uniacid=:uniacid", array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        WHERE phone=:phone AND uniacid=:uniacid AND status<>-1", array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
     if (empty($res)) {
         show_json(-1, null, "未查到此手机记录");
     }
