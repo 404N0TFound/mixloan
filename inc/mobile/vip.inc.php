@@ -354,8 +354,12 @@ if($operation=='buy'){
         }
     } else if ($type == 1){
         $pid = intval($_GPC['pid']);
-        $product = m('product')->getList(['id','ext_info'], ['id'=>$pid])[$pid];
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
+        $product = m('product')->getList(['id', 'type', 'ext_info', 'relate_id'], ['id'=>$pid])[$pid];
+	    if ($product['type'] == 1) {
+        	$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
+	    } else {
+	        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'inviter'=>$member['id'], 'pid'=>$pid));
+	    }
         $share_url = shortUrl( $url );
         $tips = "{$config['title']}—我的随身银行：{$share_url}";
         if (!$posterArr) {
