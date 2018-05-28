@@ -98,7 +98,7 @@ if($operation=='index'){
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $record = m('product')->getApplyList(['id'], ['relate_id'=>$id, 'phone'=>$_GPC['phone']]);
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
@@ -162,6 +162,61 @@ if($operation=='index'){
         'createtime'=>time()
     );
     pdo_insert('xuan_mixloan_bonus', $insert);
+    //二级
+    $inviter_one = m('member')->getInviterInfo($inviter);
+    $second_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
+    if ($second_inviter) {
+        $insert['inviter'] = $second_inviter;
+        $insert['degree'] = 2;
+        pdo_insert('xuan_mixloan_bonus', $insert);
+        $inviter_two = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+    }
+    //三级
+    $three_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
+    if ($three_inviter) {
+        $insert['inviter'] = $three_inviter;
+        $insert['degree'] = 3;
+        pdo_insert('xuan_mixloan_bonus', $insert);
+        $inviter_thr = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_two['nickname']}的下级{$inviter_one['nickname']}邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_thr['openid'], $config['tpl_notice1'], $datam, $url);
+    }
     $redirect_url = $pro['ext_info']['url'];
     show_json(1,$redirect_url);
 }
