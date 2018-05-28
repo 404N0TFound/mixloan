@@ -196,7 +196,6 @@ if ($operation == 'list') {
                 ),
             )
         ));
-        unset($row);
     }
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
@@ -209,7 +208,9 @@ if ($operation == 'list') {
         $wheres .= " and a.status={$_GPC['status']}";
     }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
         $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
@@ -218,6 +219,48 @@ if ($operation == 'list') {
         $row['left_bonus'] = $all - $apply_money;
     }
     unset($row);
+    if ($_GPC['export'] == 1) {
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            $row['reason'] = $row['ext_info']['reason'];
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "申请资料",
+            "columns" => array(
+                array(
+                    'title' => 'id',
+                    'field' => 'id',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请人',
+                    'field' => 'nickname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '申请金额',
+                    'field' => 'bonus',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请时间',
+                    'field' => 'createtime',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '状态（0申请中，1申请成功，-1申请失败）',
+                    'field' => 'status',
+                    'width' => 25
+                ),
+                array(
+                    'title' => '操作理由',
+                    'field' => 'reason',
+                    'width' => 25
+                ),
+            )
+        ));
+    }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
@@ -324,7 +367,7 @@ if ($operation == 'list') {
         if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
             // $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
             $pay = m('pay')->pay($member['openid'] ,$item['bonus'], $_GPC['data']['ext_info']['reason']);
-            if ($pay['code'] > 1) {
+            if ($pay['code'] == -1) {
                 message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
             } else {
                 $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
@@ -363,6 +406,52 @@ if ($operation == 'list') {
             //额外奖励
             $update['extra_bonus'] = trim($value[10]) ? : 0;
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
+            if ($result) {
+                $sccuess += 1;
+            } else {
+                $failed += 1;
+            }
+        }
+        message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
+    }
+} else if ($operation == 'withdraw_import') {
+    //导入withdraw_import excel
+    if ($_GPC['post']) {
+        $excel_file = $_FILES['excel_file'];
+        if ($excel_file['file_size'] > 2097152) {
+            message('不能上传超过2M的文件', '', 'error');
+        }
+        $values = m('excel')->import('excel_file');
+        $failed = $sccuess = 0;
+        foreach ($values as $value) {
+            if (empty($value[0])) {
+                continue;
+            }
+            $status = trim($value[4]);
+            $reason = trim($value[5]);
+            if (!in_array($status, array(0,1,-1))) {
+                $failed += 1;
+                continue;
+            }
+            $item = pdo_fetch('select bonus,uid,status from ' .tablename('xuan_mixloan_withdraw'). '
+                    where id=:id', array(':id'=>$value[0]));
+            if ($item['status'] != $status) {
+                $update['status'] = $status;
+                if ($status == 1) {
+                    $member = pdo_fetch('select nickname,openid from ' .tablename('xuan_mixloan_member'). '
+                        where id=:id', array(':id'=>$item['uid']));
+                    $pay = m('pay')->pay($member['openid'] ,$item['bonus'], $reason);
+                    if ($pay['code'] == -1) {
+                        message($pay['msg'] . "，id为{$value[0]}", $this->createWebUrl('agent', array('op'=>'withdraw_import')), "error");
+                    } else {
+                        $update['ext_info']['reason'] = $reason;
+                        $update['ext_info']['payment_no'] = $pay['data']['payment_no'];
+                        $update['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
+                    }
+                    $update['ext_info'] = json_encode($update['ext_info']);
+                }
+                $result = pdo_update('xuan_mixloan_withdraw', $update, array('id'=>$value[0]));
+            }
             if ($result) {
                 $sccuess += 1;
             } else {
