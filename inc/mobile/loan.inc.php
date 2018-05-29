@@ -89,10 +89,6 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
-    if ($record) {
-        show_json(-1, [], "您已经申请过啦");
-    }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if (empty($info['is_show'])) {
         show_json(-1, [], "该产品已被下架");
@@ -101,6 +97,10 @@ if($operation=='index'){
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+    }
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    if ($record) {
+        show_json(1,$pro['ext_info']['url']);
     }
     // if ($config['jdwx_open'] == 1) {
     //     $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
@@ -193,7 +193,6 @@ if($operation=='index'){
         );
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
     }
-    $redirect_url = $pro['ext_info']['url'];
-    show_json(1,$redirect_url);
+    show_json(1,$pro['ext_info']['url']);
 }
 ?>
