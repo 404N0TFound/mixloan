@@ -257,28 +257,97 @@ class Xuan_mixloan_Member
     }
 
     /**
-    *   获取邀请
-    **/
+     *   获取邀请
+     **/
     public function getInviter($phone, $openid="") {
         global $_W;
-        if (!$phone) {
-            return false;
-        }
-        $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
+        $res = false;
         if (!$res && $openid) {
-            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id ASC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        }
+        if (!$res && $phone) {
+            $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
         }
         return $res;
     }
 
     /**
-    *   获取用户手机号
-    **/
+     *   获取用户手机号
+     **/
     public function getInviterPhone($uid) {
         if (!$uid) {
             return false;
         }
         $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
         return $res;
+    }
+    /**
+     *   获取用户手机号和openid
+     **/
+    public function getInviterInfo($uid) {
+        if (!$uid) {
+            return false;
+        }
+        $res = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        return $res;
+    }
+    /**
+     *   检查uid的上下三级是否和inviter存在关系
+     **/
+    public function checkIfRelation($inviter, $uid) {
+        if (empty($inviter) || empty($uid)) {
+            return flase;
+        }
+        $low_man = $this->getInviterInfo($uid);
+        $inviter_man = $this->getInviterInfo($inviter);
+        //检查inviter的上三级
+        $temp_id = $this->getInviter($inviter_man['phone'], $inviter_man['openid']);
+        if (!empty($temp_id)) {
+            if ($temp_id == $uid) {
+                //一级
+                return 'below_one';
+            }
+            $temp_man = $this->getInviterInfo($temp_id);
+            $temp_id = $this->getInviter($temp_man['phone'], $temp_man['openid']);
+            if (!empty($temp_id)) {
+                if ($temp_id == $uid) {
+                    //二级
+                    return 'below_two';
+                }
+                $temp_man = $this->getInviterInfo($temp_id);
+                $temp_id = $this->getInviter($temp_man['phone'], $temp_man['openid']);
+                if (!empty($temp_id)) {
+                    if ($temp_id == $uid) {
+                        //三级
+                        return 'below_thr';
+                    }
+                }
+            }
+        }
+        //检查uid的上三级
+        $temp_id = $this->getInviter($low_man['phone'], $low_man['openid']);
+        if (!empty($temp_id)) {
+            if ($temp_id == $inviter) {
+                //一级
+                return 'up_one';
+            }
+            $temp_man = $this->getInviterInfo($temp_id);
+            $temp_id = $this->getInviter($temp_man['phone'], $temp_man['openid']);
+            if (!empty($temp_id)) {
+                if ($temp_id == $inviter) {
+                    //二级
+                    return 'up_two';
+                }
+                $temp_man = $this->getInviterInfo($temp_id);
+                $temp_id = $this->getInviter($temp_man['phone'], $temp_man['openid']);
+                if (!empty($temp_id)) {
+                    if ($temp_id == $inviter) {
+                        //三级
+                        return 'up_thr';
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
