@@ -15,19 +15,60 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
     }
-    $sql = 'select a.id,a.uid,b.nickname,b.avatar,b.phone,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    if ($_GPC['export'] != 1) {
-        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    if ($_GPC['bonus']) {
+        $sql = 'select 
+            b.inviter,sum(b.re_bonus+b.done_bonus+b.extra_bonus) as all_bonus 
+            from ' .tablename('xuan_mixloan_product_apply'). ' b
+            left join ' .tablename('xuan_mixloan_withdraw'). " c on b.inviter=b.uid 
+            where b.uniacid={$_W['uniacid']} {$wheres} 
+            group by b.inviter
+            order by b.id desc";
+            $list = pdo_fetchall($sql);
+            foreach ($list as &$row) {
+                $payment = pdo_fetch('select fee,tid,id,createtime from ' .tablename('xuan_mixloan_payment'). '
+                    where uid=:uid', array(':uid'=>$row['inviter']));
+                $member = pdo_fetch('select nickname,phone,avatar from ' .tablename('xuan_mixloan_member'). '
+                    where id=:id', array(':id'=>$row['inviter']));
+                $apply_money = pdo_fetchcolumn('SELECT SUM(bonus) FROM ' .tablename('xuan_mixloan_withdraw'). '
+                    where uid=:uid', array(':uid'=>$row['uid']));
+                $row['left_bonus'] = $row['all_bonus'] - $apply_money;
+                $row['nickname'] = $member['nickname'];
+                $row['phone'] = $member['phone'];
+                $row['avatar'] = $member['avatar'];
+                $row['fee'] = $payment['fee'];
+                $row['tid'] = $payment['tid'];
+                $row['id'] = $payment['id'];
+                $row['createtime'] = $payment['createtime'];
+            }
+            unset($row);
+            foreach ($list as $key => $value) {
+                if ($value['left_bonus'] == 0) {
+                    unset($list[$key]);
+                }
+            }
+    } else {
+        $sql = 'select * from ' .tablename('xuan_mixloan_payment'). "
+            where uniacid={$_W['uniacid']} {$wheres} ORDER BY id DESC";
+        if ($_GPC['export'] != 1) {
+            $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+        }
+        $list = pdo_fetchall($sql);
+        foreach ($list as &$row) {
+            $member = pdo_fetch('select nickname,phone,avatar from ' .tablename('xuan_mixloan_member'). '
+                where id=:id', array(':id'=>$row['uid']));
+            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM " .tablename("xuan_mixloan_product_apply"). "
+                WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+            $apply_money = pdo_fetchcolumn('SELECT SUM(bonus) FROM ' .tablename('xuan_mixloan_withdraw'). '
+                where uid=:uid', array(':uid'=>$row['uid']));
+            $row['left_bonus'] = $all - $apply_money;
+            $row['nickname'] = $member['nickname'];
+            $row['phone'] = $member['phone'];
+            $row['avatar'] = $member['avatar'];
+        }
+        unset($row);
+        $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
+        $pager = pagination($total, $pindex, $psize);
     }
-    $list = pdo_fetchall($sql);
-    foreach ($list as &$row) {
-        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-        $apply_money = pdo_fetchcolumn('SELECT SUM(bonus) FROM '.tablename('xuan_mixloan_withdraw').' where uid=:uid', array(':uid'=>$row['uid']));
-        $row['left_bonus'] = $all - $apply_money;
-    }
-    unset($row);
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
-    $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
     //申请列表
     $pindex = max(1, intval($_GPC['page']));
