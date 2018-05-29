@@ -8,6 +8,9 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//会员中心
+	if ($_GPC['inviter']) {
+		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+	}
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
