@@ -316,7 +316,7 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
-} else if ($operation == 'import') {
+}  else if ($operation == 'import') {
     //导入excel
     if ($_GPC['post']) {
         $excel_file = $_FILES['excel_file'];
@@ -325,6 +325,8 @@ if ($operation == 'list') {
         }
         $values = m('excel')->import('excel_file');
         $failed = $sccuess = 0;
+        $createtime = time();
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         foreach ($values as $value) {
             if (empty($value[0])) {
                 continue;
@@ -345,10 +347,74 @@ if ($operation == 'list') {
             $update['extra_bonus'] = trim($value[10]) ? : 0;
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
             if ($result) {
+                $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
+                $item = pdo_fetch('select id,realname,inviter,degree,pid from ' .tablename('xuan_mixloan_product_apply'). '
+                    where id=:id', array(':id'=>$value[0]));
+                $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
+                    where id=:id", array(':id'=>$item['pid']));
+                $openid = pdo_fetchcolumn('select openid from ' .tablename('xuan_mixloan_member'). '
+                    where id=:id', array(':id'=>$item['inviter']));
+                if ($status == 1 && $update['re_bonus']>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $update['re_bonus'],
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                }
+                if ($status == 2 && $count_money>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $count_money,
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                }
+                if ($datam) {
+                    $temp = array(
+                        'uniacid' => $_W['uniacid'],
+                        'openid' => "'{$openid}'",
+                        'template_id' => "'{$config['tpl_notice5']}'",
+                        'data' => "'" . addslashes(json_encode($datam)) . "'",
+                        'url' => "'{$url}'",
+                        'createtime'=>$createtime,
+                        'status'=>0
+                    );
+                    $temp_string = '('. implode(',', array_values($temp)) . ')';
+                    $insert[] = $temp_string;
+                }
                 $sccuess += 1;
             } else {
                 $failed += 1;
             }
+        }
+        if (!empty($insert)) {
+            $insert_string =  implode(',', $insert);
+            pdo_run("INSERT ".tablename("xuan_mixloan_notice"). " ( `uniacid`, `openid`, `template_id`, `data`, `url`, `createtime`, `status`) VALUES {$insert_string}");
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
