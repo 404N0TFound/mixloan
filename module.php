@@ -4,18 +4,16 @@
  *
  */
 defined('IN_IA') or exit('Access Denied');
-
 class Xuan_mixloanModule extends WeModule {
-
-	public function settingsDisplay($setting) {
-		global $_W, $_GPC;
+    public function settingsDisplay($setting) {
+        global $_W, $_GPC;
         load()->func('tpl');
         $setting = $this->module['config'];
         $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
         if (empty($posters)) {
             message("请先添加海报", $this->createWebUrl('poster'), 'error');
         }
-		if(checksubmit()) {
+        if(checksubmit()) {
             $cfg = array(
                     'title'=>$_GPC['title'],
                     'wx_name'=>$_GPC['wx_name'],
@@ -68,8 +66,7 @@ class Xuan_mixloanModule extends WeModule {
                     'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
                     'backup'=>$_GPC['backup'],
                     'wx_qrcode'=>$_GPC['wx_qrcode']
-            	);
-
+                );
             if ($this->saveSettings($cfg)) {
                 pdo_delete("xuan_mixloan_poster", array("pid"=>0));
                 if ($setting['backup']!=1 && $cfg['backup']==1) {
@@ -104,7 +101,7 @@ class Xuan_mixloanModule extends WeModule {
                 }
                 message('保存成功', 'refresh');
             }
-		}
+        }
         
         $queue_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'queue'));
         $vip_buy = $this->shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')));
@@ -121,8 +118,8 @@ class Xuan_mixloanModule extends WeModule {
         $friend = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('friend', array('op'=>'')) );
         $extend_bonus = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'extend_bonus')) );
         $find_pass =  $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('index', array('op'=>'find_pass')) );
-		include $this->template('setting');
-	}
+        include $this->template('setting');
+    }
     public function shortUrl($target) {
         return $target;
         $target_url = urlencode($target);
@@ -141,5 +138,4 @@ class Xuan_mixloanModule extends WeModule {
             return $short['short_url'];
         }
     }
-
 }
