@@ -9,6 +9,10 @@
 		<script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
 		<!-- <script type="text/javascript" src="/js/vue.js"></script> -->
 		<style type="text/css">
+		.choose{width: 100%}
+		.choose a{
+			text-align: center;
+		}
 		</style>
 	</head>
 
@@ -35,6 +39,10 @@
     </div>
 	{/if}
 		<div class="particulars-box" id="app" v-cloak>
+			<div class="indent-tab-box">
+				<a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>1))}" {if $degree == 1}class="active"{/if}>直推</a>
+				<a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>2))}" {if $degree == 2}class="active"{/if}>二级</a>
+			</div>
 			<!--小提示  -->
 			<div class="ptars-smts-box">
 				月结产品非实时状态,本月客户状态则在下月5-15日结算
