@@ -37,6 +37,7 @@ class Xuan_mixloanModule extends WeModule {
                     'tpl_notice3'=>$_GPC['tpl_notice3'],
                     'tpl_notice4'=>$_GPC['tpl_notice4'],
                     'tpl_notice5'=>$_GPC['tpl_notice5'],
+                    'tpl_notice6'=>$_GPC['tpl_notice6'],
                     'register_contract'=> htmlspecialchars_decode($_GPC['register_contract']),
                     'buy_vip_price' =>$_GPC['buy_vip_price'],
                     'inviter_fee_one'=>$_GPC['inviter_fee_one'],

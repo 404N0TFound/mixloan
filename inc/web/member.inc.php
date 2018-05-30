@@ -167,7 +167,7 @@ if ($operation == 'list') {
             $temp = array(
                 'uniacid' => $_W['uniacid'],
                 'openid' => "'{$openid}'",
-                'template_id' => "'{$config['tpl_notice3']}'",
+                'template_id' => "'{$config['tpl_notice6']}'",
                 'data' => "'" . addslashes(json_encode($datam)) . "'",
                 'url' => "'{$url}'",
                 'createtime'=>$createtime,
