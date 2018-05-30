@@ -1,63 +1,63 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="apple-touch-fullscreen" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title>推广奖励</title>
-        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen_1.css">
-        <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
-        <script src="../addons/xuan_mixloan/template/style/js/function.js"></script>
-    </head>
-    
-    <body>
-        <!-- <div class="wdfanhui"><a href="/member/yongjin"></a></div> -->
-        <div class="kehuxinxi-top">
-            <span class="kehuxinxi-top-span">累计赚取（元）</span>
-            <h3>{$count}</h3></div>
-        <div>
-            <ul class="dailigongzi-top2">
-                <li class="line-right">
-                    <span>今日收入（元）</span>
-                    <h3>{$today_count}</h3></li>
-                <li>
-                    <span>本月收入（元）</span>
-                    <h3>{$month_count}</h3></li>
-            </ul>
-        </div>
-        <div class="tab-div tab-div3" style="margin-top:1rem">
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="line-bottom">
-                            <a href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}" class="tab-active2">关注成功</a></td>
-                        <td class="line-bottom">
-                            <a href="{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}">购买成功</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        {if $follow_list}
-        <table class="kehu-table" style="table-layout:fixed;">
-            <tbody>
-                {loop $follow_list $row}
-                <tr class="list">
-                    <td>{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
-                    <td>{$row['nickname']}</td>
-                </tr>
-                {/loop}
-            </tbody>
-        </table>
-        {else}
-        <div class="meiyou">
-            <img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt="">
-            <p>暂时没有更多数据啦！</p>
-        </div>
-        {/if}
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>推广奖励</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen_1.css">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/function.js"></script>
+</head>
+
+<body>
+<!-- <div class="wdfanhui"><a href="/member/yongjin"></a></div> -->
+<div class="kehuxinxi-top">
+    <span class="kehuxinxi-top-span">累计赚取（元）</span>
+    <h3>{$count}</h3></div>
+<div>
+    <ul class="dailigongzi-top2">
+        <li class="line-right">
+            <span>今日收入（元）</span>
+            <h3>{$today_count}</h3></li>
+        <li>
+            <span>本月收入（元）</span>
+            <h3>{$month_count}</h3></li>
+    </ul>
+</div>
+<div class="tab-div tab-div3" style="margin-top:1rem">
+    <table>
+        <tbody>
+        <tr>
+            <td class="line-bottom">
+                <a href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}" class="tab-active2">关注成功</a></td>
+            <td class="line-bottom">
+                <a href="{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}">购买成功</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{if $follow_list}
+<table class="kehu-table" style="table-layout:fixed;">
+    <tbody>
+    {loop $follow_list $row}
+    <tr class="list">
+        <td>{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
+        <td>{$row['nickname']}</td>
+    </tr>
+    {/loop}
+    </tbody>
+</table>
+{else}
+<div class="meiyou">
+    <img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt="">
+    <p>暂时没有更多数据啦！</p>
+</div>
+{/if}
+</body>
 
 </html>
