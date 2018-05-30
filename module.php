@@ -63,7 +63,13 @@ class Xuan_mixloanModule extends WeModule {
                     'credit_fee_two'=>$_GPC['credit_fee_two'],
                     'credit_fee_three'=>$_GPC['credit_fee_three'],
                     'backup'=>$_GPC['backup'],
-                    'wx_qrcode'=>$_GPC['wx_qrcode']
+                    'wx_qrcode'=>$_GPC['wx_qrcode'],
+                    'extend_bonus_nums'=>$_GPC['extend_bonus_nums'],
+                    'extend_bonus_money'=>$_GPC['extend_bonus_money'],
+                    'extend_bonus_pic1'=>$_GPC['extend_bonus_pic1'],
+                    'extend_bonus_pic2'=>$_GPC['extend_bonus_pic2'],
+                    'extend_bonus_pic3'=>$_GPC['extend_bonus_pic3'],
+                    'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
             	);
 
             if ($this->saveSettings($cfg)) {
