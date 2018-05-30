@@ -316,6 +316,7 @@ if($operation=='index'){
             } else if ($row['degree'] == 2) {
                 $row['degree'] = '二级';
             }
+            $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3);
         }
         unset($row);
     }
