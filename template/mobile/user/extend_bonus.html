@@ -89,6 +89,9 @@
                 <a href="javascript:void(0);" id="sub_button">
                     <img src="../addons/xuan_mixloan/template/style/picture/btns.png" /> 
                 </a>
+                <a href="javascript:void(0);" id="sub_partner">
+                    <img src="../addons/xuan_mixloan/template/style/picture/btns.png" /> 
+                </a>
             </div>
         </div>
         <!-- center -->
@@ -149,7 +152,7 @@ $(function() {
         {if $agent['code'] != 1}
             $('#prize_art').show();
         {else}
-            window.location.href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}"
+            openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}');
             // window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
         {/if}
     })
@@ -157,7 +160,7 @@ $(function() {
         {if $agent['code'] != 1}
             $('#prize_art').show();
         {else}
-            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}"
+            openNew('{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}');
         {/if}
     })
     $('#close_shan').click(function() {     
@@ -167,7 +170,9 @@ $(function() {
         $('#tong').hide();
     });
     //
-   
+   $('#sub_partner').click(function(){
+        penNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner'))}');
+   })
     
 })
 function showRules(){

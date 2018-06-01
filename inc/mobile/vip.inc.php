@@ -120,8 +120,11 @@ if($operation=='buy'){
 	}
 	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
 	foreach ($percent_list as &$row) {
-		if ($row['pid'] == 0){
+		if ($row['type'] == 2){
 			$row['name'] = '邀请购买代理';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else if ($row['type'] == 3){
+			$row['name'] = '合伙人分红';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
 		} else {
 			$row['name'] = $pros[$row['pid']]['name'];
@@ -416,4 +419,16 @@ if($operation=='buy'){
 	//调用pay方法
 	$this->pay($params);
 	exit();
+} else if ($operation == 'partner_center') {
+	//合伙人中心
+	$list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
+		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+	foreach ($list as &$row) {
+		$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+		$man = pdo_fetch('select nickname from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$row['uid']));
+		$row['nickname'] = $man['nickname'];
+	}
+	unset($row);
+	include $this->template('vip/partner_center');
 }

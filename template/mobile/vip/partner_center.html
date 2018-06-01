@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/partner/css/czym.css" />
+		<meta id="viewport" name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; user-scalable=no">
+		<title>收入记录</title>
+
+	</head>
+
+	<body>
+		<!--pages/recordcashs/recordcashs.wxml-->
+		<div class="recordcashs-box" id="app">
+			<!-- <div class="record-head-box" style="margin-top: 0">
+				<a href="/member/earnings" class="active">收入记录 <span></span></a>
+				<a href="/member/txrecord">提现记录<span></span></a>
+			</div> -->
+
+			<div class="record-ul">
+				{if $list}
+					{loop $list $row}
+					<div class="record-li" >
+						<div class="prd-timer-box">
+							<img :src="../addons/xuan_mixloan/template/style/partner/picture/item.img"></img>
+							<span class="head-tl-xt">{$row['nickname']}</span>
+							<!--订单编号  -->
+							<span class="rg-xt">订单:{$row['id']}</span>
+						</div>
+						<div class="prd-ms-box">
+
+							<div class="prd-lf-box">
+								<!--结算类型  -->
+								<span>结算类型: 分红奖励</span> 
+								<span>手机号：{$row['phone']}</span>
+
+								<span>{$row['createtime']}</span>
+							</div>
+							<div class="prd-rg-box">
+								<span>{$row['extra_bonus']}元</span>
+							</div>
+						</div>
+					</div>
+					{/loop}
+				{else}
+				<div style="margin-top: 50px;" class="meiyou" v-if="ag.length < 1"><img src="../addons/xuan_mixloan/template/style/partner/picture/404d.png" alt=""><p style="text-align: center;">暂时没有更多数据啦！</p></div>
+				{/if}
+			</div>
+
+		</div>
+	</body>
+
+</html>
