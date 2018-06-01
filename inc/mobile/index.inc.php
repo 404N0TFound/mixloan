@@ -2,7 +2,7 @@
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
 $config = $this->module['config'];
-(!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='register';
+(!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='login';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='register'){
@@ -26,39 +26,14 @@ if($operation=='register'){
 	if ($res) {
 		show_json(-1, null, "手机已绑定");
 	}
-	//邀请处理
-	$qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-	if ($qrcid) {
-		$res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone AND uid=:uid ORDER BY id DESC",array(":uid"=>$qrcid,":phone"=>$phone));
-		if (!$res_i && $qrcid!=$member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $qrcid,
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-		}
-	} else {
-		if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $_GPC['inviter'],
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-			$insert_q = array(
-				'uniacid' => $_W['uniacid'],
-				'type'=>1,
-				'qrcid' => $_GPC['inviter'],
-				'scene_str' => $_GPC['inviter'],
-				'openid' => $member['openid'],
-				'createtime' => time(),
-			);
-			pdo_insert('qrcode_stat', $insert_q);
-		}
-	}
+	$insert = array(
+        'uniacid' => $_W['uniacid'],
+        'phone' => $phone,
+        'pass' => $pwd,
+        'createtime' => time(),
+    );
+    pdo_insert('xuan_mixloan_member', $insert);
+    show_json(1, ['url'=>$this->createMobileUrl('index', array('op'=>'login'))], "注册成功");
 } else if ($operation == 'login') {
     //登陆
     if (isset($_COOKIE['user_id'])) {

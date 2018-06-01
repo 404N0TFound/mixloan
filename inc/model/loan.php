@@ -74,10 +74,8 @@ class Xuan_mixloan_Loan
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * 
-            FROM ".tablename('xuan_mixloan_loan')." AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM ".tablename('xuan_mixloan_loan').")) AS id) AS t2 
-            WHERE t1.id >= t2.id AND t1.uniacid=:uniacid
-            ORDER BY t1.id ASC LIMIT 3";
+        $sql = "SELECT * FROM " .tablename('xuan_mixloan_loan'). "
+            WHERE uniacid=:uniacid ORDER BY RAND() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
@@ -126,5 +124,19 @@ class Xuan_mixloan_Loan
             }
         }
         return $ret;
+    }
+
+    public function checkRecord($type, $relate_id, $phone)
+    {
+        global $_W;
+        $array = array(
+            'type'=>$type,
+            ':uniacid'=>$_W['uniacid'],
+            ':relate_id'=>$relate_id,
+            ':phone'=>$phone,
+        );
+        $record = pdo_fetchcolumn('select count(1) from '.tablename('xuan_mixloan_apply').'
+            where uniacid=:uniacid and relate_id=:relate_id and phone=:phone', $array);
+        return $record;
     }
 }

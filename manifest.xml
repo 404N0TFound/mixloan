@@ -27,6 +27,7 @@
 	<menu>
       <entry title="会员管理" do="member" state="" direct="false" />
       <entry title="贷款超市" do="loan" state="" direct="false" />
+      <entry title="申请记录" do="apply" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
@@ -34,6 +35,23 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL COMMENT '申请者',
+  `relate_id` int(11) NOT NULL COMMENT '关联id',
+  `inviter` int(11) NOT NULL COMMENT '邀请者',
+  `realname` varchar(30) NOT NULL COMMENT '真实姓名',
+  `phone` varchar(30) NOT NULL COMMENT '手机号',
+  `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1贷款',
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `phone` (`phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_inviter`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_inviter` (
