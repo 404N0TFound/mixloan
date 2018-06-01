@@ -394,4 +394,26 @@ if($operation=='buy'){
     }
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
     message($ret, '', 'success');
+} else if ($operation == 'partner') {
+	//合伙人
+	$partner = m('member')->checkPartner($member['id']);
+	if ($partner['code'] == 1) {
+		header("location:{$this->createMobileUrl('vip', array('op'=>'partner_center'))}");
+	}
+	if (!$member['phone']) {
+		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	}
+	$tid = "10002" . date('YmdHis', time());
+	$title = "购买{$config['title']}合伙人";
+	$fee = $config['buy_partner_price'];
+	$params = array(
+	    'tid' => $tid, 
+	    'ordersn' => $tid, 
+	    'title' => $title, 
+	    'fee' => $fee, 
+	    'user' => $member['id'], 
+	);
+	//调用pay方法
+	$this->pay($params);
+	exit();
 }

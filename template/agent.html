@@ -374,7 +374,7 @@
                     <p class="form-control-static"><img src="{php echo tomedia($info['ext_info']['logo']);}" width="30px"> {$info['name']}</p>
                 </div>
             </div>
-            {if $item['pid']}
+            {if $item['type']==1}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
@@ -444,49 +444,49 @@
                         <option value="1" {if $item['status']==1}selected{/if}>已注册</option>
                         {/if}
                         <option value="2" {if $item['status']==2}selected{/if}>
-                        {if $item['pid']==0}已完成{else}已下款/卡{/if}
+                        {if $item['type']!=1}已完成{else}已下款/卡{/if}
                         </option>
                     </select>
                 </div>
             </div>
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
-            <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
-            <div class="col-sm-8 col-lg-9 col-xs-12">
-                <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
+                </div>
             </div>
+            {if $item['type'] == 1}
+            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[relate_money]" value="{$item['relate_money']}"/>
+                </div>
+            </div>
+            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡奖励</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
+                </div>
+            </div>
+            {/if}
+            <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+        </div>
     </div>
-    {if $item['pid'] !=0}
-    <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
-    <div class="col-sm-8 col-lg-9 col-xs-12">
-        <input type="text" class="form-control"  name="data[relate_money]" value="{$item['relate_money']}"/>
-    </div>
-</div>
-<div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡奖励</label>
-<div class="col-sm-8 col-lg-9 col-xs-12">
-    <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
-</div>
-</div>
-<div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
-<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
-<div class="col-sm-8 col-lg-9 col-xs-12">
-    <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
-</div>
-</div>
-{/if}
-<div class="form-group">
-    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
-    <div class="col-sm-7 col-lg-9 col-xs-12">
-        <input class="btn btn-default" type="submit" value="提交">
-        <input type="hidden" name="token" value="{$_W['token']}" />
-    </div>
-</div>
-<div class="form-group">
-</div>
-</form>
-</div>
-</div>
 <script type="text/javascript">
     var change_stauts = function () {
         var value = $("select[name='data[status]']").val();

@@ -195,13 +195,13 @@
                         </a>
                     </li>
                     {if $config['predict_limit'] && is_weixin()}
-                    <li>
+                   <!--  <li>
                         <a onclick="openNew('{$config['predict_limit']}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
                             建行预审
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     {/if}
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}')">

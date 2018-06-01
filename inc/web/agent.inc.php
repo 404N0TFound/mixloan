@@ -31,6 +31,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND a.id={$_GPC['id']}";
+    }
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
@@ -75,8 +78,10 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 3){
+            $row['name'] = '合伙人分红';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -279,7 +284,7 @@ if ($operation == 'list') {
     //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
-    if ($item['pid']) {
+    if ($item['type'] == 1) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
         $info['ext_info'] = json_decode($info['ext_info'], true);
         if ($item['degree'] == 1) {
@@ -293,8 +298,10 @@ if ($operation == 'list') {
             $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
             $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
         }
-    } else {
+    } else if ($item['type'] == 2){
         $info['name'] = '邀请购买代理奖励';
+    } else if ($item['type'] == 3){
+        $info['name'] = '合伙人分红，关联id：' . $item['pid'];
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
@@ -311,10 +318,11 @@ if ($operation == 'list') {
         } else {
             $degree = '二级';
         }
+        $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
         if ($_GPC['data']['status'] == 1 && $re_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "你好，你的{$degree}邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "你好，你的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
@@ -331,11 +339,31 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
+            if ($inviter_two) {
+                //给合伙人增加佣金
+                $partner = m('member')->checkPartner($inviter_two);
+                if ($partner['code'] == 1) {
+                    $insert = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $item['inviter'],
+                        'phone' => $one_man['phone'],
+                        'pid' => $item['id'],
+                        'inviter' => $inviter_two,
+                        're_bonus'=>0,
+                        'done_bonus'=>0,
+                        'extra_bonus'=>$re_money*$config['partner_bonus']*0.01,
+                        'status'=>2,
+                        'createtime'=>time(),
+                        'type'=>3
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
+            }
         }
         if ($_GPC['data']['status'] == 2 && $count_money>0) {
             $datam = array(
                 "first" => array(
-                    "value" => "你好，你的{$degree}邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                    "value" => "你好，你的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金，继续推荐产品，即可获得更多佣金奖励",
                     "color" => "#FF0000"
                 ) ,
                 "order" => array(
@@ -352,6 +380,26 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
+            if ($inviter_two) {
+                //给合伙人增加佣金
+                $partner = m('member')->checkPartner($inviter_two);
+                if ($partner['code'] == 1) {
+                    $insert = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $item['inviter'],
+                        'phone' => $one_man['phone'],
+                        'pid' => $item['id'],
+                        'inviter' => $inviter_two,
+                        're_bonus'=>0,
+                        'done_bonus'=>0,
+                        'extra_bonus'=>$count_money*$config['partner_bonus']*0.01,
+                        'status'=>2,
+                        'createtime'=>time(),
+                        'type'=>3
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
+            }
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
@@ -378,7 +426,7 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
-} else if ($operation == 'import') {
+}   else if ($operation == 'import') {
     //导入excel
     if ($_GPC['post']) {
         $excel_file = $_FILES['excel_file'];
@@ -387,6 +435,8 @@ if ($operation == 'list') {
         }
         $values = m('excel')->import('excel_file');
         $failed = $sccuess = 0;
+        $createtime = time();
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         foreach ($values as $value) {
             if (empty($value[0])) {
                 continue;
@@ -407,10 +457,115 @@ if ($operation == 'list') {
             $update['extra_bonus'] = trim($value[10]) ? : 0;
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
             if ($result) {
+                $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
+                $item = pdo_fetch('select * from ' .tablename('xuan_mixloan_product_apply'). '
+                    where id=:id', array(':id'=>$value[0]));
+                $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
+                    where id=:id", array(':id'=>$item['pid']));
+                $inviter = m('member')->getInviterInfo($item['inviter']);
+                if ($status == 1 && $update['re_bonus']>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $update['re_bonus'],
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                    $inviter_two = m('member')->getInviter($inviter['phone'], $inviter['openid']);
+                    if ($inviter_two) {
+                        //给合伙人增加佣金
+                        $partner = m('member')->checkPartner($inviter_two);
+                        if ($partner['code'] == 1) {
+                            $insert = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $item['inviter'],
+                                'phone' => $inviter['phone'],
+                                'pid' => $item['id'],
+                                'inviter' => $inviter_two,
+                                're_bonus'=>0,
+                                'done_bonus'=>0,
+                                'extra_bonus'=>$update['re_bonus']*$config['partner_bonus']*0.01,
+                                'status'=>2,
+                                'createtime'=>time(),
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert);
+                        }
+                    }
+                }
+                if ($status == 2 && $count_money>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $count_money,
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                    $inviter_two = m('member')->getInviter($inviter['phone'], $inviter['openid']);
+                    if ($inviter_two) {
+                        //给合伙人增加佣金
+                        $partner = m('member')->checkPartner($inviter_two);
+                        if ($partner['code'] == 1) {
+                            $insert = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $item['inviter'],
+                                'phone' => $inviter['phone'],
+                                'pid' => $item['id'],
+                                'inviter' => $inviter_two,
+                                're_bonus'=>0,
+                                'done_bonus'=>0,
+                                'extra_bonus'=>$count_money*$config['partner_bonus']*0.01,
+                                'status'=>2,
+                                'createtime'=>time(),
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert);
+                        }
+                    }
+                }
+                if ($datam) {
+                    $temp = array(
+                        'uniacid' => $_W['uniacid'],
+                        'openid' => "'{$inviter['openid']}'",
+                        'template_id' => "'{$config['tpl_notice5']}'",
+                        'data' => "'" . addslashes(json_encode($datam)) . "'",
+                        'url' => "'{$url}'",
+                        'createtime'=>$createtime,
+                        'status'=>0
+                    );
+                    $temp_string = '('. implode(',', array_values($temp)) . ')';
+                    $insert[] = $temp_string;
+                }
                 $sccuess += 1;
             } else {
                 $failed += 1;
             }
+        }
+        if (!empty($insert)) {
+            $insert_string =  implode(',', $insert);
+            pdo_run("INSERT ".tablename("xuan_mixloan_notice"). " ( `uniacid`, `openid`, `template_id`, `data`, `url`, `createtime`, `status`) VALUES {$insert_string}");
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
