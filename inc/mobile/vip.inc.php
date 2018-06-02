@@ -242,7 +242,7 @@ if($operation=='buy'){
     include $this->template('vip/inviteCode');
 } else if ($operation == 'followList') {
 	//关注列表
-	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC");
+	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 GROUP BY a.openid ORDER BY id DESC");
 	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
 	$count = $count ? : 0;
 	$cTime = getTime();
