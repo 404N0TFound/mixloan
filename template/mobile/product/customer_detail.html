@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/czym.css" />
+    <meta id="viewport" name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; user-scalable=no">
+    <title>详情</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <!-- <script type="text/javascript" src="/js/vue.js"></script> -->
+    <style type="text/css">
+        .choose{width: 100%}
+        .choose a{
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #fdfbec}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #ffa648}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>申请详情</span>
+    </div>
+</div>
+{/if}
+<div class="particulars-box" id="app" v-cloak>
+    <div class="indent-tab-box">
+        <a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>1))}" {if $degree == 1}class="active"{/if}>直推</a>
+        <a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>2))}" {if $degree == 2}class="active"{/if}>二级</a>
+    </div>
+    <!--小提示  -->
+    <div class="ptars-smts-box">
+        月结产品非实时状态,本月客户状态则在下月5-15日结算
+    </div>
+
+    <!--人数显示  -->
+    <div class="ptars-pepo-box">
+
+        <div class="pepo-list-box">
+            <span>{$count_num}</span>
+            <span>申请人数(人)</span>
+        </div>
+
+        <div class="pepo-list-box">
+            <span>{$count_succ_num}</span>
+            <span>成功人数(人)</span>
+        </div>
+
+        <div class="pepo-list-box">
+            <span>{$count_succ_bonus}</span>
+            <span>奖金(元)</span>
+        </div>
+
+    </div>
+
+    <!--tab  -->
+    <div class="indent-tab-box">
+
+        <a {if $type==1}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>1])}')" >所有订单<span></span></a>
+
+        <a {if $type==2}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>2])}')" >有效订单<span></span></a>
+
+        <a {if $type==3}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>3])}')" >失效订单<span></span></a>
+    </div>
+
+    <!--订单列表  -->
+    <div class="indent-list-box">
+
+        <!--列表  -->
+        <div class="list-ul-box">
+            {loop $list $row}
+            <div class="list-li-box">
+                <div class="head-list-box">
+                    <image src="{php echo tomedia($row['product']['ext_info']['logo']);}"></image>
+                    <span class="tl-xt">{$row['product']['name']}（{$row['degree']}）</span>
+                    <span class="tm-xt">订单ID：1000{$row['id']}</span>
+                </div>
+
+                <div class="head-ms-box">
+                    <div class="part-lf-box">
+                        <span>订单状态: {$row['state']}</span>
+                        <span>手机号码: {$row['phone']}</span>
+                        <span>{$row['createtime']}</span>
+                    </div>
+                    <div class="part-rg-box">
+                        <span>{$row['bonus']}元</span>
+                    </div>
+                </div>
+            </div>
+            {/loop}
+        </div>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>

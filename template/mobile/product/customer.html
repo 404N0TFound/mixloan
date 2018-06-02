@@ -29,9 +29,7 @@
 		div.agent-foot{padding-bottom:20px; }
 		div.agent-main{padding-bottom:20px;}
 	}
-	div.agent-foot p>img {
-		width: 1.15rem;
-	}
+
 </style>
 <body style="background:#fff;">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
@@ -46,7 +44,7 @@
 </style>
 <style type="text/css">
 	.app_back {
-		position: fixed;
+		position: absolute;
 		display: inline-block;
 		padding: 0 10px 0 10px;
 		z-index: 999;
@@ -62,12 +60,15 @@
 		top: 0;
 		transform: rotate(180deg);
 	}
+	div.agent-foot p>img {
+		width: 1.15rem;
+	}
 </style>
 <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
 {/if}
 <div class="agent-header">
 	{$config['title']}
-	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix' ,['op'=>'tutorials'])}')" ><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+	<a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 </div>
 {if !is_weixin()}
 <div style="height:1rem;"></div>
@@ -75,23 +76,23 @@
 <div style="height:2rem;"></div>
 {/if}
 <div class="agent-foot">
-	<a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
+	<a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
 		<p>首页</p>
 	</a>
-	<a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
 		<p>今日口子</p>
 	</a>
-	<a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
 		<img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
 	</a>
 	<a href="javascript:;"  class="on">
 		<!-- <span class="iconfont icon-card2"></span> -->
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-		<p>{$config['title']}客</p>
+		<p>{$config['title']}</p>
 	</a>
-	<a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+	<a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
 		<p>个人中心</p>
 	</a>
@@ -109,12 +110,16 @@
 	<div class="cusLtop">
 		<img src="../addons/xuan_mixloan/template/style/picture/cusbg_1.png" />
 		<p><img src="../addons/xuan_mixloan/template/style/picture/calender_1.png" /><span id="pointY"></span><span>年</span><span id="pointM"></span><span>月</span></p>
-		<div class="cusLApplyNum"><a class="btnLeft btnLeftL"></a><h1>共<span id="applyNum"></span>位申请</h1><a class="btnRight btnRightD"></a></div>
+		<div class="cusLApplyNum"><a class="btnLeft btnLeftL"></a><h1>共<span id="applyNum"></span>申请</h1><a class="btnRight btnRightD"></a></div>
 	</div>
 	<div class="accCommon dayAccount">
 		<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
 		<div class="dayProduct">
 			<ul>
+				<!-- <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>极速钱包</h2><em>+60</em><a></a></li>
+                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>现金卡</h2><em>+23</em><a></a></li>
+                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>民生信用卡</h2><em>+0</em><a></a></li>
+                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>浦发信用卡</h2><em>+9</em><a></a></li> -->
 			</ul>
 		</div>
 	</div>
@@ -129,6 +134,33 @@
 			</ul>
 		</div>
 		<div class="productLstC productData weekProduct">
+			<!-- <ul>
+                <li>光大信用卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul>
+            <ul class="productZero">
+                <li>玖富万卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul>
+            <ul class="productXrf">
+                <li>信而富</li>
+                <li>69</li>
+                <li>
+                    <p><span>有效:</span><label>8位</label></p>
+                    <p><span>放款:</span><label>5位</label></p>
+                </li>
+                <li>￥360</li>
+            </ul>
+            <ul>
+                <li>民生信用卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul> -->
 		</div>
 	</div>
 	<div class="accCommon monthAccount">
@@ -142,19 +174,33 @@
 			</ul>
 		</div>
 		<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
-		</div>
-	</div>
-	<div class="accCommon monthAccount">
-		<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下级代理</h1>
-		<div class="productLstC monthATitle">
-			<ul>
-				<li>徒弟名称</li>
-				<li>关注时间</li>
-				<li>是否开通</li>
-				<li>奖金/元</li>
-			</ul>
-		</div>
-		<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
+			<!-- <ul>
+                <li>光大信用卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul>
+            <ul class="productZero">
+                <li>玖富万卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul>
+            <ul class="productXrf">
+                <li>信而富</li>
+                <li>69</li>
+                <li>
+                    <p><span>有效:</span><label>8位</label></p>
+                    <p><span>放款:</span><label>5位</label></p>
+                </li>
+                <li>￥360</li>
+            </ul>
+            <ul>
+                <li>民生信用卡</li>
+                <li>69</li>
+                <li>26元</li>
+                <li>￥360</li>
+            </ul> -->
 		</div>
 	</div>
 </div>
@@ -201,7 +247,7 @@
                         var dTitle=days[i].name;
                         var dImgs=days[i].ext_info.logo;
                         var dCount=days[i].count_num;
-                        dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
+                        dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
                         if(dCount=='0'){
                             dayStr += '<span></span></li>';
                         }else{
@@ -221,39 +267,39 @@
                         var mloan=week[j].succ;
                         var mrewards=week[j].count_bonus;
                         // var unit=week[j].unit;
-                        if(mId=="2"||mId=="21"){
-                            if(mId=="21"){
-                                if(gdFlag){
-                                    //2018/1/1之前数据
-                                    if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productZero">'
-                                    }else{
-                                        weekStr += '<ul>'
-                                    }
-                                }else{
-                                    //2018/1/1之后数据
-                                    if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productXrf productZero">';
-                                    }else{
-                                        weekStr += '<ul class="productXrf">'
-                                    }
-                                }
-                            }else{
-                                //2 信而富;
-                                if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                    weekStr += '<ul class="productXrf productZero">';
-                                }else{
-                                    weekStr += '<ul class="productXrf">'
-                                }
-                            }
-                        }else{
-                            if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                weekStr += '<ul class="productZero">'
-                            }else{
-                                weekStr += '<ul>'
-                            }
-                        }
-
+                        // if(mId=="2"||mId=="21"){
+                        // 	if(mId=="21"){
+                        // 		if(gdFlag){
+                        // 			//2018/1/1之前数据
+                        // 			if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                        // 				weekStr += '<ul class="productZero">'
+                        // 			}else{
+                        // 				weekStr += '<ul>'
+                        // 			}
+                        // 		}else{
+                        // 			//2018/1/1之后数据
+                        // 			if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                        // 				weekStr += '<ul class="productXrf productZero">';
+                        // 			}else{
+                        // 				weekStr += '<ul class="productXrf">'
+                        // 			}
+                        // 		}
+                        // 	}else{
+                        // 		//2 信而富;
+                        // 		if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
+                        // 			weekStr += '<ul class="productXrf productZero">';
+                        // 		}else{
+                        // 			weekStr += '<ul class="productXrf">'
+                        // 		}
+                        // 	}
+                        // }else{
+                        // 	if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
+                        // 		weekStr += '<ul class="productZero">'
+                        // 	}else{
+                        // 		weekStr += '<ul>'
+                        // 	}
+                        // }
+                        weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         weekStr += '<li>'+ mTitle +'</li>';
                         weekStr += '<li>'+ mapply +'</li>';
 
@@ -273,7 +319,7 @@
                         var mvalid=0;
                         var mloan=month[j].succ;
                         var mrewards=month[j].count_bonus;
-                        monthStr += '<ul>'
+                        monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         monthStr += '<li>'+ mTitle +'</li>';
                         monthStr += '<li>'+ mapply +'</li>';
 
@@ -281,28 +327,6 @@
                         monthStr += '<li>¥ '+ mrewards +'</li>';
                         monthStr += '</ul>';
                         $("div.monthProduct").append(monthStr);
-                    }
-
-                    $("div.inviteProduct").html("");
-                    var invite=data.invite_list;//月结
-                    for(j=0;j<invite.length;j++){
-                        var inviteStr='';
-                        var mTitle=invite[j].nickname;
-                        var mCreatetime=invite[j].createtime;
-                        if (invite[j].pay == 1) {
-                            var mPay = '是'
-                        } else {
-                            var mPay = '否';
-                        }
-                        var mrewards=invite[j].re_bonus;
-                        inviteStr += '<ul>'
-                        inviteStr += '<li>'+ mTitle +'</li>';
-                        inviteStr += '<li>'+ mCreatetime +'</li>';
-
-                        inviteStr += '<li>'+ mPay +'</li>';
-                        inviteStr += '<li>¥ '+ mrewards +'</li>';
-                        inviteStr += '</ul>';
-                        $("div.inviteProduct").append(inviteStr);
                     }
                 }else{
                     layer.close(layerindex);
@@ -314,11 +338,8 @@
     // 日结产品跳转
     function dayDetail(index){
         var id=$(index).attr("data-id");
-        var diff=$(index).attr("data-diff");
-        var month=$("#pointM").html();
-        var year=$("#pointY").html();
-        var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-        // location.href=url;
+        var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
+        openNew(url)
     }
 </script>
 </body>
