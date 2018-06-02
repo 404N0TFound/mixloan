@@ -220,7 +220,7 @@ if($operation=='buy'){
 		    $res = $wx->barCodeCreateDisposable($barcode);
 			$url = $res['url'];
 		} else {
-			$_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('inviter'=>$member['id']));
+			$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('inviter'=>$member['id']));
 		}
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
