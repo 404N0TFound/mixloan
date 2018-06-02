@@ -8,6 +8,10 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//会员中心
+	$partner = m('member')->checkPartner($member['id']);
+	if ($partner['code'] == 1) {
+		$member['user_type']['name'] = '合伙人';
+	}
 	if (empty($member['phone'])) {
 		message('请先绑定手机', $this->createMobileUrl('index', array('op'=>'register')), 'error');
 	}
@@ -68,6 +72,7 @@ if($operation=='index'){
 }else if ($operation == 'set') {
 	//修改资料
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
+	$partner = m('member')->checkPartner($member['id']);
 	if ($agent) {
 		$inviter = m('member')->getInviter($member['phone'], $openid);
 		$inviter_info = m('member')->getInviterInfo($inviter);

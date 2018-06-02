@@ -217,6 +217,56 @@ if ($operation == 'list') {
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
         
     }
+} else if ($operation == 'partner_list') {
+    //合伙人列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND a.id='{$_GPC['id']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.*,b.nickname,b.avatar from ' . tablename('xuan_mixloan_partner') . " a
+        left join " .tablename('xuan_mixloan_member'). " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY a.ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['count_bonus'] = pdo_fetchcolumn('select sum(extra_bonus) from ' .tablename('xuan_mixloan_product_apply'). '
+            where inviter=:inviter and type=3', array(':inviter'=>$row['uid'])) ? : 0;
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_partner') . " a
+        left join " .tablename('xuan_mixloan_member'). " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY a.ID DESC' );
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'partner_delete') {
+    //取消合伙人资格
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('id为空', '', 'error');
+    }
+    pdo_delete('xuan_mixloan_partner', array('id'=>$id));
+    message("操作成功", $this->createWebUrl('member',array('op'=>'partner_list')), "success");
+} else if ($operation == 'set_partner') {
+    //取消合伙人资格
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('id为空', '', 'error');
+    }
+    $partner = m('member')->checkPartner($id);
+    if ($partner['code'] != 1) {
+        $insert = array(
+            'uniacid' => $_W['uniacid'],
+            'uid' => $id,
+            'createtime' => time(),
+            'tid' => "20002" . date('YmdHis', time()),
+            'fee' => 0,
+        );
+        pdo_insert('xuan_mixloan_partner', $insert);
+    }
+    message("操作成功", $this->createWebUrl('member',array('op'=>'partner_list')), "success");
 }
 include $this->template('member');
 ?>

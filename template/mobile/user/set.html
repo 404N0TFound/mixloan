@@ -108,7 +108,7 @@
                 <li class="input-list border clearfix">
                     <div class="list-name">职务</div>
                     <div class="input-wap">
-                        <p>{if $agent}代理{else}用户{/if}</p>
+                        <p>{if $agent}{if $partner['code']==1}合伙人{else}代理{/if}{else}用户{/if}</p>
                     </div>
                 </li>
                 {if $agent}

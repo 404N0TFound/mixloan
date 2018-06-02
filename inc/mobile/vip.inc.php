@@ -130,11 +130,13 @@ if($operation=='buy'){
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
 		}
-		if ($row['pid'] == 0 || $pros[$row['pid']]['count_time'] == 1) {
+		if ($pros[$row['pid']]['count_time'] == 1) {
 			$row['type'] = '日结';
+		} else if ($row['type'] == 2 || $row['type'] == 3) {
+			$row['type'] = '实时';
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '周结';
-		} else if ($pros[$row['pid']]['count_time'] == 7) {
+		} else if ($pros[$row['pid']]['count_time'] == 30) {
 			$row['type'] = '月结';
 		}
 		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
@@ -425,9 +427,11 @@ if($operation=='buy'){
 		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
 	foreach ($list as &$row) {
 		$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
-		$man = pdo_fetch('select nickname from '.tablename('xuan_mixloan_member').'
+		$man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
 			where id=:id', array(':id'=>$row['uid']));
+		$row['avatar'] = $man['avatar'];
 		$row['nickname'] = $man['nickname'];
+		$row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
 	}
 	unset($row);
 	include $this->template('vip/partner_center');
