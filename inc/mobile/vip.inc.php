@@ -209,6 +209,9 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+	if ($bonus < 30) {
+		show_json(-1, null, "大于30才能提现");
+	}
 	$bank = pdo_fetch('select realname,bankname,banknum,phone from ' .tablename("xuan_mixloan_creditCard"). "
 		where id=:id",array(':id'=>$bank_id));
 	$ACC_NO = $bank['banknum'];
@@ -245,7 +248,8 @@ if($operation=='buy'){
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
 	if ($agent['code'] != 1) {
-		message('您不是代理','','error');
+		header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+		exit();
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
