@@ -232,7 +232,7 @@ if($operation=='buy'){
         $ext_info['batchNo'] = $BATCH_NO;
         $ext_info['MER_ORDER_NO'] = $MER_ORDER_NO;
     } else {
-        message($res['TRANS_DETAILS'][0]['REMARK'], $this->createMobileUrl('user'), 'error');
+    	show_json(-1, null, $res['TRANS_DETAILS'][0]['REMARK']);
     }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
