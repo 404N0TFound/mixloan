@@ -38,7 +38,6 @@
 	{template 'common/wxshare'}
 </head>
 <body style="background:#fff;">
-
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -72,13 +71,14 @@
 {/if}
 <div class="agent-header">
 	{$config['title']}
-	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 </div>
 {if !is_weixin()}
 <div style="height:3rem;"></div>
 {else}
 <div style="height:2rem;"></div>
 {/if}
+<!-- end -->
 <div class="product_head">
 	<ul class="clearfix">
 		<li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
@@ -259,7 +259,7 @@
                             }
 
                             var two_li="<li class='clearfix' data-id="+ new_maintain +"  onclick=\"new_head(this);\">"
-                                +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "'>"
+                                +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "')\">"
                                 +"<div  class='clearfix lisi_li' >"
                                 +"<div class='fl'>"
                                 +"<img src='"+ imgs +"' />"
@@ -397,7 +397,7 @@
                         }
 
                         var str_tw="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_hot + "')\">"
                             +"<div  class='clearfix lisi_li' >"
                             +"<div class='fl'>"
                             +"<img src='"+ imgs_loan +"' />"
@@ -427,7 +427,7 @@
                             +"</a>"
                             +"</li>";
                         var str_tre="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_hot + "')\">"
                             +"<div  class='clearfix lisi_li' >"
                             +"<div class='fl'>"
                             +"<img src='"+ imgs_loan +"'  />"
