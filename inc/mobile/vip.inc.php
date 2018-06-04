@@ -206,6 +206,7 @@ if($operation=='buy'){
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
+	show_json(-1, null, "系统维护中");
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
