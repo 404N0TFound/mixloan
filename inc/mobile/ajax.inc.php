@@ -240,12 +240,10 @@ if($operation == 'getCode'){
 	echo json_encode($result);
 } else if ($operation == 'temp') {
 	//临时脚本
-	$sql = 'SELECT count(*)as nums,openid FROM `ims_xuan_mixloan_member` GROUP BY openid HAVING nums>1';
+	$sql = 'SELECT phone,count(*) as count FROM `ims_xuan_mixloan_member` group by phone HAVING count>1';
 	$list = pdo_fetchall($sql);
 	foreach ($list as $row) {
-		$sql = "update ims_xuan_mixloan_member set uniacid=2 where openid='{$row['openid']}' ORDER BY id ASC LIMIT 1";
-		echo $sql . '<br/>';
-		pdo_run($sql);
+		pdo_update('xuan_mixloan_member', array('phone'=>''), array('uniacid'=>2, 'phone'=>$row['phone']));
 	}
 }
 ?>
