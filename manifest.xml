@@ -27,6 +27,7 @@
 	<menu>
       <entry title="会员管理" do="member" state="" direct="false" />
       <entry title="贷款超市" do="loan" state="" direct="false" />
+      <entry title="银行列表" do="bank" state="" direct="false" />
       <entry title="申请记录" do="apply" state="" direct="false" />
 	</menu>
 	</bindings>

@@ -1,0 +1,225 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>在线提额</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt.css">
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .app_header{height: 80px;width: 100%;background: #ffffff}
+        .app_header_back{text-align: center;color: white}
+        .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+        .app_header_back img{float:left;width: 12px;}
+        .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+        div.rate_main{margin-top: 0;padding-top: 0}
+    </style>
+    <style type="text/css">
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+        .app_back {
+            position: absolute;
+            display: inline-block;
+            padding: 0 10px 0 8px;
+            z-index: 999;
+            line-height: 0px;
+            top: 2rem
+        }
+        .app_back img {
+            display: inline-block;
+            height: 16px;
+            margin: 13px 0;
+            vertical-align: middle;
+            left: 0;
+            top: 0;
+            transform: rotate(180deg);
+        }
+        .agent-foot{
+            height: 4rem
+        }
+        div.agent-foot p.foot_img {
+            height: 2.22rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 2.22rem;
+            width: 2.1rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.8rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+    </style>
+    <div class="app_header">
+        <div class="app_header_back">
+            <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+            <span>在线提额</span>
+        </div>
+    </div>
+    <div class="agent-foot">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+            <p>首页</p>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>今日口子</p>
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+            <p>{$config['title']}客</p>
+        </a>
+        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+            <p>个人中心</p>
+        </a>
+    </div>
+    {else}
+    <div class="agent-header">
+        在线提额
+        <a class="return" onclick="javascript:history.go(-1)">返回</a>
+    </div>
+    {/if}
+    <div class="rate_main">
+        <div class="rate_common rate_check">
+            <h2><span>电话提额</span></h2>
+            {loop $banks $row}
+            <ul>
+                {loop $row $key}
+                <li>
+                    <a data-id="{$key['id']}">
+                        <p><img src="{php echo tomedia($key['ext_info']['logo']);}" /></p>
+                        <span>{$key['name']}</span>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+            {/loop}
+        </div>
+        <div class="rate_common rate_recommend">
+            <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next.png" /></a></h2>
+            <ul>
+                <li>
+                    <h1>民生银行</h1>
+                    <span><img src="../addons/xuan_mixloan/template/style/picture/20171101151336.png" /></span>
+                    <p>优惠享不停</p>
+                    <a href="https://creditcard.cmbc.com.cn/online/mobile/index.aspx?tradeFrom=YX-QDZC2&EnStr=19CB2A1DC5DF6788359A23CF5046E0AE&jg=624000001&jgEnStr=3164CD4163E95CFF5F778A47029F1CAF" data-productid="10">马上办卡</a>
+                </li>     
+            </ul>
+        </div>
+    </div>
+    <div class="tier_tel">
+        <div class="floor close_layer"></div>
+        <div class="service_main">
+            <h1><span></span><a class="close_layer"><img src="../addons/xuan_mixloan/template/style/picture/del.png" /></a></h1>
+            <p ></p>
+            <h2></h2>
+            <span><a href="tel:"><img src="../addons/xuan_mixloan/template/style/picture/phone.png" />拨打</a></span>
+        </div>
+    </div>
+
+    {if !is_weixin()}
+    <div style="height: 4rem"></div>
+    {/if}
+    <script type="text/javascript">
+    //页面初始化
+    getBank();
+    function teltierL(){
+        var window_H=$(window).height();
+        var main_H=$("div.service_main").height();
+        var main_T=(window_H-main_H)/2+"px";
+        $("div.service_main").css("top",main_T);
+    }
+    //电话提额
+    $("div.rate_check ul li a").click(function(){
+        var _id=$(this).attr("data-id");
+        $.post("{php echo $this->createMobileUrl('bank', array('op'=>'extend_by_phone'))}",{"id":_id},
+            function(data){
+                if(data.code==1){
+                    var _data=data.data;
+                    var bank=_data.title;
+                    var intro=_data.intro;
+                    var tel=_data.tel;
+                    $("div.service_main h1 span").html(bank);
+                    $("div.service_main p").html(intro);
+                    $("div.service_main h2").html(tel);
+                    $("div.service_main>span a").attr("href","tel:"+tel);
+                    $("div.tier_tel").show();
+                    teltierL();
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },'json')
+    })
+    //关闭弹窗
+    $(".close_layer").click(function(){
+        $("div.tier_tel").hide();
+    })
+    //推荐 换一批
+    $(".next_card").click(function(){
+        getBank();
+    })
+    function getBank() {
+        $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getBank'))}",
+            function(data){
+                if(data.code==1){
+                    $("div.rate_recommend ul").html("");
+                    var _data=data.data;
+                    for(i=0;i<_data.length;i++){
+                        var title=_data[i].title1;
+                        var title2=_data[i].title2;
+                        var imgs=_data[i].imgs;
+                        var url=_data[i].url;   
+                        var want_id=_data[i].id;                          
+                        $("div.rate_recommend ul").append("<li>"
+                                                            + "<h1>"+ title +"</h1>"
+                                                            + "<span><img src="+imgs+" /></span>"
+                                                            + "<p>"+ title2 +"</p>"
+                                                            + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
+                                                        + "</li>")
+                    }                        
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+        },'json')
+    }
+    </script>
+</body>
+</html>
