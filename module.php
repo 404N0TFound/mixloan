@@ -19,6 +19,9 @@ class Xuan_mixloanModule extends WeModule {
                     'share_image'=>$_GPC['share_image'],
                     'share_desc'=>$_GPC['share_desc'],
                     'wx_qrcode'=>$_GPC['wx_qrcode'],
+                    'tpl_notice3'=>$_GPC['tpl_notice3'],
+                    'tpl_notice6'=>$_GPC['tpl_notice6'],
+                    'tpl_notice7'=>$_GPC['tpl_notice7'],
                 );
             if ($this->saveSettings($cfg)) {
                 message('保存成功', 'refresh');
