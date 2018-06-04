@@ -50,49 +50,91 @@
             </div>
 
             <div class="loanindex_shortcut">
-                <ul>
-                    <li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
-                            <p> 手机号贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
-                            <p>身份证贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" /></p>
-                            <p>芝麻分贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>4));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c81da5b1_1.png" /></p>
-                            <p>不查征信</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" /></p>
-                            <p>信用卡贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>6));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c9cd78d1_1.png" /></p>
-                            <p>公积金贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>7));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" /></p>
-                            <p>大额贷</p>
-                        </a>
-                    </li><li>
-                        <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>8));}">
-                            <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" /></p>
-                            <p>抵押贷</p>
-                        </a>
-                    </li>                
-                </ul>
+            <div class="swiper-container pro-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" style="width:120%;">
+                    <ul><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
+                                <p>身份证贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" /></p>
+                                <p>芝麻分贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" /></p>
+                                <p>信用卡贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>4));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c81da5b1_1.png" /></p>
+                                <p>不查征信</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
+                                <p>社保贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>6));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c9cd78d1_1.png" /></p>
+                                <p>公积金</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>7));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" /></p>
+                                <p>房抵贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>8));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" /></p>
+                                <p>车抵贷</p>
+                            </a>
+                        </li>                
+                    </ul>
+                    </div>
+                    <div class="swiper-slide" style="width:120%;">
+                    <ul><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
+                                <p>保单贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" /></p>
+                                <p>工薪贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" /></p>
+                                <p>按揭房</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>4));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c81da5b1_1.png" /></p>
+                                <p>按揭车</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
+                                <p>过桥贷</p>
+                            </a>
+                        </li><li>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>6));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c9cd78d1_1.png" /></p>
+                                <p>POS机</p>
+                            </a>
+                        </li>              
+                    </ul>
+                    </div>
+                </div>
+                <div class="swiper-pagination pro-pagination"></div>
+            </div>
             </div>
         </div>
         <div class="loan_channel">
@@ -193,6 +235,18 @@
 <script type="text/javascript">
     // 页面初始化
     $(document).ready(function(){
+        var swiper_w=($(window).width())*0.94;
+        var swiper_gap=($(window).width())*0.02;
+        var mySwiper = new Swiper('.pro-swiper', {
+                // width:swiper_w,
+                autoplay: 5000,//可选选项，自动滑动
+                loop:true,
+                autoplayDisableOnInteraction : false,
+                spaceBetween: swiper_gap,
+                initialSlide:0,
+                slidesPerView: "auto",
+                centeredSlides: true, 
+            });
         var fr_T=($("div.loan_tab").height())+"px";
         $("div.loanindex_frame").css("margin-top",fr_T);
         $("img.ani_model").load(function(){
