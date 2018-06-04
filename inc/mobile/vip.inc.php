@@ -309,10 +309,10 @@ if($operation=='buy'){
     $start_time = strtotime($temp_time);
     $end_time = strtotime("+1 month {$temp_time}");
     // $list = pdo_fetchall("SELECT inviter,SUM(re_bonus+done_bonus+extra_bonus) AS bonus FROM ".tablename('xuan_mixloan_bonus')." WHERE relate_id=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter HAVING bonus<>0 ORDER BY bonus DESC LIMIT 15");
-    $list = pdo_fetchall("SELECT uid,SUM(bonus) as bonus FROM " .tablename('xuan_mixloan_withdraw'). "
+    $list = pdo_fetchall("SELECT uid,SUM(bonus) as count_bonus FROM " .tablename('xuan_mixloan_withdraw'). "
     	WHERE createtime>{$start_time} AND createtime<{$end_time}
-    	GROUP BY uid HAVING bonus<>0
-    	ORDER BY bonus DESC LIMIT 15");
+    	GROUP BY uid HAVING count_bonus<>0
+    	ORDER BY count_bonus DESC LIMIT 15");
     if (!empty($list)) {
         foreach ($list as &$row) {
             $temp_member = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
