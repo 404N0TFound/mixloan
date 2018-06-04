@@ -160,7 +160,7 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'queue') {
 	//队列消耗模板信息
-	$notices = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_notice")." WHERE uniacid=:uniacid AND status=0 ORDER BY id ASC LIMIT 50", array(':uniacid'=>$_W['uniacid']));
+	$notices = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_notice")." WHERE status=0 ORDER BY id ASC LIMIT 50", array(':uniacid'=>$_W['uniacid']));
 	if (!empty($notices)) {
 		$count = 0;
 		$filed = array();

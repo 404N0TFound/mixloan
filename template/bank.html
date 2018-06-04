@@ -1,6 +1,17 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
-    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('loan')}">申请列表</a></li>
+    {if $operation=='list' || $operation == 'update' || $operation == 'add'}
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank')}">银行列表</a></li>
+    <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'add'));}">添加/编辑&nbsp;银行</a></li>
+    {/if}
+    {if $operation=='book_list' || $operation == 'book_update' || $operation == 'book_add'}
+    <li {if $operation=='book_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'book_list','bank_id'=>$_GPC['bank_id']));}">文章列表</a></li>
+    <li {if $operation == 'book_update' || $operation == 'book_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'book_add','bank_id'=>$_GPC['bank_id']));}">添加/编辑&nbsp;文章</a></li>
+    {/if}
+    {if $operation=='card_list' || $operation == 'card_update' || $operation == 'card_add'}
+    <li {if $operation=='card_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'card_list','bank_id'=>$_GPC['bank_id']));}">卡类列表</a></li>
+    <li {if $operation == 'card_update' || $operation == 'card_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'card_add','bank_id'=>$_GPC['bank_id']));}">添加/编辑&nbsp;卡类</a></li>
+    {/if}
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -10,20 +21,14 @@
             <input type="hidden" name="c" value="site" />
             <input type="hidden" name="a" value="entry" />
             <input type="hidden" name="m" value="xuan_mixloan" />
-            <input type="hidden" name="do" value="apply" />
+            <input type="hidden" name="do" value="bank" />
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">id</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">银行名称</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="id" value="{$_GPC['id']}"/>
+                    <input type="text" class="form-control"  name="name" value="{$_GPC['name']}"/>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">手机号</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
-                </div>
-            </div>
-            
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -31,53 +36,427 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
-            
-            
+
+
             <div class="form-group">
             </div>
         </form>
     </div>
 </div><div class="clearfix">
-<div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
-    <div class="panel-body">
-        <table class="table table-hover" style="overflow:visible;">
-            <thead class="navbar-inner">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
                 <tr>
-                    <th style='width:80px;'>ID</th>
-                    <th style='width:80px;'>申请人</th>
-                    <th style='width:120px;'>申请手机号</th>
-                    <th style='width:120px;'>关联产品</th>
+                    <th style='width:80px;'>银行ID</th>
+                    <th style='width:120px;'>银行名称</th>
                     <th style='width:200px;'>添加时间</th>
+                    <th style='width:120px;'>卡类管理</th>
+                    <th style='width:120px;'>技巧文章</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>   {$row['realname']}</td>
-                    <td>   {$row['phone']}</td>
-                    <td>   {$row['relate_name']}</td>
+                    <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   <a href="{php echo $this->createWebUrl('bank',array('op'=>'card_list','bank_id' => $row['id']));}" class="btn btn-info btn-sm">卡类管理</a></td>
+                    <td>   <a href="{php echo $this->createWebUrl('bank',array('op'=>'book_list','bank_id' => $row['id']));}" class="btn btn-success btn-sm">技巧文章</a></td>
                     <td  style="overflow:visible;">
-                        
+
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                
-                                <li><a  href="{php echo $this->createWebUrl('apply',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'update','id' => $row['id']));}" title='编辑银行'><i class='fa fa-edit'></i> 编辑银行</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'delete','id' => $row['id']));}" title='删除银行' onclick="return confirm('确定要删除该银行吗？');"><i class='fa fa-remove'></i> 删除银行</a></li>
                             </ul>
                         </div>
-                        
+
                     </td>
                 </tr>
                 {/loop}
-            </tbody>
-        </table>
-        {$pager}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
     </div>
 </div>
+{else if $operation == 'book_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>文章ID</th>
+                    <th style='width:120px;'>文章名称</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['title']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'book_update','id' => $row['id'], 'bank_id'=>$_GPC['bank_id']));}" title='编辑文章'><i class='fa fa-edit'></i> 编辑文章</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'book_delete','id' => $row['id'], 'bank_id'=>$_GPC['bank_id']));}" title='删除文章' onclick="return confirm('确定要删除该文章吗？');"><i class='fa fa-remove'></i> 删除文章</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
 </div>
+{else if $operation == 'card_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>卡ID</th>
+                    <th style='width:120px;'>卡名</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'card_update','id' => $row['id'], 'bank_id'=>$_GPC['bank_id']));}" title='编辑卡'><i class='fa fa-edit'></i> 编辑卡</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('bank',array('op'=>'card_delete','id' => $row['id'], 'bank_id'=>$_GPC['bank_id']));}" title='删除卡' onclick="return confirm('确定要删除该卡吗？');"><i class='fa fa-remove'></i> 删除卡</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'add' || $operation == 'update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;银行</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="bank" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">银行名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">银行logo</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">办卡宣传语</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][subscribe_tips]" value="{$item['ext_info']['subscribe_tips']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">办卡链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][subscribe_url]" value="{$item['ext_info']['subscribe_url']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提额提示</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][extend_tips]" value="{$item['ext_info']['extend_tips']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提额专线电话</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][extend_phone]" value="{$item['ext_info']['extend_phone']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">进度查询链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][query_url]" value="{$item['ext_info']['query_url']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'book_add' || $operation == 'book_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;文章</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="bank" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="bank_id" value="{$_GPC['bank_id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">文章标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[title]" value="{$item['title']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否设为推荐</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[is_hot]">
+                        <option value="0" {if $item['is_hot']==0}selected{/if}>否</option>
+                        <option value="1" {if $item['is_hot']==1}selected{/if}>是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">文章内容</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor("data[ext_info][content]", $item['ext_info']['content']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'card_add' || $operation == 'card_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;卡</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="bank" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="bank_id" value="{$_GPC['bank_id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">卡名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">卡图</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][pic]',$item['ext_info']['pic']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">副标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][v_name]" value="{$item['ext_info']['v_name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">宣传语</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][intro]" value="{$item['ext_info']['intro']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">平均额度</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][limit]" value="{$item['ext_info']['limit']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">批卡速度</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][speed]" value="{$item['ext_info']['speed']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                    <span class="help-bloack">越大越靠前</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标签</label>
+                {if $item['ext_info']['tag']}
+                {loop $item['ext_info']['tag'] $tag_k $tag_v}
+                <div class="col-sm-2 col-lg-2 col-xs-12 reduce_xs">
+                    <div class="input-group">
+                        <span class="input-group-addon reduce" id="basic-addon1">-</span>
+                        <input type="text" class="form-control" name="data[ext_info][tag][{$tag_k}]" tag_k="{$tag_k}" value="{$tag_v}" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                {/loop}
+                {else}
+                <div class="col-sm-2 col-lg-2 col-xs-12 reduce_xs">
+                    <div class="input-group">
+                        <span class="input-group-addon reduce"  id="basic-addon1">-</span>
+                        <input type="text" class="form-control" name="data[ext_info][tag][0]" tag_k="0" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                {/if}
+                <div class="col-sm-2 col-lg-1 col-xs-12">
+                    <div class="input-group" style="width:10px; height: 32px;">
+                        <span class="input-group-addon plus" id="basic-addon1">+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">卡种</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(1,$item['card_type'])}checked{/if} value="1">车主卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(2,$item['card_type'])}checked{/if} value="2">商超卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(3,$item['card_type'])}checked{/if} value="3">商旅卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(4,$item['card_type'])}checked{/if} value="4">航空卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(5,$item['card_type'])}checked{/if} value="5">境外卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(6,$item['card_type'])}checked{/if} value="6">取现卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(7,$item['card_type'])}checked{/if} value="7">标准卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(8,$item['card_type'])}checked{/if} value="8">卡通卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(9,$item['card_type'])}checked{/if} value="9">主题卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(10,$item['card_type'])}checked{/if} value="10">保险卡</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(11,$item['card_type'])}checked{/if} value="11">免3年年费</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(12,$item['card_type'])}checked{/if} value="12">0外汇兑换手续费</label></div>
+                    <div class="checkbox"><label><input type="checkbox" name="data[card_type][]" {if @in_array(13,$item['card_type'])}checked{/if} value="13">世界卡</label></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">币种</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[icon_type]">
+                        <option value="1" {if $item['icon_type']==1}selected{/if}>单币种</option>
+                        <option value="2" {if $item['icon_type']==2}selected{/if}>多币种</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">年费</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[year_fee]">
+                        <option value="1" {if $item['year_fee']==1}selected{/if}>终身免年费</option>
+                        <option value="2" {if $item['year_fee']==2}selected{/if}>交易免年费</option>
+                        <option value="3" {if $item['year_fee']==3}selected{/if}>有年费</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">推荐分类</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[recommend_type]">
+                        <option value="0" {if $item['recommend_type']==0}selected{/if}>不设分类</option>
+                        <option value="1" {if $item['recommend_type']==1}selected{/if}>人生首卡</option>
+                        <option value="2" {if $item['recommend_type']==2}selected{/if}>急速下卡</option>
+                        <option value="3" {if $item['recommend_type']==3}selected{/if}>热门推荐</option>
+                        <option value="4" {if $item['recommend_type']==4}selected{/if}>高额刷卡</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][url]" value="{$item['ext_info']['url']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请人数</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[apply_nums]" value="{$item['apply_nums']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).on('click', ".reduce", function(){
+        var len = $(this).parent().parent().parent().find('.reduce').length;
+        if (len<=1) {
+            alert('标签最少要为1个');
+            return false;
+        } else {
+            $(this).parent().parent().hide(300, function(){ $(this).remove() });
+        }
+    })
+    $(document).on('click', ".plus", function(){
+        var len = $(this).parent().parent().parent().find('.reduce').length;
+        if (len>=3) {
+            alert('标签最多为3个');
+            return false;
+        }
+        var last = $(this).parent().parent().parent().find('.reduce_xs:last');
+        var tag_k = parseInt($(last).find('.form-control').attr('tag_k'))+1;
+        var a_html = '<div class="col-sm-2 col-lg-2 col-xs-12 reduce_xs" style="display:none">\
+                        <div class="input-group">\
+                          <span class="input-group-addon reduce"  id="basic-addon1">-</span>\
+                          <input type="text" class="form-control" name="data[ext_info][tag][' + tag_k + ']" tag_k="' + tag_k + '" aria-describedby="basic-addon1">\
+                        </div>\
+                    </div>';
+        $(last).after(a_html);
+        $('.reduce_xs').show(300);
+    })
+</script>
 {/if}
 {template 'common/footer'}
