@@ -212,7 +212,7 @@ class Xuan_mixloan_Product
                 }
                 $color = 'rgb('. rand(0,255) .','. rand(0,255) .','. rand(0,255) .')';
                 $value['color'] = RGBToHex($color);
-                $ret[$value['id']] = $value;
+                $ret[] = $value;
             }
         }
         return $ret;

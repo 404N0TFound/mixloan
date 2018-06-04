@@ -105,111 +105,486 @@
       <div class="fix"></div>
      <!-- fix -->
      <!-- 秒到账 -->
-     <div class="loanindex_inform2 clearfix">
-       <span id="test2" name="test3"><leabl></leabl>秒到账</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
-     </div>
+      <div class="loanindex_inform2 clearfix">
+          <span id="test2" name="test3" style="width: 30%">
+              <leabl>
+              </leabl>
+              网贷秒到账
+          </span>
+          <ul style="width: 60%">
+              <li>
+                  <p>
+                      点击贷款口子快速申请,极速下款
+                  </p>
+              </li>
+          </ul>
+      </div>
       <div class="swiper-container  swiper_list swiper_list2">
-         <div class="swiper-wrapper">
-            {loop $speed_loan_all $speed}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                  {loop $speed $sp}
-                  <li>
-                      <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
-                      <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
-                        <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
-                        <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
-                        <h2>{$sp['name']}</h2>
-                      </div>
-                    </a>
-                  </li>
-                  {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-       </div>
-       <div class="loanindex_shortcut2">
-          {loop $speed_loans $loan}
+          <div class="swiper-wrapper">
+              {loop $online_loan_all $speed}
+              <div class="swiper-slide">
+                  <ul class="clearfix">
+                      {loop $speed $sp}
+                      <li>
+                          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                              <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                  <p style="color:{$sp['color']}">
+                                      {$sp['ext_info']['v_name']}
+                                  </p>
+                                  <div class="top_img1">
+                                      <img src="{$sp['ext_info']['logo']}" />
+                                  </div>
+                                  <h2>
+                                      {$sp['name']}
+                                  </h2>
+                              </div>
+                          </a>
+                      </li>
+                      {/loop}
+                  </ul>
+              </div>
+              {/loop}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination">
+          </div>
+      </div>
+      <div class="loanindex_shortcut2">
+          {loop $online_loans $loan}
           <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
               <ul class="clearfix">
-                <li class="clearfix">
-                  <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
-                  <div class="f2">
-                    <h2>
-                      <b>{$loan['name']}</b>
-                      {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
-                    </h2>
-                    <p>
-                      {loop $loan['ext_info']['tag'] $tag}
-                      <span>{$tag}</span>
-                      {/loop}
-                    </p>
-                  </div>
-                  <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
-                  <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
-                </li>
-              </ul>
-          </a>
-          {/loop}
-       </div>
-     <!-- fix -->
-      <div class="fix"></div>
-     <!-- fix -->
-     <!-- 大额度 -->
-     <div class="loanindex_inform2 clearfix">
-        <span id="test1" name="test1"><leabl></leabl>大额贷</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
-     </div>
-      <div class="swiper-container  swiper_list swiper_list2">
-        <div class="swiper-wrapper">
-           {loop $large_loan_all $speed}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                  {loop $speed $sp}
-                  <li>
-                      <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
-                      <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
-                        <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
-                        <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
-                        <h2>{$sp['name']}</h2>
+                  <li class="clearfix">
+                      <div class="f1">
+                          <img src="{$loan['ext_info']['logo']}" />
                       </div>
-                    </a>
+                      <div class="f2">
+                          <h2>
+                              <b>
+                                  {$loan['name']}
+                              </b>
+                              {if $loan['is_hot']}
+                              <span>
+                                  <img src="../addons/xuan_mixloan/template/style/picture/fire.png" />
+                                  HOT !
+                              </span>
+                              {/if}
+                          </h2>
+                          <p>
+                              {loop $loan['ext_info']['tag'] $tag}
+                              <span>
+                                  {$tag}
+                              </span>
+                              {/loop}
+                          </p>
+                      </div>
+                      <div class="f3">
+                          <h2>
+                              {$loan['money_high']}
+                          </h2>
+                          <p>
+                              最高额度(元)
+                          </p>
+                      </div>
+                      <div class="f4">
+                          <h2>
+                              {$loan['rate']}%
+                          </h2>
+                          <p>
+                              {if $loan['rate_type']==1}日{else}月{/if}利率
+                          </p>
+                      </div>
                   </li>
-                  {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-       </div>
-       <div class="loanindex_shortcut2">
-          {loop $large_loans $loan}
-          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
-              <ul class="clearfix">
-                <li class="clearfix">
-                  <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
-                  <div class="f2">
-                    <h2>
-                      <b>{$loan['name']}</b>
-                      {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
-                    </h2>
-                    <p>
-                      {loop $loan['ext_info']['tag'] $tag}
-                      <span>{$tag}</span>
-                      {/loop}
-                    </p>
-                  </div>
-                  <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
-                  <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
-                </li>
               </ul>
           </a>
           {/loop}
       </div>
-    </div>
+     <!-- fix -->
+      <div class="fix"></div>
+      <!--现金-->
+
+      <div class="loanindex_inform2 clearfix">
+          <span id="test2" name="test3" style="width: 30%">
+              <leabl>
+              </leabl>
+              现金速递易
+          </span>
+          <ul style="width: 60%">
+              <li>
+                  <p>
+                      点击贷款口子快速申请,极速下款
+                  </p>
+              </li>
+          </ul>
+      </div>
+      <div class="swiper-container  swiper_list swiper_list2">
+          <div class="swiper-wrapper">
+              {loop $cash_loan_all $speed}
+              <div class="swiper-slide">
+                  <ul class="clearfix">
+                      {loop $speed $sp}
+                      <li>
+                          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                              <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                  <p style="color:{$sp['color']}">
+                                      {$sp['ext_info']['v_name']}
+                                  </p>
+                                  <div class="top_img1">
+                                      <img src="{$sp['ext_info']['logo']}" />
+                                  </div>
+                                  <h2>
+                                      {$sp['name']}
+                                  </h2>
+                              </div>
+                          </a>
+                      </li>
+                      {/loop}
+                  </ul>
+              </div>
+              {/loop}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination">
+          </div>
+      </div>
+      <div class="loanindex_shortcut2">
+          {loop $cash_loans $loan}
+          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+              <ul class="clearfix">
+                  <li class="clearfix">
+                      <div class="f1">
+                          <img src="{$loan['ext_info']['logo']}" />
+                      </div>
+                      <div class="f2">
+                          <h2>
+                              <b>
+                                  {$loan['name']}
+                              </b>
+                              {if $loan['is_hot']}
+                              <span>
+                                  <img src="../addons/xuan_mixloan/template/style/picture/fire.png" />
+                                  HOT !
+                              </span>
+                              {/if}
+                          </h2>
+                          <p>
+                              {loop $loan['ext_info']['tag'] $tag}
+                              <span>
+                                  {$tag}
+                              </span>
+                              {/loop}
+                          </p>
+                      </div>
+                      <div class="f3">
+                          <h2>
+                              {$loan['money_high']}
+                          </h2>
+                          <p>
+                              最高额度(元)
+                          </p>
+                      </div>
+                      <div class="f4">
+                          <h2>
+                              {$loan['rate']}%
+                          </h2>
+                          <p>
+                              {if $loan['rate_type']==1}日{else}月{/if}利率
+                          </p>
+                      </div>
+                  </li>
+              </ul>
+          </a>
+          {/loop}
+      </div>
+     <!-- fix -->
+      <div class="fix"></div>
+      <!--小额信用贷-->
+      <div class="loanindex_inform2 clearfix">
+          <span id="test2" name="test3" style="width: 30%">
+              <leabl>
+              </leabl>
+              小额信用贷
+          </span>
+          <ul style="width: 60%">
+              <li>
+                  <p>
+                      点击贷款口子快速申请,极速下款
+                  </p>
+              </li>
+          </ul>
+      </div>
+      <div class="swiper-container  swiper_list swiper_list2">
+          <div class="swiper-wrapper">
+              {loop $small_loan_all $speed}
+              <div class="swiper-slide">
+                  <ul class="clearfix">
+                      {loop $speed $sp}
+                      <li>
+                          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                              <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                  <p style="color:{$sp['color']}">
+                                      {$sp['ext_info']['v_name']}
+                                  </p>
+                                  <div class="top_img1">
+                                      <img src="{$sp['ext_info']['logo']}" />
+                                  </div>
+                                  <h2>
+                                      {$sp['name']}
+                                  </h2>
+                              </div>
+                          </a>
+                      </li>
+                      {/loop}
+                  </ul>
+              </div>
+              {/loop}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination">
+          </div>
+      </div>
+      <div class="loanindex_shortcut2">
+          {loop $small_loans $loan}
+          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+              <ul class="clearfix">
+                  <li class="clearfix">
+                      <div class="f1">
+                          <img src="{$loan['ext_info']['logo']}" />
+                      </div>
+                      <div class="f2">
+                          <h2>
+                              <b>
+                                  {$loan['name']}
+                              </b>
+                              {if $loan['is_hot']}
+                              <span>
+                                  <img src="../addons/xuan_mixloan/template/style/picture/fire.png" />
+                                  HOT !
+                              </span>
+                              {/if}
+                          </h2>
+                          <p>
+                              {loop $loan['ext_info']['tag'] $tag}
+                              <span>
+                                  {$tag}
+                              </span>
+                              {/loop}
+                          </p>
+                      </div>
+                      <div class="f3">
+                          <h2>
+                              {$loan['money_high']}
+                          </h2>
+                          <p>
+                              最高额度(元)
+                          </p>
+                      </div>
+                      <div class="f4">
+                          <h2>
+                              {$loan['rate']}%
+                          </h2>
+                          <p>
+                              {if $loan['rate_type']==1}日{else}月{/if}利率
+                          </p>
+                      </div>
+                  </li>
+              </ul>
+          </a>
+          {/loop}
+      </div>
+     <!-- fix -->
+      <div class="fix"></div>
+      <!--大额信用贷-->
+       <div class="loanindex_inform2 clearfix">
+          <span id="test2" name="test3" style="width: 30%">
+              <leabl>
+              </leabl>
+              大额信用贷
+          </span>
+          <ul style="width: 60%">
+              <li>
+                  <p>
+                      点击贷款口子快速申请,极速下款
+                  </p>
+              </li>
+          </ul>
+      </div>
+      <div class="swiper-container  swiper_list swiper_list2">
+          <div class="swiper-wrapper">
+              {loop $big_loan_all $speed}
+              <div class="swiper-slide">
+                  <ul class="clearfix">
+                      {loop $speed $sp}
+                      <li>
+                          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                              <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                  <p style="color:{$sp['color']}">
+                                      {$sp['ext_info']['v_name']}
+                                  </p>
+                                  <div class="top_img1">
+                                      <img src="{$sp['ext_info']['logo']}" />
+                                  </div>
+                                  <h2>
+                                      {$sp['name']}
+                                  </h2>
+                              </div>
+                          </a>
+                      </li>
+                      {/loop}
+                  </ul>
+              </div>
+              {/loop}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination">
+          </div>
+      </div>
+      <div class="loanindex_shortcut2">
+          {loop $big_loans $loan}
+          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+              <ul class="clearfix">
+                  <li class="clearfix">
+                      <div class="f1">
+                          <img src="{$loan['ext_info']['logo']}" />
+                      </div>
+                      <div class="f2">
+                          <h2>
+                              <b>
+                                  {$loan['name']}
+                              </b>
+                              {if $loan['is_hot']}
+                              <span>
+                                  <img src="../addons/xuan_mixloan/template/style/picture/fire.png" />
+                                  HOT !
+                              </span>
+                              {/if}
+                          </h2>
+                          <p>
+                              {loop $loan['ext_info']['tag'] $tag}
+                              <span>
+                                  {$tag}
+                              </span>
+                              {/loop}
+                          </p>
+                      </div>
+                      <div class="f3">
+                          <h2>
+                              {$loan['money_high']}
+                          </h2>
+                          <p>
+                              最高额度(元)
+                          </p>
+                      </div>
+                      <div class="f4">
+                          <h2>
+                              {$loan['rate']}%
+                          </h2>
+                          <p>
+                              {if $loan['rate_type']==1}日{else}月{/if}利率
+                          </p>
+                      </div>
+                  </li>
+              </ul>
+          </a>
+          {/loop}
+      </div>
+     <!-- fix -->
+      <div class="fix"></div>
+      <!--银行抵押贷-->
+       <div class="loanindex_inform2 clearfix">
+          <span id="test2" name="test3" style="width: 30%">
+              <leabl>
+              </leabl>
+              银行抵押贷
+          </span>
+          <ul style="width: 60%">
+              <li>
+                  <p>
+                      点击贷款口子快速申请,极速下款
+                  </p>
+              </li>
+          </ul>
+      </div>
+      <div class="swiper-container  swiper_list swiper_list2">
+          <div class="swiper-wrapper">
+              {loop $bank_loan_all $speed}
+              <div class="swiper-slide">
+                  <ul class="clearfix">
+                      {loop $speed $sp}
+                      <li>
+                          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}">
+                              <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                  <p style="color:{$sp['color']}">
+                                      {$sp['ext_info']['v_name']}
+                                  </p>
+                                  <div class="top_img1">
+                                      <img src="{$sp['ext_info']['logo']}" />
+                                  </div>
+                                  <h2>
+                                      {$sp['name']}
+                                  </h2>
+                              </div>
+                          </a>
+                      </li>
+                      {/loop}
+                  </ul>
+              </div>
+              {/loop}
+          </div>
+          <!-- Add Pagination -->
+          <div class="swiper-pagination">
+          </div>
+      </div>
+      <div class="loanindex_shortcut2">
+          {loop $bank_loans $loan}
+          <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}">
+              <ul class="clearfix">
+                  <li class="clearfix">
+                      <div class="f1">
+                          <img src="{$loan['ext_info']['logo']}" />
+                      </div>
+                      <div class="f2">
+                          <h2>
+                              <b>
+                                  {$loan['name']}
+                              </b>
+                              {if $loan['is_hot']}
+                              <span>
+                                  <img src="../addons/xuan_mixloan/template/style/picture/fire.png" />
+                                  HOT !
+                              </span>
+                              {/if}
+                          </h2>
+                          <p>
+                              {loop $loan['ext_info']['tag'] $tag}
+                              <span>
+                                  {$tag}
+                              </span>
+                              {/loop}
+                          </p>
+                      </div>
+                      <div class="f3">
+                          <h2>
+                              {$loan['money_high']}
+                          </h2>
+                          <p>
+                              最高额度(元)
+                          </p>
+                      </div>
+                      <div class="f4">
+                          <h2>
+                              {$loan['rate']}%
+                          </h2>
+                          <p>
+                              {if $loan['rate_type']==1}日{else}月{/if}利率
+                          </p>
+                      </div>
+                  </li>
+              </ul>
+          </a>
+          {/loop}
+      </div>
+     <!-- fix -->
+      <div class="fix"></div>
 
 <!-- 弹窗按钮 -->
 <div class="wrap">

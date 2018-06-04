@@ -19,6 +19,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
     <style type="text/css">        
         .swiper-slide{max-height: 145px;overflow: hidden;}
+        div.loanindex_shortcut ul li p img{margin-left: 2.1rem;}
     </style>
 
 	{template 'common/wxshare'}
@@ -52,19 +53,19 @@
             <div class="loanindex_shortcut">
             <div class="swiper-container pro-swiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide" style="width:120%;">
+                    <div class="swiper-slide" style="width:110%;">
                     <ul><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
                                 <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
                                 <p>身份证贷</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
                                 <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" /></p>
                                 <p>芝麻分贷</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
                                 <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" /></p>
                                 <p>信用卡贷</p>
                             </a>
@@ -75,7 +76,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
                                 <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
                                 <p>社保贷</p>
                             </a>
@@ -86,47 +87,47 @@
                             </a>
                         </li><li>
                             <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>7));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" /></p>
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/loan_house.png" /></p>
                                 <p>房抵贷</p>
                             </a>
                         </li><li>
                             <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>8));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" /></p>
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" /></p>
                                 <p>车抵贷</p>
                             </a>
                         </li>                
                     </ul>
                     </div>
-                    <div class="swiper-slide" style="width:120%;">
+                    <div class="swiper-slide" style="width:110%;">
                     <ul><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>9));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/loan_insurance.png" /></p>
                                 <p>保单贷</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>10));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/loan_salary.png" /></p>
                                 <p>工薪贷</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>11));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/loan_mortgage.png" /></p>
                                 <p>按揭房</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>4));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c81da5b1_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>12));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" /></p>
                                 <p>按揭车</p>
                             </a>
                         </li>
                         <li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>13));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/loan_bridge.png" /></p>
                                 <p>过桥贷</p>
                             </a>
                         </li><li>
-                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>6));}">
-                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c9cd78d1_1.png" /></p>
+                            <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>14));}">
+                                <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" /></p>
                                 <p>POS机</p>
                             </a>
                         </li>              
@@ -227,6 +228,70 @@
                 {/loop}
             </div>
         </div>
+        <div class="hot_loan">
+            <h1><span>小额贷款</span><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>17))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <div class="hotloan_list">
+                {loop $small_list $row}
+                <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
+                    <a href="{$row['ext_info']['url']}">
+                        <ul>
+                            <li>
+                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
+                                <div class="loan_info">
+                                    <h2>{$row['name']}</h2>
+                                    <div class="rate_info">
+                                        <span>利率:<em>{$row['rate']}%</em>/{$row['rate_type']}</span>
+                                        <span>期限:<em>{$row['time_blow']}-{$row['time_high']}</em>月</span>
+                                        <p><em>{$row['money_high']}</em>元</p>
+                                    </div>
+                                    <div class="extra_info">
+                                        <dl>
+                                            {loop $row['ext_info']['tag'] $tag}
+                                            <dd style="color:#436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">{$tag}</em></dd>                                        
+                                            {/loop}
+                                        </dl>
+                                        <span>{$row['apply_nums']}人已申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                {/loop}
+            </div>
+        </div>
+        <div class="hot_loan">
+            <h1><span>银行贷款</span><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>19))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <div class="hotloan_list">
+                {loop $bank_list $row}
+                <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
+                    <a href="{$row['ext_info']['url']}">
+                        <ul>
+                            <li>
+                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
+                                <div class="loan_info">
+                                    <h2>{$row['name']}</h2>
+                                    <div class="rate_info">
+                                        <span>利率:<em>{$row['rate']}%</em>/{$row['rate_type']}</span>
+                                        <span>期限:<em>{$row['time_blow']}-{$row['time_high']}</em>月</span>
+                                        <p><em>{$row['money_high']}</em>元</p>
+                                    </div>
+                                    <div class="extra_info">
+                                        <dl>
+                                            {loop $row['ext_info']['tag'] $tag}
+                                            <dd style="color:#436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">{$tag}</em></dd>                                        
+                                            {/loop}
+                                        </dl>
+                                        <span>{$row['apply_nums']}人已申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                {/loop}
+            </div>
+        </div>
     </div>
     <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/picture/loading_1.png" />加载中</a>
     <a class="no_hotcards">没有更多咯~</a>
@@ -234,61 +299,61 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
 <script type="text/javascript">
     // 页面初始化
-    $(document).ready(function(){
-        var swiper_w=($(window).width())*0.94;
-        var swiper_gap=($(window).width())*0.02;
-        var mySwiper = new Swiper('.pro-swiper', {
-                // width:swiper_w,
-                autoplay: 5000,//可选选项，自动滑动
-                loop:true,
-                autoplayDisableOnInteraction : false,
-                spaceBetween: swiper_gap,
-                initialSlide:0,
-                slidesPerView: "auto",
-                centeredSlides: true, 
-            });
-        var fr_T=($("div.loan_tab").height())+"px";
-        $("div.loanindex_frame").css("margin-top",fr_T);
-        $("img.ani_model").load(function(){
-            img_load();
-        });        
-        //下拉加载更多
-        var loan_productH=($("div.loan_product").outerHeight())*10+"px";
-        $("div.hotloan_list").css("height",loan_productH);
+    var swiper_w=($(window).width())*0.94;
+    var swiper_gap=($(window).width())*0.02;
+    var mySwiper = new Swiper('.pro-swiper', {
+            // width:swiper_w,
+            autoplay: 5000,//可选选项，自动滑动
+            loop:true,
+            autoplayDisableOnInteraction : false,
+            spaceBetween: swiper_gap,
+            initialSlide:0,
+            slidesPerView: "auto",
+            centeredSlides: true, 
+        });
+    // $(document).ready(function(){
+    //     var fr_T=($("div.loan_tab").height())+"px";
+    //     $("div.loanindex_frame").css("margin-top",fr_T);
+    //     $("img.ani_model").load(function(){
+    //         img_load();
+    //     });        
+    //     //下拉加载更多
+    //     var loan_productH=($("div.loan_product").outerHeight())*10+"px";
+    //     $("div.hotloan_list").css("height",loan_productH);
 
-        var range = 0;             //距下边界长度/单位px
-        var maxnum = 20;            //设置加载最多次数  
-        var num = 1;  
-        var totalheight = 0;                    //主体元素  
-        $(window).scroll(function(){  
-            var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
-            //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
-            //console.log("页面的文档高度 ："+$(document).height());  
-            //console.log('浏览器的高度：'+$(window).height());
-            totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
-            if(($(document).height()-range) <= totalheight) {
-                if($(".no_hotcards").css("display")!="block"){
-                    $(".more_hotcards").show();
-                    var t=setTimeout(function(){
-                        var list_H=$("div.hotloan_list").outerHeight();
-                        var total_height=$("div.loan_product").length*$("div.loan_product").outerHeight();
-                        var revise_H=($("div.hotloan_list").outerHeight())+($("div.loan_product").outerHeight()*5);
-                        $(".more_hotcards").hide();
-                        $("div.hotloan_list").css("height",'auto');
-                        $(".no_hotcards").show();
-                        // if(list_H==total_height){
-                        //     $(".no_hotcards").show();
-                        // }else if(revise_H>total_height){
-                        //     $("div.hotloan_list").css("height",total_height);
-                        // }else if(revise_H<=total_height){
-                        //     $("div.hotloan_list").css("height",revise_H);
-                        // }                    
-                    },1000);
-                    num++;
-                }
-            }  
-        });            
-    })
+    //     var range = 0;             //距下边界长度/单位px
+    //     var maxnum = 20;            //设置加载最多次数  
+    //     var num = 1;  
+    //     var totalheight = 0;                    //主体元素  
+    //     $(window).scroll(function(){  
+    //         var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+    //         //console.log("滚动条到顶部的垂直高度: "+$(document).scrollTop());  
+    //         //console.log("页面的文档高度 ："+$(document).height());  
+    //         //console.log('浏览器的高度：'+$(window).height());
+    //         totalheight = parseFloat($(window).height()) + parseFloat(srollPos);  
+    //         if(($(document).height()-range) <= totalheight) {
+    //             if($(".no_hotcards").css("display")!="block"){
+    //                 $(".more_hotcards").show();
+    //                 var t=setTimeout(function(){
+    //                     var list_H=$("div.hotloan_list").outerHeight();
+    //                     var total_height=$("div.loan_product").length*$("div.loan_product").outerHeight();
+    //                     var revise_H=($("div.hotloan_list").outerHeight())+($("div.loan_product").outerHeight()*5);
+    //                     $(".more_hotcards").hide();
+    //                     $("div.hotloan_list").css("height",'auto');
+    //                     $(".no_hotcards").show();
+    //                     // if(list_H==total_height){
+    //                     //     $(".no_hotcards").show();
+    //                     // }else if(revise_H>total_height){
+    //                     //     $("div.hotloan_list").css("height",total_height);
+    //                     // }else if(revise_H<=total_height){
+    //                     //     $("div.hotloan_list").css("height",revise_H);
+    //                     // }                    
+    //                 },1000);
+    //                 num++;
+    //             }
+    //         }  
+    //     });            
+    // })
     $(function(){
         // img_load();
     })

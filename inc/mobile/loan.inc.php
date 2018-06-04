@@ -8,7 +8,9 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+	$list = m('loan')->getList([],[],false,10);
+	$small_list = m('loan')->getList([],['type'=>17],false,10);
+	$bank_list = m('loan')->getList([],['type'=>19],false,10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');

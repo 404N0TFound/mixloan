@@ -62,20 +62,44 @@ if($operation=='index'){
 			$credit_thr = [];
 		}
 	}
-	$speed_loans = m('product')->getSpecialLoan(9);
-	foreach ($speed_loans as $key => $loan) {
-		$speed_loan_thr[] = $loan;
-		if (count($speed_loan_thr) > 2 || $key == max(array_keys($speed_loans))) {
-			$speed_loan_all[] = $speed_loan_thr;
-			$speed_loan_thr = [];
+	$online_loans = m('product')->getSpecialLoan(15);
+	foreach ($online_loans as $key => $loan) {
+		$online_loan_thr[] = $loan;
+		if (count($online_loan_thr) > 2 || $key == max(array_keys($online_loans))) {
+			$online_loan_all[] = $online_loan_thr;
+			$online_loan_thr = [];
 		}
 	}
-	$large_loans = m('product')->getSpecialLoan(7);
-	foreach ($large_loans as $key => $loan) {
-		$large_loan_thr[] = $loan;
-		if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {
-			$large_loan_all[] = $large_loan_thr;
-			$large_loan_thr = [];
+	$small_loans = m('product')->getSpecialLoan(16);
+	foreach ($small_loans as $key => $loan) {
+		$small_loan_thr[] = $loan;
+		if (count($small_loan_thr) > 2 || $key == max(array_keys($small_loans))) {
+			$small_loan_all[] = $small_loan_thr;
+			$small_loan_thr = [];
+		}
+	}
+	$cash_loans = m('product')->getSpecialLoan(17);
+	foreach ($cash_loans as $key => $loan) {
+		$cash_loan_thr[] = $loan;
+		if (count($cash_loan_thr) > 2 || $key == max(array_keys($cash_loans))) {
+			$cash_loan_all[] = $cash_loan_thr;
+			$cash_loan_thr = [];
+		}
+	}
+	$big_loans = m('product')->getSpecialLoan(18);
+	foreach ($big_loans as $key => $loan) {
+		$big_loan_thr[] = $loan;
+		if (count($big_loan_thr) > 2 || $key == max(array_keys($big_loans))) {
+			$big_loan_all[] = $big_loan_thr;
+			$big_loan_thr = [];
+		}
+	}
+	$bank_loans = m('product')->getSpecialLoan(19);
+	foreach ($bank_loans as $key => $loan) {
+		$bank_loan_thr[] = $loan;
+		if (count($bank_loan_thr) > 2 || $key == max(array_keys($bank_loans))) {
+			$bank_loan_all[] = $bank_loan_thr;
+			$bank_loan_thr = [];
 		}
 	}
 	$credits_blow = array_slice($credits, (int)count($credits)/2, ceil(count($credits)/5));
