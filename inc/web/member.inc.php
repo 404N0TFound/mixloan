@@ -49,14 +49,20 @@ if ($operation == 'list') {
     }
     $tid = "20001" . date('YmdHis', time());
     $member = m('member')->getMember($_GPC['id']);
-    $insert = array(
-            "uniacid"=>$_W["uniacid"],
-            "uid"=>$_GPC['id'],
-            "createtime"=>time(),
-            "tid"=>$tid,
-            "fee"=>0,
-    );
-    pdo_insert("xuan_mixloan_payment",$insert);
+    $effecttime = time() + 30*86400;
+    if ($res['id']) {
+       pdo_update('xuan_mixloan_payment', array('effecttime'=>$effecttime), array('id'=>$res['id']));
+    } else {
+        $insert = array(
+                "uniacid"=>$_W["uniacid"],
+                "uid"=>$_GPC['id'],
+                "createtime"=>time(),
+                "effecttime"=>$effecttime,
+                "tid"=>$tid,
+                "fee"=>0,
+        );
+        pdo_insert("xuan_mixloan_payment",$insert);
+    }
     //模板消息提醒
     $datam = array(
         "name" => array(

@@ -240,9 +240,14 @@ class Xuan_mixloan_Member
     *   查看是否加入过代理
     */
     function checkAgent($uid) {
-        $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+        $check = pdo_fetch('SELECT id,msg,effecttime FROM '.tablename("xuan_mixloan_payment")."
+            WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
         if ($check) {
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            if ($check['effecttime'] < time()) {
+                return ['code'=>'0','name'=>'用户', 'id'=>$check['id']];
+            } else {
+                return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            }
         } else {
             return ['code'=>'0','name'=>'用户'];
         }

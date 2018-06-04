@@ -62,15 +62,20 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 if ($agent['code'] == 1) {
                     message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
                 }
-                pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
-                $insert = array(
-                    "uniacid"=>$_W["uniacid"],
-                    "uid"=>$member['id'],
-                    "createtime"=>time(),
-                    "tid"=>$params['tid'],
-                    "fee"=>$fee,
-                );
-                pdo_insert("xuan_mixloan_payment", $insert);
+                $effecttime = time() + 30*86400;
+                if ($agent['id']) {
+                    pdo_update('xuan_mixloan_payment', array('effecttime'=>$effecttime), array('id'=>$agent['id']));
+                } else {
+                    $insert = array(
+                        "uniacid"=>$_W["uniacid"],
+                        "uid"=>$member['id'],
+                        "createtime"=>time(),
+                        "tid"=>$params['tid'],
+                        "fee"=>$fee,
+                        "effecttime"=>$effecttime,
+                    );
+                    pdo_insert("xuan_mixloan_payment", $insert);
+                }
                 //模板消息提醒
                 $datam = array(
                     "first" => array(
@@ -78,7 +83,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         "color" => "#173177"
                     ) ,
                     "name" => array(
-                        "value" => "{$config['title']}代理会员",
+                        "value" => "30天{$config['title']}代理会员",
                         "color" => "#173177"
                     ) ,
                     "remark" => array(
