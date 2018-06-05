@@ -91,10 +91,10 @@ if ($operation == 'list') {
         $time = date("Y-m-d H-i");
         $createtime = time();
         if ($_GPC['type'] == 1) {
-            $first = "尊敬的代理，您好！\n“最新口子”内容已经更新，请订阅查看！";
+            $first = "尊敬的，您好！\n{$config['title']}服务产品已经更新，请订阅查看！";
             $title = $_GPC['type1_title'];
             $author = $_GPC['type1_author'];
-            $remark = "最新口子已经更新，您可以点击【详情】或打开【代理中心-最新口子】查看今日更多内容\n（如无需订阅，请在个人中心取消订阅）";
+            $remark = "{$config['title']}服务产品已经更新，您可以点击【详情】查看今日更多产品内容\n（如无需订阅，请在个人中心取消订阅）";
             $url = $_GPC['type1_url'];
             $template_id = $config['tpl_notice3'];
         } else if ($_GPC['type'] == 2) {
