@@ -89,7 +89,7 @@ class Xuan_mixloanModule extends WeModule {
                     pdo_update('xuan_mixloan_payment', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_product', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_product_advs', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_bonus', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_product_apply', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_withdraw', array('uniacid'=>$_W['uniacid']));
                 }
                 message('保存成功', 'refresh');
@@ -111,6 +111,7 @@ class Xuan_mixloanModule extends WeModule {
         $createPostAllProduct = $this->shortUrl(  $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'createPostAllProduct')) );
         $friend = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('friend', array('op'=>'')) );
         $credit = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'')) );
+        $find_user = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('index', array('op'=>'find_user')) );
         include $this->template('setting');
 	}
     public function shortUrl($target) {
