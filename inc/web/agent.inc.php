@@ -321,7 +321,7 @@ if ($operation == 'list') {
             if ($res['TRANS_STATE'] != "0000") {
                 message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
             }
-            if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A') {
+            if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A' || $res['PAY_STATE'] == '00A4') {
                 $SN = $res['TRANS_DETAILS'][0]['SN'];
                 $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
                 $_GPC['data']['ext_info']['SN'] = $SN;

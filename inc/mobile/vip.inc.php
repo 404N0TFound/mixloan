@@ -206,7 +206,6 @@ if($operation=='buy'){
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
-	show_json(-1, null, "系统维护中");
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
@@ -224,9 +223,9 @@ if($operation=='buy'){
     $BATCH_NO = 'RHB' . date('Ymd') . $SN;
     require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
     if ($res['TRANS_STATE'] != "0000") {
-        message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
+    	show_json(-1, null, '打款失败');
     }
-    if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A') {
+    if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A' || $res['PAY_STATE'] == '00A4') {
         $SN = $res['TRANS_DETAILS'][0]['SN'];
         $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
         $ext_info['SN'] = $SN;
