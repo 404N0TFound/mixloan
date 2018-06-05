@@ -192,6 +192,14 @@ if($operation == 'getCode'){
                 $ids[] = $row['uid'];
             }
         }
+    } else if ($_GPC['type'] == 'inviter') {
+        $list = pdo_fetchall('SELECT inviter FROM '.tablename('xuan_mixloan_inviter').' group by inviter');
+        foreach ($list as $row) {
+        	$item = pdo_fetch('select uniacid,nickname from '.tablename('xuan_mixloan_member').' where id=:id', array(':id'=>$row['inviter']));
+        	if ($item['uniacid'] != $_W['uniacid']) {
+        		$ids[] = $item['inviter'];
+        	}
+        }
     }
     if (!empty($ids)) {
         echo implode(',', $ids);
