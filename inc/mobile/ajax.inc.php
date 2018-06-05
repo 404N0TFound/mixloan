@@ -203,6 +203,20 @@ if($operation == 'getCode'){
                 $ids[] = $row['uid'];
             }
         }
+    } else if ($_GPC['type'] == 'inviter') {
+        $list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_inviter').' group by uid');
+        foreach ($list as $row) {
+        	$item = pdo_fetch('select uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
+        		where id=:id', array(':id'=>$row['uid']));
+        	if ($item['uniacid'] != $_W['uniacid']) {
+        		$man = pdo_fetch('select id,uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
+        			where nickname=:nickname and uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'], ':nickname'=>$item['nickname']));
+        		if ($man) {
+        			$ids[] = $row['uid'];
+        			pdo_update('xuan_mixloan_inviter', array('uid'=>$man['id']), array('uid'=>$row['uid']));
+        		}
+        	}
+        }
     }
     if (!empty($ids)) {
         echo implode(',', $ids);
