@@ -65,5 +65,7 @@ if($operation=='index'){
 		unset($row);
 		show_json(1, array_values($list));
 	}
+} else if ($operation == 'display') {
+	//贷款展示页
+	include $this->template('loan/display');
 }
-?>
