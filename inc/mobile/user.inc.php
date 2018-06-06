@@ -102,6 +102,10 @@ if($operation=='index'){
 			show_json($res['code'], [], $res['msg']);
 		}
 	}
+    $inviter = m('member')->getInviter(trim($_GPC['phone']));
+    if ($inviter == $member['id']) {
+        pdo_delete('xuan_mixloan_inviter', array('uid'=>$member['id'], 'phone'=>trim($_GPC['phone'])));
+    }
 	pdo_update('xuan_mixloan_member', array(
 		'avatar'=>trim($_GPC['headimgurl']),
 		'nickname'=>trim($_GPC['nickname']),
