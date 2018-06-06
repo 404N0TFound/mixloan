@@ -157,7 +157,7 @@ return temp
         	function(data){
         		console.log(data);
         		if(data.code==1){
-        			layer.msg("提交成功，正在跳转...",{time:2000},function(){
+        			layer.msg(data.msg,{time:2000},function(){
 						{if $_GPC['layer']}
 						parent.layer.closeAll(); 
 						{else}
