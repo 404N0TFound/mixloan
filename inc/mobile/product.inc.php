@@ -14,7 +14,15 @@ if($operation=='index'){
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
-    $banner = m('product')->getAdvs();
+    // $banner = m('product')->getAdvs();
+    $banner = array();
+    $advs = m('advs')->getList(['id', 'name', 'ext_info']);
+    foreach ($advs as $row) {
+        $row['image'] = tomedia($row['ext_info']['pic']);
+        $row['url'] = $row['ext_info']['url'];
+        $row['title'] = $row['name'];
+        $banner[] = $row;
+    }
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
     $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);

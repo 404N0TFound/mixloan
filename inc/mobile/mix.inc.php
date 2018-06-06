@@ -14,5 +14,16 @@ if($operation=='service'){
 } else if ($operation == 'questions') {
 	//问题中心
 	include $this->template('mix/questions');
+} else if ($operation == 'adv') {
+	//广告
+	$id = intval($_GPC['id']);
+	$adv = m('advs')->getList(['id', 'ext_info'], ['id'=>$id])[$id];
+	$insert = array(
+		'uniacid'=>$_W['uniacid'],
+		'uid'=>$member['id'],
+		'createtime'=>time(),
+		'adv_id'=>$id,
+	);
+	pdo_insert('xuan_mixloan_advs_click', $insert);
+	header("location:{$adv['ext_info']['url']}");	
 }
-?>

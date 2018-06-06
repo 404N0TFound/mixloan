@@ -28,7 +28,7 @@ if ($operation == 'list') {
 } else if ($operation == 'delete') {
     pdo_delete('xuan_mixloan_friend', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('friend', array('op' => '')), "sccuess");
-}else if ($operation == 'update') {
+} else if ($operation == 'update') {
     //编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_friend"). " where id={$id}");
@@ -36,6 +36,47 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_friend', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('friend', array('op' => '')), "sccuess");
     }
+} else if ($operation == 'comments') {
+    //评论
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message("出错了", referer(), "error");
+    }
+    $wheres .= " AND friend_id={$id}";
+    $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_friend_comment') . " a
+        left join ".tablename("xuan_mixloan_member")." b on a.openid=b.openid
+        where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_friend_comment') . " a
+        left join ".tablename("xuan_mixloan_member")." b on a.openid=b.openid
+        where a.uniacid={$_W['uniacid']} " . $wheres  );
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'comment_delete') {
+    pdo_delete('xuan_mixloan_friend_comment', array("id" => $_GPC["id"]));
+    message("提交成功", referer(), "sccuess");
+} else if ($operation == 'below_comments') {
+    //评论的评论
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message("出错了", referer(), "error");
+    }
+    $wheres .= " AND parent_id={$id}";
+    $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_friend_comment') . " a
+        left join ".tablename("xuan_mixloan_member")." b on a.openid=b.openid
+        where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_friend_comment') . " a
+        left join ".tablename("xuan_mixloan_member")." b on a.openid=b.openid
+        where a.uniacid={$_W['uniacid']} " . $wheres  );
+    $pager = pagination($total, $pindex, $psize);
 }
 include $this->template('friend');
 ?>

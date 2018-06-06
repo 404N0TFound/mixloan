@@ -77,10 +77,88 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
                                 <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'update','id' => $row['id']));}" title='管理帖子'><i class='fa fa-edit'></i> 管理帖子</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'comments','id' => $row['id']));}" title='管理帖子'><i class='fa fa-edit'></i> 帖子评论</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'delete','id' => $row['id']));}" title='删除帖子' onclick="return confirm('确定要删除该帖子吗？');"><i class='fa fa-remove'></i> 删除帖子</a></li>
                             </ul>
                         </div>
                         
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'comments'}
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>回复者</th>
+                    <th style='width:300px;'>回复内容</th>
+                    <th style='width:200px;'>回复时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px"> &nbsp; {$row['nickname']}</td>
+                    <td>   {php echo urldecode($row['content']);}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'below_comments','id' => $row['id']));}" title='评论'><i class='fa fa-edit'></i> 评论</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'comment_delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'below_comments'}
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>回复者</th>
+                    <th style='width:300px;'>回复内容</th>
+                    <th style='width:200px;'>回复时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px"> &nbsp; {$row['nickname']}</td>
+                    <td>   {php echo urldecode($row['content']);}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('friend',array('op'=>'comment_delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 {/loop}

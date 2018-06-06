@@ -57,8 +57,8 @@ if ($operation == 'list') {
         $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
         $cond .= " and createtime>{$start} and createtime<={$end}";
     } else {
-        $starttime = "";
-        $endtime = "";
+        $endtime = date("Y-m-d H:i:s");
+        $starttime = date("Y-m-d H:i:s", strtotime("{$endtime} -1 month"));
     }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);

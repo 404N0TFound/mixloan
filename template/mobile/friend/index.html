@@ -99,7 +99,7 @@
     div.fc_guide{top: 70px}
     .agent-header{height: 70px;line-height: 90px}
     div.search_rec{top: 119px}
-    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 160px}
+    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 280px}
 </style>
 {/if}
 <div class="fcMainList">
@@ -146,12 +146,24 @@
                 </div>
             </form>
         </div>
+
+        <div class="cet_pic">
+              <div class="swiper-container" id="swiper-wrapper-advs">
+                <div class="swiper-wrapper">
+                    {loop $banner $adv}
+                   <div class="swiper-slide" style="height: 118px"><a href="{php echo $this->createMobileUrl('mix', array('op'=>'adv', 'id'=>$adv['id']))}"><img src="{php echo tomedia($adv['ext_info']['pic']);}" style="height: 118px;width: 100%"></a></div>
+                    {/loop}
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+        </div>        
+            
         <div class="guide_index">
             <ul>
                 <li><a class="guide_on" data-id="fc_new">最新</a></li>
                 <li><a data-id="fc_answer">帮你解答</a></li>
                 <li><a data-id="fc_map">帮你识图</a></li>
-                <li><a data-id="fc_share">朕要分享</a></li>
+                <li><a data-id="fc_share">下款图片</a></li>
             </ul>
         </div>
     </div>
@@ -183,7 +195,7 @@
                                             <div class="mainHeader">
                                                 <span class="fl"><img src="{$row['avatar']}" width="35px"></span>
                                                 <div class="mainName">
-                                                    <h3>{$row['nickname']}<a class="fc_label label_2">{if $row['tag']==1}帮你解答{elseif $row['tag']==2}帮你识图{elseif $row['tag']==3}朕要分享{/if}</a></h3>
+                                                    <h3>{$row['nickname']}<a class="fc_label label_2">{if $row['tag']==1}帮你解答{elseif $row['tag']==2}帮你识图{elseif $row['tag']==3}下款图片{/if}</a></h3>
                                                     <p>{php echo date('Y-m-d',$row['ctime'])}</p>
                                                 </div>
                                             </div>
@@ -302,7 +314,7 @@
                 </div>
             </div>
             <div class="swiper-slide" data-tagId="3" data-Page="1">
-                <!-- 朕要分享 -->
+                <!-- 下款图片 -->
                 <div class="result_common" id="fc_share" style="display: block;">
                     <div class="list_common">
                         <div class="agent-main pt44">
@@ -314,7 +326,7 @@
                                             <div class="mainHeader">
                                                 <span class="fl"><img src="{$row['avatar']}" width="35px"></span>
                                                 <div class="mainName">
-                                                    <h3>{$row['nickname']}<a class="fc_label label_2">朕要分享</a></h3>
+                                                    <h3>{$row['nickname']}<a class="fc_label label_2">下款图片</a></h3>
                                                     <p>{php echo date('Y-m-d',$row['ctime'])}</p>
                                                 </div>
                                             </div>
@@ -395,6 +407,14 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/friendcircle.js"></script>
 <script type="text/javascript">
+    var initialSwiper = new Swiper('#swiper-wrapper-advs', {
+        autoplay:3000,
+        autoplayDisableOnInteraction : false,
+        pagination : '.swiper-pagination',
+        spaceBetween : 0,
+        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+        observeParents:true//修改swiper的父元素时，自动初始化swiper      
+    });
     var new_flag = true;//tab各内容下拉开关
     var search_flag = false;//search结果下拉开关
     var searchPage;

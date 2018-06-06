@@ -32,6 +32,7 @@
       <entry title="代理会员" do="agent" state="" direct="false" />
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="海报管理" do="poster" state="" direct="false" />
+      <entry title="广告投放" do="advs" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
 	</menu>
 	</bindings>
@@ -39,6 +40,31 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_advs_click`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_advs_click` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `adv_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `adv_id` (`adv_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_advs`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_advs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `sort` int(5) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+    <script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom_1.js"></script>
   
@@ -170,8 +172,18 @@
         <div class="main-contain">            
             <h1>{$item['title']}</h1>
             <p class="ag-h5 text-center"><span>下载：{$config['wx_name']}</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</p>
-                    
-              {$item['ext_info']['content']}
+            <div class="cet_pic">
+                  <div class="swiper-container">
+                    <div class="swiper-wrapper" id="swiper-wrapper">
+                        {loop $banner $adv}
+                       <div class="swiper-slide"><a href="{php echo $this->createMobileUrl('mix', array('op'=>'adv', 'id'=>$adv['id']))}"><img src="{php echo tomedia($adv['ext_info']['pic']);}"></a></div>
+                        {/loop}
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+            </div>        
+            
+            {$item['ext_info']['content']}
         <!-- 非代理阅读全文 -->
             <h2 class="read_more"><a href="javascript:;" class="buy_limit"><img src="../addons/xuan_mixloan/template/style/picture/continue_1.png" /></a>
             <p>阅读全文</p></h2>
@@ -317,6 +329,16 @@
     }
 {/if}
 
+var initialSwiper = new Swiper('.swiper-container', {
+    // initialSlide :initialSlide,
+   //   loop: true,
+    autoplay:3000,
+    autoplayDisableOnInteraction : false,
+    pagination : '.swiper-pagination',
+    spaceBetween : 0,
+    observer:true,//修改swiper自己或子元素时，自动初始化swiper
+    observeParents:true//修改swiper的父元素时，自动初始化swiper      
+});
 var kouziFlag;
 $(document).ready(function(){
     $("img").removeAttr("height");
