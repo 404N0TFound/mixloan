@@ -118,11 +118,9 @@
                             <dl style="margin-top: 0.3rem">
                                 <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
                             </dl>
-                            {if $inviterInfo}
                             <dl style="margin-top: 0.3rem">
-                                <dd style="float: left">邀请人：{$inviterInfo['nickname']}({$inviterInfo['phone']})</dd>
+                                <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</dd>
                             </dl>
-                            {/if}
                         </li>
                     </ul>
                 </div>
