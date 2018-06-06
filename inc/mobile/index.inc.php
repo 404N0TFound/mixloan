@@ -43,7 +43,7 @@ if($operation=='register'){
     if ($config['backup']) {
         //开启备份
         $record = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename("xuan_mixloan_member")."
-            WHERE phone=:phone", array(':phone'=>$phone));
+            WHERE phone=:phone and uniacid=2", array(':phone'=>$phone));
         if ($record) {
             show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'find_user'])], "查找到此手机绑定过用户信息，建议使用找回账号功能");
         }
@@ -151,7 +151,7 @@ if($operation=='register'){
         show_json(-1, [], "验证码不符或验证码已失效");
     }
     $old_man = pdo_fetch('SELECT id,nickname FROM ' .tablename('xuan_mixloan_member'). '
-        WHERE phone=:phone ORDER BY id DESC', array(':phone'=>$phone));
+        WHERE phone=:phone and uniacid=2 ORDER BY id DESC', array(':phone'=>$phone));
     if (empty($old_man)) {
         show_json(-1, [], '该手机号未绑定任何信息');
     }
