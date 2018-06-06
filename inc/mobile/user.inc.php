@@ -11,6 +11,8 @@ if($operation=='index'){
 	if (empty($member['phone'])) {
 		header("location:{$this->createMobileUrl('index', array('op'=>'register'))}");
 	}
+    $inviter = m('member')->getInviter($member['phone'], $openid);
+    $inviterInfo = m('member')->getInviterInfo($inviter);
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
