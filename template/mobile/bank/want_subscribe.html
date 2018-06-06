@@ -26,6 +26,9 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function openBank(id){
+       window.location.href = "{php echo $this->createMobileUrl('bank', array('op'=>'display'))}&id=" + id;
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -190,7 +193,7 @@
         <h1><span>智能推荐</span></h1>
         {loop $recommends $re}
         <div class="recommend_main cards_recommend" data-id="{$re['id']}"onclick="clickNum(this);">
-            <a onclick="openNew('{$re['ext_info']['url']}')">
+            <a onclick="openBank('{$re['id']}')">
                 <h2>{$re['name']}</h2>
                 <div class="recommend_detail">
                     <span class="card_img"><img src="{php echo tomedia($re['ext_info']['pic'])}" /></span>
@@ -213,7 +216,7 @@
         <div class="hotC_list">
             {loop $list $card}
             <div class="hot_main" data-id="{$card['id']}" onclick="clickNum(this);">
-                <a onclick="openNew('{$card['ext_info']['url']}')">
+                <a onclick="openBank('{$card['id']}')">
                     <span><img src="{php echo tomedia($card['ext_info']['pic'])}" /></span>
                     <div class="hot_detail">
                         <h2>{$card['name']}</h2>

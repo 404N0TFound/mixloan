@@ -195,5 +195,19 @@ if($operation=='index'){
     }
     $redirect_url = $pro['ext_info']['url'];
     show_json(1,$redirect_url);
+} else if ($operation == 'display') {
+    //贷款展示页
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('出错了', '', 'error');
+    }
+    $item = m('loan')->getList(['id', 'ext_info'], ['id'=>$id])[$id];
+    if (empty($item)) {
+        message('出错了', '', 'error');
+    }
+    if (is_weixin()) {
+        header("location:{$item['ext_info']['url']}");
+        exit();
+    }
+    include $this->template('loan/display');
 }
-?>

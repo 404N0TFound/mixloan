@@ -28,6 +28,9 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function openLoan(id){
+       window.location.href = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -346,7 +349,7 @@
                             var click=_data[i].apply_nums;
                             var ele=_data[i].ext_info.tag;//标签
                             $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openNew('"+ dataTransform(url) +"')\">"
+                                + "<a onclick=\"openLoan('"+ dataTransform(id) +"')\">"
                                 + "<ul>"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

@@ -22,9 +22,12 @@
 <body class="bglightgray" style="background-image: url(../addons/xuan_mixloan/template/style/images/59f980b65c164_1.png);background-size: 100% 100%; height: 1000px;">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
     <script type="text/javascript">
-      function openNew(url){
+    function openNew(url){
         mui.openWindow({url:url});
-      }
+    }
+    function openBank(id){
+       window.location.href = "{php echo $this->createMobileUrl('bank', array('op'=>'display'))}&id=" + id;
+    }
     </script>
     {if !is_weixin()}
     {/if} 
@@ -33,7 +36,7 @@
         <div class="fstC_lists">
              {loop $cards $c}
             <div class="recommend_main fstC_list">
-                <h2>{$c['name']}<a href="{$c['ext_info']['url']}" data-id="{$c['id']}" onclick="clickNum(this);">立即办卡</a></h2>
+                <h2>{$c['name']}<a onclick="openBank({$c['id']})" data-id="{$c['id']}" onclick="clickNum(this);">立即办卡</a></h2>
                 <div class="recommend_detail fstC_dtl">
                     <span class="card_img"><img src="{php echo tomedia($c['ext_info']['pic']);}" /></span>
                     <div class="card_desc">
