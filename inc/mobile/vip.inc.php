@@ -22,15 +22,19 @@ if($operation=='buy'){
 	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
 	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if ($config['pay_type'] == 1) {
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	} else {
+		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/qianjin_pay/index.php');
+	}
 	exit;
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
