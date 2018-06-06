@@ -7,6 +7,17 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
 	//首页
+	$banner = m('product')->getAdvs();
+	$credit_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+	$credit_list = m('product')->packupItems($credit_list);
+	$loan_online_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], FALSE);
+	$loan_online_list = m('product')->packupItems($loan_online_list);
+	$loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], FALSE);
+	$loan_small_list = m('product')->packupItems($loan_small_list);
+	$loan_bank_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>3], FALSE);
+	$loan_bank_list = m('product')->packupItems($loan_bank_list);
+	$loan_finance_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>4], FALSE);
+	$loan_finance_list = m('product')->packupItems($loan_finance_list);
 	include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
 	//得到产品
