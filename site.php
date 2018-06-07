@@ -35,7 +35,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			}
 		}
 		if ($con) {
-			m('member')->checkMember();
+			//m('member')->checkMember();
 		}
 	}
 	//付款结果返回

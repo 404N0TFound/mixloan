@@ -5,8 +5,8 @@ $pay_memberid = "10027";   //商户ID
 $pay_orderid = $tid;    //订单号
 $pay_amount = $fee;    //交易金额
 $pay_applydate = date("Y-m-d H:i:s");  //订单时间
-$pay_notifyurl = urlencode($_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'buy_submit')));   //服务端返回地址
-$pay_callbackurl = urlencode($_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'buy_submit')));  //页面跳转返回地址
+$pay_notifyurl = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'buy_submit'));   //服务端返回地址
+$pay_callbackurl = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'buy_submit'));  //页面跳转返回地址
 $Md5key = "cadol8tr7lchfi0x0fbq074y09utomh9";   //密钥
 $tjurl = "https://api.qjpay.pro/Pay_Index.html";   //提交地址
 $pay_bankcode = "903";   //银行编码
