@@ -99,7 +99,9 @@
     div.fc_guide{top: 70px}
     .agent-header{height: 70px;line-height: 90px}
     div.search_rec{top: 119px}
+    {if !is_weixin()}
     div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 280px}
+    {/if}
 </style>
 {/if}
 <div class="fcMainList">
@@ -169,7 +171,7 @@
     </div>
     <!-- 各标签对应内容 -->
     <div class="swiper-container tabSwiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" {if is_weixin()}style="padding-top: 120px"{/if}>
             <div class="swiper-slide" data-tagId="0" data-Page="1">
                 <!-- 最新 -->
                 <div class="result_common" id="fc_new">
