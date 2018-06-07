@@ -90,7 +90,7 @@ if($operation=='register'){
         show_json(-1, [], '获取信息出错');
     }
     $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
-		where unionid=:unionid', array(':unionid'=>$unionid));
+		where unionid=:unionid AND uniacid=:uniacid', array(':unionid'=>$unionid, ':uniacid'=>$_W['uniacid']));
     if (empty($id)) {
         show_json(-1, [], "请先公众号打开{$config['title']}一次再打开APP");
         $insert = array(
@@ -174,11 +174,11 @@ if($operation=='register'){
     if (empty($old_man)) {
         show_json(-1, [], '该手机号未绑定任何信息');
     }
-    pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('id'=>$old_man['id']));
+    pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid'], 'unionid'=>$old_man['unionid']), array('id'=>$old_man['id']));
     pdo_update('qrcode_stat', array('openid'=>$openid, 'uniacid'=>$_W['uniacid']), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_friend_comment', array('openid'=>$openid), array('openid'=>$old_man['openid']));
-    pdo_update('xuan_mixloan_member', array('openid'=>$old_man['openid'], 'uniacid'=>$old_man['uniacid'], 'uid'=>$old_man['uid']), array('id'=>$member['id']));
+    pdo_update('xuan_mixloan_member', array('openid'=>$old_man['openid'], 'uniacid'=>$old_man['uniacid'], 'uid'=>$old_man['uid'], 'unionid'=>''), array('id'=>$member['id']));
     show_json(1, ['url'=>$this->createMobileUrl('user', ['op'=>''])], "找回账户成功");
 }

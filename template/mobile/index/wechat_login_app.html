@@ -115,9 +115,6 @@
                 var jsonObj = s.userInfo;
                 // console.log("获取用户信息成功：" + josnStr);
                 // showData(type,jsonObj);
-                alert(josnStr);
-                authLogout();
-                return false;
                 mui.ajax({
                     url: "{php echo $this->createMobileUrl('index',['op'=>'wechat_app'])}",
                     type: "GET",
@@ -125,13 +122,14 @@
                     dataType: "json",
                     success: function(data){
                         if (data.code == 1) {
+                            authLogout();
                             mui.openWindow({url:data.data.url, id:'user_index'});
                         } else {
+                            authLogout();
                             alert(data.msg);
                         }
                     }
                 });
-                authLogout();
             }, function(e) {
                 alert("获取用户信息失败：" + e.message + " - " + e.code);
             });

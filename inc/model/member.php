@@ -180,14 +180,13 @@ class Xuan_mixloan_Member
             return;
         }
         $wx = WeAccount::create();
-        $token = $wx->getOauthAccessToken();
-        $tempinfo = $wx->getOauthUserInfo($token, $openid);
         $member   = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);
         $uid      = 0;
         $mc       = array();
         if (empty($member)) {
+            $tempinfo = m('user')->oauth_info();
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
@@ -226,7 +225,8 @@ class Xuan_mixloan_Member
             // if ($userinfo['avatar'] != $member['avatar']) {
             //     $upgrade['avatar'] = $userinfo['avatar'];
             // }
-            if (!empty($tempinfo['unionid'])) {
+            if (empty($member['unionid'])) {
+                $tempinfo = m('user')->oauth_info();
                 $upgrade['unionid'] = $tempinfo['unionid'];
             }
             if (!empty($uid)) {
