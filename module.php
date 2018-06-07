@@ -75,7 +75,6 @@ class Xuan_mixloanModule extends WeModule {
                     pdo_update('xuan_mixloan_creditCard', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_friend', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_friend_comment', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_inviter', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_loan', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_loan_advs', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_payment', array('uniacid'=>$_W['uniacid']));

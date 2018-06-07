@@ -98,6 +98,7 @@ if($operation=='register'){
     }
     pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('id'=>$old_man['id']));
     pdo_update('qrcode_stat', array('openid'=>$openid, 'uniacid'=>$_W['uniacid']), array('openid'=>$old_man['openid']));
+    pdo_update('xuan_mixloan_inviter', array('uniacid'=>$_W['uniacid']), array('uid'=>$old_man['id']));
     pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_friend_comment', array('openid'=>$openid), array('openid'=>$old_man['openid']));
