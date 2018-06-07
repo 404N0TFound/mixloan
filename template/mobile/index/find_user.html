@@ -7,7 +7,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta  content="e-mail=no" name="format-detection"/>
-    <title>找回密码</title>
+    <title>{$config['title']}找回账号</title>
     <script src="../addons/xuan_mixloan/template/style/js//jquery_3.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_3.css" id="layui_layer_skinlayercss">
@@ -48,12 +48,6 @@
     </style>
     {template 'common/wxshare'}
 </head>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
-<script type="text/javascript">
-    function openNew(url){
-        mui.openWindow({url:url});
-    }
-</script>
 <body class="bgcolor">
 <div class="fill_info" data-id="341794">
     <img src="{php echo tomedia($config['logo']);}" />
@@ -66,10 +60,6 @@
             <label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
             <input type="number" name="" id="validcode" placeholder="请输入验证码">
             <a class="validnum">获取验证码</a>
-        </li>
-        <li class="psw">
-            <label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
-            <input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您新的登录密码">
         </li>
     </ul>
     <div class="submit_btn">
@@ -97,14 +87,6 @@
             $("div.fill_info ul li a.validnum").css("top",top);
         })
     })
-    //密码中文限制
-    function check(str){
-        var temp=""
-        for(var i=0;i<str.length;i++)
-            if(str.charCodeAt(i)>0&&str.charCodeAt(i)<255)
-                temp+=str.charAt(i)
-        return temp
-    }
     // 点击获取验证码
     $(".validnum").click(function(){
         getCheck();
@@ -118,13 +100,6 @@
         // var name=$("#name").val();
         var phone=$("#phone").val();
         var validcode=$("#validcode").val();
-        var psw=$("#psw").val();
-        var psw_l=$("#psw").val().length;
-        // if(name==""){
-        // 	layer.msg("请输入姓名");
-        // 	bind_click();
-        // 	return false;
-        // }
         if (phone == '请输入手机号码' || phone == '') {
             layer.msg('请输入手机号码');
             bind_click();
@@ -141,27 +116,39 @@
             bind_click();
             return false;
         }
-        if(psw==""){
-            layer.msg("请输入密码");
-            bind_click();
-            return false;
-        }
-        if(psw_l<6){
-            layer.msg("密码不能少于6位");
-            bind_click();
-            return false;
-        }
         if($("#protocol").attr("data-index")=="0"){
             layer.msg("请先阅读{$config['title']}用户注册协议");
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'find_pass_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'find_user_submit'))}",{"phone":phone,"smsCode":validcode},
+            function(data){
+                console.log(data);
+                bind_click();
+                if(data.code==1){
+                    layer.confirm(data.msg, {
+                        btn: ['确认', '取消']
+                    }, function(index, layero){
+                        post_find();
+                    }, function(index){
+                        layer.closeAll();
+                    });
+                }else{
+                    layer.msg(data.msg);
+                    bind_click();
+                    return false;
+                }
+            },'json')
+    }
+    function post_find(){
+        var phone=$("#phone").val();
+        var validcode=$("#validcode").val();
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'post_find'))}",{"phone":phone,"smsCode":validcode},
             function(data){
                 console.log(data);
                 if(data.code==1){
                     layer.msg(data.msg,{time:2000},function(){
-                        openNew(data.data.url);
+                        location.href=data.data.url;
                     });
                 }else{
                     layer.msg(data.msg);
