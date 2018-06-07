@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_advs` (
   `uniacid` int(11) NOT NULL,
   `createtime` int(11) NOT NULL,
   `sort` int(5) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1口子文章，2朋友圈，3产品',
   `ext_info` TEXT NOT NULL,
   `name` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),

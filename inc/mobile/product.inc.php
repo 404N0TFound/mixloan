@@ -16,7 +16,7 @@ if($operation=='index'){
     //得到产品
     // $banner = m('product')->getAdvs();
     $banner = array();
-    $advs = m('advs')->getList(['id', 'name', 'ext_info']);
+    $advs = m('advs')->getList(['id', 'name', 'ext_info'], ['type'=>3]);
     foreach ($advs as $row) {
         $row['image'] = tomedia($row['ext_info']['pic']);
         $row['url'] = $row['ext_info']['url'];

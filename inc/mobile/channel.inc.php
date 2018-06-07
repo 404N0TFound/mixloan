@@ -57,7 +57,7 @@ if($operation=='index'){
 	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
 		}
 	}
-    $banner = m('advs')->getList();
+    $banner = m('advs')->getList([],['type'=>1]);
 	$id = intval($_GPC['id']);
 	if (!$id) {
 		message('id不能为空', '', 'error');
