@@ -167,7 +167,7 @@ if ($operation == 'list') {
             $temp = array(
                 'uniacid' => $_W['uniacid'],
                 'openid' => "'{$openid}'",
-                'template_id' => "'{$config['tpl_notice6']}'",
+                'template_id' => "'{$config['tpl_notice3']}'",
                 'data' => "'" . addslashes(json_encode($datam)) . "'",
                 'url' => "'{$url}'",
                 'createtime'=>$createtime,
@@ -180,10 +180,10 @@ if ($operation == 'list') {
             $insert_string =  implode(',', $insert);
             pdo_run("INSERT ".tablename("xuan_mixloan_notice"). " ( `uniacid`, `openid`, `template_id`, `data`, `url`, `createtime`, `status`) VALUES {$insert_string}");
         }
-        
+
         $count = count($insert);
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
-        
+
     }
 }
 include $this->template('member');
