@@ -174,31 +174,18 @@ if($operation == 'getCode'){
 }else if ($operation == 'apply_temp') {
     //常规脚本
     $ids = [];
-    if ($_GPC['type'] == 'product_apply') {
-        $list = pdo_fetchall('SELECT id,uid,inviter FROM '.tablename('xuan_mixloan_product_apply').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-        foreach ($list as $key => $value) {
-            if ($value['uid'] == $value['inviter']) {
-                $ids[] = $value['id'];
-            }
-        }
-    } else if ($_GPC['type'] == 'qrcode') {
-        $list = pdo_fetchall('SELECT a.id,a.qrcid,a.openid,b.id as uid FROM '.tablename('qrcode_stat').' a left join '.tablename('xuan_mixloan_member').' b ON a.openid=b.openid WHERE a.uniacid=:uniacid AND a.type=1 GROUP BY a.openid', array(':uniacid'=>$_W['uniacid']));
-        foreach ($list as $key => $value) {
-            if ($value['qrcid'] == $value['uid']) {
-                if ($_GPC['update']) {
-                    pdo_update('qrcode_stat', array('type'=>2), array('qrcid'=>$value['uid'], 'openid'=>$value['openid']));
+    if ($_GPC['type'] == 'inviter') {
+        $list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_inviter').' group by uid');
+        foreach ($list as $row) {
+            $item = pdo_fetch('select uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
+        		where id=:id', array(':id'=>$row['uid']));
+            if ($item['uniacid'] != $_W['uniacid']) {
+                $man = pdo_fetch('select id,uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
+        			where nickname=:nickname and uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'], ':nickname'=>$item['nickname']));
+                if ($man) {
+                    $ids[] = $row['uid'];
+                    pdo_update('xuan_mixloan_inviter', array('uid'=>$man['id']), array('uid'=>$row['uid']));
                 }
-                $ids[] = $value['id'];
-            }
-        }
-    } else if ($_GPC['type'] == 'inivter') {
-        $list = pdo_fetchall('SELECT a.id,a.phone,a.uid,b.id as member_id FROM '.tablename('xuan_mixloan_inviter').' a left join '.tablename('xuan_mixloan_member').' b ON a.phone=b.phone WHERE a.uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-        foreach ($list as $key => $value) {
-            if ($value['uid'] == $value['member_id']) {
-                if ($_GPC['update']) {
-                    pdo_delete('xuan_mixloan_inviter', array('id'=>$value['id']));
-                }
-                $ids[] = $value['id'];
             }
         }
     } else if ($_GPC['type'] == 'temp') {
