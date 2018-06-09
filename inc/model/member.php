@@ -186,7 +186,9 @@ class Xuan_mixloan_Member
         $uid      = 0;
         $mc       = array();
         if (empty($member)) {
-            $tempinfo = m('user')->oauth_info();
+            if (is_weixin()) {
+                $tempinfo = m('user')->oauth_info(); 
+            }
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
@@ -226,8 +228,10 @@ class Xuan_mixloan_Member
             //     $upgrade['avatar'] = $userinfo['avatar'];
             // }
             if (empty($member['unionid'])) {
-                $tempinfo = m('user')->oauth_info();
-                $upgrade['unionid'] = $tempinfo['unionid'];
+                if (is_weixin()) {
+                    $tempinfo = m('user')->oauth_info(); 
+                    $upgrade['unionid'] = $tempinfo['unionid'];
+                }
             }
             if (!empty($uid)) {
                 if (empty($member['uid'])) {
