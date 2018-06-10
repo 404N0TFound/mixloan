@@ -105,11 +105,8 @@ class Xuan_mixloan_Channel
         //     FROM ".tablename('xuan_mixloan_channel_subject')." AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM ".tablename('xuan_mixloan_channel_subject').")) AS id) AS t2 
         //     WHERE t1.id >= t2.id AND t1.uniacid=:uniacid
         //     ORDER BY t1.id ASC LIMIT 10";
-        $sql = "SELECT t1.id,t1.name 
-            FROM ".tablename('xuan_mixloan_channel_subject')." AS t1
-            JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM ".tablename('xuan_mixloan_channel_subject').")) AS id) AS t2 
-            WHERE t1.id >= t2.id AND t1.uniacid=:uniacid
-            ORDER BY t1.id ASC";
+        $sql = "SELECT id,name FROM ".tablename('xuan_mixloan_channel_subject')."
+            WHERE uniacid=:uniacid";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         return $list;
     }
