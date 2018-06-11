@@ -178,25 +178,26 @@ if($operation=='buy'){
 	unset($row);
 	include $this->template('vip/salary');
 } else if ($operation == 'withdraw') {
-	//提现
-	$banks = pdo_fetchall("SELECT id,bankname,banknum FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid", array(':uid'=>$member['id']));
-	foreach ($banks as &$row) {
-		if (count($row['banknum']) == 16) {
-			$row['numbers_type'] = 1;
-			$row['numbers'][0] = substr($row['banknum'], 0, 4);
-			$row['numbers'][1] = substr($row['banknum'], 4, 4);
-			$row['numbers'][2] = substr($row['banknum'], 8, 4);
-			$row['numbers'][3] = substr($row['banknum'], 12, 4);
-		} else {
-			$row['numbers_type'] = 2;
-			$row['numbers'][0] = substr($row['banknum'], 0, 6);
-			$row['numbers'][1] = substr($row['banknum'], 6);
-		}
-	}
-	unset($row);
-	$bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
-	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
-	include $this->template('vip/withdraw');
+    //提现
+    // $banks = pdo_fetchall("SELECT id,bankname,banknum FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid", array(':uid'=>$member['id']));
+    // foreach ($banks as &$row) {
+    // 	if (count($row['banknum']) == 16) {
+    // 		$row['numbers_type'] = 1;
+    // 		$row['numbers'][0] = substr($row['banknum'], 0, 4);
+    // 		$row['numbers'][1] = substr($row['banknum'], 4, 4);
+    // 		$row['numbers'][2] = substr($row['banknum'], 8, 4);
+    // 		$row['numbers'][3] = substr($row['banknum'], 12, 4);
+    // 	} else {
+    // 		$row['numbers_type'] = 2;
+    // 		$row['numbers'][0] = substr($row['banknum'], 0, 6);
+    // 		$row['numbers'][1] = substr($row['banknum'], 6);
+    // 	}
+    // }
+    // unset($row);
+    $qrcodes = pdo_fetchall("SELECT id,name,img_url FROM ".tablename('xuan_mixloan_withdraw_qrcode'). " WHERE uid=:uid", array(':uid'=>$member['id']));
+    $bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
+    $can_use = $bonus - m('member')->sumWithdraw($member['id']);
+    include $this->template('vip/withdraw');
 } else if ($operation == 'withdraw_submit') {
 	//提现提交
 	$bonus = trim($_GPC['money']);
