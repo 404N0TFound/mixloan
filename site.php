@@ -255,7 +255,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							$inviter_four = m('member')->getInviter($man_thr['phone'], $man_thr['openid']);
 							$man_four = m('member')->getInviterInfo($inviter_four);
 							if ($man_four['partner']) {
-								$partner_bonus = $config['inviter_fee_thr']*$fee*0.01*$config['partner_bonus']*0.01;
+								$partner_bonus = $config['inviter_fee_three']*$fee*0.01*$config['partner_bonus']*0.01;
 								$insert_i = array(
 									'uniacid' => $_W['uniacid'],
 									'uid' => $man_thr['id'],

@@ -65,6 +65,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['phone'])) {
         $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
     }
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND a.id='{$_GPC['id']}'";
+    }
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
@@ -106,6 +109,8 @@ if ($operation == 'list') {
             $row['name'] = '邀请购买文章';
         } else if ($row['type'] == 4) {
             $row['name'] = '邀请付费信用查询';
+        } else if ($row['type'] == 5) {
+            $row['name'] = '合伙人奖励';
         } else {
             $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
@@ -294,12 +299,52 @@ if ($operation == 'list') {
     } else if ($item['type'] == 4) {
         $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         $info['name'] = '邀请付费信用查询';
+    } else if ($item['type'] == 5) {
+        $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        $info['name'] = '合伙人奖励，关联id：{$item['relate_id']}';
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
     $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
+        $re_money = $_GPC['data']['re_bonus'];
+        $count_money = $_GPC['data']['done_bonus'] + $_GPC['data']['extra_bonus'];
+        $one_man = m('member')->getInviterInfo($item['inviter']);
+        $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+        $man_two = m('member')->getInviterInfo($inviter_two);
+        if ($_GPC['data']['status'] == 1 && $re_money>0 && $item['status'] < 1) {
+            if ($inviter_two && $man_two['partner'] && $item['type'] == 1) {
+                $insert = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $item['inviter'],
+                    'phone' => $one_man['phone'],
+                    'relate_id' => $item['id'],
+                    'inviter' => $inviter_two,
+                    'extra_bonus'=>$re_money*$config['partner_bonus']*0.01,
+                    'status'=>2,
+                    'createtime'=>time(),
+                    'type'=>5
+                );
+                pdo_insert('xuan_mixloan_bonus', $insert);
+            }
+        }
+        if ($_GPC['data']['status'] == 2 && $count_money>0 && $item['status'] < 2) {
+            if ($inviter_two && $man_two['partner'] && $item['type'] == 1) {
+                $insert = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $item['inviter'],
+                    'phone' => $one_man['phone'],
+                    'relate_id' => $item['id'],
+                    'inviter' => $inviter_two,
+                    'extra_bonus'=>$count_money*$config['partner_bonus']*0.01,
+                    'status'=>2,
+                    'createtime'=>time(),
+                    'type'=>5
+                );
+                pdo_insert('xuan_mixloan_bonus', $insert);
+            }
+        }
         pdo_update('xuan_mixloan_bonus', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
@@ -309,12 +354,7 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $member = pdo_fetch('select avatar,nickname,openid from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    if (true) {
-        //id 42之后改为微信二维码收款
-        $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
-    } else {
-        $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
-    }
+    $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['status'] == 1) {
             $wx = WeAccount::create();
