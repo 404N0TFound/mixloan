@@ -7,14 +7,13 @@ $config = $this->module['config'];
 if($operation == 'getCode'){
 	//发送验证码
 	$time = time()-86400;
+	$phone = trim($_GPC['phone']);
 	$cache =  rand(111111,999999);
-	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次注册验证码为：{$cache}";
-	}
+	$content = "尊敬的用户，您的本次验证码为：{$cache}";
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
-	$res = setcookie('cache_code', md5($cache), time()+90);
+	$res = setcookie('cache_code', md5($phone.$cache), time()+90);
 	if (!$res) {
 		show_json(-1, null, "存储出错，请联系技术人员");
 	}

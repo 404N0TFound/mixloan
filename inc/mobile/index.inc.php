@@ -16,7 +16,7 @@ if($operation=='register'){
 	$phone = $_GPC['phone'];
 	$pwd = $_GPC['pwd'];
 	$smsCode = $_GPC['smsCode'];
-	if (md5($smsCode) != $_COOKIE['cache_code']) {
+	if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
 		show_json(-1, null, "验证码不符或验证码已失效");
 	}
 	if (!empty($member['phone'])) {
