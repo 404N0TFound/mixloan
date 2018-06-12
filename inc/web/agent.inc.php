@@ -301,7 +301,7 @@ if ($operation == 'list') {
         $info['name'] = '邀请付费信用查询';
     } else if ($item['type'] == 5) {
         $info['ext_info']['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-        $info['name'] = '合伙人奖励，关联id：{$item['relate_id']}';
+        $info['name'] = "合伙人奖励，关联id：{$item['relate_id']}";
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
