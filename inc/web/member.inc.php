@@ -40,8 +40,10 @@ if ($operation == 'list') {
     pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0, 'phone'=>'', 'certno'=>''), array('id'=>$_GPC['id']));
     pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
     pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
+    pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
+    pdo_delete('qrcode_stat', array("openid" => $member['openid']));
     pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
-    message("删除成功");
+    message("删除成功", referer(), 'sccuess');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
@@ -117,7 +119,7 @@ if ($operation == 'list') {
     $member = pdo_fetch("select * from ".tablename("xuan_mixloan_member")." where id={$id}");
     if ($_GPC['post'] == 1) {
         pdo_update("xuan_mixloan_member", $_GPC['data'], array("id"=>$id));
-        message('更新成功', $this->createWebUrl('member'), 'success');
+        message('更新成功', referer(), 'success');
     }
 } else if ($operation == 'send_msg') {
     //发送信息
