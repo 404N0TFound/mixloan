@@ -300,8 +300,8 @@ if($operation=='buy'){
 } else if ($operation == 'degreeDetail') {
 	//对应等级
 	$uid = intval($_GPC['uid']);
-	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_bonus")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
-	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
+	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar,b.id FROM ".tablename("xuan_mixloan_bonus")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
+	$brother = pdo_fetch("SELECT id,nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
 } else if ($operation == 'rank_list') {
 	//排行榜
@@ -323,4 +323,37 @@ if($operation=='buy'){
         unset($row);
     }
 	include $this->template('vip/rank_list');
+} else if ($operation == 'partner_center') {
+    //合伙人中心
+    $uid = intval($_GPC['uid']);
+    if (empty($uid)) {
+    	message('出错啦', '', 'error');
+    }
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_bonus'). '
+		where inviter=:inviter and uid=:uid and status>0 order by id desc', array(':inviter'=>$member['id'], ':uid'=>$uid));
+    $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$uid));
+    foreach ($list as &$row) {
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        if ($row['type'] == 1) {
+        	$row['bonus_name'] = pdo_fetchcolumn('select name from ' .tablename('xuan_mixloan_product'). '
+        		where id=:id', array(':id'=>$row['relate_id']));
+        } else if ($row['type'] == 2) {
+        	$row['bonus_name'] = '购买代理奖励';
+        } else if ($row['type'] == 3) {
+        	$row['bonus_name'] = '购买文章奖励';
+        } else if ($row['type'] == 4) {
+        	$row['bonus_name'] = '信用查询奖励';
+        } else if ($row['type'] == 5) {
+        	$row['bonus_name'] = '合伙人奖励';
+        }
+        if ($row['phone']) {
+        	$row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+        } else {
+        	$row['phone'] = '无';
+        }
+        $row['bonus'] = $row['extra_bonus'] + $row['re_bonus'] + $row['done_bonus'] ? : 0;
+    }
+    unset($row);
+    include $this->template('vip/partner_center');
 }

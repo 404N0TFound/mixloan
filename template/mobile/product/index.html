@@ -1,41 +1,41 @@
-﻿
+﻿﻿
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-	<meta content="yes" name="apple-mobile-web-app-capable">
-	<meta content="black" name="apple-mobile-web-app-status-bar-style">
-	<meta content="telephone=no" name="format-detection">
-	<meta content="e-mail=no" name="format-detection" />
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-	<meta http-equiv="Pragma" content="no-cache" />
-	<meta http-equiv="Expires" content="0" />
-	<title>{$config['title']}</title>
-	<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
-	<script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
-	<script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
-	<style>
-		@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-			div.agent-foot{padding-bottom:20px; }
-			div.agent-main{padding-bottom:20px;}
-		}
-		.swiper-pagination-bullet{background: #ccc;opacity: 1;}
-		.swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
-		.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
+    <script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <style>
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:20px;}
+        }
+        .swiper-pagination-bullet{background: #ccc;opacity: 1;}
+        .swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
+        .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
 
-		div.agent-foot p>img {
-			width: 1.1rem;
-		}
-	</style>
+        div.agent-foot p>img {
+            width: 1.1rem;
+        }
+    </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body style="background:#fff;">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
@@ -46,32 +46,32 @@
 </script>
 {if !is_weixin()}
 <style type="text/css">
-	.agent-header{height: 3rem;line-height: 4rem}
+    .agent-header{height: 3rem;line-height: 4rem}
 </style>
 <style type="text/css">
-	.app_back {
-		position: absolute;
-		display: inline-block;
-		padding: 0 10px 0 10px;
-		z-index: 999;
-		line-height: 0px;
-		top: 1.1rem
-	}
-	.app_back img {
-		display: inline-block;
-		height: 16px;
-		margin: 13px 0;
-		vertical-align: middle;
-		left: 0;
-		top: 0;
-		transform: rotate(180deg);
-	}
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 10px;
+        z-index: 999;
+        line-height: 0px;
+        top: 1.1rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
 </style>
 <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
 {/if}
 <div class="agent-header">
-	{$config['title']}
-	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+    {$config['title']}
+    <a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 </div>
 {if !is_weixin()}
 <div style="height:3rem;"></div>
@@ -80,105 +80,105 @@
 {/if}
 <!-- end -->
 <div class="product_head">
-	<ul class="clearfix">
-		<li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
-		<li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
-		<li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
-	</ul>
+    <ul class="clearfix">
+        <li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+        <li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+        <li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
+    </ul>
 </div>
 <div class="fjx"></div>
 <div class="wapper dn">
-	<div class="cet_pic">
-		<!--lunbotu-->
-		<!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
-		<div class="swiper-container">
-			<div class="swiper-wrapper" id="swiper-wrapper">
-				<!--    -->
-			</div>
-			<!-- Add Pagination -->
-			<div class="swiper-pagination"></div>
-		</div>
+    <div class="cet_pic">
+        <!--lunbotu-->
+        <!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper" id="swiper-wrapper">
+                <!--    -->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
 
-		<!-- lunbotu- -->
+        <!-- lunbotu- -->
 
-	</div>
-	<div class="validRule"><p>有效规则：新用户注册申请</p></div>
-	<!-- fjx -->
-	<!-- <div class="fjx"></div> -->
-	<!-- fjx -->
-	<div class="list_head" id="newProduct">
-		<div class="fjx"></div>
-		<p><span><img src="../addons/xuan_mixloan/template/style/picture/x1_1.png" /></span>新品推荐</p>
-	</div>
-	<div class="list_line" id="product">
-		<ul class="clearfix new_line1" ></ul>
-		<ul class="clearfix new_line2" ></ul>
-		<ul class="clearfix new_line_add" ></ul>
-		<ul class="clearfix new_line_add1" ></ul>
-	</div>
+    </div>
+    <div class="validRule"><p>有效规则：新用户注册申请</p></div>
+    <!-- fjx -->
+    <!-- <div class="fjx"></div> -->
+    <!-- fjx -->
+    <div class="list_head" id="newProduct">
+        <div class="fjx"></div>
+        <p><span><img src="../addons/xuan_mixloan/template/style/picture/x1_1.png" /></span>新品推荐</p>
+    </div>
+    <div class="list_line" id="product">
+        <ul class="clearfix new_line1" ></ul>
+        <ul class="clearfix new_line2" ></ul>
+        <ul class="clearfix new_line_add" ></ul>
+        <ul class="clearfix new_line_add1" ></ul>
+    </div>
 
-	<!-- fjx -->
-	<div class="fjx"></div>
-	<!-- fjx -->
-	<div id="list_head_card">
-		<div class="list_head">
-			<p>
-				<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
-				信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
-			</p>
-		</div>
-		<div class="list_line list_line2">
-			<ul class="clearfix ka_one"></ul>
-			<ul class="clearfix ka_one2"></ul>
-			<ul class="clearfix ka_one3"></ul>
-			<ul class="clearfix ka_one4"></ul>
-			<ul class="clearfix new_line5 ew0"></ul>
-			<ul class="clearfix new_line5 ew1"></ul>
-			<ul class="clearfix new_line5 ew2"></ul>
-			<ul class="clearfix new_line5 ew3"></ul>
-			<ul class="clearfix new_line5 ew4"></ul>
-			<ul class="clearfix new_line5 ew5"></ul>
-		</div>
-		<!-- fjx -->
-		<div class="fjx"></div>
-	</div>
-	<!-- fjx -->
-	<div class="list_head">
-		<p>
-			<span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
-			贷款产品<label>(共<b  id="card_num">0</b>款)</label>
-		</p>
-	</div>
+    <!-- fjx -->
+    <div class="fjx"></div>
+    <!-- fjx -->
+    <div id="list_head_card">
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
+                信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
+            </p>
+        </div>
+        <div class="list_line list_line2">
+            <ul class="clearfix ka_one"></ul>
+            <ul class="clearfix ka_one2"></ul>
+            <ul class="clearfix ka_one3"></ul>
+            <ul class="clearfix ka_one4"></ul>
+            <ul class="clearfix new_line5 ew0"></ul>
+            <ul class="clearfix new_line5 ew1"></ul>
+            <ul class="clearfix new_line5 ew2"></ul>
+            <ul class="clearfix new_line5 ew3"></ul>
+            <ul class="clearfix new_line5 ew4"></ul>
+            <ul class="clearfix new_line5 ew5"></ul>
+        </div>
+        <!-- fjx -->
+        <div class="fjx"></div>
+    </div>
+    <!-- fjx -->
+    <div class="list_head">
+        <p>
+            <span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
+            贷款产品<label>(共<b  id="card_num">0</b>款)</label>
+        </p>
+    </div>
 
-	<div class="three_head">
-		<ul class="clearfix"></ul>
-	</div>
-	<!--代呗店star  -->
-	<div class="finndy"><a href="{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
-	<!--代呗店END -->
+    <div class="three_head">
+        <ul class="clearfix"></ul>
+    </div>
+    <!--代呗店star  -->
+    <div class="finndy"><a href="{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
+    <!--代呗店END -->
 </div>
 <div style="height:3.0rem;" class="agent-main"></div>
 <div class="agent-foot">
-	<a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
-		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-		<p>首页</p>
-	</a>
-	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
-		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-		<p>今日口子</p>
-	</a>
-	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
-		<img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
-	</a>
-	<a href="javascript:;"  class="on">
-		<!-- <span class="iconfont icon-card2"></span> -->
-		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-		<p>{$config['title']}</p>
-	</a>
-	<a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
-		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
-		<p>个人中心</p>
-	</a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+    </a>
+    <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a href="javascript:;"  class="on">
+        <!-- <span class="iconfont icon-card2"></span> -->
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
+        <p>{$config['title']}</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
 </div>
 
 
@@ -706,7 +706,7 @@
 
     var initialSwiper = new Swiper('.swiper-container', {
         // initialSlide :initialSlide,
-        //	loop: true,
+        //  loop: true,
         autoplay:3000,
         autoplayDisableOnInteraction : false,
         pagination : '.swiper-pagination',
