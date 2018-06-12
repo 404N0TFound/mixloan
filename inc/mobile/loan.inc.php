@@ -11,6 +11,8 @@ if($operation=='index'){
 	$list = m('loan')->getList([],[],false,10);
 	$small_list = m('loan')->getList([],['type'=>17],false,10);
 	$bank_list = m('loan')->getList([],['type'=>19],false,10);
+	$online_list = m('loan')->getList([],['type'=>15],false,10);
+	$finance_list = m('loan')->getList([],['type'=>20],false,10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');

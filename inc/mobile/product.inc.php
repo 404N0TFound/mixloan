@@ -76,6 +76,14 @@ if($operation=='index'){
 			$credit_thr = [];
 		}
 	}
+	$new_loans = m('product')->getNewLoan();
+	foreach ($new_loans as $key => $loan) {
+		$new_loan_thr[] = $loan;
+		if (count($new_loan_thr) > 2 || $key == max(array_keys($new_loans))) {
+			$new_loan_all[] = $new_loan_thr;
+			$new_loan_thr = [];
+		}
+	}
 	$online_loans = m('product')->getSpecialLoan(15);
 	foreach ($online_loans as $key => $loan) {
 		$online_loan_thr[] = $loan;

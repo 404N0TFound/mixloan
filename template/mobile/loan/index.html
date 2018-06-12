@@ -297,6 +297,70 @@
                 {/loop}
             </div>
         </div>
+        <div class="hot_loan">
+            <h1><span>网贷</span><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>15))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <div class="hotloan_list">
+                {loop $online_list $row}
+                <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
+                    <a href="{$row['ext_info']['url']}">
+                        <ul>
+                            <li>
+                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
+                                <div class="loan_info">
+                                    <h2>{$row['name']}</h2>
+                                    <div class="rate_info">
+                                        <span>利率:<em>{$row['rate']}%</em>/{$row['rate_type']}</span>
+                                        <span>期限:<em>{$row['time_blow']}-{$row['time_high']}</em>月</span>
+                                        <p><em>{$row['money_high']}</em>元</p>
+                                    </div>
+                                    <div class="extra_info">
+                                        <dl>
+                                            {loop $row['ext_info']['tag'] $tag}
+                                            <dd style="color:#436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">{$tag}</em></dd>                                        
+                                            {/loop}
+                                        </dl>
+                                        <span>{$row['apply_nums']}人已申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                {/loop}
+            </div>
+        </div>
+        <div class="hot_loan">
+            <h1><span>金融产品</span><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>20))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
+            <div class="hotloan_list">
+                {loop $finance_list $row}
+                <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
+                    <a href="{$row['ext_info']['url']}">
+                        <ul>
+                            <li>
+                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
+                                <div class="loan_info">
+                                    <h2>{$row['name']}</h2>
+                                    <div class="rate_info">
+                                        <span>利率:<em>{$row['rate']}%</em>/{$row['rate_type']}</span>
+                                        <span>期限:<em>{$row['time_blow']}-{$row['time_high']}</em>月</span>
+                                        <p><em>{$row['money_high']}</em>元</p>
+                                    </div>
+                                    <div class="extra_info">
+                                        <dl>
+                                            {loop $row['ext_info']['tag'] $tag}
+                                            <dd style="color:#436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">{$tag}</em></dd>                                        
+                                            {/loop}
+                                        </dl>
+                                        <span>{$row['apply_nums']}人已申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                {/loop}
+            </div>
+        </div>
     </div>
     <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/picture/loading_1.png" />加载中</a>
     <a class="no_hotcards">没有更多咯~</a>
