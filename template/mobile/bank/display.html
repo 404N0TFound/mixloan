@@ -1,0 +1,44 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>信用卡中心</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mui/css/mui.css">
+</head>
+<body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+        <span>信用卡中心</span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    mui.init({
+        subpages:[{
+            url:"{$item['ext_info']['url']}",//子页面HTML地址，支持本地地址和网络地址
+            id:"loan_market",//子页面标志
+            styles:{
+                top:"80px",//子页面顶部位置
+            },
+            extras:{}//额外扩展参数
+        }]
+    });
+</script>
+</body>
+</html>
