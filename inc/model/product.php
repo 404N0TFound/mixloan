@@ -223,7 +223,7 @@ class Xuan_mixloan_Product
     **/
     public function getNewLoan() {
         global $_W;
-        $sql = "SELECT a.id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} ORDER BY b.id DESC";
+        $sql = "SELECT a.id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} ORDER BY b.id DESC LIMIT 5";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
