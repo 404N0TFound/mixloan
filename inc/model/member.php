@@ -387,4 +387,22 @@ class Xuan_mixloan_Member
         }
         return false;
     }
+    /**
+    *   检查能否成为合伙人
+    **/
+    public function upgradePartner($uid, $config) 
+    {
+        if (empty($uid)) {
+            return false;
+        }
+        $count = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_bonus'). '
+            where inviter=:inviter and type=2', array(':inviter'=>$uid));
+        if ($count >= $config['partner_nums']) {
+            $check = pdo_fetchcolumn('select partner from ' .tablename('xuan_mixloan_member'). '
+                where id=:id', array(':id'=>$uid));
+            if (!$check) {
+                pdo_update('xuan_mixloan_member', array('partner'=>1), array('id'=>$uid));
+            }
+        }
+    }
 }
