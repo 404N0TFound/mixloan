@@ -117,9 +117,10 @@ if ($operation == 'list') {
             ) ,
         );
         $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
+        m('member')->upgradePartner($inviter, $config);
         //二级
-        $man = m('member')->getInviterInfo($inviter);
         $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+        $man = m('member')->getInviterInfo($inviter);
         if ($inviter && $config['inviter_fee_two']) {
             $insert_i = array(
                 'uniacid' => $_W['uniacid'],
@@ -157,8 +158,8 @@ if ($operation == 'list') {
             );
             $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
             //三级
-            $man = m('member')->getInviterInfo($inviter);
             $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+            $man = m('member')->getInviterInfo($inviter);
             if ($inviter && $config['inviter_fee_three']) {
                 $insert_i = array(
                     'uniacid' => $_W['uniacid'],

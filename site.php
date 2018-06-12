@@ -99,16 +99,16 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		            ) ,
 		        );
 		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
-				$inviter = m('member')->getInviter($member['phone'], $openid);
-				$man = m('member')->getInviterInfo($inviter);
-				if ($inviter && $config['inviter_fee_one']) {
+				$inviter_one = m('member')->getInviter($member['phone'], $openid);
+				$man_one = m('member')->getInviterInfo($inviter_one);
+				if ($inviter_one && $config['inviter_fee_one']) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
 						'phone' => $member['phone'],
 						'certno' => $member['certno'],
 						'realname' => $member['realname'],
-						'inviter' => $inviter,
+						'inviter' => $inviter_one,
 						'extra_bonus'=>0,
 						'done_bonus'=>0,
 						're_bonus'=>$config['inviter_fee_one']*$fee*0.01,
@@ -118,6 +118,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						'type'=>2
 					);
 					pdo_insert('xuan_mixloan_bonus', $insert_i);
+					$one_insert_id = pdo_insertid();
 					$datam = array(
 			            "first" => array(
 			                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
@@ -136,19 +137,35 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			                "color" => "#4a5077"
 			            ) ,
 			        );
-			        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
-					m('member')->upgradePartner($inviter, $config);
+			        $account->sendTplNotice($man_one['openid'], $config['tpl_notice5'], $datam, $url);
+					m('member')->upgradePartner($inviter_one, $config);
 					//二级
-					$man = m('member')->getInviterInfo($inviter);
-					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
-					if ($inviter && $config['inviter_fee_two']) {
+					$inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
+					$man_two = m('member')->getInviterInfo($inviter_two);
+					if ($man_two['partner']) {
+						$partner_bonus = $config['inviter_fee_one']*$fee*0.01*$config['partner_bonus']*0.01;
+						$insert_i = array(
+							'uniacid' => $_W['uniacid'],
+							'uid' => $man_one['id'],
+							'phone' => $man_one['phone'],
+							'inviter' => $inviter_two,
+							'extra_bonus'=>$partner_bonus,
+							'status'=>2,
+							'relate_id'=>$one_insert_id,
+							'createtime'=>time(),
+							'degree'=>1,
+							'type'=>5
+						);
+						pdo_insert('xuan_mixloan_bonus', $insert_i);
+					}
+					if ($inviter_two && $config['inviter_fee_two']) {
 						$insert_i = array(
 							'uniacid' => $_W['uniacid'],
 							'uid' => $member['id'],
 							'phone' => $member['phone'],
 							'certno' => $member['certno'],
 							'realname' => $member['realname'],
-							'inviter' => $inviter,
+							'inviter' => $inviter_two,
 							'extra_bonus'=>0,
 							'done_bonus'=>0,
 							're_bonus'=>$config['inviter_fee_two']*$fee*0.01,
@@ -158,6 +175,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'type'=>2
 						);
 						pdo_insert('xuan_mixloan_bonus', $insert_i);
+						$two_insert_id = pdo_insertid();
 						$datam = array(
 				            "first" => array(
 				                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
@@ -176,18 +194,34 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				                "color" => "#4a5077"
 				            ) ,
 				        );
-				        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
+				        $account->sendTplNotice($man_two['openid'], $config['tpl_notice5'], $datam, $url);
 						//三级
-						$man = m('member')->getInviterInfo($inviter);
-						$inviter = m('member')->getInviter($man['phone'], $man['openid']);
-						if ($inviter && $config['inviter_fee_three']) {
+						$inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+						$man_thr = m('member')->getInviterInfo($inviter_thr);
+				        if ($man_thr['partner']) {
+							$partner_bonus = $config['inviter_fee_two']*$fee*0.01*$config['partner_bonus']*0.01;
+							$insert_i = array(
+								'uniacid' => $_W['uniacid'],
+								'uid' => $man_two['id'],
+								'phone' => $man_two['phone'],
+								'inviter' => $inviter_thr,
+								'extra_bonus'=>$partner_bonus,
+								'status'=>2,
+								'relate_id'=>$two_insert_id,
+								'createtime'=>time(),
+								'degree'=>1,
+								'type'=>5
+							);
+							pdo_insert('xuan_mixloan_bonus', $insert_i);
+						}
+						if ($inviter_thr && $config['inviter_fee_three']) {
 							$insert_i = array(
 								'uniacid' => $_W['uniacid'],
 								'uid' => $member['id'],
 								'phone' => $member['phone'],
 								'certno' => $member['certno'],
 								'realname' => $member['realname'],
-								'inviter' => $inviter,
+								'inviter' => $inviter_thr,
 								'extra_bonus'=>0,
 								'done_bonus'=>0,
 								're_bonus'=>$config['inviter_fee_three']*$fee*0.01,
@@ -197,6 +231,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'type'=>2
 							);
 							pdo_insert('xuan_mixloan_bonus', $insert_i);
+							$thr_insert_id = pdo_insertid();
 							$datam = array(
 					            "first" => array(
 					                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
@@ -215,7 +250,26 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					                "color" => "#4a5077"
 					            ) ,
 					        );
-					        $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
+					        $account->sendTplNotice($man_thr['openid'], $config['tpl_notice5'], $datam, $url);
+							//四级
+							$inviter_four = m('member')->getInviter($man_thr['phone'], $man_thr['openid']);
+							$man_four = m('member')->getInviterInfo($inviter_four);
+							if ($man_four['partner']) {
+								$partner_bonus = $config['inviter_fee_thr']*$fee*0.01*$config['partner_bonus']*0.01;
+								$insert_i = array(
+									'uniacid' => $_W['uniacid'],
+									'uid' => $man_thr['id'],
+									'phone' => $man_thr['phone'],
+									'inviter' => $inviter_four,
+									'extra_bonus'=>$partner_bonus,
+									'status'=>2,
+									'relate_id'=>$thr_insert_id,
+									'createtime'=>time(),
+									'degree'=>1,
+									'type'=>5
+								);
+								pdo_insert('xuan_mixloan_bonus', $insert_i);
+							}
 						}
 					}
 				}
