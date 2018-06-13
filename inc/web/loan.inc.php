@@ -29,6 +29,8 @@ if ($operation == 'list') {
         $data['uniacid'] = $_W['uniacid'];
         $data['type'] = implode(',', $data['type']); 
         $data['createtime'] = time();
+        $data['ext_info']['conditions'] = htmlspecialchars_decode($data['ext_info']['conditions']);
+        $data['ext_info']['reminds'] = htmlspecialchars_decode($data['ext_info']['reminds']);
         $data['ext_info'] = json_encode($data['ext_info']);
         pdo_insert('xuan_mixloan_loan', $data);
         message("提交成功", $this->createWebUrl('loan', array('op' => '')), "sccuess");
@@ -40,7 +42,9 @@ if ($operation == 'list') {
     $item['type'] = array_values(explode(',', $item['type']));
     $item['ext_info'] = json_decode($item['ext_info'], true);
     if ($_GPC['post'] == 1) {
-        $_GPC['data']['type'] = implode(',', $_GPC['data']['type']); 
+        $_GPC['data']['type'] = implode(',', $_GPC['data']['type']);
+        $_GPC['data']['ext_info']['conditions'] = htmlspecialchars_decode($_GPC['data']['ext_info']['conditions']);
+        $_GPC['data']['ext_info']['reminds'] = htmlspecialchars_decode($_GPC['data']['ext_info']['reminds']);
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_loan', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('loan', array('op' => '')), "sccuess");
