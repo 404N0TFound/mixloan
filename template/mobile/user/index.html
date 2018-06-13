@@ -153,6 +153,22 @@
                 </div>
                 {/if}
                 <ul class="clearfix">
+                    {if is_weixin()}
+                    <li>
+                        <a onclick="openNew('https://fir.im/dqfc')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/ios.png" />
+                            苹果下载
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="openNew('https://fir.im/pudb')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/android.png" />
+                            安卓下载
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
