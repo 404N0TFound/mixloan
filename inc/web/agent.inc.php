@@ -68,8 +68,11 @@ if ($operation == 'list') {
     if (!empty($_GPC['id'])) {
         $wheres.= " AND a.id='{$_GPC['id']}'";
     }
+    if (!empty($_GPC['inviter'])) {
+        $wheres.= " AND a.inviter='{$_GPC['inviter']}'";
+    }
     if (!empty($_GPC['uid'])) {
-        $wheres.= " AND a.inviter='{$_GPC['uid']}'";
+        $wheres.= " AND a.uid='{$_GPC['uid']}'";
     }
     if (!empty($_GPC['type'])) {
         $wheres.= " AND a.type='{$_GPC['type']}'";
@@ -395,6 +398,35 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
+} else if ($operation == 'below_list') {
+    //查看下级
+    $uid = intval($_GPC['uid']);
+    $first_teams = pdo_fetchall("SELECT a.createtime,a.openid,b.id,b.nickname,b.avatar
+        FROM ".tablename("qrcode_stat")." a
+        LEFT JOIN ".tablename("xuan_mixloan_member")." b
+        ON a.openid=b.openid
+        WHERE a.qrcid={$uid} AND a.type=1
+        GROUP BY a.openid");
+    $uids = array();
+    foreach ($first_teams as $row) {
+        if (!empty($row['id'])) {
+            $uids[] = $row['id'];
+        }
+    }
+    if (!empty($uids)) {
+        $uid_string = '('. implode(',', $uids) .')';
+        $second_teams = pdo_fetchall("SELECT a.createtime,b.openid,b.id,b.nickname,b.avatar
+            FROM ".tablename("xuan_mixloan_inviter")." a
+            LEFT JOIN ".tablename("xuan_mixloan_member")." b
+            ON a.phone=b.phone
+            WHERE a.uid={$uid} AND b.id NOT IN {$uid_string}
+            GROUP BY a.phone");
+        $first_teams = array_merge($first_teams, $second_teams);
+    }
+    foreach ($first_teams as &$row) {
+        $row['agent'] = m('member')->checkAgent($row['id']);
+    }
+    unset($row);
 }
 include $this->template('agent');
 ?>

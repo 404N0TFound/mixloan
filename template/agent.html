@@ -79,7 +79,8 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'below_list','uid' => $row['uid']));}" title='下级列表'><i class='fa fa-list-alt'></i> 下级列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='删除代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 删除代理</a></li>
                             </ul>
                         </div>
@@ -91,6 +92,41 @@
         {$pager}
     </div>
 </div>
+</div>
+{else if $operation == 'below_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">查看下级</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:100px;'>加入时间</th>
+                    <th style='width:150px;'>身份</th>
+                    <th style='width:150px;'>操作</th>
+                </thead>
+                <tbody>
+                {loop $first_teams $row}
+                <tr>
+                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>{$row['agent']['name']}</td>
+                    <td  style="overflow:visible;">
+                        
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['id'], 'inviter'=>$uid));}" title='分佣明细'><i class='fa fa-list-alt'></i> 分佣明细</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {else if $operation == 'withdraw_list'}
 <div class="panel panel-info">
