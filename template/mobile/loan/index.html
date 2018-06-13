@@ -32,7 +32,8 @@
         });
     }
     function openLoan(id){
-        window.location.href = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
+        var _url = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
+        mui.openWindow({url:_url});
     }
     mui.plusReady(function() {
         console.log(mui.currentWebview.id);

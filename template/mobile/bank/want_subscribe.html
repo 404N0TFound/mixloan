@@ -27,7 +27,8 @@
         mui.openWindow({url:url});
     }
     function openBank(id){
-        window.location.href = "{php echo $this->createMobileUrl('bank', array('op'=>'display'))}&id=" + id;
+        var _url = "{php echo $this->createMobileUrl('bank', array('op'=>'display'))}&id=" + id;
+        mui.openWindow({url:_url});
     }
 </script>
 {if !is_weixin()}
