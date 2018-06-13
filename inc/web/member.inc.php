@@ -15,7 +15,11 @@ if ($operation == 'list') {
         $wheres.= " AND phone='{$_GPC['phone']}'";
     }
     if (!empty($_GPC['id'])) {
-        $id = substr($_GPC['id'], 4);
+        if (strstr($_GPC['id'], '1000')) {
+            $id = substr($_GPC['id'], 4);
+        } else {
+            $id = $_GPC['id'];
+        }
         $wheres.= " AND id='{$id}'";
     }
     if (!empty($_GPC['nickname'])) {
