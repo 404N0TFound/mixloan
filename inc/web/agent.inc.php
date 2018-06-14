@@ -59,13 +59,12 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = $join = '';
-    if (!empty($_GPC['name'])) {
-        $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
-        if ($_GPC['name_type']) {
-            $join_condition = ' ON a.inviter=b.id';
-        } else {
-            $join_condition = ' ON a.uid=b.id';
-        }
+    $join_condition = ' ON a.inviter=b.id';
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['realname'])) {
+        $wheres.= " AND a.realname LIKE '%{$_GPC['realname']}%'";
     }
     if (!empty($_GPC['phone'])) {
         $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
@@ -106,7 +105,7 @@ if ($operation == 'list') {
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $sql = 'select a.* from ' . tablename('xuan_mixloan_bonus') . " a
-        left join ".tablename("xuan_mixloan_member")." b ON {$join_condition} {$join}
+        left join ".tablename("xuan_mixloan_member")." b {$join_condition} {$join}
         where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . '
         ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
@@ -245,7 +244,10 @@ if ($operation == 'list') {
         ));
         unset($row);
     }
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id {$join} where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_bonus') . " a
+        left join ".tablename("xuan_mixloan_member")." b {$join_condition} {$join}
+        where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . '
+        ORDER BY a.id DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
