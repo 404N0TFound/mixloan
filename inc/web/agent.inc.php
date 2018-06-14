@@ -61,6 +61,11 @@ if ($operation == 'list') {
     $wheres = $join = '';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
+        if ($_GPC['name_type']) {
+            $join_condition = ' ON a.inviter=b.id';
+        } else {
+            $join_condition = ' ON a.uid=b.id';
+        }
     }
     if (!empty($_GPC['phone'])) {
         $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
@@ -100,7 +105,10 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_bonus') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id {$join} where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.* from ' . tablename('xuan_mixloan_bonus') . " a
+        left join ".tablename("xuan_mixloan_member")." b ON {$join_condition} {$join}
+        where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . '
+        ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -117,6 +125,9 @@ if ($operation == 'list') {
         } else {
             $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
+        $man = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['uid']}");
+        $row['nickname'] = $man['nickname'];
+        $row['avatar'] = $man['avatar'];
         if (empty($row['realname'])) {
             $row['realname'] = $row['nickname'];
         }
