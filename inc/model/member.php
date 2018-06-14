@@ -179,16 +179,16 @@ class Xuan_mixloan_Member
             </html>");
             return;
         }
-
         $wx = WeAccount::create();
-        $token = $wx->getOauthAccessToken();
-        $tempinfo = $wx->getOauthUserInfo($token, $openid);
         $member   = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);
         $uid      = 0;
         $mc       = array();
         if (empty($member)) {
+            if (is_weixin()) {
+                $tempinfo = m('user')->oauth_info();
+            }
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
@@ -227,10 +227,11 @@ class Xuan_mixloan_Member
             // if ($userinfo['avatar'] != $member['avatar']) {
             //     $upgrade['avatar'] = $userinfo['avatar'];
             // }
-            if ($userinfo['openid'] == 'oDlRu1rejUVJS_nrpTUHk9h92Nzo' || $userinfo['openid'] == 'oDlRu1ge0sJsZ0hX542_3-lalN-4') {
-            }
-            if (!empty($tempinfo['unionid'])) {
-                $upgrade['unionid'] = $tempinfo['unionid'];
+            if (empty($member['unionid'])) {
+                if (is_weixin()) {
+                    $tempinfo = m('user')->oauth_info();
+                    $upgrade['unionid'] = $tempinfo['unionid'];
+                }
             }
             if (!empty($uid)) {
                 if (empty($member['uid'])) {
