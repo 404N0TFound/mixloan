@@ -255,7 +255,7 @@
             <ul>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
-                <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
+                <!-- <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li> -->
                 <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2_1.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>-->
                 <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode" class="smscode" placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);">获取</a></li>-->
             </ul>
@@ -348,8 +348,8 @@
     function upSubmit() {
         var _name=$("#applyname").val();
         var phone =$("#phone").val();
-        var idcard =$("#idcard").val();
-        var postData={"name":_name,"phone":phone,"idcard":idcard};
+        // var idcard =$("#idcard").val();
+        var postData={"name":_name,"phone":phone};
         if(_name=='' || _name=="请输入姓名"){
             document.getElementById('applyname').focus();
             layer.tips('请输入姓名', '#applyname', {
@@ -376,23 +376,6 @@
                 time: 3000
             });
             return false;
-        }
-        if (idcard == '请输入身份证号' || idcard == '') {
-            document.getElementById('idcard').focus();
-            layer.tips('请输入身份证号码', '#idcard', {
-                tips: [3, '#f90'],
-                time: 3000
-            });
-            return false;
-        }else if(idcard!=undefined&&idcard!=null){
-            if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(idcard))) {
-                document.getElementById('idcard').focus();
-                layer.tips('请填写正确的身份证号', '#idcard', {
-                    tips: [3, '#f90'],
-                    time: 3000
-                });
-                return false;
-            }
         }
         $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,
             function(data){
