@@ -25,8 +25,9 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'])['code'];
-            $row['user_type'] = m('member')->checkAgent($row['id'])['name'];
+            $agent = m('member')->checkAgent($row['id']);
+            $row['type'] = $agent['code'];
+            $row['user_type'] = $agent['name'];
         }
         unset($row);
     } else {
