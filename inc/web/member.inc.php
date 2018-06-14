@@ -274,6 +274,9 @@ if ($operation == 'list') {
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
         
     }
+} else if ($operation == 'partner') {
+    pdo_update('xuan_mixloan_member', array('partner'=>1), array('id'=>$_GPC['id']));
+    message('操作成功', referer(), 'success');
 }
 include $this->template('member');
 ?>
