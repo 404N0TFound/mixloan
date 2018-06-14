@@ -50,21 +50,29 @@
                         {loop $banks $row}
                         <div class="swiper-slide" data-id="{$row['id']}">
                             <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                            <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
+                            <div class="cardsInfo">
+                                {if $row['type'] == 1}
+                                <h2>{$row['bankname']}</h2><span>储蓄卡</span>
                                 <p style="font-family: numFont!important;">
                                     {if $row['numbers_type'] == 1}
-                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
+                                    <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
                                     {else}
-                                <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
+                                    <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
                                     {/if}
                                 </p>
+                                {else if $row['type'] == 2}
+                                <h2>支付宝收款</h2>
+                                <p style="font-family: numFont!important;">
+                                    <span>{$row['realname']}&nbsp;&nbsp;&nbsp;{$row['phone']}</span>
+                                </p>
+                                {/if}
                             </div>
                         </div> 
                         {/loop}
                     {else}
                         <div class="swiper-slide" data-id="0">
                             <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                            <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
+                            <div class="cardsInfo"><h2>****</h2><span>添加提现方式</span>
                                 <p style="font-family: numFont!important;">
                                 <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
                                 </p>
@@ -240,10 +248,10 @@
     $("div.addCards a.dailiFlag").click(function(){
         var cardNum=$("div.settleCards .swiper-wrapper .swiper-slide").length;
         if(cardNum>=4){
-            layer.msg("最多可添加4张银行卡");
+            layer.msg("最多可添加4种收款方式");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_card'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_type'])}";
             location.href=_url;
         }
     })

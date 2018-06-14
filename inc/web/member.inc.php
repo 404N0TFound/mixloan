@@ -11,13 +11,14 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = ' AND status<>-1';
-    if (!empty($_GPC['openid'])) {
-        $wheres.= " AND openid='{$openid}'";
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND openid='{$_GPC['id']}'";
     }
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "
+        where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
@@ -29,7 +30,8 @@ if ($operation == 'list') {
         $list = pdo_fetchall($sql);
         m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12),)));
     }
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
+    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "
+        where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     $member = m('member')->getMember($_GPC['id']);

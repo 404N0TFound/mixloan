@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `bankname` varchar(20) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1银行卡 2支付宝账号',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)

@@ -19,6 +19,9 @@ if($operation=='index'){
 	$use = number_format($use, 2);
 	$member['number'] = strtoupper(substr(base64_encode($member['id']), 0, 2).'1000'.$member['id']);
 	include $this->template('user/index');
+} else if ($operation == 'bind_type') {
+	//选择类型
+	include $this->template('user/bind_type');
 } else if ($operation == 'bind_card') {
 	//绑卡
 	include $this->template('user/bind_card');
@@ -59,11 +62,32 @@ if($operation=='index'){
 		'certno'=>$id_card,
 		'banknum'=>$bank_num,
 		'createtime'=>time(),
-		'uid'=>$member['id']
+		'uid'=>$member['id'],
+		'type'=>1
 	);
 	pdo_insert('xuan_mixloan_creditCard', $insert);
 	show_json(1);
-}else if ($operation == 'set') {
+} else if ($operation == 'bind_alipay') {
+	//绑支付宝
+	include $this->template('user/bind_alipay');
+} else if ($operation == 'bind_alipay_submit') {
+	//验证银行卡
+	$realname = trim($_GPC['realname']);
+	$phone = trim($_GPC['phone']);
+	if (!$realname || !$phone) {
+			show_json(-1, [], '参数不能为空');
+	}
+	$insert = array(
+		'uniacid'=>$_W['uniacid'],
+		'realname'=>$realname,
+		'phone' =>$phone,
+		'createtime'=>time(),
+		'uid'=>$member['id'],
+		'type'=>2
+	);
+	pdo_insert('xuan_mixloan_creditCard', $insert);
+	show_json(1);
+} else if ($operation == 'set') {
 	//修改资料
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
 	if ($agent) {
