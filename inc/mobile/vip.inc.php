@@ -19,9 +19,6 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-	if ($openid != 'oDlRu1rejUVJS_nrpTUHk9h92Nzo') {
-		message('系统维护中', '', 'error');
-	}
 	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
 	$redirect_url = urlencode($_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'')));
 	$tid = "10001" . date('YmdHis', time());
