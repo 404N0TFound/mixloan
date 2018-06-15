@@ -73,6 +73,7 @@ if($operation=='register'){
         $openid = md5($_GPC['phone']);
         $insert = array(
             'uniacid'=>$_W['uniacid'],
+            'openid'=>$openid,
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
