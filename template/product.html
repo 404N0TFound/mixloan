@@ -236,7 +236,13 @@
                         <span class="input-group-addon">点</span>
                     </div>
                 </div>
-        </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" placeholder="越大越靠前" />
+                </div>
+            </div>
         <div class="form-group done_reward_type2"  {if $item['done_reward_type']!=2}style="display: none"{/if} >
             <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;二级奖励</label>
             <div class="col-sm-3 col-lg-3 col-xs-12">

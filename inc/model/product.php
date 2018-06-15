@@ -25,7 +25,7 @@ class Xuan_mixloan_Product
         if ($orderBy) {
             $sql .= " ORDER BY {$orderBy}";
         } else {
-            $sql .= " ORDER BY id DESC";
+            $sql .= " ORDER BY sort DESC";
         }
         if ($limit) {
             $sql .= " LIMIT {$limit}";

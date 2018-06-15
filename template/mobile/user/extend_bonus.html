@@ -171,7 +171,8 @@ $(function() {
     });
     //
    $('#sub_partner').click(function(){
-        openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner'))}');
+        window.location.href ='{php echo $this->createMobileUrl('vip', array('op'=>'partner'))}';
+        //openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner'))}');
    })
     
 })
