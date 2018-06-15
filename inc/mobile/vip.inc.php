@@ -5,12 +5,12 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
-$agent = m('member')->checkAgent($member['id'], $config);;
+$agent = m('member')->checkAgent($member['id'], $config);
 if($operation=='buy'){
 	//购买会员
-	// if (!$member['phone']) {
-	// 	message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
-	// }
+	if (!$member['phone']) {
+		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	}
 	if ($agent['code']==1) {
 		$verify = 1;
 		if ($agent['level'] == 1) {
