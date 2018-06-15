@@ -11,7 +11,7 @@ if($operation == 'getCode'){
 	$cache =  rand(111111,999999);
 	$phone = $_GPC['phone'];
 	if ($_GPC['activity'] == 1) {
-		$verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone', array('phone'=>$phone));
+		$verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
 		if ($verify) {
 			show_json(102);
 		}

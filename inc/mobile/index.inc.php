@@ -26,61 +26,64 @@ if($operation=='register'){
 	if ($res) {
 		show_json(-1, null, "手机已绑定");
 	}
-	//邀请处理
-	$qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-	if ($qrcid) {
-		$res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone AND uid=:uid ORDER BY id DESC",array(":uid"=>$qrcid,":phone"=>$phone));
-		if (!$res_i && $qrcid!=$member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $qrcid,
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-		}
-	} else {
-		if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $_GPC['inviter'],
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-			$insert_q = array(
-				'uniacid' => $_W['uniacid'],
-				'type'=>1,
-				'qrcid' => $_GPC['inviter'],
-				'scene_str' => $_GPC['inviter'],
-				'openid' => $member['openid'],
-				'createtime' => time(),
-			);
-			pdo_insert('qrcode_stat', $insert_q);
-		}
-	}
-	//更新操作
-    if ($config['backup'] == 1) {
-        //开启备份
-        $old_man = pdo_fetch('SELECT id,openid,uniacid,uid FROM '.tablename('xuan_mixloan_member').' WHERE phone=:phone ORDER BY id DESC', array(':phone'=>$phone));
-        if (!empty($old_man['openid']) && $old_man['openid'] != $openid) {
-            pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'pass'=>$pwd, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('id'=>$old_man['id']));
-            pdo_update('qrcode_stat', array('openid'=>$openid, 'uniacid'=>$_W['uniacid']), array('openid'=>$old_man['openid']));
-            pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_man['openid']));
-            pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_man['openid']));
-            pdo_update('xuan_mixloan_friend_comment', array('openid'=>$openid), array('openid'=>$old_man['openid']));
-            pdo_update('xuan_mixloan_member', array('openid'=>$old_man['openid'], 'pass'=>$pwd, 'uniacid'=>$old_man['uniacid'], 'uid'=>$old_man['uid']), array('id'=>$member['id']));
-			show_json(1, ['url'=>$this->createMobileUrl('user', ['op'=>''])], "找回账户成功");
+    if ($openid) {
+        //邀请处理
+        $qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM " .tablename("qrcode_stat"). "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",
+            array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        if ($qrcid) {
+            $res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM " .tablename("xuan_mixloan_inviter"). "
+                WHERE phone=:phone AND uid=:uid ORDER BY id DESC",
+                array(":uid"=>$qrcid,":phone"=>$phone));
+            if (!$res_i && $qrcid!=$member['id']) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $qrcid,
+                    'phone' => $phone,
+                    'createtime' => time(),
+                );
+                pdo_insert('xuan_mixloan_inviter', $insert_i);
+            }
         } else {
-            $arr = ['phone'=>$phone, 'pass'=>$pwd];
-            pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-			show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+            if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $_GPC['inviter'],
+                    'phone' => $phone,
+                    'createtime' => time(),
+                );
+                pdo_insert('xuan_mixloan_inviter', $insert_i);
+                $insert_q = array(
+                    'uniacid' => $_W['uniacid'],
+                    'type'=>1,
+                    'qrcid' => $_GPC['inviter'],
+                    'scene_str' => $_GPC['inviter'],
+                    'openid' => $member['openid'],
+                    'createtime' => time(),
+                );
+                pdo_insert('qrcode_stat', $insert_q);
+            }
         }
-    } else {
         //更新操作
         $arr = ['phone'=>$phone, 'pass'=>$pwd];
         pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-		show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+    } else {
+        //没有openid的情况
+        $openid = md5($_GPC['phone']);
+        $insert = array(
+            'uniacid'=>$_W['uniacid'],
+            'phone'=>$phone,
+            'pass'=>$pwd,
+            'createtime'=>time(),
+            'avatar'=>'http://wx.luohengwangluo.com/addons/xuan_mixloan/template/style/picture/fc_header.jpg',
+            'nickname'=>'用户{$phone}'
+        );
+        pdo_insert('xuan_mixloan_member', $insert);
+        if ($_GPC['inviter']) {
+            m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+        }
+        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
     }
 } else if ($operation == 'login') {
     //登陆
