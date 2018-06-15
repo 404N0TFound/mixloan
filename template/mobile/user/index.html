@@ -261,7 +261,7 @@ $(document).ready(function(){
 })
 //领取工资
 $("#get_paid").click(function(){
-    location.href="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}";
+    openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}');
 })
 //购买限制
 $(".buy_limit").click(function(){

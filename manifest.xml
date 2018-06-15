@@ -41,6 +41,23 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_paylog`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_paylog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `notify_id` varchar(100) NOT NULL,
+  `tid` varchar(100) NOT NULL,
+  `is_pay` tinyint(2) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1购买代理',
+  `fee` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`),
+  KEY `notify_id` (`notify_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_advs_click`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_advs_click` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

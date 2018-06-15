@@ -109,7 +109,7 @@ class Xuan_mixloan_Pay
      * @param $notify_url
      * @return array
      */
-    function H5pay($amount, $notify_url)
+    function H5pay($trade_no, $amount, $notify_url)
     {
         if (empty($amount)) {
             return ["code"=>-1, "msg"=>"amount不能为空"];
@@ -117,7 +117,6 @@ class Xuan_mixloan_Pay
         if (empty($notify_url)) {
             return ["code"=>-1, "msg"=>"notify_url不能为空"];
         }
-        $trade_no = "ZML".date("YmdHis");
         $params["appid"] = $this->appid;
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
@@ -125,7 +124,7 @@ class Xuan_mixloan_Pay
         $params['body'] = '指点官方充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
-        $params["notify_url"] = urlencode($notify_url);
+        $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
         $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.luohengwangluo.com","wap_name": "指点官方充值"}}';
         $string = $this->GetHttpQueryString($params);
