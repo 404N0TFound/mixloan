@@ -7,6 +7,7 @@ class Xuan_mixloan_Pay
     private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
+    private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
     private $publickey_path = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/key/ras.pub";
     private $apiclient_cert = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
@@ -73,7 +74,7 @@ class Xuan_mixloan_Pay
     function pay($openid, $amount, $desc)
     {
         if (empty($openid)) {
-            return ["code"=>-1, "msg"=>"银行卡号不能为空"];
+            return ["code"=>-1, "msg"=>"openid不能为空"];
         }
         if (empty($desc)) {
             return ["code"=>-1, "msg"=>"说明不能为空"];
@@ -100,6 +101,44 @@ class Xuan_mixloan_Pay
             return ["code"=>1, "msg"=>$result["err_code_des"], "data"=>$data];
         } else {
             return ["code"=>-1, "msg"=>$result["err_code_des"]];
+        }
+    }
+    /**
+     * H5支付
+     * @param $amount 单位：分
+     * @param $notify_url
+     * @return array
+     */
+    function H5pay($amount, $notify_url)
+    {
+        if (empty($amount)) {
+            return ["code"=>-1, "msg"=>"amount不能为空"];
+        }
+        if (empty($notify_url)) {
+            return ["code"=>-1, "msg"=>"notify_url不能为空"];
+        }
+        $trade_no = "ZML".date("YmdHis");
+        $params["appid"] = $this->appid;
+        $params["mch_id"] = $this->mchid;
+        $params['out_trade_no'] = $trade_no;
+        $params["nonce_str"] = strtoupper(md5($trade_no));
+        $params['body'] = '指点官方充值';
+        $params["spbill_create_ip"] = $this->getRealIp();
+        $params["total_fee"] = intval($amount*100);
+        $params["notify_url"] = urlencode($notify_url);
+        $params["trade_type"] = "MWEB";
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.luohengwangluo.com","wap_name": "指点官方充值"}}';
+        $string = $this->GetHttpQueryString($params);
+        $sign = $this->GetSign($string);
+        $params["sign"] = $sign;
+        $result = $this->curl($this->H5pay_url, $params, true);
+        if ($result['result_code'] != "FAIL") {
+            $data = array(
+                "url"=>$result['mweb_url']
+            );
+            return ["code"=>1, "msg"=>$result["return_msg"], "data"=>$data];
+        } else {
+            return ["code"=>-1, "msg"=>$result["return_msg"]];
         }
     }
     /**

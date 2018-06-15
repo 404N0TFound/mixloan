@@ -19,18 +19,23 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-	$tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	$notify_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'notify_url'));
+	$result = m('pay')->H5pay($config['buy_vip_price'], $notify_url);
+	if ($result['code'] == 1) {
+		header("location:{$result['data']['url']}");
+	}
+	// $tid = "10001" . date('YmdHis', time());
+	// $title = "购买{$config['title']}代理会员";
+	// $fee = $config['buy_vip_price'];
+	// $params = array(
+	//     'tid' => $tid, 
+	//     'ordersn' => $tid, 
+	//     'title' => $title, 
+	//     'fee' => $fee, 
+	//     'user' => $member['id'], 
+	// );
+	// //调用pay方法
+	// $this->pay($params);
 	exit;
 } else if ($operation == 'createPost') {
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
