@@ -239,7 +239,7 @@ function submit(){
     function(res){
       if(res.code==1){
         $("div.regInfoCommon").hide();
-        $('#userFirstSubmit').show();
+        $('div.userFirstSubmit').show();
       }else{
         layer.msg(res.msg);
         click();

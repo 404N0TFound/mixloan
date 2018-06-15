@@ -533,7 +533,7 @@ if($operation=='buy'){
     $list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} AND a.pid=0 ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
-} else if ($operation == 'register') {
+} else if ($operation == 'app_register') {
 	//邀请注册
 	$inviter = m('member')->getInviterInfo($_GPC['inviter']);
 	include $this->template('vip/register');
@@ -560,7 +560,7 @@ if($operation=='buy'){
             // );
             // $res = $wx->barCodeCreateDisposable($barcode);
             // $url = $res['url'];
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']));
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }

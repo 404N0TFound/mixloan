@@ -77,8 +77,9 @@ if($operation=='register'){
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://wx.luohengwangluo.com/addons/xuan_mixloan/template/style/picture/fc_header.jpg',
-            'nickname'=>'用户{$phone}'
+            'avatar'=>'http://wx.luohengwangluo.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'nickname'=>"用户{$phone}",
+            'status'=>-2,
         );
         pdo_insert('xuan_mixloan_member', $insert);
         if ($_GPC['inviter']) {
