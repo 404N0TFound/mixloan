@@ -304,9 +304,9 @@ if($operation=='index'){
                 $row['state'] = '已成功';
             }
             if ($row['degree'] == 1) {
-                $row['degree'] = '直推';
+                $row['degree'] = '团队';
             } else if ($row['degree'] == 2) {
-                $row['degree'] = '二级';
+                $row['degree'] = '连队';
             }
             $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3);
         }
