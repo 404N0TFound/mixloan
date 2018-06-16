@@ -45,17 +45,11 @@
     </script>
     {if !is_weixin()}
     <script type="text/javascript">
-        mui.plusReady(function() {
-            console.log(mui.currentWebview.id);
-            window.addEventListener('refresh', function(event) {
-                mui.currentWebview.reload();
-            });
-            var wv=plus.webview.currentWebview();
-            // 关闭侧滑返回功能
-            wv.setStyle({'popGesture':'none'});
-        });
-        mui.back = function(){
-            return false;
+        function return_user(){
+            var user_url = '{php echo $this->createMobileUrl('user')}';
+            var user_index = plus.webview.getWebviewById('user_index');
+            mui.fire(user_index,'refresh');
+            openNew(user_url);
         }
     </script>
     <style type="text/css">
@@ -77,14 +71,14 @@
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
                 <ul class="clearfix">
                     <li class="new_guide">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'index'))}')">
+                        <a onclick="return_user()">
                             <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
                             付款成功
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
                     <li class="new_guide">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'index'))}')">
+                        <a onclick="return_user()">
                             <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
                             付款失败
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>

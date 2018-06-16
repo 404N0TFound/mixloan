@@ -43,8 +43,9 @@ if($operation=='buy'){
 	if ($result['code'] == 1) {
 		$redirect_url = urlencode($_W['siteroot'] . 'app/' .
 			$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
-		header("location:{$result['data']['url']}&redirect_url={$redirect_url}");
+		$url = "{$result['data']['url']}&redirect_url={$redirect_url}";
 	}
+	include $this->template('vip/openHref');
 	// $tid = "10001" . date('YmdHis', time());
 	// $title = "购买{$config['title']}代理会员";
 	// $fee = $config['buy_vip_price'];
@@ -503,6 +504,10 @@ if($operation=='buy'){
     if ($times>0) {
         show_json(-1, null, "一天只能提现1次");
     }
+    $today = date("w");
+    if ($today == 6 || $today == 7) {
+        show_json(-1, null, "周末休息不允许提现哦");
+    }
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
@@ -735,8 +740,9 @@ if($operation=='buy'){
 	if ($result['code'] == 1) {
 		$redirect_url = urlencode($_W['siteroot'] . 'app/' .
 			$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
-		header("location:{$result['data']['url']}&redirect_url={$redirect_url}");
+		$url = "{$result['data']['url']}&redirect_url={$redirect_url}";
 	}
+	include $this->template('vip/openHref');
 	// $params = array(
 	//     'tid' => $tid, 
 	//     'ordersn' => $tid, 
@@ -746,7 +752,6 @@ if($operation=='buy'){
 	// );
 	// //调用pay方法
 	// $this->pay($params);
-	exit();
 } else if ($operation == 'partner_center') {
 	//合伙人中心
 	$list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
@@ -764,4 +769,12 @@ if($operation=='buy'){
 } else if ($operation == 'checkPay') {
 	//检测有没有付款成功
 	include $this->template('vip/checkPay');
+} else if ($operation == 'openHref') {
+	//打开链接
+	if ($_GPC['type'] == 'partner') {
+		$url = $this->createMobileUrl('vip', array('op'=>'partner'));
+	} else if ($_GPC['type'] == 'agent') {
+		$url = $this->createMobileUrl('vip', array('op'=>'buy'));
+	}
+	include $this->template('vip/openNew');
 }
