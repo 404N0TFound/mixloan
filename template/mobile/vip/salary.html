@@ -110,7 +110,7 @@
                 </div>
                 <div class="orderLists">     
 
-                    <div id="percent" class="percent_list list_common" style="display: none;">
+                    <div id="percent" class="percent_list list_common" style="display: none;" temp_id="{$percent_list_min_id}">
                         {if $percent_list}
                             {loop $percent_list $row}
                             <div class="order_list">
@@ -258,6 +258,44 @@
         $(".layer_close,.floor").click(function(){
             $(".pop,.pop_art").hide();      
         })
+        $(window).scroll(function(){
+                var range = 0; 
+                var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+                totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+                if(($(document).height()-range) <= totalheight) {
+                    var id = $('#percent').attr('temp_id');
+                    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'percent_list_api'))}",{'id':id},
+                        function(data){
+                            if(data.code==1){
+                                var _data=data.data.percent_list;
+                                for(i=0;i<_data.length;i++){
+                                    var str = "";
+                                    str += '<div class="order_list">\
+                                                <h2>\
+                                                    <img src="'+ _data[i].logo +'">\
+                                                    '+ _data[i].name +'\
+                                                    <span>订单号：'+ _data[i].tid +'</span>\
+                                                </h2>\
+                                                <div class="order_detail">\
+                                                    <div style="width: 50%;float:left;">\
+                                                        <a>结算类型：'+ _data[i].type +'</a>\
+                                                        <a>'+ _data[i].createtime +'</a>\
+                                                    </div>\
+                                                    <div style="width: 50%;float:left;">\
+                                                        <div class="order_d_right">\
+                                                            <span>收入金额(元)：</span><span style="color:orange;font-size: 0.8rem">'+ _data[i].count_money +'</span>\
+                                                        </div>\
+                                                    </div>\
+                                                </div>\
+                                            </div>';
+                                    $('#percent').append(str);
+                                    $('#percent').attr('temp_id', data.data.percent_list_min_id);
+                                }
+                            }
+                        },'json'
+                    )
+                }
+            });
     </script>
 
 </body>

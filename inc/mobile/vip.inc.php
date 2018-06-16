@@ -20,26 +20,29 @@ if($operation=='buy'){
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
 	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
-	$redirect_url = urlencode($_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'')));
-	$tid = "10001" . date('YmdHis', time());
-    $trade_no = "ZML".date("YmdHis");
+	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
+	if (empty($record)) {
+		$tid = "10001" . date('YmdHis', time());
+	    $trade_no = "ZML".date("YmdHis");
+		$insert = array(
+			'notify_id'=>$trade_no,
+			'tid'=>$tid,
+			'createtime'=>time(),
+			'uid'=>$member['id'],
+			'uniacid'=>$_W['uniacid'],
+			'fee'=>$config['buy_vip_price'],
+			'is_pay'=>0,
+			'type'=>1
+		);
+		pdo_insert('xuan_mixloan_paylog', $insert);
+	} else {
+	    $trade_no = $record['notify_id'];
+	}
 	$result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
 	if ($result['code'] == 1) {
-		$record = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_paylog'). '
-			where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-		if (empty($record)) {
-			$insert = array(
-				'notify_id'=>$trade_no,
-				'tid'=>$tid,
-				'createtime'=>time(),
-				'uid'=>$member['id'],
-				'uniacid'=>$_W['uniacid'],
-				'fee'=>$config['buy_vip_price'],
-				'is_pay'=>0,
-				'type'=>1
-			);
-			pdo_insert('xuan_mixloan_paylog', $insert);
-		}
+		$redirect_url = urlencode($_W['siteroot'] . 'app/' .
+			$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
 		header("location:{$result['data']['url']}&redirect_url={$redirect_url}");
 	}
 	// $tid = "10001" . date('YmdHis', time());
@@ -367,12 +370,14 @@ if($operation=='buy'){
 	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
 	$bonus = formatMoney($bonus);
 	$can_use = formatMoney($can_use);
-	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0]);
+	$percent_list_min_id = 99999999;
+	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0], false, 5);
 	foreach ($percent_list as $row) {
 		$ids[] = $row['pid'];
 	}
 	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
 	foreach ($percent_list as &$row) {
+		$percent_list_min_id = min($percent_list_min_id, $row['id']);
 		if ($row['type'] == 2){
 			$row['name'] = '邀请购买代理';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
@@ -420,6 +425,47 @@ if($operation=='buy'){
 	}
 	unset($row);
 	include $this->template('vip/salary');
+} else if ($operation == 'percent_list_api') {
+	//工资api
+	$id = intval($_GPC['id']);
+	$percent_list = pdo_fetchall('select * from '.tablename('xuan_mixloan_product_apply')."
+		where inviter=:inviter and status>0 and id<{$id}
+		order by id desc limit 5", array(':inviter'=>$member['id']));
+	if (empty($percent_list)) {
+		show_json(-1, [], '已无更多数据');
+	}
+	foreach ($percent_list as $row) {
+		$ids[] = $row['pid'];
+	}
+	$percent_list_min_id = $id;
+	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
+	foreach ($percent_list as &$row) {
+		$percent_list_min_id = min($percent_list_min_id, $row['id']);
+		if ($row['type'] == 2){
+			$row['name'] = '邀请购买代理';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else if ($row['type'] == 3){
+			$row['name'] = '合伙人分红';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else {
+			$row['name'] = $pros[$row['pid']]['name'];
+			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
+		}
+		if ($pros[$row['pid']]['count_time'] == 1) {
+			$row['type'] = '日结';
+		} else if ($row['type'] == 2 || $row['type'] == 3) {
+			$row['type'] = '实时';
+		} else if ($pros[$row['pid']]['count_time'] == 7) {
+			$row['type'] = '周结';
+		} else if ($pros[$row['pid']]['count_time'] == 30) {
+			$row['type'] = '月结';
+		}
+		$row['createtime'] = date('m-d H:i', $row['createtime']);
+		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
+		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
+	}
+	unset($row);
+	show_json(1, ['percent_list'=>$percent_list, 'percent_list_min_id'=>$percent_list_min_id]);
 } else if ($operation == 'withdraw') {
 	//提现
 	$banks = pdo_fetchall("SELECT id,bankname,banknum FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid", array(':uid'=>$member['id']));
@@ -666,26 +712,29 @@ if($operation=='buy'){
 		$config['buy_partner_price'] = 0.1;
 	}
 	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
-	$redirect_url = urlencode($_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'')));
-	$tid = "10002" . date('YmdHis', time());
-    $trade_no = "ZML".date("YmdHis");
+	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		where type=2 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
+	if (empty($record)) {
+		$tid = "10002" . date('YmdHis', time());
+	    $trade_no = "ZML".date("YmdHis");
+		$insert = array(
+			'notify_id'=>$trade_no,
+			'tid'=>$tid,
+			'createtime'=>time(),
+			'uid'=>$member['id'],
+			'uniacid'=>$_W['uniacid'],
+			'fee'=>$config['buy_partner_price'],
+			'is_pay'=>0,
+			'type'=>2
+		);
+		pdo_insert('xuan_mixloan_paylog', $insert);
+	} else {
+	    $trade_no = $record['notify_id'];
+	}
 	$result = m('pay')->H5pay($trade_no, $config['buy_partner_price'], $notify_url);
 	if ($result['code'] == 1) {
-		$record = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_paylog'). '
-			where type=2 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-		if (empty($record)) {
-			$insert = array(
-				'notify_id'=>$trade_no,
-				'tid'=>$tid,
-				'createtime'=>time(),
-				'uid'=>$member['id'],
-				'uniacid'=>$_W['uniacid'],
-				'fee'=>$config['buy_partner_price'],
-				'is_pay'=>0,
-				'type'=>2
-			);
-			pdo_insert('xuan_mixloan_paylog', $insert);
-		}
+		$redirect_url = urlencode($_W['siteroot'] . 'app/' .
+			$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
 		header("location:{$result['data']['url']}&redirect_url={$redirect_url}");
 	}
 	// $params = array(
@@ -712,4 +761,7 @@ if($operation=='buy'){
 	}
 	unset($row);
 	include $this->template('vip/partner_center');
+} else if ($operation == 'checkPay') {
+	//检测有没有付款成功
+	include $this->template('vip/checkPay');
 }

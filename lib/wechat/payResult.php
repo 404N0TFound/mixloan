@@ -25,6 +25,10 @@ if($sign == $data['sign']){
         mysqli_close($con);
         header("location:http://wx.luohengwangluo.com/app/index.php?i=2&c=entry&op=notify_url" . 
             "&do=vip&m=xuan_mixloan&notify_id={$data['out_trade_no']}");
+    } else {
+        $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=-1 WHERE notify_id='{$data['out_trade_no']}'";
+        mysqli_query($con, $sql);
+        mysqli_close($con);
     }
 } else {
     $sql = "INSERT INTO ims_xuan_mixloan_log (ext_info) VALUES ('1')";
