@@ -18,6 +18,7 @@
                 color: white;
                 border-radius: 4px;
             }
+            .kehu-table td{font-size: 0.8rem}
         </style>
     </head>
     
@@ -74,9 +75,9 @@
             <tbody>
                 {loop $extend_list $row}
                 <tr class="list" onclick="degreeDetail({$row['uid']})">
-                    <td>{php echo date('Y-m-d',$row['createtime']);}</td>
-                    <td>{$row['re_bonus']}元</td>
-                    <td>
+                    <td style="width: 30%">{php echo date('Y-m-d',$row['createtime']);}</td>
+                    <td style="width: 20%">{$row['re_bonus']}元</td>
+                    <td style="width: 50%">
                         {$row['nickname']}
                         <span class="label-info">{$row['degree']}级</span>
                     </td>

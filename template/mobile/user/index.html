@@ -40,7 +40,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
     <script type="text/javascript">
         function openNew(url){
-            mui.openWindow({url:url});
+            mui.openWindow({url:url,createNew:true});
         }
     </script>
     {if !is_weixin()}
@@ -173,7 +173,7 @@
                     {/if}
                     <li class="new_guide">
                         <!-- <a href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}"> -->
-                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}')">
+                        <a onclick="extend_bonus()">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
                             推荐有钱
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
@@ -319,7 +319,10 @@ function switchButton(index){
         },'json')
 }
 
-
+function extend_bonus() {
+    var url = "{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}";
+    mui.openWindow({url:url, id:'extend_bonus', createNew:true});
+}
 </script>
 </body>
 </html>

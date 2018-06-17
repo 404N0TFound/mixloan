@@ -145,4 +145,58 @@ if($operation=='index'){
 	$follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
 	$money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0") ? : 0;
 	include $this->template('user/extend_bonus');
+} 
+else if ($operation == 'message_type') 
+{
+	//消息中心
+	$read = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=1', array(':to_uid' => $member['id']));
+	$unread = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id']));
+	include $this->template('user/message_type');
+} 
+else if ($operation == 'message') 
+{
+	//消息列表
+	$is_read = intval($_GPC['read']);
+	$list = pdo_fetchall('select id,uid,createtime from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read', array(':to_uid' => $member['id'], ':is_read' => $is_read));
+	foreach ($list as &$row)
+	{
+		if ($row['uid'] == 0) 
+		{
+			$row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
+			$row['nickname'] = '系统消息';
+		} 
+		else 
+		{
+			$man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+			$row['avatar'] = $man['avatar'];
+			$row['nickname'] = $man['nickname'];
+		}
+	}
+	unset($row);
+	include $this->template('user/message');
+}
+else if ($operation == 'read_message')
+{
+	//阅读消息
+	$id = intval($_GPC['id']);
+	if (empty($id)) 
+	{
+		message('出错啦', '', 'error');
+	}
+	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_msg') . ' where id=:id', array(':id' => $id));
+	if ($item['is_read'] != 1) 
+	{
+		pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $id));
+	}
+	if ($item['uid'] == 0) 
+	{
+		$item['nickname'] = '系统消息';
+	} 
+	else 
+	{
+		$man = pdo_fetch('select nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+		$item['nickname'] = $man['nickname'];
+	}
+	$item['ext_info'] = json_decode($item['ext_info'], true);
+	include $this->template('user/read_message');
 }

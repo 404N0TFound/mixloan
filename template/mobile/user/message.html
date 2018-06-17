@@ -12,7 +12,7 @@
     <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
     <meta http - equiv = "Pragma" content = "no-cache" / >
     <meta http - equiv = "Expires" content = "0" / >
-    <title>付款中心</title>
+    <title>消息中心</title>
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
@@ -45,11 +45,15 @@
     </script>
     {if !is_weixin()}
     <script type="text/javascript">
-        function return_user(){
-            var user_url = '{php echo $this->createMobileUrl('user')}';
-            var user_index = plus.webview.getWebviewById('user_index');
-            mui.fire(user_index,'refresh');
-            mui.openWindow({url:user_url, id:'user_index'});
+        function return_back(){
+            var url = '{php echo $this->createMobileUrl('user', array('op'=>'message_type'))}';
+            var message_type = plus.webview.getWebviewById('message_type');
+            mui.fire(message_type,'refresh');
+            mui.openWindow({url:url, id:'message_type'});
+        }
+        function read_msg(id){
+            var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message))}&id=" + id;
+            mui.openWindow({url:url});
         }
     </script>
     <style type="text/css">
@@ -61,8 +65,8 @@
     </style>
     <div class="app_header">
         <div class="app_header_back">
-            <!-- <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)"> -->
-            <span>付款中心</span>
+            <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="return_back()">
+            <span>消息中心</span>
         </div>
     </div>
     {/if}
@@ -70,20 +74,15 @@
         <div class="main-contain">
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
                 <ul class="clearfix">
+                    {loop $list $row}
                     <li class="new_guide">
-                        <a onclick="return_user()">
-                            <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
-                            付款成功
-                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        <a onclick="read_msg({$row['id']})">
+                            <img src="{$row['avatar']}" />
+                            {$row['nickname']}
+                            <em>{php echo date('Y-m-d H:i', $row['createtime'])} &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    <li class="new_guide">
-                        <a onclick="return_user()">
-                            <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
-                            付款失败
-                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                        </a>
-                    </li>
+                    {/loop}
                 </ul>                
             </div>
             <div style="height: 3rem"></div>

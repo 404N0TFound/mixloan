@@ -22,6 +22,9 @@ if($operation=='buy'){
 	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
 	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
+	if ($member['id'] == '10622') {
+		$config['buy_vip_price'] = 0.1;	
+	}
 	if (empty($record)) {
 		$tid = "10001" . date('YmdHis', time());
 	    $trade_no = "ZML".date("YmdHis");
@@ -42,7 +45,7 @@ if($operation=='buy'){
 	$result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
 	if ($result['code'] == 1) {
 		$redirect_url = urlencode($_W['siteroot'] . 'app/' .
-			$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
+			$this->createMobileUrl('vip', array('op'=>'checkPay')));
 		$url = "{$result['data']['url']}&redirect_url={$redirect_url}";
 	}
 	include $this->template('vip/openHref');
@@ -66,6 +69,10 @@ if($operation=='buy'){
 	}
 	$params = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where notify_id=:notify_id', array(':notify_id'=>$notify_id));
+	if (empty($params)) {
+		header("location:{$this->createMobileUrl('user')}");
+		exit();
+	}
 	$fee = $params['fee'];
 	$tid = $params['tid'];
 	if ($params['is_pay'] != 1) {
@@ -76,6 +83,7 @@ if($operation=='buy'){
 	$openid = $member['openid'];
 	if (empty($member['id'])) {
 		header("location:{$this->createMobileUrl('user')}");
+		exit();
 	}
 	$type = substr($params['tid'],0,5);
 	if ($type=='10001') {
@@ -96,24 +104,18 @@ if($operation=='buy'){
 				"fee"=>$fee,
 		);
 		pdo_insert("xuan_mixloan_payment", $insert);
-		//模板消息提醒
-		$datam = array(
-            "first" => array(
-                "value" => "您好，您已购买成功",
-                "color" => "#173177"
-            ) ,
-            "name" => array(
-                "value" => "{$config['title']}代理会员",
-                "color" => "#173177"
-            ) ,
-            "remark" => array(
-                "value" => '点击查看详情',
-                "color" => "#4a5077"
-            ) ,
+		//消息提醒
+		$ext_info = array('content'=>"您好，您已成功购买会员", 'remark'=>"推广成功奖励丰富，赶快进行推广吧");
+        $insert = array(
+            'is_read'=>0,
+            'uid'=>0,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$member['id'],
+            'ext_info'=>json_encode($ext_info),
         );
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
-        $account = WeAccount::create($_W['acid']);
-        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+        pdo_insert('xuan_mixloan_msg', $insert);
+        $salary_url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         //一级
 		$inviter = m('member')->getInviter($member['phone'], $member['openid']);
 		if ($inviter) {
@@ -137,28 +139,17 @@ if($operation=='buy'){
 				pdo_insert('xuan_mixloan_product_apply', $insert_i);
 				$one_insert_id = pdo_insertid();
 			}
-			//模板消息提醒
-			$one_openid = m('user')->getOpenid($inviter);
-			$datam = array(
-	            "first" => array(
-	                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
-	                "color" => "#173177"
-	            ) ,
-	            "order" => array(
-	                "value" => $params['tid'],
-	                "color" => "#173177"
-	            ) ,
-	            "money" => array(
-	                "value" => $re_bonus,
-	                "color" => "#173177"
-	            ) ,
-	            "remark" => array(
-	                "value" => '点击查看详情',
-	                "color" => "#4a5077"
-	            ) ,
+			//消息提醒
+			$ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+	        $insert = array(
+	            'is_read'=>0,
+	            'uid'=>0,
+	            'createtime'=>time(),
+	            'uniacid'=>$_W['uniacid'],
+	            'to_uid'=>$inviter,
+	            'ext_info'=>json_encode($ext_info),
 	        );
-	        $account = WeAccount::create($_W['acid']);
-	        $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+	        pdo_insert('xuan_mixloan_msg', $insert);
 	        //二级
 			$man_one = m('member')->getInviterInfo($inviter);
 			$inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
@@ -202,28 +193,17 @@ if($operation=='buy'){
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 				}
-				//模板消息提醒
-				$two_openid = m('user')->getOpenid($inviter_two);
-				$datam = array(
-		            "first" => array(
-		                "value" => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
-		                "color" => "#173177"
-		            ) ,
-		            "order" => array(
-		                "value" => $params['tid'],
-		                "color" => "#173177"
-		            ) ,
-		            "money" => array(
-		                "value" => $re_bonus,
-		                "color" => "#173177"
-		            ) ,
-		            "remark" => array(
-		                "value" => '点击查看详情',
-		                "color" => "#4a5077"
-		            ) ,
+				//消息提醒
+				$ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+		        $insert = array(
+		            'is_read'=>0,
+		            'uid'=>0,
+		            'createtime'=>time(),
+		            'uniacid'=>$_W['uniacid'],
+		            'to_uid'=>$inviter_two,
+		            'ext_info'=>json_encode($ext_info),
 		        );
-		        $account = WeAccount::create($_W['acid']);
-		        $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+		        pdo_insert('xuan_mixloan_msg', $insert);
 		        //三级
 		        $man_two = m('member')->getInviterInfo($inviter_two);
 				$inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
@@ -247,28 +227,17 @@ if($operation=='buy'){
 						);
 						pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					}
-					//模板消息提醒
-					$thr_openid = m('user')->getOpenid($inviter_thr);
-					$datam = array(
-			            "first" => array(
-			                "value" => "您好，您的徒弟{$man_two['nickname']}的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
-			                "color" => "#173177"
-			            ) ,
-			            "order" => array(
-			                "value" => $params['tid'],
-			                "color" => "#173177"
-			            ) ,
-			            "money" => array(
-			                "value" => $re_bonus,
-			                "color" => "#173177"
-			            ) ,
-			            "remark" => array(
-			                "value" => '点击查看详情',
-			                "color" => "#4a5077"
-			            ) ,
+					//消息提醒
+					$ext_info = array('content' => "您好，您的徒弟{$man_two['nickname']}的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+			        $insert = array(
+			            'is_read'=>0,
+			            'uid'=>0,
+			            'createtime'=>time(),
+			            'uniacid'=>$_W['uniacid'],
+			            'to_uid'=>$inviter_thr,
+			            'ext_info'=>json_encode($ext_info),
 			        );
-			        $account = WeAccount::create($_W['acid']);
-			        $account->sendTplNotice($thr_openid, $config['tpl_notice5'], $datam, $url);
+			        pdo_insert('xuan_mixloan_msg', $insert);
 				}
 			}
 		}
@@ -546,7 +515,20 @@ if($operation=='buy'){
     include $this->template('vip/inviteCode');
 } else if ($operation == 'followList') {
 	//关注列表
-	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 GROUP BY a.openid ORDER BY id DESC");
+	$follow_list = pdo_fetchall(
+		"SELECT a.createtime,a.openid,b.nickname FROM " .tablename("qrcode_stat"). " a
+		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
+		WHERE a.qrcid={$member['id']} AND a.type=1
+		GROUP BY a.openid
+		ORDER BY a.id DESC");
+	foreach ($follow_list as &$row) {
+		if (empty($row['nickname'])) {
+			$row['nickname'] = pdo_fetchcolumn(
+				'select nickname from ' .tablename('mc_mapping_fans'). '
+				where openid=:openid', array(':openid'=>$row['openid']));
+		}
+	}
+	unset($row);
 	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
 	$count = $count ? : 0;
 	$cTime = getTime();

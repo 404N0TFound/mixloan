@@ -1,9 +1,8 @@
 <?php
+
 defined('IN_IA') or exit('Access Denied');
-class Xuan_mixloan_Member
-{
-    public function getInfo($openid = '')
-    {
+class Xuan_mixloan_Member {
+    public function getInfo($openid = '') {
         global $_W;
         $uid = intval($openid);
         if ($uid == 0) {
@@ -19,8 +18,8 @@ class Xuan_mixloan_Member
         }
         if (!empty($info['uid'])) {
             load()->model('mc');
-            $uid                = mc_openid2uid($info['openid']);
-            $fans               = mc_fetch($uid, array(
+            $uid = mc_openid2uid($info['openid']);
+            $fans = mc_fetch($uid, array(
                 'credit1',
                 'credit2',
                 'birthyear',
@@ -32,18 +31,18 @@ class Xuan_mixloan_Member
                 'residecity',
                 'nickname'
             ));
-            $info['credit1']    = $fans['credit1'];
-            $info['credit2']    = $fans['credit2'];
-            $info['birthyear']  = empty($info['birthyear']) ? $fans['birthyear'] : $info['birthyear'];
+            $info['credit1'] = $fans['credit1'];
+            $info['credit2'] = $fans['credit2'];
+            $info['birthyear'] = empty($info['birthyear']) ? $fans['birthyear'] : $info['birthyear'];
             $info['birthmonth'] = empty($info['birthmonth']) ? $fans['birthmonth'] : $info['birthmonth'];
-            $info['birthday']   = empty($info['birthday']) ? $fans['birthday'] : $info['birthday'];
-            $info['nickname']   = empty($info['nickname']) ? $fans['nickname'] : $info['nickname'];
-            $info['gender']     = empty($info['gender']) ? $fans['gender'] : $info['gender'];
-            $info['sex']        = $info['gender'];
-            $info['avatar']     = empty($info['avatar']) ? $fans['avatar'] : $info['avatar'];
+            $info['birthday'] = empty($info['birthday']) ? $fans['birthday'] : $info['birthday'];
+            $info['nickname'] = empty($info['nickname']) ? $fans['nickname'] : $info['nickname'];
+            $info['gender'] = empty($info['gender']) ? $fans['gender'] : $info['gender'];
+            $info['sex'] = $info['gender'];
+            $info['avatar'] = empty($info['avatar']) ? $fans['avatar'] : $info['avatar'];
             $info['headimgurl'] = $info['avatar'];
-            $info['province']   = empty($info['province']) ? $fans['resideprovince'] : $info['province'];
-            $info['city']       = empty($info['city']) ? $fans['residecity'] : $info['city'];
+            $info['province'] = empty($info['province']) ? $fans['resideprovince'] : $info['province'];
+            $info['city'] = empty($info['city']) ? $fans['residecity'] : $info['city'];
         }
         if (!empty($info['birthyear']) && !empty($info['birthmonth']) && !empty($info['birthday'])) {
             $info['birthday'] = $info['birthyear'] . '-' . (strlen($info['birthmonth']) <= 1 ? '0' . $info['birthmonth'] : $info['birthmonth']) . '-' . (strlen($info['birthday']) <= 1 ? '0' . $info['birthday'] : $info['birthday']);
@@ -53,8 +52,7 @@ class Xuan_mixloan_Member
         }
         return $info;
     }
-    public function getMember($openid = '', $unionid = '')
-    {
+    public function getMember($openid = '', $unionid = '') {
         global $_W;
         $uid = intval($openid);
         if (empty($uid) || strlen($openid) == 32) {
@@ -76,27 +74,24 @@ class Xuan_mixloan_Member
         }
         return $info;
     }
-    public function getMid()
-    {
+    public function getMid() {
         global $_W;
         $openid = m('user')->getOpenid();
         $member = $this->getMember($openid);
         return $member['id'];
     }
-    public function getMobile()
-    {
+    public function getMobile() {
         global $_W;
         $openid = m('user')->getOpenid();
         $member = $this->getMember($openid);
         return $member['mobile'];
     }
-    public function setCredit($openid = '', $credittype = 'credit1', $credits = 0, $log = array())
-    {
+    public function setCredit($openid = '', $credittype = 'credit1', $credits = 0, $log = array()) {
         global $_W;
         load()->model('mc');
         $uid = mc_openid2uid($openid);
         if (!empty($uid)) {
-            $value     = pdo_fetchcolumn("SELECT {$credittype} FROM " . tablename('mc_members') . " WHERE `uid` = :uid", array(
+            $value = pdo_fetchcolumn("SELECT {$credittype} FROM " . tablename('mc_members') . " WHERE `uid` = :uid", array(
                 ':uid' => $uid
             ));
             $newcredit = $credits + $value;
@@ -105,7 +100,7 @@ class Xuan_mixloan_Member
             }
             pdo_update('mc_members', array(
                 $credittype => $newcredit
-            ), array(
+            ) , array(
                 'uid' => $uid
             ));
             if (empty($log) || !is_array($log)) {
@@ -120,12 +115,12 @@ class Xuan_mixloan_Member
                 'uniacid' => $_W['uniacid'],
                 'num' => $credits,
                 'createtime' => TIMESTAMP,
-                'operator' => intval($log[0]),
+                'operator' => intval($log[0]) ,
                 'remark' => $log[1]
             );
             pdo_insert('mc_credits_record', $data);
         } else {
-            $value     = pdo_fetchcolumn("SELECT {$credittype} FROM " . tablename('xuan_mixloan_member') . " WHERE  uniacid=:uniacid and openid=:openid limit 1", array(
+            $value = pdo_fetchcolumn("SELECT {$credittype} FROM " . tablename('xuan_mixloan_member') . " WHERE  uniacid=:uniacid and openid=:openid limit 1", array(
                 ':uniacid' => $_W['uniacid'],
                 ':openid' => $openid
             ));
@@ -135,14 +130,13 @@ class Xuan_mixloan_Member
             }
             pdo_update('xuan_mixloan_member', array(
                 $credittype => $newcredit
-            ), array(
+            ) , array(
                 'uniacid' => $_W['uniacid'],
                 'openid' => $openid
             ));
         }
     }
-    public function getCredit($openid = '', $credittype = 'credit1')
-    {
+    public function getCredit($openid = '', $credittype = 'credit1') {
         global $_W;
         load()->model('mc');
         $uid = mc_openid2uid($openid);
@@ -157,8 +151,7 @@ class Xuan_mixloan_Member
             ));
         }
     }
-    public function checkMember($openid = '')
-    {
+    public function checkMember($openid = '') {
         global $_W, $_GPC;
         if (strexists($_SERVER['REQUEST_URI'], '/web/')) {
             return;
@@ -180,11 +173,11 @@ class Xuan_mixloan_Member
             return;
         }
         $wx = WeAccount::create();
-        $member   = m('member')->getMember($openid);
+        $member = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);
-        $uid      = 0;
-        $mc       = array();
+        $uid = 0;
+        $mc = array();
         if (empty($member)) {
             if (is_weixin()) {
                 $tempinfo = m('user')->oauth_info();
@@ -192,7 +185,7 @@ class Xuan_mixloan_Member
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
-                $mc  = mc_fetch($uid, array(
+                $mc = mc_fetch($uid, array(
                     'realname',
                     'mobile',
                     'avatar',
@@ -210,10 +203,10 @@ class Xuan_mixloan_Member
                 'province' => !empty($mc['residecity']) ? $mc['resideprovince'] : $userinfo['province'],
                 'city' => !empty($mc['residecity']) ? $mc['residecity'] : $userinfo['city'],
                 'country' => !empty($mc['country']) ? $mc['country'] : $userinfo['country'],
-                'sex'=> !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
-                'createtime' => time(),
-                'status' => -2,
-                'unionid'=>$tempinfo['unionid']
+                'sex' => !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
+                'createtime' => time() ,
+                'status' => - 2,
+                'unionid' => $tempinfo['unionid']
             );
             pdo_insert('xuan_mixloan_member', $member);
         } else {
@@ -246,53 +239,62 @@ class Xuan_mixloan_Member
         }
     }
     /*
-    *   查看是否加入过代理
+     *   查看是否加入过代理
     */
     function checkAgent($uid) {
-        $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+        $check = pdo_fetch('SELECT id,msg FROM ' . tablename("xuan_mixloan_payment") . " WHERE uid=:uid ORDER BY id DESC", array(
+            ':uid' => $uid
+        ));
         if ($check) {
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            return ['code' => '1', 'name' => '代理', 'msg' => $check['msg'], 'id' => $check['id']];
         } else {
-            return ['code'=>'0','name'=>'用户'];
+            return ['code' => '0', 'name' => '用户'];
         }
     }
-
     /*
-    *   获取总提现的钱
+     *   获取总提现的钱
     */
-    public function sumWithdraw($uid){
-        $bonus = pdo_fetchcolumn('SELECT SUM(bonus) FROM '.tablename('xuan_mixloan_withdraw').' where uid=:uid', array(':uid'=>$uid));
+    public function sumWithdraw($uid) {
+        $bonus = pdo_fetchcolumn('SELECT SUM(bonus) FROM ' . tablename('xuan_mixloan_withdraw') . ' where uid=:uid', array(
+            ':uid' => $uid
+        ));
         return $bonus ? : 0;
     }
-
     /**
-    *   获取邀请
-    **/
-    public function getInviter($phone, $openid="") {
+     *   获取邀请
+     *
+     */
+    public function getInviter($phone, $openid = "") {
         global $_W;
         $res = false;
         if (!$res && $openid) {
-            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id ASC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+            $res = pdo_fetchcolumn("SELECT `qrcid` FROM " . tablename("qrcode_stat") . " WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id ASC", array(
+                ":openid" => $openid,
+                ":uniacid" => $_W["uniacid"]
+            ));
         }
         if (!$res && $phone) {
-            $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
+            $res = pdo_fetchcolumn("SELECT uid FROM " . tablename("xuan_mixloan_inviter") . " WHERE phone=:phone", array(
+                ":phone" => $phone
+            ));
         }
         return $res;
     }
-
     /**
-    *   获取用户手机号
-    **/
+     *   获取用户手机号
+     *
+     */
     public function getInviterPhone($uid) {
         if (!$uid) {
             return false;
         }
-        $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        $res = pdo_fetchcolumn("SELECT phone FROM " . tablename("xuan_mixloan_member") . " WHERE id={$uid}");
         return $res;
     }
     /**
      *   口子进来的锁定上级
-     **/
+     *
+     */
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
         $openid = trim($openid);
@@ -300,40 +302,50 @@ class Xuan_mixloan_Member
         if (empty($openid) || empty($inviter)) {
             return false;
         }
-        $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
-            where openid=:openid', array(':openid'=>$openid));
+        $id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_member') . '
+            where openid=:openid', array(
+            ':openid' => $openid
+        ));
         if ($id == $inviter) {
             return false;
         }
-        $res = pdo_fetchcolumn("SELECT count(*) FROM " .tablename("qrcode_stat"). "
-            WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        $res = pdo_fetchcolumn("SELECT count(*) FROM " . tablename("qrcode_stat") . "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1", array(
+            ":openid" => $openid,
+            ":uniacid" => $_W["uniacid"]
+        ));
         if (!$res) {
-            $insert =array(
-                'uniacid'=>$_W['uniacid'],
-                'acid'=>0,
-                'qid'=>0,
-                'openid'=>$openid,
-                'type'=>1,
-                'qrcid'=>$inviter,
-                'scene_str'=>$inviter,
-                'createtime'=>time(),
+            $insert = array(
+                'uniacid' => $_W['uniacid'],
+                'acid' => 0,
+                'qid' => 0,
+                'openid' => $openid,
+                'type' => 1,
+                'qrcid' => $inviter,
+                'scene_str' => $inviter,
+                'createtime' => time() ,
             );
             pdo_insert('qrcode_stat', $insert);
+            return true;
+        } else {
+            return false;
         }
     }
     /**
-    *   获取用户手机号和openid
-    **/
+     *   获取用户手机号和openid
+     *
+     */
     public function getInviterInfo($uid) {
         if (!$uid) {
             return false;
         }
-        $res = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        $res = pdo_fetch("SELECT phone,openid,nickname FROM " . tablename("xuan_mixloan_member") . " WHERE id={$uid}");
         return $res;
     }
     /**
      *   检查uid的上下三级是否和inviter存在关系
-     **/
+     *
+     */
     public function checkIfRelation($inviter, $uid) {
         if (empty($inviter) || empty($uid)) {
             return flase;
@@ -391,14 +403,17 @@ class Xuan_mixloan_Member
         return false;
     }
     /*
-    *   查看是否加入过合伙人
+     *   查看是否加入过合伙人
     */
     function checkPartner($uid) {
-        $check = pdo_fetch('SELECT id FROM '.tablename("xuan_mixloan_partner")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+        $check = pdo_fetch('SELECT id FROM ' . tablename("xuan_mixloan_partner") . " WHERE uid=:uid ORDER BY id DESC", array(
+            ':uid' => $uid
+        ));
         if ($check) {
-            return ['code'=>'1','name'=>'合伙人', 'id'=>$check['id']];
+            return ['code' => '1', 'name' => '合伙人', 'id' => $check['id']];
         } else {
-            return ['code'=>'0','name'=>'用户'];
+            return ['code' => '0', 'name' => '用户'];
         }
     }
 }
+
