@@ -33,9 +33,9 @@ if($operation=='buy'){
 	$this->pay($params);
 	exit;
 } else if ($operation == 'createPost') {
-	if ($agent['code'] != 1) {
-	    show_json(-1, [], '您不是会员');
-	}
+	// if ($agent['code'] != 1) {
+	//     show_json(-1, [], '您不是会员');
+	// }
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
 		$id = intval($_GPC['id']);
@@ -80,7 +80,7 @@ if($operation=='buy'){
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
-		$verify = 0;
+		$verify = 1;
 	}
 	$pids = pdo_fetchall("SELECT pid FROM ".tablename("xuan_mixloan_poster")." WHERE uid=:uid", array(":uid"=>$member['id']));
 	if ($pids) {
@@ -103,7 +103,7 @@ if($operation=='buy'){
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
-		$verify = 0;
+		$verify = 1;
 	}
 	$bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
@@ -201,9 +201,9 @@ if($operation=='buy'){
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
-	if ($agent['code'] != 1) {
-	    message('您不是会员', '', 'error');
-	}
+	// if ($agent['code'] != 1) {
+	//     message('您不是会员', '', 'error');
+	// }
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
 		$wx = WeAccount::create();

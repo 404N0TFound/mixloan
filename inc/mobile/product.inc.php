@@ -30,7 +30,7 @@ if($operation=='index'){
     if ($agent['code']==1) {
         $verify = 1;
     } else {
-        $verify = 0;
+        $verify = 1;
     }
     $id = intval($_GPC['id']);
     $info = m('product')->getList([],['id'=>$id])[$id];
