@@ -271,7 +271,7 @@ if ($operation == 'list') {
     //群发消息
     if ($_GPC['post']) {
         $insert = array();
-        $members = pdo_fetchall('select id from ' .tablename('xuan_mixloan_member'). ' where uniacid=:uniacid LIMIT 10', array(':uniacid' => $_W['uniacid']));
+        $members = pdo_fetchall('select id from ' .tablename('xuan_mixloan_member'). ' where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
         foreach ($members as $member) {
             $ext_info = array('content' => trim($_GPC['content']), 'remark' => trim($_GPC['remark']), 'url' => trim($_GPC['url']));
             $temp = array(
