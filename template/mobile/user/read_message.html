@@ -105,10 +105,14 @@
             mui.openWindow({url:url});
         }
         function return_back(){
-            var url = '{php echo $this->createMobileUrl('user', array('op'=>'message_type'))}';
-            var message_type = plus.webview.getWebviewById('message_type');
-            mui.fire(message_type,'refresh');
-            mui.openWindow({url:url, id:'message_type'});
+           mui.init({
+                beforeback: function(){
+                    var message = plus.webview.getWebviewById('message');
+                    mui.fire(message,'refresh');
+                    return true;
+                }
+            });
+            mui.back();
         }
     </script>
     {if !is_weixin()}

@@ -233,7 +233,8 @@ if($operation=='buy'){
 					$ext_info = array('content' => "您好，您的徒弟{$man_two['nickname']}的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
 			        $insert = array(
 			            'is_read'=>0,
-			            'uid'=>0,
+			            'uid'=>$member['id'],
+			            'type'=>2,
 			            'createtime'=>time(),
 			            'uniacid'=>$_W['uniacid'],
 			            'to_uid'=>$inviter_thr,
@@ -373,7 +374,7 @@ if($operation=='buy'){
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}
 	unset($row);
-	$accounts_list = pdo_fetchall("SELECT a.id,a.bonus,a.createtime,b.banknum,b.bankname FROM ".tablename("xuan_mixloan_withdraw")." a LEFT JOIN ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id WHERE a.uid={$member['id']} ORDER BY id DESC");
+	$accounts_list = pdo_fetchall("SELECT a.id,a.bonus,a.createtime,a.bank_id,b.banknum,b.bankname FROM ".tablename("xuan_mixloan_withdraw")." a LEFT JOIN ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id WHERE a.uid={$member['id']} ORDER BY id DESC");
 	foreach ($accounts_list as &$row) {
 		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
 		$row['year'] = date('m-d', $row['createtime']);

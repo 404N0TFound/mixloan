@@ -46,10 +46,14 @@
     {if !is_weixin()}
     <script type="text/javascript">
         function return_back(){
-            var url = '{php echo $this->createMobileUrl('user', array('op'=>'message_type'))}';
-            var message_type = plus.webview.getWebviewById('message_type');
-            mui.fire(message_type,'refresh');
-            mui.openWindow({url:url, id:'message_type'});
+           mui.init({
+                beforeback: function(){
+                    var message_type = plus.webview.getWebviewById('message_type');
+                    mui.fire(message_type,'refresh');
+                    return true;
+                }
+            });
+            mui.back();
         }
         function read_msg(id){
             var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message'));}&id=" + id;
@@ -57,11 +61,14 @@
         }
     </script>
     <style type="text/css">
-        .app_header{height: 80px;width: 100%;background: #00a2ff}
-        .app_header_back{text-align: center;color: white}
+        .app_header{height: 80px;width: 100%;background: white;}
+        .app_header_back{text-align: center;color: #666}
         .app_header_back{padding-top: 48px;padding-left: 4%}
         .app_header_back img{position: absolute;left:4%;width: 12px;}
         .app_header_back span{margin-top: 10px;font-size: 17px}
+        .main-header ul{height: 2.4rem;}
+        .main-header li{width: 50%; text-align: center;float: left;padding: 0.5rem 0;}
+        .main-header .active {border-bottom: #00a2ff 3px solid;}
     </style>
     <div class="app_header">
         <div class="app_header_back">
@@ -70,7 +77,13 @@
         </div>
     </div>
     {/if}
-    <div class="agent-main rem2" style="margin-top: 0.5rem">
+    <div class="agent-main rem2">
+        <div class="main-header">
+            <ul>
+                <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'is_read'=>$is_read))}')">系统消息</a></li>
+                <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'is_read'=>$is_read))}')">个人消息</a></li>
+            </ul>
+        </div>
         <div class="main-contain">
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
                 <ul class="clearfix">
