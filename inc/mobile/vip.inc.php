@@ -36,17 +36,9 @@ if($operation=='buy'){
         //调用pay方法
         $this->pay($params);
     } else {
-        if ($member['id'] == '18') {
-            $config['buy_vip_price'] = 0.01;
-        } else {
-            message('系统维护中', '', 'error');
-        }
         $notify_url = 'http://juxinwangluo.xin/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-        if ($member['id'] == '10622') {
-            $config['buy_vip_price'] = 0.1;
-        }
         if (empty($record)) {
             $tid = "10001" . date('YmdHis', time());
             $trade_no = "ZML".date("YmdHis");
@@ -450,6 +442,10 @@ if($operation=='buy'){
     $list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} AND a.pid=0 ORDER BY a.degree ASC");
     $brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
     include $this->template('vip/degreeDetail');
+} else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 } else if ($operation == 'createPoster') {
     //生成邀请二维码
     $uid = intval($_GPC['uid']) ? : $member['id'];
@@ -475,7 +471,7 @@ if($operation=='buy'){
 	            $res = $wx->barCodeCreateDisposable($barcode);
 	            $url = $res['url'];
             } else {
-            	$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('inviter'=>$member['id']));
+            	$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register','inviter'=>$member['id']));
             }
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");

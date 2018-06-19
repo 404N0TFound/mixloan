@@ -88,12 +88,12 @@ class Xuan_mixloan_Pay
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://juxinwangluo.xin","wap_name": "指点官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://juxinwangluo.xin","wap_name": "代客吧官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
         $result = $this->curl($this->H5pay_url, $params, true);
-        if ($result['result_code'] != "FAIL") {
+        if ($result['return_code'] == "SUCCESS") {
             $data = array(
                 "url"=>$result['mweb_url']
             );

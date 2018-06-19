@@ -84,6 +84,10 @@
                             <input type="number" name="smsCode" id="smsCode" placeholder="请输入您的验证码" />
                             <a id="sendMess" href="javascript:void(0);">获取验证码</a>
                         </div>
+                        <div class="regBindCommon regBindPhone">
+                            <label><img src="../addons/xuan_mixloan/template/style/images/publish_l_2.png"></label>
+                            <input type="text" name="pass"  id="pass" placeholder="请输入您的密码" />
+                        </div>
                     </div>
                     <img id="to_regist" src="../addons/xuan_mixloan/template/style/picture/regorder.png">
                 </div>
@@ -91,45 +95,32 @@
             <!-- 老代理 -->
             <div class="regInfoCommon regDaili" style="display: none;">
                 <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
-                <a id="downloadApp" href="{php echo $this->createMobileUrl('user')}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
-            </div>
-            <!-- i代用户提交过申请 -->
-            <div class="regInfoCommon userReSubmit" style="display: none;">
-                <img src="../addons/xuan_mixloan/template/style/picture/103.png">
-                <a id="downloadApp" href="{php echo $this->createMobileUrl('user')}" ><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+                <a id="downloadApp" href="https://fir.im/9hju" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" href="https://fir.im/l6qu"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
             <!-- i代用户第一次申请 -->
             <div class="regInfoCommon userFirstSubmit" style="display: none;">
-                <img src="../addons/xuan_mixloan/template/style/picture/104.png">
-                <a id="downloadApp" href="{php echo $this->createMobileUrl('user')}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
-            </div>
-            <!-- 非i代用户提交过申请 -->
-            <div class="regInfoCommon unuserReSubmit" style="display: none;">
-                <img src="../addons/xuan_mixloan/template/style/picture/105.png">
-                <a id="downloadApp" href="{php echo $this->createMobileUrl('user')}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
-            </div>
-            <!-- 非i代用户第一次申请 -->
-            <div class="regInfoCommon unuserFirstSubmit" style="display: none;">
-                <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
-                <a id="downloadApp" href="{php echo $this->createMobileUrl('user')}"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_meitu_3.jpg"></a>
+                <img src="../addons/xuan_mixloan/template/style/picture/104_meitu_1.png">
+                <a id="downloadApp" href="https://fir.im/9hju?release_id=5b23b571ca87a82967bc671a" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" href="https://www.pgyer.com/N3bf"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
         </div>
-        <div class="intro_common progress">
-            <img src="../addons/xuan_mixloan/template/style/picture/intro2-1.png" />
-            <div class="prog_main">
-                <p>最高奖励：<span><em>0</em>%</span></p>
-                <div class="prog_ani">
-                    <div class="progress-out" id="progress">
-                        <div class="percent-show"><label>%</label><em></em><span>0</span></div>
-                        <div class="progress-in"></div>
-                    </div>
-                </div>
+        <!-- <div class="intro_common progress">
+          <img src="../addons/xuan_mixloan/template/style/picture/intro2-1.png" />
+          <div class="prog_main">
+            <p>最高奖励：<span><em>0</em>%</span></p>
+            <div class="prog_ani">
+              <div class="progress-out" id="progress">
+                  <div class="percent-show"><label>%</label><em></em><span>0</span></div>
+                  <div class="progress-in"></div>
+              </div>
             </div>
-        </div>
-        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro1-1.png" /></div>
-        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro3-1.png" /></div>
+          </div>
+        </div>  -->
+        <!--  <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro1-1.png" /></div>
+         <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro3-1.png" /></div>   -->
         <!-- <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro4.png" /></div> -->
-        <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro5-1.png" /></div>
+        <!-- <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro5-1.png" /></div> -->
         <div class="btm_state"><p><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}用户注册协议》</a></p></div>
     </div>
 </div>
@@ -206,6 +197,7 @@
         $("#to_regist").unbind('click');
         var phone=$("#phone").val();
         var smsCode=$.trim($("#smsCode").val());
+        var pass=$.trim($("#pass").val());
         if(phone=='' || phone=="请输入您的手机号"){
             document.getElementById('phone').focus();
             layer.tips('请输入手机号码', '#phone', {
@@ -234,12 +226,22 @@
             click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter'=>$_GPC['inviter']))}",{"phone":phone,"smsCode":smsCode},
+        if(pass==""){
+            document.getElementById('pass').focus();
+            layer.tips('请输入密码', '#pass', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            click();
+            return false;
+        }
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter'=>$_GPC['inviter']))}",{"phone":phone,"smsCode":smsCode, "pwd":pass},
             function(res){
                 if(res.code==1){
-                    window.location.href="{php echo $this->createMobileUrl('user')}"
+                    $("div.regInfoCommon").hide();
+                    $('div.userFirstSubmit').show();
                 }else{
-                    layer.msg(res.message);
+                    layer.msg(res.msg);
                     click();
                     return false;
                 }
@@ -321,31 +323,8 @@
             $("#sendMess").html(curCount+"s");
         }
     }
-    // 下载App
-    function downloadApp(){
-        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-            // alert("iPhone系统");
-            window.location.href = "https://itunes.apple.com/cn/app/id1342466690?mt=8";
-        } else if (/(Android)/i.test(navigator.userAgent)) {
-            // android系统
-            window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.cl.idaike";
-        } else {
-            var isMac = function() { return /macintosh|mac os x/i.test(navigator.userAgent); }();
-            var isWindows = function() { return /windows|Window/i.test(navigator.userAgent); }();
-            if(isMac){
-                // mac系统
-                window.location.href ="https://itunes.apple.com/cn/app/id1342466690?mt=8";
-            }else{
-                // windows系统
-                window.location.href ="http://a.app.qq.com/o/simple.jsp?pkgname=com.cl.idaike";
-            }
-        };
-    }
 
-    // 防止点击图片放大
-    $('img').click(function(e){
-        // e.preventDefault();
-    })
+
 </script>
 
 
