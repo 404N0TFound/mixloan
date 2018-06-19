@@ -3,36 +3,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta  content="e-mail=no" name="format-detection"/>
-    <title>绑定银行卡</title>
-    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent.js"></script>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>消息中心</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
     <style type="text/css">
-        @font-face {font-family:'zcCjt'; src: url("/Public/Wap/idai/new_font/zccjt.ttf");}
-        @font-face {font-family:'zcXjt'; src: url("/Public/Wap/idai/new_font/zcxjt.ttf");}
-        @font-face {font-family:'Helvetica'; src: url("/Public/Wap/idai/new_font/Helvetica.ttf");}
-        *{font-family: "Helvetica"!important;}
-        .bglightgray{background-color: #eff0f2;}
-        /*div.agent-header a,div.bc_common ul li input{font-family: zcCjt;}*/
-        .loanbtn{margin-bottom: 20px!important;padding-bottom: 20px!important;}
-        .loanbtn a{margin-top:50px!important;}
+        /*x兼容性*/
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.agent-secmes .mes-list li dl dd{width: 63%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+        div.agent-foot p>img {
+            width:1.1rem;
+        }
+        div.agent-secmes .logo{margin-top: 0.5rem}
     </style>
 
     {template 'common/wxshare'}
 </head>
-<body class="bglightgray">
+<body class="bglightgray" style="background: white">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -40,467 +44,67 @@
     }
 </script>
 {if !is_weixin()}
+<script type="text/javascript">
+    function return_back(){
+        mui.init({
+            beforeback: function(){
+                var message_type = plus.webview.getWebviewById('message_type');
+                mui.fire(message_type,'refresh');
+                return true;
+            }
+        });
+        mui.back();
+    }
+    function read_msg(id){
+        var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message'));}&id=" + id;
+        mui.openWindow({url:url});
+    }
+</script>
 <style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #eff0f2}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    .app_header{height: 80px;width: 100%;background: white;}
+    .app_header_back{text-align: center;color: #666}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+    .main-header ul{height: 2.4rem;}
+    .main-header li{width: 50%; text-align: center;float: left;padding: 0.5rem 0;background: white}
+    .main-header .active {border-bottom: #00a2ff 3px solid; }
+    .main-header .active a {color: #00a2ff}
 </style>
 <div class="app_header">
     <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
-        <span>绑定银行卡</span>
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="return_back()">
+        <span>消息中心</span>
     </div>
 </div>
 {/if}
-<!-- <div class="agent-header">
-    绑定银行卡
-    <a class="return" href="javascript:history.go(-1);">返回</a>
-</div> -->
+<div class="agent-main rem2">
+    <div class="main-header">
+        <ul>
+            <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'isread'=>$is_read))}')">系统消息</a></li>
+            <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'isread'=>$is_read))}')">个人消息</a></li>
+        </ul>
+    </div>
+    <div class="main-contain">
+        <div class="agent_contain" style="position: relative;top:-0.4rem;">
+            <ul class="clearfix">
+                {loop $list $row}
+                <li class="new_guide">
+                    <a onclick="read_msg('{$row['id']}')">
+                        <img src="{$row['avatar']}" />
+                        {$row['nickname']}
+                        <em>{php echo date('Y-m-d H:i', $row['createtime'])} &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div style="height: 3rem"></div>
+    </div>
+</div>
 
-<div class="agent-main pt44" style="padding-top: 0;">
-    <div class="bc_main">
-        <h2>请输入您的身份信息</h2>
-        <div class="bc_common">
-            <ul>
-                <li><span>真实姓名</span><input type="text"  id="user_name" name="user_name" placeholder="请输入持卡人姓名" /></li>
-                <li><span>身份证号</span><input type="text" id="id_card" name="id_card" placeholder="请输入持卡人身份证号" /></li>
-            </ul>
-        </div>
-        <h2>请输入您的银行卡信息</h2>
-        <div class="bc_common">
-            <ul>
-                <li><span>银行卡号</span><input type="number" id="bank_num" name="bank_num" placeholder="请输入提现卡卡号" /></li>
-                <li><span>所属银行</span><input type="text" id="bank_name" name="bank_name" readonly="readonly" value="开卡行" /></li>
-                <li><span>手机号</span><input type="number" name="phone" id="phone" placeholder="请输入银行绑定的手机号" /></li>
-            </ul>
-        </div>
-        <a href="javascript:;" id="bind_card">立即绑定</a>
-    </div>
-</div>
-<div class="pop_common binding">
-    <div class='floor'></div>
-    <div class='withdrawing_contain'>
-        <img src="../addons/xuan_mixloan/template/style/picture/hb_withdrawing.png" />
-        <p>绑卡中</p>
-    </div>
-</div>
-</body>
 <script>
-    var bankFlag;
-    $(document).ready(function(){
-        function GetQueryString(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        };
-
-        bankFlag = GetQueryString("bankFlag");
-    })
-
-    //返回
-    $(".return").click(function(){
-        if(bankFlag=="hongbao"){
-            var _url="/Wap/idai/tixian.html";
-            location.href=_url;
-        }else if(bankFlag=="gongzi"){
-            var _url="/Wap/daili/backstage.html?paid=1";
-            location.href=_url;
-        }
-    })
-    //开卡行自动识别
-    $("#bank_num").blur(function(){
-        var cardNo=$("#bank_num").val();
-        if(cardNo!=""){
-            $.post('{php echo $this->createMobileUrl('user', array('op'=>'checkBank'))}',{'cardNo':cardNo},
-                function(data){
-                    if(data.code== 1){
-                        $("#bank_name").val(data.data.bankname);
-                    }
-                },'json')
-        }else{
-            $("#bank_name").val("开卡行");
-        }
-    })
-    //开卡行禁止获取焦点
-    $("#bank_name").focus(function(){
-        $(this).blur();
-    })
-    //绑卡
-    var _this;
-    $("#bind_card").click(function(){
-        regSubmit();
-    })
-    function regSubmit() {
-        $("#bind_card").css({"color":"rgba(0,0,0,0.4)","background-color":"rgba(0,0,0,0.2)","box-shadow":"0 3px 20px rgba(0,0,0,0.2)"});
-        $("#bind_card").unbind("click");
-        //提现中
-        $(".binding").show();
-        layer_style();
-
-        var user_name=$("input[name='user_name']").val();
-        var id_card=$("input[name='id_card']").val();
-        var bank_num=$("input[name='bank_num']").val();
-        // var bank_open_name=$("input[name='bank_open_name']").val();
-        var phone=$("input[name='phone']").val();
-
-        if (user_name == '请输入持卡人姓名' || user_name == '') {
-            document.getElementById('user_name').focus();
-
-            layer.tips('请输入持卡人姓名', '#user_name', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-        }
-        if (id_card == '请输入持卡人身份证' || id_card == '') {
-            document.getElementById('id_card').focus();
-
-            layer.tips('请输入持卡人身份证', '#id_card', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-        }
-        if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(id_card))) {
-
-            document.getElementById('id_card').focus();
-
-            layer.tips('请填写正确身份证号', '#id_card', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-
-        }
-        if (bank_num == '请输入提现卡卡号' || bank_num == '') {
-            document.getElementById('bank_num').focus();
-
-            layer.tips('请输入提现卡卡号', '#bank_num', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-        }
-
-        if (phone == '请输入银行预留手机号' || phone == '') {
-            document.getElementById('phone').focus();
-
-            layer.tips('请输入银行预留手机号', '#phone', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-        }
-        if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
-            document.getElementById('phone').focus();
-
-            layer.tips('请输入正确的手机号', '#phone', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            _click();
-            return false;
-        }
-        if($("#bank_name").val()=="开卡行"){
-            layer.msg("银行卡号不能识别");
-            _click();
-            return false;
-        }
-
-        //银行卡验证
-        $.post('{php echo $this->createMobileUrl('user', array('op'=>'bind_card_submit'))}',{'user_name':user_name,'id_card':id_card,'bank_num':bank_num,'phone':phone, 'bank_name':$("#bank_name").val()},
-            function(data){
-                if(data.code== 1){
-                    window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}"
-                }else{
-                    layer.msg(data.msg);
-                    _click();
-                    return false;
-                }
-            },'json')
-        function _click(){
-            $(".binding").hide();
-            $("#bind_card").css({"color":"#fff","background-color":"#0084ff","box-shadow":"0 3px 20px #0084ff"});
-            $("#bind_card").bind("click",function(){
-                regSubmit();
-            });
-        }
-
-    }
-    //绑卡中弹窗样式    
-    function layer_style(){
-        var window_height=$(window).height();
-        var window_width=$(window).width();
-        $(".pop").width(window_width);
-        $(".pop").height(window_height);
-        $(".pop_common").width(window_width);
-        $(".pop_common").height(window_height);
-    }
-
-    function getCheck() {
-
-        var flagsms = true;
-
-        var Recommended = '13728361286';
-
-        //启动计时器，1秒执行一次
-
-        if (flagsms) {
-
-            var phone = $("#phone").val();
-
-            var reg = /^(1)\d{10}$/;
-
-            if (!reg.test(phone)) {
-
-                layer.tips('请填写手机号', '#phone', {
-
-                    tips: [1, '#3595CC'],
-
-                    time: 4000
-
-                });
-
-                flagsms = true;
-
-            }
-
-            else {
-
-                curCount = 60;
-
-                InterValObj = window.setInterval(SetRemainTime, 1000);
-
-                flagsms = false;
-
-
-
-
-
-                var ajax = {};
-
-                ajax.data = {};
-
-                ajax.data.cls = "SendSms";
-
-                ajax.data.fun = "RegisteredSmsCode";
-
-                ajax.data.Phone = $('#phone').val();
-
-                ajax.data.Recommended = Recommended;
-
-
-
-                ajax.success = function (data) {
-
-                    layer.msg('发送成功！');
-
-                }
-
-
-
-                ajax.error = function (data) {
-
-                    if (data.Code == "") {
-
-                        window.clearInterval(InterValObj);
-
-                        flagsms = true;
-
-                        $("#sendMess").html("免费获取短信验证码");
-
-                        layer.msg(data.Desc);
-
-                    } else {
-
-                        ShowImgCode(data.Code.substr(5));
-
-                    }
-
-                }
-
-                ApiAjax(ajax);
-
-
-
-            }
-
-        }
-
-    }
-
-
-
-    function ShowImgCode(code_arg) {
-
-        imgUrl = checkImg($('#phone').val(), code_arg);
-
-
-
-        layer.confirm(LoadTextGroup(imgUrl), {
-
-            btn: ['提交'] //按钮
-
-        }, function () {
-
-            var ajax = {};
-
-            ajax.url = posturl;
-
-            ajax.type = "post";
-
-            ajax.data = {};
-
-            ajax.data.cls = "SendSms";
-
-            ajax.data.fun = "CheckRegisteredSmsCode";
-
-            ajax.data.Phone = $('#phone').val();
-
-            ajax.data.Code = $('#imgcode').val();
-
-            ajax.success = function (resp) {
-
-                //var resp = JSON.parse(data);
-
-
-
-                if (resp.Status == "success") {
-
-                    layer.msg('发送成功！');
-
-                } else {
-
-                    layer.msg(resp.Desc);
-
-                    window.clearInterval(InterValObj);//停止计时器
-
-                    flagsms = true;
-
-                    curCount = 60;
-
-                    $("#sendMess").html("重新发送验证码");
-
-                    code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
-
-                }
-
-
-
-                layer.closeAll();
-
-            }
-
-            $.ajax(ajax);
-
-        });
-
-    }
-
-
-
-    function randomString(len) {
-
-        len = len || 32;
-
-        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
-
-        var maxPos = $chars.length;
-
-        var pwd = '';
-
-        for (i = 0; i < len; i++) {
-
-            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
-
-        }
-
-        return pwd;
-
-    }
-
-
-
-    function LoadTextGroup(imgUrl) {
-
-        var html = '<div class="col-lg-6">';
-
-        html += '<div class="input-group">';
-
-        html += '<input id="imgcode" name="imgcode" type="text" class="form-control" placeholder="请输入验证码" width="64" />';
-
-        html += '<span class="input-group-btn">';
-
-        html += '<img src="' + imgUrl + '" />';
-
-        html += '</span>';
-
-        html += '</div>';
-
-        html += '<p>'+'确认手机正常通讯、没有设置陌生短信拦截功能，如不能正常收到验证码，请联系客服{$config['qqnum']}'+'</p>';
-
-        html += '</div>';
-
-        return html;
-
-    }
-
-
-
-    function SetRemainTime() {
-
-        if (curCount == 0) {
-
-            window.clearInterval(InterValObj);//停止计时器
-
-            flagsms = true;
-
-            curCount = 60;
-
-
-
-            $("#sendMess").html("重新发送验证码");
-
-            code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
-
-        }
-
-        else {
-
-            curCount--;
-
-            $("#sendMess").html(curCount);
-
-        }
-
-    }
-
 
 </script>
-
+</body>
 </html>
