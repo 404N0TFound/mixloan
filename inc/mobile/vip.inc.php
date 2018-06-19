@@ -257,6 +257,14 @@ if($operation=='buy'){
 } else if ($operation == 'extendList') {
     //推广成功
     $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
+    foreach ($extend_list as &$row) {
+    	if ($row['degree'] == 1) {
+    		$row['degree'] = '团队';
+    	} else if ($row['degree'] == 2) {
+    		$row['degree'] = '连队';
+    	}
+    }
+    unset($row);
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
     $count = $count ? : 0;
     $cTime = getTime();
