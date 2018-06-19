@@ -21,9 +21,16 @@
     .app_header_back img{float:left;width: 12px;}
     .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
 </style>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({
+            url:url,
+        });
+    }
+</script>
 <div class="app_header">
     <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="openNew('{php echo $this->createMobileUrl('loan')}')">
         <span>贷款中心</span>
     </div>
 </div>

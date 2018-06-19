@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg` (
   `uid` int(11) NOT NULL COMMENT '发送方，0代表系统',
   `to_uid` int(11) NOT NULL COMMENT '接受方',
   `is_read` tinyint(2) NOT NULL COMMENT '是否已读',
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1系统消息，2个人消息',
   `ext_info` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

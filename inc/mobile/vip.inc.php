@@ -143,7 +143,8 @@ if($operation=='buy'){
 			$ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
 	        $insert = array(
 	            'is_read'=>0,
-	            'uid'=>0,
+	            'uid'=>$member['id'],
+            	'type'=>2,
 	            'createtime'=>time(),
 	            'uniacid'=>$_W['uniacid'],
 	            'to_uid'=>$inviter,
@@ -197,7 +198,8 @@ if($operation=='buy'){
 				$ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
 		        $insert = array(
 		            'is_read'=>0,
-		            'uid'=>0,
+		            'uid'=>$member['id'],
+	            	'type'=>2,
 		            'createtime'=>time(),
 		            'uniacid'=>$_W['uniacid'],
 		            'to_uid'=>$inviter_two,
@@ -463,9 +465,9 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
-	// if (!$bank_id) {
-	// 	show_json(-1, null, "请选择提现银行卡");
-	// }
+	if (!$bank_id) {
+		show_json(-1, null, "请选择提现银行卡");
+	}
     $date = date('Y-m-d');
     $today = strtotime("{$date}");
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "

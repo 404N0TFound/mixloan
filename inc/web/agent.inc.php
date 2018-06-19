@@ -345,7 +345,8 @@ if ($operation == 'list') {
             $ext_info = array('content' => "你好，你的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金{$re_money}元，继续推荐产品，即可获得更多佣金奖励" . $info['name'] . "，请及时跟进。", 'remark' => "点击后台“我的账户->去提现”，立享提现快感", 'url' => $url);
             $insert = array(
                 'is_read'=>0,
-                'uid'=>0,
+                'uid'=>$item['uid'],
+                'type'=>2,
                 'createtime'=>time(),
                 'uniacid'=>$_W['uniacid'],
                 'to_uid'=>$item['inviter'],
@@ -396,7 +397,8 @@ if ($operation == 'list') {
             $ext_info = array('content' => "你好，你的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金{$count_money}元，继续推荐产品，即可获得更多佣金奖励" . $info['name'] . "，请及时跟进。", 'remark' => "点击后台“我的账户->去提现”，立享提现快感", 'url' => $url);
             $insert = array(
                 'is_read'=>0,
-                'uid'=>0,
+                'uid'=>$item['uid'],
+                'type'=>2,
                 'createtime'=>time(),
                 'uniacid'=>$_W['uniacid'],
                 'to_uid'=>$item['inviter'],
@@ -436,8 +438,8 @@ if ($operation == 'list') {
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
-            // $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
-            $pay = m('pay')->pay($member['openid'] ,$item['bonus'], $_GPC['data']['ext_info']['reason']);
+            $pay = m('pay')->payCard($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
+            // $pay = m('pay')->pay($member['openid'] ,$item['bonus'], $_GPC['data']['ext_info']['reason']);
             if ($pay['code'] == -1) {
                 message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
             } else {
@@ -508,7 +510,8 @@ if ($operation == 'list') {
                     $ext_info = array('content' => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金{$update['re_bonus']}元，继续推荐产品，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
                     $insert = array(
                         'is_read'=>0,
-                        'uid'=>0,
+                        'uid'=>$item['uid'],
+                        'type'=>2,
                         'createtime'=>time(),
                         'uniacid'=>$_W['uniacid'],
                         'to_uid'=>$inviter,
@@ -559,7 +562,8 @@ if ($operation == 'list') {
                     $ext_info = array('content' => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金{$count_money}远，继续推荐产品，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
                     $insert = array(
                         'is_read'=>0,
-                        'uid'=>0,
+                        'uid'=>$item['uid'],
+                        'type'=>2,
                         'createtime'=>time(),
                         'uniacid'=>$_W['uniacid'],
                         'to_uid'=>$inviter,

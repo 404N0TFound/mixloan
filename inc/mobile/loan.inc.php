@@ -135,7 +135,8 @@ if($operation=='index'){
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
         $insert = array(
             'is_read'=>0,
-            'uid'=>0,
+            'uid'=>member['id'],
+            'type'=>2,
             'createtime'=>time(),
             'uniacid'=>$_W['uniacid'],
             'to_uid'=>$inviter,
