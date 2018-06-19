@@ -197,14 +197,21 @@ else if ($operation == 'read_message')
 	{
 		pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $id));
 	}
-	if ($item['uid'] == 0) 
+	if ($item['type'] == 1) 
 	{
 		$item['nickname'] = '系统消息';
 	} 
 	else 
 	{
-		$man = pdo_fetch('select nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
-		$item['nickname'] = $man['nickname'];
+		if ($item['uid'] == 0)
+		{
+			$item['nickname'] = '匿名用户';
+		}
+		else
+		{
+			$man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+			$item['nickname'] = $man['nickname'];
+		}
 	}
 	$item['ext_info'] = json_decode($item['ext_info'], true);
 	include $this->template('user/read_message');
