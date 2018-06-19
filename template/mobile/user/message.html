@@ -68,7 +68,8 @@
         .app_header_back span{margin-top: 10px;font-size: 17px}
         .main-header ul{height: 2.4rem;}
         .main-header li{width: 50%; text-align: center;float: left;padding: 0.5rem 0;}
-        .main-header .active {border-bottom: #00a2ff 3px solid;}
+        .main-header .active {border-bottom: #00a2ff 3px solid; }
+        .main-header .active a {color: #00a2ff}
     </style>
     <div class="app_header">
         <div class="app_header_back">
@@ -80,8 +81,8 @@
     <div class="agent-main rem2">
         <div class="main-header">
             <ul>
-                <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'is_read'=>$is_read))}')">系统消息</a></li>
-                <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'is_read'=>$is_read))}')">个人消息</a></li>
+                <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'isread'=>$is_read))}')">系统消息</a></li>
+                <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'isread'=>$is_read))}')">个人消息</a></li>
             </ul>
         </div>
         <div class="main-contain">

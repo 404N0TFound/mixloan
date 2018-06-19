@@ -161,16 +161,24 @@ else if ($operation == 'message')
 	$list = pdo_fetchall('select id,uid,createtime from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read and type=:type', array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type));
 	foreach ($list as &$row)
 	{
-		if ($row['uid'] == 0) 
+		if ($row['type'] == 1) 
 		{
 			$row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
 			$row['nickname'] = '系统消息';
 		} 
 		else 
 		{
-			$man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
-			$row['avatar'] = $man['avatar'];
-			$row['nickname'] = $man['nickname'];
+			if ($row['uid'] == 0)
+			{
+				$row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
+				$row['nickname'] = '匿名用户';
+			}
+			else
+			{
+				$man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+				$row['avatar'] = $man['avatar'];
+				$row['nickname'] = $man['nickname'];
+			}
 		}
 	}
 	unset($row);
