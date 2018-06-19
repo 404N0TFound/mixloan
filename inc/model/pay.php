@@ -83,7 +83,7 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '指点官方充值';
+        $params['body'] = '代客吧官方充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
