@@ -14,7 +14,6 @@ class Xuan_mixloan_Cache
   }
   public function CreateImg()
   {
-    $_SESSION['check_pic'] = $this->codes;
     $img = imagecreate(70,25);
     imagecolorallocate($img,0,136,238);
     $testcolor1 = imagecolorallocate($img,255,255,255);
