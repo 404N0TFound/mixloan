@@ -70,7 +70,7 @@ if($operation=='register'){
         show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
     } else {
         //没有openid的情况
-        $openid = md5($phne);
+        $openid = md5($phone);
         $nickname = "用户" . $phone;
         $insert = array(
             'uniacid'=>$_W['uniacid'],

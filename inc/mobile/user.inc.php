@@ -156,7 +156,7 @@ else if ($operation == 'message_type')
 else if ($operation == 'message') 
 {
 	//消息列表
-	$is_read = intval($_GPC['read']);
+	$is_read = intval($_GPC['isread']);
 	$list = pdo_fetchall('select id,uid,createtime from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read', array(':to_uid' => $member['id'], ':is_read' => $is_read));
 	foreach ($list as &$row)
 	{

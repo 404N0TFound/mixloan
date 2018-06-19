@@ -202,13 +202,13 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    <!-- <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op' => ''))}')">
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
-                            我要贷款
+                            我的消息
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li> -->
+                    </li>
                     {if $config['predict_limit'] && is_weixin()}
                    <!--  <li>
                         <a onclick="openNew('{$config['predict_limit']}')">

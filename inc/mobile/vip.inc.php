@@ -474,7 +474,7 @@ if($operation=='buy'){
         show_json(-1, null, "一天只能提现1次");
     }
     $today = date("w");
-    if ($today == 6 || $today == 7) {
+    if ($today == 6 || $today == 0) {
         show_json(-1, null, "周末休息不允许提现哦");
     }
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");

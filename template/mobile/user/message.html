@@ -52,7 +52,7 @@
             mui.openWindow({url:url, id:'message_type'});
         }
         function read_msg(id){
-            var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message))}&id=" + id;
+            var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message'));}&id=" + id;
             mui.openWindow({url:url});
         }
     </script>
@@ -76,7 +76,7 @@
                 <ul class="clearfix">
                     {loop $list $row}
                     <li class="new_guide">
-                        <a onclick="read_msg({$row['id']})">
+                        <a onclick="read_msg('{$row['id']}')">
                             <img src="{$row['avatar']}" />
                             {$row['nickname']}
                             <em>{php echo date('Y-m-d H:i', $row['createtime'])} &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>

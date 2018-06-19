@@ -183,14 +183,10 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        $list = pdo_fetchall('SELECT id,phone FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid and id>10692', array(':uniacid'=>$_W['uniacid']));
         foreach ($list as $row) {
-            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-            if ($row['left_bonus']<0) {
-                var_dump($row['left_bonus']);
-                $ids[] = $row['uid'];
-            }
+        	$temp = md5($row['phone']);
+        	pdo_update('xuan_mixloan_member', array('openid'=>$temp), array('id'=>$row['id']));
         }
     }
     if (!empty($ids)) {
@@ -198,7 +194,7 @@ if($operation == 'getCode'){
     } else {
         echo 'empty';
     }
-}
+} 
 
 
 ?>
