@@ -251,7 +251,9 @@ if ($operation == 'list') {
         $wheres .= " and a.status={$_GPC['status']}";
     }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
         $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
@@ -259,6 +261,48 @@ if ($operation == 'list') {
         $row['left_bonus'] = round($row['left_bonus'], 2);
     }
     unset($row);
+    if ($_GPC['export'] == 1) {
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            $row['reason'] = $row['ext_info']['reason'];
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "申请资料",
+            "columns" => array(
+                array(
+                    'title' => 'id',
+                    'field' => 'id',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请人',
+                    'field' => 'nickname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '申请金额',
+                    'field' => 'bonus',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请时间',
+                    'field' => 'createtime',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '状态（0申请中，1申请成功，-1申请失败）',
+                    'field' => 'status',
+                    'width' => 25
+                ),
+                array(
+                    'title' => '操作理由',
+                    'field' => 'reason',
+                    'width' => 25
+                ),
+            )
+        ));
+    }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {

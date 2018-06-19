@@ -31,6 +31,7 @@
         div.agent-foot p>img {
             width:1.1rem;
         }
+        div.agent-secmes .logo{margin-top: 0.5rem}
     </style>
 
     {template 'common/wxshare'}
@@ -117,6 +118,12 @@
                             <dd>{$config['title']}号：1000{$member['id']}</dd>
                             <dd class="xian"></dd>
                             <dd>职务：{$member['user_type']['name']}</dd>
+                        </dl>
+                        <dl style="margin-top: 0.3rem">
+                            <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
+                        </dl>
+                        <dl style="margin-top: 0.3rem">
+                            <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</dd>
                         </dl>
                     </li>
                 </ul>
