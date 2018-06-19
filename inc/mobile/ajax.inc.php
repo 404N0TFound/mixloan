@@ -10,6 +10,10 @@ if($operation == 'getCode'){
 	$cache =  rand(111111,999999);
 	$phone = trim($_GPC['phone']);
 	$content = "尊敬的用户，您的本次验证码为：{$cache}";
+	$img_cache = strtolower(trim($_GPC['img_cache']));
+	if (md5($img_cache) != $_SESSION['code']) {
+		show_json(-1, null, "图形验证码错误");
+	}
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
