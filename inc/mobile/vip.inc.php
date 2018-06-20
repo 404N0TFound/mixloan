@@ -36,6 +36,9 @@ if($operation=='buy'){
         //调用pay方法
         $this->pay($params);
     } else {
+        if ($member['id'] == 7881) {
+            $config['buy_vip_price'] = 0.01;
+        }
         $notify_url = 'http://juxinwangluo.xin/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
