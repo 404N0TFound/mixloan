@@ -64,7 +64,7 @@ if($operation=='register'){
         show_json(-1, [], "验证码不符或验证码已失效");
     }
     $old_man = pdo_fetch('SELECT id,nickname FROM ' .tablename('xuan_mixloan_member'). '
-        WHERE phone=:phone AND uniacid=3 ORDER BY id DESC', array(':phone'=>$phone));
+        WHERE phone=:phone AND uniacid=5 ORDER BY id DESC', array(':phone'=>$phone));
     if (empty($old_man)) {
         show_json(-1, [], '该手机号未绑定任何信息');
     }
@@ -83,7 +83,7 @@ if($operation=='register'){
         show_json(-1, [], "验证码不符或验证码已失效");
     }
     $old_man = pdo_fetch('SELECT id,openid,uniacid,uid FROM ' .tablename('xuan_mixloan_member'). '
-        WHERE phone=:phone AND uniacid=3 ORDER BY id DESC', array(':phone'=>$phone));
+        WHERE phone=:phone AND uniacid=5 ORDER BY id DESC', array(':phone'=>$phone));
     if (empty($old_man)) {
         show_json(-1, [], '该手机号未绑定任何信息');
     }

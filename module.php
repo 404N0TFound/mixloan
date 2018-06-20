@@ -66,22 +66,22 @@ class Xuan_mixloanModule extends WeModule {
                     $old_settings = unserialize($old_settings);
                     $old_settings['backup'] = 1;
                     $this->saveSettings($old_settings);
-                    pdo_update('xuan_mixloan_bank', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_bank_artical', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_bank_card', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_channel', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_channel_advs', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_channel_subject', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_creditCard', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_friend', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_friend_comment', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_loan', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_loan_advs', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_payment', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_product', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_product_advs', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_product_apply', array('uniacid'=>5), array('uniacid'=>3));
-                    pdo_update('xuan_mixloan_withdraw', array('uniacid'=>5), array('uniacid'=>3));
+                    pdo_update('xuan_mixloan_bank', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_bank_artical', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_bank_card', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_channel', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_channel_advs', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_channel_subject', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_creditCard', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_friend', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_friend_comment', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_loan', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_loan_advs', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_payment', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_product', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_product_advs', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_product_apply', array('uniacid'=>6), array('uniacid'=>5));
+                    pdo_update('xuan_mixloan_withdraw', array('uniacid'=>6), array('uniacid'=>5));
                 }
                 message('保存成功', 'refresh');
             }
