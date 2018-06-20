@@ -211,21 +211,22 @@ if($operation=='buy'){
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
-		$wx = WeAccount::create();
-	    $barcode = array(
-	        'action_name'=>"QR_LIMIT_SCENE",
-	        'action_info'=> array(
-	            'scene' => array(
-	                'scene_id'=>$member['id'],
-	            )
-	        )
-	    );
-	    $res = $wx->barCodeCreateDisposable($barcode);
+//		$wx = WeAccount::create();
+//	    $barcode = array(
+//	        'action_name'=>"QR_LIMIT_SCENE",
+//	        'action_info'=> array(
+//	            'scene' => array(
+//	                'scene_id'=>$member['id'],
+//	            )
+//	        )
+//	    );
+//	    $res = $wx->barCodeCreateDisposable($barcode);
+//        $url = $res['url'];
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register'));
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
 		$cfg['poster_color'] = $config['invite_color'];
-		$url = $res['url'];
 		$out = XUAN_MIXLOAN_PATH."data/poster/invite_{$member['id']}.png";
 		$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}.png";
 		$params = array(
@@ -464,4 +465,19 @@ else if ($operation == 'set_vip')
         }
     }
     show_json(1);
+}
+else if ($operation == 'app_register')
+{
+    //邀请注册
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result'])
+    {
+        message('生成验证码失败', '', 'error');
+    }
+    $code = $cache->getCode();
+    $_SESSION['code'] = md5($code);
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }
