@@ -158,7 +158,7 @@ else if ($operation == 'message')
 	//消息列表
 	$is_read = intval($_GPC['isread']);
 	$type = intval($_GPC['type']) ? : 1;
-	$list = pdo_fetchall('select id,uid,createtime,type from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read and type=:type', array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type));
+	$list = pdo_fetchall('select id,uid,createtime,type from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read and type=:type order by id desc', array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type));
 	foreach ($list as &$row)
 	{
 		if ($row['type'] == 1) 
