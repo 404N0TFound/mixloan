@@ -248,10 +248,10 @@ if($operation=='buy'){
 	        )
 	    );
 	    $res = $wx->barCodeCreateDisposable($barcode);
+        $url = $res['url'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
 		$cfg['poster_color'] = $config['invite_color'];
-		$url = $res['url'];
 		$out = XUAN_MIXLOAN_PATH."data/poster/invite_{$member['id']}.png";
 		$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}.png";
 		$params = array(
@@ -364,4 +364,8 @@ if($operation=='buy'){
     }
     unset($row);
     include $this->template('vip/partner_center');
+}else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }

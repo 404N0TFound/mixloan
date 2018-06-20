@@ -86,7 +86,7 @@ if ($operation == 'list') {
         $wheres.= " AND c.type='{$_GPC['p_type']}'";
     }
     if ($_GPC['type'] == 1 && !empty($_GPC['relate_id'])) {
-        $wheres.= " AND a.relate_id='{$_GPC['relate_id']}'";
+        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
     if ($_GPC['type'] == 3 && !empty($_GPC['title'])) {
         $join .= " LEFT JOIN ".tablename("xuan_mixloan_channel")." c ON a.relate_id=c.id";
