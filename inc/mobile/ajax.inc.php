@@ -1,4 +1,4 @@
-<?php  
+<?php
 session_start();
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
@@ -10,8 +10,14 @@ if($operation == 'getCode'){
 	$phone = trim($_GPC['phone']);
 	$cache =  rand(111111,999999);
 	$content = "尊敬的用户，您的本次验证码为：{$cache}";
+    if ($_GPC['activity'] == 1) {
+        $verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        if ($verify) {
+            show_json(102);
+        }
+    }
     $img_cache = strtolower(trim($_GPC['img_cache']));
-    if (md5($img_cache) != $_SESSION['code']) {
+    if (md5($img_cache) != $_COOKIE['authcode']) {
         show_json(-1, null, "图形验证码错误");
     }
 	if (isset($_COOKIE['cache_code'])) {

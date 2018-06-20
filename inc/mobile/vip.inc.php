@@ -1,4 +1,5 @@
 <?php  
+session_start();
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
 $config = $this->module['config'];
@@ -465,11 +466,10 @@ else if ($operation == 'set_vip')
         }
     }
     show_json(1);
-}
-else if ($operation == 'app_register')
-{
+} else if ($operation == 'app_register') {
     //邀请注册
-    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    require_once(IA_ROOT . '/addons/xuan_mixloan/inc/model/cache.php');
     $cache = new Xuan_mixloan_Cache();
     $cache_img = $cache->doimg();
     if (!$cache_img['result'])
@@ -477,7 +477,6 @@ else if ($operation == 'app_register')
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    $_SESSION['code'] = md5($code);
-    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    setcookie('authcode', md5($code), time()+300);
     include $this->template('vip/register');
 }

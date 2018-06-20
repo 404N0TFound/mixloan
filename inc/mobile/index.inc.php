@@ -1,4 +1,5 @@
 <?php  
+session_start();
 defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
 $config = $this->module['config'];
@@ -14,7 +15,7 @@ if($operation=='register'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    $_SESSION['code'] = md5($code);
+    setcookie('authcode', md5($code), time()+300);
 	include $this->template('index/register');
 } elseif ($operation == 'register_contract') {
 	//注册协议
@@ -141,6 +142,7 @@ if($operation=='register'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
+    setcookie('authcode', md5($code), time()+300);
     include $this->template('index/find_pass');
 } else if ($operation == 'find_pass_ajax') {
     $phone = $_GPC['phone'];
@@ -172,7 +174,7 @@ if($operation=='register'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    $_SESSION['code'] = md5($code);
+    setcookie('authcode', md5($code), time()+300);
     include $this->template('index/find_user');
 } else if ($operation == 'find_user_submit') {
     //找回账号提交

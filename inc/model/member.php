@@ -57,7 +57,7 @@ class Xuan_mixloan_Member
     {
         global $_W;
         $uid = intval($openid);
-        if (empty($uid)) {
+        if (empty($uid) || strlen($openid) == 32) {
             $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where  openid=:openid and uniacid=:uniacid limit 1', array(
                 ':uniacid' => $_W['uniacid'],
                 ':openid' => $openid
