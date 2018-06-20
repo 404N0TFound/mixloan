@@ -7,6 +7,14 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='register'){
 	//注册
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result']) {
+        message('生成验证码失败', '', 'error');
+    }
+    $code = $cache->getCode();
+    $_SESSION['code'] = md5($code);
 	include $this->template('index/register');
 } elseif ($operation == 'register_contract') {
 	//注册协议
@@ -104,6 +112,13 @@ if($operation=='register'){
     show_json(1, ['url'=>$this->createMobileUrl('user')]);
 } else if ($operation == 'find_pass') {
     //找回密码
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result']) {
+        message('生成验证码失败', '', 'error');
+    }
+    $code = $cache->getCode();
     include $this->template('index/find_pass');
 } else if ($operation == 'find_pass_ajax') {
     $phone = $_GPC['phone'];
@@ -128,6 +143,14 @@ if($operation=='register'){
     if (!$config['backup']) {
         message('找回账号暂未开放', $this->createMobileUrl('user'), 'error');
     }
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result']) {
+        message('生成验证码失败', '', 'error');
+    }
+    $code = $cache->getCode();
+    $_SESSION['code'] = md5($code);
     include $this->template('index/find_user');
 } else if ($operation == 'find_user_submit') {
     //找回账号提交

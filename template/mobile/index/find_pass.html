@@ -63,6 +63,11 @@
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
 		</li>
 		<li>
+			<label><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></label>
+			<input type="text" name="" id="img_cache" placeholder="请输入图形验证码" style="width: 60%">
+			<a style="width: 30%"><img src="{$cache_img['file']}" style="width: 6rem" onclick="history.go(0);"></a>
+		</li>
+		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
 			<input type="number" name="" id="validcode" placeholder="请输入验证码">
 			<a class="validnum">获取验证码</a>
@@ -177,6 +182,7 @@
     }
     //验证码
     function getCheck(){
+        var img_cache = $('#img_cache').val();
         $(".validnum").unbind("click");
         var flagsms = true;
         //启动计时器，1秒执行一次
@@ -191,7 +197,7 @@
                         getCheck();
                     });
                 }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone, "img_cache":img_cache},
                         function(data){
                             if(data.code==0){
                                 layer.msg("已发送，请注意查收");
