@@ -19,6 +19,11 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+	if ($member['id'] == '360') {
+		header("location:{$this->createMobileUrl('vip', array('op'=>'alipay'))}");
+	} else {
+		message('系统维护中', $this->createMobileUrl('user'), 'error');
+	}
 	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
 	$fee = $config['buy_vip_price'];
@@ -278,4 +283,8 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+} 
+else if ($operation == 'alipay')
+{
+	include $this->template('vip/alipay');
 }
