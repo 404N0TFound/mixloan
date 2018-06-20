@@ -8,20 +8,16 @@
         <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script> 
         <style type="text/css"> 
             .top {  
-                margin-top: 40px;  
-            }  
-            .weixin {  
-                width: 200px;         
-                height: 50px;   
-                margin-left: 50px;  
-                background: url(../images/icon-weixin.png);     
+                margin-top: 40%;  
             }  
             .zhifubao {  
                 width: 200px;  
                 height: 50px;  
-              
-               margin-left: 50px;  
-                background: url(../images/alipay.jpg);    
+                margin-left: 50px;  
+                background: url(../addons/xuan_mixloan/template/style/picture/alipay.png) ;
+                background-size: 30px;    
+                background-repeat: no-repeat;
+                background-position: 10% 40%;
             }  
  
             #jine{ 
@@ -40,25 +36,10 @@
         </style> 
     </head> 
     <body> 
-         <hrader class="mui-bar mui-bar-nav"> 
-             <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
-             <h1 class="mui-title">第三方支付</h1> 
-         </hrader> 
-          
          <div class="mui-content"> 
-               
-               
-                捐赠金额：<input id="jine" type="number" value="1" /> 元 
-             
-               
                 <div class="top" id="testLogin" > 
-                    <input type="button" class="weixin" id="weixin1" value="微信支付" /> 
-                    <input type="button" class="zhifubao" id="zhifubao" value="支付宝支付" /> 
-                     
+                    <input type="button" class="zhifubao" id="zhifubao" value="支付宝支付" style="margin-left: 22.5%" /> 
                 </div> 
- 
-                  
- 
          </div> 
            <script> 
                var wxChannel = null; // 微信支付  
@@ -83,45 +64,41 @@
                 });  
         })  
   
-        document.getElementById('weixin1').addEventListener('tap',function() {  
-            console.log("微信");  
-            pay('wxpay');  
-        })  
         document.getElementById('zhifubao').addEventListener('tap',function() {  
             console.log("zhifubao");  
             pay('alipay');   
         })  
   
-        var ALIPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/alipay.php?total=';  
-        var WXPAYSERVER='http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=';  
+        var ALIPAYSERVER="{php echo $this->createMobileUrl('vip', array('op'=>'alipay_params'))}";  
         
-        // 2. 发起支付请求  
+        //发起支付请求  
         function pay(id){  
-                // 从服务器请求支付订单  
+                var user_url = "{php echo $this->createMobileUrl('user')}";
                 var PAYSERVER='';  
                 if(id=='alipay'){  
-                PAYSERVER=ALIPAYSERVER;  
-                channel = aliChannel;  
-            }else if(id=='wxpay'){  
-                    PAYSERVER=WXPAYSERVER;  
-                    channel = wxChannel;  
-                }else{  
-                    plus.nativeUI.alert("不支持此支付通道！",null,"捐赠");  
-                    return;  
-             }  
+                    PAYSERVER=ALIPAYSERVER;  
+                    channel = aliChannel;  
+                }
                 var xhr=new XMLHttpRequest();  
-                 var amount = document.getElementById('jine').value; 
-                
                 xhr.onreadystatechange=function(){  
                     switch(xhr.readyState){  
                         case 4:  
                         if(xhr.status==200){  
                             plus.payment.request(channel,xhr.responseText,function(result){  
-                                plus.nativeUI.alert("支付成功！",function(){  
-                                back();  
-                            });  
+                                plus.nativeUI.alert("支付成功！",function(){ 
+                                    mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'set_vip'))}",{
+                                        data:{},
+                                        dataType:'json',
+                                        type:'post',
+                                        success:function(data){
+                                            mui.openWindow({url:user_url, id:'user_index', createNew:true});
+                                        }
+                                    });
+                                });  
                             },function(error){  
-                                plus.nativeUI.alert("支付失败：" + error.code);  
+                                plus.nativeUI.alert("支付失败：" + error.code, function(){
+                                    mui.openWindow({url:user_url, id:'user_index', createNew:true});
+                                });  
                             });  
                         }else{  
                             alert("获取订单信息失败！");  
@@ -130,13 +107,12 @@
                     default:  
                     break;  
                 }  
-         }  
-            xhr.open('GET',PAYSERVER+amount);  
-            xhr.send();  
+        }  
+        xhr.open('GET',PAYSERVER);  
+        xhr.send();  
             
     }  
      
-           </script>   
-     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/immersed.js" ></script> 
+    </script>   
     </body> 
 </html>
