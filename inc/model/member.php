@@ -171,7 +171,7 @@ class Xuan_mixloan_Member
 //                <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在微信客户端打开链接</h4></div></div></div>
 //                </body>
 //            </html>");
-            header("location:http://wx.luohengwangluo.com/app/index.php?i=2&c=entry&op=login&do=index&m=xuan_mixloan");
+            header("location:http://cheexuan.com/app/index.php?i=3&c=entry&op=login&do=index&m=xuan_mixloan");
             return;
         }
         $member   = m('member')->getMember($openid);
