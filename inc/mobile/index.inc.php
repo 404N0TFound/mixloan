@@ -73,7 +73,7 @@ if($operation=='register'){
         if ($_GPC['inviter']) {
             $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
         }
-        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
     }
 } else if ($operation == 'login') {
     //登陆
