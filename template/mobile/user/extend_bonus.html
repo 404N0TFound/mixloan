@@ -27,6 +27,27 @@
 </style>
 <body>
 <!-- end -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #9e8a60}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>推荐有钱</span>
+    </div>
+</div>
+{/if}
 <div class="prize_tail">
     <div class="share dn" style="display: none;">
         <p id="share_title"></p>
@@ -128,14 +149,14 @@
             {if $agent['code'] != 1}
             $('#prize_art').show();
             {else}
-            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
+            openNew("{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}");
             {/if}
             })
         $(".click_view a").click(function(){
             {if $agent['code'] != 1}
             $('#prize_art').show();
             {else}
-            window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}"
+            openNew("{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}");
             {/if}
             })
         $('#close_shan').click(function() {

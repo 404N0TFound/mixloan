@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
     <meta content = "yes" name = "apple-mobile-web-app-capable" >
     <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new.css">
     <style>
-         input:disabled{
+        input:disabled{
             -webkit-text-fill-color: #666;
             -webkit-opacity: 1;
             color: #666;
@@ -27,9 +27,30 @@
         .pic_one,.pic_two,.pic_tre{display: none;}
     </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>设置</span>
+    </div>
+</div>
+{/if}
 <div class="agent-main">
     <div class="main-contain">
         <div class="personfile">
@@ -54,7 +75,7 @@
                     <div class="input-wap"><input type="text" name="wechatnum" value="{$member['wechat']}" placeholder="输入微信号码" ></div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
-                
+
             </ul>
         </div>
         <h5 class="file-title"></h5>
@@ -133,26 +154,26 @@
     // 图片上传
     $("#btn").click(function(){
         $(".clipbg").fadeIn();
-       
+
     })
     var clipArea = new  PhotoClip("#clipArea", {
         size: [300, 300],//裁剪框大小
         outputSize:[0,0],//打开图片大小，[0,0]表示原图大小
         file: "#file",
         ok: "#clipBtn",
-        loadStart: function() { 
+        loadStart: function() {
             $(".loading").removeClass("displaynone");
         },
         loadComplete: function() {
             $(".loading").addClass("displaynone");
         },
-        done: function(dataURL) { 
-            //console.log(dataURL); 
+        done: function(dataURL) {
+            //console.log(dataURL);
             $("#btn").attr("src",dataURL);
             uploadImage();
             $(".clipbg").fadeOut();
         }
-            
+
     });
 
     $(".back").click(function(){
@@ -161,7 +182,7 @@
     ////////////////////
     function uploadImage () {
         var imguploadimg=layer.load(1, {
-            shade: [0.5,'#000'] 
+            shade: [0.5,'#000']
         });
         var base64=$("#btn")[0].src;
         $.post("{php echo $this->createMobileUrl('user', array('op'=>'uploadImage'))}", {'carousel':base64 },
@@ -175,11 +196,11 @@
                     layer.msg("系统繁忙,请重试!~");
                     return false;
                 }
-           
-        },'json');
+
+            },'json');
     }
 
-     ///////判段
+    ///////判段
     $(function(){
         var realname=$("input[name='realname']").val();  //姓名
         var phone=$("input[name='phone']").val();   //手机号
@@ -187,25 +208,25 @@
         if(realname!=""){
             $("input[name='realname']").attr("disabled",true);
         }else{
-            $('.pic_one').show(); 
+            $('.pic_one').show();
         }
         if(phone!=""){
             $("input[name='phone']").attr("disabled",true);
-         }else{
-           $('.pic_two').show();  
+        }else{
+            $('.pic_two').show();
         }
         if(idcard!=""){
             $("input[name='idcard']").attr("disabled",true);
         }else{
-           $('.pic_tre').show(); 
+            $('.pic_tre').show();
         }
 
         $('#upSubmit').click(function(){
             upSubmit();
         })
-        
-      });  
-     
+
+    });
+
     // 恢复点击事件
     function click(){
         $("#upSubmit").bind("click",function(){
@@ -221,7 +242,7 @@
             ret=res;
         }
         return ret;
-    }  
+    }
 
 
     function upSubmit() {
@@ -243,7 +264,7 @@
             click();
             return false;
         }
-        
+
         if (realname == '输入真实姓名' || realname == '') {
             document.getElementById('realname').focus();
             layer.tips('请输入真实姓名', '#realname', {
@@ -297,10 +318,10 @@
             click();
             return false;
 
-        }    
+        }
 
         var imguploadimg=layer.load(1, {
-            shade: [0.5,'#000'] 
+            shade: [0.5,'#000']
         });
         var ajax = {};
         ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'setData'))}";
@@ -308,17 +329,30 @@
         ajax.dataType="json";
         ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'phone':dataTransform(phone),'idcard':dataTransform(idcard)};
         ajax.success = function (data) {
-            //alert(data); 
+            //alert(data);
             layer.close(imguploadimg);
             if (data.code == 1) {
-                $('.pic_one').hide(); 
+                $('.pic_one').hide();
                 $('.pic_two').hide();
                 $('.pic_tre').hide();
                 layer.msg('资料提交成功', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = "{php echo $this->createMobileUrl('user')}";
-                });
+                    {if !is_weixin()}
+                    mui.init({
+                        beforeback: function(){
+                            var user_index = plus.webview.getWebviewById('user_index');
+                            mui.fire(user_index,'refresh');
+                            var HBuilder = plus.webview.getWebviewById('HBuilder');
+                            mui.fire(HBuilder,'refresh');
+                            return true;
+                        }
+                    });
+                    mui.back();
+                    {else}
+                    mui.openWindow({url:"{php echo $this->createMobileUrl('user')}", id:"user_index"});
+                    {/if}
+                    });
             }
             else {
                 layer.msg(data.msg);
@@ -328,8 +362,8 @@
 
         }
         $.ajax(ajax);
-    }   
-    
+    }
+
 </script>
 
 </body>

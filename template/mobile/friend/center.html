@@ -28,13 +28,19 @@
         }
     </style>
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body>
-<!-- <div class="agent-header">
-    个人中心
-    <a class="return" href="#">返回</a>
-</div> -->
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+
+{/if}
 <div class="psn_main">
     <div class="psn_header">
         <div class="bg_blur"
@@ -161,7 +167,7 @@
                                         <p class="contents">{$row['name']}</p>
                                         <div class="loanMainImg">
                                             {if !empty($row['head'])}
-                                            
+
                                             {loop $row['head'] $head}
                                             <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
                                             {/loop}
@@ -202,7 +208,7 @@
                                         <p class="contents">{$row['name']}</p>
                                         <div class="loanMainImg">
                                             {if !empty($row['head'])}
-                                            
+
                                             {loop $row['head'] $head}
                                             <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
                                             {/loop}
@@ -275,7 +281,7 @@
                         </div>
                         <!-- 帮你识图 -->
                         <div class="evdayhotlist friendlist" style="display: none;"  data-tag="2" data-Page="1">
-                           {if !$replys['news']}
+                            {if !$replys['news']}
                             <div class="psnC_empty">
                                 <div class="psnC_emptyC">
                                     <h2>您还未回复过分享文章哦~</h2>
@@ -384,9 +390,9 @@
                                     <p class="contents">{$row['name']}</p>
                                     <div class="loanMainImg">
                                         {if !empty($row['head'])}
-                                            {loop $row['head'] $head}
-                                            <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
-                                            {/loop}
+                                        {loop $row['head'] $head}
+                                        <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
+                                        {/loop}
                                         {/if}
                                     </div>
                                     <p class="mainListReply">
@@ -408,7 +414,7 @@
             <div class="swiper-slide" data-tagFlag="4" data-Page="1">
                 <div class="psnC_result" id="track">
                     <div class="evdayhotlist friendlist">
-                       {if !$looks}
+                        {if !$looks}
                         <div class="psnC_empty">
                             <div class="psnC_emptyC">
                                 <h2>您还未收藏过文章哦</h2>
@@ -430,10 +436,10 @@
                                     <p class="contents">{$row['name']}</p>
                                     <div class="loanMainImg">
                                         {if !empty($row['head'])}
-                                        
-                                            {loop $row['head'] $head}
-                                            <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
-                                            {/loop}
+
+                                        {loop $row['head'] $head}
+                                        <img src="{$_W['attachurl']}{$head}" alt="" class="pimg" onclick="maxImg(this)">
+                                        {/loop}
                                         {/if}
                                     </div>
                                     <p class="mainListReply">
@@ -548,11 +554,13 @@
     })
 
     var return_url = function(id) {
-        window.location.href="{php echo $this->createMobileUrl('friend', array('op'=>'info'))}&id="+id;
+        _url="{php echo $this->createMobileUrl('friend', array('op'=>'info'))}&id="+id;
+        openNew(_url)
     }
 
     var return_url_notify = function(url){
-        window.location.href=url;
+        _url=url;
+        openNew(_url)
     }
 </script>
 </body>

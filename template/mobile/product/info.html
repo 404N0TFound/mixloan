@@ -91,10 +91,33 @@
 </script>
 <body class="bglightgray">
 
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #f3f4f6}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>{$info['name']}</span>
+    </div>
+</div>
+{else}
 <div class="agent-header">
     {$info['name']}
     <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
 </div>
+{/if}
 <div class="nb_banner">
     <img src="{$info['ext_info']['pic']}" />
 </div>
@@ -119,15 +142,9 @@
             <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
             <img src="../addons/xuan_mixloan/template/style/picture/reback_img_1.png" />
             <ul class="reback_money">
-                {if $info['ext_info']['is_extra_reward']==1}
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_money']}元</span></li>
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_money']}元</span></li>
                 <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_money']}元</span></li>
-                {else if $info['ext_info']['is_extra_reward']==2}
-                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_one_per']}点</span></li>
-                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_two_per']}点</span></li>
-                <li><em><img src="../addons/xuan_mixloan/template/style/picture/currency_1.png"></em><span>奖励{$info['ext_info']['extra_reward_thr_per']}点</span></li>
-                {/if}
             </ul>
         </div>
         <ul class="invite_reback">
@@ -340,5 +357,33 @@
         $(".pop,.pop_art").hide();
     })
 </script>
+{if !is_weixin()}
+<script type="text/javascript">
+    mui.plusReady(function(){
+        document.getElementById('source_img').addEventListener("click", function(){
+            var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+            var imgSrc = this.src;
+            plus.nativeUI.actionSheet(actionList,function(e){
+                if (e.index == 1) {
+                    var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                        console.log(status);
+                        if (status == 200) {
+                            plus.gallery.save(d.filename,function(){
+                                plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                    entry.remove();
+                                })
+                                return alert('图片已保存');
+                            })
+                        } else {
+                            return alert('保存失败' + status);
+                        }
+                    });
+                    imgDtask.start();
+                }
+            })
+        })
+    })
+</script>
+{/if}
 </body>
 </html>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
     <meta content = "yes" name = "apple-mobile-web-app-capable" >
     <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/base_3.css">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_5.css">
 	<style type="text/css">
-		
+
 	 	/*x兼容性*/
         @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
            	footer.kk-footer{padding:2% 0;}
@@ -82,7 +82,7 @@
 		div.temp_share p{text-align: center;text-indent: 0;}
 		/*轮播滚动*/
 		/*div.swiper-slide{margin:0 2%!important;}*/
-		  
+
 	</style>
 
 	{template 'common/wxshare'}
@@ -90,6 +90,27 @@
 <style>
 	 .goods_dt img{width: 100%}
 </style>
+{if !is_weixin()}
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+<style type="text/css">
+	.app_header{height: 80px;width: 100%;background: #ffffff}
+	.app_header_back{text-align: center;color: white}
+	.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+	.app_header_back img{float:left;width: 12px;}
+	.app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+	<div class="app_header_back">
+		<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+		<span>购买会员</span>
+	</div>
+</div>
+{/if}
 <body class="bgcolor">
 	<footer class="kk-footer">
     	<div class="confirm_buy clearfix">
@@ -98,25 +119,25 @@
 											<img class="noread_img" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png" style="display: none;">
 						<img class="read_img" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png">
 						阅读并同意
-						<a class="contract_pop" style="color:#0195ff; float-size:0.55rem">《合作协议》</a> 	
+						<a class="contract_pop" style="color:#0195ff; float-size:0.55rem">《合作协议》</a>
 				</span>
-				
+
 			</div>
 			<span>
 				<font style="font-size: 0.6rem;margin-right: 1px; color: #fd661d">¥</font>
 				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font>
 			</span>
 
-			<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>    		
-    	</div>		
+			<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>
+    	</div>
 	</footer>
 
 	<div class="kk-container pb40">
 		<div class="goods_dt">
 			<div class="main_top">
 				<!-- <div class="main_img">
-					<img src="../addons/xuan_mixloan/template/style/picture/banner_1.png" />	
-				</div> -->	
+					<img src="../addons/xuan_mixloan/template/style/picture/banner_1.png" />
+				</div> -->
 				<div class="main_img">
 					<div class="loop_img">
 						<div class="swiper-container pro-swiper">
@@ -126,8 +147,8 @@
 								{/loop}
 							</div>
 						</div>
-					</div>						
-				</div>			
+					</div>
+				</div>
 				<img src="../addons/xuan_mixloan/template/style/picture/hongbao_tixian_1.png" />
 				<div class="main_tab">
 					<ul>
@@ -135,7 +156,7 @@
 						<li data-id="pro_buy"><a>合作须知</a></li>
 						<li data-id="pro_question"><a>常见问题</a></li>
 					</ul>
-				</div>		
+				</div>
 			</div>
 			<div class="tab_contain" id="pro_desc" style="display: block;"><p><img src="{php echo tomedia($config['buy_intro_pic']);}" title="" alt=""/></p></div>
 			<div class="tab_contain" id="pro_buy">
@@ -193,18 +214,18 @@
 					</div><div class="normal_question">
 						<h1>问：如果我推广产品有工资了，怎么给我？</h1>
 						<p>答：点击“{$config['title']}客”-“我的工资”，绑定银行卡就可以提现，具体到账时间以相应银行系统为准。</p>
-					</div>	
-				{/if}			
+					</div>
+				{/if}
 			</div>
-			<div class="contain_bt">				
+			<div class="contain_bt">
 				本产品解释权归{$config['title']}平台所有
 			</div>
-			<!-- <h3 class="user-title"><a>产品详情</a></h3> -->			
+			<!-- <h3 class="user-title"><a>产品详情</a></h3> -->
 		</div>
 	</div>
 	<div class='pop'>
         <div class='floor'></div>
-        <div class='contract_main'>            
+        <div class='contract_main'>
             <h1 class="contract_title">《用户购买协议》</h1>
             {if $config['buy_contract']}
             	{$config['buy_contract']}
@@ -269,17 +290,21 @@
             <div class="section">
 				<h2 class="section_part">十、本协议的修改更新</h2>
 				<p class="p_basic"><font style="text-decoration: underline;">{$config['title']}保留根据需要不时地制订、修改本协议及/或各类规则和条款的权利，本协议修改后将以在{$config['title']}公示的方式进行公告，并将通过{$config['title']}向您发送系统通知消息。</font>本协议修改更新后自公告之日起开始自动生效。如您不同意相关修改更新内容或有异议，须在提示的截至期限内，以书面方式向{$config['title']}提出说明并暂停使用{$config['title']}，逾期未提出书面说明或继续使用{$config['title']}的，即表示您接受修改更新后的本协议所有内容。</p>
-            </div> 
+            </div>
             <div class="section">
             	<h2 class="section_part">十一、通知与送达</h2>
             	<p class="p_basic">您确认接受以{$config['title']}公示的方式作为接收{$config['title']}相关信息及文件和司法机关文书的有效方式，并自愿承担法律后果。</p>
-            </div> 
-            {/if}          
-        </div> 
+            </div>
+            {/if}
+        </div>
         <!-- <img class="close" src="../addons/xuan_mixloan/template/style/picture/del_3.png" /> -->
-        <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>       
+        <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>
     </div>
 
+	<div id="layer_notice">
+		<div>请关注微信公众号{$config['title']}购买会员</div>
+		<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
+	</div>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
@@ -288,7 +313,7 @@
 	$(".contract_pop").click(function(){
 		$(".pop").show();
         layer_style();
-	})			
+	})
 	//弹窗样式
 		function layer_style(){
 	        var window_height=$(window).height(); ;
@@ -323,14 +348,23 @@
 		})
 		//购买
 		$("#to_buy").click(function(){
-			toPurchase();			
+            {if is_weixin()}
+            toPurchase();
+            {else}
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false,
+                content: $('#layer_notice')
+            });
+            {/if}
 		})
 
-		function toPurchase(){			
+		function toPurchase(){
 			$("#to_buy").unbind("click");
 			layer.closeAll();
 			payingLoading = layer.load(1, {
-			  shade: [0.1,'#fff'] 
+			  shade: [0.1,'#fff']
 			});
 			var userId=341794;
 			if($(".to_read").hasClass("read")){
@@ -339,7 +373,7 @@
 				layer.msg("请先阅读{$config['title']}用户服务协议");
 				rePurchase();
 				return false;
-			}			
+			}
 		}
 		function rePurchase(){
 			$("#to_buy").bind("click",function(){

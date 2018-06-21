@@ -2,547 +2,581 @@
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-		<meta content="yes" name="apple-mobile-web-app-capable">
-		<meta content="black" name="apple-mobile-web-app-status-bar-style">
-		<meta content="telephone=no" name="format-detection">
-		<meta content="e-mail=no" name="format-detection" />
-		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-		<meta http-equiv="Pragma" content="no-cache" />
-		<meta http-equiv="Expires" content="0" />
-		<title>{$config['title']}</title>
-		<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
-		<script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
-		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
-		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
-		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
-		<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
-		<script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
-		<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
-		<style>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="e-mail=no" name="format-detection" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<title>{$config['title']}</title>
+	<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+	<script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
+	<script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+	<style>
 		@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-        	div.agent-foot{padding-bottom:20px; }
-        	div.agent-main{padding-bottom:20px;}
-    	}
-    	.swiper-pagination-bullet{background: #ccc;opacity: 1;}
+			div.agent-foot{padding-bottom:20px; }
+			div.agent-main{padding-bottom:20px;}
+		}
+		.swiper-pagination-bullet{background: #ccc;opacity: 1;}
 		.swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
 		.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
-		
-		</style>
-	
+
+		div.agent-foot p>img {
+			width: 1.1rem;
+		}
+	</style>
+
 	{template 'common/wxshare'}
 </head>
-	<body style="background:#fff;">
+<body style="background:#fff;">
 
-		<div class="agent-header">
-			{$config['title']}
-			<a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+	.agent-header{height: 3rem;line-height: 4rem}
+</style>
+<style type="text/css">
+	.app_back {
+		position: absolute;
+		display: inline-block;
+		padding: 0 10px 0 10px;
+		z-index: 999;
+		line-height: 0px;
+		top: 1.1rem
+	}
+	.app_back img {
+		display: inline-block;
+		height: 16px;
+		margin: 13px 0;
+		vertical-align: middle;
+		left: 0;
+		top: 0;
+		transform: rotate(180deg);
+	}
+</style>
+<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
+{/if}
+<div class="agent-header">
+	{$config['title']}
+	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+</div>
+{if !is_weixin()}
+<div style="height:3rem;"></div>
+{else}
+<div style="height:2rem;"></div>
+{/if}
+<div class="product_head">
+	<ul class="clearfix">
+		<li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+		<li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+		<li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
+	</ul>
+</div>
+<div class="fjx"></div>
+<div class="wapper dn">
+	<div class="cet_pic">
+		<!--lunbotu-->
+		<!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
+		<div class="swiper-container">
+			<div class="swiper-wrapper" id="swiper-wrapper">
+				<!--    -->
+			</div>
+			<!-- Add Pagination -->
+			<div class="swiper-pagination"></div>
 		</div>
-		<div style="height:2rem;"></div>
-		<!-- end -->
-		<div class="product_head">
-			<ul class="clearfix">
-		      	<li class="on"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>产品</p></li>
-		      	<li><a href="{php echo $this->createMobileUrl('product', array('op'=>'customer'))}" id="href_list"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
 
-		      	<li><a href="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}"><h2><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></a></li>
-	 		</ul>
-		</div>
+		<!-- lunbotu- -->
+
+	</div>
+	<div class="validRule"><p>有效规则：新用户注册申请</p></div>
+	<!-- fjx -->
+	<!-- <div class="fjx"></div> -->
+	<!-- fjx -->
+	<div class="list_head" id="newProduct">
 		<div class="fjx"></div>
-		<div class="wapper dn">
-			<div class="cet_pic">
-				<!--lunbotu-->
-				<!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
-				  <div class="swiper-container">
-				    <div class="swiper-wrapper" id="swiper-wrapper">
-					   <!--    -->
-				    </div>
-				    <!-- Add Pagination -->
-				    <div class="swiper-pagination"></div>
-				  </div>
+		<p><span><img src="../addons/xuan_mixloan/template/style/picture/x1_1.png" /></span>新品推荐</p>
+	</div>
+	<div class="list_line" id="product">
+		<ul class="clearfix new_line1" ></ul>
+		<ul class="clearfix new_line2" ></ul>
+		<ul class="clearfix new_line_add" ></ul>
+		<ul class="clearfix new_line_add1" ></ul>
+	</div>
 
-				<!-- lunbotu- -->
-				
-			</div>
-			<div class="validRule"><p>有效规则：新用户注册申请</p></div>
-			<!-- fjx -->
-			<!-- <div class="fjx"></div> -->
-			<!-- fjx -->
-			<div class="list_head" id="newProduct">
-				<div class="fjx"></div>
-				<p><span><img src="../addons/xuan_mixloan/template/style/picture/x1_1.png" /></span>新品推荐</p>
-			</div>
-			<div class="list_line" id="product">
-			 	<ul class="clearfix new_line1" ></ul>
-				<ul class="clearfix new_line2" ></ul>
-				<ul class="clearfix new_line_add" ></ul>
-				<ul class="clearfix new_line_add1" ></ul>
-			</div>
-
-			<!-- fjx -->
-			<div class="fjx"></div>
-			<!-- fjx -->
-			<div id="list_head_card">
-				<div class="list_head">
-					<p>
-						<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
-						信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
-					</p>
-				</div>
-				<div class="list_line list_line2">
-					<ul class="clearfix ka_one"></ul>
-					<ul class="clearfix ka_one2"></ul>
-					<ul class="clearfix ka_one3"></ul>
-					<ul class="clearfix ka_one4"></ul>
-					<ul class="clearfix new_line5 ew0"></ul>
-					<ul class="clearfix new_line5 ew1"></ul>
-					<ul class="clearfix new_line5 ew2"></ul>
-					<ul class="clearfix new_line5 ew3"></ul>
-					<ul class="clearfix new_line5 ew4"></ul>
-					<ul class="clearfix new_line5 ew5"></ul>
-				</div>
-				<!-- fjx -->
-				<div class="fjx"></div>
-			</div>	
-			<!-- fjx -->			
-			<div class="list_head">
-				<p>
-					<span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
-					贷款产品<label>(共<b  id="card_num">0</b>款)</label>
-				</p>
-			</div>
-
-			<div class="three_head">
-				<ul class="clearfix"></ul>
-			</div>
-			<!--代呗店star  -->
-			<div class="finndy"><a href="{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
-			<!--代呗店END -->
+	<!-- fjx -->
+	<div class="fjx"></div>
+	<!-- fjx -->
+	<div id="list_head_card">
+		<div class="list_head">
+			<p>
+				<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
+				信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
+			</p>
 		</div>
-		<div style="height:3.0rem;" class="agent-main"></div>
-	    <div class="agent-foot">
-	        <a href="javascript:;"  class="on">
-	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-	            <p>{$config['title']}</p>
-	        </a>
-	        <a href="{php echo $this->createMobileUrl('channel')}" class="today-cell">
-	          	<p class="foot_img">
-	          		<img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" />
-	          			          	</p>
-	            <p>今日口子</p>
-	        </a>
-	        <a class="home" href="{php echo $this->createMobileUrl('friend')}">
-	            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" width="45px" alt="">
-	            <!-- <p>金融朋友圈</p> -->
-	        </a>
-	        <a href="{php echo $this->createMobileUrl('loan')}">
-	           	<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-	            <p>查网贷</p>
-	        </a>
-	        <a href="{php echo $this->createMobileUrl('user')}" >
-	            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
-	            <p>个人中心</p>
-	        </a>
-    	</div>
+		<div class="list_line list_line2">
+			<ul class="clearfix ka_one"></ul>
+			<ul class="clearfix ka_one2"></ul>
+			<ul class="clearfix ka_one3"></ul>
+			<ul class="clearfix ka_one4"></ul>
+			<ul class="clearfix new_line5 ew0"></ul>
+			<ul class="clearfix new_line5 ew1"></ul>
+			<ul class="clearfix new_line5 ew2"></ul>
+			<ul class="clearfix new_line5 ew3"></ul>
+			<ul class="clearfix new_line5 ew4"></ul>
+			<ul class="clearfix new_line5 ew5"></ul>
+		</div>
+		<!-- fjx -->
+		<div class="fjx"></div>
+	</div>
+	<!-- fjx -->
+	<div class="list_head">
+		<p>
+			<span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
+			贷款产品<label>(共<b  id="card_num">0</b>款)</label>
+		</p>
+	</div>
 
-	
-	<script type="text/javascript">
-	$(document).ready(function(){
-		index_lay = layer.load(1, {
-		  	shade: [0.1,'#fff'] //0.1透明度的白色背景
-		});
-		
-		layer_loan();
-		
-		/////系统维护弹窗
-		$(".layer_close").click(function(){
-			$(".pop").fadeOut(500);
-		});	
- 	});	
-
-
-	function wapper(){
-		$(".wapper").show();
-	};	
-
-	function layer_loan(){	
-		
-		$.ajax({
-			url:"{php echo $this->createMobileUrl('product', array('op'=>'getProduct'))}",
-			type:"post",
-			data:{},
-			dataType:"json",
-			success: function (data) {
-				console.log(data);
-				if (data.code == '1') {
-					layer.close(index_lay);	
-					wapper();
-		  			/////轮播
-			  		for(var i=0;i<data.data.banner.length;i++){
-			  			var url_ba=data.data.banner[i].url;
-					  	var image_ba=data.data.banner[i].image;
-					  	var title_ba=data.data.banner[i].title;
-					  	
-						$("div#swiper-wrapper").append("<div class='swiper-slide'>"
-								+"<a href=\'"+ url_ba +"\'>"
-							 	+"<img src='"+ image_ba +"' />"
-								// +"<p>"
-								// +"<span>"+"<img src='../addons/xuan_mixloan/template/style/picture/dian_1.png' />"
-								// +"</span>"+ title_ba +"</p>"
-								+"</a>"
-					       		+"</div>");	
-			  		};  
-			  		
-			      	//新品推荐
-			      	var num_new=data.data.new.length;
-			      	if(num_new==0){
-			      		$("#newProduct").hide();	
-			      		$("#product").hide();
-			      	}else{
-			      		for(var i=0;i<data.data.new.length;i++){
-				      		var title=data.data.new[i].title; //名称
-				      		var day=data.data.new[i].day;  //日结or月结
-				      		var imgs=data.data.new[i].imgs;  //图片
-				      		var intro1=data.data.new[i].intro1;  ///返佣
-				      		var hot=data.data.new[i].hot;  //热门
-				      		var id_new=data.data.new[i].id; //链接id
-				      		var new_maintain=data.data.new[i].maintain; //0维护
-				      		
-							if(day==1){
-				      			var day_img='../addons/xuan_mixloan/template/style/images/end.png ';
-							}else if(day==2){
-							 	var day_img='../addons/xuan_mixloan/template/style/images/month.png ';
-							}else{
-								var day_img='../addons/xuan_mixloan/template/style/images/week.png ';
-							}
-				      		
-							if(hot==1){
-				      			var hot_img='../addons/xuan_mixloan/template/style/images/fire.png';
-							}else{
-							 	var hot_img='';
-							} 	
-
-				      		var two_li="<li class='clearfix' data-id="+ new_maintain +"  onclick=\"new_head(this);\">"
-				      		 	+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "'>"	
-						      		+"<div  class='clearfix lisi_li' >"
-						      			+"<div class='fl'>"
-						      				+"<img src='"+ imgs +"' />"
-						      				+"<div class='day_fire' ><img src='"+ hot_img +"' /></div>"
-						      			+"</div>"
-					      			 	+"<div class='fr'>"
-					      			 		+"<h2>"+ title +"</h2>"
-					      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
-					      			 	+"</div>" 	
-						      		+"</div>"
-						      		+"<div class='day_end'><img src='"+ day_img +"' /></div>"
-						      	+"</a>"	
-						      	+"</li>";
-					      	var two_li0="<li class='clearfix' data-id="+ new_maintain +" onclick=\"new_head(this);\">"
-				      		 	+"<a href='javascript:;'>"	
-						      		+"<div  class='clearfix lisi_li' >"
-						      			+"<div class='fl'>"
-						      				+"<img src='"+ imgs +"' />"
-						      				+"<div class='day_fire' ><img src='"+ hot_img +"' /></div>"
-						      			+"</div>"
-					      			 	+"<div class='fr'>"
-					      			 		+"<h2>"+ title +"</h2>"
-					      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
-					      			 	+"</div>" 	
-						      		+"</div>"
-						      		+"<div class='day_end'><img src='"+ day_img +"' /></div>"
-						      	+"</a>"	
-						      	+"</li>";
-				      
-				      		if(num_new==2 ){
-				      			$("ul.new_line2").remove();
-				      			$("ul.new_line_add1").remove();
-				     			$("ul.new_line_add").remove();
-				     			if(new_maintain==0){
-									$("div#product  ul.new_line1").append(two_li0);
-								}else{
-									$("div#product  ul.new_line1").append(two_li);
-								}
-				      			
-							}else if(num_new==4){
-				     			$("ul.new_line2").remove();
-				     			$("ul.new_line_add").remove();
-				     			if(i<2){
-				     				if(new_maintain==0){
-										$("div#product  ul.new_line1").append(two_li0);
-									}else{
-										$("div#product  ul.new_line1").append(two_li);
-									}
-								}else{
-				     				if(new_maintain==0){
-										$("div#product  ul.new_line_add1").append(two_li0);
-									}else{
-										$("div#product  ul.new_line_add1").append(two_li);
-									}
-
-				     					
-				     			}
-							}else if(num_new==3){
-				     			$("ul.new_line1").remove();
-				      			$("ul.new_line_add1").remove();
-				     			$("ul.new_line_add").remove();
-				     			if(new_maintain==0){
-									$("div#product ul.new_line2").append(two_li0);
-								}else{
-									$("div#product ul.new_line2").append(two_li);
-								}
-								
-							}else if(num_new==6){
-								$("ul.new_line1").remove();
-				     			$("ul.new_line_add1").remove();
-								if(i<3){
-									if(new_maintain==0){
-										$("div#product ul.new_line2").append(two_li0);
-									}else{
-										$("div#product ul.new_line2").append(two_li);
-									}
-
-									
-								}else{
-									if(new_maintain==0){
-										$("div#product ul.new_line_add").append(two_li0);
-									}else{
-										$("div#product ul.new_line_add").append(two_li);
-									}
-										
-								}		
-							}else if(num_new==5){
-								$("ul.new_line_add1").remove();
-				     			$("ul.new_line_add").remove();
-								if(i<2){
-									if(new_maintain==0){
-										$("div#product  ul.new_line1").append(two_li0);
-									}else{
-										$("div#product  ul.new_line1").append(two_li);
-									}
-
-									
-								}else{
-									if(new_maintain==0){
-										$("div#product ul.new_line2").append(two_li0);
-									}else{
-										$("div#product ul.new_line2").append(two_li);
-									}
-									
-								}
-							}
-				    	}
-			      	}
-			      	
-			    	//信用卡产品
-			    	var num_card=data.data.card.length;
-					$("#ka_num").text(num_card);
-			    	for(var i=0;i<num_card;i++){
-						var title_loan=data.data.card[i].title; //名称
-			      		var day_loan=data.data.card[i].day;  //日结or月结
-			      		var imgs_loan=data.data.card[i].imgs;  //图片
-			      		var intro1_loan=data.data.card[i].intro1;  ///返佣
-			      		var hot_loan=data.data.card[i].hot;  //热门
-		      			var id_hot=data.data.card[i].id;  //热门
-		      			var card_maintain=data.data.card[i].maintain; //0维护
-				      	
-					 	
-		     			if(day_loan==1){
-		   	      			var day_img_loan='../addons/xuan_mixloan/template/style/images/end.png ';
-		   				}else if(day_loan==2){
-		   					var day_img_loan='../addons/xuan_mixloan/template/style/images/month.png ';
-		   				}else{
-		   					var day_img_loan='../addons/xuan_mixloan/template/style/images/week.png ';
-		   				}
+	<div class="three_head">
+		<ul class="clearfix"></ul>
+	</div>
+	<!--代呗店star  -->
+	<div class="finndy"><a href="{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
+	<!--代呗店END -->
+</div>
+<div style="height:3.0rem;" class="agent-main"></div>
+<div class="agent-foot">
+	<a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+		<p>首页</p>
+	</a>
+	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+		<p>今日口子</p>
+	</a>
+	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
+		<img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+	</a>
+	<a href="javascript:;"  class="on">
+		<!-- <span class="iconfont icon-card2"></span> -->
+		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
+		<p>{$config['title']}</p>
+	</a>
+	<a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+		<p>个人中心</p>
+	</a>
+</div>
 
 
-		     			var hot_img_loan='';
-						if(hot_loan==1){
-			      			hot_img_loan='../addons/xuan_mixloan/template/style/images/fire.png';
-						}    	
+<script type="text/javascript">
+    $(document).ready(function(){
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
 
-			  			var str_tw="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				  			+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"	
-					      		+"<div  class='clearfix lisi_li' >"
-					      			+"<div class='fl'>"
-					      				+"<img src='"+ imgs_loan +"' />"
-					      				+"<div class='day_fire' ><img src='"+ hot_img_loan +"' /></div>"
-					      			+"</div>"
-				      			 	+"<div class='fr'>"
-				      			 		+"<h2>"+ title_loan +"</h2>"
-				      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
-				      			 	+"</div>" 	
-					      		+"</div>"
-					      		+"<div class='day_end'><img src='"+ day_img_loan +"' /></div>"
-					      	+"</a>"	
-				      	+"</li>";
-				      	var str_tw0="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				  			+"<a href='javascript:;'>"	
-					      		+"<div  class='clearfix lisi_li' >"
-					      			+"<div class='fl'>"
-					      				+"<img src='"+ imgs_loan +"' />"
-					      				+"<div class='day_fire' ><img src='"+ hot_img_loan +"' /></div>"
-					      			+"</div>"
-				      			 	+"<div class='fr'>"
-				      			 		+"<h2>"+ title_loan +"</h2>"
-				      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
-				      			 	+"</div>" 	
-					      		+"</div>"
-					      		+"<div class='day_end'><img src='"+ day_img_loan +"' /></div>"
-					      	+"</a>"	
-				      	+"</li>";
-				      	var str_tre="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				      		+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
-					      		+"<div  class='clearfix lisi_li' >"
-					      			+"<div class='fl'>"
-					      				+"<img src='"+ imgs_loan +"'  />"
-					      				+"<div class='day_fire'><img src='"+ hot_img_loan +"' /></div>"
-					      			+"</div>"
-				      			 	+"<div class='fr'>"
-				      			 		+"<h2>"+ title_loan +"</h2>"
-				      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
-				      			 	+"</div>"	
-					      		+"</div>"
-								+"<div class='day_end' ><img src='"+ day_img_loan +"'/></div>"
-				      		+"</a>"	
-				      	+"</li>";
-				      	var str_tre0="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-				      		+"<a href='javascript:;'>"
-					      		+"<div  class='clearfix lisi_li' >"
-					      			+"<div class='fl'>"
-					      				+"<img src='"+ imgs_loan +"'  />"
-					      				+"<div class='day_fire'><img src='"+ hot_img_loan +"' /></div>"
-					      			+"</div>"
-				      			 	+"<div class='fr'>"
-				      			 		+"<h2>"+ title_loan +"</h2>"
-				      			 		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
-				      			 	+"</div>"	
-					      		+"</div>"
-								+"<div class='day_end' ><img src='"+ day_img_loan +"'/></div>"
-				      		+"</a>"	
-				      	+"</li>";
-				      	if(num_card<=4){  
-				    		$("div.list_line2  ul.ka_one3").remove();
-		 					$("div.list_line2  ul.ka_one4").remove();
-		 					$("div.list_line2  ul.new_line5").remove();
-							if(i<2){
-								if(card_maintain==0){
-									$("div.list_line2  ul.ka_one").append(str_tw0);
-								}else{
-									$("div.list_line2  ul.ka_one").append(str_tw);
-								}
-				  				
-				  			}else{
-				  				if(card_maintain==0){
-									$("div.list_line2  ul.ka_one2").append(str_tw0);
-								}else{
-									$("div.list_line2  ul.ka_one2").append(str_tw);///11111111111
-								}
-				  				
-				  			}
-		      			}else if(num_card==5){
-		      				$("div.list_line2  ul.ka_one2").remove();
-		      				$("div.list_line2  ul.ka_one3").remove();
-		 					$("div.list_line2  ul.ka_one4").remove();
-		 					$("div.list_line2  ul.ew1").remove();
-		      				$("div.list_line2  ul.ew2").remove();
-		      				if(i<2){
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one").append(str_tre0);	
-		      					}else{
-		      						$("div.list_line2  ul.ka_one").append(str_tre);
-		      					}	
-		      				}else{
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre0);	
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre);
-		      					}	
-		      					
-		      				}
-						}else if(num_card==6){
-							$("div.list_line2  ul.ka_one").remove();
-							$("div.list_line2  ul.ka_one2").remove();
-							$("div.list_line2  ul.ka_one3").remove();
-		 					$("div.list_line2  ul.ka_one4").remove();
-		 					$("div.list_line2  ul.ew2").remove();
-		  					if(i<3){
-		  						if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre0);
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre);
-		      					}
-							}else{
-								if(card_maintain==0){
-		      						$("div.list_line2 ul.new_line5.ew1").append(str_tre0);
-		      					}else{
-		      						$("div.list_line2 ul.new_line5.ew1").append(str_tre);
-		      					}
+        layer_loan();
 
-		  					}
-		      			}else if(num_card==7){
-		      				$("div.list_line2  ul.ka_one3").remove();
-		 					$("div.list_line2  ul.ka_one4").remove();
-		 					$("div.list_line2  ul.ew1").remove();
-		 					$("div.list_line2  ul.ew2").remove();
-							if(i<2){
-								if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one").append(str_tw);
-		      					}
-		      					
-		      				}else if(i>2 && i<5){
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one2").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one2").append(str_tw);
-		      					}
-		      					
+        /////系统维护弹窗
+        $(".layer_close").click(function(){
+            $(".pop").fadeOut(500);
+        });
+    });
 
-		      				}else{
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre0);
-		      					}else{
-		      						$("div.list_line2  ul.new_line5.ew0").append(str_tre);
-		      					}
-		      						
-		      				}
-		      			}else if(num_card==8){
-		      				$("div.list_line2  ul.ew0").remove();
-		 					$("div.list_line2  ul.ew1").remove();
-		 					$("div.list_line2  ul.ew2").remove();
-		 					if(i<=1){
-		 						if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one").append(str_tw);
-		      					}
-		      						
-		      				}else if(i>=2 && i <=3){
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one2").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one2").append(str_tw);
-		      					}
-		      					
-		      				}else if(i>=4 && i <=5){
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one3").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one3").append(str_tw);
-		      					}
-		      					
-		      				}else{
-		      					if(card_maintain==0){
-		      						$("div.list_line2  ul.ka_one4").append(str_tw0);
-		      					}else{
-		      						$("div.list_line2  ul.ka_one4").append(str_tw);
-		      					}
-		      					
-		      				}
-						}else{
+
+    function wapper(){
+        $(".wapper").show();
+    };
+
+    function layer_loan(){
+
+        $.ajax({
+            url:"{php echo $this->createMobileUrl('product', array('op'=>'getProduct'))}",
+            type:"post",
+            data:{},
+            dataType:"json",
+            success: function (data) {
+                console.log(data);
+                if (data.code == '1') {
+                    layer.close(index_lay);
+                    wapper();
+                    /////轮播
+                    for(var i=0;i<data.data.banner.length;i++){
+                        var url_ba=data.data.banner[i].url;
+                        var image_ba=data.data.banner[i].image;
+                        var title_ba=data.data.banner[i].title;
+
+                        $("div#swiper-wrapper").append("<div class='swiper-slide'>"
+                            +"<a href=\'"+ url_ba +"\'>"
+                            +"<img src='"+ image_ba +"' />"
+                            // +"<p>"
+                            // +"<span>"+"<img src='../addons/xuan_mixloan/template/style/picture/dian_1.png' />"
+                            // +"</span>"+ title_ba +"</p>"
+                            +"</a>"
+                            +"</div>");
+                    };
+
+                    //新品推荐
+                    var num_new=data.data.new.length;
+                    if(num_new==0){
+                        $("#newProduct").hide();
+                        $("#product").hide();
+                    }else{
+                        for(var i=0;i<data.data.new.length;i++){
+                            var title=data.data.new[i].title; //名称
+                            var day=data.data.new[i].day;  //日结or月结
+                            var imgs=data.data.new[i].imgs;  //图片
+                            var intro1=data.data.new[i].intro1;  ///返佣
+                            var hot=data.data.new[i].hot;  //热门
+                            var id_new=data.data.new[i].id; //链接id
+                            var new_maintain=data.data.new[i].maintain; //0维护
+
+                            if(day==1){
+                                var day_img='../addons/xuan_mixloan/template/style/images/end.png ';
+                            }else if(day==2){
+                                var day_img='../addons/xuan_mixloan/template/style/images/month.png ';
+                            }else{
+                                var day_img='../addons/xuan_mixloan/template/style/images/week.png ';
+                            }
+
+                            if(hot==1){
+                                var hot_img='../addons/xuan_mixloan/template/style/images/fire.png';
+                            }else{
+                                var hot_img='';
+                            }
+
+                            var two_li="<li class='clearfix' data-id="+ new_maintain +"  onclick=\"new_head(this);\">"
+                                +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "'>"
+                                +"<div  class='clearfix lisi_li' >"
+                                +"<div class='fl'>"
+                                +"<img src='"+ imgs +"' />"
+                                +"<div class='day_fire' ><img src='"+ hot_img +"' /></div>"
+                                +"</div>"
+                                +"<div class='fr'>"
+                                +"<h2>"+ title +"</h2>"
+                                +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
+                                +"</div>"
+                                +"</div>"
+                                +"<div class='day_end'><img src='"+ day_img +"' /></div>"
+                                +"</a>"
+                                +"</li>";
+                            var two_li0="<li class='clearfix' data-id="+ new_maintain +" onclick=\"new_head(this);\">"
+                                +"<a href='javascript:;'>"
+                                +"<div  class='clearfix lisi_li' >"
+                                +"<div class='fl'>"
+                                +"<img src='"+ imgs +"' />"
+                                +"<div class='day_fire' ><img src='"+ hot_img +"' /></div>"
+                                +"</div>"
+                                +"<div class='fr'>"
+                                +"<h2>"+ title +"</h2>"
+                                +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
+                                +"</div>"
+                                +"</div>"
+                                +"<div class='day_end'><img src='"+ day_img +"' /></div>"
+                                +"</a>"
+                                +"</li>";
+
+                            if(num_new==2 ){
+                                $("ul.new_line2").remove();
+                                $("ul.new_line_add1").remove();
+                                $("ul.new_line_add").remove();
+                                if(new_maintain==0){
+                                    $("div#product  ul.new_line1").append(two_li0);
+                                }else{
+                                    $("div#product  ul.new_line1").append(two_li);
+                                }
+
+                            }else if(num_new==4){
+                                $("ul.new_line2").remove();
+                                $("ul.new_line_add").remove();
+                                if(i<2){
+                                    if(new_maintain==0){
+                                        $("div#product  ul.new_line1").append(two_li0);
+                                    }else{
+                                        $("div#product  ul.new_line1").append(two_li);
+                                    }
+                                }else{
+                                    if(new_maintain==0){
+                                        $("div#product  ul.new_line_add1").append(two_li0);
+                                    }else{
+                                        $("div#product  ul.new_line_add1").append(two_li);
+                                    }
+
+
+                                }
+                            }else if(num_new==3){
+                                $("ul.new_line1").remove();
+                                $("ul.new_line_add1").remove();
+                                $("ul.new_line_add").remove();
+                                if(new_maintain==0){
+                                    $("div#product ul.new_line2").append(two_li0);
+                                }else{
+                                    $("div#product ul.new_line2").append(two_li);
+                                }
+
+                            }else if(num_new==6){
+                                $("ul.new_line1").remove();
+                                $("ul.new_line_add1").remove();
+                                if(i<3){
+                                    if(new_maintain==0){
+                                        $("div#product ul.new_line2").append(two_li0);
+                                    }else{
+                                        $("div#product ul.new_line2").append(two_li);
+                                    }
+
+
+                                }else{
+                                    if(new_maintain==0){
+                                        $("div#product ul.new_line_add").append(two_li0);
+                                    }else{
+                                        $("div#product ul.new_line_add").append(two_li);
+                                    }
+
+                                }
+                            }else if(num_new==5){
+                                $("ul.new_line_add1").remove();
+                                $("ul.new_line_add").remove();
+                                if(i<2){
+                                    if(new_maintain==0){
+                                        $("div#product  ul.new_line1").append(two_li0);
+                                    }else{
+                                        $("div#product  ul.new_line1").append(two_li);
+                                    }
+
+
+                                }else{
+                                    if(new_maintain==0){
+                                        $("div#product ul.new_line2").append(two_li0);
+                                    }else{
+                                        $("div#product ul.new_line2").append(two_li);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+                    //信用卡产品
+                    var num_card=data.data.card.length;
+                    $("#ka_num").text(num_card);
+                    for(var i=0;i<num_card;i++){
+                        var title_loan=data.data.card[i].title; //名称
+                        var day_loan=data.data.card[i].day;  //日结or月结
+                        var imgs_loan=data.data.card[i].imgs;  //图片
+                        var intro1_loan=data.data.card[i].intro1;  ///返佣
+                        var hot_loan=data.data.card[i].hot;  //热门
+                        var id_hot=data.data.card[i].id;  //热门
+                        var card_maintain=data.data.card[i].maintain; //0维护
+
+
+                        if(day_loan==1){
+                            var day_img_loan='../addons/xuan_mixloan/template/style/images/end.png ';
+                        }else if(day_loan==2){
+                            var day_img_loan='../addons/xuan_mixloan/template/style/images/month.png ';
+                        }else{
+                            var day_img_loan='../addons/xuan_mixloan/template/style/images/week.png ';
+                        }
+
+
+                        var hot_img_loan='';
+                        if(hot_loan==1){
+                            hot_img_loan='../addons/xuan_mixloan/template/style/images/fire.png';
+                        }
+
+                        var str_tw="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
+                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<div  class='clearfix lisi_li' >"
+                            +"<div class='fl'>"
+                            +"<img src='"+ imgs_loan +"' />"
+                            +"<div class='day_fire' ><img src='"+ hot_img_loan +"' /></div>"
+                            +"</div>"
+                            +"<div class='fr'>"
+                            +"<h2>"+ title_loan +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
+                            +"</div>"
+                            +"</div>"
+                            +"<div class='day_end'><img src='"+ day_img_loan +"' /></div>"
+                            +"</a>"
+                            +"</li>";
+                        var str_tw0="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
+                            +"<a href='javascript:;'>"
+                            +"<div  class='clearfix lisi_li' >"
+                            +"<div class='fl'>"
+                            +"<img src='"+ imgs_loan +"' />"
+                            +"<div class='day_fire' ><img src='"+ hot_img_loan +"' /></div>"
+                            +"</div>"
+                            +"<div class='fr'>"
+                            +"<h2>"+ title_loan +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
+                            +"</div>"
+                            +"</div>"
+                            +"<div class='day_end'><img src='"+ day_img_loan +"' /></div>"
+                            +"</a>"
+                            +"</li>";
+                        var str_tre="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
+                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<div  class='clearfix lisi_li' >"
+                            +"<div class='fl'>"
+                            +"<img src='"+ imgs_loan +"'  />"
+                            +"<div class='day_fire'><img src='"+ hot_img_loan +"' /></div>"
+                            +"</div>"
+                            +"<div class='fr'>"
+                            +"<h2>"+ title_loan +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
+                            +"</div>"
+                            +"</div>"
+                            +"<div class='day_end' ><img src='"+ day_img_loan +"'/></div>"
+                            +"</a>"
+                            +"</li>";
+                        var str_tre0="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
+                            +"<a href='javascript:;'>"
+                            +"<div  class='clearfix lisi_li' >"
+                            +"<div class='fl'>"
+                            +"<img src='"+ imgs_loan +"'  />"
+                            +"<div class='day_fire'><img src='"+ hot_img_loan +"' /></div>"
+                            +"</div>"
+                            +"<div class='fr'>"
+                            +"<h2>"+ title_loan +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1_loan +"</b></p>"
+                            +"</div>"
+                            +"</div>"
+                            +"<div class='day_end' ><img src='"+ day_img_loan +"'/></div>"
+                            +"</a>"
+                            +"</li>";
+                        if(num_card<=4){
+                            $("div.list_line2  ul.ka_one3").remove();
+                            $("div.list_line2  ul.ka_one4").remove();
+                            $("div.list_line2  ul.new_line5").remove();
+                            if(i<2){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one").append(str_tw);
+                                }
+
+                            }else{
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one2").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one2").append(str_tw);///11111111111
+                                }
+
+                            }
+                        }else if(num_card==5){
+                            $("div.list_line2  ul.ka_one2").remove();
+                            $("div.list_line2  ul.ka_one3").remove();
+                            $("div.list_line2  ul.ka_one4").remove();
+                            $("div.list_line2  ul.ew1").remove();
+                            $("div.list_line2  ul.ew2").remove();
+                            if(i<2){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one").append(str_tre);
+                                }
+                            }else{
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre);
+                                }
+
+                            }
+                        }else if(num_card==6){
+                            $("div.list_line2  ul.ka_one").remove();
+                            $("div.list_line2  ul.ka_one2").remove();
+                            $("div.list_line2  ul.ka_one3").remove();
+                            $("div.list_line2  ul.ka_one4").remove();
+                            $("div.list_line2  ul.ew2").remove();
+                            if(i<3){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre);
+                                }
+                            }else{
+                                if(card_maintain==0){
+                                    $("div.list_line2 ul.new_line5.ew1").append(str_tre0);
+                                }else{
+                                    $("div.list_line2 ul.new_line5.ew1").append(str_tre);
+                                }
+
+                            }
+                        }else if(num_card==7){
+                            $("div.list_line2  ul.ka_one3").remove();
+                            $("div.list_line2  ul.ka_one4").remove();
+                            $("div.list_line2  ul.ew1").remove();
+                            $("div.list_line2  ul.ew2").remove();
+                            if(i<2){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one").append(str_tw);
+                                }
+
+                            }else if(i>2 && i<5){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one2").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one2").append(str_tw);
+                                }
+
+
+                            }else{
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew0").append(str_tre);
+                                }
+
+                            }
+                        }else if(num_card==8){
+                            $("div.list_line2  ul.ew0").remove();
+                            $("div.list_line2  ul.ew1").remove();
+                            $("div.list_line2  ul.ew2").remove();
+                            if(i<=1){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one").append(str_tw);
+                                }
+
+                            }else if(i>=2 && i <=3){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one2").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one2").append(str_tw);
+                                }
+
+                            }else if(i>=4 && i <=5){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one3").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one3").append(str_tw);
+                                }
+
+                            }else{
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.ka_one4").append(str_tw0);
+                                }else{
+                                    $("div.list_line2  ul.ka_one4").append(str_tw);
+                                }
+
+                            }
+                        }else{
                             $("div.list_line2  ul.ka_one").remove();
                             $("div.list_line2  ul.ka_one2").remove();
                             $("div.list_line2  ul.ka_one3").remove();
@@ -581,128 +615,128 @@
                                 }
                             }
                         }
-				    }
+                    }
 
-					//贷款产品
-					var num_loan=data.data.loan.length;
-			    	$("#card_num").text(num_loan);
-					for(var i=0;i<data.data.loan.length;i++){	
-						var title_card=data.data.loan[i].title; //名称
-			      		var day_card=data.data.loan[i].day;  //日结or月结
-			      		var imgs_card=data.data.loan[i].imgs;  //图片
-			      		var intro1_card=data.data.loan[i].intro1;  ///返佣
-			      		var hot_card=data.data.loan[i].hot;  //热门
-			      		var id_card=data.data.loan[i].id;  //热门
-			      		var loan_maintain=data.data.loan[i].maintain; //0维护
-				      		///console.log(loan_maintain);
-			      			if(day_card==1){
-				      			var day_img_card='../addons/xuan_mixloan/template/style/images/end.png ';
-							 }else if(day_card==2){
-							 	var day_img_card='../addons/xuan_mixloan/template/style/images/month.png ';
-							 }else{
-							 	var day_img_card='../addons/xuan_mixloan/template/style/images/week.png ';
-							 }
+                    //贷款产品
+                    var num_loan=data.data.loan.length;
+                    $("#card_num").text(num_loan);
+                    for(var i=0;i<data.data.loan.length;i++){
+                        var title_card=data.data.loan[i].title; //名称
+                        var day_card=data.data.loan[i].day;  //日结or月结
+                        var imgs_card=data.data.loan[i].imgs;  //图片
+                        var intro1_card=data.data.loan[i].intro1;  ///返佣
+                        var hot_card=data.data.loan[i].hot;  //热门
+                        var id_card=data.data.loan[i].id;  //热门
+                        var loan_maintain=data.data.loan[i].maintain; //0维护
+                        ///console.log(loan_maintain);
+                        if(day_card==1){
+                            var day_img_card='../addons/xuan_mixloan/template/style/images/end.png ';
+                        }else if(day_card==2){
+                            var day_img_card='../addons/xuan_mixloan/template/style/images/month.png ';
+                        }else{
+                            var day_img_card='../addons/xuan_mixloan/template/style/images/week.png ';
+                        }
 
 
-							 if(hot_card==1){
-				      			var hot_img_card='../addons/xuan_mixloan/template/style/images/fire.png';
-							 }else{var hot_img_card='';}     	
+                        if(hot_card==1){
+                            var hot_img_card='../addons/xuan_mixloan/template/style/images/fire.png';
+                        }else{var hot_img_card='';}
 
-			      			//console.log(title_card);
+                        //console.log(title_card);
 
-			      			
-					    	var three_head="<li class='clearfix'  data-id="+ loan_maintain +"   onclick=\"three_head(this);\">"
-					    		+"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_card + "'>"
-						      		+"<div class='line_three'>"
-							      		+"<div class='line_img' >"
-							      			+"<img src='"+ imgs_card +"' />"
-							      			+"<div class='day_fire'><img src='"+ hot_img_card+"' /></div>"
-							      		+"</div>"
-							      		+"<h2>"+ title_card +"</h2>"
-							      		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
-							      	+"</div>"
-							      	+"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
-							      	+"</a>"
-					    		+"</li>";
-					    		var three_head0="<li class='clearfix'  data-id="+ loan_maintain +"  onclick=\"three_head(this);\">"
-					    		+"<a href='javascript:;'>"
-						      		+"<div class='line_three'>"
-							      		+"<div class='line_img' >"
-							      			+"<img src='"+ imgs_card +"' />"
-							      			+"<div class='day_fire'><img src='"+ hot_img_card+"' /></div>"
-							      		+"</div>"
-							      		+"<h2>"+ title_card +"</h2>"
-							      		+"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
-							      	+"</div>"
-							      	+"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
-							      	+"</a>";
-					    		+"</li>"
-					      		
-					    	if(loan_maintain==0){
-					    		$("div.three_head  ul").append(three_head0);
 
-			      			}else{
-			      				$("div.three_head  ul").append(three_head);
-			      			}	
+                        var three_head="<li class='clearfix'  data-id="+ loan_maintain +"   onclick=\"three_head(this);\">"
+                            +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_card + "')\">"
+                            +"<div class='line_three'>"
+                            +"<div class='line_img' >"
+                            +"<img src='"+ imgs_card +"' />"
+                            +"<div class='day_fire'><img src='"+ hot_img_card+"' /></div>"
+                            +"</div>"
+                            +"<h2>"+ title_card +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
+                            +"</div>"
+                            +"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
+                            +"</a>"
+                            +"</li>";
+                        var three_head0="<li class='clearfix'  data-id="+ loan_maintain +"  onclick=\"three_head(this);\">"
+                            +"<a href='javascript:;'>"
+                            +"<div class='line_three'>"
+                            +"<div class='line_img' >"
+                            +"<img src='"+ imgs_card +"' />"
+                            +"<div class='day_fire'><img src='"+ hot_img_card+"' /></div>"
+                            +"</div>"
+                            +"<h2>"+ title_card +"</h2>"
+                            +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
+                            +"</div>"
+                            +"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
+                            +"</a>";
+                        +"</li>"
 
-					      	
+                        if(loan_maintain==0){
+                            $("div.three_head  ul").append(three_head0);
 
-					      		
-			      	}	
+                        }else{
+                            $("div.three_head  ul").append(three_head);
+                        }
 
-					var add_li=$("div.three_head ul li");
-					for (var k=0;k<add_li.length;k++){
-						var num_li=3*[k]+2;
-						var num_li2=3*[k];
-						$("div.three_head ul li:eq(" +num_li+ ")").addClass("ons");
-						$("div.three_head ul li:eq(" +num_li2+ ")").addClass("ons2");
-					}
-				}else{
-					var index = layer.load(1, {
-					  	shade: [0.1,'#fff'], //0.1透明度的白色背景
-					  
-					});
-				}	
 
-	  		}
 
-		});
-	}
-		// 预览图片容器 swiper初始化
-		
-		var initialSwiper = new Swiper('.swiper-container', {
-		    // initialSlide :initialSlide,
-		   //	loop: true,
-            autoplay:3000,
-			autoplayDisableOnInteraction : false,
-		    pagination : '.swiper-pagination',
-		    spaceBetween : 0,
-		    observer:true,//修改swiper自己或子元素时，自动初始化swiper
-		    observeParents:true//修改swiper的父元素时，自动初始化swiper      
-		});
-		///新品推荐
-		function new_head(index){
-			var loan_lay=$(index).attr("data-id");
-			if( loan_lay==0 ){
-				layer.msg("系统正在维护中,请耐心等待!",{time:800})	
-			}
-			
-		}
-		////信用卡产品
-		function card_head(index){
-			var loan_lay=$(index).attr("data-id");
-			if( loan_lay==0 ){
-				layer.msg("系统正在维护中,请耐心等待!",{time:800})	
-			}
-		}
-		//////贷款产品
-		function three_head(index){
-			var loan_lay=$(index).attr("data-id");
-			if( loan_lay==0 ){
-				layer.msg("系统正在维护中,请耐心等待!",{time:800})	
-			}
-		}
-		</script>
 
-	</body>
+                    }
+
+                    var add_li=$("div.three_head ul li");
+                    for (var k=0;k<add_li.length;k++){
+                        var num_li=3*[k]+2;
+                        var num_li2=3*[k];
+                        $("div.three_head ul li:eq(" +num_li+ ")").addClass("ons");
+                        $("div.three_head ul li:eq(" +num_li2+ ")").addClass("ons2");
+                    }
+                }else{
+                    var index = layer.load(1, {
+                        shade: [0.1,'#fff'], //0.1透明度的白色背景
+
+                    });
+                }
+
+            }
+
+        });
+    }
+    // 预览图片容器 swiper初始化
+
+    var initialSwiper = new Swiper('.swiper-container', {
+        // initialSlide :initialSlide,
+        //	loop: true,
+        autoplay:3000,
+        autoplayDisableOnInteraction : false,
+        pagination : '.swiper-pagination',
+        spaceBetween : 0,
+        observer:true,//修改swiper自己或子元素时，自动初始化swiper
+        observeParents:true//修改swiper的父元素时，自动初始化swiper
+    });
+    ///新品推荐
+    function new_head(index){
+        var loan_lay=$(index).attr("data-id");
+        if( loan_lay==0 ){
+            layer.msg("系统正在维护中,请耐心等待!",{time:800})
+        }
+
+    }
+    ////信用卡产品
+    function card_head(index){
+        var loan_lay=$(index).attr("data-id");
+        if( loan_lay==0 ){
+            layer.msg("系统正在维护中,请耐心等待!",{time:800})
+        }
+    }
+    //////贷款产品
+    function three_head(index){
+        var loan_lay=$(index).attr("data-id");
+        if( loan_lay==0 ){
+            layer.msg("系统正在维护中,请耐心等待!",{time:800})
+        }
+    }
+</script>
+
+</body>
 </html>

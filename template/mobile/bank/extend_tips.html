@@ -9,7 +9,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta  content="e-mail=no" name="format-detection"/>
-    <title>秘籍攻略</title>
+    <title>提额干货</title>
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
@@ -17,37 +17,127 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_3.css">
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
-<body class="bglightgray">    
-    <div class="agent-header">
-        秘籍攻略
-        <a class="return" onclick="javascript:history.go(-1)">返回</a>
+<body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    div.rate_main{margin-top: 0;padding-top: 0}
+</style>
+<style type="text/css">
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        div.agent-foot{padding-bottom:20px; }
+        div.agent-main{padding-bottom:0px;}
+    }
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 8px;
+        z-index: 999;
+        line-height: 0px;
+        top: 2rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    .agent-foot{
+        height: 4rem
+    }
+    div.agent-foot p.foot_img {
+        height: 2.22rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 2.22rem;
+        width: 2.1rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.8rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>提额干货</span>
     </div>
-    <div class="rate_main">
-        <div class="rate_common tier_raw">
-            <h2><span>秘籍攻略</span><a class="bank_list" style="display: none;"><img src="../addons/xuan_mixloan/template/style/picture/bank_list_1.png" /></a></h2>
-            <div class="bank_ghD" style="display: block;">
-                <ul>
+</div>
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{else}
+<div class="agent-header">
+    提额干货
+    <a class="return" onclick="javascript:history.go(-1)">返回</a>
+</div>
+{/if}
+<div class="rate_main">
+    <div class="rate_common tier_raw">
+        <h2><span>提额干货</span><a class="bank_list" style="display: none;"><img src="../addons/xuan_mixloan/template/style/picture/bank_list_1.png" /></a></h2>
+        <div class="bank_ghD" style="display: block;">
+            <ul>
                 {loop $banks $row}
-                    <li><p><img src="{php echo tomedia($row['ext_info']['logo'])}" /></p><p>{$row['name']}</p></li>
+                <li><p><img src="{php echo tomedia($row['ext_info']['logo'])}" /></p><p>{$row['name']}</p></li>
                 {/loop}
-                </ul>
-            </div>
-            <div class="bank_ghH" style="display: none;">
-                <div class="swiper-container swiper-nav" id="topNav">
-                     <div class="swiper-wrapper">
-                        {loop $banks $row}
-                        <div class="swiper-slide active-nav" data-id="{$row['id']}">
-                            <div class="opt">
-                                    <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
-                                    <p>{$row['name']}</p>
-                                    <a><img src="../addons/xuan_mixloan/template/style/picture/icon_top_1.png"></a>
-                            </div> 
+            </ul>
+        </div>
+        <div class="bank_ghH" style="display: none;">
+            <div class="swiper-container swiper-nav" id="topNav">
+                <div class="swiper-wrapper">
+                    {loop $banks $row}
+                    <div class="swiper-slide active-nav" data-id="{$row['id']}">
+                        <div class="opt">
+                            <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
+                            <p>{$row['name']}</p>
+                            <a><img src="../addons/xuan_mixloan/template/style/picture/icon_top_1.png"></a>
                         </div>
-                        {/loop}
-                     <p class="fix_right"></p>
-                     </div>
+                    </div>
+                    {/loop}
+                    <p class="fix_right"></p>
+                </div>
                 <div class="bankgh_content">
                     <ul>
                     </ul>
@@ -58,7 +148,7 @@
             <h2><span>热门技巧</span></h2>
             <ul>
                 {loop $tips $v}
-                <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
+                <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'artical', 'id'=>$v['id']))}')"><span><img src="{php echo tomedia($v['logo']);}" /></span>{$v['title']}</a></li>
                 {/loop}
             </ul>
             {if count($tips) > 5}
@@ -77,90 +167,94 @@
             </ul>
         </div>
     </div>
-<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/iscroll.js"></script>
-<script type="text/javascript">
-    //提额干货 指向跳转
-    $("div.bank_ghD ul li").click(function(){
-        var _index=$(this).index();
-        $("div.bank_ghD").hide();
-        $("div.bank_ghH").show();
-        $(".bank_list").show();
-        // bank_swipper();
-        $("div.swiper-wrapper").find("div.swiper-slide").eq(_index).click();
-        //干货内容(接口)
-    })
-    // 干货返回
-    $(".bank_list").click(function(){
-        $("div.bank_ghD").show();
-        $("div.bank_ghH").hide();
-        $(".bank_list").hide();
-    })
-    $("div.swiper-slide").on('click', function() {
-        var _index=$(this).index();
-        var mySwiper = new Swiper('#topNav', {
-              freeMode: true,
-              freeModeMomentumRatio: 0.5,
-              slidesPerView: 'auto',
-          });
-          swiperWidth = mySwiper.container[0].clientWidth;
-          maxTranslate = mySwiper.maxTranslate();
-          maxWidth = -maxTranslate + swiperWidth / 2;
-          slide = mySwiper.slides[_index];
-          slideLeft = slide.offsetLeft;
-          slideWidth = slide.clientWidth;
-          slideCenter = slideLeft + slideWidth / 2
-          // 被点击slide的中心点
-          mySwiper.setWrapperTransition(300);
-          if (slideCenter < swiperWidth / 2) {          
-              mySwiper.setWrapperTranslate(0);
-          } else if (slideCenter > maxWidth) {          
-              mySwiper.setWrapperTranslate(maxTranslate);
-          } else {
-            nowTlanslate = slideCenter - swiperWidth / 2
-            mySwiper.setWrapperTranslate(-nowTlanslate);
-          }
-          //接口
-      })
-    //银行点击样式&tips
-    $("div.swiper-slide").click(function(){
-        var _this=$(this);
-        $("div.opt").find("a").remove();
-        var _id=_this.attr("data-id");
-        tool(_id);
-    })
-    //各银行tips
-    function tool(id){
-        $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getArtical'))}",{"bank_id":id},
-            function(data){
-                if(data.code==1){
-                    $("div.bankgh_content ul").html("");
-                    var _data=data.data;                    
-                    for(i=0;i<_data.length;i++){
-                        var title=_data[i].title;
-                        var _id=_data[i].id;
-                        $("div.bankgh_content ul").append("<li><a href=\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\">"+ title +"</a></li>");
+
+    {if !is_weixin()}
+    <div style="height: 4rem"></div>
+    {/if}
+    <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/iscroll.js"></script>
+    <script type="text/javascript">
+        //提额干货 指向跳转
+        $("div.bank_ghD ul li").click(function(){
+            var _index=$(this).index();
+            $("div.bank_ghD").hide();
+            $("div.bank_ghH").show();
+            $(".bank_list").show();
+            // bank_swipper();
+            $("div.swiper-wrapper").find("div.swiper-slide").eq(_index).click();
+            //干货内容(接口)
+        })
+        // 干货返回
+        $(".bank_list").click(function(){
+            $("div.bank_ghD").show();
+            $("div.bank_ghH").hide();
+            $(".bank_list").hide();
+        })
+        $("div.swiper-slide").on('click', function() {
+            var _index=$(this).index();
+            var mySwiper = new Swiper('#topNav', {
+                freeMode: true,
+                freeModeMomentumRatio: 0.5,
+                slidesPerView: 'auto',
+            });
+            swiperWidth = mySwiper.container[0].clientWidth;
+            maxTranslate = mySwiper.maxTranslate();
+            maxWidth = -maxTranslate + swiperWidth / 2;
+            slide = mySwiper.slides[_index];
+            slideLeft = slide.offsetLeft;
+            slideWidth = slide.clientWidth;
+            slideCenter = slideLeft + slideWidth / 2
+            // 被点击slide的中心点
+            mySwiper.setWrapperTransition(300);
+            if (slideCenter < swiperWidth / 2) {
+                mySwiper.setWrapperTranslate(0);
+            } else if (slideCenter > maxWidth) {
+                mySwiper.setWrapperTranslate(maxTranslate);
+            } else {
+                nowTlanslate = slideCenter - swiperWidth / 2
+                mySwiper.setWrapperTranslate(-nowTlanslate);
+            }
+            //接口
+        })
+        //银行点击样式&tips
+        $("div.swiper-slide").click(function(){
+            var _this=$(this);
+            $("div.opt").find("a").remove();
+            var _id=_this.attr("data-id");
+            tool(_id);
+        })
+        //各银行tips
+        function tool(id){
+            $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getArtical'))}",{"bank_id":id},
+                function(data){
+                    if(data.code==1){
+                        $("div.bankgh_content ul").html("");
+                        var _data=data.data;
+                        for(i=0;i<_data.length;i++){
+                            var title=_data[i].title;
+                            var _id=_data[i].id;
+                            $("div.bankgh_content ul").append("<li><a onclick='openNew(\"{php echo $this->createMobileUrl('bank', array('op'=>'artical'))}&id="+ _id +"\")'>"+ title +"</a></li>");
+                        }
                     }
-                }
-            },'json')
-    }
-    //热门技巧查看全部
-    $(".check_all").click(function(){
-        var _this=$(this);
-        if(_this.hasClass("down_arrow")){
-            _this.removeClass("down_arrow").addClass("top_arrow").html("收起全部");
-            _this.parent().find("ul").css("max-height","none");
-        }else{
-            _this.removeClass("top_arrow").addClass("down_arrow").html("查看全部");
-            _this.parent().find("ul").css("max-height","220px");
+                },'json')
         }
-    })
-    //推荐 换一批
-    getBank();
-    $(".next_card").click(function(){
+        //热门技巧查看全部
+        $(".check_all").click(function(){
+            var _this=$(this);
+            if(_this.hasClass("down_arrow")){
+                _this.removeClass("down_arrow").addClass("top_arrow").html("收起全部");
+                _this.parent().find("ul").css("max-height","none");
+            }else{
+                _this.removeClass("top_arrow").addClass("down_arrow").html("查看全部");
+                _this.parent().find("ul").css("max-height","220px");
+            }
+        })
+        //推荐 换一批
         getBank();
-    })
-    function getBank() {
+        $(".next_card").click(function(){
+            getBank();
+        })
+        function getBank() {
             $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getBank'))}",
                 function(data){
                     if(data.code==1){
@@ -170,21 +264,21 @@
                             var title=_data[i].title1;
                             var title2=_data[i].title2;
                             var imgs=_data[i].imgs;
-                            var url=_data[i].url;   
-                            var want_id=_data[i].id;                          
+                            var url=_data[i].url;
+                            var want_id=_data[i].id;
                             $("div.rate_recommend ul").append("<li>"
-                                                                + "<h1>"+ title +"</h1>"
-                                                                + "<span><img src="+imgs+" /></span>"
-                                                                + "<p>"+ title2 +"</p>"
-                                                                + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
-                                                            + "</li>")
-                        }                        
+                                + "<h1>"+ title +"</h1>"
+                                + "<span><img src="+imgs+" /></span>"
+                                + "<p>"+ title2 +"</p>"
+                                + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
+                                + "</li>")
+                        }
                     }else{
                         layer.msg(data.msg);
                         return false;
                     }
-            },'json')
+                },'json')
         }
-</script>
+    </script>
 </body>
 </html>
