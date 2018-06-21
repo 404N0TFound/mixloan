@@ -1,0 +1,302 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>个人中心</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script> -->
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <style type="text/css">
+         /*x兼容性*/
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.agent-secmes .mes-list li dl dd{width: 55%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+         div.agent-foot p>img {
+             width:1.1rem;
+         }
+    </style>
+
+	{template 'common/wxshare'}
+</head>
+<body class="bglightgray" >
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<script type="text/javascript">
+    mui.plusReady(function() {
+        console.log(mui.currentWebview.id);
+        window.addEventListener('refresh', function(event) {
+            mui.currentWebview.reload();
+        });
+        plus.key.addEventListener('backbutton', function() {
+            if (confirm('确认退出？')) {
+                plus.runtime.quit();
+            }
+        }, false);
+        var wv=plus.webview.currentWebview();
+        // 关闭侧滑返回功能
+        wv.setStyle({'popGesture':'none'});
+    });
+    mui.back = function(){
+        return false;
+    }
+</script>
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #00a2ff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <!-- <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)"> -->
+        <span>个人中心</span>
+    </div>
+</div>
+{/if}
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+    <!-- cenetr -->
+    <div class="agent-main rem2">
+        <div class="main-contain">
+            <div class="agent-secmes clearfix">
+                <div class="agent-secmes_next clearfix">
+                    <!-- fl -->
+                    <div class="logo">
+                        <a class="logo_a" onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'set'))}')">
+                                <img class="lazy"  src="{$member['avatar']}" alt="" >
+                        </a>
+                                            
+                    </div>
+                    <ul class="mes-list">
+                        <li>{$member['nickname']}</li>
+                        <li class="ag_basicInfo">
+                            <dl>
+                                <dd>{$config['title']}号：1000{$member['id']}</dd>
+                                <dd class="xian"></dd>
+                                <dd>职务：{$member['user_type']['name']}</dd>
+                            </dl>
+                            <dl style="margin-top: 0.3rem">
+                                <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
+                            </dl>
+                            <dl style="margin-top: 0.3rem">
+                                <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>    
+            </div>
+            <!-- center -->
+            <div class="agent_basicInfo">
+                <div class="index_special">
+                    <h2 id="get_paid"><img src="../addons/xuan_mixloan/template/style/picture/salary_1.png" />我的工资<a class="gz"><img class="gz" src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></a></h2>
+                    <div class="xuxian">
+                        <ul class="clearfix">
+                            <li><p>总收入(元)</p><span class="total_salary">{$all}</span></li>
+                            <li><p>已结算(元)</p><span>{$used}</span></li>
+                            <li><p>可结算(元)</p><span>{$use}</span></li>
+                        </ul>
+                    </div>    
+                </div>
+            </div>
+            <div class="agent_contain" style="position: relative;top:-0.4rem;">
+                {if $member['user_type']['code'] == 1}
+                <div class="informAlert">
+                    <div class="informContent clearfix">
+                        <span>是否开启消息提醒</span>
+                        <div class="ifInform">
+                                <a class="yesInform" data-attr="yesInform" style="{if $member['user_type']['msg'] != 1}display: none;{/if}"></a>
+                                <a class="noInform" data-attr="noInform" style="{if $member['user_type']['msg'] == 1}display: none;{/if}"></a>
+                                <span data-inform="{if $member['user_type']['msg'] != 1}noInform{else}yesInform{/if}" class="inform_way" style="{if $member['user_type']['msg'] != 1}left: 0.01rem;{else}left: 0.75rem;{/if}"></span>                
+                        </div>
+                    </div>    
+                    <div class="ifInform_txt"><p>若关闭此开关，您将不再收到该公众号的消息提醒。</p></div>
+                </div> 
+                {/if}
+                <ul class="clearfix">
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                            购买代理
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li>
+                        <a  onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')" >
+                            <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
+                            我要办卡
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op' => ''))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
+                            我要贷款
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li style="border-bottom:none;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}')" >
+                            <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />
+                            我要提额
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <div style="height:0.4rem;background: #f3f3f3;"></div>
+                    <li class="new_guide">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
+                            新手指南
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {if $member['user_type']['code'] == 1}
+                    <li class="new_guide">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
+                            邀请二维码
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
+                    <li class="{if !is_weixin()}new_guide{else}customer{/if}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
+                            我的客服
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {if !is_weixin()}
+                    <li class="customer">
+                        <a onclick="loginout()">
+                            <img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" />
+                            退出登录
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
+                </ul>                
+            </div>
+            <div style="height: 3rem"></div>
+        </div>
+    </div>
+    
+<script>
+$(document).ready(function(){
+    //整体页面排版
+    var window_height=$(window).height();
+    var ispay=0.00;
+    var _ispay=ispay.toString();
+    if(_ispay.length<=5){
+        $(".commis").html(_ispay);
+    }else{
+        var commis=_ispay.substr(0,5);
+        $(".commis").html(commis);
+    }
+})
+//领取工资
+$("#get_paid").click(function(){
+    var _url="{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}";
+    openNew(_url)
+})
+//购买限制
+$(".buy_limit").click(function(){
+    $(".pop").show();
+    layer_style();
+})
+
+//文档签署提醒
+$("div.informAlert .ifInform a").click(function(){
+    var _this=$(this);
+    var _class=$(this).attr("data-attr");
+    if(_class=="noInform"){
+        _this.hide();
+        $("div.informAlert .ifInform a.yesInform").css("display","block");
+        $("div.informAlert .ifInform span").css("left","0.75rem").attr("data-inform","yesInform");  
+        switchButton(1);      
+    }else{
+        _this.hide();
+        $("div.informAlert .ifInform a.noInform").css("display","block");
+        $("div.informAlert .ifInform span").css("left","0.01rem").attr("data-inform","noInform");  
+        switchButton(0);       
+    }
+})
+//退出
+function loginout(){
+    plus.nativeUI.actionSheet({
+        cancel: "取消",
+        buttons: [{
+            title: "注销当前账号"
+        }]
+    }, function(e) {
+        var index = e.index;
+        switch (index) { //case 0: 取消
+            case 1: //
+                plus.storage.clear();
+                mui.openWindow({
+                    url: '{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}',
+                    id: 'loginout',
+                    show: {
+                        aniShow: 'pop-in'
+                    }
+                });
+                break;
+        }
+    });
+    // openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
+
+}
+//文档签署提醒开关
+function switchButton(index){
+    $.post('{php echo $this->createMobileUrl('user', ['op'=>'send_msg'])}',{'template_type':index},
+        function(data){
+            console.log(data);
+        },'json')
+}
+
+
+</script>
+</body>
+</html>
