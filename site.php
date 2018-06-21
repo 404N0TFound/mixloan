@@ -35,7 +35,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$con = false;
 				break;
 			} else {
-				$con = true;
+                if (strexists($_SERVER['REQUEST_URI'], 'register') && !is_weixin()) {
+                    $con = false;
+                } else {
+                    $con = true;
+                }
 			}
 		}
 		if ($con) {
