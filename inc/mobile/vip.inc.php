@@ -19,18 +19,54 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-	$tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if (is_weixin())
+    {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $member['id'],
+        );
+        //调用pay方法
+        $this->pay($params);
+    }
+    else
+    {
+        $notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
+        if ($member['id'] == '10622') {
+            $config['buy_vip_price'] = 0.1;
+        }
+        if (empty($record)) {
+            $tid = "10001" . date('YmdHis', time());
+            $trade_no = "ZML".date("YmdHis");
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$config['buy_vip_price'],
+                'is_pay'=>0,
+                'type'=>1
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            $trade_no = $record['notify_id'];
+        }
+        $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        }
+        include $this->template('vip/openHref');
+    }
 	exit;
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
@@ -278,4 +314,7 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+} else if ($operation == 'openHref') {
+    //打开链接
+    include $this->template('vip/openNew');
 }
