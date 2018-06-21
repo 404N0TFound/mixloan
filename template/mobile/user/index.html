@@ -39,7 +39,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
 {if !is_weixin()}
@@ -194,7 +194,7 @@
                     </li>
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type' => 3))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
                             邀请二维码
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>

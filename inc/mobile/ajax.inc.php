@@ -10,6 +10,12 @@ if($operation == 'getCode'){
 	$cache =  rand(111111,999999);
 	$phone = trim($_GPC['phone']);
 	$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
+    if ($_GPC['activity'] == 1) {
+        $verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        if ($verify) {
+            show_json(102);
+        }
+    }
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
@@ -239,6 +245,10 @@ if($operation == 'getCode'){
     }
 } else if ($operation == 'temp') {
 	//临时脚本
+    $tid = "10001" . date('YmdHis', time());
+	$notify_url = 'http://cheexuan.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+	$res = m('pay')->H5pay($tid, $config['buy_vip_price'], $notify_url);
+	var_dump($res);
 }
 
 ?>
