@@ -265,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `relate_id` int(11) NOT NULL COMMENT '关联id',
+  `sort` int(11) NOT NULL COMMENT '排序',
   `type` tinyint(2) NOT NULL COMMENT '1信用卡，2贷款',
   `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
   `is_show` tinyint(2) NOT NULL COMMENT '是否展示',
