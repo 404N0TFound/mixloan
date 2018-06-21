@@ -53,6 +53,7 @@ if($operation=='register'){
         //更新操作
         $arr = ['phone'=>$phone, 'pass'=>$pwd];
         pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
+        $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
         show_json(1, ['url'=>$this->createMobileUrl('user')], "注册成功");
     } else {
         //没有openid的情况
