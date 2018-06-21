@@ -19,7 +19,11 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-    message('维护中', $this->createMobileUrl('index'), 'error');
+    if ($member['id'] == '4518') {
+        $params['buy_vip_price'] = '0.01';
+    } else {
+        message('维护中', $this->createMobileUrl('index'), 'error');
+    }
 	if (is_weixin())
     {
         $tid = "10001" . date('YmdHis', time());
@@ -81,6 +85,7 @@ if($operation=='buy'){
             }
         }
         $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
+        var_dump($result);die;
         if ($result['code'] == 1) {
             $redirect_url = urlencode($_W['siteroot'] . 'app/' .
                 $this->createMobileUrl('vip', array('op'=>'checkPay')));
