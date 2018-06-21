@@ -267,7 +267,7 @@ if ($operation == 'list') {
             $ext_info = array('content' => trim($_GPC['content']), 'remark' => trim($_GPC['remark']), 'url' => trim($_GPC['url']));
             $temp = array(
                 'is_read'=>0,
-                'uid'=>99999,
+                'uid'=>0,
                 'createtime'=>time(),
                 'uniacid'=>$_W['uniacid'],
                 'to_uid'=>$member['id'],
