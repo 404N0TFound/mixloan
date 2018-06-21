@@ -318,7 +318,7 @@ if($operation=='buy'){
 	} else if ($type == 2) {
 		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
 		$share_url = shortUrl( $url );
-		$tips = "{$config['title']}—我的随身银行";
+		$tips = "汇容客—我的随身银行";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($config['product_poster'])) {
@@ -351,7 +351,7 @@ if($operation=='buy'){
 		$product = m('product')->getList(['id','ext_info'], ['id'=>$pid])[$pid];
 		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
 		$share_url = shortUrl( $url );
-		$tips = "{$config['title']}—我的随身银行";
+		$tips = "汇容客—我的随身银行";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($product['ext_info']['poster'])) {
