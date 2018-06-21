@@ -351,12 +351,13 @@
             {if is_weixin()}
             toPurchase();
             {else}
-            layer.open({
-                type: 1,
-                shade: false,
-                title: false,
-                content: $('#layer_notice')
-            });
+            toPurchase();
+            // layer.open({
+            //     type: 1,
+            //     shade: false,
+            //     title: false,
+            //     content: $('#layer_notice')
+            // });
             {/if}
 		})
 
