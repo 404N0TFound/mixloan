@@ -223,7 +223,7 @@ if($operation=='buy'){
 //	    );
 //	    $res = $wx->barCodeCreateDisposable($barcode);
 //        $url = $res['url'];
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register'));
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
