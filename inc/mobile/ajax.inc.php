@@ -243,12 +243,6 @@ if($operation == 'getCode'){
     } else {
         echo 'empty';
     }
-} else if ($operation == 'temp') {
-	//临时脚本
-    $tid = "10001" . date('YmdHis', time());
-	$notify_url = 'http://cheexuan.com/addons/xuan_mixloan/lib/wechat/payResult.php';
-	$res = m('pay')->H5pay($tid, $config['buy_vip_price'], $notify_url);
-	var_dump($res);
-}
+} 
 
 ?>
