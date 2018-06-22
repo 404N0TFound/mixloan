@@ -16,11 +16,18 @@ require_once XUAN_MIXLOAN_INC.'functions.php';
 class Xuan_mixloanModuleSite extends WeModuleSite {
 	public function __construct(){
 		$condition =  array(
-			strexists($_SERVER['REQUEST_URI'], '/app/'),
-			!strexists($_SERVER['REQUEST_URI'], 'allProduct'),
-			!strexists($_SERVER['REQUEST_URI'], 'apply'),
-			!strexists($_SERVER['REQUEST_URI'], 'queue'),
-            !strexists($_SERVER['REQUEST_URI'], 'pay_query'),
+            strexists($_SERVER['REQUEST_URI'], '/app/'),
+            !strexists($_SERVER['REQUEST_URI'], 'allProduct'),
+            !strexists($_SERVER['REQUEST_URI'], 'apply'),
+            !strexists($_SERVER['REQUEST_URI'], 'queue'),
+            !strexists($_SERVER['REQUEST_URI'], 'login'),
+            !strexists($_SERVER['REQUEST_URI'], 'wechat_app'),
+            !strexists($_SERVER['REQUEST_URI'], 'getCode'),
+            !strexists($_SERVER['REQUEST_URI'], 'temp'),
+            !strexists($_SERVER['REQUEST_URI'], 'find_pass'),
+            !strexists($_SERVER['REQUEST_URI'], 'register'),
+            !strexists($_SERVER['REQUEST_URI'], 'exit'),
+            !strexists($_SERVER['REQUEST_URI'], 'do=loan'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {
