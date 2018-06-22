@@ -249,13 +249,18 @@ if($operation == 'getCode'){
     }
 } else if ($operation == 'temp') {
 	//临时脚本
-	$list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member'));
+	$list = pdo_fetchall('select uid,phone,pid from '.tablename('xuan_mixloan_product_apply').' where inviter=:inviter and degree=1', array(':inviter' => '15'));
 	foreach ($list as $row) {
-		if (strstr($row['avatar'], '132132')) {
-			$avatar = str_replace('132132', '132', $row['avatar']);
-			pdo_update('xuan_mixloan_member', array('avatar'=>$avatar), array('id'=>$row['id']));
+		if ($row['uid']) {
+			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where uid=:uid and pid=:pid and degree=2', array(':uid'=>$row['uid'], ':pid'=>$row['pid']));
+		} else {
+			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where phone=:phone and pid=:pid and degree=2', array(':phone'=>$row['phone'], ':pid'=>$row['pid']));
+		}
+		if ($id) {
+			$ids[] = $id;
 		}
 	}
+	echo implode(',', $ids);
 }
 
 
