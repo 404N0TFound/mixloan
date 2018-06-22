@@ -180,26 +180,6 @@ if($operation=='buy'){
             $man_one = m('member')->getInviterInfo($inviter);
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
             if ($inviter_two) {
-                $partner_bonus = $config['inviter_fee_one']*0.01*$config['partner_bonus'];
-                if ($partner_bonus) {
-                    $partner = m('member')->checkPartner($inviter_two);
-                    if ($partner['code'] == 1) {
-                        $insert_i = array(
-                            'uniacid' => $_W['uniacid'],
-                            'uid' => $inviter,
-                            'phone' => $man_one['phone'],
-                            'inviter' => $inviter_two,
-                            'extra_bonus'=>$partner_bonus,
-                            'status'=>2,
-                            'pid'=>$one_insert_id,
-                            'createtime'=>time(),
-                            'degree'=>1,
-                            'type'=>3
-                        );
-                        pdo_insert('xuan_mixloan_product_apply', $insert_i);
-                    }
-                }
-                message("支付成功", $this->createMobileUrl('user'), "success");
                 $re_bonus = $config['inviter_fee_two'];
                 if ($re_bonus) {
                     $insert_i = array(
@@ -214,8 +194,7 @@ if($operation=='buy'){
                         're_bonus'=>$re_bonus,
                         'status'=>2,
                         'createtime'=>time(),
-                        'degree'=>2,
-                        'type'=>2
+                        'degree'=>2
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 }
@@ -250,7 +229,6 @@ if($operation=='buy'){
                             'status'=>2,
                             'createtime'=>time(),
                             'degree'=>3,
-                            'type'=>2
                         );
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     }
@@ -270,22 +248,7 @@ if($operation=='buy'){
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
-    } else if ($type == '10002') {
-        //合伙人购买
-        $partner = m('member')->checkPartner($member['id']);;
-        if ($partner['code'] == 1) {
-            message("您已经是合伙人，请不要重复提交", $this->createMobileUrl('user'), "error");
-        }
-        $insert = array(
-            "uniacid"=>$_W["uniacid"],
-            "uid"=>$member['id'],
-            "createtime"=>time(),
-            "tid"=>$params['tid'],
-            "fee"=>$fee,
-        );
-        pdo_insert("xuan_mixloan_partner", $insert);
-        message("支付成功", $this->createMobileUrl('user'), "success");
-    }
+    } 
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
 	    show_json(-1, [], '您不是会员');
