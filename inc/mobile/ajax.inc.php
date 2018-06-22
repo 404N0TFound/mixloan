@@ -358,6 +358,23 @@ if($operation == 'getCode'){
                 $ids[] = $row['uid'];
             }
         }
+    } else if ($_GPC['type'] == 'query') {
+    	$item = pdo_fetch('SELECT id,ext_info FROM '.tablename('xuan_mixloan_withdraw').' WHERE id=:id', array(':id'=>$_GPC['id']));
+		if (empty($item)) {
+			echo 'empty';
+		}
+		$ext_info = json_decode($item['ext_info'], true);
+		if (empty($ext_info)) {
+			continue;
+		}
+		$SN = $ext_info['SN'];
+		$MER_ORDER_NO = $ext_info['MER_ORDER_NO'];
+		$batchNo = $ext_info['batchNo'];
+		if (empty($SN) || empty($MER_ORDER_NO) || empty($batchNo)) {
+			continue;
+		}
+		require_once('../addons/xuan_mixloan/lib/yilian_pay/pay_query.php');
+		var_dump($res);die;
     }
     if (!empty($ids)) {
         echo implode(',', $ids);
