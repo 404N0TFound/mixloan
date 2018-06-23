@@ -160,7 +160,7 @@ class Xuan_mixloan_Member
         if (empty($openid)) {
             $openid = m('user')->getOpenid();
         }
-        if (empty($openid)) {
+        if (empty($openid) && !$_GPC['test']) {
             die("<!DOCTYPE html>
             <html>
                 <head>

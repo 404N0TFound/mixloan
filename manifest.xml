@@ -332,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_loan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `type` varchar(30) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `sort` int(11) NOT NULL,
   `money_high` int(11) NOT NULL,
   `rate` decimal(5,2) NOT NULL,
