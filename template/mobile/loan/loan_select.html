@@ -21,6 +21,9 @@
    
 
 	{template 'common/wxshare'}
+    <style type="text/css">
+        div.rate_info span{margin: 0 4px;}
+    </style>
 </head>
 <body class="bglightgray">
     <div class="loan_tab">
@@ -53,13 +56,19 @@
                                 <div class="loan_info">
                                     <h2>恒易贷</h2>
                                     <div class="rate_info">
-                                                                                <span>利率:<em>0.75%</em>/月</span>                                    
-                                        <span>期限:<em>3-36</em>/月</span>
-                                        <p><em>200000</em>元</p>
+                                        <span>利率:0.01%</span> 
+                                        <span>期限:0.01月</span>
+                                        <span>期限:0.01月</span>
+                                        <span>期限:0.01月</span>
+                                        <span>期限:0.01月</span>
+                                        <span>期限:0.01月</span>
+                                        <span>期限:0.01月</span>
+                                        <!-- <p><em>200000</em>元</p> -->
                                     </div>
                                     <div class="extra_info">
                                         <dl>
-                                            <dd style="color: #436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">信用卡认证</em></dd><dd style="color: #7D26CD;border: 1px solid #7D26CD;"><em style="font-family: '微软雅黑'!important;">征信认证</em></dd>                                    </dl>
+                                            <dd style="color: #436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">信用卡认证</em></dd><dd style="color: #7D26CD;border: 1px solid #7D26CD;"><em style="font-family: '微软雅黑'!important;">征信认证</em></dd>
+                                        </dl>
                                         <span>3833人已申请</span>
                                     </div>
                                 </div>
@@ -97,27 +106,28 @@
                 <li data-no="0" data-id="">不限类型</li>
                 <li data-id="1">身份证贷</li>
                 <li data-id="2">信用卡贷</li>
-                <li data-id="3">微粒贷</li>
-                <li data-id="4">工薪贷</li>
-                <li data-id="5">社保贷</li>
-                <li data-id="6">公积金贷</li>  
-                <li data-id="7">公务员贷</li>     
-                <li data-id="8">企业贷</li>   
-                <li data-id="9">生意贷</li>  
-                <li data-id="10">车贷</li>  
-                <li data-id="11">房贷</li>  
-                <li data-id="12">保单贷</li>  
-                <li data-id="13">同行贷</li>   
-                <li data-id="14">学信贷</li>  
-                <li data-id="15">税金贷</li>  
-                <li data-id="16">购物分期</li>  
-                <li data-id="17">教育分期</li>  
-                <li data-id="18">租赁分期</li>  
-                <li data-id="19">医美分期</li>  
-                <li data-id="20">旅游分期</li>  
-                <li data-id="21">支付宝贷</li>  
-                <li data-id="22">京东贷</li>   
-                <li data-id="23">黑白户贷</li>    
+                <li data-id="3">芝麻分贷</li>
+                <li data-id="4">微粒贷</li>
+                <li data-id="5">工薪贷</li>
+                <li data-id="6">社保贷</li>
+                <li data-id="7">公积金贷</li>  
+                <li data-id="8">公务员贷</li>     
+                <li data-id="9">企业贷</li>   
+                <li data-id="10">生意贷</li>  
+                <li data-id="11">车贷</li>  
+                <li data-id="12">房贷</li>  
+                <li data-id="13">保单贷</li>  
+                <li data-id="14">同行贷</li>   
+                <li data-id="15">学信贷</li>  
+                <li data-id="16">税金贷</li>  
+                <li data-id="17">购物分期</li>  
+                <li data-id="18">教育分期</li>  
+                <li data-id="19">租赁分期</li>  
+                <li data-id="20">医美分期</li>  
+                <li data-id="21">旅游分期</li>  
+                <li data-id="22">支付宝贷</li>  
+                <li data-id="23">京东贷</li>   
+                <li data-id="24">黑白户贷</li>    
             </ul>
         </div>
     </div>
@@ -266,6 +276,7 @@ function post_data(order, begin, end, from, to, _id){
                     var edu=_data[i].money_high;
                     var click=_data[i].apply_nums;
                     var ele=_data[i].ext_info.tag;//标签
+                    var ext = _data[i].ext_info;
                     $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
                                                     + "<a href="+ dataTransform(url) +">"
                                                         + "<ul>"
@@ -274,9 +285,14 @@ function post_data(order, begin, end, from, to, _id){
                                                                 + "<div class=\"loan_info\">"
                                                                     + "<h2>"+ dataTransform(title) +"</h2>"
                                                                     + "<div class=\"rate_info\">"
-                                                                        + "<span>利率:<em>"+ dataTransform(percent) +"%</em>/ "+rate_type+" </span>"
-                                                                        + "<span>期限:<em>"+range_l+"-"+ range_h +"</em>/月</span>"
-                                                                        + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
+                                                                        +"<span>" + ext.condition1+ "</span>"
+                                                                        +"<span>" + ext.condition2+ "</span>"
+                                                                        +"<span>" + ext.condition3+ "</span>"
+                                                                        +"<span>" + ext.condition4+ "</span>"
+                                                                        +"<span>" + ext.condition5+ "</span>"
+                                                                        +"<span>" + ext.condition6+ "</span>"
+                                                                        +"<span>" + ext.condition7+ "</span>"
+                                                                        // + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
                                                                     + "</div>"
                                                                     + "<div class=\"extra_info\">"
                                                                         + "<dl>"

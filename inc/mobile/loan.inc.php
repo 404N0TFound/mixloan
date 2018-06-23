@@ -57,6 +57,27 @@ if($operation=='index'){
 	} else {
 		foreach ($list as &$row) {
 			$row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
+			if (empty($row['ext_info']['condition1'])) {
+				$row['ext_info']['condition1'] = '';
+			}
+			if (empty($row['ext_info']['condition2'])) {
+				$row['ext_info']['condition2'] = '';
+			}
+			if (empty($row['ext_info']['condition3'])) {
+				$row['ext_info']['condition3'] = '';
+			}
+			if (empty($row['ext_info']['condition4'])) {
+				$row['ext_info']['condition4'] = '';
+			}
+			if (empty($row['ext_info']['condition5'])) {
+				$row['ext_info']['condition5'] = '';
+			}
+			if (empty($row['ext_info']['condition6'])) {
+				$row['ext_info']['condition6'] = '';
+			}
+			if (empty($row['ext_info']['condition7'])) {
+				$row['ext_info']['condition7'] = '';
+			}
 		}
 		unset($row);
 		show_json(1, array_values($list));
