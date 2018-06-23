@@ -10,9 +10,7 @@ if($operation == 'getCode'){
     $phone = trim($_GPC['phone']);
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
-	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
-	}
+	$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
