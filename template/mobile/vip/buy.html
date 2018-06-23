@@ -90,13 +90,13 @@
 <style>
 	 .goods_dt img{width: 100%}
 </style>
-{if !is_weixin()}
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
+{if !is_weixin()}
 <style type="text/css">
 	.app_header{height: 80px;width: 100%;background: #ffffff}
 	.app_header_back{text-align: center;color: white}
