@@ -185,12 +185,23 @@ if($operation == 'getCode'){
 	show_json(1, m('member')->getMember($openid));
 } else if ($operation == 'apply_temp') {
 	//常规脚本
-	$ids = [];
-	m('applyApi')->bankList();
-	if (!empty($ids)) {
-		echo implode(',', $ids);
-	} else {
-		echo 'empty';
+	$ids = array();
+	$banks = m('applyApi')->bankList();
+	foreach ($banks as $row)
+	{
+		$record = pdo_fetchcolumn('select count(1) from ' .tablename('xuan_mixloan_member'). '
+			where uniacid=:uniacid and code=:code', array(':uniacid' => $_W['uniacid'], ':code' => $row['id']));
+		if (empty($record))
+		{
+			$ext_info = json_encode(array('stationChannelId' => $row['stationChannelId'], 'logo' => $row['iconPath']));
+			$insert = array('uniacid' => $_W['uniacid'], 'name' => $row['name'], 'code' => $row['id'], 'ext_info' => $ext_info, 'createtime' => time());
+			pdo_insert('xuan_mixloan_bank', $insert);
+			$ids[] = $row['id'];
+		}
+	}
+	if (!empty($ids))
+	{
+		m('applyApi')->bankCard($ids);
 	}
 }
 

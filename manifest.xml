@@ -382,6 +382,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bank_card` (
   `createtime` int(11) NOT NULL,
   `ext_info` TEXT NOT NULL,
   `name` varchar(20) NOT NULL,
+  `code` varchar(150) NOT NULL COMMENT '接口id',
   PRIMARY KEY (`id`),
   KEY `sort` (`sort`),
   KEY `card_type` (`card_type`),
@@ -410,6 +411,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bank` (
   `createtime` int(11) NOT NULL,
   `ext_info` TEXT NOT NULL,
   `name` varchar(20) NOT NULL,
+  `code` varchar(100) NOT NULL COMMENT '接口id',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
