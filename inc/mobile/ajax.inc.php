@@ -189,19 +189,48 @@ if($operation == 'getCode'){
 	$banks = m('applyApi')->bankList();
 	foreach ($banks as $row)
 	{
-		$record = pdo_fetchcolumn('select count(1) from ' .tablename('xuan_mixloan_member'). '
+		$record = pdo_fetchcolumn('select count(1) from ' .tablename('xuan_mixloan_bank'). '
 			where uniacid=:uniacid and code=:code', array(':uniacid' => $_W['uniacid'], ':code' => $row['id']));
 		if (empty($record))
 		{
 			$ext_info = json_encode(array('stationChannelId' => $row['stationChannelId'], 'logo' => $row['iconPath']));
 			$insert = array('uniacid' => $_W['uniacid'], 'name' => $row['name'], 'code' => $row['id'], 'ext_info' => $ext_info, 'createtime' => time());
 			pdo_insert('xuan_mixloan_bank', $insert);
+			$bank_id = pdo_insertid();
+			$bank_ids[$row['id']] = $bank_id;
 			$ids[] = $row['id'];
 		}
 	}
 	if (!empty($ids))
 	{
-		m('applyApi')->bankCard($ids);
+		$cards = m('applyApi')->bankCards($ids);
+		foreach ($cards as $card)
+		{
+			$record = pdo_fetchcolumn('select count(1) from ' .tablename('xuan_mixloan_bank_card'). '
+				where uniacid=:uniacid and code=:code', array(':uniacid' => $_W['uniacid'], ':code' => $card['stationBankCardChannelId']));
+			if ($record)
+			{
+				continue;
+			}
+			$detail = m('applyApi')->bankCard($card['stationBankCardChannelId']);
+			var_dump($detail);
+			$cardName = str_replace("\t", "", $detail['bankCard']['name']);
+			$tags = array();
+			foreach ($detail["bankCardAttrList"] as $val)
+			{
+				if (count($tags) < 3) 
+				{
+					$tags[] = $val['description'];
+				}
+				else
+				{
+					break;
+				}
+			}
+			$ext_info = json_encode( array('intro' => $detail['bankCard']['description'], 'pic' => $detail['bankCard']['imgUrlPath'], 'tag' => $tags, 'v_name' => $cardName) );
+			$insert = array('name' => $cardName, "ext_info" => $ext_info, "sort" => $detail['bankCard']['sort'], 'createtime' => time(), 'uniacid' => $_W['uniacid'], 'bank_id' => $bank_ids[$detail['bankCard']['bankId']], 'code' => $card['stationBankCardChannelId']);
+			pdo_insert('xuan_mixloan_bank_card', $insert);
+		}
 	}
 }
 
