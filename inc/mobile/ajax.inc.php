@@ -183,8 +183,8 @@ if($operation == 'getCode'){
 	//得到会员信息
 	$openid = m('user')->getOpenid();
 	show_json(1, m('member')->getMember($openid));
-} else if ($operation == 'apply_temp') {
-	//常规脚本
+} else if ($operation == 'apply_bank') {
+	//银行列表
 	$ids = array();
 	$banks = m('applyApi')->bankList();
 	foreach ($banks as $row)
@@ -198,6 +198,7 @@ if($operation == 'getCode'){
 			pdo_insert('xuan_mixloan_bank', $insert);
 			$bank_id = pdo_insertid();
 			$bank_ids[$row['id']] = $bank_id;
+			$stationChannelIds[$row['id']] = $row['stationChannelId'];
 			$ids[] = $row['id'];
 		}
 	}
@@ -213,7 +214,6 @@ if($operation == 'getCode'){
 				continue;
 			}
 			$detail = m('applyApi')->bankCard($card['stationBankCardChannelId']);
-			var_dump($detail);
 			$cardName = str_replace("\t", "", $detail['bankCard']['name']);
 			$tags = array();
 			foreach ($detail["bankCardAttrList"] as $val)
@@ -228,8 +228,77 @@ if($operation == 'getCode'){
 				}
 			}
 			$ext_info = json_encode( array('intro' => $detail['bankCard']['description'], 'pic' => $detail['bankCard']['imgUrlPath'], 'tag' => $tags, 'v_name' => $cardName) );
-			$insert = array('name' => $cardName, "ext_info" => $ext_info, "sort" => $detail['bankCard']['sort'], 'createtime' => time(), 'uniacid' => $_W['uniacid'], 'bank_id' => $bank_ids[$detail['bankCard']['bankId']], 'code' => $card['stationBankCardChannelId']);
+			$insert = array('name' => $cardName, "ext_info" => $ext_info, "sort" => $detail['bankCard']['sort'], 'createtime' => time(), 'uniacid' => $_W['uniacid'], 'bank_id' => $bank_ids[$detail['bankCard']['bankId']], 'code' => $stationChannelIds[$detail['bankCard']['bankId']]);
 			pdo_insert('xuan_mixloan_bank_card', $insert);
+		}
+	}
+} else if ($operation == 'apply_loan') {
+	//贷款列表
+	$loans = m('applyApi')->loanList();
+	foreach ($loans as $loan) {
+		$record = pdo_fetchcolumn('select count(1) from ' .tablename('xuan_mixloan_loan'). '
+				where uniacid=:uniacid and code=:code', array(':uniacid' => $_W['uniacid'], ':code' => $card['stationBankCardChannelId']));
+		if ($record)
+		{
+			continue;
+		}
+		$ext_info = json_encode(array('logo' => $loan['iconPath'], 'profitType' => $loan['profitType'], 'v_name' => $loan['description']));
+		$insert = array('name' => $loan['name'], 'ext_info' => $ext_info, 'sort' => $loan['sort'], 'code' => $loan['id'], 'uniacid' => $_W['uniacid'], 'createtime' => time());
+		pdo_insert('xuan_mixloan_loan', $insert);
+	}
+} else if ($operation == 'apply_return') {
+	//接口返回
+	$json = file_get_contents("php://input");
+	$json = preg_replace('/\'/', '"', $json);
+	$data = json_decode($json, true);
+	if (!empty($data['result']['clientNo']) && $data['result']['callbackType'] == 'CALLBACK_SUCCESS')
+	{
+		$id = $data['result']['clientNo'];
+		$item = m('product')->getApplyList(['id', 'phone', 'pid'], ['id' => $id])[$id];
+		$product = m('product')->getList([], ['id' => $item['pid']])[$item['pid']];
+		if ($item && $product)
+		{
+			$one_update = array('status' => 2);
+			if ($product['ext_info']['done_one_init_reward_per'])
+			{
+				$one_update['done_bonus'] = $product['ext_info']['done_one_init_reward_per'] * $data['result']['amount'] * 0.01;
+			}
+			else if ($product['ext_info']['done_one_init_reward_money'])
+			{
+				$one_update['done_bonus'] = $product['ext_info']['done_one_init_reward_money'];
+			}
+			if ($product['ext_info']['re_one_init_reward_per']) 
+			{
+				$one_update['done_bonus'] = $product['ext_info']['re_one_init_reward_per'] * $data['result']['amount'] * 0.01;
+			}
+			else if ($product['ext_info']['re_one_init_reward_money'])
+			{
+				$one_update['re_bonus'] = $product['ext_info']['re_one_init_reward_money'];
+			}
+			pdo_update('xuan_mixloan_product_apply', $one_update, array('id' => $id));
+			$two = pdo_fetch('select id from ' .tablename('xuan_mixloan_product_apply'). '
+				where phone=:phone and uniacid=:uniacid and pid=:pid and degree=2', array(':phone' => $item['phone'], ':pid' => $item['pid'], ':uniacid' => $_W['uniacid']));
+		}
+		if ($two)
+		{
+			$two_update = array('status' => 2);
+			if ($product['ext_info']['done_two_init_reward_per'])
+			{
+				$one_update['done_bonus'] = $product['ext_info']['done_one_init_reward_per'] * $data['result']['amount'] * 0.01;
+			}
+			else if ($product['ext_info']['done_two_init_reward_money'])
+			{
+				$two_update['done_bonus'] = $product['ext_info']['done_two_init_reward_money'];
+			}
+			if ($product['ext_info']['re_two_init_reward_per']) 
+			{
+				$one_update['done_bonus'] = $product['ext_info']['re_one_init_reward_per'] * $data['result']['amount'] * 0.01;
+			}
+			else if ($product['ext_info']['re_two_init_reward_money'])
+			{
+				$two_update['re_bonus'] = $product['ext_info']['re_two_init_reward_money'];
+			}
+			pdo_update('xuan_mixloan_product_apply', $two_update, array('id' => $two['id']));
 		}
 	}
 }

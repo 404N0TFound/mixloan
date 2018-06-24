@@ -74,6 +74,86 @@ class Xuan_mixloan_ApplyApi
             return false;
         }
     }
+    /*
+     * 保存申卡详情
+     * @param $stationChannelId
+     * @param $userInfo
+     * @param $callbackUrl
+     */
+    public function stationCardAccessRecords($stationChannelId, $userInfo, $callbackUrl)
+    {
+        if (empty($stationChannelId))
+        {
+            return false;
+        }
+        $url = $this->host . 'api/station/stationCardAccessRecords/save/' . $this->user_id;
+        $header[] = "stationid: " . $this->station_id;
+        $header[] = "content-type: application/json";
+        $params['name'] = $userInfo['realname'];
+        $params['idCard'] = $userInfo['certno'];
+        $params['mobile'] = $userInfo['phone'];
+        $params['clientNo'] = $userInfo['apply_id'];
+        $params['callbackUrl'] = $callbackUrl;
+        $params['stationChannelId'] = $stationChannelId;
+        $json = $this->tocurl($url, $params, $header);
+        $result = json_decode($json, true);
+        if ($result['status'] == '200')
+        {
+            return $result['result'];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /*
+     * 保存申贷详情
+     * @param $stationChannelId
+     * @param $userInfo
+     * @param $callbackUrl
+     */
+    public function loanSave($stationChannelId, $userInfo, $callbackUrl)
+    {
+        if (empty($stationChannelId))
+        {
+            return false;
+        }
+        $url = $this->host . '/api/loan/save/' . $this->user_id;
+        $header[] = "stationid: " . $this->station_id;
+        $header[] = "content-type: application/json";
+        $params['mobile'] = $userInfo['phone'];
+        $params['clientNo'] = $userInfo['apply_id'];
+        $params['callbackUrl'] = $callbackUrl;
+        $params['stationChannelId'] = $stationChannelId;
+        $json = $this->tocurl($url, $params, $header);
+        $result = json_decode($json, true);
+        if ($result['status'] == '200')
+        {
+            return $result['result'];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    /*
+     * 获取贷款列表
+     */
+    public function loanList()
+    {
+        $url = $this->host . 'api/loan/product';
+        $header[] = "stationid:" . $this->station_id;
+        $json = $this->tocurl($url, array(), $header);
+        $result = json_decode($json, true);
+        if ($result['status'] == '200')
+        {
+            return $result['result'];
+        }
+        else
+        {
+            return false;
+        }
+    }
     /**
      * 数组转get方式
      * @param $params

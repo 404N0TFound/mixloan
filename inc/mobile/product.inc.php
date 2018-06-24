@@ -123,9 +123,9 @@ if($operation=='index'){
 		show_json(-1, [], '该代理产品已被下架');
 	}
 	if ($info['type'] == 1) {
-		$pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+		$pro = m('bank')->getCard(['id', 'ext_info', 'code'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	} else {
-		$pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+		$pro = m('loan')->getList(['id', 'ext_info', 'code'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	}
 	if ($inviter) {
 		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
@@ -184,6 +184,24 @@ if($operation=='index'){
 		'createtime'=>time()
 	);
 	pdo_insert('xuan_mixloan_product_apply', $insert);
+	$insert_id = pdo_insertid();
+	$callBack = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'apply_return'));
+	$userInfo = array(
+		'phone' => trim($_GPC['phone']),
+		'certno' => trim($_GPC['idcard']),
+		'realname' => trim($_GPC['name']),
+		'apply_id' => $insert_id,
+	);
+	if ($info['type'] == 1) 
+	{
+		$apiResult = m('applyApi')->stationCardAccessRecords($pro['code'], $userInfo, $callBack);
+		$pro['ext_info']['url'] = $apiResult['url'];
+	}
+	else if ($info['type'] == 2)
+	{
+		$apiResult = m('applyApi')->loanSave($pro['code'], $userInfo, $callBack);
+		$pro['ext_info']['url'] = $apiResult['url'];
+	}
 	//二级
 	$inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
