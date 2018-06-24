@@ -20,8 +20,8 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_product') . " where uniacid={$_W['uniacid']} " . $wheres);
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    pdo_delete('xuan_mixloan_product', array("id" => $_GPC["id"]));
-    pdo_delete('xuan_mixloan_product_apply', array("pid" => $_GPC["id"]));
+    // pdo_delete('xuan_mixloan_product', array("id" => $_GPC["id"]));
+    // pdo_delete('xuan_mixloan_product_apply', array("pid" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
