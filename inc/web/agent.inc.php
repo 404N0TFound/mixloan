@@ -441,6 +441,8 @@ if ($operation == 'list') {
     }
     foreach ($first_teams as &$row) {
         $row['agent'] = m('member')->checkAgent($row['id']);
+        $row['count_bonus'] = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' .tablename('xuan_mixloan_product_apply'). '
+            where inviter=:inviter', array(':inviter' => $row['id'])) ? : 0;
     }
     unset($row);
 }
