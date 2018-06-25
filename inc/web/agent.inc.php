@@ -20,6 +20,11 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['upgrade_fee'] = pdo_fetchcolumn('select sum(fee) from ' .tablename('xuan_mixloan_upgrade'). '
+            where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $row['uid'])) ? : 0;
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {

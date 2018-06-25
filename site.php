@@ -260,6 +260,13 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				} else {
 					message("session开启失效，请联系管理员", $this->createMobileUrl('user'), "error");
 				}
+				$insert = array(
+					'uniacid' => $_W['uniacid'],
+					'uid' => $member['id'],
+					'createtime' => time(),
+					'fee' => $fee
+				);
+				pdo_insert('xuan_mixloan_upgrade', $insert);
 				pdo_update('xuan_mixloan_member', array('level'=>$_SESSION['upgrade_level']), array('id'=>$member['id']));
 				//模板消息提醒
 				$datam = array(
