@@ -304,6 +304,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `createtime` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `ext_info` TEXT NOT NULL,
+  `status` tinyint(2) DEFAULT 1 COMMENT '1正常 -1回收站',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `relate_id` (`relate_id`),
