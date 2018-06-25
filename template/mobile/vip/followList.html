@@ -66,8 +66,8 @@
     <tbody>
     {loop $follow_list $row}
     <tr class="list">
-        <td>{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
-        <td>{$row['nickname']}</td>
+        <td style="font-size: 0.8rem">{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
+        <td style="font-size: 0.8rem">{$row['nickname']}</td>
     </tr>
     {/loop}
     </tbody>

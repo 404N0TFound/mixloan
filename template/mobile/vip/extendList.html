@@ -75,9 +75,9 @@
     {loop $extend_list $row}
     <!-- <tr class="list" onclick="degreeDetail({$row['uid']})" > -->
     <tr class="list"onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_center', 'uid'=>$row['uid']))}')">
-        <td>{php echo date('Y-m-d',$row['createtime']);}</td>
-        <td>{$row['re_bonus']}元</td>
-        <td>
+        <td style="font-size: 0.8rem;width: 30%">{php echo date('Y-m-d',$row['createtime']);}</td>
+        <td style="font-size: 0.8rem;width: 20%">{$row['re_bonus']}元</td>
+        <td style="font-size: 0.8rem;width: 50%">
             {$row['nickname']}
             <span class="label-info">{$row['degree']}</span>
         </td>
