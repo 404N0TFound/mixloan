@@ -120,8 +120,10 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                {if $row['agent']['code'] == 1}<li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'below_list','uid' => $row['id']));}" title='下级列表'><i class='fa fa-list-alt'></i>下级列表</a></li>{/if}
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['id'], 'inviter'=>$uid));}" title='分佣明细'><i class='fa fa-list-alt'></i> 分佣明细</a></li>
+                                {if $row['agent']['code'] == 1}
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'below_list','uid' => $row['id']));}" title='下级列表'><i class='fa fa-list-alt'></i>下级列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list', 'inviter'=>$row['id']));}" title='分佣明细'><i class='fa fa-list-alt'></i> 分佣明细</a></li>
+                                {/if}
                             </ul>
                         </div>
                     </td>
