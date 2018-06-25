@@ -136,7 +136,6 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
                         <a href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
@@ -144,7 +143,6 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    {/if}
                     <li class="customer">
                         <a href="{php echo $this->createMobileUrl('mix', array('op' => 'service'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
