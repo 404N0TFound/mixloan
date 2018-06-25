@@ -191,7 +191,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="swiper-pagination pro-pagination"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
                 
              </div>
@@ -367,6 +367,9 @@
         autoplay: 5000,//可选选项，自动滑动
         loop : true,
         autoplayDisableOnInteraction : false,
+        pagination: {
+            el: '.swiper-pagination',
+        },
     });
     // 换一批
     $(".next_recommend").click(function(){
