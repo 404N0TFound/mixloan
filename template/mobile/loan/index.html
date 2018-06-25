@@ -52,6 +52,19 @@
         mui.fire(user_index,'refresh');
         mui.openWindow({url:user_url, id:'user_index'});
     }
+    document.addEventListener( "plusready", function(){
+        message = document.getElementById("message");
+        // 监听点击消息事件
+        plus.push.addEventListener( "click", function( msg ) {
+            plus.ui.alert( '这是点击事件' );
+            logoutPushMsg( msg );
+        }, false );
+        // 监听在线消息事件
+        plus.push.addEventListener( "receive", function( msg ) {
+            plus.ui.alert( '这是监听事件' );
+            logoutPushMsg( msg );
+        }, false );
+    }, false );
 </script>
 {if !is_weixin()}
 <style type="text/css">
