@@ -20,6 +20,12 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+        $apply_money = pdo_fetchcolumn('SELECT SUM(bonus) FROM '.tablename('xuan_mixloan_withdraw').' where uid=:uid', array(':uid'=>$row['uid']));
+        $row['left_bonus'] = $all - $apply_money;
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
@@ -27,6 +33,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND a.id={$_GPC['id']}";
+    }
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
@@ -462,6 +471,37 @@ if ($operation == 'list') {
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
+} else if ($operation == 'below_list') {
+    //查看下级
+    $uid = intval($_GPC['uid']);
+    $first_teams = pdo_fetchall("SELECT a.createtime,a.openid,b.id,b.nickname,b.avatar
+        FROM ".tablename("qrcode_stat")." a
+        LEFT JOIN ".tablename("xuan_mixloan_member")." b
+        ON a.openid=b.openid
+        WHERE a.qrcid={$uid} AND a.type=1
+        GROUP BY a.openid");
+    $uids = array();
+    foreach ($first_teams as $row) {
+        if (!empty($row['id'])) {
+            $uids[] = $row['id'];
+        }
+    }
+    if (!empty($uids)) {
+        $uid_string = '('. implode(',', $uids) .')';
+        $second_teams = pdo_fetchall("SELECT a.createtime,b.openid,b.id,b.nickname,b.avatar
+            FROM ".tablename("xuan_mixloan_inviter")." a
+            LEFT JOIN ".tablename("xuan_mixloan_member")." b
+            ON a.phone=b.phone
+            WHERE a.uid={$uid} AND b.id NOT IN {$uid_string}
+            GROUP BY a.phone");
+        $first_teams = array_merge($first_teams, $second_teams);
+    }
+    foreach ($first_teams as &$row) {
+        $row['agent'] = m('member')->checkAgent($row['id']);
+        $row['count_bonus'] = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' .tablename('xuan_mixloan_product_apply'). '
+            where inviter=:inviter', array(':inviter' => $row['id'])) ? : 0;
+    }
+    unset($row);
 }
 include $this->template('agent');
 ?>
