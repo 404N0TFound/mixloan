@@ -298,18 +298,7 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
 <script type="text/javascript">
     // 页面初始化
-    var swiper_w=($(window).width())*0.94;
-    var swiper_gap=($(window).width())*0.02;
-    var mySwiper = new Swiper('.pro-swiper', {
-        // width:swiper_w,
-        autoplay: 5000,//可选选项，自动滑动
-        loop:true,
-        autoplayDisableOnInteraction : false,
-        spaceBetween: swiper_gap,
-        initialSlide:0,
-        slidesPerView: "auto",
-        centeredSlides: true,
-    });
+    
     $(document).ready(function(){
         var fr_T=($("div.loan_tab").height()) + "px";
         $("div.loanindex_frame").css("margin-top",fr_T);
@@ -336,7 +325,7 @@
                     var t=setTimeout(function(){
                         var list_H=$("div.hotloan_list").outerHeight();
                         var total_height=$("div.loan_product").length*$("div.loan_product").outerHeight();
-                        var revise_H=($("div.hotloan_list").outerHeight())($("div.loan_product").outerHeight()*5);
+                        var revise_H=($("div.hotloan_list").outerHeight()) + ($("div.loan_product").outerHeight()*5);
                         $(".more_hotcards").hide();
                         $("div.hotloan_list").css("height",'auto');
                         $(".no_hotcards").show();
@@ -383,7 +372,7 @@
     $(".next_recommend").click(function(){
         post_data();
     })
-    post_data();
+    // post_data();
     function post_data(){
         $.post("{php echo $this->createMobileUrl('loan', array('op'=>'recommend'))}",
             function(data){
