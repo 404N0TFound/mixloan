@@ -73,7 +73,8 @@
 <table class="kehu-table" style="table-layout:fixed;">
     <tbody>
     {loop $extend_list $row}
-    <tr class="list" onclick="degreeDetail({$row['uid']})">
+    <!-- <tr class="list" onclick="degreeDetail({$row['uid']})" > -->
+    <tr class="list"onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_center', 'uid'=>$row['uid']))}')">
         <td>{php echo date('Y-m-d',$row['createtime']);}</td>
         <td>{$row['re_bonus']}元</td>
         <td>
@@ -96,6 +97,7 @@
         _url="{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail'))}&uid="+uid;
         // openNew(_url)
     }
+
 </script>
 </body>
 
