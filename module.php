@@ -49,7 +49,8 @@ class Xuan_mixloanModule extends WeModule {
                     'tutorials_pic'=>$_GPC['tutorials_pic'],
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
-                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract'])
+                    'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
+                    'wx_qrcode'=>$_GPC['wx_qrcode']
             	);
 
             if ($this->saveSettings($cfg)) {

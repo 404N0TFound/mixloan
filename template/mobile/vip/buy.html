@@ -301,6 +301,10 @@
         <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>       
     </div>
 
+	<div id="layer_notice" style="display: none">
+		<div>请关注微信公众号{$config['title']}购买会员</div>
+		<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
+	</div>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
 	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
@@ -344,7 +348,16 @@
 		})
 		//购买
 		$("#to_buy").click(function(){
-			toPurchase();			
+            {if is_weixin()}
+            toPurchase();
+            {else}
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false,
+                content: $('#layer_notice')
+            });
+            {/if}
 		})
 
 		function toPurchase(){			

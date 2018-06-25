@@ -157,8 +157,7 @@ class Xuan_mixloan_Member
             ));
         }
     }
-    public function checkMember($openid = '')
-    {
+    public function checkMember($openid = '') {
         global $_W, $_GPC;
         if (strexists($_SERVER['REQUEST_URI'], '/web/')) {
             return;
@@ -167,32 +166,32 @@ class Xuan_mixloan_Member
             $openid = m('user')->getOpenid();
         }
         if (empty($openid)) {
-            die("<!DOCTYPE html>
-            <html>
-                <head>
-                    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
-                    <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
-                </head>
-                <body>
-                <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请先登陆</h4></div></div></div>
-                </body>
-            </html>");
-            return;
+             die("<!DOCTYPE html>
+             <html>
+                 <head>
+                     <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
+                     <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+                 </head>
+                 <body>
+                 <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在APP客户端打开</h4></div></div></div>
+                 </body>
+             </html>");
+             return;
         }
-
         $wx = WeAccount::create();
-        $token = $wx->getOauthAccessToken();
-        $tempinfo = $wx->getOauthUserInfo($token, $openid);
-        $member   = m('member')->getMember($openid, $tempinfo['unionid']);
+        $member = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);
-        $uid      = 0;
-        $mc       = array();
+        $uid = 0;
+        $mc = array();
         if (empty($member)) {
+            if (is_weixin()) {
+                $tempinfo = m('user')->oauth_info();
+            }
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
-                $mc  = mc_fetch($uid, array(
+                $mc = mc_fetch($uid, array(
                     'realname',
                     'mobile',
                     'avatar',
@@ -210,10 +209,10 @@ class Xuan_mixloan_Member
                 'province' => !empty($mc['residecity']) ? $mc['resideprovince'] : $userinfo['province'],
                 'city' => !empty($mc['residecity']) ? $mc['residecity'] : $userinfo['city'],
                 'country' => !empty($mc['country']) ? $mc['country'] : $userinfo['country'],
-                'sex'=> !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
-                'createtime' => time(),
-                'status' => -2,
-                'unionid'=>$tempinfo['unionid']
+                'sex' => !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
+                'createtime' => time() ,
+                'status' => - 2,
+                'unionid' => $tempinfo['unionid']
             );
             pdo_insert('xuan_mixloan_member', $member);
         } else {
@@ -221,14 +220,11 @@ class Xuan_mixloan_Member
             if ($followed) {
                 $uid = mc_openid2uid($openid);
             }
-            // if ($userinfo['nickname'] != $member['nickname']) {
-            //     $upgrade['nickname'] = $userinfo['nickname'];
-            // }
-            // if ($userinfo['avatar'] != $member['avatar']) {
-            //     $upgrade['avatar'] = $userinfo['avatar'];
-            // }
-            if (!empty($tempinfo['unionid'])) {
-                $upgrade['unionid'] = $tempinfo['unionid'];
+            if (empty($member['unionid'])) {
+                if (is_weixin()) {
+                    $tempinfo = m('user')->oauth_info();
+                    $upgrade['unionid'] = $tempinfo['unionid'];
+                }
             }
             if (!empty($uid)) {
                 if (empty($member['uid'])) {

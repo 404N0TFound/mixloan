@@ -53,7 +53,18 @@ if ($operation == 'extend_limit') {
 	show_json(1, $ret);
 } else if ($operation == 'extend_query') {
 	//办卡查询
-	$banks = m('bank')->getList();
+    $bank = array();
+    $temp_list = m('bank')->getList();
+    $count = 0;
+    foreach ($temp_list as $value) {
+        $count++;
+        $temp[] = $value;
+        if ($count==3) {
+            $banks[] = $temp;
+            $temp = array();
+            $count = 0;
+        }
+    }
 	include $this->template('bank/extend_query');
 } else if ($operation == 'extend_tips') {
 	//提额技巧
