@@ -52,9 +52,9 @@ if($operation=='index'){
 } else if ($operation == 'artical') {
 	//详情
 	if ($config['vip_channel']) {
-		$agent = m('member')->checkAgent($member['id'], $config);;
-		if ($agent['code']!=1) {
-	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+		$agent = m('member')->checkAgent($member['id']);
+		if (intval($agent['level']) < 2) {
+			header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
 		}
 	}
 	$id = intval($_GPC['id']);

@@ -206,16 +206,16 @@ class Xuan_mixloan_Member
                 'level' => 1,
             );
             pdo_insert('xuan_mixloan_member', $member);
-            $tid = "20001" . date('YmdHis', time());
-            $member_id = pdo_insertid();
-            $insert = array(
-                    "uniacid"=>$_W["uniacid"],
-                    "uid"=>$member_id,
-                    "createtime"=>time(),
-                    "tid"=>$tid,
-                    "fee"=>0,
-            );
-            pdo_insert("xuan_mixloan_payment", $insert);
+            // $tid = "20001" . date('YmdHis', time());
+            // $member_id = pdo_insertid();
+            // $insert = array(
+            //         "uniacid"=>$_W["uniacid"],
+            //         "uid"=>$member_id,
+            //         "createtime"=>time(),
+            //         "tid"=>$tid,
+            //         "fee"=>0,
+            // );
+            // pdo_insert("xuan_mixloan_payment", $insert);
         } else {
             $upgrade = array();
             if ($followed) {
