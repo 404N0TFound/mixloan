@@ -11,5 +11,8 @@ if($operation=='service'){
 } else if ($operation == 'tutorials') {
 	//新手指南
 	include $this->template('mix/tutorials');
+} else if ($operation == 'get_pos') {
+	//免费获取pos机
+	include $this->template('mix/get_pos');
 }
 ?>
