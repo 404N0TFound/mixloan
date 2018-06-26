@@ -149,7 +149,7 @@
             {if $agent['code'] != 1}
             $('#prize_art').show();
             {else}
-            openNew("{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}");
+            openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}');
             {/if}
             })
         $(".click_view a").click(function(){

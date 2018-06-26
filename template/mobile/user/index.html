@@ -152,7 +152,7 @@
                 </div> 
                 {/if}
                 <ul class="clearfix">
-                    <li>
+                    <!-- <li>
                         <a  onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')" >
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                             我要办卡
@@ -165,7 +165,7 @@
                             我要贷款
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     <li style="border-bottom:none;">
                         <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}')" >
                             <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />
@@ -183,9 +183,16 @@
                     </li>
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
-                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
+                            我的徒弟
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    <li class="new_guide">
+                        <a onclick="extend_bonus()">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
-                            邀请二维码
+                            推荐有钱
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
@@ -285,7 +292,10 @@ function loginout(){
     // openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
 
 }
-
+function extend_bonus() {
+    var url = "{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}";
+    mui.openWindow({url:url, id:'extend_bonus', createNew:true});
+}
 </script>
 </body>
 </html>
