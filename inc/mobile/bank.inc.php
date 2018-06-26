@@ -181,5 +181,19 @@ if ($operation == 'extend_limit') {
 		$share_image = tomedia($config['share_image']);
 	}
 	include $this->template('bank/artical');
-} 
-?>
+}  else if ($operation == 'display') {
+    //银行展示页
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('出错了', '', 'error');
+    }
+    $item = m('bank')->getCard(['id', 'ext_info'], ['id'=>$id])[$id];
+    if (empty($item)) {
+        message('出错了', '', 'error');
+    }
+    if (is_weixin()) {
+        header("location:{$item['ext_info']['url']}");
+        exit();
+    }
+    include $this->template('bank/display');
+}
