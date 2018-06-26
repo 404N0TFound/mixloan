@@ -31,6 +31,19 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    createMsg();
+    function createMsg()
+    {
+        var options = {cover:false};
+        var str = dateToStr(new Date());
+        str += ": 欢迎使用Html5 Plus创建本地消息！";
+        plus.push.createMessage( str, "LocalMSG", options );
+        outSet( "创建本地消息成功！" );
+        outLine( "请到系统消息中心查看！" );
+        if(plus.os.name=="iOS"){
+            outLine('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
+        }
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
