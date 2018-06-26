@@ -38,12 +38,33 @@
         var str = dateToStr(new Date());
         str += ": 欢迎使用Html5 Plus创建本地消息！";
         plus.push.createMessage( str, "LocalMSG", options );
-        outSet( "创建本地消息成功！" );
-        outLine( "请到系统消息中心查看！" );
-        if(plus.os.name=="iOS"){
-            outLine('*如果无法创建消息，请到"设置"->"通知"中配置应用在通知中心显示!');
-        }
+        plus.ui.alert( "创建本地消息成功！" );
     }
+    function dateToStr( datetime )
+    {  
+        var year = datetime.getFullYear(),  
+        month = datetime.getMonth()+1,  
+        date = datetime.getDate(),  
+        hour = datetime.getHours(),  
+        minutes = datetime.getMinutes(),  
+        second = datetime.getSeconds();  
+        if ( month < 10 ) {  
+            month = "0" + month;  
+        }  
+        if ( date < 10 ) {  
+            date = "0" + date;  
+        }  
+            if ( hour < 10 ) {  
+            hour = "0" + hour;  
+        }  
+        if ( minutes < 10 ) {  
+            minutes = "0" + minutes;  
+        }  
+        if ( second < 10 ) {  
+            second = "0" + second;  
+        }  
+        return (year+"-"+month+"-"+date+" "+hour+":"+minutes+":"+second);  
+    } 
 </script>
 {if !is_weixin()}
 <style type="text/css">

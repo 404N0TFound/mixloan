@@ -63,11 +63,26 @@
         // 监听在线消息事件
         plus.push.addEventListener( "receive", function( msg ) {
             // plus.ui.alert( '这是监听事件' );
-            var vInfo = plus.push.getClientInfo();
-            plus.ui.alert(vInfo);
+            // var vInfo = plus.push.getClientInfo();
+            // var vInfoData = JSON.stringify(vInfo);
+            // plus.ui.alert(vInfoData);
+            if(msg.aps){
+                createMsg();
+                alert('接收到在线APNS消息');
+            }else{
+                createMsg();
+                alert('接收到在线透传消息');
+            }
             logoutPushMsg( msg );
         }, false );
     }, false );
+    function createMsg()
+    {
+        var options = {cover:false};
+        str = "欢迎使用Html5 Plus创建本地消息！";
+        plus.push.createMessage( str, "LocalMSG", options );
+        // plus.ui.alert( "创建本地消息成功！" );
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
