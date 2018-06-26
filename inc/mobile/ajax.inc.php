@@ -7,6 +7,7 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 if($operation == 'getCode'){
 	//发送验证码
+	$phone = $_GPC['phone'];
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
 	if ($_GPC['activity'] == 1) {
@@ -19,11 +20,11 @@ if($operation == 'getCode'){
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
-	$res = setcookie('cache_code', md5($cache), time()+90);
+	$res = setcookie('cache_code', md5($phone.$cache), time()+90);
 	if (!$res) {
 		show_json(-1, null, "存储出错，请联系技术人员");
 	}
-	$res = baoSendSMS($_GPC['phone'],$content,$config);
+	$res = baoSendSMS($phone,$content,$config);
 	if($res==0){
 		show_json(0, null, "发送验证码成功");
 	}else if($res==42){

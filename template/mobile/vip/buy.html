@@ -348,16 +348,8 @@
 		})
 		//购买
 		$("#to_buy").click(function(){
-            {if is_weixin()}
             toPurchase();
-            {else}
-            layer.open({
-                type: 1,
-                shade: false,
-                title: false,
-                content: $('#layer_notice')
-            });
-            {/if}
+            
 		})
 
 		function toPurchase(){

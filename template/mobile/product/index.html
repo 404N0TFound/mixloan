@@ -259,7 +259,7 @@
                             }
 
                             var two_li="<li class='clearfix' data-id="+ new_maintain +"  onclick=\"new_head(this);\">"
-                                +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" + id_new + "'>"
+                                +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_new+ "')\">"
                                 +"<div  class='clearfix lisi_li' >"
                                 +"<div class='fl'>"
                                 +"<img src='"+ imgs +"' />"
@@ -397,7 +397,7 @@
                         }
 
                         var str_tw="<li class='clearfix'  data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "')\">"
                             +"<div  class='clearfix lisi_li' >"
                             +"<div class='fl'>"
                             +"<img src='"+ imgs_loan +"' />"
@@ -427,7 +427,7 @@
                             +"</a>"
                             +"</li>";
                         var str_tre="<li class='clearfix' data-id="+ card_maintain +" onclick=\"card_head(this);\">"
-                            +"<a href='{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "'>"
+                            +"<a onclick=\"openNew('{php echo $this->createMobileUrl('product',['op'=>'info'])}&id=" +id_hot+ "')\">"
                             +"<div  class='clearfix lisi_li' >"
                             +"<div class='fl'>"
                             +"<img src='"+ imgs_loan +"'  />"
