@@ -23,10 +23,21 @@ if($operation=='index'){
         $row['title'] = $row['name'];
         $banner[] = $row;
     }
-    $new = m('product')->getRecommends();
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove['remove_ids']) {
+        $where = " and id not in ({$remove['remove_ids']})";
+        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+        $loan_con = ['type' => 2, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+    } else {
+        $where = "";
+        $card_con = ['type' => 1, 'is_show' => 1];
+        $loan_con = ['type' => 2, 'is_show' => 1];
+    }
+    $new = m('product')->getRecommends($where);
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
+    $card = m('product')->getList([], $card_con, FALSE);
+    $loan = m('product')->getList([], $loan_con, FALSE);
     $card = m('product')->packupItems($card);
     $loan = m('product')->packupItems($loan);
     $arr = array(
@@ -105,6 +116,14 @@ if($operation=='index'){
     if ( empty($info['is_show']) ) {
         message('该代理产品已被下架', '', 'info');
     }
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids)) {
+            message('该产品已代理被下架');
+        }
+    }
     include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
     //申请产品
@@ -120,6 +139,14 @@ if($operation=='index'){
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         show_json(-1, [], '该代理产品已被下架');
+    }
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids)) {
+            show_json(-1, [], '该代理产品已被下架');
+        }
     }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
@@ -338,4 +365,71 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
+} else if ($operation == 'choose_show_up') {
+    //代理产品上下架分类
+    include $this->template('product/choose_show_up');
+} else if ($operation == 'show_up') {
+    //代理产品上下架
+    $type = intval($_GPC['type']) ? : 1;
+    $list = m('product')->getList(['id', 'name', 'ext_info'],['is_show' => 1, 'type' => $type]);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+    } 
+    else
+    {
+        $remove_ids = array();
+    }
+    include $this->template('product/show_up');
+} else if ($operation == 'set_show_up') {
+    //设置代理产品上下架
+    $id = intval($_GPC['id']);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids))
+        {
+            //上架
+            foreach ($remove_ids as $val)
+            {
+                if ($val != $id)
+                {
+                    $new_ids[] = $val;
+                }
+            }
+            if (empty($new_ids))
+            {
+                pdo_delete('xuan_mixloan_product_remove', array('id' => $remove['id']));
+            }
+            else
+            {
+                $new_ids = implode(',', $new_ids);
+                pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            }
+            show_json(1);
+        }
+        else
+        {
+            //下架
+            $remove_ids[] = $id;
+            $new_ids = implode(',', $remove_ids);
+            pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            show_json(-1);
+        }
+    } 
+    else
+    {
+        //下架
+        $remove_ids[] = $id;
+        $new_ids = implode(',', $remove_ids);
+        $insert = array('uniacid' => $_W['uniacid'], 'uid' => $member['id'], 'remove_ids' => $new_ids);
+        pdo_insert('xuan_mixloan_product_remove', $insert);
+        show_json(-1);
+    }
+    
+
 }

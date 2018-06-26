@@ -100,7 +100,7 @@ if ($operation == 'extend_limit') {
 		}
 	}
 	$get = ['id', 'name', 'apply_nums', 'ext_info'];
-	$list = m('bank')->getCard($get);
+	$list = m('bank')->getCard($get, [], ' id desc', 10);
 	$recommends = m('bank')->getRecommendCard($list);
 	include $this->template('bank/want_subscribe');
 } else if ($operation =='cardView') {

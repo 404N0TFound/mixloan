@@ -8,7 +8,7 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+	$list = m('loan')->getList([],[], ' apply_nums desc', '10');
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -74,6 +74,14 @@ if($operation=='index'){
     if (empty($info['is_show'])){
         message('该产品已被下架');
     }
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($pid, $remove_ids)) {
+            message('该产品已代理被下架');
+        }
+    }
 	include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
@@ -96,6 +104,14 @@ if($operation=='index'){
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if (empty($info['is_show'])) {
         show_json(-1, [], "该产品已被下架");
+    }
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids)) {
+            show_json(-1, [], '该代理产品已被下架');
+        }
     }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];

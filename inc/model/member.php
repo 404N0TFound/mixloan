@@ -159,7 +159,7 @@ class Xuan_mixloan_Member {
         if (empty($openid)) {
             $openid = m('user')->getOpenid();
         }
-        if (empty($openid)) {
+        if (empty($openid) && !$_GPC['test']) {
             // die("<!DOCTYPE html>
             // <html>
             //     <head>
@@ -180,7 +180,7 @@ class Xuan_mixloan_Member {
         $followed = m('user')->followed($openid);
         $uid = 0;
         $mc = array();
-        if (empty($member)) {
+        if (empty($member) && !empty($openid)) {
             if (is_weixin()) {
                 $tempinfo = m('user')->oauth_info();
             }

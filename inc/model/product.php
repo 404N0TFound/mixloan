@@ -16,6 +16,8 @@ class Xuan_mixloan_Product
                 if ($k == 'id' && is_array($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
+                } else if ($k == 'n_id') {
+                    $wheres .= " AND `id` NOT IN ({$v})";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -121,9 +123,9 @@ class Xuan_mixloan_Product
         return $list;
     }
 
-    public function getRecommends(){
+    public function getRecommends($where=""){
         global $_W;
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_show=1 order by id desc limit 5";
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_product')." where uniacid=:uniacid AND is_show=1 {$where} order by id desc limit 5";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {

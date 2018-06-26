@@ -28,6 +28,8 @@
         body {
             background-color: #f1f1f1;
         }
+        div.fc_guide,.agent-header{position: relative;}
+        .agent-foot{position: absolute;}
     </style>
 
     {template 'common/wxshare'}
@@ -96,11 +98,11 @@
     });
 </script>
 <style type="text/css">
-    div.fc_guide{top: 70px}
+    div.fc_guide{top: 0}
     .agent-header{height: 70px;line-height: 90px}
     div.search_rec{top: 119px}
     {if !is_weixin()}
-    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 280px}
+    div.guide_result, div.tabSwiper, div.searchSwiper{padding-top: 0px}
     {/if}
 </style>
 {/if}
@@ -114,7 +116,7 @@
         </a>
     </div>
     {if !is_weixin()}
-    <div class="agent-foot">
+    <!-- <div class="agent-foot">
         <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
             <p>首页</p>
@@ -135,7 +137,7 @@
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
             <p>个人中心</p>
         </a>
-    </div>
+    </div> -->
     {/if}
     <div class="fc_guide">
         <div class="fc_search">

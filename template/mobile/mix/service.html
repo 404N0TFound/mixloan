@@ -31,40 +31,7 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
-    createMsg();
-    function createMsg()
-    {
-        var options = {cover:false};
-        var str = dateToStr(new Date());
-        str += ": 欢迎使用Html5 Plus创建本地消息！";
-        plus.push.createMessage( str, "LocalMSG", options );
-        plus.ui.alert( "创建本地消息成功！" );
-    }
-    function dateToStr( datetime )
-    {  
-        var year = datetime.getFullYear(),  
-        month = datetime.getMonth()+1,  
-        date = datetime.getDate(),  
-        hour = datetime.getHours(),  
-        minutes = datetime.getMinutes(),  
-        second = datetime.getSeconds();  
-        if ( month < 10 ) {  
-            month = "0" + month;  
-        }  
-        if ( date < 10 ) {  
-            date = "0" + date;  
-        }  
-            if ( hour < 10 ) {  
-            hour = "0" + hour;  
-        }  
-        if ( minutes < 10 ) {  
-            minutes = "0" + minutes;  
-        }  
-        if ( second < 10 ) {  
-            second = "0" + second;  
-        }  
-        return (year+"-"+month+"-"+date+" "+hour+":"+minutes+":"+second);  
-    } 
+    
 </script>
 {if !is_weixin()}
 <style type="text/css">

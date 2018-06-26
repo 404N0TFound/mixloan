@@ -43,6 +43,12 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        var user_index = plus.webview.getWebviewById('user_index');
+        mui.fire(user_index,'refresh');
+        mui.openWindow({url:user_url, id:'user_index'});
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -124,7 +130,7 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>指点客</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+    <a onclick="return_user()">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
         <p>个人中心</p>
     </a>
