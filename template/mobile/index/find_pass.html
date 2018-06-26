@@ -7,10 +7,9 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
 	<meta  content="e-mail=no" name="format-detection"/>
-	<title>{$config['title']}登陆</title>
+	<title>找回密码</title>
 	<script src="../addons/xuan_mixloan/template/style/js//jquery_3.js"></script>
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_3.css" id="layui_layer_skinlayercss">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_3.css">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_5.css">
@@ -46,61 +45,36 @@
 		div.regProtocol label img{width: 15px;height: 15px;display: inline-block;vertical-align: middle;margin-top: -3px;}
 		div.regProtocol span{color: #9a989b;font-style: 12px;display: inline;}
 		div.regProtocol a{display: inline;color: #0194fc;font-style: 12px;}
-		.login_app_wechat{width: 100%;display: inline-block;margin-top: 3rem;text-align: center;}
-		.to_find,.to_register{    display: inline-block;width: 84%; margin: 0px auto;margin-top: 50px;height: 42px;border-radius: 5px;font-size: 17px;text-align: center; line-height: 42px; color: #fff; background-color: #0195ff; letter-spacing: 5px;margin-top: 1rem;}
 	</style>
 	{template 'common/wxshare'}
 </head>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
         mui.openWindow({url:url});
     }
 </script>
-<script type="text/javascript">
-    if (typeof(plus) == 'undefined') {
-        openNew('http://www.edjrw.com/app/index.php?i=2&c=entry&op=exit&do=index&m=xuan_mixloan');
-    }
-</script>
-{if !is_weixin()}
-<style type="text/css">
-	.app_header{height: 70px;width: 100%}
-</style>
-<script type="text/javascript">
-    mui.plusReady(function() {
-        plus.key.addEventListener('backbutton', function() {
-            if (confirm('确认退出？')) {
-                plus.runtime.quit();
-            }
-        }, false);
-        var wv=plus.webview.currentWebview();
-        // 关闭侧滑返回功能
-        wv.setStyle({'popGesture':'none'});
-    });
-</script>
-<div class="app_header">
-</div>
-{/if}
 <body class="bgcolor">
-<div class="fill_info">
+<div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
 	<ul>
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
 		</li>
+		<li>
+			<label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
+			<input type="number" name="" id="validcode" placeholder="请输入验证码">
+			<a class="validnum">获取验证码</a>
+		</li>
 		<li class="psw">
 			<label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
-			<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请输入您的登录密码">
+			<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您新的登录密码">
 		</li>
 	</ul>
 	<div class="submit_btn">
-		<a class="to_buy">登陆</a>
-		<a class="to_register" onclick="openNew('{php echo $this->createMobileUrl('index', array('op'=>'register'))}')" >注册</a>
-		<a class="to_find" onclick="openNew('{php echo $this->createMobileUrl('index', array('op'=>'find_pass'))}')" >找回密码</a>
+		<a class="to_buy">提交</a>
 	</div>
-	<!-- <a class="login_app_wechat" href="{php echo $this->createMobileUrl('index', ['op'=>'wechat_login_app'])}">
-		<img src="../addons/xuan_mixloan/template/style/mui/images/icon-weixin.png" style="width: 5rem">
-	</a> -->
 	<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
 </div>
 
@@ -131,11 +105,16 @@
                 temp+=str.charAt(i)
         return temp
     }
+    // 点击获取验证码
+    $(".validnum").click(function(){
+        getCheck();
+    })
     //提交
     $(".to_buy").click(function(){
         to_buy();
     })
     function to_buy(){
+        $(".to_buy").unbind("click");
         // var name=$("#name").val();
         var phone=$("#phone").val();
         var validcode=$("#validcode").val();
@@ -157,6 +136,11 @@
                 return false;
             }
         }
+        if(validcode==""){
+            layer.msg("请输入短信验证码");
+            bind_click();
+            return false;
+        }
         if(psw==""){
             layer.msg("请输入密码");
             bind_click();
@@ -167,12 +151,17 @@
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'login_ajax'))}",{"phone":phone,"pwd":psw},
+        if($("#protocol").attr("data-index")=="0"){
+            layer.msg("请先阅读{$config['title']}用户注册协议");
+            bind_click();
+            return false;
+        }
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'find_pass_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
             function(data){
                 console.log(data);
                 if(data.code==1){
-                    layer.msg("提交成功，正在跳转...",function(){
-                        mui.openWindow({url:data.data.url, id:'user_index',createNew:true});
+                    layer.msg(data.msg,{time:2000},function(){
+                        openNew(data.data.url);
                     });
                 }else{
                     layer.msg(data.msg);
@@ -186,6 +175,77 @@
             to_buy();
         });
     }
+    //验证码
+    function getCheck(){
+        $(".validnum").unbind("click");
+        var flagsms = true;
+        //启动计时器，1秒执行一次
+        if (flagsms) {
+            var phone = $("#phone").val();
+            var reg = /^(1)\d{10}$/;
+            if(phone!=""){
+                if (!reg.test(phone)) {
+                    layer.msg("请正确填写手机号");
+                    flagsms = true;
+                    $(".validnum").bind("click",function(){
+                        getCheck();
+                    });
+                }else{
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
+                        function(data){
+                            if(data.code==0){
+                                layer.msg("已发送，请注意查收");
+                                curCount = 60;
+                                InterValObj = window.setInterval(SetRemainTime, 1000);
+                                flagsms = false;
+                            }else{
+                                layer.msg(data.msg);
+                                flagsms = true;
+                                $(".validnum").bind("click",function(){
+                                    getCheck();
+                                });
+                                return false;
+                            }
+                        },'json')
+                }
+            }else{
+                layer.msg("请填写手机号");
+                flagsms = true;
+                return false;
+            }
+        }
+    }
+    function SetRemainTime() {
+
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            flagsms = true;
+            curCount = 60;
+            $(".validnum").html("重新发送");
+
+            code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+            $(".validnum").bind("click",function(){
+                getCheck();
+            });
+        }
+        else {
+            curCount--;
+            $(".validnum").html(curCount+"s");
+        }
+    }
+    //阅读协议选择
+    $("#protocol").click(function(){
+        var _this=$(this);
+        if(_this.attr("data-index")=="1"){
+            _this.attr("data-index","0");
+            _this.find("img.selected").hide();
+            _this.find("img.noselect").show();
+        }else{
+            _this.attr("data-index","1");
+            _this.find("img.selected").show();
+            _this.find("img.noselect").hide();
+        }
+    })
     //避免输入法影响样式
     $('input').on('focus',function(){
         window.onresize = function () {
@@ -200,12 +260,6 @@
             }
         }
     })
-    mui.init({
-        swipeBack:true, //启用右滑关闭功能,
-        keyEventBind: {
-            backbutton: false  //关闭back按键监听
-        }
-    });
 </script>
 </body>
 </html>

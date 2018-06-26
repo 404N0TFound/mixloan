@@ -48,6 +48,21 @@
 	</style>
 	{template 'common/wxshare'}
 </head>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+	.app_header{height: 70px;width: 100%}
+</style>
+<script type="text/javascript">
+</script>
+<div class="app_header">
+</div>
+{/if}
 <body class="bgcolor">
 	<div class="fill_info" data-id="341794">
 		<img src="{php echo tomedia($config['logo']);}" />
@@ -155,9 +170,13 @@ return temp
         	function(data){
         		console.log(data);
         		if(data.code==1){
-        			layer.msg("提交成功，正在跳转...",{time:2000},function(){
-        				location.href=data.data.url;
-        			});
+                    if (typeof(plus) == "undefined") {
+                        layer.msg('注册成功，请在app内登陆');
+                    } else {
+                        layer.msg(data.msg,{time:2000},function(){
+                            openNew(data.data.url);
+                        });
+                    }
         		}else{
         			layer.msg(data.msg);
         			bind_click();
