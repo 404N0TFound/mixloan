@@ -14,7 +14,7 @@ if($operation=='register'){
 } else if ($operation == 'register_ajax') {
     //注册提交
     $phone = $_GPC['phone'];
-    $pwd = $_GPC['pwd'] ? : '';
+    $pwd = $_GPC['pwd'];
     $smsCode = $_GPC['smsCode'];
     if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
         show_json(-1, null, "验证码不符或验证码已失效");
@@ -28,13 +28,9 @@ if($operation=='register'){
     }
     if ($openid) {
         //邀请处理
-        $qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM " .tablename("qrcode_stat"). "
-            WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",
-            array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        $qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
         if ($qrcid) {
-            $res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM " .tablename("xuan_mixloan_inviter"). "
-                WHERE phone=:phone AND uid=:uid ORDER BY id DESC",
-                array(":uid"=>$qrcid,":phone"=>$phone));
+            $res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone AND uid=:uid ORDER BY id DESC",array(":uid"=>$qrcid,":phone"=>$phone));
             if (!$res_i && $qrcid!=$member['id']) {
                 $insert_i = array(
                     'uniacid' => $_W['uniacid'],
@@ -44,30 +40,12 @@ if($operation=='register'){
                 );
                 pdo_insert('xuan_mixloan_inviter', $insert_i);
             }
-        } else {
-            if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $_GPC['inviter'],
-                    'phone' => $phone,
-                    'createtime' => time(),
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-                $insert_q = array(
-                    'uniacid' => $_W['uniacid'],
-                    'type'=>1,
-                    'qrcid' => $_GPC['inviter'],
-                    'scene_str' => $_GPC['inviter'],
-                    'openid' => $member['openid'],
-                    'createtime' => time(),
-                );
-                pdo_insert('qrcode_stat', $insert_q);
-            }
         }
         //更新操作
         $arr = ['phone'=>$phone, 'pass'=>$pwd];
         pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+        show_json(1, ['url'=>$this->createMobileUrl('user')], "注册成功");
     } else {
         //没有openid的情况
         $openid = md5($phone);
@@ -86,22 +64,8 @@ if($operation=='register'){
         $member_id = pdo_insertid();
         if ($_GPC['inviter']) {
             $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
-            if ($result) {
-                $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'followList'));
-                $ext_info = array('content' => "您好，您的好友" . $nickname . "已通过您的推广二维码关注" . $config['title'], 'remark' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得" . $config['inviter_fee_one']. "元奖励", 'url' => $url);
-                $insert = array(
-                    'is_read'=>0,
-                    'uid'=>$member_id,
-                    'type'=>2,
-                    'createtime'=>time(),
-                    'uniacid'=>$_W['uniacid'],
-                    'to_uid'=>$_GPC['inviter'],
-                    'ext_info'=>json_encode($ext_info),
-                );
-                pdo_insert('xuan_mixloan_msg', $insert);
-            }
         }
-        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
     }
 } else if ($operation == 'exit') {
     die("<!DOCTYPE html>
@@ -138,7 +102,7 @@ if($operation=='register'){
         show_json(-1, [], '密码不正确');
     }
     setcookie('user_id', $member['id'], time()+86400);
-    show_json(1, ['url'=>$this->createMobileUrl('loan')], '登陆成功');
+    show_json(1, ['url'=>$this->createMobileUrl('user')], '登陆成功');
 } else if ($operation == 'loginout') {
     setcookie('user_id', false, time()-86400);
     header("location:{$this->createMobileUrl('index', ['op'=>'login'])}");
