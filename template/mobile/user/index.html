@@ -181,6 +181,13 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/images/message_2.png" />
+                            我的消息
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
                     {if $member['user_type']['code'] == 1}
                     <li class="new_guide">
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')">

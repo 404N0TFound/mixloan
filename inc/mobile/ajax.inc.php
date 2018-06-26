@@ -256,6 +256,17 @@ if($operation == 'getCode'){
         );
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+        $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金{$config['inviter_fee_one']}元，继续推荐代理，即可获得更多佣金奖励", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
         //二级
         $man = m('member')->getInviterInfo($inviter);
         $inviter = m('member')->getInviter($man['phone'], $man['openid']);
@@ -297,6 +308,17 @@ if($operation == 'getCode'){
             );
             $account = WeAccount::create($_W['acid']);
             $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+            $ext_info = array('content' => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金{$config['inviter_fee_two']}元，继续推荐代理，即可获得更多佣金奖励", 'url' => $url);
+            $insert = array(
+                'is_read'=>0,
+                'uid'=>$member['id'],
+                'type'=>2,
+                'createtime'=>time(),
+                'uniacid'=>$_W['uniacid'],
+                'to_uid'=>$inviter,
+                'ext_info'=>json_encode($ext_info),
+            );
+            pdo_insert('xuan_mixloan_msg', $insert);
         }
     }
     message("支付成功", $this->createMobileUrl('user'), "success");
@@ -366,13 +388,11 @@ if($operation == 'getCode'){
 		}
 		$ext_info = json_decode($item['ext_info'], true);
 		if (empty($ext_info)) {
-			continue;
 		}
 		$SN = $ext_info['SN'];
 		$MER_ORDER_NO = $ext_info['MER_ORDER_NO'];
 		$batchNo = $ext_info['batchNo'];
 		if (empty($SN) || empty($MER_ORDER_NO) || empty($batchNo)) {
-			continue;
 		}
 		require_once('../addons/xuan_mixloan/lib/yilian_pay/pay_query.php');
 		var_dump($res);die;

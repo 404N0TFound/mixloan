@@ -64,6 +64,20 @@ if($operation=='register'){
         $member_id = pdo_insertid();
         if ($_GPC['inviter']) {
             $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+            if ($result) {
+                $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'followList'));
+                $ext_info = array('content' => "您好，您的好友" . $nickname . "已通过您的推广二维码关注" . $config['title'], 'remark' => "好友尚未购买代理，莫着急！继续推荐代理，好友购买成功，即可获得" . $config['inviter_fee_one']. "元奖励", 'url' => $url);
+                $insert = array(
+                    'is_read'=>0,
+                    'uid'=>$member_id,
+                    'type'=>2,
+                    'createtime'=>time(),
+                    'uniacid'=>$_W['uniacid'],
+                    'to_uid'=>$_GPC['inviter'],
+                    'ext_info'=>json_encode($ext_info),
+                );
+                pdo_insert('xuan_mixloan_msg', $insert);
+            }
         }
         show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
     }

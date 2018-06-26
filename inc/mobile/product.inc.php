@@ -166,6 +166,17 @@ if($operation=='index'){
                 pdo_insert('xuan_mixloan_inviter', $insert_i);
             }
         }
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
         $status = 0;
     } else {
         $status = -2;
@@ -195,6 +206,17 @@ if($operation=='index'){
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
         $datam['first']['value'] = "尊敬的{$config['title']}客，您徒弟{$inviter_one['nickname']}推荐的用户{$member['nickname']}({$phone})正在【{$info['name']}】产品页提交信息，请及时跟进用户是否注册，申请。";
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice6'], $datam, $url);
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$second_inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
     }
     show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
