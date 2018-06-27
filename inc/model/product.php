@@ -406,4 +406,25 @@ class Xuan_mixloan_Product
         }
         return $ret;
     }
+
+    /**
+    *   获取下架产品的所有id
+    **/
+    public function getRemoveProductIds($type)
+    {
+        $conditon = ['is_show' => 0];
+        if ($type != "")
+        {
+            $condition['type'] = $type;
+        }
+        $ids = $this->getList(['id'], $condition);
+        if ($ids) 
+        {
+            return array_values($ids);
+        }
+        else
+        {
+            return array();
+        }
+    }
 }

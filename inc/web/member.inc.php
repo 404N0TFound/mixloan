@@ -27,7 +27,13 @@ if ($operation == 'list') {
         unset($row);
     } else {
         $list = pdo_fetchall($sql);
-        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12),)));
+        foreach ($list as &$row)
+        {
+            $row['agent_name'] = m('member')->checkAgent($row['id'])['name'];
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            $row['id'] = "1000" . $row['id'];
+        }
+        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '会员id', 'field' => 'id', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 22), array('title' => '身份', 'field' => 'agent_name', 'width' => 12), array('title' => '注册时间', 'field' => 'createtime', 'width' => 20), array('title' => '手机号', 'field' => 'phone', 'width' => 15) )));
     }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
