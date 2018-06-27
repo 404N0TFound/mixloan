@@ -2,19 +2,20 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx5c65b334ef89bd92";
-    private $mchid = "1483623762";
+    private $appid = "wxe34ba0c6b9d8b7da";
+    private $mchid = "1508548871";
     private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
+    private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     private $publickey_path = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/key/ras.pub";
     private $apiclient_cert = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
     private $apiclient_key = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
     function __construct()
     {
-        if (!file_exists($this->publickey_path)) {
-            $this->GetPubRsa();
-        }
+//        if (!file_exists($this->publickey_path)) {
+//            $this->GetPubRsa();
+//        }
     }
     /**
      * 打款
@@ -60,6 +61,43 @@ class Xuan_mixloan_Pay
             return ["code"=>1, "msg"=>$result["err_code_des"], "data"=>$data];
         } else {
             return ["code"=>-1, "msg"=>$result["err_code_des"]];
+        }
+    }
+    /**
+     * H5支付
+     * @param $amount 单位：分
+     * @param $notify_url
+     * @return array
+     */
+    function H5pay($trade_no, $amount, $notify_url)
+    {
+        if (empty($amount)) {
+            return ["code"=>-1, "msg"=>"amount不能为空"];
+        }
+        if (empty($notify_url)) {
+            return ["code"=>-1, "msg"=>"notify_url不能为空"];
+        }
+        $params["appid"] = $this->appid;
+        $params["mch_id"] = $this->mchid;
+        $params['out_trade_no'] = $trade_no;
+        $params["nonce_str"] = strtoupper(md5($trade_no));
+        $params['body'] = '融合时代官方充值';
+        $params["spbill_create_ip"] = $this->getRealIp();
+        $params["total_fee"] = intval($amount*100);
+        $params["notify_url"] = $notify_url;
+        $params["trade_type"] = "MWEB";
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "融合时代官方充值"}}';
+        $string = $this->GetHttpQueryString($params);
+        $sign = $this->GetSign($string);
+        $params["sign"] = $sign;
+        $result = $this->curl($this->H5pay_url, $params, false);
+        if ($result['result_code'] != "FAIL") {
+            $data = array(
+                "url"=>$result['mweb_url']
+            );
+            return ["code"=>1, "msg"=>$result["return_msg"], "data"=>$data];
+        } else {
+            return ["code"=>-1, "msg"=>$result["return_msg"]];
         }
     }
     /**
