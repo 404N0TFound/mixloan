@@ -186,14 +186,8 @@
 				autoplayDisableOnInteraction: false
 			});
 			function craetePoster(){
-			    $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>2))}",{},
-			        function(data){
-			            if (data.code==1 || data.code==2) {
-                            openNew('{php echo $this->createMobileUrl('vip', array('op'=>'posterAll'))}');
-			            } else {
-			            	layer.msg(data.msg);
-			            }
-			        },'json');
+				openNew('{php echo $this->createMobileUrl('product', array('op'=>'choose_show_up'))}');
+				return false;
 			}
 		</script>
 	</body>

@@ -71,7 +71,16 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
-    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $where = " and a.id not in ({$remove['remove_ids']})";
+        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+    } else {
+        $where = "";
+        $card_con = ['type' => 1, 'is_show' => 1];
+    }
+    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], $card_con);
     foreach ($credits as $credit) {
         $id[] = $credit['relate_id'];
     }
@@ -89,7 +98,7 @@ if($operation=='index'){
             $credit_thr = [];
         }
     }
-    $speed_loans = m('product')->getSpecialLoan(9);
+    $speed_loans = m('product')->getSpecialLoan(9, $where);
     foreach ($speed_loans as $key => $loan) {
         $speed_loan_thr[] = $loan;
         if (count($speed_loan_thr) > 2 || $key == max(array_keys($speed_loans))) {
@@ -97,7 +106,7 @@ if($operation=='index'){
             $speed_loan_thr = [];
         }
     }
-    $large_loans = m('product')->getSpecialLoan(7);
+    $large_loans = m('product')->getSpecialLoan(7, $where);
     foreach ($large_loans as $key => $loan) {
         $large_loan_thr[] = $loan;
         if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {
