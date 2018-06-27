@@ -32,7 +32,9 @@ class Xuan_mixloan_Loan
                     {
                         $v_string = '';
                     }
-                    $wheres .= " AND `n_id` NOT IN ({$v_string})";
+                    $wheres .= " AND `id` NOT IN ({$v_string})";
+                } else if ($k == 'name') {
+                    $wheres .= " AND `{$k}` LIKE '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -95,13 +97,13 @@ class Xuan_mixloan_Loan
                     {
                         $v_string = '';
                     }
-                    $wheres .= " AND `n_id` NOT IN ({$v_string})";
+                    $wheres .= " AND `id` NOT IN ({$v_string})";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
             }
         }
-        $sql = "SELECT * FROM " . tablename('xuan_mixloan_loan') . $wheres . " ORDER BY rand() LIMIT 3";
+        $sql = "SELECT * FROM " . tablename('xuan_mixloan_loan') . " WHERE uniacid=:uniacid " . $wheres . " ORDER BY rand() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {

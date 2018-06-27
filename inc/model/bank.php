@@ -53,6 +53,8 @@ class Xuan_mixloan_Bank
                 } else if ($k == 'id' && is_array($v) && !empty($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
+                } else if ($k == 'name') {
+                    $wheres .= " AND `{$k}` LIKE '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }

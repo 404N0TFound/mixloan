@@ -412,15 +412,19 @@ class Xuan_mixloan_Product
     **/
     public function getRemoveProductIds($type)
     {
-        $conditon = ['is_show' => 0];
+        $condition = ['is_show' => 0];
         if ($type != "")
         {
             $condition['type'] = $type;
         }
-        $ids = $this->getList(['id'], $condition);
+        $ids = $this->getList(['id', 'relate_id'], $condition);
         if ($ids) 
         {
-            return array_values($ids);
+            $ret = array();
+            foreach ($ids as $id) {
+                $ret[] = $id['relate_id'];
+            }
+            return $ret;
         }
         else
         {

@@ -134,7 +134,7 @@ if($operation=='buy'){
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '月结';
 		}
-		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
+		$row['tid'] = date('Ymd',$row['createtime']) . $row['id'];
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}
 	unset($row);
@@ -193,7 +193,7 @@ if($operation=='buy'){
     $today = strtotime("{$date}");
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
 		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
-    if ($config['withdraw_day_limit'] && $times > $config['withdraw_day_limit']) {
+    if ($config['withdraw_day_limit'] && ($times + 1) > $config['withdraw_day_limit']) {
         show_json(-1, null, "一天只能提现" . $config['withdraw_day_limit'] . "次");
     }
 	if (!$bank_id) {
