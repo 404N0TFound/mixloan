@@ -26,7 +26,7 @@ if($operation=='buy'){
     {
         $tid = "10001" . date('YmdHis', time());
         $title = "购买{$config['title']}代理会员";
-        $fee = $config['buy_vip_price'];
+        $fee = $config['buy_mid_vip_price'];
         $params = array(
             'tid' => $tid,
             'ordersn' => $tid,
@@ -42,8 +42,8 @@ if($operation=='buy'){
         $notify_url = 'http://fs.52-tao.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
-        if ($member['id'] == '4518') {
-            $config['buy_vip_price'] = 0.1;
+        if ($member['id'] == '20798') {
+            $config['buy_mid_vip_price'] = 0.1;
         }
         if (empty($record)) {
             $tid = "10001" . date('YmdHis', time());
@@ -54,7 +54,7 @@ if($operation=='buy'){
                 'createtime'=>time(),
                 'uid'=>$member['id'],
                 'uniacid'=>$_W['uniacid'],
-                'fee'=>$config['buy_vip_price'],
+                'fee'=>$config['buy_mid_vip_price'],
                 'is_pay'=>0,
                 'type'=>1
             );
@@ -71,7 +71,7 @@ if($operation=='buy'){
                     'createtime'=>time(),
                     'uid'=>$member['id'],
                     'uniacid'=>$_W['uniacid'],
-                    'fee'=>$config['buy_vip_price'],
+                    'fee'=>$config['buy_mid_vip_price'],
                     'is_pay'=>0,
                     'type'=>1
                 );
@@ -82,7 +82,7 @@ if($operation=='buy'){
                 $trade_no = $record['notify_id'];
             }
         }
-        $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
+        $result = m('pay')->H5pay($trade_no, $config['buy_mid_vip_price'], $notify_url);
         if ($result['code'] == 1) {
             $redirect_url = urlencode($_W['siteroot'] . 'app/' .
                 $this->createMobileUrl('vip', array('op'=>'checkPay')));

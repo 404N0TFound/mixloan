@@ -86,7 +86,7 @@ class Xuan_mixloan_Pay
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "融合时代官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://fs.52-tao.cn","wap_name": "融合时代官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
@@ -219,5 +219,26 @@ class Xuan_mixloan_Pay
         } else {
             die($xml["return_msg"]);
         }
+    }
+    /**
+     * 获取Ip
+     */
+    function getRealIp()
+    {
+        $ip=false;
+        if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+            $ip = $_SERVER["HTTP_CLIENT_IP"];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode (", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            if ($ip) { array_unshift($ips, $ip); $ip = FALSE; }
+            for ($i = 0; $i < count($ips); $i++) {
+                if (!eregi ("^(10│172.16│192.168).", $ips[$i])) {
+                    $ip = $ips[$i];
+                    break;
+                }
+            }
+        }
+        return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
     }
 }

@@ -124,7 +124,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
 <style type="text/css">
@@ -396,21 +396,12 @@
 		//购买
 		$("#to_buy").click(function(){
 			// toPurchase();
-            {if is_weixin()}
             layer.open({
                 type: 1,
                 shade: false,
                 title: false,
                 content: $('#layer_notice')
             });
-            {else}
-            layer.open({
-                type: 1,
-                shade: false,
-                title: false,
-                content: $('#layer_concern')
-            });
-            {/if}
 		})
 
 		function toPurchase(type){			
@@ -419,9 +410,9 @@
 			payingLoading = layer.load(1, {
 			  shade: [0.1,'#fff'] 
 			});
-			var userId=341794;
 			if($(".to_read").hasClass("read")){
-				window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type
+				var _url = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type;
+				openNew(_url);
 			}else{
 				layer.msg("请先阅读{$config['title']}用户服务协议");
 				rePurchase();
