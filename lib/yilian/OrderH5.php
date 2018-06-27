@@ -30,7 +30,7 @@
 	}
 
 	//下订单处理自动设置的参数
-	$merchOrderId = Tools::currentTimeMillis();  //订单号；本例子按时间产生； 商户请按自己的规则产生
+	// $merchOrderId = Tools::currentTimeMillis();  //订单号；本例子按时间产生； 商户请按自己的规则产生
 	$merchantId = Constants::getMerchantId();
 	$notifyUrl = Constants::getMerchantNotifyUrl();  //需要做URLEncode
 	$returnUrl = Constants::getMerchantReturnUrl();  //需要做URLEncode

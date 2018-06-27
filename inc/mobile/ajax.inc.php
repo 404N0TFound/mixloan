@@ -177,15 +177,19 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'pay_result') {
     //易联支付结果通知
-    $openid = m('user')->getOpenid();
-    $member = m('member')->getInfo($openid);
     $result = array();
 	require_once(IA_ROOT . '/addons/xuan_mixloan/lib/yilian/Notify.php');
 	if ($result['RetCode'] != "0000") {
 		message($result['RetMsg'], $this->createMobileUrl('vip', ['op'=>'buy']), 'error');
 	}
-    if (empty($member['id'])) {
-        header("location:{$this->createMobileUrl('user')}");
+    $member_id = pdo_fetchcolumn('select uid from ' . tablename('xuan_mixloan_paylog') . '
+    	where notify_id=:notify_id', array(':notify_id' => $orderId));
+    $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
+    	where id=:id', array(':id' => $member_id));
+    $openid = $member['openid'];
+    if (empty($member['id']))
+    {
+    	message('出错了', '', 'error');
     }
     $agent = m('member')->checkAgent($member['id']);
     if ($agent['code'] == 1) {
