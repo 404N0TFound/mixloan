@@ -69,7 +69,7 @@
 		<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
 		<div class="submit_btn">
 			<a class="to_buy">注册</a>
-		</div>		
+		</div>
 		<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
 	</div>
 
@@ -90,15 +90,15 @@ $(document).ready(function(){
 		var v_h=$("div.fill_info ul li a.validnum").height();
 		var top=(li_h-v_h)/2+"px";
 		$("div.fill_info ul li a.validnum").css("top",top);
-	})	
+	})
 })
 //密码中文限制
-function check(str){ 
-var temp="" 
-for(var i=0;i<str.length;i++) 
-     if(str.charCodeAt(i)>0&&str.charCodeAt(i)<255) 
-        temp+=str.charAt(i) 
-return temp 
+function check(str){
+var temp=""
+for(var i=0;i<str.length;i++)
+     if(str.charCodeAt(i)>0&&str.charCodeAt(i)<255)
+        temp+=str.charAt(i)
+return temp
 }
 // 点击获取验证码
 	$(".validnum").click(function(){
@@ -106,7 +106,7 @@ return temp
 	})
 	//提交
 	$(".to_buy").click(function(){
-		to_buy();      
+		to_buy();
 	})
 	function to_buy(){
 		$(".to_buy").unbind("click");
@@ -130,7 +130,7 @@ return temp
                 bind_click();
                 return false;
             }
-        } 
+        }
         if(validcode==""){
         	layer.msg("请输入短信验证码");
         	bind_click();
@@ -185,14 +185,14 @@ return temp
 	                $(".validnum").bind("click",function(){
 			            getCheck();
 			        });
-	            }else{            	
+	            }else{
 	                $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
 			        	function(data){
 			        		if(data.code==0){
 			        			layer.msg("已发送，请注意查收");
 			        			curCount = 60;
 				                InterValObj = window.setInterval(SetRemainTime, 1000);
-				                flagsms = false;				                
+				                flagsms = false;
 			        		}else{
 			        			layer.msg(data.msg);
 			        			flagsms = true;
@@ -207,7 +207,7 @@ return temp
             	layer.msg("请填写手机号");
                 flagsms = true;
                 return false;
-            }            
+            }
         }
 	}
 	function SetRemainTime() {
@@ -243,7 +243,7 @@ $("#protocol").click(function(){
 })
 //避免输入法影响样式
 $('input').on('focus',function(){
-    window.onresize = function () {        
+    window.onresize = function () {
         var h = $(window).height();
         var u = navigator.userAgent;
         if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
