@@ -86,7 +86,7 @@ class Xuan_mixloan_Pay
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://0833st.com","wap_name": "融合时代官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://weixin.cccc2222.cn","wap_name": "融合时代官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;

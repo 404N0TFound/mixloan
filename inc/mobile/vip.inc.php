@@ -39,7 +39,7 @@ if($operation=='buy'){
     }
     else
     {
-        $notify_url = 'http://0833st.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $notify_url = 'http://weixin.cccc2222.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
         if ($member['id'] == '20798') {
