@@ -179,49 +179,15 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        $list = pdo_fetchall('select id,img_url from '.tablename('xuan_mixloan_withdraw_qrcode').' where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
         foreach ($list as $row) {
-            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-            if ($row['left_bonus']<0) {
-                $bonus = pdo_fetch('select id,extra_bonus from '.tablename('xuan_mixloan_bonus').' where inviter=:inviter and status>1', array(':inviter'=>$row['uid']));
-                if ($bonus) {
-                	pdo_update('xuan_mixloan_bonus', array('extra_bonus'=>$bonus['extra_bonus']-$row['left_bonus']), array('id'=>$bonus['id']));
-                } else {
-                	$insert = array(
-                		'uniacid'=>$_W['uniacid'],
-                		'uid'=>0,
-                		'relate_id'=>27,
-                		'phone'=>18678350582,
-                		'certno'=>'371402198803251212',
-                		'realname'=>'李龙',
-                		'inviter'=>$row['uid'],
-                		'extra_bonus'=>-$row['left_bonus'],
-                		'createtime'=>time(),
-                		'status'=>2,
-                		'degree'=>1,
-                		'type'=>1
-                	);
-                	pdo_insert('xuan_mixloan_bonus', $insert);
-                }
-                $ids[] = $row['uid'];
-            }
-        }
-    } else if ($_GPC['type'] == 'inviter') {
-        $list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_inviter').' group by uid');
-        foreach ($list as $row) {
-        	$item = pdo_fetch('select uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
-        		where id=:id', array(':id'=>$row['uid']));
-        	if ($item['uniacid'] != $_W['uniacid']) {
-        		$man = pdo_fetch('select id,uniacid,nickname from ' .tablename('xuan_mixloan_member'). '
-        			where nickname=:nickname and uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'], ':nickname'=>$item['nickname']));
-        		if ($man) {
-        			$ids[] = $row['uid'];
-        			pdo_update('xuan_mixloan_inviter', array('uid'=>$man['id']), array('uid'=>$row['uid']));
-        		}
+        	if (strstr($row['img_url'], 'fs.52-tao.cn')) {
+        		$temp = str_replace('fs.52-tao.cn', '0833st.com', $row['img_url']);
+        		pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url' => $temp), array('id' => $row['id']));
+        		$ids[] = $row['id'];
         	}
         }
-    }
+    }    
     if (!empty($ids)) {
         echo implode(',', $ids);
     } else {
