@@ -183,7 +183,7 @@ if($operation == 'getCode'){
 		message($result['RetMsg'], $this->createMobileUrl('vip', ['op'=>'buy']), 'error');
 	}
     $member_id = pdo_fetchcolumn('select uid from ' . tablename('xuan_mixloan_paylog') . '
-    	where notify_id=:notify_id', array(':notify_id' => $orderId));
+    	where notify_id=:notify_id', array(':notify_id' => $merchOrderId));
     $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
     	where id=:id', array(':id' => $member_id));
     $openid = $member['openid'];
@@ -199,7 +199,7 @@ if($operation == 'getCode'){
         "uniacid"=>$_W["uniacid"],
         "uid"=>$member['id'],
         "createtime"=>time(),
-        "tid"=>$orderId,
+        "tid"=>$merchOrderId,
         "fee"=>$fee,
     );
     pdo_insert("xuan_mixloan_payment", $insert);
@@ -246,7 +246,7 @@ if($operation == 'getCode'){
                 "color" => "#173177"
             ) ,
             "order" => array(
-                "value" => $orderId,
+                "value" => $merchOrderId,
                 "color" => "#173177"
             ) ,
             "money" => array(
@@ -298,7 +298,7 @@ if($operation == 'getCode'){
                     "color" => "#173177"
                 ) ,
                 "order" => array(
-                    "value" => $orderId,
+                    "value" => $merchOrderId,
                     "color" => "#173177"
                 ) ,
                 "money" => array(
