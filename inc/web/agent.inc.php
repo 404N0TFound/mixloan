@@ -26,7 +26,7 @@ if ($operation == 'list') {
     //申请列表
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' AND a.degree=1';
+    $wheres = ' ';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
