@@ -12,8 +12,6 @@
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
 			<li role="presentation" ><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">信用查询设置</a></li>
-			<li role="presentation" ><a href="#extend_bonus" aria-controls="extend_bonus" role="tab" data-toggle="tab">推荐有奖设置</a></li>
-			{if $_W['username']=='admin'}<li role="presentation" ><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">资料备份设置</a></li>{/if}
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -400,25 +398,6 @@
 							<div class="col-sm-3 col-xs-4">
 								<input type="text" name="inviter_fee_two" value="{$setting['inviter_fee_two']}" class="form-control" placeholder="单位为%">
 								<span class="help-block">二级</span>
-							</div>
-							<div class="col-sm-3 col-xs-4">
-								<input type="text" name="inviter_fee_three" value="{$setting['inviter_fee_three']}" class="form-control" placeholder="单位为%">
-								<span class="help-block">三级</span>
-							</div>
-						</div>
-						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合伙人</label>
-							<div class="col-sm-3 col-xs-12">
-								<div class="input-group">
-						            <input type="text" name="partner_nums" value="{$setting['partner_nums']}" class="form-control" placeholder="推荐多少代理自动升级">
-						            <span class="input-group-addon">人</span>
-						        </div>
-							</div>
-							<div class="col-sm-3 col-xs-12">
-								<div class="input-group">
-						            <input type="text" name="partner_bonus" value="{$setting['partner_bonus']}" class="form-control" placeholder="返佣多少">
-						            <span class="input-group-addon">%</span>
-						        </div>
 							</div>
 						</div>
 						<div class="form-group" >

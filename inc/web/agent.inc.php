@@ -333,36 +333,10 @@ if ($operation == 'list') {
         $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
         $man_two = m('member')->getInviterInfo($inviter_two);
         if ($_GPC['data']['status'] == 1 && $re_money>0 && $item['status'] < 1) {
-            if ($inviter_two && $man_two['partner'] && $item['type'] == 1) {
-                $insert = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $item['inviter'],
-                    'phone' => $one_man['phone'],
-                    'relate_id' => $item['id'],
-                    'inviter' => $inviter_two,
-                    'extra_bonus'=>$re_money*$config['partner_bonus']*0.01,
-                    'status'=>2,
-                    'createtime'=>time(),
-                    'type'=>5
-                );
-                pdo_insert('xuan_mixloan_bonus', $insert);
-            }
+            
         }
         if ($_GPC['data']['status'] == 2 && $count_money>0 && $item['status'] < 2) {
-            if ($inviter_two && $man_two['partner'] && $item['type'] == 1) {
-                $insert = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $item['inviter'],
-                    'phone' => $one_man['phone'],
-                    'relate_id' => $item['id'],
-                    'inviter' => $inviter_two,
-                    'extra_bonus'=>$count_money*$config['partner_bonus']*0.01,
-                    'status'=>2,
-                    'createtime'=>time(),
-                    'type'=>5
-                );
-                pdo_insert('xuan_mixloan_bonus', $insert);
-            }
+            
         }
         pdo_update('xuan_mixloan_bonus', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");

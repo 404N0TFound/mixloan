@@ -61,32 +61,32 @@ if($operation=='index'){
 	if (!$res) {
 		message('抱歉，文章已不存在', '', 'error');
 	}
-	if ($config['vip_channel']) {
-		if ($agent['code']!=1) {
-			if ($item['ext_info']['no_permission'] == 0) {
-				header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
-			}
-			if ($item['ext_info']['no_fee'] > 0) {
-				if (!m('channel')->checkPayArtical($id, $member['id'])) {
-					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
-				}
-			}
-		}else {
-			if ($item['ext_info']['init_fee'] > 0) {
-				if ($agent['level'] == 1 && !m('channel')->checkPayArtical($id, $member['id'])) {
-					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
-				}
-			}
-			if ($item['ext_info']['mid_fee'] > 0) {
-				if ($agent['level'] == 2 && !m('channel')->checkPayArtical($id, $member['id'])){
-					header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
-				}
-			}
-		}
-	}
-	if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
-		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
-	}
+	// if ($config['vip_channel']) {
+	// 	if ($agent['code']!=1) {
+	// 		if ($item['ext_info']['no_permission'] == 0) {
+	// 			header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+	// 		}
+	// 		if ($item['ext_info']['no_fee'] > 0) {
+	// 			if (!m('channel')->checkPayArtical($id, $member['id'])) {
+	// 				header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+	// 			}
+	// 		}
+	// 	}else {
+	// 		if ($item['ext_info']['init_fee'] > 0) {
+	// 			if ($agent['level'] == 1 && !m('channel')->checkPayArtical($id, $member['id'])) {
+	// 				header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+	// 			}
+	// 		}
+	// 		if ($item['ext_info']['mid_fee'] > 0) {
+	// 			if ($agent['level'] == 2 && !m('channel')->checkPayArtical($id, $member['id'])){
+	// 				header("location:{$this->createMobileUrl('channel', array('op'=>'payArtical', 'id'=>$id))}");
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+	// 	m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+	// }
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
 	if (strip_tags($item['ext_info']['content'])) {
 		$share_desc = strip_tags($item['ext_info']['content']);

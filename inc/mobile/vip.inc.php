@@ -37,59 +37,6 @@ if($operation=='buy'){
         //调用pay方法
         $this->pay($params);
     }
-    else
-    {
-        $notify_url = 'http://weixin.cccc2222.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
-        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
-		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
-        if ($member['id'] == '20798') {
-            $config['buy_mid_vip_price'] = 0.1;
-        }
-        if (empty($record)) {
-            $tid = "10001" . date('YmdHis', time());
-            $trade_no = "ZML".date("YmdHis");
-            $insert = array(
-                'notify_id'=>$trade_no,
-                'tid'=>$tid,
-                'createtime'=>time(),
-                'uid'=>$member['id'],
-                'uniacid'=>$_W['uniacid'],
-                'fee'=>$config['buy_mid_vip_price'],
-                'is_pay'=>0,
-                'type'=>1
-            );
-            pdo_insert('xuan_mixloan_paylog', $insert);
-        } else {
-            if ($record['createtime']+60 < time())
-            {
-                //超过半小时重新发起订单
-                $tid = "10001" . date('YmdHis', time());
-                $trade_no = "ZML".date("YmdHis");
-                $insert = array(
-                    'notify_id'=>$trade_no,
-                    'tid'=>$tid,
-                    'createtime'=>time(),
-                    'uid'=>$member['id'],
-                    'uniacid'=>$_W['uniacid'],
-                    'fee'=>$config['buy_mid_vip_price'],
-                    'is_pay'=>0,
-                    'type'=>1
-                );
-                pdo_insert('xuan_mixloan_paylog', $insert);
-            }
-            else
-            {
-                $trade_no = $record['notify_id'];
-            }
-        }
-        $result = m('pay')->H5pay($trade_no, $config['buy_mid_vip_price'], $notify_url);
-        if ($result['code'] == 1) {
-            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
-                $this->createMobileUrl('vip', array('op'=>'checkPay')));
-            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
-        }
-        include $this->template('vip/openHref');
-    }
 	exit;
 } else if ($operation == 'notify_url') {
     $notify_id = $_GPC['notify_id'];
@@ -573,18 +520,17 @@ if($operation=='buy'){
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
-//		$wx = WeAccount::create();
-//	    $barcode = array(
-//	        'action_name'=>"QR_LIMIT_SCENE",
-//	        'action_info'=> array(
-//	            'scene' => array(
-//	                'scene_id'=>$member['id'],
-//	            )
-//	        )
-//	    );
-//	    $res = $wx->barCodeCreateDisposable($barcode);
-//        $url = $res['url'];
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
+		$wx = WeAccount::create();
+	    $barcode = array(
+	        'action_name'=>"QR_LIMIT_SCENE",
+	        'action_info'=> array(
+	            'scene' => array(
+	                'scene_id'=>$member['id'],
+	            )
+	        )
+	    );
+	    $res = $wx->barCodeCreateDisposable($barcode);
+        $url = $res['url'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
 		$cfg['poster_color'] = $config['invite_color'];
