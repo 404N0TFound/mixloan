@@ -60,7 +60,7 @@ if($operation=='buy'){
             );
             pdo_insert('xuan_mixloan_paylog', $insert);
         } else {
-            if ($record['createtime'] > time()+60)
+            if ($record['createtime']+60 < time())
             {
                 //超过半小时重新发起订单
                 $tid = "10001" . date('YmdHis', time());
