@@ -89,7 +89,7 @@ if($operation=='index'){
     if (empty($id)) {
         show_json(-1, [], "出错了");
     }
-    if (sha1(md5($_GPC['cache'])) != $_COOKIE['authcode']) {
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
     }
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
