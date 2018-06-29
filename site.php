@@ -50,30 +50,28 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$openid = m('user')->getOpenid();
 		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
-		if (empty($member['id'])) {
-			header("location:{$this->createMobileUrl('user')}");
-		}
+		$redirect_url = $_W['siteroot'] . 'app/index.php?i=3&c=entry&op=&do=user&m=xuan_mixloan';
 		if ($params['result'] == 'success') {
-            if ($params['from']=='notify') {
+            if (empty($openid)) {
                 $user_id = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                if (intval($user_id) == $user_id) {
+                if (intval($user_id) == $user_id && strlen($user_id) != 32) {
                     $openid = pdo_fetchcolumn('select openid from '.tablename('xuan_mixloan_member').'
-                    where id=:id', array(':id'=>$user_id));
+                    	where id=:id', array(':id'=>$user_id));
                 } else {
                     $openid = $user_id;
                 }
                 $member = m('member')->getMember($openid);
             }
-            if (empty($openid)) {
-                message('请不要重复提交', $this->createMobileUrl('user'), 'error');
-            }
+			if (empty($member['id'])) {
+				header("location:{$redirect_url}");
+			}
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
 				$agent = m('member')->checkAgent($member['id']);
 				if ($agent['code'] == 1) {
-					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
+					message("您已经是会员", $redirect_url, "success");
 				}
 				$insert = array(
 						"uniacid"=>$_W["uniacid"],
@@ -183,12 +181,12 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				        $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
 					}
 				}
-				message("支付成功", $this->createMobileUrl('user'), "success");
+				message("支付成功", $redirect_url, "success");
 			}
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {
 			//此处会处理一些支付失败的业务代码
-			message("出错啦", $this->createMobileUrl('user'), "error");
+			message("付款失败", $redirect_url, "error");
 		}
 	}
 }
