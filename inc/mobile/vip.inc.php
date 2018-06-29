@@ -22,6 +22,9 @@ if($operation=='buy'){
     if (!$member['phone']) {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
+    if ($member['id'] == 7881) {
+        $config['buy_vip_price'] = 0.01;
+    }
     if (is_weixin()) {
         $tid = "10001" . date('YmdHis', time());
         $title = "购买{$config['title']}代理会员";
@@ -36,9 +39,6 @@ if($operation=='buy'){
         //调用pay方法
         $this->pay($params);
     } else {
-        if ($member['id'] == 7881) {
-            $config['buy_vip_price'] = 0.01;
-        }
         $notify_url = 'http://juxinwangluo.xin/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
@@ -57,7 +57,27 @@ if($operation=='buy'){
             );
             pdo_insert('xuan_mixloan_paylog', $insert);
         } else {
-            $trade_no = $record['notify_id'];
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10001" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$config['buy_vip_price'],
+                    'is_pay'=>0,
+                    'type'=>1
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
         }
         $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
         if ($result['code'] == 1) {
