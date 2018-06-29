@@ -86,7 +86,7 @@
                         if(xhr.status==200){  
                             plus.payment.request(channel,xhr.responseText,function(result){  
                                 plus.nativeUI.alert("支付成功！",function(){ 
-                                    mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'set_vip'))}",{
+                                    mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'alipay_notify'))}",{
                                         data:{},
                                         dataType:'json',
                                         type:'post',

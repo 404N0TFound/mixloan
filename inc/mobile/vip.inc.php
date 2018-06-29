@@ -307,29 +307,55 @@ if($operation=='buy'){
     $list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} AND a.pid=0 ORDER BY a.degree ASC");
     $brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
     include $this->template('vip/degreeDetail');
-}
-else if ($operation == 'alipay')
-{
+} else if ($operation == 'alipay') {
+	//支付宝支付
+	if ($member['id'] != '360') {
+		message('维护中', '', 'error');
+	}
 	include $this->template('vip/alipay');
-}
-else if ($operation == 'alipay_params')
-{
+} else if ($operation == 'alipay_params') {
+	if ($member['id'] == '360') {
+		$config['buy_vip_price'] = 0.01;
+	}
 	$total = floatval($config['buy_vip_price']);
 	// 商品网址
 	$base_path = urlencode( $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')) );
 	// 异步通知地址
-	$notify_url = urlencode( $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'alipay_notify')) );
+	$notify_url = $_W['siteroot'] . '/addons/xuan_mixloan/lib/payment/payResult.php';
+	$out_trade_no = "10001" . date('YmdHis', time());
+	$insert = array(
+		'notify_id' => $out_trade_no,
+		'tid' => $out_trade_no,
+		'uid' => $member['id'],
+		'createtime' => time(),
+		'is_pay' => 0,
+		'uniacid' => $_W['uniacid'],
+		'type' => 1,
+		'fee' => $config['buy_vip_price']
+	);
+	pdo_insert('xuan_mixloan_paylog', $insert);
 	require_once(IA_ROOT . '/addons/xuan_mixloan/lib/payment/alipay.php');
-}
-else if ($operation == 'set_vip')
-{
+} else if ($operation == 'set_vip') {
 	//设置会员
-	$agent = m('member')->checkAgent($member['id']);;
+    show_json(1);
+} else if ($operation == 'alipay_notify') {
+	//支付宝异步回调
+	if ($_GPC['notify_id']) {
+    	$params = pdo_fetch('select * from ' . tablename('xuan_mixloan_paylog') . '
+        	where notify_id=:notify_id', array(':notify_id' => $_GPC['notify_id']));
+	} else {
+		$params = pdo_fetch('select * from ' . tablename('xuan_mixloan_paylog') . '
+        	where uid=:uid order by id desc', array(':uid' => $member['uid']));
+	}
+    if ($params['is_pay'] != 1) {
+    	show_json(-1, [], '未支付订单');
+    }
+    $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
+        where id=:id', array(':id' => $params['uid']));
+    $agent = m('member')->checkAgent($member['id']);;
     if ($agent['code'] == 1) {
         show_json(-1, [], '您已经是会员，请不要重复提交');
     }
-    $params['tid'] = "10001" . date('YmdHis', time());
-    $params['fee'] = $config['buy_vip_price'];
     $tid = $params['tid'];
     $fee = $params['fee'];
     $insert = array(
@@ -492,7 +518,7 @@ else if ($operation == 'set_vip')
             }
         }
     }
-    show_json(1);
+    show_json(1, [], '购买成功');
 } else if ($operation == 'app_register') {
     //邀请注册
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);

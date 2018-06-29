@@ -58,7 +58,7 @@ $subject = '购买代理';
 // 订单详情
 $body = '付费购买代理资格'; 
 // 订单号，示例代码使用时间值作为唯一的订单ID号
-$out_trade_no = date('YmdHis', time());
+// $out_trade_no = date('YmdHis', time());
 $parameter = array(
     'service'        => 'mobile.securitypay.pay',   // 必填，接口名称，固定值
     'partner'        => $partner,                   // 必填，合作商户号
