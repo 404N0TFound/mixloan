@@ -49,6 +49,7 @@ if($operation=='index'){
 		$id[] = $credit['relate_id'];
 	}
 	$cards = m('bank')->getCard(['id', 'ext_info'], ['id'=>$id]);
+	$credits = array_values($credits);
 	foreach ($credits as $key => $credit) {
 		$credits[$key]['v_name'] = $cards[$credit['relate_id']]['ext_info']['v_name'];
 		$credits[$key]['card_pic'] = tomedia($cards[$credit['relate_id']]['ext_info']['pic']);
