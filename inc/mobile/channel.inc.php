@@ -67,11 +67,26 @@ if($operation=='index'){
 	}
 	$item = $res[$id];
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
-	if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
-		$share_image = $result[1];
-	} else {
-		$share_image = tomedia($config['share_image']);
-	}
+//	if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
+//		$share_image = $result[1];
+//	} else {
+//		$share_image = tomedia($config['share_image']);
+//	}
+    if (strip_tags($item['ext_info']['content'])) {
+        $share_desc = strip_tags($item['ext_info']['content']);
+    } else {
+        $share_desc = $config['share_desc'];
+    }
+    if ($item['ext_info']['pic']) {
+        $share_image = tomedia($item['ext_info']['pic']);
+    } else {
+        $share_image = tomedia($config['share_image']);
+    }
+    if ($agent['code'] == 1) {
+        $share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id, 'inviter'=>$member['id']));
+    } else {
+        $share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id));
+    }
 	include $this->template('channel/artical');
 } else if ($operation == 'search') {
 	//搜索

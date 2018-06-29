@@ -270,8 +270,8 @@
             href: "{$share_link}",
             title: "{$item['title']}",
             content: "{$share_desc}",
-            thumbs: ["{php echo tomedia($config['logo']);}"],
-            pictures: ["{php echo tomedia($config['logo']);}"],
+            thumbs: ["{php echo tomedia($config['share_image']);}"],
+            pictures: ["{php echo tomedia($config['share_image']);}"],
             extra: {
                 scene: ex
             }
@@ -280,7 +280,7 @@
             outLine("分享成功!");
         }, function(e) {
             console.log(JSON.stringify(e));
-            outLine("分享失败");
+            outLine("分享失败"+JSON.stringify(e));
         });
     }
     /**
