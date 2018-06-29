@@ -27,12 +27,11 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({
-            url:url,
-        });
+        mui.openWindow({url:url});
     }
-    function openLoan(id){
-        window.location.href = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        mui.openWindow({url:user_url, createNew:true});
     }
     mui.plusReady(function() {
         console.log(mui.currentWebview.id);
@@ -46,43 +45,6 @@
     mui.back = function(){
         return false;
     }
-    function return_user(){
-        var user_url = '{php echo $this->createMobileUrl('user')}';
-        var user_index = plus.webview.getWebviewById('user_index');
-        mui.fire(user_index,'refresh');
-        mui.openWindow({url:user_url, id:'user_index'});
-    }
-    // document.addEventListener( "plusready", function(){
-    //     // 监听点击消息事件
-    //     plus.push.addEventListener( "click", function( msg ) {
-    //         // plus.ui.alert( msg.payload );
-    //         mui.openWindow({
-    //             url:msg.payload,
-    //         });
-    //     }, false );
-    //     // 监听在线消息事件
-    //     plus.push.addEventListener( "receive", function( msg ) {
-    //         // plus.ui.alert( '这是监听事件' );
-    //         // var vInfo = plus.push.getClientInfo();
-    //         // var vInfoData = JSON.stringify(vInfo);
-    //         // plus.ui.alert(vInfoData);
-    //         if(msg.aps){
-    //             createMsg();
-    //             alert('接收到在线APNS消息');
-    //         }else{
-    //             createMsg();
-    //             alert('接收到在线透传消息');
-    //         }
-    //         logoutPushMsg( msg );
-    //     }, false );
-    // }, false );
-    // function createMsg()
-    // {
-    //     var options = {cover:false};
-    //     str = "欢迎使用Html5 Plus创建本地消息！";
-    //     plus.push.createMessage( str, "LocalMSG", options );
-    //     // plus.ui.alert( "创建本地消息成功！" );
-    // }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -157,7 +119,7 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>发现</p>
+        <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
@@ -300,7 +262,7 @@
             <div class="hotloan_list">
                 {loop $list $row}
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
-                    <a onclick="openLoan('{$row['id']}')">
+                    <a onclick="openNew('{$row['ext_info']['url']}')">
                         <ul>
                             <li>
                                 <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
@@ -429,7 +391,7 @@
                             var rate_type=_data[i].rate_type;
                             var click=_data[i].apply_nums;
                             $("div.recommend_list").append("<div class=\"recommend_main\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ id +"')\">"
+                                + "<a onclick=\"openNew('"+ url +"')\">"
                                 + "<ul class=\"desc\">"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

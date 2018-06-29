@@ -28,15 +28,6 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
-    function openLoan(id){
-        window.location.href = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
-    }
-    function return_user(){
-        var user_url = '{php echo $this->createMobileUrl('user')}';
-        var user_index = plus.webview.getWebviewById('user_index');
-        mui.fire(user_index,'refresh');
-        mui.openWindow({url:user_url, id:'user_index'});
-    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -114,7 +105,7 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>发现</p>
+        <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
@@ -122,9 +113,9 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-        <p>指点客</p>
+        <p>{$config['title']}客</p>
     </a>
-    <a onclick="return_user()">
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
         <p>个人中心</p>
     </a>
@@ -355,7 +346,7 @@
                             var click=_data[i].apply_nums;
                             var ele=_data[i].ext_info.tag;//标签
                             $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ dataTransform(id) +"')\">"
+                                + "<a onclick=\"openNew('"+ dataTransform(url) +"')\">"
                                 + "<ul>"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"
