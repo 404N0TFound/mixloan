@@ -85,16 +85,22 @@
                         case 4:  
                         if(xhr.status==200){  
                             plus.payment.request(channel,xhr.responseText,function(result){  
-                                plus.nativeUI.alert("支付成功！",function(){ 
-                                    mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'alipay_notify'))}",{
-                                        data:{},
-                                        dataType:'json',
-                                        type:'post',
-                                        success:function(data){
-                                            mui.openWindow({url:user_url, id:'user_index', createNew:true});
+                                mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'alipay_notify'))}",{
+                                    data:{},
+                                    dataType:'json',
+                                    type:'post',
+                                    success:function(data){
+                                        if (data.code == 1) {
+                                            plus.nativeUI.alert("支付成功！",function(){ 
+                                                mui.openWindow({url:user_url, id:'user_index', createNew:true});
+                                            });  
+                                        } else {
+                                            plus.nativeUI.alert(data.msg,function(){ 
+                                                mui.openWindow({url:user_url, id:'user_index', createNew:true});
+                                            });
                                         }
-                                    });
-                                });  
+                                    }
+                                });
                             },function(error){  
                                 plus.nativeUI.alert("支付失败：" + error.code, function(){
                                     mui.openWindow({url:user_url, id:'user_index', createNew:true});

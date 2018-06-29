@@ -309,9 +309,6 @@ if($operation=='buy'){
     include $this->template('vip/degreeDetail');
 } else if ($operation == 'alipay') {
 	//支付宝支付
-	if ($member['id'] != '360') {
-		message('维护中', '', 'error');
-	}
 	include $this->template('vip/alipay');
 } else if ($operation == 'alipay_params') {
 	if ($member['id'] == '360') {
@@ -345,7 +342,7 @@ if($operation=='buy'){
         	where notify_id=:notify_id', array(':notify_id' => $_GPC['notify_id']));
 	} else {
 		$params = pdo_fetch('select * from ' . tablename('xuan_mixloan_paylog') . '
-        	where uid=:uid order by id desc', array(':uid' => $member['uid']));
+        	where uid=:uid order by id desc', array(':uid' => $member['id']));
 	}
     if ($params['is_pay'] != 1) {
     	show_json(-1, [], '未支付订单');

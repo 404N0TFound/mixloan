@@ -9,9 +9,6 @@ if($flag){
     $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=1 WHERE notify_id='{$_POST['out_trade_no']}'";
     mysqli_query($con, $sql);
     mysqli_close($con);
-    $url = "http://jrbd.tejiazu.com/app/index.php?i=191&c=entry&op=alipay_notify&do=vip&m=xuan_mixloan&notify_id={$_POST['out_trade_no']}";
-    header("location:{$url}");
-    echo $url;
 } else {
     $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=-1 WHERE notify_id='{$_POST['out_trade_no']}'";
     mysqli_query($con, $sql);
