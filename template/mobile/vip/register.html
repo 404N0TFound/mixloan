@@ -31,7 +31,7 @@
         var title = "{$inviter['nickname']}邀请你加入{$config['title']}";
         var imgUrl = "{$inviter['avatar']}";
         var desc = "{$config['desc']}";
-        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$_GPC['inviter']))}"
+        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$_GPC['inviter']))}"
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
