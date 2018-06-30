@@ -8,7 +8,7 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+	$list = m('loan')->getList([], [], ' apply_nums desc', 10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -85,6 +85,9 @@ if($operation=='index'){
     }
     if ($id <= 0) {
         show_json(-1, [], "id为空");
+    }
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+        show_json(-1, [], "图形验证码不正确");
     }
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
