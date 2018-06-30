@@ -42,9 +42,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$openid = m('user')->getOpenid();
 		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
-		if (empty($member['id'])) {
-			header("location:{$this->createMobileUrl('user')}");
-		}
 		if ($params['result'] == 'success') {
             if ($params['from']=='notify') {
                 $user_id = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
