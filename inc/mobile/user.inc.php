@@ -136,7 +136,7 @@ if($operation=='index'){
 	}
 } else if ($operation == 'rank') {
 	//天梯榜
-	$list = pdo_fetchall("SELECT inviter,SUM(`re_bonus`+`done_bonus`+`extra_bonus`) AS sum_money FROM ".tablename('xuan_mixloan_product_apply')." WHERE uniacid=:uniacid AND status>0 GROUP BY inviter ORDER BY sum_money DESC LIMIT 10", array(':uniacid'=>$_W['uniacid']));
+	$list = pdo_fetchall("SELECT inviter,SUM(`re_bonus`+`done_bonus`+`extra_bonus`) AS sum_money FROM ".tablename('xuan_mixloan_product_apply')." WHERE uniacid=:uniacid AND status>0 GROUP BY inviter ORDER BY sum_money DESC LIMIT 4", array(':uniacid'=>$_W['uniacid']));
 	if (!empty($list)) {
 		$inviters = [];
 		foreach ($list as $value) {

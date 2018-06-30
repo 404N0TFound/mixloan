@@ -154,7 +154,7 @@
                     <li>
                         三级代理{if $info['type']==1}下卡{else}下款{/if}分润：{$config['init_vip_name']}：{$info['ext_info']['done_thr_init_reward_money']}元，{$config['mid_vip_name']}：{$info['ext_info']['done_thr_mid_reward_money']}元，{$config['height_vip_name']}：{$info['ext_info']['done_thr_height_reward_money']}元
                     </li>
-                    {else}
+                    {else if $info['done_reward_type']==2}
                     <li>
                         直推{if $info['type']==1}下卡{else}下款{/if}收益：{$config['init_vip_name']}：{$info['ext_info']['done_one_init_reward_per']}点，{$config['mid_vip_name']}：{$info['ext_info']['done_one_mid_reward_per']}点，{$config['height_vip_name']}：{$info['ext_info']['done_one_height_reward_per']}点
                     </li>

@@ -346,15 +346,41 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
-        // if ($_GPC['data']['status'] == 1 && empty($item['ext_info']['partner_trade_no'])) {
-        //     $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $_GPC['data']['ext_info']['bank_code'], $item['bonus'], $_GPC['data']['ext_info']['reason']);
-        //     if ($pay['code'] > 1) {
-        //         message($pay['msg'], $this->createWebUrl('agent', array('op'=>'withdraw_update', 'id'=>$id)), "error");
-        //     } else {
-        //         $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
-        //         $_GPC['data']['ext_info']['payment_no'] = $pay['data']['payment_no'];
-        //     }
-        // }
+        if ($_GPC['data']['status'] == 1) {
+            $wx = WeAccount::create();
+            $msg = array(
+                'first' => array(
+                    'value' => "您申请的提现金额已到帐。",
+                    "color" => "#4a5077"
+                ),
+                'keyword1' => array(
+                    'value' => date("Y-m-d H:i:s",time()),
+                    "color" => "#4a5077"
+                ),
+                'keyword2' => array(
+                    'value' => "微信转账",
+                    "color" => "#4a5077"
+                ),
+                'keyword3' => array(
+                    'value' => $item['bonus'],
+                    "color" => "#4a5077"
+                ),
+                'keyword4' => array(
+                    'value' => 0,
+                    "color" => "#4a5077"
+                ),
+                'keyword5' => array(
+                    'value' => $item['bonus'],
+                    "color" => "#4a5077"
+                ),
+                'remark' => array(
+                    'value' => "感谢你的使用。",
+                    "color" => "#A4D3EE"
+                ),
+            );
+            $templateId=$config['tpl_notice6'];
+            $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
+        }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
