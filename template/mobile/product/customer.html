@@ -39,6 +39,10 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        mui.openWindow({url:user_url, createNew:true});
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -75,23 +79,23 @@
 <div style="height:2rem;"></div>
 {/if}
 <div class="agent-foot">
-	<a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">
+	<a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
 		<p>首页</p>
 	</a>
-	<a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-		<p>今日口子</p>
+		<p>发现</p>
 	</a>
-	<a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
 		<img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
 	</a>
 	<a href="javascript:;"  class="on">
 		<!-- <span class="iconfont icon-card2"></span> -->
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-		<p>{$config['title']}客</p>
+		<p>指点客</p>
 	</a>
-	<a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+	<a onclick="return_user()">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
 		<p>个人中心</p>
 	</a>
@@ -109,7 +113,7 @@
 	<div class="cusLtop">
 		<img src="../addons/xuan_mixloan/template/style/picture/cusbg_1.png" />
 		<p><img src="../addons/xuan_mixloan/template/style/picture/calender_1.png" /><span id="pointY"></span><span>年</span><span id="pointM"></span><span>月</span></p>
-		<div class="cusLApplyNum"><a class="btnLeft btnLeftL"></a><h1>共<span id="applyNum"></span>位点击</h1><a class="btnRight btnRightD"></a></div>
+		<div class="cusLApplyNum"><a class="btnLeft btnLeftL" style="font-size: 0.4rem"></a><h1>共<span id="applyNum" style="font-size: 0.7rem"></span>申请</h1><a class="btnRight btnRightD"></a></div>
 	</div>
 	<div class="accCommon dayAccount">
 		<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
