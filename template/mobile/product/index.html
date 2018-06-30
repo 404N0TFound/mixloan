@@ -119,36 +119,163 @@
 
 	<!-- fjx -->
 	<div class="fjx"></div>
-	<!-- fjx -->
-	<div id="list_head_card">
-		<div class="list_head">
-			<p>
-				<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
-				信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
-			</p>
-		</div>
-		<div class="list_line list_line2">
-			<ul class="clearfix ka_one"></ul>
-			<ul class="clearfix ka_one2"></ul>
-			<ul class="clearfix ka_one3"></ul>
-			<ul class="clearfix ka_one4"></ul>
-			<ul class="clearfix new_line5 ew0"></ul>
-			<ul class="clearfix new_line5 ew1"></ul>
-			<ul class="clearfix new_line5 ew2"></ul>
-			<ul class="clearfix new_line5 ew3"></ul>
-			<ul class="clearfix new_line5 ew4"></ul>
-			<ul class="clearfix new_line5 ew5"></ul>
-		</div>
-		<!-- fjx -->
-		<div class="fjx"></div>
-	</div>
+    <!-- fjx -->
+    <div class="list_head">
+        <p>
+            <span><img src="../addons/xuan_mixloan/template/style/images/loan_hot.png" /></span>
+            热门推荐<label>(共<b  id="card_num">{php echo count($hot_list);}</b>款)</label>
+        </p>
+    </div>
+    <div class="three_head">
+        <ul class="clearfix">
+            {loop $hot_list $row}
+            <li class="clearfix ons2" data-id="1">
+                <a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
+                    <div class="line_three">
+                        <div class="line_img">
+                            <img src="{$row['imgs']}">
+                            {if $row['hot']}
+                            <div class="day_fire">
+                                <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                            </div>
+                            {/if}
+                        </div>
+                        <h2>{$row['title']}</h2>
+                        <p>
+                            <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                        </p>
+                    </div>
+                    {if $row['day'] == 1}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
+                    {else if $row['day'] == 2}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
+                    {else if $row['day'] == 3}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
+                    {/if}
+                </a>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="fjx"></div>
+    <!-- fjx -->
+    <div class="list_head">
+        <p>
+            <span><img src="../addons/xuan_mixloan/template/style/images/loan_cpa.png" /></span>
+            CPA产品<label>(共<b  id="card_num">{php echo count($loan_cpa_list);}</b>款)</label>
+        </p>
+    </div>
+    <div class="three_head">
+        <ul class="clearfix">
+            {loop $loan_cpa_list $row}
+            <li class="clearfix ons2" data-id="1">
+                <a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
+                    <div class="line_three">
+                        <div class="line_img">
+                            <img src="{$row['imgs']}">
+                            {if $row['hot']}
+                            <div class="day_fire">
+                                <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                            </div>
+                            {/if}
+                        </div>
+                        <h2>{$row['title']}</h2>
+                        <p>
+                            <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                        </p>
+                    </div>
+                    {if $row['day'] == 1}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
+                    {else if $row['day'] == 2}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
+                    {else if $row['day'] == 3}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
+                    {/if}
+                </a>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="fjx"></div>
+    <!-- fjx -->
+    <div class="list_head">
+        <p>
+            <span><img src="../addons/xuan_mixloan/template/style/images/loan_cps.png" /></span>
+            CPS产品<label>(共<b  id="card_num">{php echo count($loan_cps_list);}</b>款)</label>
+        </p>
+    </div>
+    <div class="three_head">
+        <ul class="clearfix">
+            {loop $loan_cps_list $row}
+            <li class="clearfix ons2" data-id="1">
+                <a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
+                    <div class="line_three">
+                        <div class="line_img">
+                            <img src="{$row['imgs']}">
+                            {if $row['hot']}
+                            <div class="day_fire">
+                                <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                            </div>
+                            {/if}
+                        </div>
+                        <h2>{$row['title']}</h2>
+                        <p>
+                            <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                        </p>
+                    </div>
+                    {if $row['day'] == 1}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
+                    {else if $row['day'] == 2}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
+                    {else if $row['day'] == 3}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
+                    {/if}
+                </a>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="fjx"></div>
 	<!-- fjx -->
 	<div class="list_head">
 		<p>
-			<span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
-			贷款产品<label>(共<b  id="card_num">0</b>款)</label>
+			<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
+			信用卡产品<label>(共<b  id="card_num">{php echo count($credit_list);}</b>款)</label>
 		</p>
 	</div>
+	<div class="three_head">
+		<ul class="clearfix">
+			{loop $credit_list $row}
+			<li class="clearfix ons2" data-id="1">
+				<a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
+					<div class="line_three">
+						<div class="line_img">
+							<img src="{$row['imgs']}">
+							{if $row['hot']}
+							<div class="day_fire">
+								<img src="../addons/xuan_mixloan/template/style/images/fire.png">
+							</div>
+							{/if}
+						</div>
+						<h2>{$row['title']}</h2>
+						<p>
+							<span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+						</p>
+					</div>
+					{if $row['day'] == 1}
+					<div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
+					{else if $row['day'] == 2}
+					<div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
+					{else if $row['day'] == 3}
+					<div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
+					{/if}
+				</a>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	<div class="fjx"></div>
+
 
 	<div class="three_head">
 		<ul class="clearfix"></ul>
@@ -619,7 +746,7 @@
 
                     //贷款产品
                     var num_loan=data.data.loan.length;
-                    $("#card_num").text(num_loan);
+                    // $("#card_num").text(num_loan);
                     for(var i=0;i<data.data.loan.length;i++){
                         var title_card=data.data.loan[i].title; //名称
                         var day_card=data.data.loan[i].day;  //日结or月结
