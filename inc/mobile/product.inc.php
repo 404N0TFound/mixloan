@@ -226,7 +226,6 @@ if($operation=='index'){
     $weeks_ids = m('product')->getIds($weeks_list);
     $months_ids = m('product')->getIds($months_list);
     $applys = m('product')->getApplys($params);
-    $applys = 0;
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);

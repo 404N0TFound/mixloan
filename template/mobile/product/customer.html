@@ -192,7 +192,7 @@
                     var data=res.data;
                     var applys=data.applys;//申请数
                     var days=data.days_list;//日结
-                    $("#applyNum").html(applys);
+                    $("#applyNum").html(applys.one_degree + '(直推)+' + applys.two_degree + '(二级)');
                     $("div.dayProduct ul").html("");
                     for(i=0;i<days.length;i++){
                         var dayStr='';
