@@ -136,7 +136,7 @@
                 <ul class="clearfix">
                     {loop $speed $sp}
                     <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$speed['relate_id'], 'pid'=>$speed['id'], 'inviter'=>$inviter))}')">
                             <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                                 <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                                 <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
