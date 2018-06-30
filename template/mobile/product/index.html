@@ -41,6 +41,37 @@
 
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function openAdvs(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',homeButton:true}});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
+    {else}
+    function openAdvs(url){
+        mui.openWindow({url:url});
+    }
+    {/if}
     function openNew(url){
         mui.openWindow({url:url});
     }
@@ -220,7 +251,7 @@
                         var title_ba=data.data.banner[i].title;
 
                         $("div#swiper-wrapper").append("<div class='swiper-slide'>"
-                            +"<a href=\'"+ url_ba +"\'>"
+                            +"<a onclick=\"openAdvs('"+ url_ba +"')\">"
                             +"<img src='"+ image_ba +"' />"
                             // +"<p>"
                             // +"<span>"+"<img src='../addons/xuan_mixloan/template/style/picture/dian_1.png' />"

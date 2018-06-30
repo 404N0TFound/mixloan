@@ -63,7 +63,7 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
                                 <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'update','id' => $row['id']));}" title='编辑产品'><i class='fa fa-edit'></i> 编辑产品</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'delete','id' => $row['id']));}" title='删除产品' onclick="return confirm('确定要删除该产品吗？');"><i class='fa fa-remove'></i> 删除产品</a></li>
+                                <!-- <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'delete','id' => $row['id']));}" title='删除产品' onclick="return confirm('确定要删除该产品吗？');"><i class='fa fa-remove'></i> 删除产品</a></li> -->
                             </ul>
                         </div>
                         
@@ -132,6 +132,13 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品名称</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                    <span class="help-block">越大越靠前</span>
                 </div>
             </div>
             <div class="form-group">

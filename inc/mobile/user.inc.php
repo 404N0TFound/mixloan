@@ -129,6 +129,9 @@ if($operation=='index'){
     }
     $follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
     $money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0") ? : 0;
+    if (!is_weixin()) {
+        $share_link = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id'])));
+    }
     include $this->template('user/extend_bonus');
 }
 else if ($operation == 'message_type')

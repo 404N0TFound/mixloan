@@ -13,8 +13,8 @@ if($operation=='index'){
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
+    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], ' sort desc');
+    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], ' sort desc');
     $card = m('product')->packupItems($card);
     $loan = m('product')->packupItems($loan);
     $arr = array(
@@ -36,6 +36,10 @@ if($operation=='index'){
     $info = m('product')->getList([],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         message('该代理产品已被下架', '', 'info');
+    }
+    if (!is_weixin()) {
+        $share_desc = "给你分享一个申卡/申贷通道";
+        $share_link = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
     }
     $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";

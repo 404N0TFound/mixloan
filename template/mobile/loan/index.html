@@ -26,14 +26,43 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    function openNew(url){
-        mui.openWindow({
-            url:url
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',homeButton:true}});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
         });
     }
-    function openLoan(id){
-        var _url = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
-        mui.openWindow({url:_url});
+    {else}
+    function openLoan(url){
+        mui.openWindow({url:url});
+    }
+    {/if}
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        mui.openWindow({url:user_url, createNew:true});
     }
     mui.plusReady(function() {
         console.log(mui.currentWebview.id);
@@ -46,12 +75,6 @@
     });
     mui.back = function(){
         return false;
-    }
-    function return_user(){
-        mui.openWindow({
-            url:"{php echo $this->createMobileUrl('user', array('op'=>''))}",
-            createNew:true,
-        });
     }
 </script>
 {if !is_weixin()}
@@ -127,7 +150,7 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>发现</p>
+        <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
@@ -270,7 +293,7 @@
             <div class="hotloan_list">
                 {loop $list $row}
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
-                    <a onclick="openLoan('{$row['id']}')">
+                    <a onclick="openLoan('{$row['ext_info']['url']}')">
                         <ul>
                             <li>
                                 <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
@@ -399,7 +422,7 @@
                             var rate_type=_data[i].rate_type;
                             var click=_data[i].apply_nums;
                             $("div.recommend_list").append("<div class=\"recommend_main\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ id +"')\">"
+                                + "<a onclick=\"openLoan('"+ url +"')\">"
                                 + "<ul class=\"desc\">"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

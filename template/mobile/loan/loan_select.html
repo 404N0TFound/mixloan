@@ -25,12 +25,39 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    function openNew(url){
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',homeButton:true}});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
+    {else}
+    function openLoan(url){
         mui.openWindow({url:url});
     }
-    function openLoan(id){
-        var _url = "{php echo $this->createMobileUrl('loan', array('op'=>'display'))}&id=" + id;
-        mui.openWindow({url:_url});
+    {/if}
+    function openNew(url){
+        mui.openWindow({url:url});
     }
 </script>
 {if !is_weixin()}
@@ -109,7 +136,7 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>发现</p>
+        <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
@@ -350,7 +377,7 @@
                             var click=_data[i].apply_nums;
                             var ele=_data[i].ext_info.tag;//标签
                             $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ dataTransform(id) +"')\">"
+                                + "<a onclick=\"openLoan('"+ dataTransform(url) +"')\">"
                                 + "<ul>"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"
