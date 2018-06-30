@@ -16,8 +16,13 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
     //付钱
-    if (!$member['phone']) {
+    if (!$member['phone'])
+    {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+    }
+    if ($member['id'] == 3)
+    {
+        $config['buy_vip_price'] = 0.01;
     }
     if (is_weixin())
     {
@@ -557,4 +562,7 @@ if($operation=='buy'){
     }
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
     message($ret, '', 'success');
+} else if ($operation == 'checkPay') {
+    //检测有没有付款成功
+    include $this->template('vip/checkPay');
 }

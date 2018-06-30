@@ -348,16 +348,7 @@
     })
     //购买
     $("#to_buy").click(function(){
-        {if is_weixin()}
-        toPurchase();
-        {else}
-        layer.open({
-            type: 1,
-            shade: false,
-            title: false,
-            content: $('#layer_notice')
-        });
-        {/if}
+        	toPurchase();
         })
 
     function toPurchase(){
@@ -375,7 +366,7 @@
                     return false;
                 } else {
                     if($(".to_read").hasClass("read")){
-                        window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
+                        openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
                     }else{
                         layer.msg("请先阅读{$config['title']}用户服务协议");
                         rePurchase();

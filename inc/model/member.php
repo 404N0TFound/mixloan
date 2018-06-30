@@ -296,6 +296,10 @@ class Xuan_mixloan_Member
         if ($id == $inviter) {
             return false;
         }
+        $agent = $this->checkAgent($inviter);
+        if ($agent['code'] != 1) {
+            return false;
+        }
         $res = pdo_fetchcolumn("SELECT count(*) FROM " .tablename("qrcode_stat"). "
             WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
         if (!$res) {
