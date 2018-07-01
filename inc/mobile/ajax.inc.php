@@ -178,7 +178,7 @@ if($operation == 'getCode'){
     if ($_GPC['type'] == 'temp') {
         $list = pdo_fetchall('select id,img_url from '.tablename('xuan_mixloan_withdraw_qrcode').' where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
         foreach ($list as $row) {
-            if (strstr($row['img_url'], 'fs.52-tao.cn')) {
+            if (strstr($row['img_url'], 'xy.52-tao.cn')) {
                 $temp = str_replace('xy.52-tao.cn', 'yxtxcn.com', $row['img_url']);
                 pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url' => $temp), array('id' => $row['id']));
                 $ids[] = $row['id'];
