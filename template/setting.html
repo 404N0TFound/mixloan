@@ -11,6 +11,7 @@
 			<li role="presentation" ><a href="#monitor" aria-controls="monitor" role="tab" data-toggle="tab">协议设置</a></li>
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
+			{if $_W['username']=='admin'}<li role="presentation" ><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">资料备份设置</a></li>{/if}
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -449,6 +450,32 @@
 							<div class="col-sm-9 col-xs-12" >
                     			{php echo tpl_ueditor('buy_contract', $setting['buy_contract']);}
                     			<span class="help-block">如果不填就使用默认的</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="backup" class="tab-pane" id="backup">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						资料备份设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否执行备份</label>
+							<div class="col-sm-9 col-xs-12" >
+								<select class="form-control" name="backup">
+									<option value="0" {if $setting['backup'] == 0}selected{/if}>否</option>
+									<option value="1" {if $setting['backup'] == 1}selected{/if}>是</option>
+								</select>
+								<span class="help-block">执行备份后原公众号所有资料会转移到此公众号，会员资料等用户使用找回账号功能才可转移</span>
+							</div>
+						</div>
+
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">找回账号地址</label>
+							<div class="col-sm-6 col-xs-12">
+								<input type="text"  value="{$find_user}" class="form-control" readonly>
 							</div>
 						</div>
 					</div>
