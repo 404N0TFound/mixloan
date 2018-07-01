@@ -47,6 +47,7 @@
                     <th style='width:120px;'>口子名称</th>
                     <th style='width:120px;'>所属分类</th>
                     <th style='width:200px;'>添加时间</th>
+                    <th style='width:300px;'>链接</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -57,6 +58,7 @@
                     <td>   {$row['title']}</td>
                     <td>   {if $row['type']==1}口子{else if $row['type']==2}信用卡{else if $row['type']==3}新手教程{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   {php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$row['id']));}</td>
                     <td  style="overflow:visible;">
                         
                         <div class="btn-group btn-group-sm" >

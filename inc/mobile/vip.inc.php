@@ -739,7 +739,23 @@ if($operation=='buy'){
 		);
 		pdo_insert('xuan_mixloan_paylog', $insert);
 	} else {
-	    $trade_no = $record['notify_id'];
+		if ($record['createtime'] + 5 < time()) {
+			$tid = "10002" . date('YmdHis', time());
+		    $trade_no = "ZML".date("YmdHis");
+			$insert = array(
+				'notify_id'=>$trade_no,
+				'tid'=>$tid,
+				'createtime'=>time(),
+				'uid'=>$member['id'],
+				'uniacid'=>$_W['uniacid'],
+				'fee'=>$config['buy_partner_price'],
+				'is_pay'=>0,
+				'type'=>2
+			);
+			pdo_insert('xuan_mixloan_paylog', $insert);
+		} else {
+	    	$trade_no = $record['notify_id'];
+		}
 	}
 	$result = m('pay')->H5pay($trade_no, $config['buy_partner_price'], $notify_url);
 	if ($result['code'] == 1) {
