@@ -215,6 +215,8 @@ return temp
 	}
 	//验证码
 	function getCheck(){
+		$(".validnum").unbind("click");
+		var flagsms = true;
         var cache = $('#imgCode').val();
         if (cache == '') {
             layer.tips('请输入图形验证码', '#imgCode', {
@@ -226,8 +228,6 @@ return temp
 			});
 			return false;
         }
-		$(".validnum").unbind("click");
-		var flagsms = true;
 		//启动计时器，1秒执行一次
 		if (flagsms) {
             var phone = $("#phone").val();
