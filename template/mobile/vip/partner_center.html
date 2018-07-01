@@ -40,31 +40,31 @@
 
     <div class="record-ul">
         {if $list}
-        {loop $list $row}
-        <div class="record-li" >
-            <div class="prd-timer-box">
-                <img src="{$man['avatar']}"></img>
-                <span class="head-tl-xt">{$man['nickname']}</span>
-                <!--订单编号  -->
-                <span class="rg-xt">订单:{$row['id']}</span>
-            </div>
-            <div class="prd-ms-box">
-
-                <div class="prd-lf-box">
-                    <!--结算类型  -->
-                    <span>结算类型: {$row['bonus_name']}</span>
-                    <span>手机号：{$row['phone']}</span>
-
-                    <span>{$row['createtime']}</span>
+            {loop $list $row}
+            <div class="record-li" >
+                <div class="prd-timer-box">
+                    <img src="{$man['avatar']}"></img>
+                    <span class="head-tl-xt">{$man['nickname']}</span>
+                    <!--订单编号  -->
+                    <span class="rg-xt">订单:{$row['id']}</span>
                 </div>
-                <div class="prd-rg-box">
-                    <span>{$row['bonus']}元</span>
+                <div class="prd-ms-box">
+
+                    <div class="prd-lf-box">
+                        <!--结算类型  -->
+                        <span>结算类型: {$row['bonus_name']}</span>
+                        <span>手机号：{$row['phone']}</span>
+
+                        <span>{$row['createtime']}</span>
+                    </div>
+                    <div class="prd-rg-box">
+                        <span>{$row['bonus']}元</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        {/loop}
+            {/loop}
         {else}
-        <div style="margin-top: 50px;" class="meiyou" v-if="ag.length < 1"><img src="../addons/xuan_mixloan/template/style/partner/picture/404d.png" alt=""><p style="text-align: center;">暂时没有更多数据啦！</p></div>
+        <div style="margin-top: 50px;" class="meiyou" v-if="ag.length < 1"><img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt=""><p style="text-align: center;">暂时没有更多数据啦！</p></div>
         {/if}
     </div>
 

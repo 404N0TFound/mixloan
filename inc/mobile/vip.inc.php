@@ -609,8 +609,21 @@ if($operation=='buy'){
 	include $this->template('vip/inviteCode');
 } else if ($operation == 'followList') {
 	//关注列表
-	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.openid<>'{$member['openid']}' AND a.type=1 ORDER BY id DESC");
-	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$member['id']} AND status>0 AND type=2");
+    $follow_list = pdo_fetchall(
+        "SELECT a.createtime,a.openid,b.nickname FROM " .tablename("qrcode_stat"). " a
+		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
+		WHERE a.qrcid={$member['id']} AND a.type=1
+		GROUP BY a.openid
+		ORDER BY a.id DESC");
+    foreach ($follow_list as &$row) {
+        if (empty($row['nickname'])) {
+            $row['nickname'] = pdo_fetchcolumn(
+                'select nickname from ' .tablename('mc_mapping_fans'). '
+				where openid=:openid', array(':openid'=>$row['openid']));
+        }
+    }
+    unset($row);
+    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$member['id']} AND status>0 AND type=2");
 	$count = $count ? : 0;
 	$cTime = getTime();
 	$star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
@@ -638,7 +651,9 @@ if($operation=='buy'){
 	$end_time = strtotime("{$cTime[0]}-{$cTime[1]}-01 +1 month");
 	$month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$member['id']} AND status>0 AND type=2 AND createtime>{$star_time} AND createtime<{$end_time}");
 	$month_count = $month_count ? : 0;
-	$follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.openid<>'{$member['openid']}' AND a.type=1 ORDER BY id DESC") ? : 0;
+	$follow_count = pdo_fetchcolumn("
+        SELECT COUNT(*) FROM " .tablename("qrcode_stat"). "
+        WHERE qrcid={$member['id']} AND type=1") ? : 0;
 	$buy_count = count($extend_list) ? : 0;
 	include $this->template('vip/extendList');
 } else if ($operation == 'degreeDetail') {
