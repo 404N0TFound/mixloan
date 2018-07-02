@@ -28,9 +28,13 @@ class Xuan_mixloan_Poster
         require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
-        $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
+        if (strstr(tomedia($config['poster_image']), 'cloud')) {
+            $bgpng = imagecreatefromstring(file_get_contents(tomedia($config['poster_image'])));
+        } else {
+            $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
+            $bgpng = imagecreatefrompng($bgpath);
+        }
         $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
-        $bgpng = imagecreatefrompng($bgpath);
         if ($config['poster_avatar']) {
             //头像
             if (strstr($params['member']['avatar'], 'mix_loan')) {
@@ -87,7 +91,7 @@ class Xuan_mixloan_Poster
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
-        if (strstr($config['poster_image'], 'cloud')) {
+        if (strstr(tomedia($config['poster_image']), 'cloud')) {
             $bgpng = imagecreatefromstring(file_get_contents(tomedia($config['poster_image'])));
         } else {
             $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
