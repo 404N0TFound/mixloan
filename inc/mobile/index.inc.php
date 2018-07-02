@@ -101,7 +101,7 @@ if($operation=='register'){
                 pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
-        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+        show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
     }
 } else if ($operation == 'find_user') {
     //找回账号
