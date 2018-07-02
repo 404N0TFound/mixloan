@@ -87,8 +87,12 @@ class Xuan_mixloan_Poster
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
-        $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
-        $bgpng = imagecreatefrompng($bgpath);
+        if (strstr($config['poster_image'], 'cloud')) {
+            $bgpng = imagecreatefromstring(file_get_contents(tomedia($config['poster_image'])));
+        } else {
+            $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
+            $bgpng = imagecreatefrompng($bgpath);
+        }
         $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
         $width_proportion = imagesx($bgpng) / 320;
         if (!empty($ext_info['poster']['qr'])) {
