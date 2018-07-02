@@ -36,6 +36,8 @@ if ($operation == 'list') {
     pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0, 'phone'=>'', 'certno'=>''), array('id'=>$_GPC['id']));
     pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
     pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
+    pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
+    pdo_delete('qrcode_stat', array("openid" => $member["openid"]));
     pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
     message("删除成功");
 } else if ($operation == 'agent') {
