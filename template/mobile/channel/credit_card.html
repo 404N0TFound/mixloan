@@ -12,7 +12,7 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
     <meta  content="e-mail=no" name="format-detection"/>
-    <title>信用卡</title>
+    <title>网络技术</title>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
@@ -57,8 +57,8 @@
 <body class="bglightgray">
 
 <div class="agent-foot texttotal agent-footer">
-    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>口子</span></p></a>
-    <a class="on"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
+    <a href="{php echo $this->createMobileUrl('channel', array('op'=>'index'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" /><span>黑科技</span></p></a>
+    <a class="on"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>网络技术</span></p></a>
     <a href="{php echo $this->createMobileUrl('channel', array('op'=>'course'))}"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" /><span>新手教程</span></p></a>
 </div>
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
@@ -73,10 +73,10 @@
                 <div class="swiper-pagination pro-pagination"></div>
             </div>
             <div class="subject_div">
-                <div class="subject_header">口子专题</div>
+                <div class="subject_header">技术专题</div>
                 <div class="subject_list">
                     {loop $subjects $subject}
-                    <span onclick="subject_return({$subject['id']})">{$subject['name']}</span>
+                    <span onClick="subject_return({$subject['id']})">{$subject['name']}</span>
                     {/loop}
                 </div>
             </div>

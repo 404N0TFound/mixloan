@@ -17,13 +17,64 @@
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
-    <style type="text/css">        
+     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css1">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+   <style type="text/css">        
         .swiper-slide{max-height: 145px;overflow: hidden;}
-    </style>
+             /*x兼容性*/
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.agent-secmes .mes-list li dl dd{width: 55%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+        .agent-foot{
+            height: 4rem
+        }
+        div.agent-foot p.foot_img {
+            height: 2.22rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 2.22rem;
+            width: 2.1rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.85rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+</style>
 
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
+<!--
+-->
+    <div class="agent-foot">
+        <a href="{php echo $this->createMobileUrl('product', array('op'=>''))}">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+            <p>{$config['title']}客</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>今日口子</p>
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>       
+        </a>
+        <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/picture/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}" class="on">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+            <p>查网贷</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal.png" /></p>
+            <p>个人中心</p>
+        </a>
+    </div>
     <div class="loan_tab">
         <ul>
             <li class="on"><a href="javascript:;">首页</a></li>
