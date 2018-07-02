@@ -176,6 +176,15 @@
                         </a>
                     </li>
                     {/if}
+                    {if $member['partner'] == 1}
+                    <li class="new_guide">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_bonus'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/partner_bonus.png" />
+                            合伙人分佣
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     <div style="height:0.4rem;background: #f3f3f3;"></div>
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">

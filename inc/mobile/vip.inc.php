@@ -683,7 +683,7 @@ if($operation=='buy'){
     }
 	include $this->template('vip/rank_list');
 } else if ($operation == 'partner_center') {
-    //合伙人中心
+    //分佣中心
     $uid = intval($_GPC['uid']);
     if (empty($uid)) {
     	message('出错啦', '', 'error');
@@ -722,4 +722,20 @@ if($operation=='buy'){
 } else if ($operation == 'checkPay') {
     //检测有没有付款成功
     include $this->template('vip/checkPay');
+} else if ($operation == 'partner_bonus') {
+    //合伙人分佣
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_bonus'). '
+        where inviter=:inviter and status>0 and type=5 order by id desc', array(':inviter'=>$member['id']));
+    foreach ($list as &$row) {
+        $row['man'] = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['uid']));
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        if ($row['phone']) {
+            $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+        } else {
+            $row['phone'] = '无';
+        }
+        $row['bonus'] = $row['extra_bonus'] + $row['re_bonus'] + $row['done_bonus'] ? : 0;
+    }
+    include $this->template('vip/partner_bonus');
 }
