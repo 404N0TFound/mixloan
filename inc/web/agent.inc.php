@@ -559,7 +559,7 @@ if ($operation == 'list') {
                     //         "color" => "#912CEE"
                     //     ) ,
                     // );
-                    $ext_info = array('content' => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金{$count_money}远，继续推荐产品，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+                    $ext_info = array('content' => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金{$count_money}元，继续推荐产品，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
                     $insert = array(
                         'is_read'=>0,
                         'uid'=>$item['uid'],
