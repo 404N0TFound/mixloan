@@ -468,7 +468,7 @@ if($operation=='buy'){
                 $res = $wx->barCodeCreateDisposable($barcode);
                 $url = $res['url'];
             } else {
-                $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('inviter'=>$member['id']));
+                $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register', 'inviter'=>$member['id']));
             }
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
@@ -565,4 +565,8 @@ if($operation=='buy'){
 } else if ($operation == 'checkPay') {
     //检测有没有付款成功
     include $this->template('vip/checkPay');
+} else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }
