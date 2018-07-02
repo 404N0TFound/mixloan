@@ -152,7 +152,7 @@ if($operation=='index'){
                 "color" => "#4a5077"
             ) ,
         );
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'customer'));
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
         if (!$inviter_uid) {
