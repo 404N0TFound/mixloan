@@ -18,7 +18,18 @@
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
-   
+    <style type="text/css">
+        .filter_common {
+            background-color: #fff;
+            display: none;
+        }
+        .filter_common li {
+            text-indent: 4%;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #3f3f3f;
+        }
+    </style>
 
 	{template 'common/wxshare'}
 </head>
@@ -70,8 +81,8 @@
             </div>
         </div>
     </div>
-    <div class="pop_filter">
-        <div class="filter_floor"></div>
+    <div class="pop_filter" >
+        <!-- <div class="filter_floor"></div> -->
         <div class="filter_list">
             <ul class="filter_layer filter_common multiple" id="multiple">
                 <li data-no="0" data-flag="">综合排序</li>
@@ -93,31 +104,31 @@
                 <li data-from="12" data-to="24" data-id="39">12-24月</li>
                 <li data-from="24" data-to="100" data-id="40">24月以上</li>            
             </ul>
-            <ul class="filter_layer filter_common flex" id="flex" style="max-height: 550px">
-                <li data-no="0" data-id="">不限类型</li>
-                <li data-id="1">身份证贷</li>
-                <li data-id="2">芝麻分贷</li>
-                <li data-id="3">信用卡贷</li>
-                <li data-id="4">不查征信</li>
-                <li data-id="5">社保贷</li>
-                <li data-id="6">公积金</li>  
-                <li data-id="7">房抵贷</li>  
-                <li data-id="8">车抵贷</li>  
-                <li data-id="9">保单贷</li>  
-                <li data-id="10">工薪贷</li>  
-                <li data-id="11">按揭房</li>     
-                <li data-id="12">按揭车</li>    
-                <li data-id="13">过桥贷</li>    
-                <li data-id="14">POS机</li>    
-                <li data-id="15">网贷秒到帐</li>    
-                <li data-id="16">现金速递易</li>    
-                <li data-id="17">小额信用贷</li>    
-                <li data-id="18">大额信用贷</li>    
-                <li data-id="19">银行抵押贷</li>  
-                <li data-id="20">金融产品</li>      
-            </ul>
         </div>
     </div>
+    <ul class="filter_layer filter_common flex" id="flex">
+        <li data-no="0" data-id="">不限类型</li>
+        <li data-id="1">身份证贷</li>
+        <li data-id="2">芝麻分贷</li>
+        <li data-id="3">信用卡贷</li>
+        <li data-id="4">不查征信</li>
+        <li data-id="5">社保贷</li>
+        <li data-id="6">公积金</li>  
+        <li data-id="7">房抵贷</li>  
+        <li data-id="8">车抵贷</li>  
+        <li data-id="9">保单贷</li>  
+        <li data-id="10">工薪贷</li>  
+        <li data-id="11">按揭房</li>     
+        <li data-id="12">按揭车</li>    
+        <li data-id="13">过桥贷</li>    
+        <li data-id="14">POS机</li>    
+        <li data-id="15">网贷秒到帐</li>    
+        <li data-id="16">现金速递易</li>    
+        <li data-id="17">小额信用贷</li>    
+        <li data-id="18">大额信用贷</li>    
+        <li data-id="19">银行抵押贷</li>  
+        <li data-id="20">金融产品</li>      
+    </ul>
 
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
 <script type="text/javascript">
@@ -168,6 +179,7 @@ $("div.filter_tab ul li").click(function(){
             $("body").addClass("forbid");
             $("#"+_id).css("display","block");
         } 
+        $('.result_list').hide();
         rollFlag = 1;            
     }   
 })
@@ -192,6 +204,7 @@ $("div.filter_list .filter_common li").click(function(){
 })
 // 弹层取消
 function layer_cancel(){
+    $('.result_list').show();
     $("div.pop_filter").hide();
     $("body").removeClass("forbid");
     rollFlag = 0;
@@ -297,7 +310,7 @@ function post_data(order, begin, end, from, to, _id){
 //监听页面滚动
 document.addEventListener('touchmove', function (event) {
     if(rollFlag==1){
-        // event.preventDefault();
+        event.preventDefault();
     } 
 })
 // 记录点击数
