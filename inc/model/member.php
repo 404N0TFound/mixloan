@@ -314,6 +314,9 @@ class Xuan_mixloan_Member
                 'createtime'=>time(),
             );
             pdo_insert('qrcode_stat', $insert);
+            return true;
+        } else {
+            return false;
         }
     }
      /**
