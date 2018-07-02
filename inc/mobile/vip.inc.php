@@ -359,7 +359,7 @@ if($operation=='buy'){
             // );
             // $res = $wx->barCodeCreateDisposable($barcode);
             // $url = $res['url'];
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'', 'inviter'=>$member['id']));
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
