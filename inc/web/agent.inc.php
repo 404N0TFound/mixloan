@@ -341,7 +341,7 @@ if ($operation == 'list') {
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
         $re_money = $_GPC['data']['re_bonus'];
-        $count_money = $_GPC['data']['done_bonus'] + $_GPC['data']['extra_bonus'];
+        $count_money = $_GPC['data']['re_bonus'] + $_GPC['data']['done_bonus'] + $_GPC['data']['extra_bonus'];
         $one_man = m('member')->getInviterInfo($item['inviter']);
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
