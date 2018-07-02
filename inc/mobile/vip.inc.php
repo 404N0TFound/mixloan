@@ -689,7 +689,7 @@ if($operation=='buy'){
     	message('出错啦', '', 'error');
     }
     $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_bonus'). '
-		where inviter=:inviter and uid=:uid and status>0 order by id desc', array(':inviter'=>$member['id'], ':uid'=>$uid));
+		where inviter=:inviter and status>0 order by id desc', array(':inviter'=>$uid));
     $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
 			where id=:id', array(':id'=>$uid));
     foreach ($list as &$row) {
