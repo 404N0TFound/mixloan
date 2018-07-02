@@ -40,7 +40,7 @@ class Xuan_mixloan_Poster
             }
             $newa = imagecreatetruecolor(imagesx($bgpng)*0.2,imagesx($bgpng)*0.2);
             imagecopyresized($newa,$avatar,0,0,0,0,imagesx($bgpng)*0.2,imagesx($bgpng)*0.2,imagesx($avatar),imagesy($avatar));
-            imagecopymerge($bgpng,$newa,imagesx($bgpng)*0.4,imagesy($bgpng)*0.7,0,0,imagesx($bgpng)*0.2,imagesx($bgpng)*0.2,100);
+            imagecopymerge($bgpng,$newa,imagesx($bgpng)*0.4,imagesy($bgpng)*0.4,0,0,imagesx($bgpng)*0.2,imagesx($bgpng)*0.2,100);
         }
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.3,imagesx($bgpng)*0.3);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.3,imagesx($bgpng)*0.3,imagesx($QR),imagesy($QR));
