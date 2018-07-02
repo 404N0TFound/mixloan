@@ -137,17 +137,17 @@ div.agent-link ul li a.today-cell .new-icon{display: block;width: 20px;height: 2
 .flexbox .item-cell {-webkit-box-flex:1;-moz-box-flex:1;-webkit-flex:1;-ms-flex:1    flex:1;}
 
 /*代理中心首页样式*/
-div.agent-secmes {width:100%;color:#fff;position:relative;background: #00a2ff;}
+div.agent-secmes {width:100%;color:#fff;position:relative;background: url(../images/d-63.png); background-repeat: no-repeat;background-size: cover;-webkit-background-size: cover;-o-background-size: cover;  background-position: center 0;}
 div.agent-secmes .agent-secmes_next{width:95%;margin:0 auto;padding:6.7% 0;}
-div.agent-secmes .logo {display:block;width:20%;text-align:left;float: left;}
+div.agent-secmes .logo {display:block;width:20%;text-align:left;float:left;margin-left: 15px;}
 div.agent-secmes .logo a {display:inline-block;text-align: left;}
 
 div.agent-secmes .logo img {display:block;border-radius: 100%;width:2.3rem;height:2.3rem;}
 div.agent-secmes .mes-list {overflow:hidden;width:70%;float: left;}
-div.agent-secmes .mes-list li {float:left;overflow:hidden;width:100%;text-align:left;
+div.agent-secmes .mes-list li {float:left;overflow:hidden;width:120%;text-align:left;
     overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:15px;}
 
-div.agent-secmes .mes-list li.ag_basicInfo{font-size: 13px;}
+div.agent-secmes .mes-list li.ag_basicInfo{font-size: 15px;}
 div.agent-secmes .mes-list li span{display: inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 div.agent-secmes .mes-list li span:first-child{max-width: 92%;}
 div.agent-secmes .mes-list li span.recommend{float: left;margin-left: 15px;text-align: left;}

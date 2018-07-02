@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html class="html-full">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <title>信用评估</title>
+
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/mui.min_3.css" />
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/wanghei2_4.css"/>
+    <!--<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/credit/css/wanghei2_5.css">-->
+
+</head>
+<body class="full-body bg-white">
+<div class="infos">
+    <div class="container canvas-container">
+        <div class="canvas-box">
+            <canvas id="myCanvas1"></canvas>
+        </div>
+        <p>报告数据来源多方平台，被拒率数值仅供参考</p>
+        <!-- <div class="code-box">
+            <img src="../addons/xuan_mixloan/template/style/credit/picture/code_2.png"/>
+            <span>测网黑，扫我</span>
+        </div> -->
+    </div>
+    <div class="blank"></div>
+
+    <div class="container">
+        <ul class="ul">
+            <li>扫描人：<span>{$report['realname']}</span></li>
+            <li>手机号：<span>{$report['phone']}</span></li>
+            <li>身份证：<span>{$report['certno']}</span></li>
+            <li>日&nbsp;&nbsp;&nbsp;&nbsp;期：<span>{php echo date('Y/m/d', $report['createtime'])}</span></li>
+        </ul>
+    </div>
+    <div class="blank"></div>
+
+    <div class="container">
+        <div class="line bt">
+            您申请贷款被拒概率
+        </div>
+        <div class="result-text">{$ext_info['refuse_precent']}</div>
+        <div class="result-list">
+            <ul class="bt">
+                <li>
+                    <i></i>
+                    <span class="txt">是否命中不良信息</span>
+                    <span class="num">{$ext_info['bad_info_nums']}</span>
+                </li>
+                <li>
+                    <i></i>
+                    <span class="txt">多平台借款检测</span>
+                    <span class="num">{$ext_info['search_info_nums']}</span>
+                </li>
+                <li>
+                    <i></i>
+                    <span class="txt">是否命中行业黑名单</span>
+                    <span class="num">{$ext_info['black_info_nums']}</span>
+                </li>
+                <li>
+                    <i></i>
+                    <span class="txt">用户诈骗风险检测</span>
+                    <span class="num">{$ext_info['evaluate']}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="blank"></div>
+    <div class="container">
+        <div class="tit tit-3">
+            用户不良信息检测
+        </div>
+        <ul class="box bt">
+            <li>
+                <i></i>
+                <p>
+                    <strong>{$report['phone']}</strong>
+                    <span>手机号{if !$ext_info['phone_suspect']}不{/if}在风险关注名单中，请继续保持 </span>
+                </p>
+            </li>
+            <li>
+                <i></i>
+                <p>
+                    <strong>{$report['certno']}</strong>
+                    <span>身份证号{if !$ext_info['certno_suspect']}不{/if}在风险名单中，请注意</span>
+                </p>
+            </li>
+        </ul>
+        <!--<div class="line bt">
+            指导建议：一个月内不适合申请网贷
+        </div>-->
+    </div>
+    <div class="notice">
+        <p>
+            本检测项检测用户的手机号与身份证号是否命中法院失信名单、执行名单及用户是否有违章欠款、信贷逾期等行为。
+        </p>
+    </div>
+    <div class="blank"></div>
+
+    <div class="container">
+        <div class="tit tit-5">
+            多平台借款检测
+        </div>
+        <ul class="box2 box bt">
+            {loop $ext_info['orgs'] $key $value}
+            <li>
+                <p>
+                    <strong>{$value}个</strong>
+                    <span>{$key}</span>
+                </p>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="notice">
+        <p>
+            本检测项检测用户多头借贷数量，如果您的多头借贷数超过20个，请您谨慎申请！
+        </p>
+        <!--<span> </span>-->
+    </div>
+    <div class="blank"></div>
+
+    <!--<div class="container">
+        <div class="tit tit-4">行业风险扫描</div>
+        <ul class="box2 box bt">
+            <li>
+                <p>
+                    <strong>信贷</strong>
+                    <span>借款逾期、套现</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>同城</strong>
+                    <span>诈骗、虚假信息</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>支付</strong>
+                    <span>骗赔、盗卡、营销作弊</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>电商</strong>
+                    <span>虚假交易、涉嫌售假</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>租车</strong>
+                    <span>逾期未支付、违章未处理等</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>租房</strong>
+                    <span>房租杂费逾期、违约</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>酒店</strong>
+                    <span>逾期未支付</span>
+                </p>
+            </li>
+            <li>
+                <p>
+                    <strong>公检法类</strong>
+                    <span>失信被执行人</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+    <div class="blank"></div>-->
+
+    <div class="container">
+        <div class="tit tit-4">
+            行业黑名单检测
+        </div>
+        <ul class="box2 box bt">
+            {if $ext_info['user_black']}
+            <p class="desc">有逾期，请立即还款，维护个人信用！</p>
+            {else}
+            <p class="desc">恭喜，您没有逾期</p>
+            {/if}
+        </ul>
+    </div>
+    <div class="notice">
+        <p>
+            本项检测用户是否有过逾期或贷款多次被拒情况
+        </p>
+        <span>
+            本结果由第三方数据平台提供，我司无法展示用户逾期详情，敬请谅解！
+        </span>
+    </div>
+    <div class="blank"></div>
+
+    <div class="container">
+        <div class="tit tit-4">
+            用户诈骗风险检测
+        </div>
+        <ul class="box2 box bt">
+            {if $ext_info['user_suspect']}
+            <p class="desc">请注意，您存在金融诈骗风险！</p>
+            {else}
+            <p class="desc">恭喜，您不存在金融诈骗风险！</p>
+            {/if}
+        </ul>
+    </div>
+    <div class="notice">
+        <p>
+            本项检测用户是否存在金融诈骗历史。金融诈骗包括：假资料申贷、申贷后用户修改个人信息等行为。
+        </p>
+    </div>
+    <div class="blank"></div>
+
+    <div class="container footer">
+        <h2>报告数据说明</h2>
+        <p>
+            信用管家黑名单查询报告由本人授权查询，数据来源包括芝麻信用，各大运营商，各类征信平台，各大网贷平台，{$config['title']}只做大数据信息的获取及分析，不对原始数据做任何修改，报告仅供参考使用。如果您对报告有异议，出于对合作平台隐私的保护，信用管家不做任何解释。
+        </p>
+        <p>
+            由于报表的生成需要处理大量数据，受网络波动等因素的影响，可能会造成部分数据获取不完善的情况，对此我们深表歉意，同时感谢您的理解和支持。
+        </p>
+    </div>
+
+    <!-- <div class="wechat-box">
+        <img src="../addons/xuan_mixloan/template/style/credit/picture/51haoxin_2.png" alt="" title=""/>
+    </div> -->
+</div>
+<script src="../addons/xuan_mixloan/template/style/credit/js/mui_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/layer_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/zepto.min_3.js"></script>
+<script src="../addons/xuan_mixloan/template/style/credit/js/common_3.js"></script>
+
+<script>
+    (function ($) {
+        var score = 100-{$ext_info['score']};
+        drawCircle(score);
+    })(Zepto);
+</script>
+</body>
+</html>

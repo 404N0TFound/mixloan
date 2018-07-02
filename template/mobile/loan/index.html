@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,26 +11,50 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_2.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_a.css">
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
     <style type="text/css">        
-        .swiper-slide{max-height: 145px;overflow: hidden;}
-        div.loanindex_shortcut ul li p img{margin-left: 2.1rem;}
+        .swiper-slide{max-height: 217px;overflow: hidden;}
+        div.loanindex_shortcut ul li p img{margin-left: 1.15rem;}
         div.rate_info span{white-space: nowrap;margin-right: 7px;}
     </style>
 
 	{template 'common/wxshare'}
 </head>
 <body class="bglightgray">
-    <div class="loan_tab">
+<div class="agent-foot">
+        <a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}" class="on">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_cwd_1.png" /></p>
+            <p>贷款超市</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('channel', array('op'=>''))}" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>今日口子</p>
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>       
+         </a>
+        <a class="home" href="{php echo $this->createMobileUrl('friend', array('op'=>''))}">
+            <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        </a>
+        <a href="{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/xyk.png" /></p>
+            <p>办信用卡</p>
+        </a>
+        <a href="{php echo $this->createMobileUrl('user', array('op'=>''))}" >
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+            <p>个人中心</p>
+        </a>
+    </div>
+   <!-- <div class="loan_tab">
         <ul>
             <li class="on"><a href="javascript:;">首页</a></li>
             <li><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}">贷款</a></li>
             <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}">办卡</a></li>
         </ul>
-    </div>
+    </div>-->
     <div class="loanindex_frame">
         <!-- 轮播 -->
         <div class="swiper-container loanindex-swiper">
@@ -52,7 +74,7 @@
             </div>
 
             <div class="loanindex_shortcut">
-                <div class="swiper-container pro-swiper">
+                <div class="swiper-container1 pro-swiper">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide" style="width:110%;">
                             <ul><li>
@@ -97,11 +119,7 @@
                                         <p>公务员贷</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="swiper-slide" style="width:110%;">
-                            <ul>
-                                <li>
+								<li>
                                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>9));}">
                                         <p><img src="../addons/xuan_mixloan/template/style/picture/qiye.png" /></p>
                                         <p>企业贷</p>
@@ -114,14 +132,18 @@
                                 </li><li>
                                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>11));}">
                                         <p><img src="../addons/xuan_mixloan/template/style/picture/car.png" /></p>
-                                        <p>车贷</p>
+                                        <p>车&nbsp;&nbsp;&nbsp;&nbsp;贷</p>
                                     </a>
                                 </li><li>
                                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>12));}">
                                         <p><img src="../addons/xuan_mixloan/template/style/picture/house.png" /></p>
-                                        <p>房贷</p>
+                                        <p>房&nbsp;&nbsp;&nbsp;&nbsp;贷</p>
                                     </a>
                                 </li>
+                            </ul>
+                        </div>
+                        <div class="swiper-slide" style="width:110%;">
+                            <ul>                               
                                 <li>
                                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>13));}">
                                         <p><img src="../addons/xuan_mixloan/template/style/picture/baodan.png" /></p>
@@ -143,10 +165,6 @@
                                         <p>税金贷</p>
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="swiper-slide" style="width:110%;">
-                            <ul>
                                 <li>
                                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>17));}">
                                         <p><img src="../addons/xuan_mixloan/template/style/picture/fenqi.png" /></p>
@@ -191,6 +209,7 @@
                                 </li>
                             </ul>
                         </div>
+
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -223,7 +242,7 @@
                 </div>
             </div>
         </div>
-        <div class="loan_recommend">
+        <!--<div class="loan_recommend">
             <h1><span>智能推荐</span><a class="next_recommend">换一批<img src="../addons/xuan_mixloan/template/style/picture/next_1.png" /></a></h1>
             <div class="recommend_list">
             <div class="recommend_main" data-productid="35" onclick="clickNum(this);">
@@ -254,7 +273,7 @@
                     </a>
                 </div>          
             </div>
-        </div>
+        </div>-->
         <div class="hot_loan">
             <h1><span>热门贷款</span><a href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}">更多<img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a></h1>
             <div class="hotloan_list">
@@ -262,28 +281,54 @@
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
                     <a href="{$row['ext_info']['url']}">
                         <ul>
-                            <li>
-                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
+                            <li>				
+							
+                                <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /><br/>
+								<span style="color: #FF0000;font-size: 10px; align:center">{$row['ext_info']['condition7']}</span></span>
                                 <div class="loan_info">
-                                    <h2>{$row['name']}</h2>
-                                    <div class="rate_info">
-                                        <span>{$row['ext_info']['condition1']}</span> 
-                                        <span>{$row['ext_info']['condition2']}</span> 
-                                        <span>{$row['ext_info']['condition3']}</span> 
-                                        <span>{$row['ext_info']['condition4']}</span> 
-                                        <span>{$row['ext_info']['condition5']}</span> 
-                                        <span>{$row['ext_info']['condition6']}</span> 
-                                        <span>{$row['ext_info']['condition7']}</span> 
-                                        <!-- <p><em>{$row['money_high']}</em>元</p> -->
-                                    </div>
-                                    <div class="extra_info">
+                                    <table >
+    <tbody>
+        <tr class="firstRow">
+            <td valign="middle" rowspan="1" colspan="2" style="word-break: break-all;" width="308" align="left">
+                <strong><span style="font-size: 18px;">{$row['name']}</span></strong>
+            </td>
+            <td width="72" valign="middle" style="word-break: break-all;" align="center">
+                <span style="color:#436EEE;font-size: 10px;">{$row['apply_nums']}人已申请</span>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="word-break: break-all;">
+                <span style="font-size: 10px;">{$row['ext_info']['condition1']}</span>
+            </td>
+            <td valign="top" style="word-break: break-all;">
+                <span style="font-size: 10px;">{$row['ext_info']['condition2']}</span>
+            </td>
+            <td valign="middle" style="word-break: break-all;" align="center">
+                <strong>{$row['ext_info']['condition3']}</strong>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" style="word-break: break-all;">
+                <span style="font-size: 10px;">{$row['ext_info']['condition4']}</span>
+            </td>
+            <td valign="top" style="word-break: break-all;">
+                <span style="font-size: 10px;">{$row['ext_info']['condition5']}</span>
+            </td>
+            <td valign="middle" style="word-break: break-all;" align="center">
+                <span style="color: #FF0000;"><strong><span style="font-size: 18px;">{$row['ext_info']['condition6']}</span></strong></span>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top" rowspan="1" colspan="3"><div class="extra_info">
                                         <dl>
                                             {loop $row['ext_info']['tag'] $tag}
                                             <dd style="color:#436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">{$tag}</em></dd>
                                             {/loop}
                                         </dl>
-                                        <span>{$row['apply_nums']}人已申请</span>
-                                    </div>
+                                    </div></td>
+        </tr>
+    </tbody>
+</table>
                                 </div>
                             </li>
                         </ul>
@@ -363,9 +408,18 @@
     $(document).ready(function(){
         $(".carousel").slideUp();   
     })
-    // 产品首页banner
+	   // 产品首页banner
     var mySwiper = new Swiper('.swiper-container', {
-        autoplay: 5000,//可选选项，自动滑动
+        autoplay: 4000,//可选选项，自动滑动
+        loop : true,
+        autoplayDisableOnInteraction : false,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    });
+    // 产品首页导航
+    var mySwiper = new Swiper('.swiper-container1', {
+        autoplay: 12000,//可选选项，自动滑动
         loop : true,
         autoplayDisableOnInteraction : false,
         pagination: {

@@ -177,9 +177,9 @@ div.hot_loan{position: relative;}
 div.hot_loan h1 a{display: inline-block;float: right;font-weight: normal;}
 div.hot_loan h1 a img{position: relative; top:-2px;margin-left: 5px; width: 8px;max-width: 100%;vertical-align: middle;}
 
-div.loan_product{padding:10px 3%;border-bottom: 1px solid #eee;background-color: #fff;}
+div.loan_product{padding:10px 1%;border-bottom: 1px solid #eee;background-color: #fff;}
 div.loan_product ul li{display: flex;align-items: center;padding:0 2%;}
-div.loan_product ul li>span{display: inline-block; width: 18%; background-color: #f6f4f4;border-radius: 5px;margin-right: 5%;border:1px solid #eee;}
+div.loan_product ul li>span{display: inline-block; width: 20%; background-color: #fff;border-radius: 5px;margin-right: 5%;border:1px solid #fff;}
 div.card_core ul li>span{width: 108px;}
 div.bank_index ul li>span{width: 22%;border-radius: 100%;}
 div.loan_product ul li>span img{width: 100%;height:60px; border-radius: 5px;display: block;}
@@ -195,7 +195,7 @@ div.rate_info span em{display: inline-block;color: #333333;font-weight: normal;}
 div.rate_info p{position: absolute;right:0;bottom: 0;font-size: 13px;}
 div.rate_info p em{display: inline-block;font-size: 18px;color: #3487ef;vertical-align: bottom;font-weight: normal;}
 div.extra_info{position: relative; padding-top:0px;}
-div.extra_info dl{width:60%; float: left;overflow: hidden;padding:0 3px;}
+div.extra_info dl{width:100%; float: left;overflow: hidden;padding:0 3px;}
 div.card_core div.extra_info dl{width: 100%;}
 div.extra_info dl dd{float: left;border: 1px solid #ddd;border-radius: 3px;margin:2px -2px 0 -2px;padding:0;padding:0 4px;}
 div.extra_info dl dd em{display: table-cell;height:18px; vertical-align: middle;font-weight: normal;}

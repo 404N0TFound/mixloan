@@ -49,7 +49,7 @@
             </div>            
             <div class="result_list">            
                 <div class="loan_product" data-productid="21" onclick="clickNum(this);">
-                    <a href="https://img.hengchang6.com/jsd_hyd/?utm_source=kadaibao&utm_campaign=h5&utm_content=532&utm_a=a">
+                    <!--<a href="https://img.hengchang6.com/jsd_hyd/?utm_source=kadaibao&utm_campaign=h5&utm_content=532&utm_a=a">
                         <ul>
                             <li>
                                 <span><img src="../addons/xuan_mixloan/template/style/picture//20171101173438_1.jpg" /></span>
@@ -64,7 +64,7 @@
                                         <span>期限:0.01月</span>
                                         <span>期限:0.01月</span>
                                         <!-- <p><em>200000</em>元</p> -->
-                                    </div>
+                                    <!--</div>
                                     <div class="extra_info">
                                         <dl>
                                             <dd style="color: #436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">信用卡认证</em></dd><dd style="color: #7D26CD;border: 1px solid #7D26CD;"><em style="font-family: '微软雅黑'!important;">征信认证</em></dd>
@@ -74,7 +74,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </a>
+                    </a>-->
                 </div>
             </div>
         </div>
@@ -281,33 +281,65 @@ function post_data(order, begin, end, from, to, _id){
                                                     + "<a href="+ dataTransform(url) +">"
                                                         + "<ul>"
                                                             + "<li>"
+															+ "<span>"
                                                                 + "<span><img src="+ imgs +" /></span>"
+																+ "<br/><span style=\'color: #FF0000;font-size: 10px; align:center\'>" + ext.condition7+ "</span>"
+																+ "</span>"
                                                                 + "<div class=\"loan_info\">"
-                                                                    + "<h2>"+ dataTransform(title) +"</h2>"
-                                                                    + "<div class=\"rate_info\">"
-                                                                        +"<span>" + ext.condition1+ "</span>"
-                                                                        +"<span>" + ext.condition2+ "</span>"
-                                                                        +"<span>" + ext.condition3+ "</span>"
-                                                                        +"<span>" + ext.condition4+ "</span>"
-                                                                        +"<span>" + ext.condition5+ "</span>"
-                                                                        +"<span>" + ext.condition6+ "</span>"
-                                                                        +"<span>" + ext.condition7+ "</span>"
-                                                                        // + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
-                                                                    + "</div>"
-                                                                    + "<div class=\"extra_info\">"
-                                                                        + "<dl>"
-                                                                        + "</dl>"
-                                                                        + "<span>"+ dataTransform(click) +"人已申请</span>"
-                                                                    + "</div>"
+																+ "<table>"
+                                                                + "<tbody>"
+        + "<tr>"
+            + "<td valign=\"middle\" rowspan=\"1\" colspan=\"2\"  width=\"308\" align=\"left\">"
+                + "<span style=\'font-size: 18px;\'>" + dataTransform(title) + "</span>"
+            + "</td>"
+            + "<td width=\"72\" valign=\"middle\"  align=\"center\">"
+                + "<span style=\'color:#436EEE;font-size: 10px;\'>"+ dataTransform(click) +"人已申请</span>"
+            + "</td>"
+        + "</tr>"
+        + "<tr>"
+            + "<td valign=\"top\">"
+                + "<span style=\'font-size: 10px;\'>"+ ext.condition1+"</span>"
+            + "</td>"
+            + "<td valign=\"top\">"
+                + "<span style=\'font-size: 10px;\'>"+ ext.condition2+"</span>"
+            + "</td>"
+            + "<td valign=\"middle\" align=\"center\">"
+                + "<strong><span>"+ ext.condition3+"</span></strong>"
+            + "</td>"
+        + "</tr>"
+        + "<tr>"
+            + "<td valign=\"top\">"
+                + "<span style=\'font-size: 10px;\'>"+ ext.condition4+"</span>"
+            + "</td>"
+            + "<td valign=\"top\">"
+                + "<span style=\'font-size: 10px;\'>"+ ext.condition5+"</span>"
+            + "</td>"
+            + "<td valign=\"middle\" align=\"center\">"                
+				+ "<span style=\'color: #FF0000;font-size: 18px;\'>"
+				 + ext.condition6+ "</span>"
+            + "</td>"
+        + "</tr>"
+        + "<tr>"
+            + "<td valign=\"top\" rowspan=\"1\" colspan=\"3\">"
+			          
+			+ "<div class=\"extra_info\">"
+			+ "<dl>"
+                                            
+                                    + "</dl>"
+									+ "</div>"
+ 						+"</td>"
+        + "</tr>"
+    + "</tbody>"
++ "</table>"
                                                                 + "</div>"
                                                             + "</li>"
                                                         + "</ul>"
                                                     + "</a>"
                                                 + "</div>")
-                    for(j=0;j<ele.length;j++){
+                   for(j=0;j<ele.length;j++){
                         var tab=ele[j];
                         var tab_style=ele[j][1];
-                        $("div.loan_product").eq(i).find("div.extra_info dl").append("<dd style=\"color: "+ tab_style +";border:1px solid "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ dataTransform(tab) +"</em></dd>");
+                        $("div.loan_product").eq(i).find("div.extra_info dl").append("<dd style=\"color:#436EEE; "+ tab_style +";border:1px solid #436EEE; "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ dataTransform(tab) +"</em></dd>");
                     }
                 }
             }
