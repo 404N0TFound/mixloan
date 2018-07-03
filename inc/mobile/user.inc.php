@@ -145,16 +145,12 @@ if($operation=='index'){
 	$follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
 	$money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0") ? : 0;
 	include $this->template('user/extend_bonus');
-} 
-else if ($operation == 'message_type') 
-{
+} else if ($operation == 'message_type') {
 	//消息中心
 	$read = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=1', array(':to_uid' => $member['id']));
 	$unread = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id']));
 	include $this->template('user/message_type');
-} 
-else if ($operation == 'message') 
-{
+} else if ($operation == 'message') {
 	//消息列表
 	$is_read = intval($_GPC['isread']);
 	$type = intval($_GPC['type']) ? : 1;
@@ -183,9 +179,7 @@ else if ($operation == 'message')
 	}
 	unset($row);
 	include $this->template('user/message');
-}
-else if ($operation == 'read_message')
-{
+} else if ($operation == 'read_message') {
 	//阅读消息
 	$id = intval($_GPC['id']);
 	if (empty($id)) 
@@ -215,4 +209,6 @@ else if ($operation == 'read_message')
 	}
 	$item['ext_info'] = json_decode($item['ext_info'], true);
 	include $this->template('user/read_message');
+} else if ($operation == 'index_backup') {
+	include $this->template('user/index_backup');
 }
