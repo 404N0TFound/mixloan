@@ -102,7 +102,7 @@
                     <a class="item"><strong>{$use}</strong>可结算</a>
                 </div>
                 <header class="text-center">
-                    <h4>[会员等级:{$member['user_type']['name']}]</h4>
+                    <h4 style="font-weight: 400;">[会员等级:{$member['user_type']['name']}]</h4>
                     <small>邀请人:{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</small>
                 </header>
             </div>
@@ -124,24 +124,30 @@
             <!-- content -->
             <div class="bd" style="margin: 0 auto">
                 <div class="weui_grids bg_f dicon">
+                    {if $member['user_type']['code'] == 1}
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/icon2_active_3.png" alt="">
                         </div>
-                        <p class="weui_grid_label">我的徒弟</p>
+                        <p class="weui_grid_label">我的团队</p>
                     </a>
+                    {/if}
+                    {if $partner['code'] == 1}
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_center'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/icon3_2.png" alt="">
                         </div>
                         <p class="weui_grid_label">合伙人中心</p>
                     </a>
+                    {/if}
+                    {if $member['user_type']['code'] == 1}
                     <a onclick="extend_bonus()" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/tuijianyouqian.png" alt="">
                         </div>
                         <p class="weui_grid_label">推荐有钱</p>
                     </a>
+                    {/if}
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/daili.png" alt="">
@@ -166,12 +172,14 @@
                         </div>
                         <p class="weui_grid_label">我的客服</p>
                     </a>
+                    {if !is_weixin()}
                     <a onclick="loginout()" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/tuichu.png" alt="">
                         </div>
                         <p class="weui_grid_label">退出登录</p>
                     </a>
+                    {/if}
                 </div>
                 <div class="weui_grids bg_f dicon">
                 </div>
