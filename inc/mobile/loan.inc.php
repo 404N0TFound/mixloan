@@ -12,7 +12,12 @@ if($operation=='index'){
 	if ($agent['code'] != 1) {
 		message('您还不是会员', $this->createMobileUrl('user'), 'error');
 	}
-	$list = m('loan')->getList();
+	$ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . '
+		where is_show=0 and uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
+	foreach ($ids as $id) {
+		$n_id[] = $id['id'];
+	}
+	$list = m('loan')->getList([], ['n_id' => $n_id], ' apply_nums desc', 10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -39,6 +44,14 @@ if($operation=='index'){
 		$orderBy = $_GPC['order'];
 	} else {
 		$orderBy = FALSE;
+	}
+	$ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . '
+		where is_show=0 and uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
+	foreach ($ids as $id) {
+		$n_id[] = $id['id'];
+	}
+	if (!empty($n_id)) {
+		$condition['n_id'] = $n_id;
 	}
 	if (isset($_GPC['begin']) && !empty($_GPC['begin'])) {
 		$condition['begin'] = $_GPC['begin'];

@@ -23,6 +23,11 @@ class Xuan_mixloan_Loan
                     $wheres .= " AND `time_blow` >= {$v}";
                 } else if ($k == 'high') {
                     $wheres .= " AND `time_high` <= {$v}";
+                } else if ($k == 'n_id') {
+                    if (is_array($v) && !empty($v)) {
+                        $v_string = '(' . implode(',', $v) . ')';
+                        $wheres .= " AND `id` NOT IN {$v_string}";
+                    }
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -74,10 +79,17 @@ class Xuan_mixloan_Loan
 
     public function getRecommends(){
         global $_W;
-        $sql = "SELECT * 
-            FROM ".tablename('xuan_mixloan_loan')." AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM ".tablename('xuan_mixloan_loan').")) AS id) AS t2 
-            WHERE t1.id >= t2.id AND t1.uniacid=:uniacid
-            ORDER BY t1.id ASC LIMIT 3";
+        $ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . '
+            where is_show=0 and uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
+        foreach ($ids as $id) {
+            $n_id[] = $id['id'];
+        }
+        if (!empty($n_id)) {
+            $v_string = '(' . implode(',', $n_id) . ')';
+        } else {
+            $v_string = '()';
+        }
+        $sql = "SELECT * FROM ".tablename('xuan_mixloan_loan')." WHERE id NOT IN {$v_string} ORDER BY rand() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
