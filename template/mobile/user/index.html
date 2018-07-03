@@ -206,6 +206,13 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    <li class="new_guide">
+                        <a onclick="openNew('{$config['service_contact']}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/service_contact.png" />
+                            客服咨询
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
                     <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                         <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
