@@ -170,13 +170,13 @@ return temp
         	function(data){
         		console.log(data);
         		if(data.code==1){
-                    {if !is_weixin()}
-                    layer.msg('注册成功，请在app内登陆');
-                    {else}
-                    layer.msg(data.msg,{time:2000},function(){
-                        openNew(data.data.url);
-                    });
-                    {/if}
+                    if (typeof(plus) == "undefined") {
+                        layer.msg('注册成功，请在app内登陆');
+                    } else {
+                        layer.msg(data.msg,{time:2000},function(){
+                            openNew(data.data.url);
+                        });
+                    }
         		}else{
         			layer.msg(data.msg);
         			bind_click();
