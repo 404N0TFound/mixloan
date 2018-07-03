@@ -79,6 +79,7 @@
     }
     /*弹窗样式*/
     div.layui-layer-content{padding: 10px 0px!important;}
+    div.ewm_main p a{width: 40%;margin:0 10px;}
 </style>
 <script type="text/javascript">
     var aa = "{$poster_path}";
@@ -170,7 +171,7 @@
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
                     </li>
-                    {else}
+                    {else if $info['done_reward_type']==2}
                     <li>
                         {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
                     </li>
@@ -251,8 +252,8 @@ document.writeln("                    <div class=\'pro_img\' id=\'pro_img\'>");
 document.writeln("                        <img id=\'source_img\'  src=\'"+aa+"\' width=\'100%\' alt=\'\'>");
 document.writeln("                    </div>");
 document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
-document.writeln("                </div>");    
-document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
+document.writeln("                </div>");
+document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a onclick=\'downloadimg()\' href=\'javascript:;\'>保存海报</a><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
 document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
 // }
 document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
@@ -365,17 +366,19 @@ $(".layer_close,.floor").click(function(){
                 var imgSrc = this.src;
                 plus.nativeUI.actionSheet(actionList,function(e){
                     if (e.index == 1) {
+                        plus.nativeUI.showWaiting("保存中");
                         var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
                             console.log(status);
                             if (status == 200) {
+                                plus.nativeUI.closeWaiting();
                                 plus.gallery.save(d.filename,function(){
                                     plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
                                         entry.remove();
                                     })
-                                    return alert('图片已保存');
+                                    return plus.nativeUI.alert('图片已保存');
                                 })
                             } else {
-                                return alert('保存失败' + status);
+                                return plus.nativeUI.alert('保存失败' + status);
                             }
                         });
                         imgDtask.start();
@@ -385,5 +388,34 @@ $(".layer_close,.floor").click(function(){
         })
     </script>
     {/if}
+    <script type="text/javascript">
+        var downloadimg = function(){
+            {if !is_weixin()}
+            var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+            var imgSrc = $('#source_img').attr('src');
+            plus.nativeUI.actionSheet(actionList,function(e){
+                if (e.index == 1) {
+                    plus.nativeUI.showWaiting("保存中");
+                    var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                        if (status == 200) {
+                            plus.nativeUI.closeWaiting();
+                            plus.gallery.save(d.filename,function(){
+                                plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                    entry.remove();
+                                })
+                                return plus.nativeUI.alert('图片已保存');
+                            })
+                        } else {
+                            return plus.nativeUI.alert('保存失败' + status);
+                        }
+                    });
+                    imgDtask.start();
+                }
+            })
+            {else}
+            layer.msg('长按图片以保存图片');
+            {/if}
+            }
+    </script>
 </body>
 </html>
