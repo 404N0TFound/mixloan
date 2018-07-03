@@ -26,25 +26,56 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    function openNew(url){
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',homeButton:true}});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
+    {else}
+    function openLoan(url){
         mui.openWindow({url:url});
     }
-    function return_user(){
-        var user_url = '{php echo $this->createMobileUrl('user')}';
-        mui.openWindow({url:user_url, createNew:true});
-    }
-    mui.plusReady(function() {
-        console.log(mui.currentWebview.id);
-        window.addEventListener('refresh', function(event) {
-            mui.currentWebview.reload();
+    {/if}
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+        function return_user(){
+            var user_url = '{php echo $this->createMobileUrl('user')}';
+            mui.openWindow({url:user_url, createNew:true});
+        }
+        mui.plusReady(function() {
+            console.log(mui.currentWebview.id);
+            window.addEventListener('refresh', function(event) {
+                mui.currentWebview.reload();
+            });
+            var wv=plus.webview.currentWebview();
+            // 关闭侧滑返回功能
+            wv.setStyle({'popGesture':'none'});
         });
-        var wv=plus.webview.currentWebview();
-        // 关闭侧滑返回功能
-        wv.setStyle({'popGesture':'none'});
-    });
-    mui.back = function(){
-        return false;
-    }
+        mui.back = function(){
+            return false;
+        }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -262,7 +293,7 @@
             <div class="hotloan_list">
                 {loop $list $row}
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
-                    <a onclick="openNew('{$row['ext_info']['url']}')">
+                    <a onclick="openLoan('{$row['ext_info']['url']}')">
                         <ul>
                             <li>
                                 <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
@@ -391,7 +422,7 @@
                             var rate_type=_data[i].rate_type;
                             var click=_data[i].apply_nums;
                             $("div.recommend_list").append("<div class=\"recommend_main\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openNew('"+ url +"')\">"
+                                + "<a onclick=\"openLoan('"+ url +"')\">"
                                 + "<ul class=\"desc\">"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"
