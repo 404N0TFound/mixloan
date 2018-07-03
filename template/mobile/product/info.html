@@ -170,7 +170,7 @@
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}连队：{$info['ext_info']['done_two_init_reward_money']}元
                 </li>
-                {else}
+                {else if $info['done_reward_type']==2}
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}团队：{$info['ext_info']['done_one_init_reward_per']}点
                 </li>
@@ -195,6 +195,10 @@
                 </li>
                 {/if}
             </ul>
+        </div>
+        <span class="account_title">结算说明</span>
+        <div class="account_way">
+            {$info['ext_info']['settle_intro']}
         </div>
     </div>
 </div>
