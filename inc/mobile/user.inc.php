@@ -209,6 +209,4 @@ if($operation=='index'){
 	}
 	$item['ext_info'] = json_decode($item['ext_info'], true);
 	include $this->template('user/read_message');
-} else if ($operation == 'index_backup') {
-	include $this->template('user/index_backup');
 }
