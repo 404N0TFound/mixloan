@@ -156,9 +156,9 @@
         <span class="account_title">结算方式</span>
         <div class="account_way">
             <ul>
-                <li>{if $info['count_time'] == 1}【日结】，当日发卡成功当日结算工资。
-                    {else if $info['count_time'] == 7}【周结】，每周一结算。
-                    {else if $info['count_time'] == 30}【月结】，每月初的前五个工作日开始结算。
+                <li>{if $info['count_time'] == 1}【日结】，第二天20点结算前一天工资。
+                    {else if $info['count_time'] == 7}【周结】，每周三结算上一周工资
+                    {else if $info['count_time'] == 30}【月结】，每月10-15日结算上一月工资。
                     {/if}
                 </li>
                 <li>首次注册申请借款符合结算标准。</li>
