@@ -81,11 +81,14 @@
     div.layui-layer-content{padding: 10px 0px!important;}
 </style>
 <script type="text/javascript">
-    var aa = "{$poster_path}";
+    var aa = '';
     var daili_url = "{$poster_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
+        } else {
+            aa = "{$poster_path}";
+            $('#source_img').attr('src', aa);
         }
     },"json");
 </script>
@@ -260,6 +263,10 @@ $(".temp_share_floor,.layer_close").click(function(){
 
 // 二维码弹窗
 function ewm_style(){
+    if (aa == '') {
+        layer.msg('生成海报中');
+        return false;
+    }
     $("div.ewm_main").css({"width":"94%","left":"3%"});   
     $("div.ewm_main h1").show();    
     var erm_H=$("div.ewm_main").height();    
