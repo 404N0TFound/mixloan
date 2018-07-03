@@ -283,27 +283,31 @@ if($operation=='index'){
     //详情
     $pid = intval($_GPC['pid']);
     $inviter = intval($_GPC['inviter']);
+    $degree = intval($_GPC['degree']) ? : 1;
     $type = $_GPC['type'] ? : 1;
     if (empty($pid) || empty($inviter)) {
         message('查询出错', '', 'error');
     }
-    $arr = array(':relate_id'=>$pid, ':inviter'=>$inviter);
+    $arr = array(':pid'=>$pid, ':inviter'=>$inviter);
     if ($type == 1) {
-        $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id';
+        $condition = ' WHERE inviter=:inviter AND pid=:pid';
     } else if ($type == 2) {
-        $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id AND status>0';
+        $condition = ' WHERE inviter=:inviter AND pid=:pid AND status>0';
     } else if ($type == 3) {
-        $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id AND status=-1';
+        $condition = ' WHERE inviter=:inviter AND pid=:pid AND status=-1';
     }
-
-    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id', $arr) ? : 0;
-    $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id AND status>0', $arr) ? : 0;
-    $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id', $arr) ? : 0;
-    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,relate_id,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_bonus'). $condition;
+    $condition .= " and degree={$degree}";
+    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+        WHERE inviter=:inviter AND pid=:pid and degree={$degree}", $arr) ? : 0;
+    $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+        WHERE inviter=:inviter AND pid=:pid AND status>0 and degree={$degree}", $arr) ? : 0;
+    $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_product_apply') . "
+        WHERE inviter=:inviter AND pid=:pid and degree={$degree}", $arr) ? : 0;
+    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
     $list = pdo_fetchall($sql, $arr);
     if (!empty($list)) {
         foreach ($list as &$row) {
-            $row['product'] = m('product')->getList(['id','ext_info','name'],['id'=>$row['relate_id']])[$row['relate_id']];
+            $row['product'] = m('product')->getList(['id','ext_info','name'],['id'=>$row['pid']])[$row['pid']];
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             $row['bonus'] = $row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'];
             if ($row['status'] == 1) {
@@ -319,9 +323,8 @@ if($operation=='index'){
                 $row['degree'] = '直推';
             } else if ($row['degree'] == 2) {
                 $row['degree'] = '二级';
-            } else if ($row['degree'] == 3) {
-                $row['degree'] = '三级';
             }
+            $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3);
         }
         unset($row);
     }
