@@ -1,0 +1,152 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+	<title>购买代理</title>
+	<script src="../addons/xuan_mixloan/template/style/js/jquery_3.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/base_3.css">
+
+	{template 'common/wxshare'}
+</head>
+<style>
+.goods_dt img{width: 100%}
+.dianpin {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    display: block;
+}
+.dianpin-tlt {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.dianpin-top {
+    padding: 25px 15px 2px 89px;
+    position: relative;
+}
+.dianpin-top h3 {
+    font-size: 15px;
+    line-height: 20px;
+    position: relative;
+}
+.dianpin-top img {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 17px;
+    left: 15px;
+    border-radius: 50%;
+}
+.dianpin p {
+    padding: 15px 25px 0px 25px;
+    line-height: 20px;
+}
+.more {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../addons/xuan_mixloan/template/style/images/btnld_1.png)no-repeat left center;
+    background-size: 16px;
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: Fliph;
+    float: right;
+    margin-top: 2px;
+}
+.footer{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: white
+}
+.footer_box{
+	padding: 10px;
+}
+.footer_input{
+	width: 80%;
+	border-radius: 3px;
+	border: 1px solid #eeeeee;
+	font-size: 15px;
+	padding: 5px
+} 
+.footer_buttun{
+	padding: 6px;
+	background: #76b1ff;
+	color: white;
+	position: absolute;
+	right: 15px;
+	border-radius: 5px
+}
+</style>
+<body class="bgcolor">
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+	<script type="text/javascript">
+	function openNew(url){
+	    mui.openWindow({url:url});
+	}
+	</script>
+	{if !is_weixin()}
+	<style type="text/css">
+	    .app_header{height: 80px;width: 100%;background: #eeeeee}
+	    .app_header_back{text-align: center;color: white}
+		.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+		.app_header_back img{float:left;width: 12px;}
+	    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+	</style>
+	<div class="app_header">
+		<div class="app_header_back">
+			<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+			<span>购买评价</span>
+		</div>
+	</div>
+	{/if}
+
+	<div class="tab_contain" id="pro_desc" style="display: block;">
+		<div class="mgntop-1">
+			<ul>
+				{loop $comments $comment}
+				<li class="dianpin">
+					<div class="dianpin-top"><img src="{$comment['avatar']}" class="vipimg1"><h3>{$comment['nickname']}</h3><span>{$comment['createtime']}</span></div>
+					<p>{$comment['content']}</p>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+	</div>
+	<div class="footer">
+		<div class="footer_box">
+			<input type="text" name="" class="footer_input">
+			<a class="footer_buttun" onclick="comment()">评价</a>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		function comment() {
+			var content = $('.footer_input').val();
+			$.post("{php echo $this->createMobileUrl('vip', array('op'=>'payment_comment_post'))}", {"content":content}, function(data){
+		        if (data.code==1) {
+		        	layer.msg(data.msg, function(){
+		            	history.go(0)
+		        	});
+		        } else {
+		        	layer.msg(data.msg);
+		        	return false;
+		        }
+		    },"json");
+		}
+	</script>
+</body>
+</html>

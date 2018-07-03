@@ -11,6 +11,18 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+	$count_comments = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_payment_comment') . '
+		where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
+	$comments = pdo_fetchall('select * from ' . tablename('xuan_mixloan_payment_comment') . '
+		where uniacid=:uniacid order by id desc limit 2', array(':uniacid' => $_W['uniacid']));
+	foreach ($comments as &$comment) {
+		$man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member'). '
+			where id=:id', array(':id' => $comment['uid']));
+		$comment['nickname'] = $man['nickname'];
+		$comment['avatar'] = $man['avatar'];
+		$comment['createtime'] = date('Y-m-d H:i:s', $comment['createtime']);
+	}
+	unset($comment);
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
@@ -273,4 +285,38 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+} else if ($operation == 'buy_comments') {
+	//购买会员评价列表
+	$comments = pdo_fetchall('select * from ' . tablename('xuan_mixloan_payment_comment') . '
+		where uniacid=:uniacid order by id desc', array(':uniacid' => $_W['uniacid']));
+	foreach ($comments as &$comment) {
+		$man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member'). '
+			where id=:id', array(':id' => $comment['uid']));
+		$comment['nickname'] = $man['nickname'];
+		$comment['avatar'] = $man['avatar'];
+		$comment['createtime'] = date('Y-m-d H:i:s', $comment['createtime']);
+	}
+	unset($comment);
+	include $this->template('vip/buy_comments');
+} else if ($operation == 'payment_comment_post') {
+	//评论提交
+	$content = trim($_GPC['content']);
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		show_json(-1, '', '抱歉，您还没有购买代理');
+	}
+	$record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment_comment') . '
+		where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+	if ($record) {
+		show_json(-1, '', '您已经评价过啦');
+	}
+	if (empty($content)) {
+		show_json(-1, '', '评论内容不能为空');
+	}
+	$insert['uid']        = $member['id'];
+	$insert['createtime'] = time();
+	$insert['uniacid']    = $_W['uniacid'];
+	$insert['content']    = $content;
+	pdo_insert('xuan_mixloan_payment_comment', $insert);
+	show_json(1, '', '评价成功');
 }

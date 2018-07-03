@@ -88,7 +88,52 @@
 	{template 'common/wxshare'}
 </head>
 <style>
-	 .goods_dt img{width: 100%}
+.goods_dt img{width: 100%}
+.dianpin {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    display: block;
+}
+.dianpin-tlt {
+    background-color: #fff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.dianpin-top {
+    padding: 20px 15px 2px 89px;
+    position: relative;
+}
+.dianpin-top h3 {
+    font-size: 0.5rem;
+    line-height: 0.8rem;
+    position: relative;
+}
+.dianpin-top img {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    top: 17px;
+    left: 15px;
+    border-radius: 50%;
+}
+.dianpin p {
+    padding: 10px 25px 0px 25px;
+    line-height: 1.6rem;
+}
+.more {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url(../addons/xuan_mixloan/template/style/images/btnld_1.png)no-repeat left center;
+    background-size: 16px;
+    -moz-transform: scaleY(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: Fliph;
+    float: right;
+    margin-top: 2px;
+}
 </style>
 <body class="bgcolor">
 	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
@@ -116,7 +161,7 @@
     	<div class="confirm_buy clearfix">
 			<div class="pro_explain">
 				<span class="to_read read">
-											<img class="noread_img" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png" style="display: none;">
+						<img class="noread_img" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png" style="display: none;">
 						<img class="read_img" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png">
 						阅读并同意
 						<a class="contract_pop" style="color:#0195ff; float-size:0.55rem">《购买协议》</a> 	
@@ -158,7 +203,20 @@
 					</ul>
 				</div>		
 			</div>
-			<div class="tab_contain" id="pro_desc" style="display: block;"><p><img src="{php echo tomedia($config['buy_intro_pic']);}" title="" alt=""/></p></div>
+			<div class="tab_contain" id="pro_desc" style="display: block;">
+				<div class="mgntop-1">
+					<div class="dianpin-tlt"><a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy_comments'))}')"><span>用户评价({$count_comments})</span><span class="more"></span></a></div>
+					<ul>
+						{loop $comments $comment}
+						<li class="dianpin">
+							<div class="dianpin-top"><img src="{$comment['avatar']}" class="vipimg1"><h3>{$comment['nickname']}</h3><span>{$comment['createtime']}</span></div>
+							<p>{$comment['content']}</p>
+						</li>
+						{/loop}
+					</ul>
+				</div>
+				<p><img src="{php echo tomedia($config['buy_intro_pic']);}" title="" alt=""/></p>
+			</div>
 			<div class="tab_contain" id="pro_buy">
 				<div class="add_intro">
 					<div class="title_line">
