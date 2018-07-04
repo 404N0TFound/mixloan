@@ -193,7 +193,7 @@
                         </a>
                     </li>
                     {/if}
-                    <li class="customer">
+                    <li class="{if is_weixin()}customer{else}new_guide{/if}">
                         <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
                             我的客服
