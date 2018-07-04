@@ -180,4 +180,28 @@ if($operation=='register'){
         <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在APP客户端打开</h4></div></div></div>
         </body>
     </html>");
+} else if ($operation == 'find_pass') {
+    //找回密码
+    include $this->template('index/find_pass');
+} else if ($operation == 'find_pass_ajax') {
+    $phone = $_GPC['phone'];
+    $pwd = $_GPC['pwd'] ? : '';
+    $smsCode = $_GPC['smsCode'];
+    if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
+        show_json(-1, null, "验证码不符或验证码已失效");
+    }
+    $res = pdo_fetchcolumn("SELECT id FROM ".tablename("xuan_mixloan_member")."
+        WHERE phone=:phone AND uniacid=:uniacid", array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+    if (empty($res)) {
+        show_json(-1, null, "未查到此手机记录");
+    }
+    pdo_update('xuan_mixloan_member', array('pass'=>$pwd), array('id'=>$res));
+    if (is_weixin()) {
+        show_json(1, ['url'=>$this->createMobileUrl('user', array('op'=>''))], "更改密码成功，请牢记您的密码");
+    } else {
+        show_json(1, ['url'=>$this->createMobileUrl('index', array('op'=>'login'))], "更改密码成功，请牢记您的密码");
+    }
+} else if ($operation == 'loginout') {
+    setcookie('user_id', false, time()-86400);
+    header("location:{$this->createMobileUrl('index', ['op'=>'login'])}");
 }

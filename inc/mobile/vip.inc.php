@@ -240,6 +240,13 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+    $date = date('Y-m-d');
+    $today = strtotime("{$date}");
+    $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
+		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
+    if ($times>0) {
+        show_json(-1, null, "一天只能提现1次");
+    }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
