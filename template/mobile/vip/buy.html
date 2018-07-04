@@ -84,7 +84,7 @@ function openNew(url){
 <script>
 
 $(function(){
-	var toPurchase= function(){
+	function toPurchase(){
 		openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
 	}
 	var mySwiper = new Swiper('.swiper-container', {
