@@ -70,33 +70,29 @@
         });
     }
     {else}
-    function return_user(){
-        var url = "{php echo $this->createMobileUrl('user')}"
-        mui.openWindow({url:url, createNew:true});
-    }
     function openLoan(url){
         mui.openWindow({url:url});
     }
     {/if}
-        function openNew(url){
-            mui.openWindow({url:url});
-        }
-        function return_user(){
-            var user_url = '{php echo $this->createMobileUrl('user')}';
-            mui.openWindow({url:user_url, createNew:true});
-        }
-        mui.plusReady(function() {
-            console.log(mui.currentWebview.id);
-            window.addEventListener('refresh', function(event) {
-                mui.currentWebview.reload();
-            });
-            var wv=plus.webview.currentWebview();
-            // 关闭侧滑返回功能
-            wv.setStyle({'popGesture':'none'});
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        mui.openWindow({url:user_url, createNew:true});
+    }
+    mui.plusReady(function() {
+        console.log(mui.currentWebview.id);
+        window.addEventListener('refresh', function(event) {
+            mui.currentWebview.reload();
         });
-        mui.back = function(){
-            return false;
-        }
+        var wv=plus.webview.currentWebview();
+        // 关闭侧滑返回功能
+        wv.setStyle({'popGesture':'none'});
+    });
+    mui.back = function(){
+        return false;
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
