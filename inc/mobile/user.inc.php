@@ -93,25 +93,20 @@ if($operation=='index'){
 	}
 } else if ($operation == 'setData') {
 	//上传资料
-	if(!trim($_GPC['realname']) || !trim($_GPC['phone']) || !trim($_GPC['idcard']) || !trim($_GPC['wechatnum'])) {
+	if(!trim($_GPC['realname']) || !trim($_GPC['idcard']) || !trim($_GPC['wechatnum'])) {
 		show_json(-1, [], '资料不能留空');
 	}
 	if ($config['jdwx_open'] == 1) {
-		$res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['realname']), trim($_GPC['phone']), trim($_GPC['idcard']));
-		if ($res['code'] == -1) {
-			show_json($res['code'], [], $res['msg']);
-		}
+		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['realname']), trim($_GPC['phone']), trim($_GPC['idcard']));
+		// if ($res['code'] == -1) {
+		// 	show_json($res['code'], [], $res['msg']);
+		// }
 	}
-    $inviter = m('member')->getInviter(trim($_GPC['phone']));
-    if ($inviter == $member['id']) {
-        pdo_delete('xuan_mixloan_inviter', array('uid'=>$member['id'], 'phone'=>trim($_GPC['phone'])));
-    }
 	pdo_update('xuan_mixloan_member', array(
 		'avatar'=>trim($_GPC['headimgurl']),
 		'nickname'=>trim($_GPC['nickname']),
 		'wechat'=>trim($_GPC['wechatnum']),
 		'realname'=>trim($_GPC['realname']),
-		'phone'=>trim($_GPC['phone']),
 		'certno'=>trim($_GPC['idcard']),
 	), array('id'=>$member['id']));
 	show_json(1);

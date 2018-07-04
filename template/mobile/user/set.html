@@ -86,11 +86,6 @@
                     <div class="input-wap"><input type="text" name="realname" id="realname" value="{$member['realname']}" placeholder="输入真实姓名" style="color: #666 !important;"></div>
                     <div class="pic pic_one"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
-                <li class="input-list border clearfix">
-                    <div class="list-name">手机号</div>
-                    <div class="input-wap"><input type="tel" name="phone" id="phone" value="{$member['phone']}" placeholder="输入手机号"></div>
-                    <div class="pic pic_two"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
                 <li class="input-list  clearfix">
                     <div class="list-name">身份证号</div>
                     <div class="input-wap"><input type="text" name="idcard" id="idcard" value="{$member['certno']}" placeholder="输入身份证号码"></div>
@@ -203,18 +198,13 @@
      ///////判段
     $(function(){
         var realname=$("input[name='realname']").val();  //姓名
-        var phone=$("input[name='phone']").val();   //手机号
         var idcard=$("input[name='idcard']").val();   //身份证
         if(realname!=""){
             $("input[name='realname']").attr("disabled",true);
         }else{
             $('.pic_one').show(); 
         }
-        if(phone!=""){
-            $("input[name='phone']").attr("disabled",true);
-         }else{
-           $('.pic_two').show();  
-        }
+        
         if(idcard!=""){
             $("input[name='idcard']").attr("disabled",true);
         }else{
@@ -252,7 +242,6 @@
         var nickname=$("input[name='nickname']").val();   //昵称
         var wechatnum=$("input[name='wechatnum']").val();  //微信号
         var realname=$("input[name='realname']").val();  //姓名
-        var phone=$("input[name='phone']").val();   //手机号
         var idcard=$("input[name='idcard']").val();   //身份证
 
         if (nickname == '输入您的昵称' || nickname == "") {
@@ -276,27 +265,6 @@
         }
 
 
-        if (phone == '输入手机号' || phone == '') {
-            document.getElementById('phone').focus();
-            layer.tips('请输入联系人手机号', '#phone', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-        }
-        if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
-            document.getElementById('phone').focus();
-            $("input[name='phone']").attr("disabled",false);
-            $('.pic_two').show();
-            $("input[name='phone']").attr("disabled",false);
-            layer.tips('请输入正确手机号', '#phone', {
-                tips: [3, '#0195ff'],
-                time: 1000
-            });
-            click();
-            return false;
-        }
         if (idcard == '输入身份证号' || idcard == '') {
             document.getElementById('idcard').focus();
             layer.tips('请输入身份证号', '#idcard', {
@@ -327,7 +295,7 @@
         ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'setData'))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'phone':dataTransform(phone),'idcard':dataTransform(idcard)};
+        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'idcard':dataTransform(idcard)};
         ajax.success = function (data) {
             //alert(data); 
             layer.close(imguploadimg);
