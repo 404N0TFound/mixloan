@@ -42,15 +42,16 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$openid = m('user')->getOpenid();
 		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
-		if (empty($member['id'])) {
-			header("location:{$this->createMobileUrl('user')}");
-		}
 		if ($params['result'] == 'success') {
             if ($params['from']=='notify') {
                 $user_id = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                $openid = pdo_fetchcolumn('select openid from '.tablename('xuan_mixloan_member').'
-					where id=:id', array(':id'=>$user_id));
+                if (intval($user_id) == $user_id) {
+                    $openid = pdo_fetchcolumn('select openid from '.tablename('xuan_mixloan_member').'
+                    where id=:id', array(':id'=>$user_id));
+                } else {
+                    $openid = $user_id;
+                }
                 $member = m('member')->getMember($openid);
             }
             if (empty($openid)) {
