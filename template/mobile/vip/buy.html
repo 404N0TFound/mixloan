@@ -83,10 +83,10 @@ function openNew(url){
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script>
 
+function toPurchase(){
+	openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
+}
 $(function(){
-	function toPurchase(){
-		openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
-	}
 	var mySwiper = new Swiper('.swiper-container', {
 		autoplay: 5000,//可选选项，自动滑动
 		loop : true,
