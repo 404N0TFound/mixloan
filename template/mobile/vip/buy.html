@@ -1,454 +1,100 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
-    <meta content = "yes" name = "apple-mobile-web-app-capable" >
-    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
-    <meta content = "telephone=no" name = "format-detection" >
-    <meta content = "e-mail=no" name = "format-detection" / >
-    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
-    <meta http - equiv = "Pragma" content = "no-cache" / >
-    <meta http - equiv = "Expires" content = "0" / >
-	<title>购买代理</title>
-	<script src="../addons/xuan_mixloan/template/style/js/jquery_3.js"></script>
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+	<meta name="format-detection" content="telephone=no" >
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<title>评论详情</title>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_buy_vip/css/kashen.css">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_3.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_5.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/base_3.css">
-	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_5.css">
-	<style type="text/css">
-		
-	 	/*x兼容性*/
-        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-           	footer.kk-footer{padding:2% 0;}
-        	div.confirm_buy>a{padding:2% 0;top:-14% !important;}
-        	a.buy-btn_add{margin-top:0.3rem !important;}
-        }
-		div.main_img{width: 98%!important;margin:0 auto;background-color: #fff;padding-bottom: 6px;}
-		div.loop_img{width: 98%;margin: 0 auto;}
-		div.main_img>img,div.main_top>img{width: 98%;margin:0 auto; display: block;max-width: 100%;}
-		div.main_tab{width: 98%;margin:0 auto;}
-		div.main_tab,div.main_tab ul{overflow: hidden;background-color: #fff;}
-		div.main_tab ul li{float: left;width: 33.3%;text-align: center;color: #5b5b5b;-webkit-tap-highlight-color:rgba(255,255,255,0);}
-		div.main_tab ul li a{display: inline-block; margin: 0 auto;width: 60%;height:100%;padding:5px 0;-webkit-tap-highlight-color:rgba(255,255,255,0);}
-		div.main_tab ul li.tab_on a{color: #76c8ff;border-bottom: 1px solid #76c8ff;}
-		div.tab_contain{margin-top:6px;display: none;}
-		div.idai_intro{background-color: #fff;padding-bottom: 15px;}
-		div.title_line{position: relative; width: 70%;height:25px; margin:0 auto; border-bottom:1px solid #c1c1c1;text-align: center;}
-		div.title_line h2{position: absolute; width:40%;height:100%;margin:0 30%; background-color: #fff;bottom: -15px;color: #484848;}
-		div.idai_intro ul{width: 80%;margin: 0 auto;margin-top:15px;}
-		div.idai_intro ul li{list-style-type:disc; color: #5c5c5c;font-size: 13px;}
-		div.add_intro{margin-top:8px;background-color: #fff;padding:10px 0;}
-		div.intro_detail{width: 94%;margin:0 auto;margin-bottom: 15px;}
-		div.intro_detail span{display: inline-block; background-color: #f6f5fa; border-radius: 30px;font-size: 13px; color:#3aaeff;padding:2px 2px;}
-		div.intro_detail span label{display: inline-block;width:22px;height:22px;text-align: center;line-height: 22px;margin:0 3px; border-radius: 100%;background-color: #43aeff;color: #fff;font-weight: bold;}
-		div.intro_detail p{color: #606060;text-indent: 20px;padding: 5px 5px 0 5px;font-size: 13px;letter-spacing: 0.6px;}
-		div.contain_bt{height:2.3rem;line-height: 2.3rem;color: #989898;font-size: 13px;text-align: center;}
-		div.normal_question{padding:0 15px 10px 15px;background-color: #fff;font-size: 13px;}
-		div.normal_question h1{color: #4c4c4c;font-weight: bold;}
-		div.normal_question p{color: #464646;}
-
-		footer.kk-footer{box-shadow: 0px 0px 8px #d7d7d7;height:2.3rem;}
-		div.confirm_buy{position: relative;padding:0% 0;border-bottom: none;border-radius: 5px;width:97%;margin-left:3%;}
-		div.confirm_buy>span{display: inline-block;width: 20%;margin-top:0px;padding:0 0%;line-height:2.3rem;}
-		div.pro_explain{width:59%;line-height: 2.3rem;float: left;}
-
-		div.pro_explain span.to_read{line-height: none;display: inline-block;font-size: 0.55rem;}
-		div.pro_explain span.to_read>img{width: 0.6rem;height:0.6rem;vertical-align: middle;margin-right: 0%;margin-top:-0.1rem;}
-		div.pro_explain>a{display: inline-block;color: #0195ff;font-size: 0.55rem;}
-		div.confirm_buy>a{position: absolute;width: 25%;height:2.3rem;line-height: 2.3rem!important; text-align:center; right:0;top:0;text-indent: 0;background-color: #0195ff;font-size: 0.6rem;}
-		#pro_desc p{text-indent: 0!important;}
-		/*弹窗*/
-		div.contract_main{position: absolute; background-color: #fff; width:90%;height:80%;top:10%;left:5%;border:5px solid #ddd;}
-		.floor{opacity: 0.5;}
-		/*合同*/
-		div.contract_main{font-size: 12px;padding-bottom: 20px;overflow: auto;box-sizing:border-box; }
-		div.contract_main h1.contract_title{text-align: center;font-size: 15px;font-weight: bold;margin: 15px 0 6px 0;}
-		div.contract_main>h2{text-align: right;padding-right: 20px; font-weight: bold;}
-		div.section{margin-bottom: 5px;}
-		div.section p.p_basic{text-indent: 20px;text-align: left;color: #444;line-height: 18px;}
-		div.section h2.section_part{text-indent: 15px;font-weight: bold;padding-left: 20px;color: #222;}
-		div.section p.margin_basic{margin-top:6px;}
-		div.section p.hl_basic{font-weight: bold;margin-top: 6px;text-decoration: underline;}
-		div.section p.h_basic{font-weight: bold;}
-		div.pop a{display: inline-block;position: absolute;right:-22%;top:5%;width: 20px;height:20px;background-color: #fff;border:2px solid #ddd;}
-		div.pop a img{width: 80%;margin:10%; max-width: 100%;display: block;}
-		div.pop>img{position: absolute;right:7%;top:11%;width: 15px;max-width: 15px;}
-		a.buy-btn_add{margin-top:0.3rem;border-left:1px solid #bbbbbb;}
-		/*弹窗*/
-		div.temp_share p{text-align: center;text-indent: 0;}
-		/*轮播滚动*/
-		/*div.swiper-slide{margin:0 2%!important;}*/
-		  
-	</style>
-
-	{template 'common/wxshare'}
+	<script src="../addons/xuan_mixloan/template/style/new_buy_vip/js/jquery-1.11.1.min.js"></script>
 </head>
-<style>
-.goods_dt img{width: 100%}
-.dianpin {
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-    display: block;
+<body>
+<!--<div class="wdfanhui"><a href="--><!--"></a><span>评论详情</span></div>-->
+<!--<div class="cheng2"></div>-->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+function openNew(url){
+    mui.openWindow({url:url});
 }
-.dianpin-tlt {
-    background-color: #fff;
-    padding: 10px 15px;
-    border-bottom: 1px solid #e9e9e9;
-}
-.dianpin-top {
-    padding: 20px 15px 2px 89px;
-    position: relative;
-}
-.dianpin-top h3 {
-    font-size: 0.5rem;
-    line-height: 0.8rem;
-    position: relative;
-}
-.dianpin-top img {
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    top: 17px;
-    left: 15px;
-    border-radius: 50%;
-}
-.dianpin p {
-    padding: 10px 25px 0px 25px;
-    line-height: 1.6rem;
-}
-.more {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background: url(../addons/xuan_mixloan/template/style/images/btnld_1.png)no-repeat left center;
-    background-size: 16px;
-    -moz-transform: scaleY(-1);
-    -webkit-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: Fliph;
-    float: right;
-    margin-top: 2px;
-}
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #eeeeee}
+    .app_header_back{text-align: center;color: white}
+	.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+	.app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
 </style>
-<body class="bgcolor">
-	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
-	<script type="text/javascript">
-	function openNew(url){
-	    mui.openWindow({url:url});
+<div class="app_header">
+	<div class="app_header_back">
+		<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+		<span>购买会员</span>
+	</div>
+</div>
+{/if}
+<div class="swiper-container pro-swiper">
+	<div class="swiper-wrapper">
+		{loop $config['buy_adv_pics'] $pic}
+	  <div class="swiper-slide"><img src="{php echo tomedia($pic);}" width="100%" alt=""></div>
+		{/loop}
+	</div>
+</div>
+<div class="zhinan-mai">
+	<div>
+		<h3>{$config['title']}代理会员资格</h3>
+		<span class="zn-price">￥{$config['buy_vip_price']}元</span><span class="zn-price2">支付立即成为代理</span><span class="zn-price2">已售{$buy_count}</span>
+	</div>
+	<ul class="xiang_xiang">
+		<li><span>网贷申请全步骤</span></li>
+		<li><span>最全口子资讯</span></li>
+		<li><span>一键自助提额</span></li>
+	</ul>
+</div>
+
+<div class="mgntop-1">
+	<div class="dianpin-tlt"><a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy_comments'))}')"><span>用户评价({$count_comments})</span><span class="more"></span></a></div>
+	<ul>
+		{loop $comments $comment}
+		<li class="dianpin">
+			<div class="dianpin-top"><img src="{$comment['avatar']}" class="vipimg1"><h3>{$comment['nickname']}</h3><span>{$comment['createtime']}</span></div>
+			<p>{$comment['content']}</p>
+		</li>
+		{/loop}
+	</ul>
+</div>
+
+<div class="xiang-tlt mgntop-1"><span>产品详情</span></div>
+<div class="zn-img">
+	<img src="{php echo tomedia($config['buy_intro_pic'])}" alt="">
+</div>
+<div class="cheng"></div>
+<div class="xrgm_sbt"><a href="javascript:;" class="xrgm_a" {if !$verify}onclick="toPurchase()"{/if}>{if !$verify}购买代理会员{else}已购买{/if}</a></div>
+<!--<form name="shanpayment" action="" method="post">
+		<input name="WIDout_trade_no" type="hidden" value="" size="35" />
+		<input  name="WIDsubject" type="hidden" value="卡神大师88元VIP终身会员" size="35" />
+		<input name="WIDtotal_fee" type="hidden" value="" size="35" />
+</form>-->
+
+
+<script src="../addons/xuan_mixloan/template/style/new_buy_vip/js/t-charging.min.js"></script>
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
+<script>
+
+$(function(){
+	var toPurchase= function(){
+		openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
 	}
-	</script>
-	{if !is_weixin()}
-	<style type="text/css">
-	    .app_header{height: 80px;width: 100%;background: #eeeeee}
-	    .app_header_back{text-align: center;color: white}
-		.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-		.app_header_back img{float:left;width: 12px;}
-	    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-	</style>
-	<div class="app_header">
-		<div class="app_header_back">
-			<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
-			<span>购买会员</span>
-		</div>
-	</div>
-	{/if}
-	<footer class="kk-footer">
-    	<div class="confirm_buy clearfix">
-			<div class="pro_explain">
-				<span class="to_read read">
-						<img class="noread_img" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png" style="display: none;">
-						<img class="read_img" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png">
-						阅读并同意
-						<a class="contract_pop" style="color:#0195ff; float-size:0.55rem">《购买协议》</a> 	
-				</span>
-				
-			</div>
-			<span>
-				<font style="font-size: 0.6rem;margin-right: 1px; color: #fd661d">¥</font>
-				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font>
-			</span>
-
-			<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>    		
-    	</div>		
-	</footer>
-
-	<div class="kk-container pb40">
-		<div class="goods_dt">
-			<div class="main_top">
-				<!-- <div class="main_img">
-					<img src="../addons/xuan_mixloan/template/style/picture/banner_1.png" />	
-				</div> -->	
-				<div class="main_img">
-					<div class="loop_img">
-						<div class="swiper-container pro-swiper">
-							<div class="swiper-wrapper">
-								{loop $config['buy_adv_pics'] $pic}
-							  <div class="swiper-slide"><img src="{php echo tomedia($pic);}" width="100%" alt=""></div>
-								{/loop}
-							</div>
-						</div>
-					</div>						
-				</div>			
-				<img src="../addons/xuan_mixloan/template/style/picture/hongbao_tixian_1.png" />
-				<div class="main_tab">
-					<ul>
-						<li class="tab_on" data-id="pro_desc"><a>产品介绍</a></li>
-						<li data-id="pro_buy"><a>购买须知</a></li>
-						<li data-id="pro_question"><a>常见问题</a></li>
-					</ul>
-				</div>		
-			</div>
-			<div class="tab_contain" id="pro_desc" style="display: block;">
-				<div class="mgntop-1">
-					<div class="dianpin-tlt"><a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy_comments'))}')"><span>用户评价({$count_comments})</span><span class="more"></span></a></div>
-					<ul>
-						{loop $comments $comment}
-						<li class="dianpin">
-							<div class="dianpin-top"><img src="{$comment['avatar']}" class="vipimg1"><h3>{$comment['nickname']}</h3><span>{$comment['createtime']}</span></div>
-							<p>{$comment['content']}</p>
-						</li>
-						{/loop}
-					</ul>
-				</div>
-				<p><img src="{php echo tomedia($config['buy_intro_pic']);}" title="" alt=""/></p>
-			</div>
-			<div class="tab_contain" id="pro_buy">
-				<div class="add_intro">
-					<div class="title_line">
-						<h2>购买须知</h2>
-					</div>
-				{if $config['buy_content']}
-					<div class="normal_question">
-					{$config['buy_content']}
-					</div>
-				{else}
-					<div class="intro_detail">
-						<span><label>1</label>服务内容&nbsp;</span>
-						<p>自购买成功后可享受以{$config['title']}客代理资格为主的其他增值性服务。</p>
-					</div>
-					<div class="intro_detail">
-						<span><label>2</label>服务条件&nbsp;</span>
-						<p>{$config['title']}客使用权及其附加功能仅限于{$config['title']}平台使用，与本公司其他产品服务不共享。</p>
-					</div>
-					<div class="intro_detail">
-						<span><label>3</label>使用权限&nbsp;</span>
-						<p>本产品仅限购买人使用，不得进行转让及出售。</p>
-					</div>
-					<div class="intro_detail">
-						<span><label>4</label>不支持退货&nbsp;</span>
-						<p>本产品属于线上服务类产品，一经购买即享受平台所有功能，因而不支持退货行为。</p>
-					</div>
-				{/if}
-				</div>
-			</div>
-			<div class="tab_contain" id="pro_question">
-				<div class="idai_intro">
-					<div class="title_line">
-						<h2>常见问题</h2>
-					</div>
-				</div>
-				{if $config['buy_question']}
-					<div class="normal_question">
-					{$config['buy_question']}
-					</div>
-				{else}
-					<div class="normal_question">
-						<h1>问：什么是{$config['title']}客？</h1>
-						<p>答：{$config['title']}客，为{$config['title']}信息科技有限公司旗下“{$config['title']}”的流量分发系统，通过与各大机构建立深度合作关系，为广大代理提供种类丰富、返工资力度大的流量产品。通俗来说就是，您选择相应的产品生成自己的专属二维码，推荐他人成功通过申请，您即可获得相应的工资。</p>
-					</div><div class="normal_question">
-						<h1>问：使用你们的平台任意功能都需要购买代理吗？</h1>
-						<p>答：若您想使用【{$config['title']}客】系统，则需要付费成为平台代理。 其他便捷申请渠道服务、今日口子相关资讯类服务、论坛交流服务皆不收费。</p>
-					</div><div class="normal_question">
-						<h1>问：{$config['title']}客里的产品多久结算一次工资？</h1>
-						<p>答：分为日结、周结、月结。日结产品当天系统显示推荐成功，当天即可更新数据并结算工资，周结产品本周系统显示推荐成功，次周一结算工资；余下为月结，当月推荐成功，会在次月的前5个工作日内结算并更新数据，不排除会出现量级较大、统计、更新数据稍有延迟的情况，我们会在第一时间进行通知，请谅解。</p>
-					</div><div class="normal_question">
-						<h1>问：我推荐他人从你们平台获取申请信用卡及其他产品，是否更容易通过？</h1>
-						<p>答：每个产品都有自己的风控标准，主要还是看申请人自身的资质，平台不作任何不实际的承诺。</p>
-					</div><div class="normal_question">
-						<h1>问：如果我推广产品有工资了，怎么给我？</h1>
-						<p>答：点击“{$config['title']}客”-“我的工资”，绑定银行卡就可以提现，具体到账时间以相应银行系统为准。</p>
-					</div>	
-				{/if}			
-			</div>
-			<div class="contain_bt">				
-				本产品解释权归{$config['title']}平台所有
-			</div>
-			<!-- <h3 class="user-title"><a>产品详情</a></h3> -->			
-		</div>
-	</div>
-	<div class='pop'>
-        <div class='floor'></div>
-        <div class='contract_main'>            
-            <h1 class="contract_title">《用户购买协议》</h1>
-            {if $config['buy_contract']}
-            	{$config['buy_contract']}
-            {else}
-            <div class="section">
-	            <p class="p_basic">欢迎广大用户购买{$config['title']}提供的产品/服务，本协议由用户（您）与{$config['title']}共同缔结，本协议具有合同效力。</p>
-	            <p class="p_basic">{$config['title']}是由{$config['title']}信息科技有限公司（以下简称{$config['title']}）运营的互联网服务平台。</p>
-	            <p class="p_basic">本网站各项产品/服务的所有权和经营权归{$config['title']}。为便于表达，本协议“产品/服务”简称“产品”或“服务”，您理解并同意，此协议所指“产品”、“服务”均包含{$config['title']}目前或将来提供的所有产品及服务项目。</p>
-            </div>
-            <div class="section">
-            	<h2 class="section_part">一、协议缔结与签署</h2>
-            	<p class="p_basic">1、本协议内容包括协议正文及所有{$config['title']}页面已经发布的或将来可能发布的各类相关的规则和条款。您在{$config['title']}购买产品的过程中，本协议内容、网页上出现的关于购买操作及服务规范的提示内容均是您购买产品需要遵循的相关规则。所有规则和条款均为本协议不可分割的组成部分，与协议正文具有同等法律效力。</p>
-            	<p class="p_basic">2、如您购买{$config['title']}提供的产品，您便接受了以下协议规则和条款，如您对本协议有任何疑问，应当停止继续购买并可向{$config['title']}咨询。<font style="text-decoration: underline;">但无论您事实上是否阅读、理解了本协议内容，只要您进行购买产品操作，则本协议即对您产生约束，届时您不应以未阅读、未理解或不同意本协议的内容，以及未获得或不接受{$config['title']}对您咨询的解答等理由，主张本协议无效或要求撤销本协议。</font></p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">二、订单合同关系的确立</h2>
-				<p class="p_basic"><font style="text-decoration: underline;">您的订单成功提交后，一旦付款，{$config['title']}确认收到您支付的订单全额款项并同意提供服务，即认为您与{$config['title']}就订单内容确立了合同关系。同时，也认定您与{$config['title']}均愿意遵守合同书中约定的相关内容！</font></p>
-				<p class="p_basic margin_basic">{$config['title']}会记录您进行确认操作的IP地址、操作时间等信息，以备查证。如果您对订单内容或合同书条款有异议的，必须立即停止使用产品服务并联系{$config['title']}进行核实，如果您继续使用产品服务，除非是存在明显错误的信息，否则代表您确认{$config['title']}记录的订单或合同书信息是准确的，{$config['title']}依此提供产品服务符合双方的合同约定。</font></p>
-				<p class="p_basic hl_basic">除通过上述约定方式确立合同关系外，{$config['title']}不接受且不会授权其领导人或员工通过其他任何方式（包括但不限于邮件、附件、电话或短信等方式）与用户订立产品购买合同关系或变更合同条款，任何用户主张以上述限制方式（包括但不限于邮件、附件、电话或短信等方式）确立的合同关系或条款{$config['title']}一概不予承认，但经双方专门有效确认且存有真实有效依据的情况除外。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">三、订单的取消</h2>
-				<p class="p_basic">在您的订单成功提交且合同关系正式确立之后，如果{$config['title']}未在订单中限定的期限内收到您支付的全额订单款项，则{$config['title']}有权单方面取消您的订单且无需承担任何违约责任。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">四、产品信息的说明</h2>
-				<p class="p_basic h_basic">为了让用户更方便、全面的了解{$config['title']}的产品，{$config['title']}在购买页面通过产品介绍、购买须知、常见问题等版块进行产品的描述和说明。</p>
-				<p class="p_basic">{$config['title']}上的产品描述、说明、规则、价格等信息随时都有可能发生变动，{$config['title']}对上述信息的调整不作特别通知。</p>
-				<p class="p_basic">由于网站上产品信息量极其庞大，虽然{$config['title']}会尽最大努力保证您所浏览产品信息的准确性，但由于众所周知的互联网技术因素等客观原因存在，{$config['title']}网页显示的信息可能会有一定的滞后性或差错，对此情形您知悉并理解接受，{$config['title']}欢迎您的纠错。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">五、产品的交付与使用</h2>
-				<p class="p_basic h_basic">{$config['title']}的产品属于信息服务、无形产品，产品的使用遵循以下原则：</p>
-				<p class="p_basic">在{$config['title']}交付订单产品时，{$config['title']}系统已同步开通产品使用的相关权限，您可以按规定开始使用产品服务。</p>
-				<p class="p_basic">如因您未能提供应该提供的配合和支持造成{$config['title']}无法履行相应义务的，{$config['title']}不承担任何责任，因此造成您无法及时使用产品的责任由您自行承担。</p>
-				<p class="p_basic">在产品正式使用时，您必须按规定在{$config['title']}上提交必要的自身真实有效的个人信息，否则有可能会导致您无法使用其中的产品及服务。如果因您未提供个人相关真实信息导致您无法及时使用产品的，相关的责任由您自行承担，{$config['title']}不作任何补偿或退款。</p>
-				<p class="p_basic">您不得以“暂时缺乏上网设备”、“网站打开速度慢”、“暂无相关方面需求”、“使用效果不理想”等任何理由要求{$config['title']}暂停服务或退还服务费用，对此类暂停服务或退还服务费用的要求，{$config['title']}一概不予受理。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">六、服务的暂停与终止</h2>
-				<p class="p_basic hl_basic">正常情况下，您可以一直享受{$config['title']}运营期间的服务，直至{$config['title']}不再运营，服务自动终止。</p>
-				<p class="p_basic"><font style="text-decoration: underline;">任何经{$config['title']}确认已经违反相关法律法规或{$config['title']}相关协议、使用规则、说明条款中一项或多项规定的用户，将收到电话、电子邮件、系统消息提示或手机短信通知等一种或多种方式的警告，同时{$config['title']}有权决定是否给予用户暂停使用或终止使用的处理，且因此造成的一切后果由用户自行承担。</font></p>
-				<p class="p_basic">另外，如果{$config['title']}认为必要时，也可不提出警告而马上暂停或终止对该用户的服务。如果{$config['title']}确认同一用户不止一次的违反相关法律法规或{$config['title']}相关协议、使用规则说明条款的任何一项规定，则无需再发警告或通知，该用户将立即受到暂停使用或终止使用的处理。</p>
-				<p class="p_basic">{$config['title']}有权在预先通知或不预先通知的情况下终止您使用的免费服务。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">七、隐私保护</h2>
-				<p class="p_basic">1、用户认可{$config['title']}访问、收集及储存用户的资料及信息，包含但不限于用户本人提交的资料及信息以及{$config['title']}自行收集的用户资料及信息。{$config['title']}收集、储存用户资料及信息的目的在于更加效率及便利地为用户提供服务，不得将用户资料及信息用于其他目的。</p>
-				<p class="p_basic">2、{$config['title']}应当采取不低于一般行业惯例对于用户的资料及信息进行保护，但因不可抗力所导致的用户资料及信息泄露（包含但不限于黑客攻击、第三方导致的系统缺陷等），{$config['title']}不承担相应的责任。</p>
-				<p class="p_basic">3、{$config['title']}有义务根据行政、司法机关的要求向该等机关提供用户的资料及信息。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">八、违约赔偿</h2>
-				<p class="p_basic">您同意支付因您违反本协议条款或为纠正您违反行为所引起的律师费用、诉讼费用、公证费用、鉴定费用、执行费用以及因违反协议条款引起的损害赔偿费用 。</p>
-				<p class="p_basic">除本协议另有规定外，在任何情况下，{$config['title']}对本协议所承担的违约赔偿责任总金额不超过向您收取的当次所涉违约产品所属订单金额。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">九、法律适用与争议解决</h2>
-				<p class="p_basic"><font style="text-decoration: underline;">本协议的订立、执行和解释及争议的解决均应适用中华人民共和国法律法规，您与{$config['title']}都必须遵守中华人民共和国的司法管辖。管辖法院为本协议签订地人民法院。</font></p>
-				<p class="p_basic">{$config['title']}已经建立了规范的消费纠纷受理及解决机制，您和{$config['title']}一致同意，有关本协议及使用{$config['title']}产品服务产生的任何分歧或争议，本着双方友好协商的原则，解决彼此之间的分歧或争议。若协商不成，任何一方均有权向{$config['title']}所在地有管辖权的人民法院进行诉讼。</p>
-            </div>
-            <div class="section">
-				<h2 class="section_part">十、本协议的修改更新</h2>
-				<p class="p_basic"><font style="text-decoration: underline;">{$config['title']}保留根据需要不时地制订、修改本协议及/或各类规则和条款的权利，本协议修改后将以在{$config['title']}公示的方式进行公告，并将通过{$config['title']}向您发送系统通知消息。</font>本协议修改更新后自公告之日起开始自动生效。如您不同意相关修改更新内容或有异议，须在提示的截至期限内，以书面方式向{$config['title']}提出说明并暂停使用{$config['title']}，逾期未提出书面说明或继续使用{$config['title']}的，即表示您接受修改更新后的本协议所有内容。</p>
-            </div> 
-            <div class="section">
-            	<h2 class="section_part">十一、通知与送达</h2>
-            	<p class="p_basic">您确认接受以{$config['title']}公示的方式作为接收{$config['title']}相关信息及文件和司法机关文书的有效方式，并自愿承担法律后果。</p>
-            </div> 
-            {/if}          
-        </div> 
-        <!-- <img class="close" src="../addons/xuan_mixloan/template/style/picture/del_3.png" /> -->
-        <a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>       
-    </div>
-
-	<div id="layer_notice" style="display: none">
-		<div>请关注微信公众号{$config['title']}购买会员</div>
-		<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
-	</div>
-	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
-	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
-	<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
-	<script type="text/javascript">
-	//弹窗
-	$(".contract_pop").click(function(){
-		$(".pop").show();
-        layer_style();
-	})			
-	//弹窗样式
-		function layer_style(){
-	        var window_height=$(window).height(); ;
-	        var window_width=$(window).width();
-	        $(".pop").width(window_width);
-	        $(".pop").height(window_height);
-	        $(".close").click(function(){
-	            $(".pop").hide();
-	        })
-	    }
-		//tab标签
-		$("div.main_tab ul li").click(function(){
-			var _this=$(this);
-			var id=_this.attr("data-id");
-			$("div.main_tab ul li").removeClass("tab_on");
-			_this.addClass("tab_on");
-			$("div.tab_contain").hide();
-			$("#"+id).show();
-		})
-		//阅读
-		$(".to_read").click(function(){
-			var _this=$(this);
-			if(_this.hasClass("read")){
-				_this.removeClass("read").addClass("noread");
-				_this.find("img.noread_img").show();
-				_this.find("img.read_img").hide();
-			}else{
-				_this.removeClass("noread").addClass("read");
-				_this.find("img.noread_img").hide();
-				_this.find("img.read_img").show();
-			}
-		})
-		//购买
-		$("#to_buy").click(function(){
-            {if is_weixin()}
-            toPurchase();
-            {else}
-            layer.open({
-                type: 1,
-                shade: false,
-                title: false,
-                content: $('#layer_notice')
-            });
-            {/if}
-		})
-
-		function toPurchase(){			
-			$("#to_buy").unbind("click");
-			layer.closeAll();
-			payingLoading = layer.load(1, {
-			  shade: [0.1,'#fff'] 
-			});
-			var userId=341794;
-			if($(".to_read").hasClass("read")){
-				openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
-			}else{
-				layer.msg("请先阅读{$config['title']}用户服务协议");
-				rePurchase();
-				return false;
-			}			
-		}
-		function rePurchase(){
-			$("#to_buy").bind("click",function(){
-				toPurchase();
-			});
-			layer.close(payingLoading);
-		}
-		// 产品首页banner
-		var mySwiper = new Swiper('.swiper-container', {
-			autoplay: 5000,//可选选项，自动滑动
-			loop : true,
-			autoplayDisableOnInteraction : false,
-			// slidesOffsetBefore : 20,
-			// slidesOffsetAfter : 20,
-		});
-
-	</script>
-
+	var mySwiper = new Swiper('.swiper-container', {
+		autoplay: 5000,//可选选项，自动滑动
+		loop : true,
+		autoplayDisableOnInteraction : false,
+		// slidesOffsetBefore : 20,
+		// slidesOffsetAfter : 20,
+	});
+});
+</script>
 </body>
 </html>

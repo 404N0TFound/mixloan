@@ -11,6 +11,8 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+	$buy_count = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_payment') . '
+		where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
 	$count_comments = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_payment_comment') . '
 		where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
 	$comments = pdo_fetchall('select * from ' . tablename('xuan_mixloan_payment_comment') . '
