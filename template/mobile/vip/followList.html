@@ -7,13 +7,24 @@
             我的团队
         </title>
         <style type="text/css">
-  .team-userms-box{background: #00a2ff}
-          .team-ms-box{background: #00a2ff}
-          .team-ms-box .vertucal-bar{background-color: #98a7b8;}
+        .team-userms-box{background: #00a2ff}
+        .team-ms-box{background: #00a2ff}
+        .team-ms-box .vertucal-bar{background-color: #98a7b8;}
+        a.more_hotcards, a.no_hotcards {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            height: 42px;
+            line-height: 42px;
+            font-size: 15px;
+            color: #727272;
+            display: none;
+        }
         </style>
     </head>
     <body style="height: 100%;background-color: #f1f4f8">
         <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+        <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
         <script type="text/javascript">
             function openNew(url){
                 mui.openWindow({url:url});
@@ -51,27 +62,63 @@
                     </div>
                 </div>
             </div>
-            <ul class="ul">
-              {loop $follow_list $follow}
-                <li style="list-style: none; display: inline">
-                    <div class="sxtimer-box">
-                        <label>{php echo date('Y-m-d', $follow['createtime'])}</label> <span>推荐奖励 {$follow['bonus']}</span>
-                    </div>
-                </li>
-                <li class="li-team">
-                    <img src="{$follow['avatar']}" class="head-ig"> <img>
-                    <div class="rg-ms-box">
-                        <div class="tp-ms-box">
-                            <span class="team-name">{$follow['nickname']}</span> 
-                            {if $follow['agent']['code']}<img src="../addons/xuan_mixloan/template/style/new_user_index/picture/icon_bqbq.png">{/if}
-                        </div><span class="regit-timer">注册时间: <span>{php echo date('Y-m-d H:i:s', $follow['createtime'])}</span></span>
-                    </div>
-                </li>
-              {/loop}
-                <li style="list-style: none">
+            <ul class="ul" temp-id="999999999" id="follow_list">
+              
+                <!-- <li style="list-style: none">
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}')" class="yqhy">邀请好友</a>
-                </li>
+                </li> -->
             </ul>
         </div>
+        <div style="text-align: center;">
+            <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/picture/loading_1.png" style="width: 18px;" />加载中</a>
+            <a class="no_hotcards">没有更多咯~</a>
+        </div>
+        <script type="text/javascript">
+            post_data();
+             $(window).scroll(function(){
+                var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+                totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+                if($(document).height() <= totalheight) {
+                    post_data();
+                }
+            });
+            function post_data(){
+                $('.more_hotcards').show();
+                var id = $('#follow_list').attr('temp-id');
+                var temp_id = id;
+                $.post("{php echo $this->createMobileUrl('vip', array('op'=>'getFollowList'))}", {"id":id},
+                    function(data){
+                        $('.more_hotcards').hide();
+                        if(data.code==1){
+                            var _data = data.data.list;
+                            var str='';
+                            for (var i = 0; i < _data.length; i++) {
+                                if (temp_id > _data[i].id) {
+                                    temp_id = _data[i].id;
+                                }
+                                str += '<li style="list-style: none; display: inline">\
+                                            <div class="sxtimer-box">\
+                                                <label>' + _data[i].createtime1 + '</label> <span>推荐奖励 ' + _data[i].bonus + '</span>\
+                                            </div>\
+                                        </li>\
+                                        <li class="li-team">\
+                                            <img src="' + _data[i].avatar + '" class="head-ig"> <img>\
+                                            <div class="rg-ms-box">\
+                                                <div class="tp-ms-box">\
+                                                    <span class="team-name">' + _data[i].nickname + '</span> \
+                                                    <img src="../addons/xuan_mixloan/template/style/new_user_index/picture/icon_bqbq.png">\
+                                                </div><span class="regit-timer">注册时间: <span>' + _data[i].createtime2 + '</span></span>\
+                                            </div>\
+                                        </li>';
+                            }
+                            $('#follow_list').append(str);
+                            $('#follow_list').attr('temp-id', temp_id);
+                        } else {
+                            $('.no_hotcards').show();
+                        }
+                    },'json'
+                );
+            }
+        </script>
     </body>
 </html>

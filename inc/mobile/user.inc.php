@@ -149,7 +149,21 @@ if($operation=='index'){
 	//消息列表
 	$is_read = intval($_GPC['isread']);
 	$type = intval($_GPC['type']) ? : 1;
-	$list = pdo_fetchall('select id,uid,createtime,type from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=:is_read and type=:type order by id desc', array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type));
+	$condition = array(':to_uid' => $member['id'], ':is_read' => $is_read);
+	$system_count = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=1", $condition) ? : 0;
+	$person_count = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=2", $condition) ? : 0;
+	include $this->template('user/message');
+} else if ($operation == 'getMessage') {
+	//获取消息
+	$id = intval($_GPC['id']);
+	$is_read = intval($_GPC['isread']);
+	$type = intval($_GPC['type']) ? : 1;
+	$condition = array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type);
+	$list = pdo_fetchall("select id,uid,createtime,type from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=:type and id<{$id}
+		order by id desc limit 15", $condition);
 	foreach ($list as &$row)
 	{
 		if ($row['type'] == 1) 
@@ -171,9 +185,14 @@ if($operation=='index'){
 				$row['nickname'] = $man['nickname'];
 			}
 		}
+		$row['createtime'] = date('Y-m-d H:i', $row['createtime']);
 	}
 	unset($row);
-	include $this->template('user/message');
+	if (!empty($list)) {
+		show_json(1, ['list' => array_values($list)]);
+	} else {
+		show_json(-1);
+	}
 } else if ($operation == 'read_message') {
 	//阅读消息
 	$id = intval($_GPC['id']);

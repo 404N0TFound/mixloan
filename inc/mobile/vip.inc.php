@@ -799,12 +799,21 @@ if($operation=='buy'){
 	}
 	include $this->template('vip/openNew');
 } else if ($operation == 'followList') {
+	//下级列表
+	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
+		WHERE inviter={$member['id']} AND status>0 AND type=2") ? : 0;
+	$follow_count = pdo_fetchcolumn("SELECT count(DISTINCT openid) FROM " . tablename("qrcode_stat") . "
+		WHERE qrcid={$member['id']} AND type=1") ? : 0;
+ 	include $this->template('vip/followList');
+} else if ($operation == 'getFollowList') {
+	//获取下级列表
+	$id = intval($_GPC['id']);
 	$follow_list = pdo_fetchall(
-		"SELECT a.createtime,a.openid,b.nickname,b.avatar,b.id as uid FROM " .tablename("qrcode_stat"). " a
+		"SELECT a.id,a.createtime,a.openid,b.nickname,b.avatar,b.id as uid FROM " .tablename("qrcode_stat"). " a
 		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
-		WHERE a.qrcid={$member['id']} AND a.type=1
+		WHERE a.qrcid={$member['id']} AND a.type=1 AND a.id<{$id}
 		GROUP BY a.openid
-		ORDER BY a.id DESC");
+		ORDER BY a.id DESC LIMIT 5");
 	foreach ($follow_list as &$row) {
 		if (empty($row['uid'])) {
 			$temp = pdo_fetch('select nickname from ' .tablename('mc_mapping_fans'). '
@@ -818,13 +827,16 @@ if($operation=='buy'){
 			}
 			$row['uid'] = 0;
 		}
+		$row['createtime1'] = date('Y-m-d', $row['createtime']);
+		$row['createtime2'] = date('Y-m-d H:i:s', $row['createtime']);
 		$row['agent'] = m('member')->checkAgent($row['uid']);
 		$row['bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM " . tablename("xuan_mixloan_product_apply") . "
 			WHERE inviter={$member['id']} AND uid={$row['uid']} AND type=2") ? : '无';
 	}
 	unset($row);
-	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
-		WHERE inviter={$member['id']} AND status>0 AND type=2") ? : 0;
-	$follow_count = count($follow_list) ? : 0;
- 	include $this->template('vip/followList');
+	if (!empty($follow_list)) {
+		show_json(1, ['list' => array_values($follow_list)], '获取成功');
+	} else {
+		show_json(-1);
+	}
 }

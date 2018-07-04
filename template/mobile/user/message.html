@@ -70,6 +70,16 @@
         .main-header li{width: 50%; text-align: center;float: left;padding: 0.5rem 0;background: white}
         .main-header .active {border-bottom: #00a2ff 3px solid; }
         .main-header .active a {color: #00a2ff}
+        a.more_hotcards, a.no_hotcards {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            height: 42px;
+            line-height: 42px;
+            font-size: 15px;
+            color: #727272;
+            display: none;
+        }
     </style>
     <div class="app_header">
         <div class="app_header_back">
@@ -81,30 +91,64 @@
     <div class="agent-main rem2">
         <div class="main-header">
             <ul>
-                <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'isread'=>$is_read))}')">系统消息</a></li>
-                <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'isread'=>$is_read))}')">个人消息</a></li>
+                <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'isread'=>$is_read))}')">系统消息({$system_count})</a></li>
+                <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'isread'=>$is_read))}')">个人消息({$person_count})</a></li>
             </ul>
         </div>
         <div class="main-contain">
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
-                <ul class="clearfix">
-                    {loop $list $row}
-                    <li class="new_guide">
-                        <a onclick="read_msg('{$row['id']}')">
-                            <img src="{$row['avatar']}" />
-                            {$row['nickname']}
-                            <em>{php echo date('Y-m-d H:i', $row['createtime'])} &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                        </a>
-                    </li>
-                    {/loop}
+                <ul class="clearfix" id="follow_list" temp-id="9999999">
+                   
                 </ul>                
+            </div>
+            <div style="text-align: center;">
+                <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/picture/loading_1.png" style="width: 18px;" />加载中</a>
+                <a class="no_hotcards">没有更多咯~</a>
             </div>
             <div style="height: 3rem"></div>
         </div>
     </div>
     
-<script>
 
+<script type="text/javascript">
+    post_data();
+     $(window).scroll(function(){
+        var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+        totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+        if($(document).height() <= totalheight) {
+            post_data();
+        }
+    });
+    function post_data(){
+        $('.more_hotcards').show();
+        var id = $('#follow_list').attr('temp-id');
+        var temp_id = id;
+        $.post("{php echo $this->createMobileUrl('user', array('op'=>'getMessage', 'type' => $type, 'isread'=>$is_read))}", {"id":id},
+            function(data){
+                $('.more_hotcards').hide();
+                if(data.code==1){
+                    var _data = data.data.list;
+                    var str='';
+                    for (var i = 0; i < _data.length; i++) {
+                        if (temp_id > _data[i].id) {
+                            temp_id = _data[i].id;
+                        }
+                        str += ' <li class="new_guide">\
+                                    <a onclick="read_msg(\'' + _data[i].id + '\')">\
+                                        <img src="' + _data[i].avatar + '" />\
+                                        ' + _data[i].nickname + '\
+                                        <em>' + _data[i].createtime + ' &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>\
+                                    </a>\
+                                </li>';
+                    }
+                    $('#follow_list').append(str);
+                    $('#follow_list').attr('temp-id', temp_id);
+                } else {
+                    $('.no_hotcards').show();
+                }
+            },'json'
+        );
+    }
 </script>
 </body>
 </html>
