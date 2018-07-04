@@ -41,6 +41,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['type'])) {
         $wheres.= " AND c.type='{$_GPC['type']}'";
     }
+    if (!empty($_GPC['degree'])) {
+        $wheres.= " AND a.degree='{$_GPC['degree']}'";
+    }
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
@@ -354,8 +357,20 @@ if ($operation == 'list') {
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
+        if ($item['degree'] == 1 && $item['pid'] > 0) {
+            //自动给二级打款
+            $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
+            if ($second_item) {
+                $second_update['relate_money'] = $_GPC['data']['relate_money'];
+                $second_update['done_bonus'] = $_GPC['data']['done_bonus']*0.1;
+                $second_update['re_bonus'] = $_GPC['data']['re_bonus']*0.1;
+                $second_update['status'] = $_GPC['data']['status'];
+                pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+            }
+        }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
-        message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
+        message("提交成功", referer(), "sccuess");
     }
 } else if ($operation == 'withdraw_update') {
     //提现更改
@@ -484,6 +499,18 @@ if ($operation == 'list') {
                             "color" => "#912CEE"
                         ) ,
                     );
+                }
+                if ($datam && $item['degree'] == 1 && $item['pid'] > 0) {
+                    //自动给二级打款
+                    $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                        where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
+                    if ($second_item) {
+                        $second_update['relate_money'] = $update['relate_money'];
+                        $second_update['done_bonus'] = $update['done_bonus']*0.1;
+                        $second_update['re_bonus'] = $update['re_bonus']*0.1;
+                        $second_update['status'] = $update['status'];
+                        pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+                    }
                 }
                 if ($datam) {
                     $temp = array(
