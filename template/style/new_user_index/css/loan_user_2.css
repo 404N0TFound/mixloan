@@ -1,0 +1,127 @@
+﻿/*
+* @Author: win
+* @Date:   2017-09-19 18:30:45
+* @Last Modified by:   win
+* @Last Modified time: 2017-09-19 18:57:18
+*/
+
+.content {
+	padding: 40px 0 0!important;
+    padding-top: 119px!important;
+}
+
+#nav {
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    padding: 10px 0;
+	position: fixed;
+    top: 48px;
+}
+
+#nav p {
+    font-size: 13px;
+}
+#nav span {
+    width: 30px;
+    height: 30px;
+    background: url(../images/icon1_3.png);
+    display: inline-block;
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(2) span{
+    background: url(../images/icon2_6.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(3) span{
+    background: url(../images/icon3_6.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(4) span{
+    background: url(../images/icon4_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(1) span{
+    background: url(../images/icon1_active_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(2) span{
+    background: url(../images/icon2_active_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(3) span{
+    background: url(../images/icon3_active_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(4) span{
+    background: url(../images/icon4_active_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active p{
+    font-weight: bold;
+}
+
+.main_box {
+    padding: 0 5px;
+}
+
+.main_box .title {
+    font-size: 17px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 5px;
+}
+
+.main_box p {
+    font-size: 13px;
+}
+
+.table_box {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.table_box table {
+    width: 100%;
+}
+
+.table_box table th {
+    background: #ccc;
+}
+
+.table_box table th,
+.table_box table td {
+    border: 1px solid #ccc;
+    font-size: 11px;
+    line-height: 24px;
+    text-align: center;
+}
+.date{
+    cursor:pointer;
+}
+.date span{
+    width: 7px;
+    height: 7px;
+    border-top: 2px solid #66686d;   
+    border-left: 2px solid #66686d;  
+    display: inline-block;
+    transform: rotate(220deg);
+    -webkit-transform: rotate(220deg);
+    margin-left: 4px;
+    margin-bottom: 2px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+.table_box .active span{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    margin-bottom: 0px;
+}
