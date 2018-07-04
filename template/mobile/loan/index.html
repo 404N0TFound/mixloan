@@ -26,21 +26,73 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    function openNew(url){
-        mui.openWindow({url:url, createNew:true});
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
     }
-    mui.plusReady(function() {
-        console.log(mui.currentWebview.id);
-        window.addEventListener('refresh', function(event) {
-            mui.currentWebview.reload();
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function clickButton(){
+        var url = "{php echo $this->createMobileUrl('loan')}";
+        webview = plus.webview.create(url)
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("返回首页");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
         });
-        var wv=plus.webview.currentWebview();
-        // 关闭侧滑返回功能
-        wv.setStyle({'popGesture':'none'});
-    });
-    mui.back = function(){
-        return false;
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+
     }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton}] }});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
+    {else}
+    function openLoan(url){
+        mui.openWindow({url:url});
+    }
+    {/if}
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+        function return_user(){
+            var user_url = '{php echo $this->createMobileUrl('user')}';
+            mui.openWindow({url:user_url, createNew:true});
+        }
+        mui.plusReady(function() {
+            console.log(mui.currentWebview.id);
+            window.addEventListener('refresh', function(event) {
+                mui.currentWebview.reload();
+            });
+            var wv=plus.webview.currentWebview();
+            // 关闭侧滑返回功能
+            wv.setStyle({'popGesture':'none'});
+        });
+        mui.back = function(){
+            return false;
+        }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -126,7 +178,7 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>推广中心</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+    <a onclick="return_user()">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
         <p>个人中心</p>
     </a>
@@ -137,7 +189,7 @@
     <div class="swiper-container loanindex-swiper">
         <div class="swiper-wrapper">
             {loop $advs $adv}
-            <div class="swiper-slide"><a onclick="openNew('{$adv['ext_info']['name']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""></a></div>
+            <div class="swiper-slide"><a onclick="openLoan('{$adv['ext_info']['name']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""></a></div>
             {/loop}
         </div>
         <div class="loanindex_main">
@@ -259,7 +311,7 @@
             <div class="hotloan_list">
                 {loop $list $row}
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
-                    <a onclick="openNew('{$row['ext_info']['url']}')">
+                    <a onclick="openLoan('{$row['ext_info']['url']}')">
                         <ul>
                             <li>
                                 <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
@@ -388,7 +440,7 @@
                             var rate_type=_data[i].rate_type;
                             var click=_data[i].apply_nums;
                             $("div.recommend_list").append("<div class=\"recommend_main\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openNew('"+ url +"')\">"
+                                + "<a onclick=\"openLoan('"+ url +"')\">"
                                 + "<ul class=\"desc\">"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

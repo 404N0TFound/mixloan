@@ -44,6 +44,20 @@ if ($operation == 'list') {
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
+    if ($_GPC['status'] != "") {
+        $wheres.= " AND a.status='{$_GPC['status']}'";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+        $cond .= " and createtime>{$start} and createtime<={$end}";
+    } else {
+        $endtime = date("Y-m-d H:i:s");
+        $starttime = date("Y-m-d H:i:s", strtotime("{$endtime} -1 month"));
+    }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
@@ -80,26 +94,22 @@ if ($operation == 'list') {
     unset($row);
     if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
-            if ($row['status'] == -2){
-                $row['status'] = '邀请用户已注册过，不产生佣金';
-            } else if ($row['status'] == -1){
-                $row['status'] = '注册失败';
-            } else if ($row['status'] == 0){
-                $row['status'] = '邀请中';
-            } else if ($row['status'] == 1){
-                $row['status'] = '已注册';
-            } else if ($row['status'] == 1){
-                $row['status'] = '已完成';
-            }
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
                 $row['inviter_name'] = $row['inviter']['nickname'];
-                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
-                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$row['inviter']['id']} AND status>1 AND relate_id={$row['relate_id']}") ? : 0;
+                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
             } else {
                 $row['inviter_name'] = '无';
                 $row['inviter_count'] = 0;
                 $row['inviter_sum'] = 0;
+            }
+            if ($row['degree'] == 1) {
+                $row['degree'] = '一级';
+            } else if ($row['degree'] == 2) {
+                $row['degree'] = '二级';
+            } else if ($row['degree'] == 3) {
+                $row['degree'] = '三级';
             }
             if ($row['count_time'] == 1) {
                 $row['count_time'] = '日结';
@@ -143,32 +153,42 @@ if ($operation == 'list') {
                 array(
                     'title' => '手机号',
                     'field' => 'phone',
-                    'width' => 20
+                    'width' => 12
                 ),
                 array(
                     'title' => '结算方式',
                     'field' => 'count_time',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '下款金额',
                     'field' => 'relate_money',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '注册奖励',
                     'field' => 're_bonus',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '下款/卡奖励',
                     'field' => 'done_bonus',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '额外奖励',
                     'field' => 'extra_bonus',
-                    'width' => 20
+                    'width' => 10
+                ),
+                array(
+                    'title' => '状态（0邀请中，1已注册，2已完成，-1失败）',
+                    'field' => 'status',
+                    'width' => 35
+                ),
+                array(
+                    'title' => '等级',
+                    'field' => 'degree',
+                    'width' => 10
                 ),
                 array(
                     'title' => '邀请时间',
@@ -187,7 +207,6 @@ if ($operation == 'list') {
                 ),
             )
         ));
-        unset($row);
     }
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
@@ -389,6 +408,103 @@ if ($operation == 'list') {
     //二维码海报
     $invite_list = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=3', array(':uid'=>$_GPC['uid']));
     $product_list = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=2', array(':uid'=>$_GPC['uid']));
+}  else if ($operation == 'import') {
+    //导入excel
+    if ($_GPC['post']) {
+        $excel_file = $_FILES['excel_file'];
+        if ($excel_file['file_size'] > 2097152) {
+            message('不能上传超过2M的文件', '', 'error');
+        }
+        $values = m('excel')->import('excel_file');
+        $failed = $sccuess = 0;
+        $createtime = time();
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        foreach ($values as $value) {
+            if (empty($value[0])) {
+                continue;
+            }
+            $status = trim($value[11]);
+            if (!in_array($status, array(0,1,2,-1))) {
+                $failed += 1;
+                continue;
+            }
+            $update['status'] = $status;
+            //下款金额
+            $update['relate_money'] = trim($value[7]) ? : 0;
+            //注册奖励
+            $update['re_bonus'] = trim($value[8]) ? : 0;
+            //完成奖励
+            $update['done_bonus'] = trim($value[9]) ? : 0;
+            //额外奖励
+            $update['extra_bonus'] = trim($value[10]) ? : 0;
+            $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
+            if ($result) {
+                $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
+                $item = pdo_fetch('select * from ' .tablename('xuan_mixloan_product_apply'). '
+                    where id=:id', array(':id'=>$value[0]));
+                $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
+                    where id=:id", array(':id'=>$item['pid']));
+                $inviter = m('member')->getInviterInfo($item['inviter']);
+                if ($status == 1 && $update['re_bonus']>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $update['re_bonus'],
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                }
+                if ($status == 2 && $count_money>0) {
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励您{$item['degree']}级推广佣金，继续推荐产品，即可获得更多佣金奖励",
+                            "color" => "#FF0000"
+                        ) ,
+                        "order" => array(
+                            "value" => '10000'.$item['id'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $count_money,
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击后台“我的账户->去提现”，立享提现快感',
+                            "color" => "#912CEE"
+                        ) ,
+                    );
+                }
+                if ($datam) {
+                    $temp = array(
+                        'uniacid' => $_W['uniacid'],
+                        'openid' => "'{$inviter['openid']}'",
+                        'template_id' => "'{$config['tpl_notice5']}'",
+                        'data' => "'" . addslashes(json_encode($datam)) . "'",
+                        'url' => "'{$url}'",
+                        'createtime'=>$createtime,
+                        'status'=>0
+                    );
+                    $temp_string = '('. implode(',', array_values($temp)) . ')';
+                    $insert[] = $temp_string;
+                }
+                $sccuess += 1;
+            } else {
+                $failed += 1;
+            }
+        }
+        message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
+    }
 }
 include $this->template('agent');
 ?>
