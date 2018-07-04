@@ -285,7 +285,7 @@ if($operation=='buy'){
         }
         $row['agent'] = m('member')->checkAgent($row['uid']);
         $row['bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM " . tablename("xuan_mixloan_product_apply") . "
-			WHERE inviter={$member['id']} AND uid={$row['uid']} AND type=2") ? : '无';
+			WHERE inviter={$member['id']} AND uid={$row['uid']} AND pid=0") ? : '无';
     }
     unset($row);
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
