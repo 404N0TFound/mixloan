@@ -188,7 +188,7 @@
     <div class="swiper-container loanindex-swiper">
         <div class="swiper-wrapper">
             {loop $advs $adv}
-            <div class="swiper-slide"><a onclick="openNew('{$adv['ext_info']['name']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""></a></div>
+            <div class="swiper-slide"><a onclick="openLoan('{$adv['ext_info']['name']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""></a></div>
             {/loop}
         </div>
         <div class="loanindex_main">
