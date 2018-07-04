@@ -1,86 +1,56 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-    
+﻿<html style="height: 100%;">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="apple-touch-fullscreen" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title>推广奖励</title>
-        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/kashen_1.css">
-        <script src="../addons/xuan_mixloan/template/style/js/jquery-1.12.4.min.js"></script>
-        <script src="../addons/xuan_mixloan/template/style/js/function.js"></script>
+        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_user_index/css/czym.css" type="text/css">
+        <meta id="viewport" name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; user-scalable=no">
+        <title>
+            我的团队
+        </title>
         <style type="text/css">
-            .kehu-table td{font-size: 0.8rem}
+  .team-userms-box{background: #00a2ff}
+          .team-ms-box{background: #00a2ff}
+          .team-ms-box .vertucal-bar{background-color: #98a7b8;}
         </style>
     </head>
-    
-    <body>
-        <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
-        <script type="text/javascript">
-            function openNew(url){
-                mui.openWindow({url:url});
-            }
-        </script>
-        {if !is_weixin()}
-        <style type="text/css">
-            .app_header{height: 80px;width: 100%;background: #ffffff}
-            .app_header_back{text-align: center;color: white}
-            .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-            .app_header_back img{float:left;width: 12px;}
-            .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-        </style>
-        <div class="app_header">
-            <div class="app_header_back">
-                <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-                <span>徒弟列表</span>
+    <body style="height: 100%;background-color: #f1f4f8">
+        <div class="team-box bgh">
+            <div class="team-userms-box">
+                <!-- <img src="../addons/xuan_mixloan/template/style/new_user_index/picture/bgmyteam_icon.png" class=""> -->
+                <img src="{$member['avatar']}" class="head-img">
+                <div class="userms-name">
+                    <span>{$member['nickname']}</span> <img src="../addons/xuan_mixloan/template/style/new_user_index/picture/icon_bqbq.png" class="bq-icon">
+                </div>
+                <div class="team-ms-box">
+                    <div class="team-sum-box">
+                        <span class="sm-sz">团队总数(人)</span> <span class="big-sz">{$follow_count}</span>
+                    </div>
+                    <div class="vertucal-bar"></div>
+                    <div class="team-performance-box">
+                        <span class="sm-sz">我的业绩(元)</span> <span class="big-sz">{$count}</span>
+                    </div>
+                </div>
             </div>
-        </div>
-        {/if}
-        <div class="kehuxinxi-top">
-            <span class="kehuxinxi-top-span">累计赚取（元）</span>
-            <h3>{$count}</h3></div>
-        <div>
-            <ul class="dailigongzi-top2">
-                <li class="line-right">
-                    <span>今日收入（元）</span>
-                    <h3>{$today_count}</h3></li>
-                <li>
-                    <span>本月收入（元）</span>
-                    <h3>{$month_count}</h3></li>
+            <ul class="ul">
+              {loop $follow_list $follow}
+                <li style="list-style: none; display: inline">
+                    <div class="sxtimer-box">
+                        <label>{php echo date('Y-m-d', $follow['createtime'])}</label> <span>推荐奖励 {$follow['bonus']}</span>
+                    </div>
+                </li>
+                <li class="li-team">
+                    <img src="{$follow['avatar']}" class="head-ig"> <img>
+                    <div class="rg-ms-box">
+                        <div class="tp-ms-box">
+                            <span class="team-name">{$follow['nickname']}</span> 
+                            {if $follow['agent']['code']}<img src="../addons/xuan_mixloan/template/style/new_user_index/picture/icon_bqbq.png">{/if}
+                        </div><span class="regit-timer">注册时间: <span>{php echo date('Y-m-d H:i:s', $follow['createtime'])}</span></span>
+                    </div>
+                </li>
+              {/loop}
+                <li style="list-style: none">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}')" class="yqhy">邀请好友</a>
+                </li>
             </ul>
         </div>
-        <div class="tab-div tab-div3" style="margin-top:1rem">
-            <table>
-                <tbody>
-                    <tr>
-                        <td class="line-bottom">
-                            <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}')" class="tab-active2">关注成功({$follow_count})</a></td>
-                        <td class="line-bottom">
-                            <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}')">购买成功({$buy_count})</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        {if $follow_list}
-        <table class="kehu-table" style="table-layout:fixed;">
-            <tbody>
-                {loop $follow_list $row}
-                <tr class="list">
-                    <td>{php echo date('Y-m-d H:i:s',$row['createtime']);}</td>
-                    <td>{$row['nickname']}</td>
-                </tr>
-                {/loop}
-            </tbody>
-        </table>
-        {else}
-        <div class="meiyou">
-            <img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt="">
-            <p>暂时没有更多数据啦！</p>
-        </div>
-        {/if}
     </body>
-
 </html>

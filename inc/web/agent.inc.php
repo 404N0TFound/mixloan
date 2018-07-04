@@ -12,8 +12,14 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
-    if (!empty($_GPC['name'])) {
-        $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['uid'])) {
+        $wheres.= " AND b.id={$_GPC['uid']}";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
     }
     $sql = 'select a.id,a.uid,b.nickname,b.avatar,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
