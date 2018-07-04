@@ -17,40 +17,48 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_3.css">
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
 <body class="bglightgray" style="background-image: url(../addons/xuan_mixloan/template/style/images/59f9809827a31_1.png);background-size: 100% 100%;height: 800px">
-    <div class="common_frame fstC">
-        <h1>卡片推荐</h1>
-        <div class="fstC_lists">
-            {loop $cards $c}
-            <div class="recommend_main fstC_list">
-                <h2>{$c['name']}<a href="{$c['ext_info']['url']}" data-id="{$c['id']}" onclick="clickNum(this);">立即办卡</a></h2>
-                <div class="recommend_detail fstC_dtl">
-                    <span class="card_img"><img src="{php echo tomedia($c['ext_info']['pic']);}" /></span>
-                    <div class="card_desc">
-                        <p>{$c['ext_info']['v_name']}</p>
-                        <p>{$c['ext_info']['intro']}</p>
-                    </div>
-                    <div class="apply_no">
-                        <p><span>{$c['apply_nums']}</span></p>
-                        <p>已申请</p>
-                    </div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+{/if}
+<div class="common_frame fstC">
+    <h1>卡片推荐</h1>
+    <div class="fstC_lists">
+        {loop $cards $c}
+        <div class="recommend_main fstC_list">
+            <h2>{$c['name']}<a href="{$c['ext_info']['url']}" data-id="{$c['id']}" onclick="clickNum(this);">立即办卡</a></h2>
+            <div class="recommend_detail fstC_dtl">
+                <span class="card_img"><img src="{php echo tomedia($c['ext_info']['pic']);}" /></span>
+                <div class="card_desc">
+                    <p>{$c['ext_info']['v_name']}</p>
+                    <p>{$c['ext_info']['intro']}</p>
+                </div>
+                <div class="apply_no">
+                    <p><span>{$c['apply_nums']}</span></p>
+                    <p>已申请</p>
                 </div>
             </div>
-            {/loop}
         </div>
-        <div class="fstC_more"><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">更多推荐信用卡</a></div>
+        {/loop}
     </div>
+    <div class="fstC_more"><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">更多推荐信用卡</a></div>
+</div>
 <script type="text/javascript">
-// 记录点击数
-function clickNum(index){
-    var id=$(index).attr("data-id");
-    $.post("{php echo $this->createMobileUrl('bank', array('op'=>'cardView'))}",{"id":id},
-        function(data){
-            console.log(data);
-        },'json')
-}
+    // 记录点击数
+    function clickNum(index){
+        var id=$(index).attr("data-id");
+        $.post("{php echo $this->createMobileUrl('bank', array('op'=>'cardView'))}",{"id":id},
+            function(data){
+                console.log(data);
+            },'json')
+    }
 </script>
 </body>
 </html>

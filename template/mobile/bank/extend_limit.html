@@ -18,50 +18,146 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt.css">
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
-<body class="bglightgray">    
-    <div class="agent-header">
-        在线提额
-        <a class="return" onclick="javascript:history.go(-1)">返回</a>
+<body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    div.rate_main{margin-top: 0;padding-top: 0}
+</style>
+<style type="text/css">
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        div.agent-foot{padding-bottom:20px; }
+        div.agent-main{padding-bottom:0px;}
+    }
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 8px;
+        z-index: 999;
+        line-height: 0px;
+        top: 2rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    .agent-foot{
+        height: 4rem
+    }
+    div.agent-foot p.foot_img {
+        height: 2.22rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 2.22rem;
+        width: 2.1rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.8rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>在线提额</span>
     </div>
-    <div class="rate_main">
-        <div class="rate_common rate_check">
-            <h2><span>电话提额</span></h2>
-            <ul>
-                {loop $banks $row}
-                <li>
-                    <a data-id="{$row['id']}">
-                        <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
-                        <span>{$row['name']}</span>
-                    </a>
-                </li>
-                {/loop}
-            </ul>
-        </div>
-        <div class="rate_common rate_recommend">
-            <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next.png" /></a></h2>
-            <ul>
-                <li>
-                    <h1>民生银行</h1>
-                    <span><img src="../addons/xuan_mixloan/template/style/picture/20171101151336.png" /></span>
-                    <p>优惠享不停</p>
-                    <a href="https://creditcard.cmbc.com.cn/online/mobile/index.aspx?tradeFrom=YX-QDZC2&EnStr=19CB2A1DC5DF6788359A23CF5046E0AE&jg=624000001&jgEnStr=3164CD4163E95CFF5F778A47029F1CAF" data-productid="10">马上办卡</a>
-                </li>     
-            </ul>
-        </div>
+</div>
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>信贷大全</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>新闻中心</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+        <p>会员交流</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>推广中心</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{else}
+<div class="agent-header">
+    在线提额
+    <a class="return" onclick="javascript:history.go(-1)">返回</a>
+</div>
+{/if}
+<div class="rate_main">
+    <div class="rate_common rate_check">
+        <h2><span>电话提额</span></h2>
+        {loop $banks $row}
+        <ul>
+            {loop $row $key}
+            <li>
+                <a data-id="{$key['id']}">
+                    <p><img src="{php echo tomedia($key['ext_info']['logo']);}" /></p>
+                    <span>{$key['name']}</span>
+                </a>
+            </li>
+            {/loop}
+        </ul>
+        {/loop}
     </div>
-    <div class="tier_tel">
-        <div class="floor close_layer"></div>
-        <div class="service_main">
-            <h1><span></span><a class="close_layer"><img src="../addons/xuan_mixloan/template/style/picture/del.png" /></a></h1>
-            <p ></p>
-            <h2></h2>
-            <span><a href="tel:"><img src="../addons/xuan_mixloan/template/style/picture/phone.png" />拨打</a></span>
-        </div>
+    <div class="rate_common rate_recommend">
+        <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next.png" /></a></h2>
+        <ul>
+            <li>
+                <h1>民生银行</h1>
+                <span><img src="../addons/xuan_mixloan/template/style/picture/20171101151336.png" /></span>
+                <p>优惠享不停</p>
+                <a href="https://creditcard.cmbc.com.cn/online/mobile/index.aspx?tradeFrom=YX-QDZC2&EnStr=19CB2A1DC5DF6788359A23CF5046E0AE&jg=624000001&jgEnStr=3164CD4163E95CFF5F778A47029F1CAF" data-productid="10">马上办卡</a>
+            </li>
+        </ul>
     </div>
+</div>
+<div class="tier_tel">
+    <div class="floor close_layer"></div>
+    <div class="service_main">
+        <h1><span></span><a class="close_layer"><img src="../addons/xuan_mixloan/template/style/picture/del.png" /></a></h1>
+        <p ></p>
+        <h2></h2>
+        <span><a href="tel:"><img src="../addons/xuan_mixloan/template/style/picture/phone.png" />拨打</a></span>
+    </div>
+</div>
 
-    <script type="text/javascript">
+{if !is_weixin()}
+<div style="height: 4rem"></div>
+{/if}
+<script type="text/javascript">
     //页面初始化
     getBank();
     function teltierL(){
@@ -110,21 +206,21 @@
                         var title=_data[i].title1;
                         var title2=_data[i].title2;
                         var imgs=_data[i].imgs;
-                        var url=_data[i].url;   
-                        var want_id=_data[i].id;                          
+                        var url=_data[i].url;
+                        var want_id=_data[i].id;
                         $("div.rate_recommend ul").append("<li>"
-                                                            + "<h1>"+ title +"</h1>"
-                                                            + "<span><img src="+imgs+" /></span>"
-                                                            + "<p>"+ title2 +"</p>"
-                                                            + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
-                                                        + "</li>")
-                    }                        
+                            + "<h1>"+ title +"</h1>"
+                            + "<span><img src="+imgs+" /></span>"
+                            + "<p>"+ title2 +"</p>"
+                            + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
+                            + "</li>")
+                    }
                 }else{
                     layer.msg(data.msg);
                     return false;
                 }
-        },'json')
+            },'json')
     }
-    </script>
+</script>
 </body>
 </html>

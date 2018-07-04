@@ -32,20 +32,41 @@
 
 	{template 'common/wxshare'}
 </head>
-<body class="bglightgray" > 
+<body class="bglightgray" >
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #eff0f2}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+        <span>选择收款方式</span>
+    </div>
+</div>
+{/if}
     <div class="agent-main rem2">
         <div class="main-contain">
             <div class="agent_contain" style="position: relative;top:-0.4rem;">
                 <ul class="clearfix">
                     <li>
-                        <a href="{php echo $this->createMobileUrl('user', array('op' => 'bind_card'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'bind_card'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                             银行卡账号
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
                     <li>
-                        <a href="{php echo $this->createMobileUrl('user', array('op' => 'bind_alipay'))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'bind_alipay'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
                             支付宝收款
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
