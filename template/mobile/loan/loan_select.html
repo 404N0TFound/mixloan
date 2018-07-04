@@ -36,8 +36,25 @@
     }else{
         document.addEventListener('plusready', plusReady, false);
     }
+    function clickButton(){
+        var url = "{php echo $this->createMobileUrl('loan')}";
+        webview = plus.webview.create(url)
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("返回首页");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+
+    }
     function openLoan(url){
-        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',homeButton:true}});
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton}] }});
         webview.onloading = function(){
             plus.nativeUI.showWaiting("跳转中");
         }
