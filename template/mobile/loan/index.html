@@ -79,7 +79,7 @@
     }
     function return_user(){
         var user_url = '{php echo $this->createMobileUrl('user')}';
-        mui.openWindow({url:user_url, createNew:true});
+        mui.openWindow({url:user_url, id:'user_index', createNew:true});
     }
     mui.plusReady(function() {
         console.log(mui.currentWebview.id);
