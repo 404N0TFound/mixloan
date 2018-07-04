@@ -13,6 +13,27 @@
         </style>
     </head>
     <body style="height: 100%;background-color: #f1f4f8">
+        <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+        <script type="text/javascript">
+            function openNew(url){
+                mui.openWindow({url:url});
+            }
+        </script>
+        {if !is_weixin()}
+        <style type="text/css">
+            .app_header{height: 80px;width: 100%;background: #ffffff}
+            .app_header_back{text-align: center;color: white}
+            .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+            .app_header_back img{float:left;width: 12px;}
+            .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+        </style>
+        <div class="app_header">
+            <div class="app_header_back">
+                <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+                <span>我的团队</span>
+            </div>
+        </div>
+        {/if}
         <div class="team-box bgh">
             <div class="team-userms-box">
                 <!-- <img src="../addons/xuan_mixloan/template/style/new_user_index/picture/bgmyteam_icon.png" class=""> -->

@@ -818,7 +818,7 @@ if($operation=='buy'){
 			}
 			$row['uid'] = 0;
 		}
-		$row['agent'] = m('agent')->checkAgent($row['uid']);
+		$row['agent'] = m('member')->checkAgent($row['uid']);
 		$row['bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM " . tablename("xuan_mixloan_product_apply") . "
 			WHERE inviter={$member['id']} AND uid={$row['uid']} AND type=2") ? : '无';
 	}
