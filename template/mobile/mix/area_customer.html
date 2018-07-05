@@ -52,6 +52,7 @@
     <div class="fstC_more"><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">更多推荐贷款</a></div>
 </div>
 <script type="text/javascript">
+    post_data(110101);
     mui.init();
     mui(function () {
         cityPicker = new mui.PopPicker({
@@ -63,7 +64,11 @@
     function chooseArea(){
     　　cityPicker.show(function(items) {
             $('.fstC h1').text(items[1].text);
-            $.post("{php echo $this->createMobileUrl('mix', array('op'=>'getService'))}",{"areaId":items[1].value},
+            post_data(items[1].value);
+    　　});
+    }
+    function post_data(areaId){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'getService'))}",{"areaId":areaId},
                 function(data){
                     if(data.code==1){
                         var list = data.data.list;
@@ -92,7 +97,6 @@
                         return false;
                     }
                 },'json')
-    　　});
     }
     //关闭选择器
     function closeChoose(){

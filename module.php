@@ -65,6 +65,7 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
                     'rank_back'=>$_GPC['rank_back'],
                     'backup'=>$_GPC['backup'],
+                    'buy_service_fee'=>$_GPC['buy_service_fee'],
             	);
 
             if ($this->saveSettings($cfg)) {

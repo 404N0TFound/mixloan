@@ -33,13 +33,27 @@
       <entry title="代理会员" do="agent" state="" direct="false" />
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
-      <entry title="贷款客服" do="service" state="" direct="false" />
+      <entry title="贷款专员" do="service" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_service_payment`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_service_payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `effecttime` int(11) NOT NULL,
+  `tid` varchar(100) NOT NULL,
+  `fee` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_area`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_area` (

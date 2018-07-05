@@ -42,6 +42,12 @@ if($operation=='service'){
 	} else {
 		$item['rate_type'] = '月';
 	}
+	$service = m('member')->checkService($member['id']);
+	if ($service['code'] == 1) {
+		$verify = 1;
+	} else {
+		$verify = 0;
+	}
 	include $this->template('mix/serviceDetail');
 } else if ($operation == 'buyService') {
 	//购买资格
