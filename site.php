@@ -403,6 +403,21 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
+			} else if ($type == '10003') {
+				//购买专员资格
+				$service = m('member')->checkService($member['id']);
+				if ($service['code'] == 1 || empty($member['id'])) {
+					message('请不要重复提交', $this->createMobileUrl('user'), "success");
+				}
+				$insert = array(
+						"uniacid"=>$_W["uniacid"],
+						"uid"=>$member['id'],
+						"createtime"=>time(),
+						"tid"=>$params['tid'],
+						"fee"=>$fee,
+				);
+				pdo_insert("xuan_mixloan_service_payment", $insert);
+				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {

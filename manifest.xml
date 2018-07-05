@@ -68,7 +68,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_service` (
   `ext_info` TEXT NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sort` (`sort`),
-  KEY `type` (`type`),
+  KEY `area_province` (`area_province`),
+  KEY `area_city` (`area_city`),
   KEY `uniacid` (`uniacid`),
   KEY `money_high` (`money_high`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

@@ -18,35 +18,38 @@ if ($operation == 'list') {
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     pdo_delete('xuan_mixloan_service', array("id" => $_GPC["id"]));
-    message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
+    message("提交成功", $this->createWebUrl('service', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
     if ($_GPC['post'] == 1) {
-        $insert['ext_info']['poster'] = $poster;
-        $insert['ext_info']['back'] = $_GPC['bg']; 
-        $insert['name'] = $_GPC['name'];
+        $insert = $_GPC['data'];
         $insert['uniacid'] = $_W['uniacid'];
         $insert['createtime'] = time();
+        $insert['ext_info']['conditions'] = htmlspecialchars_decode($insert['ext_info']['conditions']);
+        $insert['ext_info']['reminds'] = htmlspecialchars_decode($insert['ext_info']['reminds']);
         $insert['ext_info'] = json_encode($insert['ext_info']);
         pdo_insert('xuan_mixloan_service', $insert);
-        message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
+        message("提交成功", $this->createWebUrl('service', array('op' => '')), "sccuess");
     }
 } else if ($operation == 'update') {
     //编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_service"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
-    $item['bg'] = $item['ext_info']['back'];
-    foreach ($item['ext_info']['poster'] as $value) {
-        $data[] = $value;
+    if (!empty($item['area_city'])) {
+        $area = pdo_fetchcolumn('select text from '.tablename('xuan_mixloan_area').'
+            where value=:value', array(':value' => $item['area_city']));
+    } else {
+        $area = pdo_fetchcolumn('select text from '.tablename('xuan_mixloan_area').'
+            where value=:value', array(':value' => $item['area_province']));
     }
     if ($_GPC['post'] == 1) {
-        $update['ext_info']['poster'] = $poster;
-        $update['ext_info']['back'] = $_GPC['bg']; 
-        $update['name'] = $_GPC['name'];
+        $update = $_GPC['data'];
+        $update['ext_info']['conditions'] = htmlspecialchars_decode($update['ext_info']['conditions']);
+        $update['ext_info']['reminds'] = htmlspecialchars_decode($update['ext_info']['reminds']);
         $update['ext_info'] = json_encode($update['ext_info']);
-        pdo_update('xuan_mixloan_poster_data', $update, array('id'=>$id));
-        message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
+        pdo_update('xuan_mixloan_service', $update, array('id'=>$id));
+        message("提交成功", $this->createWebUrl('service', array('op' => '')), "sccuess");
     }
 } 
 

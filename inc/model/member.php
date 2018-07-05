@@ -267,6 +267,17 @@ class Xuan_mixloan_Member
         }
     }
     /*
+    *   查看是否买过查看专员资格
+    */
+   function checkService($uid) {
+        $check = pdo_fetch('SELECT id FROM '.tablename("xuan_mixloan_service_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+        if ($check) {
+            return ['code'=>'1','name'=>'vip'];
+        } else {
+            return ['code'=>'0','name'=>'用户'];
+        }
+    }
+    /*
     *   获取总提现的钱
     */
     public function sumWithdraw($uid){
