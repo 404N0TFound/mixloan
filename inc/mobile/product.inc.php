@@ -38,7 +38,11 @@ if($operation=='index'){
     if ( empty($info['is_show']) ) {
         message('该代理产品已被下架', '', 'info');
     }
-	$poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+    if ($info['type'] == 1) {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+    } else {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'])));
+    }
 	$poster_path = pdo_fetchcolumn("SELECT poster FROM ".tablename('xuan_mixloan_poster')." WHERE uid={$member['id']} AND pid={$id} AND type=1");
 	$top_list = m('product')->getTopBonus($id);
 	include $this->template('product/info');
@@ -96,6 +100,9 @@ if($operation=='index'){
 	$id = intval($_GPC['id']);
 	$inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $member['openid']);
 	$inviter = $inviter_uid ? : intval($_GPC['inviter']);
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+        show_json(-1, [], "图形验证码不正确");
+    }
 	if ($inviter == $member['id']) {
 		show_json(-1, [], "您不能自己邀请自己");
 	}

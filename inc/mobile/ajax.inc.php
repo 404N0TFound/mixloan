@@ -14,6 +14,12 @@ if($operation == 'getCode'){
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
+    if ($_GPC['activity'] == 1) {
+        $verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        if ($verify) {
+            show_json(102);
+        }
+    }
 	$res = setcookie('cache_code', md5($phone.$cache), time()+90);
 	if (!$res) {
 		show_json(-1, null, "存储出错，请联系技术人员");

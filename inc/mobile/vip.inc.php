@@ -876,4 +876,8 @@ if($operation=='buy'){
 } else if ($operation == 'checkPay') {
     //检测有没有付款成功
     include $this->template('vip/checkPay');
+} else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }

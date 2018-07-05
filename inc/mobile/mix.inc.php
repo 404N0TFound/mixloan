@@ -126,4 +126,14 @@ if($operation=='service'){
 		//调用pay方法
 		$this->pay($params);
 	}
+} else if ($operation == 'apply_cache') {
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result']) {
+        show_json(-1,[],'生成验证码失败');
+    }
+    $code = $cache->getCode();
+    setcookie('authcode', sha1(md5($code)), time()+300);
+    show_json(1, ['img' => $cache_img['file']]);
 }
