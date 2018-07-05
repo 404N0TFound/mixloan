@@ -55,7 +55,7 @@
         {loop $follow_list $follow}
         <li style="list-style: none; display: inline">
             <div class="sxtimer-box">
-                <label>{php echo date('Y-m-d', $follow['createtime'])}</label> <span>推荐奖励 {$follow['bonus']}</span>
+                <label>{php echo date('Y-m-d', $follow['createtime'])}</label>&nbsp;&nbsp;{if $follow['agent']['code']}代理{else}已注册{/if}<span>推荐奖励 {$follow['bonus']}</span>
             </div>
         </li>
         <li class="li-team">
