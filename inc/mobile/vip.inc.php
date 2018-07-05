@@ -25,32 +25,87 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	$tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	if ($_GPC['type'] == 1) {
-		$fee = $config['init_vip_fee'];
-		$_SESSION['buy_level'] = 1;
-	} else if ($_GPC['type'] == 2) {
-		$fee = $config['mid_vip_fee'];
-		$_SESSION['buy_level'] = 2;
-	} else if ($_GPC['type'] == 3) {
-		$fee = $config['height_vip_fee'];
-		$_SESSION['buy_level'] = 3;
-	}
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+    if ($_GPC['type'] == 1) {
+        $fee = $config['init_vip_fee'];
+        $_SESSION['buy_level'] = 1;
+    } else if ($_GPC['type'] == 2) {
+        $fee = $config['mid_vip_fee'];
+        $_SESSION['buy_level'] = 2;
+    } else if ($_GPC['type'] == 3) {
+        $fee = $config['height_vip_fee'];
+        $_SESSION['buy_level'] = 3;
+    }
+    if ($member['id'] == 1) {
+    	$fee = 0.01;
+    }
+    if (is_weixin()) {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $member['id'],
+        );
+        //调用pay方法
+        $this->pay($params);
+    } else {
+        $notify_url = 'http://wx.wyhrkj.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
+            $tid = "10001" . date('YmdHis', time());
+            $trade_no = "ZML".date("YmdHis");
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$fee,
+                'is_pay'=>0,
+                'type'=>1,
+                'level'=>$_SESSION['buy_level']
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10001" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$fee,
+                    'is_pay'=>0,
+                    'type'=>1,
+                	'level'=>$_SESSION['buy_level']
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
+        }
+        $result = m('pay')->H5pay($trade_no, $fee, $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        } else {
+            message('请稍后再试', $this->createMobileUrl('user'), 'error');
+        }
+        include $this->template('vip/openHref');
+    }
 	exit;
 } else if ($operation == 'upgrade') {
 	//升级会员
-	$tid = "10002" . date('YmdHis', time());
-	$title = "升级{$config['title']}代理会员";
 	if ($agent['code']!=1) {
 		message('您还不是会员','','error');
 	}
@@ -68,17 +123,402 @@ if($operation=='buy'){
 	if (!$fee) {
 		message('没有有效升级方式','','error');
 	}
+    if ($member['id'] == 1) {
+    	$fee = 0.01;
+    }
 	$_SESSION['upgrade_level'] = intval($_GPC['type']);
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if (is_weixin()) {
+		$tid = "10002" . date('YmdHis', time());
+		$title = "升级{$config['title']}代理会员";
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	} else {
+		$notify_url = 'http://wx.wyhrkj.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=2 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
+            $tid = "10002" . date('YmdHis', time());
+            $trade_no = "ZML".date("YmdHis");
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$fee,
+                'is_pay'=>0,
+                'type'=>2,
+                'level'=>$_SESSION['upgrade_level']
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10002" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$fee,
+                    'is_pay'=>0,
+                    'type'=>2,
+                	'level'=>$_SESSION['upgrade_level']
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
+        }
+        $result = m('pay')->H5pay($trade_no, $fee, $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        } else {
+            message('请稍后再试', $this->createMobileUrl('user'), 'error');
+        }
+        include $this->template('vip/openHref');
+	}
 	exit;
+} else if ($operation == 'notify_url') {
+    $notify_id = $_GPC['notify_id'];
+    if (empty($notify_id)) {
+        message('notify_id为空', '', 'error');
+    }
+    $params = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		where notify_id=:notify_id', array(':notify_id'=>$notify_id));
+    if (empty($params)) {
+        header("location:{$this->createMobileUrl('user')}");
+        exit();
+    }
+    $fee = $params['fee'];
+    $tid = $params['tid'];
+    if ($params['is_pay'] != 1) {
+        message('订单未支付', '', 'error');
+    }
+    $member = pdo_fetch('select * from ' .tablename('xuan_mixloan_member'). '
+		where id=:id', array(':id'=>$params['uid']));
+    $openid = $member['openid'];
+    if (empty($member['id'])) {
+        header("location:{$this->createMobileUrl('user')}");
+        exit();
+    }
+    $type = substr($params['tid'],0,5);
+    if ($type=='10001') {
+        //购买会员付费
+        $agent = m('member')->checkAgent($member['id'], $config);;
+        if ($agent['code'] == 1) {
+            message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
+        }
+        if (!$_SESSION['buy_level']) {
+        	$_SESSION['buy_level'] = $params['level'];
+        }
+        pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
+        $insert = array(
+            "uniacid"=>$_W["uniacid"],
+            "uid"=>$member['id'],
+            "createtime"=>time(),
+            "tid"=>$params['tid'],
+            "fee"=>$fee,
+        );
+        pdo_insert("xuan_mixloan_payment", $insert);
+        //模板消息提醒
+        $datam = array(
+            "first" => array(
+                "value" => "您好，您已购买成功",
+                "color" => "#173177"
+            ) ,
+            "name" => array(
+                "value" => "{$config['title']}代理会员",
+                "color" => "#173177"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $account = WeAccount::create($_W['acid']);
+        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+        //一级
+        $inviter = m('member')->getInviter($member['phone'], $member['openid']);
+        if ($inviter) {
+            $agent = m('member')->checkAgent($inviter, $config);
+            if ($agent['level'] == 1) {
+                $re_bonus = $config['inviter_fee_one_init'] * 0.01 * $fee;
+            } else if ($agent['level'] == 2) {
+                $re_bonus = $config['inviter_fee_one_mid'] * 0.01 * $fee;
+            } else if ($agent['level'] == 3) {
+                $re_bonus = $config['inviter_fee_one_height'] * 0.01 * $fee;
+            }
+            if ($re_bonus) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $member['id'],
+                    'phone' => $member['phone'],
+                    'certno' => $member['certno'],
+                    'realname' => $member['realname'],
+                    'inviter' => $inviter,
+                    'extra_bonus'=>0,
+                    'done_bonus'=>0,
+                    're_bonus'=>$re_bonus,
+                    'status'=>2,
+                    'createtime'=>time(),
+                    'degree'=>1
+                );
+                pdo_insert('xuan_mixloan_product_apply', $insert_i);
+            }
+            //模板消息提醒
+            $one_openid = m('user')->getOpenid($inviter);
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的下级代理{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                    "color" => "#173177"
+                ) ,
+                "order" => array(
+                    "value" => $params['tid'],
+                    "color" => "#173177"
+                ) ,
+                "money" => array(
+                    "value" => $re_bonus,
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account = WeAccount::create($_W['acid']);
+            $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+            //二级
+            $man_one = m('member')->getInviterInfo($inviter);
+            $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
+            if ($inviter_two) {
+                $agent = m('member')->checkAgent($inviter_two, $config);
+                if ($agent['level'] == 1) {
+                    $re_bonus = $config['inviter_fee_two_init'] * 0.01 * $fee;
+                } else if ($agent['level'] == 2) {
+                    $re_bonus = $config['inviter_fee_two_mid'] * 0.01 * $fee;
+                } else if ($agent['level'] == 3) {
+                    $re_bonus = $config['inviter_fee_two_height'] * 0.01 * $fee;
+                }
+                if ($re_bonus) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $member['id'],
+                        'phone' => $member['phone'],
+                        'certno' => $member['certno'],
+                        'realname' => $member['realname'],
+                        'inviter' => $inviter_two,
+                        'extra_bonus'=>0,
+                        'done_bonus'=>0,
+                        're_bonus'=>$re_bonus,
+                        'status'=>2,
+                        'createtime'=>time(),
+                        'degree'=>2
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                }
+                //模板消息提醒
+                $two_openid = m('user')->getOpenid($inviter_two);
+                $datam = array(
+                    "first" => array(
+                        "value" => "您好，您的下级代理{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                        "color" => "#173177"
+                    ) ,
+                    "order" => array(
+                        "value" => $params['tid'],
+                        "color" => "#173177"
+                    ) ,
+                    "money" => array(
+                        "value" => $re_bonus,
+                        "color" => "#173177"
+                    ) ,
+                    "remark" => array(
+                        "value" => '点击查看详情',
+                        "color" => "#4a5077"
+                    ) ,
+                );
+                $account = WeAccount::create($_W['acid']);
+                $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+
+            }
+        }
+        message("支付成功", $this->createMobileUrl('user'), "success");
+    } else if ($type == '10002') {
+        //升级会员付费
+        $agent = m('member')->checkAgent($member['id'], $config);;
+        if ($agent['level'] == 3) {
+            message("您已经是最高级会员，请不要重复升级", $this->createMobileUrl('user'), "error");
+        }
+        if (!$_SESSION['upgrade_level']) {
+        	$_SESSION['upgrade_level'] = $params['level'];
+        }
+        if ($_SESSION['upgrade_level'] == 2) {
+            $upgrade_name = $config['mid_vip_name'];
+        } else if ($_SESSION['upgrade_level'] == 3) {
+            $upgrade_name = $config['height_vip_name'];
+        }
+        $insert = array(
+            'uniacid' => $_W['uniacid'],
+            'uid' => $member['id'],
+            'createtime' => time(),
+            'fee' => $fee
+        );
+        pdo_insert('xuan_mixloan_upgrade', $insert);
+        pdo_update('xuan_mixloan_member', array('level'=>$_SESSION['upgrade_level']), array('id'=>$member['id']));
+        //模板消息提醒
+        $datam = array(
+            "first" => array(
+                "value" => "您好，您已升级成功",
+                "color" => "#173177"
+            ) ,
+            "name" => array(
+                "value" => "升级{$upgrade_name}代理会员",
+                "color" => "#173177"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $account = WeAccount::create($_W['acid']);
+        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+        $inviter = m('member')->getInviter($member['phone'], $member['openid']);
+        if ($inviter) {
+            $agent = m('member')->checkAgent($inviter, $config);
+            if ($agent['level'] == 1) {
+                $re_bonus = $config['inviter_fee_one_init'] * 0.01 * $fee;
+            } else if ($agent['level'] == 2) {
+                $re_bonus = $config['inviter_fee_one_mid'] * 0.01 * $fee;
+            } else if ($agent['level'] == 3) {
+                $re_bonus = $config['inviter_fee_one_height'] * 0.01 * $fee;
+            }
+            if ($re_bonus) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $member['id'],
+                    'phone' => $member['phone'],
+                    'certno' => $member['certno'],
+                    'realname' => $member['realname'],
+                    'inviter' => $inviter,
+                    'extra_bonus'=>0,
+                    'done_bonus'=>0,
+                    're_bonus'=>$re_bonus,
+                    'status'=>2,
+                    'pid'=>-1,
+                    'createtime'=>time(),
+                    'degree'=>1
+                );
+                pdo_insert('xuan_mixloan_product_apply', $insert_i);
+            }
+            //模板消息提醒
+            $one_openid = m('user')->getOpenid($inviter);
+            $datam = array(
+                "first" => array(
+                    "value" => "您好，您的下级代理{$member['nickname']}成功升级了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                    "color" => "#173177"
+                ) ,
+                "order" => array(
+                    "value" => $params['tid'],
+                    "color" => "#173177"
+                ) ,
+                "money" => array(
+                    "value" => $re_bonus,
+                    "color" => "#173177"
+                ) ,
+                "remark" => array(
+                    "value" => '点击查看详情',
+                    "color" => "#4a5077"
+                ) ,
+            );
+            $account = WeAccount::create($_W['acid']);
+            $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+            //二级
+            $man = m('member')->getInviterInfo($inviter);
+            $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+            if ($inviter) {
+                $agent = m('member')->checkAgent($inviter, $config);
+                if ($agent['level'] == 1) {
+                    $re_bonus = $config['inviter_fee_two_init'] * 0.01 * $fee;
+                } else if ($agent['level'] == 2) {
+                    $re_bonus = $config['inviter_fee_two_mid'] * 0.01 * $fee;
+                } else if ($agent['level'] == 3) {
+                    $re_bonus = $config['inviter_fee_two_height'] * 0.01 * $fee;
+                }
+                if ($re_bonus) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $member['id'],
+                        'phone' => $member['phone'],
+                        'certno' => $member['certno'],
+                        'realname' => $member['realname'],
+                        'inviter' => $inviter,
+                        'extra_bonus'=>0,
+                        'done_bonus'=>0,
+                        're_bonus'=>$re_bonus,
+                        'status'=>2,
+                        'pid'=>-1,
+                        'createtime'=>time(),
+                        'degree'=>2
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                }
+                //模板消息提醒
+                $two_openid = m('user')->getOpenid($inviter);
+                $datam = array(
+                    "first" => array(
+                        "value" => "您好，您的下级代理{$man['nickname']}邀请了{$member['nickname']}成功升级了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                        "color" => "#173177"
+                    ) ,
+                    "order" => array(
+                        "value" => $params['tid'],
+                        "color" => "#173177"
+                    ) ,
+                    "money" => array(
+                        "value" => $re_bonus,
+                        "color" => "#173177"
+                    ) ,
+                    "remark" => array(
+                        "value" => '点击查看详情',
+                        "color" => "#4a5077"
+                    ) ,
+                );
+                $account = WeAccount::create($_W['acid']);
+                $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+            }
+        }
+        message("支付成功", $this->createMobileUrl('user'), "success");
+    } else if ($type == '10003') {
+        //购买专员资格
+        $service = m('member')->checkService($member['id']);
+        if ($service['code'] == 1 || empty($member['id'])) {
+            message('请不要重复提交', $this->createMobileUrl('user'), "success");
+        }
+        $insert = array(
+            "uniacid"=>$_W["uniacid"],
+            "uid"=>$member['id'],
+            "createtime"=>time(),
+            "tid"=>$params['tid'],
+            "fee"=>$fee,
+        );
+        pdo_insert("xuan_mixloan_service_payment", $insert);
+        message("支付成功", $this->createMobileUrl('user'), "success");
+    }
 } else if ($operation == 'createPost') {
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
@@ -432,4 +872,7 @@ if($operation=='buy'){
 } else if ($operation == 'extend_list') {
 	//新下级列表
 	include $this->template('vip/extend_list');
+} else if ($operation == 'checkPay') {
+    //检测有没有付款成功
+    include $this->template('vip/checkPay');
 }

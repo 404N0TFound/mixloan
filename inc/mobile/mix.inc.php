@@ -51,16 +51,70 @@ if($operation=='service'){
 	include $this->template('mix/serviceDetail');
 } else if ($operation == 'buyService') {
 	//购买资格
-	$tid = "10003" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_service_fee'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
+	if (!is_weixin()) {
+		$notify_url = 'http://wx.wyhrkj.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=3 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
+            $tid = "10003" . date('YmdHis', time());
+            $trade_no = "ZML".date("YmdHis");
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$fee,
+                'is_pay'=>0,
+                'type'=>3,
+                'level'=>$_SESSION['upgrade_level']
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10003" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$fee,
+                    'is_pay'=>0,
+                    'type'=>3,
+                	'level'=>$_SESSION['upgrade_level']
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
+        }
+        $result = m('pay')->H5pay($trade_no, $fee, $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        } else {
+            message('请稍后再试', $this->createMobileUrl('user'), 'error');
+        }
+        include $this->template('vip/openHref');
+	} else {
+		$tid = "10003" . date('YmdHis', time());
+		$title = "购买{$config['title']}代理会员";
+		$fee = $config['buy_service_fee'];
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	}
 }

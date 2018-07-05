@@ -2,10 +2,11 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx642c33c7643e5b3b";
-    private $mchid = "1502375031";
-    private $secrect_key = "hpnfm0wwg4xh3e3pmk50udcjiup2ytby";
+    private $appid = "wxfd4a70b979dab561";
+    private $mchid = "1507913941";
+    private $secrect_key = "gtdci2zkcmrn1mouqg3crdqqdt0rasov";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
+    private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
     private $publickey_path = "/www/wwwroot/90i0.com/addons/xuan_mixloan/data/key/ras.pub";
     private $apiclient_cert = "/www/wwwroot/90i0.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
@@ -13,7 +14,7 @@ class Xuan_mixloan_Pay
     function __construct()
     {
         if (!file_exists($this->publickey_path)) {
-            $this->GetPubRsa();
+            //$this->GetPubRsa();
         }
     }
     /**
@@ -60,6 +61,43 @@ class Xuan_mixloan_Pay
             return ["code"=>1, "msg"=>$result["err_code_des"], "data"=>$data];
         } else {
             return ["code"=>-1, "msg"=>$result["err_code_des"]];
+        }
+    }
+    /**
+     * H5支付
+     * @param $amount 单位：分
+     * @param $notify_url
+     * @return array
+     */
+    function H5pay($trade_no, $amount, $notify_url)
+    {
+        if (empty($amount)) {
+            return ["code"=>-1, "msg"=>"amount不能为空"];
+        }
+        if (empty($notify_url)) {
+            return ["code"=>-1, "msg"=>"notify_url不能为空"];
+        }
+        $params["appid"] = $this->appid;
+        $params["mch_id"] = $this->mchid;
+        $params['out_trade_no'] = $trade_no;
+        $params["nonce_str"] = strtoupper(md5($trade_no));
+        $params['body'] = '汇融客官方充值';
+        $params["spbill_create_ip"] = $this->getRealIp();
+        $params["total_fee"] = intval($amount*100);
+        $params["notify_url"] = $notify_url;
+        $params["trade_type"] = "MWEB";
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.wyhrkj.com","wap_name": "汇融客官方充值"}}';
+        $string = $this->GetHttpQueryString($params);
+        $sign = $this->GetSign($string);
+        $params["sign"] = $sign;
+        $result = $this->curl($this->H5pay_url, $params, false);
+        if ($result['result_code'] != "FAIL") {
+            $data = array(
+                "url"=>$result['mweb_url']
+            );
+            return ["code"=>1, "msg"=>$result["return_msg"], "data"=>$data];
+        } else {
+            return ["code"=>-1, "msg"=>$result["return_msg"]];
         }
     }
     /**
@@ -181,5 +219,26 @@ class Xuan_mixloan_Pay
         } else {
             die($xml["return_msg"]);
         }
+    }
+    /**
+     * 获取Ip
+     */
+    function getRealIp()
+    {
+        $ip=false;
+        if(!empty($_SERVER["HTTP_CLIENT_IP"])){
+            $ip = $_SERVER["HTTP_CLIENT_IP"];
+        }
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ips = explode (", ", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            if ($ip) { array_unshift($ips, $ip); $ip = FALSE; }
+            for ($i = 0; $i < count($ips); $i++) {
+                if (!eregi ("^(10│172.16│192.168).", $ips[$i])) {
+                    $ip = $ips[$i];
+                    break;
+                }
+            }
+        }
+        return ($ip ? $ip : $_SERVER['REMOTE_ADDR']);
     }
 }
