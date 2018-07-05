@@ -5,8 +5,8 @@ html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form
 
 html{-webkit-text-size-adjust:none;font-size: 10px;  overflow-x: hidden; }
 body {background-color:#fff;color:#666666;
-font-family:Microsoft YaHei,sans-serifSimSun, Arial, Helvetica,"\534E\6587\9ED1\4F53", sans-serif; 
- overflow-x: hidden;min-width:320px;font-size:0.7rem;}
+    font-family:Microsoft YaHei,sans-serifSimSun, Arial, Helvetica,"\534E\6587\9ED1\4F53", sans-serif;
+    overflow-x: hidden;min-width:320px;font-size:0.7rem;}
 a, img {
     -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
 }
@@ -14,8 +14,8 @@ a, img {
 
 
 /*html, body {*/
-    /*-webkit-user-select: none;   /!* 禁止选中文本（如无文本选中需求，此为必选项） *!/*/
-    /*user-select: none;*/
+/*-webkit-user-select: none;   /!* 禁止选中文本（如无文本选中需求，此为必选项） *!/*/
+/*user-select: none;*/
 /*}*/
 table {border-collapse:collapse;border-spacing:0}
 table th{font-weight:normal;}
@@ -112,17 +112,17 @@ a.c-0cf:visited { color: #0cf;}
 
 
 
-::-webkit-input-placeholder { /* WebKit browsers */ 
-color: #bdbcbc; 
-} 
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
-color: #bdbcbc; 
-} 
-::-moz-placeholder { /* Mozilla Firefox 19+ */ 
-color: #bdbcbc;  
-} 
-:-ms-input-placeholder { /* Internet Explorer 10+ */ 
-color: #bdbcbc; 
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #bdbcbc;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #bdbcbc;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #bdbcbc;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #bdbcbc;
 } 
 
 

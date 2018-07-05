@@ -170,6 +170,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">通过率</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][pass_rate]" value="{$item['ext_info']['pass_rate']}" />
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款期限</label>
                 <div class="col-sm-4 col-lg-4 col-xs-12">
                     <input type="text" class="form-control"  name="data[time_blow]" value="{$item['time_blow']}" />
@@ -219,6 +228,18 @@
                     <div class="input-group" style="width:10px; height: 32px;">
                       <span class="input-group-addon plus" id="basic-addon1">+</span>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请条件</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][conditions]', $item[ext_info][conditions]);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注意事项</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][reminds]', $item[ext_info][reminds]);}
                 </div>
             </div>
             <div class="form-group">
