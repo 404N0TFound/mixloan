@@ -283,7 +283,8 @@ class Xuan_mixloan_Member
     }
     /**
      *   口子进来的锁定上级
-     **/
+     *
+     */
     public function checkFirstInviter($openid, $inviter) {
         global $_W;
         $openid = trim($openid);
@@ -291,25 +292,33 @@ class Xuan_mixloan_Member
         if (empty($openid) || empty($inviter)) {
             return false;
         }
-        $id = pdo_fetchcolumn('select id from ' .tablename('xuan_mixloan_member'). '
-            where openid=:openid', array(':openid'=>$openid));
+        $id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_member') . '
+            where openid=:openid', array(
+            ':openid' => $openid
+        ));
         if ($id == $inviter) {
             return false;
         }
-        $res = pdo_fetchcolumn("SELECT count(*) FROM " .tablename("qrcode_stat"). "
-            WHERE openid=:openid AND uniacid=:uniacid AND type=1",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        $res = pdo_fetchcolumn("SELECT count(*) FROM " . tablename("qrcode_stat") . "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1", array(
+            ":openid" => $openid,
+            ":uniacid" => $_W["uniacid"]
+        ));
         if (!$res) {
-            $insert =array(
-                'uniacid'=>$_W['uniacid'],
-                'acid'=>0,
-                'qid'=>0,
-                'openid'=>$openid,
-                'type'=>1,
-                'qrcid'=>$inviter,
-                'scene_str'=>$inviter,
-                'createtime'=>time(),
+            $insert = array(
+                'uniacid' => $_W['uniacid'],
+                'acid' => 0,
+                'qid' => 0,
+                'openid' => $openid,
+                'type' => 1,
+                'qrcid' => $inviter,
+                'scene_str' => $inviter,
+                'createtime' => time() ,
             );
             pdo_insert('qrcode_stat', $insert);
+            return true;
+        } else {
+            return false;
         }
     }
      /**

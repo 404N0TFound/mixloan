@@ -54,36 +54,6 @@ class Xuan_mixloanModule extends WeModule {
 
             if ($this->saveSettings($cfg)) {
                 pdo_delete("xuan_mixloan_poster", array("pid"=>0));
-                if ($setting['backup']!=1 && $cfg['backup']==1) {
-                    $ids = pdo_fetchall("SELECT id FROM ".tablename('uni_account_modules'). " WHERE `module`='xuan_mixloan' ORDER BY id DESC LIMIT 2");
-                    if (empty($ids[1])) {
-                        message('没有查找到可备份资料', '', 'error');
-                    }
-                    $old_settings = pdo_fetchcolumn("SELECT settings FROM ".tablename('uni_account_modules')." WHERE id={$ids[1]['id']}");
-                    if (empty($old_settings)) {
-                        message('没有查找到可备份资料', '', 'error');
-                    }
-                    $old_settings = unserialize($old_settings);
-                    $old_settings['backup'] = 1;
-                    $this->saveSettings($old_settings);
-                    pdo_update('xuan_mixloan_bank', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_bank_artical', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_bank_card', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_channel', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_channel_advs', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_channel_subject', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_creditCard', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_friend', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_friend_comment', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_inviter', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_loan', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_loan_advs', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_payment', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_product', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_product_advs', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_product_apply', array('uniacid'=>$_W['uniacid']));
-                    pdo_update('xuan_mixloan_withdraw', array('uniacid'=>$_W['uniacid']));
-                }
                 message('保存成功', 'refresh');
             }
 		}

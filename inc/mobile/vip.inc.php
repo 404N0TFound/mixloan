@@ -220,7 +220,7 @@ if($operation=='buy'){
             $res = $wx->barCodeCreateDisposable($barcode);
             $url = $res['url'];
         } else {
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('inviter'=>$member['id']));
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register','inviter'=>$member['id']));
         }
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $config['invite_avatar'];
@@ -292,4 +292,8 @@ if($operation=='buy'){
 		WHERE inviter={$member['id']} AND status>0 AND type=2") ? : 0;
     $follow_count = count($follow_list) ? : 0;
     include $this->template('vip/followList');
+} else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }
