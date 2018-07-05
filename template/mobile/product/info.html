@@ -79,11 +79,12 @@
     }
     /*弹窗样式*/
     div.layui-layer-content{padding: 10px 0px!important;}
-    div.ewm_main p a{width: 40%;margin:0 10px;}
+    div.ewm_main p a{width: 28%;margin:10px 5px;float: left;}
 </style>
 <script type="text/javascript">
     var aa = "{$poster_path}";
-    var daili_url = "{$poster_url}";
+    var daili_short_url = "{$poster_short_url}";
+    var daili_long_url = "{$poster_long_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
@@ -253,7 +254,7 @@ document.writeln("                        <img id=\'source_img\'  src=\'"+aa+"\'
 document.writeln("                    </div>");
 document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
 document.writeln("                </div>");
-document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a onclick=\'downloadimg()\' href=\'javascript:;\'>保存海报</a><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
+document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_short_url +"</textarea><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_long_url +"</textarea><a style=\"margin-left:5%\" onclick=\'downloadimg()\' href=\'javascript:;\'>保存海报</a><a class=\'copy copy-btn\' id=\"copy_long\" href=\'javascript:;\'>复制长链接</a><a class=\'copy copy-btn\' id=\"copy_short\" href=\'javascript:;\'>复制短链接</a></p>");
 document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
 // }
 document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
@@ -343,8 +344,19 @@ function copyToClipboard(elem) {
     return succeed;
 }
 //点击复制事件
-$(".copy-btn").on("click",function(){
+$("#copy_short").on("click",function(){
     copyToClipboard(document.getElementsByTagName("textarea")[0]);
+    document.activeElement.blur();
+    if(succeed){
+        layer.msg("复制成功！");
+        $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
+    }else{
+        layer.msg("您的手机版本较低，请升级版本后重试！");
+        $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+    }
+})
+$("#copy_long").on("click",function(){
+    copyToClipboard(document.getElementsByTagName("textarea")[1]);
     document.activeElement.blur();
     if(succeed){
         layer.msg("复制成功！");
