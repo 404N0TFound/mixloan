@@ -25,9 +25,15 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.city.data-3.js"></script> 
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
+<style type="text/css">
+    div.fstC, div.hotR{margin-top: 2%}
+    .search{width: 100%;padding:5px 10px;text-align: center;font-size: 13px;padding-top: 10px}
+    .search .search_input{width: 70%;font-size: 13px;height: 2.5rem}
+    .search_button{padding: 3% 10px;background: white;color:grey;border-radius: 3px;border: none;}
+</style>
 <body class="bglightgray" style="background: #ff7753">
 {if !is_weixin()}
 <style type="text/css">
@@ -44,15 +50,20 @@
     </div>
 </div>
 {/if}
+<div class="search">
+    <input type="text" id="keyword" class="search_input">
+    <input type="hidden" id="areaId" value="110101">
+    <a class="search_button" onclick="post_data()">搜索</a>
+</div>
 <div class="common_frame fstC">
     <h1 onclick="chooseArea()">选择地区</h1>
     <div class="fstC_lists">
        
     </div>
-    <div class="fstC_more"><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">更多推荐贷款</a></div>
+    <!-- <div class="fstC_more"><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">更多推荐贷款</a></div> -->
 </div>
 <script type="text/javascript">
-    post_data(110101);
+    post_data();
     mui.init();
     mui(function () {
         cityPicker = new mui.PopPicker({
@@ -64,11 +75,15 @@
     function chooseArea(){
     　　cityPicker.show(function(items) {
             $('.fstC h1').text(items[1].text);
-            post_data(items[1].value);
+            $('#areaId').val(items[1].value);
+            $('#keyword').val();
+            post_data();
     　　});
     }
-    function post_data(areaId){
-        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'getService'))}",{"areaId":areaId},
+    function post_data(){
+        var areaId = $('#areaId').val();
+        var keyword = $('#keyword').val();
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'getService'))}",{"areaId":areaId, "keyword":keyword},
                 function(data){
                     if(data.code==1){
                         var list = data.data.list;

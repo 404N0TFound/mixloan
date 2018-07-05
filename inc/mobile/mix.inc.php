@@ -17,9 +17,13 @@ if($operation=='service'){
 } else if ($operation == 'getService') {
 	//根据地区id获取客服
 	$areaId = intval($_GPC['areaId']);
+	$keyword = trim($_GPC['keyword']);
 	$con = array(':uniacid' => $_W['uniacid'], ':area_city' => $areaId);
+	if (!empty($keyword)) {
+		$where .= " and name like '%{$keyword}%'";
+	}
 	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_service') . '
-		where uniacid=:uniacid and area_city=:area_city', $con);
+		where uniacid=:uniacid and area_city=:area_city' . $where, $con);
 	if (!empty($list)) {
 		foreach ($list as &$row) {
 			$row['ext_info'] = json_decode($row['ext_info'], true);
@@ -27,6 +31,8 @@ if($operation=='service'){
 		} 
 		unset($row);
 		show_json(1, ['list' => $list]);
+	} else if ($keyword) {
+		show_json(-1, [], '没有找到相关数据');
 	} else {
 		show_json(-1, [], '正在对接中...');
 	}
@@ -34,6 +40,7 @@ if($operation=='service'){
 	//客服详情
 	$id = intval($_GPC['id']);
 	$con = array(':uniacid' => $_W['uniacid'], ':id' => $id);
+	$where = '';
 	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_service') . '
 		where uniacid=:uniacid and id=:id', $con);
 	$item['ext_info'] = json_decode($item['ext_info'], true);
@@ -51,6 +58,10 @@ if($operation=='service'){
 	include $this->template('mix/serviceDetail');
 } else if ($operation == 'buyService') {
 	//购买资格
+	$fee = $config['buy_service_fee'];
+	if ($member['id'] == 1) {
+		$fee = '0.01';
+	}
 	if (!is_weixin()) {
 		$notify_url = 'http://wx.wyhrkj.com/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
@@ -67,7 +78,6 @@ if($operation=='service'){
                 'fee'=>$fee,
                 'is_pay'=>0,
                 'type'=>3,
-                'level'=>$_SESSION['upgrade_level']
             );
             pdo_insert('xuan_mixloan_paylog', $insert);
         } else {
@@ -85,7 +95,6 @@ if($operation=='service'){
                     'fee'=>$fee,
                     'is_pay'=>0,
                     'type'=>3,
-                	'level'=>$_SESSION['upgrade_level']
                 );
                 pdo_insert('xuan_mixloan_paylog', $insert);
             }
