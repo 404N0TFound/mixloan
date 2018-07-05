@@ -11,5 +11,7 @@ if($operation=='service'){
 } else if ($operation == 'tutorials') {
 	//新手指南
 	include $this->template('mix/tutorials');
+} else if ($operation == 'area_customer') {
+	//地区贷款客户
+	include $this->template('mix/area_customer');
 }
-?>

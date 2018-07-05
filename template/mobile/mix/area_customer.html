@@ -1,0 +1,76 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>下款专员</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_3.css">
+    <link href="../addons/xuan_mixloan/template/style/mui/css/mui.picker.css" rel="stylesheet" />
+    <link href="../addons/xuan_mixloan/template/style/mui/css/mui.min.css" rel="stylesheet" />
+    <link href="../addons/xuan_mixloan/template/style/mui/css/mui.poppicker.css" rel="stylesheet" />
+
+    {template 'common/wxshare'}
+</head>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.picker.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.poppicker.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.city.data-3.js"></script> 
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+<body class="bglightgray" style="background-image: url(../addons/xuan_mixloan/template/style/images/59f9809827a31_1.png);background-size: 100% 100%;height: 800px">
+{if !is_weixin()}
+{/if}
+<div class="common_frame fstC">
+    <h1 onclick="chooseArea()">选择地区</h1>
+    <div class="fstC_lists">
+        {loop $cards $c}
+        <div class="recommend_main fstC_list">
+            <h2>{$c['name']}<a href="{$c['ext_info']['url']}" data-id="{$c['id']}" onclick="clickNum(this);">立即办卡</a></h2>
+            <div class="recommend_detail fstC_dtl">
+                <span class="card_img"><img src="{php echo tomedia($c['ext_info']['pic']);}" /></span>
+                <div class="card_desc">
+                    <p>{$c['ext_info']['v_name']}</p>
+                    <p>{$c['ext_info']['intro']}</p>
+                </div>
+                <div class="apply_no">
+                    <p><span>{$c['apply_nums']}</span></p>
+                    <p>已申请</p>
+                </div>
+            </div>
+        </div>
+        {/loop}
+    </div>
+    <div class="fstC_more"><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">更多推荐贷款</a></div>
+</div>
+<script type="text/javascript">
+    mui.init();
+    mui(function () {
+        cityPicker = new mui.PopPicker({
+            layer: 3
+        });
+        cityPicker.setData(cityData3);
+    });
+    //选择区域
+    function chooseArea(){
+    　　cityPicker.show(function(items) {
+       　　 console.log(items);
+    　　});
+    }
+    //关闭选择器
+    function closeChoose(){
+    　　cityPicker.hide();
+    }
+</script>
+</body>
+</html>

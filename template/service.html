@@ -1,0 +1,227 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('service')}">地区客服列表</a></li>
+    <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('service', array('op' => 'add'));}">添加/编辑&nbsp;地区客服</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="service" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="name" value="{$_GPC['name']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>地区贷款名称</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                
+                                <li><a  href="{php echo $this->createWebUrl('service',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('service',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+                        
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'add' || $operation == 'update'}
+<link href="../addons/xuan_mixloan/template/style/mui/css/mui.picker.css" rel="stylesheet" />
+<link href="../addons/xuan_mixloan/template/style/mui/css/mui.min.css" rel="stylesheet" />
+<link href="../addons/xuan_mixloan/template/style/mui/css/mui.poppicker.css" rel="stylesheet" />
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.picker.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.poppicker.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.city.data-3.js"></script> 
+<style type="text/css">
+    body{font-size: 14px}
+    a{color:#555555;}
+</style>
+<script type="text/javascript">
+    console.log(cityData3);
+    mui.init();
+    mui(function () {
+        cityPicker = new mui.PopPicker({
+            layer: 2
+        });
+        cityPicker.setData(cityData3);
+    });
+    //选择区域
+    function chooseArea(){
+    　　cityPicker.show(function(items) {
+            $('#chooseAreaRes').val(items[1].text);
+            $('#area_province').val(items[0].value);
+            $('#area_city').val(items[1].value);
+       　　 console.log(items);
+    　　});
+    }
+</script>
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;地区客服</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="service" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款logo</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">查看二维码费用</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][fee]" value="{$item['ext_info']['fee']}" />
+                        <span class="input-group-addon">元</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" >选择地区</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control" value="" onclick="chooseArea()" readonly="" placeholder="点击选择" id="chooseAreaRes" />
+                    <input type="hidden" name="data[area_province]" value="{$item['area_province']}" id="area_province">
+                    <input type="hidden" name="data[area_city]" value="{$item['area_city']}" id="area_city">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">通过率</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <div class="input-group">
+                        <input type="text" class="form-control"  name="data[ext_info][pass_rate]" value="{$item['ext_info']['pass_rate']}" />
+                        <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款宣传语</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][v_name]" value="{$item['ext_info']['v_name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请人数</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[apply_nums]" value="{$item['apply_nums']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">最高额度</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[money_high]" value="{$item['money_high']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款期限</label>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <input type="text" class="form-control"  name="data[time_blow]" value="{$item['time_blow']}" />
+                    <span class="help-block">最低能贷多少月</span>
+                </div>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <input type="text" class="form-control"  name="data[time_high]" value="{$item['time_high']}" />
+                    <span class="help-block">最高能贷多少月</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款利率</label>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <select class="form-control" name="data[rate_type]">
+                        <option value="1" {if $item['rate_type']==1}selected{/if}>天利率</option>
+                        <option value="30" {if $item['rate_type']==30}selected{/if}>月利率</option>
+                    </select>
+                    <span class="help-block">利率类型</span>
+                </div>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="data[rate]" value="{$item['rate']}" >
+                      <span class="input-group-addon">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款客服二维码</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][qrcode]',$item['ext_info']['qrcode']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请条件</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][conditions]', $item[ext_info][conditions]);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注意事项</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][reminds]', $item[ext_info][reminds]);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{/if}
+{template 'common/footer'}

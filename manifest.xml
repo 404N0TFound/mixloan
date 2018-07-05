@@ -33,12 +33,45 @@
       <entry title="代理会员" do="agent" state="" direct="false" />
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
+      <entry title="贷款客服" do="service" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_area`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_area` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value` int(8) NOT NULL,
+  `text` varchar(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `value` (`value`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_service`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_service` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `area_province` int(8) NOT NULL,
+  `area_city` int(8) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `money_high` int(11) NOT NULL,
+  `rate` decimal(5,2) NOT NULL,
+  `rate_type` int(2) NOT NULL COMMENT '1是天息，30是月息',
+  `time_blow` int(11) NOT NULL,
+  `time_high` int(11) NOT NULL,
+  `apply_nums` int(11) NOT NULL DEFAULT 0,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sort` (`sort`),
+  KEY `type` (`type`),
+  KEY `uniacid` (`uniacid`),
+  KEY `money_high` (`money_high`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_upgrade`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_upgrade` (
