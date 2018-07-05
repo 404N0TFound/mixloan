@@ -730,17 +730,18 @@ if($operation=='buy'){
 		$tips = "";
 		if (!$posterArr) {
 			$created = false;
-			$wx = WeAccount::create();
-		    $barcode = array(
-		        'action_name'=>"QR_LIMIT_SCENE",
-		        'action_info'=> array(
-		            'scene' => array(
-		                'scene_id'=>$member['id'],
-		            )
-		        )
-		    );
-		    $res = $wx->barCodeCreateDisposable($barcode);
-			$url = $res['url'];
+			// $wx = WeAccount::create();
+		 //    $barcode = array(
+		 //        'action_name'=>"QR_LIMIT_SCENE",
+		 //        'action_info'=> array(
+		 //            'scene' => array(
+		 //                'scene_id'=>$member['id'],
+		 //            )
+		 //        )
+		 //    );
+		 //    $res = $wx->barCodeCreateDisposable($barcode);
+			// $url = $res['url'];
+			$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
 			if (empty($config['inviter_poster'])) {
 				message("请检查海报是否上传", "", "error");
 			}
