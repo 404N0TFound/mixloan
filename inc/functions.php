@@ -258,7 +258,7 @@ function base64_image_content($base64_image_content,$path){
 
 
 // 隐藏部分字符串
-function func_substr_replace($str, $replacement = '*', $start = 1, $length = 3)
+function func_substr_replace($str, $replacement = '*', $start = 4, $length = 3)
 {
     $len = mb_strlen($str,'utf-8');
     if ($len > intval($start+$length)) {
