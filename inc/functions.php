@@ -275,3 +275,4 @@ function func_substr_replace($str, $replacement = '*', $start = 1, $length = 3)
     }
     $new_str .= $str2;
     return $new_str;
+}
