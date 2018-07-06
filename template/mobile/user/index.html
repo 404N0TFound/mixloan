@@ -120,10 +120,10 @@
                             <dd>职务：{$member['user_type']['name']}</dd>
                         </dl>
                         <dl style="margin-top: 0.3rem">
-                            <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
+                            <dd style="float: left">绑定手机号：{if $member['phone']}{php echo func_substr_replace($member['phone'])}{else}未绑定{/if}</dd>
                         </dl>
                         <dl style="margin-top: 0.3rem">
-                            <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</dd>
+                            <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({php echo func_substr_replace($inviterInfo['phone'])}){else}平台{/if}</dd>
                         </dl>
                     </li>
                 </ul>
@@ -132,7 +132,7 @@
         <!-- center -->
         <div class="agent_basicInfo">
             <div class="index_special">
-                <h2 id="get_paid"><img src="../addons/xuan_mixloan/template/style/picture/salary_1.png" />我的工资<a class="gz"><img class="gz" src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></a></h2>
+                <h2 id="get_paid"><img src="../addons/xuan_mixloan/template/style/picture/salary_1.png" />我的工资<a class="gz"><img class="gz" src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></a)></h2>
                 <div class="xuxian">
                     <ul class="clearfix">
                         <li><p>总收入(元)</p><span class="total_salary">{$all}</span></li>
