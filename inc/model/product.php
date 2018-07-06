@@ -339,7 +339,9 @@ class Xuan_mixloan_Product
         $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid and d.degree=1 WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} GROUP BY a.openid ORDER BY a.id DESC";
         $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
         foreach ($list as $value) {
-            $uids[] = $value['uid'];
+            if ($value['uid']) {
+                $uids[] = $value['uid'];
+            }
         }
         $con = "";
         if (!empty($uids)) {
