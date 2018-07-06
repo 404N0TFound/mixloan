@@ -1,0 +1,167 @@
+﻿/*
+* @Author: win
+* @Date:   2017-09-19 18:30:45
+* @Last Modified by:   win
+* @Last Modified time: 2017-09-19 18:57:18
+*/
+
+.content {
+    padding-bottom: 250px;
+}
+
+.titlenav {
+    width: 100%;
+    overflow: hidden;
+    background: #0091E6;
+    padding: 5px 0;
+    padding-bottom: 50px;
+}
+
+.titlenav p {
+    text-align: center;
+    font-size: 13px;
+    text-align: center;
+    color: #fff;
+}
+
+.titlenav .money {
+    font-size: 17px;
+}
+
+.goods_info {
+    overflow: hidden;
+    padding: 10px 10px;
+    margin-top: -50px;
+    z-index: 9;
+}
+
+.goods_info .goodsImg {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: block;
+    float: left;
+}
+
+.goods_info .bg {
+    background: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.goods_info .img {
+    overflow: hidden;
+}
+
+.goods_info .goods_name {
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    float: left;
+    margin-left: 10px;
+}
+
+.goods_info .money_box {
+    overflow: hidden;
+    text-align: center;
+    text-align: center;
+    border-top: 1px solid #d9d9d9;
+    margin-top: 5px;
+    padding: 10px 0px;
+}
+
+.goods_info .money_box p {
+    display: inline-block;
+    padding: 0 10px;
+	width:150px
+}
+
+.goods_info .money_box p:nth-child(1) {
+    border-right: 1px solid #d9d9d9;
+}
+
+.goods_info .money_box p span {
+    display: block;
+    font-size: 13px;
+}
+
+.goods_info .money_box p span:nth-child(1) {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.form-group {
+    padding: 5px 15px;
+}
+
+.form-group label,
+.form-group input,
+.form-group select {
+    font-size: 16px;
+}
+
+.ts {
+    padding: 20px 10px;
+    font-size: 15px;
+    border-top: 1px solid #d9d9d9;
+	min-height: 100px
+}
+
+.ts .title {
+    font-size: 18px;
+    line-height: 27px;
+    padding-left: 0px;
+    padding-top: 10px;
+}
+
+.ts p {
+    font-size: 13px;
+    /*position: relative;*/
+}
+
+.ts p:nth-child(1):after {
+    background: none;
+}
+
+.ts p:after {
+    content: "";
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    left: 11px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    background: #958989;
+    border-radius: 50%;
+}
+.ts img{
+	width:100%
+}
+
+.fixed_box {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    padding-bottom: 10px;
+    z-index: 2;
+    background: #fff;
+}
+
+.btn-box {
+    margin-bottom: 10px;
+}
+
+.btn-box .weui-flex__item {
+    padding: 0 2%;
+}
+
+.btn-box a {
+    background: #0091E6;
+}
+
+.btn-box a:active {
+    background: #0091E6!important;
+}

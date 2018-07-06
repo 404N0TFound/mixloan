@@ -49,9 +49,7 @@
     }
     function return_user(){
         var user_url = '{php echo $this->createMobileUrl('user')}';
-        var user_index = plus.webview.getWebviewById('user_index');
-        mui.fire(user_index,'refresh');
-        mui.openWindow({url:user_url, id:'user_index'});
+        mui.openWindow({url:user_url, id:'user_index', createNew:true});
     }
 </script>
 {if !is_weixin()}

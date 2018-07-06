@@ -15,6 +15,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
     }
+    if (!empty($_GPC['uid'])) {
+        $wheres .= " and a.uid={$_GPC['uid']}";
+    }
     $sql = 'select a.id,a.uid,b.nickname,b.avatar,b.phone,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
@@ -203,6 +206,25 @@ if ($operation == 'list') {
     if (isset($_GPC['status']) && $_GPC['status'] != "") {
         $wheres .= " and a.status={$_GPC['status']}";
     }
+    if (!empty($_GPC['id'])) {
+        $wheres .= " and a.id={$_GPC['id']}";
+    }
+    if (!empty($_GPC['uid'])) {
+        $wheres .= " and a.uid={$_GPC['uid']}";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+    } else {
+        $starttime = date('Y-m');
+        $endtime = date('Y-m-d H:i:s');
+    }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
@@ -212,6 +234,48 @@ if ($operation == 'list') {
         $row['left_bonus'] = round($row['left_bonus'], 2);
     }
     unset($row);
+    if ($_GPC['export'] == 1) {
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            $row['reason'] = $row['ext_info']['reason'];
+        }
+        unset($row);
+        m('excel')->export($list, array(
+            "title" => "提现资料",
+            "columns" => array(
+                array(
+                    'title' => 'id',
+                    'field' => 'id',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请人',
+                    'field' => 'nickname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '申请金额',
+                    'field' => 'bonus',
+                    'width' => 10
+                ),
+                array(
+                    'title' => '申请时间',
+                    'field' => 'createtime',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '状态（0申请中，1申请成功，-1申请失败）',
+                    'field' => 'status',
+                    'width' => 25
+                ),
+                array(
+                    'title' => '操作理由',
+                    'field' => 'reason',
+                    'width' => 25
+                ),
+            )
+        ));
+    }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
