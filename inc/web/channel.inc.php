@@ -14,6 +14,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['title'])) {
         $wheres.= " AND title LIKE '%{$_GPC['title']}%'";
     }
+    if (!empty($_GPC['type'])) {
+        $wheres.= " AND type={$_GPC['type']}";
+    }
     $sql = 'select id,title,type,createtime from ' . tablename('xuan_mixloan_channel') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);

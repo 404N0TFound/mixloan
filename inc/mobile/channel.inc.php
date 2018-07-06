@@ -28,7 +28,7 @@ if($operation=='index'){
 	include $this->template('channel/credit_card');
 } elseif ($operation == 'course') {
 	//新手教程
-	$course_list = m('channel')->getList(['id', 'title'], ['type'=>3], 'sort DESC');
+	$course_list = m('channel')->getList(['id', 'title', 'ext_info'], ['type'=>3], 'sort DESC');
 	include $this->template('channel/course');
 } else if ($operation == 'getNew') {
 	//ajax获取新数据
