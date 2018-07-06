@@ -155,4 +155,87 @@ if($operation=='index'){
 		unset($row);
 	}
 	include $this->template('user/rank');
+} else if ($operation == 'message_type') {
+    //消息中心
+    $read = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=1', array(':to_uid' => $member['id']));
+    $unread = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id']));
+    include $this->template('user/message_type');
+} else if ($operation == 'message') {
+    //消息列表
+    $is_read = intval($_GPC['isread']);
+    $type = intval($_GPC['type']) ? : 1;
+    $condition = array(':to_uid' => $member['id'], ':is_read' => $is_read);
+    $system_count = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=1", $condition) ? : 0;
+    $person_count = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=2", $condition) ? : 0;
+    include $this->template('user/message');
+} else if ($operation == 'getMessage') {
+    //获取消息
+    $id = intval($_GPC['id']);
+    $is_read = intval($_GPC['isread']);
+    $type = intval($_GPC['type']) ? : 1;
+    $condition = array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type);
+    $list = pdo_fetchall("select id,uid,createtime,type from " . tablename('xuan_mixloan_msg') . "
+		where to_uid=:to_uid and is_read=:is_read and type=:type and id<{$id}
+		order by id desc limit 15", $condition);
+    foreach ($list as &$row)
+    {
+        if ($row['type'] == 1)
+        {
+            $row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
+            $row['nickname'] = '系统消息';
+        }
+        else
+        {
+            if ($row['uid'] == 0)
+            {
+                $row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
+                $row['nickname'] = '匿名用户';
+            }
+            else
+            {
+                $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+                $row['avatar'] = $man['avatar'];
+                $row['nickname'] = $man['nickname'];
+            }
+        }
+        $row['createtime'] = date('Y-m-d H:i', $row['createtime']);
+    }
+    unset($row);
+    if (!empty($list)) {
+        show_json(1, ['list' => array_values($list)]);
+    } else {
+        show_json(-1);
+    }
+} else if ($operation == 'read_message') {
+    //阅读消息
+    $id = intval($_GPC['id']);
+    if (empty($id))
+    {
+        message('出错啦', '', 'error');
+    }
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_msg') . ' where id=:id', array(':id' => $id));
+    if ($item['is_read'] != 1)
+    {
+        pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $id));
+    }
+    if ($item['type'] == 1)
+    {
+        $item['nickname'] = '系统消息';
+    }
+    else
+    {
+        if ($item['uid'] == 0)
+        {
+            $item['nickname'] = '匿名用户';
+        }
+        else
+        {
+            $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+            $item['nickname'] = $man['nickname'];
+        }
+    }
+    $item['ext_info'] = json_decode($item['ext_info'], true);
+    include $this->template('user/read_message');
 }

@@ -253,6 +253,16 @@ if($operation=='buy'){
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+        $ext_info = array('content' => "您好，您已购买成功", 'remark' => "点击查看详情", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'type'=>1,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$member['id'],
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
         //一级
         $inviter = m('member')->getInviter($member['phone'], $member['openid']);
         if ($inviter) {
@@ -303,6 +313,16 @@ if($operation=='buy'){
             );
             $account = WeAccount::create($_W['acid']);
             $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+            $ext_info = array('content' => "您好，您的下级代理{$member['nickname']}成功购买了代理会员，奖励您推广佣金{$re_bonus}元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+            $insert = array(
+                'is_read'=>0,
+                'type'=>1,
+                'createtime'=>time(),
+                'uniacid'=>$_W['uniacid'],
+                'to_uid'=>$inviter,
+                'ext_info'=>json_encode($ext_info),
+            );
+            pdo_insert('xuan_mixloan_msg', $insert);
             //二级
             $man_one = m('member')->getInviterInfo($inviter);
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
@@ -354,7 +374,16 @@ if($operation=='buy'){
                 );
                 $account = WeAccount::create($_W['acid']);
                 $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
-
+                $ext_info = array('content' => "您好，您的下级代理{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金{$re_bonus}元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+                $insert = array(
+                    'is_read'=>0,
+                    'type'=>1,
+                    'createtime'=>time(),
+                    'uniacid'=>$_W['uniacid'],
+                    'to_uid'=>$inviter_two,
+                    'ext_info'=>json_encode($ext_info),
+                );
+                pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
@@ -398,6 +427,16 @@ if($operation=='buy'){
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
+        $ext_info = array('content' => "您好，您已成功升级{$upgrade_name}代理会员", 'remark' => "点击查看详情", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'type'=>1,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$member['id'],
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
         $inviter = m('member')->getInviter($member['phone'], $member['openid']);
         if ($inviter) {
             $agent = m('member')->checkAgent($inviter, $config);
@@ -448,6 +487,16 @@ if($operation=='buy'){
             );
             $account = WeAccount::create($_W['acid']);
             $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
+            $ext_info = array('content' => "您好，您的下级代理{$member['nickname']}成功升级了代理会员，奖励您推广佣金{$re_bonus}元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+            $insert = array(
+                'is_read'=>0,
+                'type'=>1,
+                'createtime'=>time(),
+                'uniacid'=>$_W['uniacid'],
+                'to_uid'=>$inviter,
+                'ext_info'=>json_encode($ext_info),
+            );
+            pdo_insert('xuan_mixloan_msg', $insert);
             //二级
             $man = m('member')->getInviterInfo($inviter);
             $inviter = m('member')->getInviter($man['phone'], $man['openid']);
@@ -500,6 +549,16 @@ if($operation=='buy'){
                 );
                 $account = WeAccount::create($_W['acid']);
                 $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
+                $ext_info = array('content' => "您好，您的下级代理{$man['nickname']}邀请了{$member['nickname']}成功升级了代理会员，奖励您推广佣金{$re_bonus}元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+                $insert = array(
+                    'is_read'=>0,
+                    'type'=>1,
+                    'createtime'=>time(),
+                    'uniacid'=>$_W['uniacid'],
+                    'to_uid'=>$inviter,
+                    'ext_info'=>json_encode($ext_info),
+                );
+                pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");

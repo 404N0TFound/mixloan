@@ -1,0 +1,157 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta  content="e-mail=no" name="format-detection"/>
+	<title>阅读消息</title>
+	<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+	<script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_3.css">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+	<script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom_1.js"></script>
+
+
+</head>
+<style>
+	html{word-wrap: break-word;}
+	h1{
+		/*width: 80%;*/
+		display: block;
+		padding-top:20px;
+		padding-bottom: 10px;
+		color: #141414;
+		font-size: 18px;
+		font-weight:bolder;
+	}
+	img{
+		height:auto!important;
+		/*width: 100%;*/
+		max-width:100%!important;
+	}
+	div.agent-main{position: relative;}
+	div.main-contain{
+		padding: 0 10px;
+	}
+	div.main-contain p.text-center{text-align: left!important;margin-bottom: 10px;}
+	div.main-contain p.text-center span{display: inline-block;color: #4a8cea;padding-left: 5px;padding-right: 20px;}
+	div.main-contain p.banner_img{padding-bottom: 10px;}
+	div.main-contain p.banner_img a{display: inline-block;width: 100%;}
+	div.main-contain p.banner_img a img{width: 100%;max-width: 100%;}
+	div.content{position: relative;}
+	/*放大图片样式*/
+	div.pinch-zoom-container{overflow: auto!important;}
+	/*阅读全文*/
+	div.agent-main p.gradient{position: absolute; bottom: 0px;left: 0; width:100%;height:30px;background: transparent; background: -webkit-linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,1));background: linear-gradient(rgba(255,255,255,0.3), rgba(255,255,255,1));display: none;}
+	h2.read_more{position: relative; top: 0;left: 0;width:100%; display: inline-block; text-align: center; display: none;padding-bottom: 30px;padding-top:15px;}
+	h2.read_more a{display: block;}
+	h2.read_more p{color: #999;font-size: 13px;font-weight: 400;}
+	h2.read_more img{width:18px;max-width: 100%;animation-duration:0.5s;animation-fill-mode: both;animation-name: shake;animation-iteration-count: infinite;transform-origin: center bottom;}
+	@keyframes shake {
+		0%,
+		100%,
+		20%,
+		50%,
+		80%{
+			transition-timing-function: cubic-bezier(0.215,0.61,0.355,1); /*贝塞尔曲线 ： X1 Y1 X2 Y2*/
+			transform: translate3d(0,-5,0); /*设置只在Z轴上移动*/
+		}
+		40%,
+		43%{
+			transition-timing-function: cubic-bezier(0.755,0.50,0.855,0.060);
+			transform: translate3d(0,-5px,0);
+		}
+		70%{
+			transition-timing-function: cubic-bezier(0.755,0.050,0.855,0.060);
+			transform: translate3d(0,-5px,0);
+		}
+		/*90%{
+        transform: translate3d(0,-1px,0);
+        }*/
+	}
+
+	div.recommend{position: relative;display: block;}
+	div.recommend>p{text-align: right;padding-right: 10px;}
+	div.recommend>p a{display: inline-block;color: #aeaeae;}
+	div.recommend>p img{display: inline-block; width: 13px;max-width: 100%;vertical-align: middle;margin-right: 6px;}
+	div.recommend h2{position: relative; width: 80%; margin:20px auto;text-align: center; border-top:1px solid #c1c1c1;}
+	div.recommend h2 span{position: absolute; top:-10px; left: 35%; display: inline-block;width: 30%;height:20px;text-align: center;line-height: 20px;background-color: #fff;color: #aeaeae;}
+	div.recommend ul{display: flex;align-items: center;background-color: #f4f4f4;border-radius: 12px;padding:10px 15px;margin-top:5px;}
+	div.recommend ul li{float: left;width: 33.3%;}
+	div.recommend ul li a{display: inline-block;width: 100%;height:100%;}
+	/*div.recommend ul li:nth-child(1){width: 20%;margin-right: 10px;}
+    div.recommend ul li:nth-child(2){width: 56%;margin-right: 6px;}
+    div.recommend ul li:nth-child(3){float: right;}*/
+	div.recommend ul li img{width: 50%;max-width: 100%;border-radius: 5px;margin-left: 25%;}
+	div.recommend ul li h3{color: #424242;font-size: 15px;padding-bottom: 5px;font-weight: 400;text-align: center;}
+	div.recommend ul li p{color: #999999;font-weight: 400;height:13px; line-height: 13px;font-size: 13px;text-align: center;overflow: hidden;word-wrap: nowrap;padding:0px 3px;}
+	/*div.recommend ul li a{display: inline-block;padding:5px 10px;border-radius: 5px;border:1px solid #5cb3ff;color: #5cb3ff;font-size: 16px;}*/
+	.agent-main a{text-decoration: underline;}
+</style>
+<body>
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+    function return_back(){
+        mui.init({
+            beforeback: function(){
+                var message = plus.webview.getWebviewById('message');
+                mui.fire(message,'refresh');
+                return true;
+            }
+        });
+        mui.back();
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+	.app_header{height: 80px;width: 100%;background: #ffffff}
+	.app_header_back{text-align: center;color: white}
+	.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 6%}
+	.app_header_back img{float:left;width: 12px;}
+	.app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+	.pt44{padding-top: 0}
+	.share_botton{position: absolute;right: 1.4rem;top: 47px}
+	.share_botton img{ width: 1.66rem;}
+	div.main-contain{margin-top: 2rem}
+</style>
+<div class="app_header">
+	<div class="app_header_back">
+		<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="return_back()">
+		<span>阅读消息</span>
+	</div>
+</div>
+{/if}
+<div class="agent-main pt44">
+	<div class="main-contain">
+		<p class="ag-h5 text-center" style="text-align: center !important;"><span>发送方：{$item['nickname']}</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</p>
+		<p class="content" style="margin-bottom: 10px;">
+			内容：{$item['ext_info']['content']}
+		</p>
+		<p class="remark" style="margin-bottom: 10px;color:grey">
+			备注：{$item['ext_info']['remark']}
+		</p>
+		{if $item['ext_info']['url']}
+		<p class="time" style="text-align: right;color:#4a9aef;" onclick="openNew('{$item['ext_info']['url']}')">
+			阅读原文
+		</p>
+		{/if}
+	</div>
+
+</div>
+
+
+</body>
+</html>
