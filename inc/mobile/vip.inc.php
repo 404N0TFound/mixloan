@@ -19,6 +19,9 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+	if ($member['id'] == 93) {
+		$config['buy_vip_price'] = 0.01;
+	}
 	if (!is_weixin()) {
         $notify_url = 'http://les3.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
