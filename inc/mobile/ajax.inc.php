@@ -180,8 +180,8 @@ if($operation == 'getCode'){
 }else if ($operation == 'apply_temp') {
     //常规脚本
     $ids = [];
-    if ($_GPC['type'] == 'product_apply') {
-        
+    if ($_GPC['type'] == 'alipay') {
+        m('alipay')->transfer(TIMESTAMP,1,15738518588,'刘斐');
     } else if ($_GPC['type'] == 'temp') {
         $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
         foreach ($list as $row) {

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'AopEncrypt.php';
+require_once 'SignData.php';
 
 class AopClient {
 	//应用ID
@@ -252,6 +253,7 @@ class AopClient {
 
 	protected function logCommunicationError($apiName, $requestUrl, $errorCode, $responseTxt) {
 		$localIp = isset ($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "CLI";
+		return false;
 		$logger = new LtLogger;
 		$logger->conf["log_file"] = rtrim(AOP_SDK_WORK_DIR, '\\/') . '/' . "logs/aop_comm_err_" . $this->appId . "_" . date("Y-m-d") . ".log";
 		$logger->conf["separator"] = "^_^";
@@ -1021,7 +1023,6 @@ class AopClient {
 	public function checkResponseSign($request, $signData, $resp, $respObject) {
 
 		if (!$this->checkEmpty($this->alipayPublicKey) || !$this->checkEmpty($this->alipayrsaPublicKey)) {
-
 
 			if ($signData == null || $this->checkEmpty($signData->sign) || $this->checkEmpty($signData->signSourceData)) {
 
