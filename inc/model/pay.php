@@ -2,9 +2,9 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx768d0f148e0c0aae";
-    private $mchid = "1317925001";
-    private $secrect_key = "oet5zqt4tlxdi0vdqlrzvlirzavcnlk0";
+    private $appid = "wx44365229a40692f5";
+    private $mchid = "1508915521";
+    private $secrect_key = "drsxv3zc50snlctize5cpjlybqfx2r5t";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -121,12 +121,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '洁美官方充值';
+        $params['body'] = '致富宝官方充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "洁美官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://les3.cn","wap_name": "致富宝官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
