@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `certno` varchar(50) NOT NULL,
   `banknum` varchar(50) NOT NULL,
   `bankname` varchar(20) NOT NULL,
-  `phone` varchar(30) NOT NULL,
+  `phone` varchar(100) NOT NULL,
   `createtime` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

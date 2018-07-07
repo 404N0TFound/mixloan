@@ -40,18 +40,10 @@ class Xuan_mixloan_Alipay
             "\"remark\":\"$remark\"" .
             "}");
         $result = $aop->execute($request);
-        var_dump($result);die;
-        $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
-        $resultCode = $result->$responseNode->code;
-        if(!empty($resultCode) && $resultCode == 10000)
-        {
-            //提现成功以后 更新表状态 
-            //并且记录 流水等等 
-            return true;
-        }
-        else 
-        {
-           return false;
+        if ($result->alipay_fund_trans_toaccount_transfer_response->code == '10000') {
+            return array('code' => 1, 'msg' => '提现成功', 'order_id' => $result->alipay_fund_trans_toaccount_transfer_response->order_id);
+        } else {
+            return array('code' => -1, 'msg' => $result->alipay_fund_trans_toaccount_transfer_response->sub_msg);
         }
     }
 }
