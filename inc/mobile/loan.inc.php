@@ -10,7 +10,7 @@ if($operation=='index'){
 	//贷款中心首页
 	$agent = m('member')->checkAgent($member['id']);
 	if ($agent['code'] != 1) {
-		message('您还不是会员', $this->createMobileUrl('user'), 'error');
+		header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
 	}
 	$ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . '
 		where is_show=0 and uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
