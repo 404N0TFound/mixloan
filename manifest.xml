@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL default 1,
   `realname` varchar(20) NOT NULL,
   `certno` varchar(50) NOT NULL,
   `banknum` varchar(50) NOT NULL,

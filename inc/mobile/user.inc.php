@@ -202,4 +202,24 @@ else if ($operation == 'read_message')
     }
     $item['ext_info'] = json_decode($item['ext_info'], true);
     include $this->template('user/read_message');
+} else if ($operation == 'bind_alipay') {
+    //绑支付宝
+    include $this->template('user/bind_alipay');
+} else if ($operation == 'bind_alipay_submit') {
+    //验证银行卡
+    $realname = trim($_GPC['realname']);
+    $phone = trim($_GPC['phone']);
+    if (!$realname || !$phone) {
+        show_json(-1, [], '参数不能为空');
+    }
+    $insert = array(
+        'uniacid'=>$_W['uniacid'],
+        'realname'=>$realname,
+        'phone' =>$phone,
+        'createtime'=>time(),
+        'uid'=>$member['id'],
+        'type'=>2
+    );
+    pdo_insert('xuan_mixloan_creditCard', $insert);
+    show_json(1);
 }
