@@ -18,7 +18,7 @@ class Xuan_mixloan_Alipay
      */
     public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name)
     {
-        $payer_show_name        = '用户提现';
+        $payer_show_name        = '洁美';
         $remark                 = '用户提现';
         $aop                    = new \AopClient();
         $aop->gatewayUrl        = $this->gatewayUrl;
