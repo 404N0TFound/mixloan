@@ -97,9 +97,9 @@
     <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
     {/if}
     <style type="text/css">
-        div.list_unit{width: 48%;float: left;height: 200px}
-        div.list_unit h2{font-size: 13px}
-        .list_unit img {width: 100%; height: 100px}
+        div.list_unit:nth-child(-n+4){width: 48%;float: left;height: 200px}
+        div.list_unit h2:nth-child(-n+4){font-size: 13px}
+        .list_unit img:nth-child(-n+4) {width: 100%; height: 100px}
     </style>
     <div class="agent-foot texttotal agent-footer">
         <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png"  style="width: 18px" /><span>口子</span></p></a>
@@ -134,12 +134,14 @@
     <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
         <div class='margin-top'></div>
         <div class="evdayhotlist newcomer" style='padding-top:0!important;overflow-y:scroll;-webkit-overflow-scrolling: touch;'>
-            {loop $course_list $course}
+            {loop $course_list $key $value}
             <div class="list_unit">
-                <img src="{php echo tomedia($course['ext_info']['pic']);}">
-                <h2>{$course['title']}</h2>
+                {if $key<4}
+                <img src="{php echo tomedia($value['ext_info']['pic']);}">
+                {/if}
+                <h2>{$value['title']}</h2>
                 <p>
-                    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$course['id']))}')">去观看</a>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$value['id']))}')">去观看</a>
                 </p>            
             </div>
             {/loop}

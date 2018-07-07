@@ -29,6 +29,7 @@ if($operation=='index'){
 } elseif ($operation == 'course') {
 	//新手教程
 	$course_list = m('channel')->getList(['id', 'title', 'ext_info'], ['type'=>3], 'sort DESC');
+	$course_list = array_values($course_list);
 	include $this->template('channel/course');
 } else if ($operation == 'getNew') {
 	//ajax获取新数据
@@ -91,7 +92,17 @@ if($operation=='index'){
 	} else {
 		$share_link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$id));
 	}
-	include $this->template('channel/artical');
+	if ($item['type'] == 3) {
+		$is_praise = pdo_fetchcolumn('select status from ' . tablename('xuan_mixloan_channel_praise') . "
+			where uid={$member['id']} and artical_id={$id}");
+		$item['praise_count'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_channel_praise') . "
+			where artical_id={$id} and status=1");
+		$item['comment_count'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_channel_comment') . "
+			where artical_id={$id}");
+		include $this->template('channel/artical_course');
+	} else {
+		include $this->template('channel/artical');
+	}
 } else if ($operation == 'search') {
 	//搜索
 	if ($_GPC['post'] == 1) {
@@ -145,5 +156,74 @@ if($operation=='index'){
 	}
 	$list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['subject_id'=>$subjectRes['id']]);
 	include $this->template('channel/subject');
+} else if ($operation == 'artical_comment') {
+	//文章评论
+	if (empty($_GPC['id']) && empty($_GPC['parent_id'])) {
+		show_json(-1, [], '出错了');
+	}
+	$insert = array();
+	$insert['artical_id'] = $_GPC['id'];
+	$insert['parent_id'] = $_GPC['parent_id'];
+	$insert['uid'] = $member['id'];
+	$insert['createtime'] = time();
+	$insert['uniacid'] = $_W['uniacid'];
+	$ext_info = array('content' => trim($_GPC['content']));
+	$insert['ext_info'] = json_encode($ext_info);
+	pdo_insert('xuan_mixloan_channel_comment', $insert);
+	show_json(1, [], '评论成功');
+} else if ($operation == 'artical_praise') {
+	//文章点赞
+	if (empty($_GPC['id'])) {
+		show_json(-1, [], '出错了');
+	}
+	$condition = array();
+	$condition[':uid'] = $member['id'];
+	$condition[':artical_id'] = $_GPC['id'];
+	$record = pdo_fetch('select id,status from ' . tablename('xuan_mixloan_channel_praise') . '
+		where uid=:uid and artical_id=:artical_id', $condition);
+	if ($record) {
+		if ($record['status']) {
+			$update = array('status' => 0);
+		} else {
+			$update = array('status' => 1);
+		}
+		pdo_update('xuan_mixloan_channel_praise', $update, array('id' => $record['id']));
+	} else {
+		$insert = array();
+		$insert['uniacid'] = $_W['uniacid'];
+		$insert['status'] = 1;
+		$insert['artical_id'] = $_GPC['id'];
+		$insert['uid'] = $member['id'];
+		$insert['createtime'] = time();
+		pdo_insert('xuan_mixloan_channel_praise', $insert);
+	}
+	show_json(1);
+} else if ($operation == 'getComment') {
+	//获取评论
+	$id = intval($_GPC['id']);
+	$artical_id = intval($_GPC['artical_id']);
+	if (empty($id) || empty($artical_id)) {
+		show_json(-1, [], '出错了');
+	}
+	$condition = array();
+	$condition[':id'] = $id;
+	$condition[':artical_id'] = $artical_id;
+	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_channel_comment') . "
+		where artical_id=:artical_id and id<:id order by id desc limit 10", $condition);
+	if (!empty($list)) {
+		foreach ($list as &$row) {
+			$man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member') . '
+				where id=:id', array(':id' => $row['uid']));
+			$ext_info = json_decode($row['ext_info'], true);
+			$row['replyList'] = array();
+			$row['avatar'] = $man['avatar'];
+			$row['nickname'] = $man['nickname'];
+			$row['content'] = $ext_info['content'];
+			$row['create_time'] = date('Y-m-d H:i:s', $row['createtime']);
+		}
+		unset($row);
+		show_json(1, ['list' => $list], '获取成功');
+	} else {
+		show_json(-1, [], '没有更多数据了');
+	}
 }
-?>

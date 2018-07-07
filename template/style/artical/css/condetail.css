@@ -1,0 +1,139 @@
+﻿/*全局样式*/
+/**{-webkit-overflow-scrolling: touch;}*/
+html,body{position: relative; background: #F3F3F3;}
+img{max-width: 100%;}
+
+/*标题*/
+div.conDetail{background-color: #fff;}
+div.conDetail h1{padding:0.6rem 3% 0 3%;text-align: center;font-size: 0.74rem;color: #222222;line-height: 1.2rem;}
+/*发布者信息*/
+div.listConCom{background-color: #fff;}
+div.unitCom{box-sizing: border-box;}
+div.kzUnit{padding:0.5rem 6% 0.2rem 6%;}
+div.topicUnit{padding:0.7rem 3%;box-sizing: border-box;border-bottom: 1px solid #ddd;}
+div.kzUnit .listUnitCom h2{height: 2rem; font-weight: normal;font-size: 0.62rem;line-height: 1rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+div.topicUnit .listUnitCom h2{font-weight: normal;font-size: 0.62rem;line-height: 1rem;}
+div.listUnitCom .topicHeader{position: relative; overflow: hidden;margin-bottom: 0.3rem;}
+div.listUnitCom .topicHeader span{display: inline-block; float: left;width: 1.5rem;height: 1.5rem;margin-right: 0.25rem;}
+div.listUnitCom .topicHeader span img{display: block;width: 1.5rem;height: 1.5rem;border-radius: 100%;}
+div.listUnitCom .topicHeader .topicHeaderInfo{float: left;width: 82%;}
+div.topicHeaderInfo h2{height: 1rem!important;font-size: 0.6rem!important;color: #FF9E2C;overflow: hidden;white-space: nowrap;}
+div.topicHeaderInfo p{color: #AAAAAA;font-size: 0.52rem;}
+div.kzUnit a{display: block;overflow: hidden;}
+div.kzUnit .kzUnitLeft{float: left;width: 65%;height: 3.6rem;position: relative;}
+div.kzUnit .kzUnitRight{float: left;width: 35%;}
+div.kzUnit .kzUnitRight img{display: block; height: 3.6rem;width: 95%;margin-left: 5%}
+div.timeAtabCom{overflow: hidden;margin-top: 0.75rem;position: relative;}
+div.timeAtabCom span{display: inline-block;font-size:0.5rem;color: #AAAAAA;}
+div.timeAtabCom span img{display: inline-block;vertical-align: middle; height: 0.52rem;margin-top: -0.1rem;}
+div.timeAtabCom span em{display: inline-block;font-size: 0.52rem;color: #5098FC;margin-left: 0.2rem;}
+div.timeAtabCom ul{position: absolute;right: 0;overflow: hidden;top:0;}
+div.timeAtabCom ul li{margin:0 0.3rem;float: left;}
+div.timeAtabCom ul li img{height: 0.42rem;margin-right: 0.2rem;}
+div.timeAtabCom ul li span{display: inline-block;height: 0.8rem;line-height: 0.8rem;font-size: 0.5rem;color: #AAAAAA;}
+div.timeAtabGap{margin-top: 0.4rem;}
+
+div.evalList .empty{min-height: 2rem; display: none;padding: 0.2rem 0 0.8rem 0;}
+div.evalList .empty img{display: block;width: 25%;margin: 0 auto;}
+div.evalList .empty p{text-align: center;color: #999;font-size: 0.54rem;}
+div.evalList .dataLoading{width: 100%;text-align: center;color: #666;height: 1.8rem;line-height: 0.3rem;font-size: 0.6rem;}
+div.evalList .dataLoading span{display: inline-block;}
+div.evalList .dataLoading span.loading{overflow: hidden;padding:0.2rem 0;}
+div.evalList .dataLoading span i{float: left;position: relative; display: inline-block; width:0.6rem;height: 0.6rem;border:1px solid #666;
+	border-top-color: transparent;margin-right: 0.2rem;border-radius: 50%;transform: rotate(0deg);animation:refresh-rotate 0.6s linear infinite;top:-0.05rem;}
+div.evalList .dataLoading span u{float: left;display: inline-block;text-decoration: none;height: 0.6rem;line-height: 0.6rem;}
+@keyframes refresh-rotate {
+    0% {transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+/*口子文章内容*/
+div.kzCon{min-height: 3rem;box-sizing: border-box;border-bottom: 1px solid #DDDDDD;padding:0 3% 0.6rem 3%;}
+
+/*点赞*/
+div.kzRecommend{padding: 1rem 0;}
+div.kzRecommend p{text-align: center;}
+div.kzRecommend p span{display: inline-block;width: 3.2rem;height: 3.2rem;}
+div.kzRecommend p span img{width: 100%;height: 100%;}
+div.kzRecommend p em,div.kzRecommend p label{display: inline-block;color: #AAAAAA;padding-top:0.3rem;}
+div.kzRecommend p em{margin-right: 0.15rem;font-size: 0.53rem;}
+div.kzRecommend p label{font-size: 0.52rem;letter-spacing: 0.02rem;}
+
+/*推荐*/
+div.recPro{background-color: #f3f3f3;padding:0.2rem 0;}
+div.recPro img{display: block;width: 100%;}
+
+/*中间空隙补充*/
+div.gapAdd{height: 0.35rem;background-color: #f3f3f3;}
+
+/*评论区*/
+div.evalListBox{background-color: #fff;padding: 0.2rem 0 0.5rem 0;}
+div.evalUnitCom{padding: 0.4rem 3.5%;}
+div.evalUnitCom h2{width: 88%; font-size: 0.6rem;color: #666666;font-weight: normal;margin-left: 11%;margin-top: 0.25rem; line-height: 0.95rem;}
+div.evalReleaser{overflow: hidden;}
+div.evalReleaser span,div.evalReleaser h3{float: left;height: 1.3rem;line-height: 1.3rem;}
+div.evalReleaser span{width:1.3rem;}
+div.evalReleaser span img{display: block;width: 100%;height: 100%;border-radius: 100%;}
+div.evalReleaser h3{width: 57%;overflow: hidden;font-size: 0.62rem;color: #1896F1;margin-left: 2%;font-weight: normal;}
+div.evalReleaser h3 span{display: inline-block;width: auto; max-width: 70%;overflow: hidden;white-space: nowrap;}
+div.evalReleaser b{float: right;height: 1.3rem;line-height: 1.3rem;color: #AAAAAA;font-size: 0.53rem;font-weight: normal;}
+div.evalUnitFloorBox{background-color: #F3F3F3;margin-top: 0.4rem;width: 86%;margin-left: 10%; border-radius: 0.2rem;}
+div.evalUnitFloor h2{color: #999999;font-size: 0.52rem;line-height: 0.86rem;margin-top: 0.15rem;}
+div.evalUnitFloor .evalReleaser h3{position: relative; width: 60%;font-size: 0.56rem;height: 1rem;line-height: 1rem;}
+div.evalUnitFloor .evalReleaser h3 span{display: inline-block;width: auto; max-width: 70%;overflow: hidden;white-space: nowrap;}
+div.evalUnitFloor .evalReleaser span{height: 1rem;width: 1rem;}
+div.evalUnitFloor .evalReleaser b{height: 1rem;line-height: 1rem; font-size: 0.52rem;}
+div.bottomGap{height: 2rem;}
+
+/*帖子内容*/
+div.kzImg{overflow: hidden;margin-top: 0.5rem;}
+div.kzImg img{width: 100%;margin-top: 0.2rem;}
+
+/*发表评论*/
+div.evaluate{position: fixed;bottom: 0;left: 0;width: 100%;background-color: #fff;padding:0.5rem 0;box-sizing: border-box;border-top: 1px solid #f3f3f3;}
+div.evaluate .evaluateCon{width: 95%;margin: 0 auto;}
+div.evaluateCon>span{float: left;position: relative; display: inline-block;width: 77%;background-color: #F3F3F3;border-radius: 5rem;}
+div.evaluateCon span textarea{height: 22px; font-size: 0.6rem;width: 80%;background-color: transparent;padding-left: 5%;resize:none;
+	outline: none;max-height:200px;padding-top: 6px;}
+div.evaluateCon span a{position: absolute;bottom: -0.01rem;right: 0rem;color: #333333;font-size: 0.5rem;background: none!important;}
+div.evaluateCon span i{display: inline-block;position: absolute;right: 0;top:0;}
+div.evaluateCon a{display: inline-block;float: left;width: 20%;background-color: #F3F3F3;border-radius: 1rem;margin-left: 3%;text-align: center;
+font-size: 0.52rem;color: #666666;height: 32px;line-height: 32px;}
+
+/*引导下载App*/
+div.logoTip{position: fixed; width: 86%;left: 3.5%;bottom:3rem; padding:0.35rem 3.5%; background: rgba(0,0,0,0.55);border-radius: 0.3rem;overflow: hidden;}
+div.logoTip img{float: left; display: inline-block;height: 1.5rem;}
+div.logoTip a{display: inline-block;float: right;color: #fff!important;background: #2c9dff;height: 1.2rem;line-height: 1.2rem;text-align: center;
+		font-size: 0.58rem;border-radius: 1rem;padding:0 0.5rem;margin-top: 0.15rem;margin-right: 1.2rem;}
+div.logoTip em{position: absolute;top: 25%;right: 0.3rem; display: inline-block;width: 1.2rem;height: 1.2rem;}
+div.logoTip em img{display: inline-block;width: 60%;height: 60%;margin:17%;}
+
+/*删除禁言*/
+div.adminPower{position: absolute;top:0.3rem;right: 0;}
+div.adminPower ul{overflow: hidden;}
+div.adminPower ul li{float: left;width: 0.8rem;height: 0.8rem;line-height: 0.8rem;margin-left: 0.8rem;}
+div.adminPower ul li img{display: inline-block;height: 80%;margin: 10% 0;}
+div.evalReleaser h3 ul,div.evalUnitFloor .evalReleaser h3 ul{float: left;width: 25%;overflow: hidden;margin-left: 5%;}
+div.evalReleaser h3 ul li,div.evalUnitFloor .evalReleaser h3 ul li{float: left;width: 50%;}
+div.evalReleaser h3 ul li img{height: 0.6rem;}
+div.evalUnitFloor .evalReleaser h3 ul li img{height: 0.5rem;}
+div.forbidden{position: fixed;width: 100%;height: 100%;top:0;left: 0; background: rgba(0,0,0,0.4);z-index: 999;}
+div.forbidTime{position: relative;top:36%; width: 80%; margin: 0 auto;background: #fff;border-radius: 0.3rem;padding-bottom: 0.8rem;}
+div.forbidTime h2{text-align: center;color: #aaaaaa;font-size: 0.63rem;font-weight: normal;padding:0.6rem 0;letter-spacing: 1px;}
+div.forbidTime ul{overflow: hidden;width: 90%;margin: 0 auto;}
+div.forbidTime ul li{float: left;width: 27%;color: #5098FC;font-size: 0.58rem;text-align: center;margin:0 3%;box-sizing: border-box;
+	border:1px solid #5098FC;padding:0.05rem 0;}
+div.forbidTime ul li.on{background: #5098FC;color: #fff;}
+div.forbidTime dl{overflow: hidden;width: 66%;margin: 0 auto;margin-top: 2rem;}
+div.forbidTime dl dd{float: left;width: 42%;float: left;text-align: center;box-sizing: border-box;border-radius: 0.2rem;height: 1.2rem;line-height: 1.2rem;font-size: 0.61rem;}
+div.forbidTime dl dd.cancel{color: #5098FC;border: 1px solid #5098FC;margin-right: 16%;}
+div.forbidTime dl dd.sure{color: #fff;background: #5098FC;}
+
+div.stickup{overflow: hidden;padding-top: 1rem;}
+div.stickupLeft,div.stickupRight{float: left;}
+div.stickupLeft{width: 40%;}
+div.stickupLeft img{display: block; width: 100%;margin:0 auto;}
+div.stickupLeft h2{position: relative;top:-0.4rem; font-size: 0.62rem;color: #333;text-align: center;margin-top: 5%;font-weight: normal;}
+div.stickupRight{width: 60%;overflow: hidden;}
+div.stickupRight img{float: left;width: 20%;margin-top: 6%;}
+div.stickupRight ul{float: left;width: 76%;padding: 7% 0 0 4%;}
+div.stickupRight ul li{font-size: 0.66rem;color: #ff3557;line-height: 1.2rem;font-weight: bold;}

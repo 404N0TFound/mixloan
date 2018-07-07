@@ -41,6 +41,36 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel_praise`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_praise` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `artical_id` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `artical_id` (`artical_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel_comment`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `artical_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `parent_id` (`parent_id`),
+  KEY `artical_id` (`artical_id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_product_remove`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_remove` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
