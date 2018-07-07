@@ -296,4 +296,62 @@ if($operation=='buy'){
 		WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
     $follow_count = count($follow_list) ? : 0;
     include $this->template('vip/followList');
+} else if ($operation == 'partner_join_type') {
+	//选择合伙人加入方式
+    include $this->template('vip/partner_join_type');
+} else if ($operation == 'partner_buy') {
+	//购买合伙人
+	if (!$member['phone']) {
+		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	}
+	if ($member['id'] == 6922) {
+		$config['buy_partner_price'] = 0.01;
+	}
+	$tid = "10002" . date('YmdHis', time());
+	$title = "购买{$config['title']}合伙人";
+	$fee = $config['buy_partner_price'];
+	$params = array(
+	    'tid' => $tid, 
+	    'ordersn' => $tid, 
+	    'title' => $title, 
+	    'fee' => $fee, 
+	    'user' => $member['id'], 
+	);
+	//调用pay方法
+	$this->pay($params);
+	exit;
+} else if ($operation == 'partner_upgrade') {
+	//满足条件自动升级
+	$partner = m('member')->checkPartner($member['id']);
+	if ($partner['code']) {
+		message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
+	}
+	$list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
+		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+		where a.qrcid=:qrcid and type=1 group by a.openid', array(':qrcid' => $member['id']));
+	$uids = array();
+	foreach ($list as $row) {
+		if ($row['uid']) {
+			$uids[] = $row['uid'];
+		}
+	}
+	if ($uids) {
+		$uid_string = '(' . implode(',', $uids) . ')';
+		$count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . "
+			where uid in {$uid_string}");
+		if ($count >= $config['partner_vip_nums']) {
+			$tid = "30002" . date('YmdHis', time());
+			$insert['uid'] = $member['id'];
+			$insert['createtime'] = time();
+			$insert['uniacid'] = $_W['uniacid'];
+			$insert['tid'] = $tid;
+			$insert['fee'] = 0;
+			pdo_insert('xuan_mixloan_partner', $insert);
+			message('升级合伙人成功', $this->createMobileUrl('user'), 'sccuess');
+		} else {
+			message('您还没达到升级条件呢~', $this->createMobileUrl('user'), 'error');
+		}
+	} else {
+		message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
+	}
 }

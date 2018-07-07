@@ -52,6 +52,19 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_qrcode` (
   KEY `uid` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `tid` varchar(100) NOT NULL,
+  `fee` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_notice`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -471,10 +471,14 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group" >
-							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买费用</label>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">升级条件</label>
 							<div class="col-sm-4 col-xs-12">
 								<input type="text" name="buy_partner_price" value="{$setting['buy_partner_price']}" class="form-control" >
-								<span class="help-block">单位为元</span>
+								<span class="help-block">条件一：直接购买多少元</span>
+							</div>
+							<div class="col-sm-4 col-xs-12">
+								<input type="text" name="partner_vip_nums" value="{$setting['partner_vip_nums']}" class="form-control" >
+								<span class="help-block">条件二：直推几个代理</span>
 							</div>
 						</div>
 						<div class="form-group" >
