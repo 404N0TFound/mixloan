@@ -47,7 +47,7 @@ if($operation=='index'){
         message('该代理产品已被下架', '', 'info');
     }
     $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
-    $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
+    $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?version=".time();
     $top_list = m('product')->getTopBonus($id);
     include $this->template('product/info');
 } else if ($operation == 'allProduct') {
