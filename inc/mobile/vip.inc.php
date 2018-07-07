@@ -138,7 +138,11 @@ if($operation=='buy'){
 		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
 		$row['year'] = date('m-d', $row['createtime']);
 		$row['hour'] = date('H:i', $row['createtime']);
-		$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+		if ($row['banknum']) {
+			$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+		} else {
+			$row['bankmes'] = '微信零钱';
+		}
 		switch ($row['status']) {
 			case '0':
 				$row['status'] = '申请中';

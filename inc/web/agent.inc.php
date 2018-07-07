@@ -39,6 +39,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
+    if (!empty($_GPC['degree'])) {
+        $wheres.= " AND a.degree='{$_GPC['degree']}'";
+    }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
@@ -166,6 +169,34 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
+        }
+        if ($datam && $item['degree'] == 1 && $item['pid'] > 0) {
+            //自动给二级打款
+            $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                        where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
+            if ($second_item) {
+                if ($info['done_reward_type'] == 1) {
+                    $done_bonus = $info['ext_info']['done_two_init_reward_money'];
+                } else if ($info['done_reward_type'] == 2) {
+                    $done_bonus = ($info['ext_info']['done_two_init_reward_per'] / $info['ext_info']['done_one_init_reward_per']) * $_GPC['data']['done_bonus'];
+                    $done_bonus = round($done_bonus, 2);
+                }
+                if ($info['re_reward_type'] == 1) {
+                    $re_bonus = $info['ext_info']['re_two_init_reward_money'];
+                } else if ($info['re_reward_type'] == 2) {
+                    $re_bonus = ($info['ext_info']['re_two_init_reward_per'] / $info['re_one_init_reward_per']) * $_GPC['data']['re_bonus'];
+                    $re_bonus = round($re_bonus, 2);
+                }
+                $second_update['relate_money'] = $_GPC['data']['relate_money'];
+                if ($done_bonus) {
+                    $second_update['done_bonus'] = $done_bonus;
+                }
+                if ($re_bonus) {
+                    $second_update['re_bonus'] = $re_bonus;
+                }
+                $second_update['status'] = $_GPC['data']['status'];
+                pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+            }
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
