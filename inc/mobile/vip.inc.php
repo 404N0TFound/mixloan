@@ -298,6 +298,10 @@ if($operation=='buy'){
     include $this->template('vip/followList');
 } else if ($operation == 'partner_join_type') {
 	//选择合伙人加入方式
+	$partner = m('member')->checkPartner($member['id']);
+	if ($partner['code']) {
+		header("location:{$this->createMobileUrl('vip', array('op' => 'partner_center'))}");
+	}
     include $this->template('vip/partner_join_type');
 } else if ($operation == 'partner_buy') {
 	//购买合伙人
@@ -354,4 +358,18 @@ if($operation=='buy'){
 	} else {
 		message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
 	}
+} else if ($operation == 'partner_center') {
+    //合伙人中心
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
+		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+    foreach ($list as &$row) {
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+    }
+    unset($row);
+    include $this->template('vip/partner_center');
 }
