@@ -186,14 +186,15 @@
         autoplayDisableOnInteraction: false
     });
     function craetePoster(){
-        $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>2))}",{},
-            function(data){
-                if (data.code==1 || data.code==2) {
-                    openNew('{php echo $this->createMobileUrl('vip', array('op'=>'posterAll'))}');
-                } else {
-                    layer.msg(data.msg);
-                }
-            },'json');
+        openNew('{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode', 'type' => 2))}');
+        // $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPoster', 'type'=>2))}",{},
+        //     function(data){
+        //         if (data.code==1 || data.code==2) {
+        //             openNew('{php echo $this->createMobileUrl('vip', array('op'=>'inviterCode', 'type' => 2))}');
+        //         } else {
+        //             layer.msg(data.msg);
+        //         }
+        //     },'json');
     }
 </script>
 </body>
