@@ -129,7 +129,7 @@ if($operation=='buy'){
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '月结';
 		}
-		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
+		$row['tid'] = date('Ymd',$row['createtime']) . $row['id'];
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}
 	unset($row);
