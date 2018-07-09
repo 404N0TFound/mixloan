@@ -130,6 +130,32 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_channel_subject', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('channel', array('op' => 'subject_list')), "sccuess");
     }
+} else if ($operation == 'comments') {
+    //口子评论
+    $id = intval($_GPC['id']);
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $sql = 'select * from ' . tablename('xuan_mixloan_channel_subject') . "
+        where artical_id={$id} " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_channel_comment') . '
+            where id=:id', array(':id' => $row['uid']));
+        $row['nickname'] = $man['nickname'];
+        $row['avatar'] = $man['avatar'];
+        $row['ext_info'] = json_decode($row['ext_info'], true);
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_channel_subject') . "
+        where artical_id={$id} " . $wheres . ' ORDER BY ID DESC');
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'comment_delete') {
+    //评论删除
+    $id = intval($_GPC['id']);
+    pdo_delete('xuan_mixloan_channel_comment', array('id' => $id));
+    message('操作成功', referer(), 'sccuess');
 }
 include $this->template('channel');
 ?>
