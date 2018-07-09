@@ -390,7 +390,7 @@ if($operation=='buy'){
 	    message('您不是会员', '', 'error');
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
-	if ($poster_path) {
+	if (!$poster_path) {
 		if ($config['wx_invite_code']) {
 			$wx = WeAccount::create();
 		    $barcode = array(
