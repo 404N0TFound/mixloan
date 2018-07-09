@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta  content="e-mail=no" name="format-detection"/>
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta  content="e-mail=no" name="format-detection"/>
 	<title>{$config['title']}注册</title>
 	<script src="../addons/xuan_mixloan/template/style/js//jquery_3.js"></script>
 	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
@@ -48,81 +48,96 @@
 	</style>
 	{template 'common/wxshare'}
 </head>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+	.app_header{height: 70px;width: 100%}
+</style>
+<script type="text/javascript">
+</script>
+<div class="app_header">
+</div>
+{/if}
 <body class="bgcolor">
-	<div class="fill_info" data-id="341794">
-		<img src="{php echo tomedia($config['logo']);}" />
-		<ul>
-			<li>
-				<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
-				<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
-			</li>
-			<li>
-				<label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
-				<input type="number" name="" id="validcode" placeholder="请输入验证码">
-				<a class="validnum">获取验证码</a>
-			</li>
-			<li class="psw">
-				<label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
-				<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
-			</li>
-		</ul>
-		{if !$_GPC['layer']}
-		<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
-		{/if}
-		<div class="submit_btn">
-			<a class="to_buy">注册</a>
-		</div>		
-		<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
+<div class="fill_info" data-id="341794">
+	<img src="{php echo tomedia($config['logo']);}" />
+	<ul>
+		<li>
+			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
+			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
+		</li>
+		<li>
+			<label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
+			<input type="number" name="" id="validcode" placeholder="请输入验证码">
+			<a class="validnum">获取验证码</a>
+		</li>
+		<li class="psw">
+			<label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
+			<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
+		</li>
+	</ul>
+	{if !$_GPC['layer']}
+	<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
+	{/if}
+	<div class="submit_btn">
+		<a class="to_buy">注册</a>
 	</div>
+	<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
+</div>
 
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/common_3.js></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
-	$("div.header ul li.head").find("img").load(function(){
-		// 头像居中
-		var ul_height=$("div.header").height();
-		var header_h=$("div.header ul li.head").find("img").height();
-		var margin_top=(ul_height-header_h)/2+"px";
-		$("div.header ul li.head img").css("margin-top",margin_top);
-		//验证码居中
-		var li_h=$("div.fill_info ul li").innerHeight();
-		var v_h=$("div.fill_info ul li a.validnum").height();
-		var top=(li_h-v_h)/2+"px";
-		$("div.fill_info ul li a.validnum").css("top",top);
-	})	
-})
-//密码中文限制
-function check(str){ 
-var temp="" 
-for(var i=0;i<str.length;i++) 
-     if(str.charCodeAt(i)>0&&str.charCodeAt(i)<255) 
-        temp+=str.charAt(i) 
-return temp 
-}
-// 点击获取验证码
-	$(".validnum").click(function(){
-		getCheck();
-	})
-	//提交
-	$(".to_buy").click(function(){
-		to_buy();     
-	})
-	function to_buy(){
-		$(".to_buy").unbind("click");
-		// var name=$("#name").val();
-		var phone=$("#phone").val();
-		var validcode=$("#validcode").val();
-		var psw=$("#psw").val();
-		var psw_l=$("#psw").val().length;
-		// if(name==""){
-		// 	layer.msg("请输入姓名");
-		// 	bind_click();
-		// 	return false;
-		// }
-		if (phone == '请输入手机号码' || phone == '') {
+    $(document).ready(function(){
+        $("div.header ul li.head").find("img").load(function(){
+            // 头像居中
+            var ul_height=$("div.header").height();
+            var header_h=$("div.header ul li.head").find("img").height();
+            var margin_top=(ul_height-header_h)/2+"px";
+            $("div.header ul li.head img").css("margin-top",margin_top);
+            //验证码居中
+            var li_h=$("div.fill_info ul li").innerHeight();
+            var v_h=$("div.fill_info ul li a.validnum").height();
+            var top=(li_h-v_h)/2+"px";
+            $("div.fill_info ul li a.validnum").css("top",top);
+        })
+    })
+    //密码中文限制
+    function check(str){
+        var temp=""
+        for(var i=0;i<str.length;i++)
+            if(str.charCodeAt(i)>0&&str.charCodeAt(i)<255)
+                temp+=str.charAt(i)
+        return temp
+    }
+    // 点击获取验证码
+    $(".validnum").click(function(){
+        getCheck();
+    })
+    //提交
+    $(".to_buy").click(function(){
+        to_buy();
+    })
+    function to_buy(){
+        $(".to_buy").unbind("click");
+        // var name=$("#name").val();
+        var phone=$("#phone").val();
+        var validcode=$("#validcode").val();
+        var psw=$("#psw").val();
+        var psw_l=$("#psw").val().length;
+        // if(name==""){
+        // 	layer.msg("请输入姓名");
+        // 	bind_click();
+        // 	return false;
+        // }
+        if (phone == '请输入手机号码' || phone == '') {
             layer.msg('请输入手机号码');
             bind_click();
             return false;
@@ -132,21 +147,21 @@ return temp
                 bind_click();
                 return false;
             }
-        } 
+        }
         if(validcode==""){
-        	layer.msg("请输入短信验证码");
-        	bind_click();
-			return false;
+            layer.msg("请输入短信验证码");
+            bind_click();
+            return false;
         }
         if(psw==""){
-        	layer.msg("请输入密码");
-        	bind_click();
-			return false;
+            layer.msg("请输入密码");
+            bind_click();
+            return false;
         }
         if(psw_l<6){
-        	layer.msg("密码不能少于6位");
-        	bind_click();
-        	return false;
+            layer.msg("密码不能少于6位");
+            bind_click();
+            return false;
         }
         if($("#protocol").attr("data-index")=="0"){
             layer.msg("请先阅读{$config['title']}用户注册协议");
@@ -154,69 +169,79 @@ return temp
             return false;
         }
         $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
-        	function(data){
-        		console.log(data);
-        		if(data.code==1){
-        			layer.msg("提交成功，正在跳转...",{time:2000},function(){
-						{if $_GPC['layer']}
-						parent.layer.closeAll(); 
-						{else}
-        				location.href=data.data.url;
-						{/if} 
-        			});
-        		}else{
-        			layer.msg(data.msg);
-        			bind_click();
-        			return false;
-        		}
-        	},'json')
-	}
-	function bind_click(){
-		$(".to_buy").bind("click",function(){
+            function(data){
+                console.log(data);
+                if(data.code==1){
+                    if (typeof(plus) == "undefined") {
+                        {if !is_weixin()}
+                        layer.msg('注册成功，请在app内登陆');
+                        {else}
+                        {if $_GPC['layer']}
+                        parent.layer.closeAll();
+                        {else}
+                        layer.msg(data.msg,{time:2000},function(){
+                            openNew(data.data.url);
+                        });
+                        {/if}
+                            {/if}
+                            } else {
+                            layer.msg(data.msg,{time:2000},function(){
+                                openNew(data.data.url);
+                            });
+                        }
+                        }else{
+                            layer.msg(data.msg);
+                            bind_click();
+                            return false;
+                        }
+                    },'json')
+    }
+    function bind_click(){
+        $(".to_buy").bind("click",function(){
             to_buy();
         });
-	}
-	//验证码
-	function getCheck(){
-		$(".validnum").unbind("click");
-		var flagsms = true;
-		//启动计时器，1秒执行一次
-		if (flagsms) {
+    }
+    //验证码
+    function getCheck(){
+        $(".validnum").unbind("click");
+        var flagsms = true;
+        //启动计时器，1秒执行一次
+        if (flagsms) {
             var phone = $("#phone").val();
             var reg = /^(1)\d{10}$/;
             if(phone!=""){
-            	if (!reg.test(phone)) {
-	                layer.msg("请正确填写手机号");
-	                flagsms = true;
-	                $(".validnum").bind("click",function(){
-			            getCheck();
-			        });
-	            }else{            	
-	                $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
-			        	function(data){
-			        		if(data.code==0){
-			        			layer.msg("已发送，请注意查收");
-			        			curCount = 60;
-				                InterValObj = window.setInterval(SetRemainTime, 1000);
-				                flagsms = false;				                
-			        		}else{
-			        			layer.msg(data.msg);
-			        			flagsms = true;
-			        			$(".validnum").bind("click",function(){
-						            getCheck();
-						        });
-			        			return false;
-			        		}
-			        	},'json')
-	            }
+                if (!reg.test(phone)) {
+                    layer.msg("请正确填写手机号");
+                    flagsms = true;
+                    $(".validnum").bind("click",function(){
+                        getCheck();
+                    });
+                }else{
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
+                        function(data){
+                            if(data.code==0){
+                                layer.msg("已发送，请注意查收");
+                                curCount = 60;
+                                InterValObj = window.setInterval(SetRemainTime, 1000);
+                                flagsms = false;
+                            }else{
+                                layer.msg(data.msg);
+                                flagsms = true;
+                                $(".validnum").bind("click",function(){
+                                    getCheck();
+                                });
+                                return false;
+                            }
+                        },'json')
+                }
             }else{
-            	layer.msg("请填写手机号");
+                layer.msg("请填写手机号");
                 flagsms = true;
                 return false;
-            }            
+            }
         }
-	}
-	function SetRemainTime() {
+    }
+    function SetRemainTime() {
 
         if (curCount == 0) {
             window.clearInterval(InterValObj);//停止计时器
@@ -226,41 +251,41 @@ return temp
 
             code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
             $(".validnum").bind("click",function(){
-	            getCheck();
-	        });
+                getCheck();
+            });
         }
         else {
             curCount--;
             $(".validnum").html(curCount+"s");
         }
     }
-//阅读协议选择
-$("#protocol").click(function(){
-	var _this=$(this);
-	if(_this.attr("data-index")=="1"){
-		_this.attr("data-index","0");
-		_this.find("img.selected").hide();
-		_this.find("img.noselect").show();
-	}else{
-		_this.attr("data-index","1");
-		_this.find("img.selected").show();
-		_this.find("img.noselect").hide();
-	}
-})
-//避免输入法影响样式
-$('input').on('focus',function(){
-    window.onresize = function () {        
-        var h = $(window).height();
-        var u = navigator.userAgent;
-        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
-            if(h <= window.screen.availHeight/2){
-                $('.regbg').hide();
-            }else{
-                $('.regbg').show();
+    //阅读协议选择
+    $("#protocol").click(function(){
+        var _this=$(this);
+        if(_this.attr("data-index")=="1"){
+            _this.attr("data-index","0");
+            _this.find("img.selected").hide();
+            _this.find("img.noselect").show();
+        }else{
+            _this.attr("data-index","1");
+            _this.find("img.selected").show();
+            _this.find("img.noselect").hide();
+        }
+    })
+    //避免输入法影响样式
+    $('input').on('focus',function(){
+        window.onresize = function () {
+            var h = $(window).height();
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                if(h <= window.screen.availHeight/2){
+                    $('.regbg').hide();
+                }else{
+                    $('.regbg').show();
+                }
             }
         }
-    }
-})
+    })
 </script>
 </body>
 </html>
