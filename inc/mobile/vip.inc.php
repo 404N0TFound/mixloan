@@ -646,6 +646,8 @@ if($operation=='buy'){
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
+        header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
+        exit();
 		$verify = 0;
 	}
 	$bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");

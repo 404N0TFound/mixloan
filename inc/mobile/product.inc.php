@@ -9,7 +9,7 @@ if($operation=='index'){
 	//首页
 	$agent = m('member')->checkAgent($member['id']);
 	if ($agent['code'] != 1) {
-		message('请先购买代理', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+		header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
 	}
 	$barrages = m('product')->getNewBarrages();
 	include $this->template('product/index');
