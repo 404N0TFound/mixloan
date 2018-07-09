@@ -138,6 +138,14 @@
                         <p class="weui_grid_label">我的团队</p>
                     </a>
                     {/if}
+                    {if $partner['code'] == 1}
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_center'))}')" class="weui_grid js_grid">
+                        <div class="weui_grid_icon">
+                            <img src="../addons/xuan_mixloan/template/style/new_user_index/images/icon3_2.png" alt="">
+                        </div>
+                        <p class="weui_grid_label">合伙人中心</p>
+                    </a>
+                    {/if}
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/daili.png" alt="">
