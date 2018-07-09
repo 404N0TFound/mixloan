@@ -8,8 +8,8 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id'], $config);;
 if($operation=='index'){
 	//会员中心
-	$unread_count = pdo_fetchcolumn('select * from ' . tablename('xuan_mixloan_msg') . '
-		where uid=:uid and is_read=0', array(':uid' => $member['id'])) ? : 0;
+	$unread_count = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
+		where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id'])) ? : 0;
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
 		WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
