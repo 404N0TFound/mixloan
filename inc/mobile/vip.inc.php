@@ -868,7 +868,7 @@ if($operation=='buy'){
             $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'inviter'=>$member['id'], 'pid'=>$pid));
         }
 		$share_url = shortUrl( $url );
-		$tips = "汇容客—我的随身银行";
+		$tips = "汇容客—我的随身银行{$share_url}";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($product['ext_info']['poster'])) {

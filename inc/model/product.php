@@ -273,7 +273,7 @@ class Xuan_mixloan_Product
         $inviter = (int)$params['inviter'];
         if ($params['begin']) {
             $begin = strtotime($params['begin']);
-            $end = strtotime($params['begin']." +1 month -1 day");
+            $end = strtotime($params['begin']." +1 month");
             $wheres .= " AND createtime>={$begin} AND createtime<{$end}";
         }
         if ($type == 1) {

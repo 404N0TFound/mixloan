@@ -290,7 +290,8 @@ if($operation=='index'){
 		if ($row['type'] == 1) {
 			$row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
 		} else {
-			$row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+			$row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
+			// $row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
 		}
 		$row['count_bonus'] = $weeks_bonus_list[$row['id']]['bonus'] ? : 0;
 	}
@@ -300,7 +301,8 @@ if($operation=='index'){
 		if ($row['type'] == 1) {
 			$row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
 		} else {
-			$row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+			$row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
+			// $row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
 		}
 		$row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
 	}
