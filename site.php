@@ -15,18 +15,6 @@ define('XUAN_MIXLOAN_DEBUG', false);
 require_once XUAN_MIXLOAN_INC.'functions.php';
 class Xuan_mixloanModuleSite extends WeModuleSite {
     public function __construct(){
-        if (is_weixin()) {
-             die("<!DOCTYPE html>
-            <html>
-                <head>
-                    <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
-                    <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
-                </head>
-                <body>
-                <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在APP客户端打开</h4></div></div></div>
-                </body>
-            </html>");
-        }
         $condition =  array(
             strexists($_SERVER['REQUEST_URI'], '/app/'),
             !strexists($_SERVER['REQUEST_URI'], 'allProduct'),
