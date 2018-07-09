@@ -237,7 +237,7 @@ if($operation=='buy'){
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
 	$poster = m('poster')->getPoster(["COUNT(1) AS count"], ["pid"=>$id, "type"=>$type, "uid"=>$member['id']]);
-	if (!$poster["count"]) {
+	if (true) {
 		$params = array(
 			"url" => $url,
 			"member" => $member,
@@ -390,7 +390,7 @@ if($operation=='buy'){
 	    message('您不是会员', '', 'error');
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
-	if (!$poster_path) {
+	if (true) {
 		if ($config['wx_invite_code']) {
 			$wx = WeAccount::create();
 		    $barcode = array(
