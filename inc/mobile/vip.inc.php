@@ -311,9 +311,6 @@ if($operation=='buy'){
 	//支付宝支付
 	include $this->template('vip/alipay');
 } else if ($operation == 'alipay_params') {
-	if ($member['id'] == '360') {
-		$config['buy_vip_price'] = 0.01;
-	}
 	$total = floatval($config['buy_vip_price']);
 	// 商品网址
 	$base_path = urlencode( $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')) );
