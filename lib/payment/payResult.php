@@ -1,6 +1,6 @@
 <?php
 define('IN_MOBILE', true);
-require_once( '/www/wwwroot/addons/xuan_mixloan/lib/payment/alipaySdk/aop/AopClient.php');
+require_once( '/www/wwwroot/ss-k.cn/addons/xuan_mixloan/lib/payment/alipaySdk/aop/AopClient.php');
 $aop = new AopClient;
 $aop->alipayrsaPublicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB';
 $flag = $aop->rsaCheckV1($_POST, NULL, "RSA");
