@@ -17,8 +17,8 @@ if($operation=='index'){
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], " sort DESC");
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], " sort DESC");
+    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1, 'status'=>1], " sort DESC");
+    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'status'=>1], " sort DESC");
     $card = m('product')->packupItems($card);
     $loan = m('product')->packupItems($loan);
     $arr = array(

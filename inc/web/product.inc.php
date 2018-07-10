@@ -20,9 +20,8 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_product') . " where uniacid={$_W['uniacid']} " . $wheres);
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    pdo_delete('xuan_mixloan_product', array("id" => $_GPC["id"]));
-    pdo_delete('xuan_mixloan_product_apply', array("pid" => $_GPC["id"]));
-    message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
+    pdo_update('xuan_mixloan_product', array('status'=>-1), array("id" => $_GPC["id"]));
+    message("提交成功", referer(), "sccuess");
 } else if ($operation == 'add') {
     //添加
     $c_arr = m('bank')->getCard(['id', 'name']);
@@ -100,6 +99,23 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_product_advs', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('product', array('op' => 'advs_list')), "sccuess");
     }
+} else if ($operation == 'recycle_list') {
+    //回收站
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = ' AND status=-1';
+    if (!empty($_GPC['name'])) {
+        $wheres.= " AND name LIKE '%{$_GPC['name']}%'";
+    }
+    $sql = 'select id,name,createtime from ' . tablename('xuan_mixloan_product') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_product') . " where uniacid={$_W['uniacid']} " . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'recovery') {
+    //恢复
+    pdo_update('xuan_mixloan_product', array('status' => 1), array('id' => $_GPC['id']));
+    message('操作成功', referer(), 'sccuess');
 }
 include $this->template('product');
 ?>
