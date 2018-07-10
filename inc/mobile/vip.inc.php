@@ -332,7 +332,7 @@ if($operation=='buy'){
 	}
 	$list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
 		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
-		where a.qrcid=:qrcid and type=1 group by a.openid', array(':qrcid' => $member['id']));
+		where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
 	$uids = array();
 	foreach ($list as $row) {
 		if ($row['uid']) {

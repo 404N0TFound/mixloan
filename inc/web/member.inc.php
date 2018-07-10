@@ -199,6 +199,7 @@ if ($operation == 'list') {
     $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_partner') . " a 
         left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
         where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_partner') . " a 
         left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
@@ -208,6 +209,29 @@ if ($operation == 'list') {
     //合伙人
     pdo_delete('xuan_mixloan_partner', array("id" => $_GPC['id']));
     message("删除成功", referer());
+} else if ($operation == 'below_list') {
+    //下级列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['inviter'])) {
+        $wheres.= " AND a.qrcid='{$_GPC['inviter']}'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.openid,a.createtime,b.id,b.avatar,b.nickname from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres . ' GROUP BY a.openid ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(DISTINCT a.openid) from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres);
+    $pager = pagination($total, $pindex, $psize);
 }
 include $this->template('member');
 ?>
