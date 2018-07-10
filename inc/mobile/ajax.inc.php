@@ -12,6 +12,12 @@ if($operation == 'getCode'){
 	if($_GPC['type']=='register'){
 		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
 	}
+    if ($_GPC['activity'] == 1) {
+        $verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+        if ($verify) {
+            show_json(102);
+        }
+    }
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
