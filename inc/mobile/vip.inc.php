@@ -520,17 +520,21 @@ if($operation=='buy'){
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
 	if (!$poster_path) {
-		$wx = WeAccount::create();
-	    $barcode = array(
-	        'action_name'=>"QR_LIMIT_SCENE",
-	        'action_info'=> array(
-	            'scene' => array(
-	                'scene_id'=>$member['id'],
-	            )
-	        )
-	    );
-	    $res = $wx->barCodeCreateDisposable($barcode);
-        $url = $res['url'];
+        if ($config['wx_invite_code']) {
+            $wx = WeAccount::create();
+            $barcode = array(
+                'action_name'=>"QR_LIMIT_SCENE",
+                'action_info'=> array(
+                    'scene' => array(
+                        'scene_id'=>$member['id'],
+                    )
+                )
+            );
+            $res = $wx->barCodeCreateDisposable($barcode);
+            $url = $res['url'];
+        } else {
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op' => '','inviter'=>$member['id']));
+        }
 		$cfg['poster_avatar'] = $config['invite_avatar'];
 		$cfg['poster_image'] = $config['invite_image'];
 		$cfg['poster_color'] = $config['invite_color'];
