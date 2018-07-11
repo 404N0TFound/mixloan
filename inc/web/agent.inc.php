@@ -235,7 +235,7 @@ if ($operation == 'list') {
     unset($row);
     $withdraw_all = pdo_fetchcolumn('select sum(bonus) from ' .tablename('xuan_mixloan_withdraw'). '
         where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'])) ? : 0;
-    $all_bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")."
+    $all_bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")."
         WHERE uniacid={$_W['uniacid']} and status>0") ? : 0;
     $withdraw_left = $all_bonus - $withdraw_all;
     if ($_GPC['export'] == 1) {
