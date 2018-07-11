@@ -130,7 +130,7 @@ div.search_related ul li{width:100%; padding:6px 10px;border-bottom: 1px solid #
 
 /*************************************************************今日口子结束****************************************************************/
 
-/*************************************************************i代客 开始*********************************************************************/
+/*************************************************************金融分发客 开始*********************************************************************/
 /*backstage*/
 div.loan_lists{text-align: center;margin:15px 0 15px 0;}        
 div.loan_lists_frame{position: relative; width: 60%;height:25px; border:4px solid rgba(0,0,0,0.3);margin:0 auto;}
@@ -667,7 +667,7 @@ div.recommend_list ul li p{text-align: left;padding:0;margin:0;font-weight: bold
 div.recommend_list ul li>span{display: inline-block; color: #c3c3c3;line-height: 22px;font-size: 10px;}
 
 
-/***********************************************************i代客 结束***********************************************************/
+/***********************************************************金融分发客 结束***********************************************************/
 
 /*red*/
 .main-applicate{background: url('../images/app-bg_1.png') no-repeat; background-size: cover;}

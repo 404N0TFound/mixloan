@@ -215,7 +215,7 @@ div.ykloanLine{position: absolute;top:0.9rem;left: 5%;width: 90%;height: 1.5rem;
 div.ykloanLine::before{position: absolute;content: "";width: 1px;height: 80%;background-color: #0096ff;top:10%;left: 50%;}
 div.multi-picker-btn-box .multi-picker-btn{color: #383838;}
 
-/*i代客弹窗申请样式*/
+/*金融分发客弹窗申请样式*/
 div.cJframe{-webkit-overflow-scrolling: touch;}
 div.popLoanApplyCommon{position: absolute;width: 100%;top:0;left:0;z-index: 99;background-color: rgba(0,0,0,0.3);display: none;}
 div.popLoanApplyCommon .popLoanMain{opacity: 0;transition: all 0.15s ease; position: absolute;width: 90%;left: 5%; margin: 0 auto; top: 95%;padding-bottom: 1rem; border-radius: 0.5rem; background-color: #fff;z-index: 90;}
