@@ -4,7 +4,7 @@ class Xuan_mixloan_Pay
 {
     private $appid = "wx768d0f148e0c0aae";
     private $mchid = "1484265262";
-    private $secrect_key = "oet5zqt4tlxdi0vdqlrzvlirzavcnlk0";
+    private $secrect_key = "lyet24ceael03aj2vo5wq251nu3lf2kn";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
