@@ -10,7 +10,7 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = '';
+    $wheres = ' AND stauts=1';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND name LIKE '%{$_GPC['name']}%'";
     }
