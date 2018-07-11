@@ -136,7 +136,7 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
-    $sql = 'select * from ' . tablename('xuan_mixloan_channel_subject') . "
+    $sql = 'select * from ' . tablename('xuan_mixloan_channel_comment') . "
         where artical_id={$id} " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
