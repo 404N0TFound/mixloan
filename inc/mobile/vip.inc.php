@@ -22,9 +22,6 @@ if($operation=='buy'){
     $notify_url = 'http://3dmjg.com/addons/xuan_mixloan/lib/wechat/payResult.php';
     $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-    if ($member['id'] == '10622') {
-        $config['buy_vip_price'] = 0.1;
-    }
     if (empty($record)) {
         $tid = "10001" . date('YmdHis', time());
         $trade_no = "ZML".date("YmdHis");
@@ -459,4 +456,7 @@ if($operation=='buy'){
     //邀请注册
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);
     include $this->template('vip/register');
+} else if ($operation == 'checkPay') {
+    //检测有没有付款成功
+    include $this->template('vip/checkPay');
 }
