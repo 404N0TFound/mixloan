@@ -233,6 +233,11 @@ if ($operation == 'list') {
         $row['left_bonus'] = $all - $apply_money;
     }
     unset($row);
+    $withdraw_all = pdo_fetchcolumn('select sum(bonus) from ' .tablename('xuan_mixloan_withdraw'). '
+        where uniacid=:uniacid', array(':uniacid'=>$_W['uniacid'])) ? : 0;
+    $all_bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")."
+        WHERE uniacid={$_W['uniacid']} and status>0") ? : 0;
+    $withdraw_left = $all_bonus - $withdraw_all;
     if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
