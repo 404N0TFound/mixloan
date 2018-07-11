@@ -141,7 +141,7 @@ if ($operation == 'list') {
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        $man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_channel_comment') . '
+        $man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member') . '
             where id=:id', array(':id' => $row['uid']));
         $row['nickname'] = $man['nickname'];
         $row['avatar'] = $man['avatar'];
