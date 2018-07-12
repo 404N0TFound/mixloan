@@ -23,11 +23,12 @@
         div.swiper-container .swiper-wrapper{width: 33.33%;padding:25px 0 12px 0;}
         div.swiper-container .swiper-wrapper .swiper-slide-active{position: relative;top:-12px;}
         div.swiper-container .swiper-wrapper .swiper-slide-active a>img{width: 83%;}
+        div.fstC, div.hotR{margin-top: 0}
     </style>
 
     {template 'common/wxshare'}
 </head>
-<body class="bglightgray" style="background-image: url(../addons/xuan_mixloan/template/style/images/59f980aa2fd25_1.png);background-size: 100% 100%;height: 1100px;">
+<body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -35,7 +36,21 @@
     }
 </script>
 {if !is_weixin()}
+<style type="text/css">
+    .app_header{background: #ff6666;height: 6rem}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 25px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_white.png" onclick="mui.back()">
+        <span>热门推荐</span>
+    </div>
+</div>
 {/if}
+<div style="background-image: url(../addons/xuan_mixloan/template/style/images/59f980aa2fd25_1.png);background-size: 100% 100%;height: 1100px">
 <div class="common_frame hotR">
     <div class="hotR_phb">
         <div class="phb_roll">
@@ -78,6 +93,7 @@
         {/loop}
     </div>
     <div class="hotR_more"><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">更多推荐信用卡</a></div>
+</div>
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
 <script type="text/javascript">

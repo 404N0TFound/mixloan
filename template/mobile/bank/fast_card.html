@@ -16,10 +16,12 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_3.css">
-
+    <style type="text/css">
+    div.fastC{margin-top: 0}
+    </style>
     {template 'common/wxshare'}
 </head>
-<body style="background-image: url(../addons/xuan_mixloan/template/style/images/59f980a2a4ec9_1.png);background-size: 100% 100%;height: 1500px">
+<body >
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -27,8 +29,22 @@
     }
 </script>
 {if !is_weixin()}
+<style type="text/css">
+    .app_header{background: #8831fc}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 25px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_white.png" onclick="mui.back()">
+        <span>极速下卡</span>
+    </div>
+</div>
 {/if}
-<div class="common_frame fastC">
+<div style="background-image: url(../addons/xuan_mixloan/template/style/images/59f980a2a4ec9_1.png);background-size: 100% 100%;height: 1500px">
+<div class="common_frame fastC" >
     <div class="fastC_lists">
         <ul>
             {loop $cards $c}
@@ -49,6 +65,7 @@
         </ul>
     </div>
     <div class="fstC_more"><a href="{php echo $this->createMobileUrl('bank', array('op'=>'bank_card'))}">更多推荐信用卡</a></div>
+</div>
 </div>
 <script type="text/javascript">
     // 记录点击数
