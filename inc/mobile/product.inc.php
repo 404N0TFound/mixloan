@@ -134,6 +134,7 @@ if($operation=='index'){
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
+        show_json(-1, [], '邀请二维码已失效');
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
     if ($inviter) {

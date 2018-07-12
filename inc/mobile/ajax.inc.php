@@ -16,6 +16,11 @@ if($operation == 'getCode'){
             show_json(102);
         }
     }
+    if ($_GPC['token']) {
+	    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+	        show_json(-1, [], "图形验证码不正确");
+	    }
+    }
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
 	}
