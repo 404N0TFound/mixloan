@@ -306,7 +306,7 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month");
         $fields = "COUNT(1) AS count,degree";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0 GROUP BY degree";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND type=1 GROUP BY degree";
         $res = pdo_fetchall($sql);
         if ($res) {
             foreach ($res as $row) {
