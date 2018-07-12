@@ -369,20 +369,28 @@
                 <div class="col-sm-2 col-lg-3 col-xs-12">
                     <p class="form-control-static"><img src="{$apply['avatar']}" width="30px"> {$item['realname']}</p>
                 </div>
+                {if $item['phone']}
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">手机：{$item['phone']}</p>
                 </div>
+                {/if}
+                {if $item['certno']}
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">身份证：{$item['certno']}</p>
                 </div>
+                {/if}
             </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
+                    {if $item['type'] == 3}
+                    <a href="{php echo $this->createWebUrl('agent', array('op' => 'apply_update', 'id' => $item['pid']))}">点击我</a>
+                    {else}
                     <p class="form-control-static"><img src="{php echo tomedia($info['ext_info']['logo']);}" width="30px"> {$info['name']}</p>
+                    {/if}
                 </div>
             </div>
-            {if $item['pid']}
+            {if $item['type'] == 1}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
@@ -457,13 +465,15 @@
                     </select>
                 </div>
             </div>
+            {if $item['type'] != 3}
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
                 </div>
             </div>
-            {if $item['pid'] !=0}
+            {/if}
+            {if $item['type'] == 1}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -476,6 +486,8 @@
                     <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
                 </div>
             </div>
+            {/if}
+            {if $item['type'] != 2}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -599,7 +611,7 @@
 </script>
 {else if $operation == 'import'}
 <div class="panel panel-info">
-    <div class="panel-heading">提现管理</div>
+    <div class="panel-heading">导入数据</div>
     <div class="panel-body">
         <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1" enctype="multipart/form-data">
             <input type="hidden" name="c" value="site" />

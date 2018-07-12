@@ -116,9 +116,11 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 3) {
+            $row['name'] = '合伙人分佣';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -409,6 +411,35 @@ if ($operation == 'list') {
             );
             pdo_insert('xuan_mixloan_msg', $insert);
         }
+        $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+        if ($inviter_two) {
+            //合伙人分佣
+            $partner_bonus = 0;
+            if ($re_money) {
+                $partner_bonus += $re_money*0.01*$config['partner_bonus'];
+            }
+            if ($count_money) {
+                $partner_bonus += $count_money*0.01*$config['partner_bonus'];
+            }
+            if ($partner_bonus) {
+                $partner = m('member')->checkPartner($inviter_two);
+                if ($partner['code'] == 1) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $item['inviter'],
+                        'phone' => $one_man['phone'],
+                        'inviter' => $inviter_two,
+                        'extra_bonus'=>$partner_bonus,
+                        'status'=>2,
+                        'pid'=>$item['id'],
+                        'createtime'=>time(),
+                        'degree'=>1,
+                        'type'=>3
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                }
+            }
+        }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
@@ -465,8 +496,7 @@ if ($operation == 'list') {
                     where id=:id', array(':id'=>$value[0]));
                 $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
                     where id=:id", array(':id'=>$item['pid']));
-                $openid = pdo_fetchcolumn('select openid from ' .tablename('xuan_mixloan_member'). '
-                    where id=:id', array(':id'=>$item['inviter']));
+                $one_man = m('member')->getInviterInfo($item['inviter']);
                 if ($status == 1 && $update['re_bonus']>0) {
                     $datam = array(
                         "first" => array(
@@ -530,9 +560,35 @@ if ($operation == 'list') {
                     pdo_insert('xuan_mixloan_msg', $insert);
                 }
                 if ($datam) {
+                    $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+                    if ($inviter_two) {
+                        //合伙人分佣
+                        $partner_bonus = 0;
+                        if ($count_money) {
+                            $partner_bonus += $count_money*0.01*$config['partner_bonus'];
+                        }
+                        if ($partner_bonus) {
+                            $partner = m('member')->checkPartner($inviter_two);
+                            if ($partner['code'] == 1) {
+                                $insert_i = array(
+                                    'uniacid' => $_W['uniacid'],
+                                    'uid' => $item['inviter'],
+                                    'phone' => $one_man['phone'],
+                                    'inviter' => $inviter_two,
+                                    'extra_bonus'=>$partner_bonus,
+                                    'status'=>2,
+                                    'pid'=>$item['id'],
+                                    'createtime'=>time(),
+                                    'degree'=>1,
+                                    'type'=>3
+                                );
+                                pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                            }
+                        }
+                    }
                     $temp = array(
                         'uniacid' => $_W['uniacid'],
-                        'openid' => "'{$openid}'",
+                        'openid' => "'{$one_man['openid']}'",
                         'template_id' => "'{$config['tpl_notice5']}'",
                         'data' => "'" . addslashes(json_encode($datam)) . "'",
                         'url' => "'{$url}'",
