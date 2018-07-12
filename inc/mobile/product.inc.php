@@ -41,7 +41,12 @@ if($operation=='index'){
         $share_desc = "给你分享一个申卡/申贷通道";
         $share_link = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
     }
-    $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+
+    if ($info['type'] == 1) {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+    } else {
+        $poster_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'])));
+    }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
     $top_list = m('product')->getTopBonus($id);
     include $this->template('product/info');
@@ -119,6 +124,9 @@ if($operation=='index'){
         }
     }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
+    if ($info['type'] == 2) {
+        show_json(-1, [], '海报已过期');
+    }
     if ( empty($info['is_show']) ) {
         show_json(-1, [], '该代理产品已被下架');
     }
