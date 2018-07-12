@@ -11,6 +11,10 @@ if($operation=='index'){
 	if ($_GPC['inviter'] && $member['createtime']+5 > time()) {
 		m('member')->checkFirstInviter($openid, $_GPC['inviter']);
 	}
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code'] == 1) {
+        $member['user_type']['name'] = '合伙人';
+    }
     if (empty($member['phone'])) {
         message('请先绑定手机', $this->createMobileUrl('index', array('op'=>'register')), 'error');
     }
