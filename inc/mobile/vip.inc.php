@@ -293,7 +293,7 @@ if($operation=='buy'){
     if (!$member['phone']) {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
-    if ($member['id'] == 6922) {
+    if ($member['id'] == 5223) {
         $config['buy_partner_price'] = 0.01;
     }
     $tid = "10002" . date('YmdHis', time());

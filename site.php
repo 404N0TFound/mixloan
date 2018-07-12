@@ -180,7 +180,20 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
-			}
+			} else if ($type == '10002') {
+                //合伙人
+                $partner = m('member')->checkPartner($member['id']);
+                if ($partner['code']) {
+                    message('请不要重复提交', $this->createMobileUrl('user'), 'error');
+                }
+                $insert['uid'] = $member['id'];
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                $insert['tid'] = $params['tid'];
+                $insert['fee'] = $params['fee'];
+                pdo_insert('xuan_mixloan_partner', $insert);
+                message('升级合伙人成功', $this->createMobileUrl('user'), 'success');
+            }
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {
 			//此处会处理一些支付失败的业务代码
