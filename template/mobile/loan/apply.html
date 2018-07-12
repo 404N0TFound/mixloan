@@ -1,0 +1,636 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>申请{$item['name']}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/base2_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/idaik_1.css">
+    <!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config2_1.js"></script> -->
+    <script type="text/javascript">
+        var aa = "/Public/Wap";
+    </script>
+    <style type="text/css">
+        html,body{height:100%;min-height:100%;background-color: #eee;}
+        .credit-bg{background-color: #fff;}
+        .pp-bg{position: relative;width: 100%;height: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;-webkit-overflow-scrolling : touch;}
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.cJframe{padding-bottom: 83px;}
+            div.toApply{padding:12px 0 20px 0;}
+        }
+    </style>
+</head>
+<body class="pp-bg">
+<div class="Japply_contents">
+    <div class="loanPHeader">
+        <img src="../addons/xuan_mixloan/template/style/picture/productbg_1.png" />
+        <div class="loanPHeaderMain">
+            <div class="productIndex">
+                <img src="{php echo tomedia($item['ext_info']['logo']);}" />
+            </div>
+            <div class="productRate">
+                <div class="productRateInfo">
+                    <h2>
+                        {$item['name']}
+                    </h2>
+                    <ul>
+                        <li>
+                            期限范围:
+                            <!-- 现金卡 -->
+                            <span>
+                                        {$item['time_blow']}-{$item['time_high']}
+                                    </span>
+                            期
+                        </li>
+                        <!-- 现金卡/极速钱包 -->
+                        <li>
+                            {$item['rate_type']}利率
+                            <span id="rate" data-id="{$item['rate']}">
+                                        {$item['rate']}%
+                                    </span>
+                        </li>
+                        <li>
+                            申请人数:
+                            <span>
+                                        {$item['apply_nums']}
+                                    </span>
+                            人
+                        </li>
+                        <li>
+                            通过率:
+                            <span>
+                                        {$item['ext_info']['pass_rate']}%
+                                    </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="productMaxEdu">
+                <div class="maxEdu">
+                    <h1 id="edu_limit" data-edu="{$item['money_high']}">
+                        {$item['money_high']}
+                    </h1>
+                    <p>
+                        最高额度
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loanPDetail">
+        <div class="loanDetailCommon">
+            <div class="loanInterest">
+                <h1>
+                    贷款利息小助手
+                </h1>
+                <div class="loanInterestMain">
+                    <div class="loanInterestData">
+                        <ul class="repayInfo">
+                            <li>
+                                <h2 id="month_repay">
+                                    0
+                                </h2>
+                                <p>
+                                    {$item['rate_type']}还款(元)
+                                </p>
+                            </li>
+                            <li>
+                                <h2 id="total_interest">
+                                    0
+                                </h2>
+                                <p>
+                                    总利息(元)
+                                </p>
+                            </li>
+                        </ul>
+                        <ul class="freeCount">
+                            <li>
+                                <label>
+                                    金额
+                                </label>
+                                <input type="number" name="edu" id="loan_money" value="{$item['money_high']}" />
+                                <span>
+                                            元
+                                        </span>
+                            </li>
+                            <li>
+                                <label>
+                                    期限
+                                </label>
+                                <input type="number" name="edu" id="loan_term" value="{$item['time_high']}" />
+                                <span>
+                                            {$item['rate_type']}
+                                        </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="loanInterestIco" style="position: relative;">
+                        <canvas id="CalIco" style="margin-left: 5%;">
+                        </canvas>
+                        <div class="totalRepay">
+                            <h2>
+                            </h2>
+                            <p>
+                                总还款金额(元)
+                            </p>
+                        </div>
+                        <div class="IcoTip">
+                            <ul>
+                                <li>
+                                    <label>
+                                    </label>
+                                    <span>
+                                                利息
+                                            </span>
+                                </li>
+                                <li>
+                                    <label>
+                                    </label>
+                                    <span>
+                                                本金
+                                            </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="loanDetailCommon2">
+            <div class="applyInfoCommon Imphink">
+                <h1>
+                    重要提示
+                    <!--<span>-->
+                    <!--(点击查看攻略)-->
+                    <!--</span>-->
+                </h1>
+                <ul>
+                    <li>
+                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192821_1.png" />
+                        <h3>
+                            身份证
+                        </h3>
+                    </li>
+                    <li>
+                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192826_1.png" />
+                        <h3>
+                            银行卡
+                        </h3>
+                    </li>
+                    <li class="hink" data-id="手机号">
+                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192830_1.png" />
+                        <h3>
+                            手机号
+                        </h3>
+                    </li>
+                    <li class="hink" data-id="多认证可加分">
+                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192835_1.png" />
+                        <h3>
+                            多认证可加分
+                        </h3>
+                    </li>
+                    <li class="hink" data-id="客服协助">
+                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192839_1.png" />
+                        <h3>
+                            客服协助
+                        </h3>
+                    </li>
+                    <!-- <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>信用卡</h3></li>
+                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>寿险保单</h3></li>
+                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>公积金</h3></li>
+                    <li><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3 class="hink">淘宝</h3></li>
+                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>手机号</h3></li>
+                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>网购电商认证</h3></li> -->
+                </ul>
+            </div>
+            <div class="applyInfoCommon applyRule">
+                <h1>
+                    申请条件
+                </h1>
+                <ul>
+                    {$item['ext_info']['conditions']}
+                </ul>
+            </div>
+            <div class="applyInfoCommon applyFlow">
+                <h1>
+                    申请流程
+                </h1>
+                <img src="../addons/xuan_mixloan/template/style/picture/20171207192808_1.jpg" />
+            </div>
+            <div class="applyInfoCommon applyAttention">
+                <h1>
+                    注意事项
+                </h1>
+                <ul>
+                    {$item['ext_info']['reminds']}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toApply">
+    <a class="dummyApply" id="dummyApply">
+        申请
+    </a>
+    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" style="display: none;">
+        申请
+    </a>
+</div>
+</body><!-- 申请弹窗 -->
+<div class="popLoanApplyCommon popLoanApply">
+    <div class="popLoanApplyCover"></div>
+    <div class="popLoanMain">
+        <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{$config['title']}提供技术支持</a></div>
+        <div class="popLoanInfo">
+            <ul>
+                <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
+                <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
+                <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
+                <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2_1.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>-->
+                <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode" class="smscode" placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);">获取</a></li>-->
+            </ul>
+            <p class="ppdTip"><span>注册即视为同意</span><a href="{$item['ext_info']['contract_url']}">《借款人注册协议》</a></p>
+        </div>
+    </div>
+</div>
+<!-- 攻略 -->
+<div class="strategys">
+    <div class="strgyFloor"></div>
+    <div class="strgyMain">
+        <!-- <img src="" /> -->
+        <div class="strgyContent">
+            <img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" />
+            <div></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var interestIndex;
+    var interestIndex2;
+    var angleIndex;
+    var initialFlag;
+    var yrdStr='';
+    var iosXIndex=false;
+    $(document).ready(function(){
+        //页面初始化
+        $("div.strategys,div.popLoanApplyCommon").css("height",$(window).height());
+        var bodyH=(parseInt($(window).height()))-80+"px";
+        $("div.Japply_contents").css("height",bodyH);
+
+        startAngle = -(0.9* Math.PI); //开始角度
+        tmpAngle = angleIndex = startAngle; //临时角度变量
+        initialFlag=true;
+        // loanM();
+        Icobg();
+        calculate();
+    })
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    console.log(data);
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
+    //判断手机是否为iphoneX,处理兼容问题
+    $(function(){
+        isIphoneX();
+    })
+    function isIphoneX(){
+        var iosXVersion=/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
+        if(iosXVersion){
+            iosXIndex=true;
+        }
+    }
+    //弹出申请填写框
+    $("#dummyApply").click(function(){
+        $("body").css({"height":$(window).height(),"overflow":"hidden"});
+        rollFlag=1;
+        $("div.popLoanApply").show();
+        setTimeout(function(){
+            if(iosXIndex){
+                //iphoneX
+                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
+            }else{
+                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
+            }
+        },100)
+        $("div.toApply").css({"background-color":"transparent","border":"none"});
+        $("div.toApply a.dummyApply").hide();
+        $("div.toApply a.to_apply").show();
+    })
+    // 退出申请框
+    $("div.popLoanApplyCover").click(function(){
+        $("div.popLoanMain").css({"top":"95%","opacity":"0"});
+        setTimeout(function(){
+            $("body").css({"height":"auto","overflow":"auto"});
+            rollFlag=0;
+            $("div.popLoanApply").hide();
+            $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
+            $("div.toApply a.dummyApply").show();
+            $("div.toApply a.to_apply").hide();
+        },100)
+    })
+    //防止点击输入时退出申请框
+    $("div.popLoanInfo input").click(function(e){
+        e.stopPropagation();
+        return false;
+    })
+
+    //提交
+    $("#to_apply").click(function(){
+        upSubmit();
+    })
+
+    function upSubmit() {
+        var _name=$("#applyname").val();
+        var phone =$("#phone").val();
+        var idcard =$("#idcard").val();
+        var postData={"name":_name,"phone":phone,"idcard":idcard};
+       
+        if(_name=='' || _name=="请输入姓名"){
+            document.getElementById('applyname').focus();
+            layer.tips('请输入姓名', '#applyname', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }else if(_name!=undefined&&_name!=null){
+            // var reg = /^[a-zA-Z0-9\u4e00-\u9fa5\·]{2,15}$/;
+            var reg = /[\u4E00-\u9FA5]{2,10}(?:·[\u4E00-\u9FA5]{2,10})*/;
+            if(!(reg.test(_name))){
+                document.getElementById('applyname').focus();
+                layer.tips('请输入正确的姓名', '#applyname', {
+                    tips: [3, '#f90'],
+                    time: 3000
+                });
+                return false;
+            }
+        }
+        if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
+            document.getElementById('phone').focus();
+            layer.tips('请输入正确的手机号码', '#phone', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }
+        if (idcard == '请输入身份证号' || idcard == '') {
+            document.getElementById('idcard').focus();
+            layer.tips('请输入身份证号码', '#idcard', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }else if(idcard!=undefined&&idcard!=null){
+            if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(idcard))) {
+                document.getElementById('idcard').focus();
+                layer.tips('请填写正确的身份证号', '#idcard', {
+                    tips: [3, '#f90'],
+                    time: 3000
+                });
+                return false;
+            }
+        }
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,
+            function(data){
+                if (data.code == 1) {
+                    layer.msg('正在跳转...', {
+                        time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        window.location.href = data.data;
+                    });
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },'json')
+    }
+
+    //arc 动态画圆
+    var c = document.getElementById('CalIco');
+    var ctx = c.getContext('2d');
+
+    var canvasH=$(".loanInterestIco").width()*0.8;
+    $("#CalIco").css("width",canvasH);
+    $("#CalIco").css("height",canvasH);
+    var mW = c.width = canvasH*2;
+    var mH = c.height = canvasH*2;
+    var lineWidth = 38;
+    var r = mW / 2; //中间位置
+    var cR = r - 0.8*lineWidth; //圆半径
+    var startAngle,endAngle,tmpAngle;
+    var startAngle = 1.1*Math.PI; //开始角度
+    var endAngle = Math.PI; //结束角度
+    var xAngle = 1 * (Math.PI / 180); //偏移角度量
+    var fontSize = 35; //字号大小
+    var tmpAngle = startAngle; //临时角度变量
+
+    //渲染函数
+    function rander(){
+        //数值变大
+        if(tmpAngle >= endAngle){
+            startAngle = endAngle;
+            return;
+        }else if(tmpAngle + xAngle > endAngle){
+            tmpAngle = endAngle;
+        }else{
+            tmpAngle += xAngle;
+        }
+
+        //画圈
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = '#30e3f8';
+        ctx.arc(r, r, cR, startAngle, tmpAngle,false);
+        ctx.stroke();
+        ctx.closePath();
+
+        requestAnimationFrame(rander);
+        angleIndex=endAngle;
+        interestIndex=interestIndex2;
+        initialFlag=false;
+    }
+    function rander2(){
+        //数值变小
+        if(tmpAngle <= endAngle){
+            startAngle = endAngle;
+            return;
+        }else if(tmpAngle - xAngle < endAngle){
+            tmpAngle = endAngle;
+        }else{
+            tmpAngle -= xAngle;
+        }
+        // ctx.clearRect(0, 0, mW, mH);
+
+        //画圈
+        ctx.beginPath();
+        ctx.lineWidth = lineWidth;
+        ctx.strokeStyle = '#0097ff';
+        ctx.arc(r, r, cR, startAngle, tmpAngle,true);
+        ctx.stroke();
+        ctx.closePath();
+
+        requestAnimationFrame(rander2);
+        angleIndex=endAngle;
+        interestIndex=interestIndex2;
+        initialFlag=false;
+    }
+
+    function Icobg(){
+        var canvas = document.getElementById("CalIco");
+        if(canvas.getContext){
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.lineWidth = 38;
+            ctx.strokeStyle = "#0097ff";
+            var circle = {
+                x : r,    //圆心的x轴坐标值
+                y : r,    //圆心的y轴坐标值
+                r : cR      //圆的半径
+            };
+            ctx.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI, false);
+            ctx.stroke();
+        }
+    }
+    function icoRecal(){
+        interestIndex2=parseFloat($("#total_interest").html());
+        if(initialFlag){
+            interestIndex=interestIndex2;
+        }
+        tmpAngle=angleIndex;
+        loanM();
+    }
+    function loanM(){
+        var total_interest=parseFloat($("#total_interest").html());
+        var total_loan=parseFloat($("#edu_limit").html());
+        var totalPI=((total_interest/total_loan)*2*Math.PI)-(0.9*Math.PI);
+        // alert(totalPI);
+        endAngle = totalPI; //结束角度
+        if(interestIndex2<interestIndex){
+            rander2();
+        }else{
+            rander();
+        }
+
+        // tmpAngle=endAngle;
+    }
+    //数字判断
+    $("#loan_money").keyup(function () {
+        var reg = $(this).val().match(/\d+\.?\d{0,2}/);
+        var txt = '';
+        if (reg != null)
+        {
+            txt = reg[0];
+        }
+        var edu_limit=parseFloat($("#edu_limit").attr("data-edu"));//最高额度
+        if(parseFloat(txt)>edu_limit){
+            layer.msg("最高额度"+edu_limit+"!");
+            txt=txt.substr(0, txt.length - 1);
+        }
+        $(this).val(txt);
+        calculate();
+        // icoRecal();
+    }).change(function () {
+        $(this).keypress();
+        var v = $(this).val();
+        if (/\.$/.test(v))
+        {
+            $(this).val(v.substr(0, v.length - 1));
+            calculate();
+        }
+    });
+    //避免输入法影响样式
+    $('#loan_money').on('focus',function(){
+        window.onresize = function () {
+            var h = $(window).height();
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                if(h <= window.screen.availHeight/2){
+                    $('.toApply').hide();
+                }else{
+                    $('.toApply').show();
+                }
+            }
+        }
+    })
+    // i代平台服务协议勾选
+    $("#protocol").click(function(){
+        var _this=$(this);
+        if(_this.attr("data-index")=="1"){
+            _this.removeClass('choosed').addClass('notchoose');
+            _this.attr("data-index",'0');
+        }else{
+            _this.removeClass('notchoose').addClass('choosed');
+            _this.attr("data-index",'1');
+        }
+    })
+    //计算器
+    function calculate(){
+        var edu=parseFloat($("#edu_limit").html());
+        var loan_money=$("#loan_money").val();//借款金额
+        var term=$("#loan_term").val();//借款期限
+        if (loan_money!=0 && term!=0) {
+            var rate=(parseFloat($("#rate").attr("data-id")))/100;//利率
+            var month_repay=(loan_money*(1+rate)/term).toFixed(2);//月还款
+            var total_interest=parseFloat(((month_repay*term)-loan_money).toFixed(2));
+            console.log(loan_money);
+            console.log(term)
+            $("#month_repay").html(month_repay);
+            $("#total_interest").html(total_interest);
+            if(loan_money==''){
+                loan_money=0;
+            }
+            $("div.totalRepay h2").html((total_interest+parseFloat(loan_money)).toFixed(2));
+            icoRecal();
+        }
+    }
+    // 点击弹出攻略
+    // $("div.Imphink ul li.hink").click(function(){
+    //     var product_id=1;
+    //     var element=$(this).attr("data-id");
+    //     var imgSrc=$(this).find("img").attr("src");
+    //     $.post('/wap/idaiK/hintInfo',{'product_id':product_id,"element":element},
+    //         function(data){
+    //             var tip=data.errmsg;
+    //             $("div.strgyContent").find("img").attr("src",imgSrc);
+    //             $("div.strgyContent").find("div").html("");
+    //             for(i=0;i<tip.length;i++){
+    //                 var tip_content=tip[i];
+    //                 $("div.strgyContent").find("div").append("<p>"+ tip_content +"</p>");
+    //             }
+    //             $(".strategys").show();
+    //             $('div.Japply_contents').css("filter","blur(1.5px)");
+    //     },'json')
+    // })
+
+    $("div.strgyFloor").click(function(){
+        $(".strategys").hide();
+        $('div.Japply_contents').css("filter","blur(0)");
+    })
+    //切换贷款期限
+    $("#loan_term").keyup(function(){
+        calculate();
+    })
+
+
+</script>
+</html>

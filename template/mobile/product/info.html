@@ -79,10 +79,12 @@
     }
     /*弹窗样式*/
     div.layui-layer-content{padding: 10px 0px!important;}
+    div.ewm_main p a{width: 28%;margin:10px 5px;float: left;}
 </style>
 <script type="text/javascript">
     var aa = "{$poster_path}";
-    var daili_url = "{$poster_url}";
+    var daili_short_url = "{$poster_short_url}";
+    var daili_long_url = "{$poster_long_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
@@ -105,131 +107,13 @@
     .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
     .app_header_back img{float:left;width: 12px;}
     .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-    .share_botton{position: absolute;right: 5%;top: 6%}
-    .share_botton img{ width: 20px;}
 </style>
 <div class="app_header">
     <div class="app_header_back">
         <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
         <span>{$info['name']}</span>
-        <a class="share_botton" onclick="shareHref()"><img src="../addons/xuan_mixloan/template/style/picture/share_botton.png"></a>
     </div>
 </div>
-<script type="text/javascript">
-    var Intent = null,
-        File = null,
-        Uri = null,
-        main = null;
-    var shares = null;
-    var shareImageUrl = '';
-    mui.plusReady(function() {
-        updateSerivces();
-        if (plus.os.name == "Android") {
-            Intent = plus.android.importClass("android.content.Intent");
-            File = plus.android.importClass("java.io.File");
-            Uri = plus.android.importClass("android.net.Uri");
-            main = plus.android.runtimeMainActivity();
-        }
-    })
-    /**
-     * 更新分享服务
-     */
-    function updateSerivces() {
-        plus.share.getServices(function(s) {
-            shares = {};
-            for (var i in s) {
-                var t = s[i];
-                shares[t.id] = t;
-            }
-            outSet("获取分享服务列表成功");
-        }, function(e) {
-            outSet("获取分享服务列表失败：" + e.message);
-        });
-    }
-    /**
-     * 分享操作
-     */
-    function shareAction(id, ex) {
-        console.log('id = ' + id);
-        console.log('ex = ' + ex);
-        console.log('shares[id]' + shares[id]);
-        var s = null;
-        if (!id || !(s = shares[id])) {
-            outLine("无效的分享服务！");
-            return;
-        }
-        if (s.authenticated) {
-            outSet("---已授权---");
-            shareMessage(s, ex);
-        } else {
-            outSet("---未授权---");
-            s.authorize(function() {
-                shareMessage(s, ex);
-            }, function(e) {
-                outLine("认证授权失败");
-            });
-        }
-    }
-    /**
-     * 发送分享消息
-     */
-    function shareMessage(s, ex) {
-        var msg = {
-            href: "{$share_link}",
-            title: "{$info['name']}",
-            content: "{$share_desc}",
-            thumbs: ["{php echo tomedia($config['share_image']);}"],
-            pictures: ["{php echo tomedia($config['share_image']);}"],
-            extra: {
-                scene: ex
-            }
-        };
-        s.send(msg, function() {
-            outLine("分享成功!");
-        }, function(e) {
-            console.log(JSON.stringify(e));
-            outLine("分享失败"+JSON.stringify(e));
-        });
-    }
-    /**
-     * 分享按钮点击事件
-     * 注意这里的这些id值
-     */
-    function shareHref() {
-        var ids = [{
-                id: "weixin",
-                ex: "WXSceneSession"  /*微信好友*/
-            }, {
-                id: "weixin",
-                ex: "WXSceneTimeline" /*微信朋友圈*/
-            }],
-            bts = [{
-                title: "发送给微信好友"
-            }, {
-                title: "分享到微信朋友圈"
-            }];
-        plus.nativeUI.actionSheet({
-                cancel: "取消",
-                buttons: bts
-            },
-            function(e) {
-                var i = e.index;
-                console.log('i = ' + i);
-                if (i > 0) {
-                    shareAction(ids[i - 1].id, ids[i - 1].ex);
-                }
-            }
-        );
-    }
-    // 控制台输出日志
-    function outSet(msg) {
-        console.log(msg);
-    }
-    // 界面弹出吐司提示
-    function outLine(msg) {
-        mui.toast(msg);
-    }
-</script>
 {else}
 <div class="agent-header">
     {$info['name']}
@@ -288,7 +172,7 @@
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
                 </li>
-                {else}
+                {else if $info['done_reward_type']==2}
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
                 </li>
@@ -370,7 +254,7 @@
     document.writeln("                    </div>");
     document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
     document.writeln("                </div>");
-    document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
+    document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_short_url +"</textarea><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_long_url +"</textarea><a style=\"margin-left:5%\" onclick=\'downloadimg()\' href=\'javascript:;\'>保存海报</a><a class=\'copy copy-btn\' id=\"copy_long\" href=\'javascript:;\'>复制长链接</a><a class=\'copy copy-btn\' id=\"copy_short\" href=\'javascript:;\'>复制短链接</a></p>");
     document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
     // }
     document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
@@ -460,8 +344,19 @@
         return succeed;
     }
     //点击复制事件
-    $(".copy-btn").on("click",function(){
+    $("#copy_short").on("click",function(){
         copyToClipboard(document.getElementsByTagName("textarea")[0]);
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+            $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+            $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+        }
+    })
+    $("#copy_long").on("click",function(){
+        copyToClipboard(document.getElementsByTagName("textarea")[1]);
         document.activeElement.blur();
         if(succeed){
             layer.msg("复制成功！");
@@ -483,17 +378,19 @@
             var imgSrc = this.src;
             plus.nativeUI.actionSheet(actionList,function(e){
                 if (e.index == 1) {
+                    plus.nativeUI.showWaiting("保存中");
                     var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
                         console.log(status);
                         if (status == 200) {
+                            plus.nativeUI.closeWaiting();
                             plus.gallery.save(d.filename,function(){
                                 plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
                                     entry.remove();
                                 })
-                                return alert('图片已保存');
+                                return plus.nativeUI.alert('图片已保存');
                             })
                         } else {
-                            return alert('保存失败' + status);
+                            return plus.nativeUI.alert('保存失败' + status);
                         }
                     });
                     imgDtask.start();
@@ -503,5 +400,34 @@
     })
 </script>
 {/if}
+<script type="text/javascript">
+    var downloadimg = function(){
+        {if !is_weixin()}
+        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+        var imgSrc = $('#source_img').attr('src');
+        plus.nativeUI.actionSheet(actionList,function(e){
+            if (e.index == 1) {
+                plus.nativeUI.showWaiting("保存中");
+                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                    if (status == 200) {
+                        plus.nativeUI.closeWaiting();
+                        plus.gallery.save(d.filename,function(){
+                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                entry.remove();
+                            })
+                            return plus.nativeUI.alert('图片已保存');
+                        })
+                    } else {
+                        return plus.nativeUI.alert('保存失败' + status);
+                    }
+                });
+                imgDtask.start();
+            }
+        })
+        {else}
+        layer.msg('长按图片以保存图片');
+        {/if}
+        }
+</script>
 </body>
 </html>
