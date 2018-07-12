@@ -49,6 +49,9 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
                     'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
+                    'buy_partner_price'=>$_GPC['buy_partner_price'],
+                    'partner_vip_nums'=>$_GPC['partner_vip_nums'],
+                    'partner_bonus'=>$_GPC['partner_bonus'],
                     'backup'=>$_GPC['backup'],
             	);
 

@@ -181,8 +181,8 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
-	if ($bonus < 30) {
-		show_json(-1, null, "提现金额要大于30");
+	if ($bonus < 10000) {
+		show_json(-1, null, "提现金额要大于10000");
 	}
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
@@ -281,4 +281,81 @@ if($operation=='buy'){
 	$list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} ORDER BY a.degree ASC");
 	$brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
 	include $this->template('vip/degreeDetail');
+} else if ($operation == 'partner_join_type') {
+    //选择合伙人加入方式
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        header("location:{$this->createMobileUrl('vip', array('op' => 'partner_center'))}");
+    }
+    include $this->template('vip/partner_join_type');
+} else if ($operation == 'partner_buy') {
+    //购买合伙人
+    if (!$member['phone']) {
+        message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+    }
+    if ($member['id'] == 6922) {
+        $config['buy_partner_price'] = 0.01;
+    }
+    $tid = "10002" . date('YmdHis', time());
+    $title = "购买{$config['title']}合伙人";
+    $fee = $config['buy_partner_price'];
+    $params = array(
+        'tid' => $tid,
+        'ordersn' => $tid,
+        'title' => $title,
+        'fee' => $fee,
+        'user' => $member['id'],
+    );
+    //调用pay方法
+    $this->pay($params);
+    exit;
+} else if ($operation == 'partner_upgrade') {
+    //满足条件自动升级
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
+    }
+    $list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
+		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+		where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
+    $uids = array();
+    foreach ($list as $row) {
+        if ($row['uid']) {
+            $uids[] = $row['uid'];
+        }
+    }
+    if ($uids) {
+        $uid_string = '(' . implode(',', $uids) . ')';
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . "
+			where uid in {$uid_string}");
+        if ($count >= $config['partner_vip_nums']) {
+            $tid = "30002" . date('YmdHis', time());
+            $insert['uid'] = $member['id'];
+            $insert['createtime'] = time();
+            $insert['uniacid'] = $_W['uniacid'];
+            $insert['tid'] = $tid;
+            $insert['fee'] = 0;
+            pdo_insert('xuan_mixloan_partner', $insert);
+            message('升级合伙人成功', $this->createMobileUrl('user'), 'sccuess');
+        } else {
+            message('您还没达到升级条件呢~', $this->createMobileUrl('user'), 'error');
+        }
+    } else {
+        message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
+    }
+} else if ($operation == 'partner_center') {
+    //合伙人中心
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
+		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+    foreach ($list as &$row) {
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+    }
+    unset($row);
+    include $this->template('vip/partner_center');
 }
+
