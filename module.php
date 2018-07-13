@@ -10,6 +10,10 @@ class Xuan_mixloanModule extends WeModule {
 	public function settingsDisplay($setting) {
 		global $_W, $_GPC;
         load()->func('tpl');
+        $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
+        if (empty($posters)) {
+            message("请先添加海报", $this->createWebUrl('poster'), 'error');
+        }
 		if(checksubmit()) {
             $cfg = array(
                     'title'=>$_GPC['title'],
