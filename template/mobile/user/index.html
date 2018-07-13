@@ -106,7 +106,7 @@
                 </div>
                 <header class="text-center">
                     <h4 style="font-weight: 400;">[会员等级:{$member['user_type']['name']}]</h4>
-                    <small>邀请人:{if $inviterInfo}{$inviterInfo['nickname']}({$inviterInfo['phone']}){else}平台{/if}</small>
+                    <small>邀请人:{if $inviterInfo}{$inviterInfo['nickname']}({php echo func_substr_replace($inviterInfo['phone')]}){else}平台{/if}</small>
                 </header>
             </div>
             <div class="water">
