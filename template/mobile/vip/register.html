@@ -100,14 +100,14 @@
             <!-- 老代理 -->
             <div class="regInfoCommon regDaili" style="display: none;">
                 <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
-                <a id="downloadApp" onclick="download(‘https://fir.im/aknz’)"  style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
-                <a id="downloadApp" onclick="download(‘https://fir.im/7zta’)" ><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
+                <a id="downloadApp" onclick="download_app('https://fir.im/aknz')"  style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" onclick="download_app('https://fir.im/7zta')" ><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
             <!-- i代用户第一次申请 -->
             <div class="regInfoCommon userFirstSubmit" style="display: none;">
                 <img src="../addons/xuan_mixloan/template/style/picture/104_meitu_1.png">
-                <a id="downloadApp" onclick="download(‘https://fir.im/aknz’)" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
-                <a id="downloadApp" onclick="download(‘https://fir.im/7zta’)"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
+                <a id="downloadApp" onclick="download_app('https://fir.im/aknz')" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" onclick="download_app('https://fir.im/7zta')"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
         </div>
         <!-- <div class="intro_common progress">
@@ -272,6 +272,9 @@
         getCheck();
     })
 
+    function download_app(url) {
+        window.location.href=url
+    }
     function getCheck() {
         $("#sendMess").unbind("click");
         var phone = $("#phone").val();
@@ -352,9 +355,6 @@
             curCount--;
             $("#sendMess").html(curCount+"s");
         }
-    }
-    function download(url) {
-        openNew(url);
     }
     // 防止点击图片放大
     $('img').click(function(e){
