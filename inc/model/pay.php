@@ -2,9 +2,9 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx5c65b334ef89bd92";
-    private $mchid = "1483623762";
-    private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
+    private $appid = "";
+    private $mchid = "";
+    private $secrect_key = "";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
     private $publickey_path = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/key/ras.pub";
