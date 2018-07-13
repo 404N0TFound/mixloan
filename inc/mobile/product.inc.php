@@ -7,20 +7,23 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
-    $agent = m('member')->checkAgent($member['id']);
-    if ($agent['code']!=1) {
-        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
-    }
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
+    $hot_list = m('product')->packupItems($hot_list);
+    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], FALSE);
+    $loan_large_list = m('product')->packupItems($loan_large_list);
+    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], FALSE);
+    $loan_small_list = m('product')->packupItems($loan_small_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1, 'status'=>1], " sort DESC");
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'status'=>1], " sort DESC");
-    $card = m('product')->packupItems($card);
-    $loan = m('product')->packupItems($loan);
+    // $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    // $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
+    // $card = m('product')->packupItems($card);
+    // $loan = m('product')->packupItems($loan);
+    $card = $loan = array();
     $arr = array(
         'banner'=>$banner,
         'new'=>$new,
