@@ -113,7 +113,7 @@
                             <dl>
                                 <dd style="width: 60%">{$config['title']}号：1000{$member['id']}</dd>
                                 <dd class="xian"></dd>
-                                <dd style="width: 28%">职务：{if $member['partner']}合伙人{else}{$member['user_type']['name']}{/if}</dd>
+                                <dd style="width: 28%">职务：{$member['user_type']['name']}</dd>
                             </dl>
                             <dl style="margin-top: 0.3rem">
                                 <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>

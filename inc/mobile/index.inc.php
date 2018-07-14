@@ -147,7 +147,7 @@ if($operation=='register'){
     if ($member['pass'] != $pass) {
         show_json(-1, [], '密码不正确');
     }
-    setcookie('user_id', $member['id'], time()+86400);
+    setcookie('user_id', $member['id'], time()+5*86400);
     show_json(1, ['url'=>$this->createMobileUrl('user')], '登陆成功');
 } else if ($operation == 'loginout') {
     setcookie('user_id', false, time()-86400);
