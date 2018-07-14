@@ -42,10 +42,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
 		if ($params['result'] == 'success') {
-            if ($openid) {
+            if (empty($openid)) {
                 $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                $member = m('member')->getMember($openid);
+                $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
+                    where openid=:openid', array(':openid' => $openid));
             }
             if (empty($openid)) {
                 message('请不要重复提交', $this->createMobileUrl('user'), 'error');

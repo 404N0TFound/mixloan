@@ -16,6 +16,9 @@ class Xuan_mixloanModuleReceiver extends WeModuleReceiver {
                     //进行粉丝增加通知
                     $qrcid = pdo_fetchcolumn("SELECT qrcid FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND type=1 ORDER BY id ASC",array(":openid"=>$from));
                     $my_id = pdo_fetchcolumn("SELECT id FROM ".tablename("xuan_mixloan_member")." WHERE openid=:openid",array(":openid"=>$from));
+                    if ($my_id) {
+                        return false;
+                    }
                     if ($my_id != $this->message['scene']) {
                         if ($qrcid && $qrcid != $this->message['scene']) {
                             pdo_run("UPDATE ".tablename("qrcode_stat")." SET type=2 WHERE openid='{$from}' AND qrcid<>{$qrcid}");
