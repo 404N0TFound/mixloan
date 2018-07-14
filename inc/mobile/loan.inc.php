@@ -93,10 +93,13 @@ if($operation=='index'){
     if ($record) {
         show_json(-1, [], "您已经申请过啦");
     }
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+        show_json(-1, [], "图形验证码不正确");
+    }
     if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
-        show_json(-1, [], "短信验证码不符");
+        //show_json(-1, [], "短信验证码不符");
     } else {
-        setcookie('cache_code', 'outdate', time()+10);
+        //setcookie('cache_code', 'outdate', time()+10);
     }
     if ($config['jdwx_open'] == 1) {
         // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
