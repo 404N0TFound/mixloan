@@ -184,6 +184,7 @@
                     </li>
                     {/if}
                     <div style="height:0.4rem;background: #f3f3f3;"></div>
+                    {if is_weixin()}
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
@@ -191,6 +192,7 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    {/if}
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
