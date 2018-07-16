@@ -56,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg` (
   KEY `to_uid` (`to_uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-DROP TABLE IF EXISTS `ims_xuan_mixloan_paylog`;
-CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_paylog` (
+DROP TABLE IF EXISTS `ims_xuan_mixloan_log`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ext_info` text NOT NULL,
   PRIMARY KEY (`id`)

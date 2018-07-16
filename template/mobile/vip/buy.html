@@ -366,7 +366,7 @@
                     return false;
                 } else {
                     if($(".to_read").hasClass("read")){
-                        openNew("{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type'])}");
+                        openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
                     }else{
                         layer.msg("请先阅读{$config['title']}用户服务协议");
                         rePurchase();

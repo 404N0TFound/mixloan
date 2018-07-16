@@ -19,7 +19,7 @@ if($operation=='buy'){
     if (!$member['phone']) {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
-    $notify_url = 'http://jiuantai.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
+    $notify_url = 'http://hfpld.com/addons/xuan_mixloan/lib/wechat/payResult.php';
     $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
     if (empty($record)) {
