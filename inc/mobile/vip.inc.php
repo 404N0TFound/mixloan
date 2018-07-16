@@ -19,12 +19,12 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+    if ($member['id'] == 6905) {
+        $config['buy_vip_price'] = 0.01;
+    }
 	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
 	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-	if ($member['id'] == '10622') {
-		$config['buy_vip_price'] = 0.1;	
-	}
 	if (empty($record)) {
 		$tid = "10001" . date('YmdHis', time());
 	    $trade_no = "ZML".date("YmdHis");
@@ -95,6 +95,10 @@ if($operation=='buy'){
 	}
 	$fee = $params['fee'];
 	$tid = $params['tid'];
+	$pay_fee = $_GPC['fee'];
+	if (intval($fee*100) != intval($pay_fee)) {
+        message('支付金额不相符', '', 'error');
+    }
 	if ($params['is_pay'] != 1) {
 		message('订单未支付', '', 'error');
 	}
