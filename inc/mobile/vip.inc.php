@@ -199,7 +199,7 @@ if($operation=='buy'){
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
 		$id = intval($_GPC['id']);
-		$product = m('product')->getList(['id','ext_info'], ['id'=>$id])[$id];
+		$product = m('product')->getList(['id','ext_info', 'relate_id'], ['id'=>$id])[$id];
 		$cfg = [];
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $product['ext_info']['poster_avatar'];
