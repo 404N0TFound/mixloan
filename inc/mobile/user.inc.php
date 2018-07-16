@@ -142,6 +142,6 @@ if($operation=='index'){
     if (empty($id)) {
         show_json(-1, [], '出错了');
     }
-    pdo_update('xuan_mixloan_creditCard', array('status' => 0), array('id' => $id));
+    pdo_update('xuan_mixloan_withdraw_qrcode', array('status' => 0), array('id' => $id));
     show_json(1, [], '删除成功');
 }
