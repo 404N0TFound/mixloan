@@ -76,27 +76,55 @@
 {/if}
 <div class="agent-main pt44" style="padding-top: 0;">
     <div class="settleCards">
-        <div class="swiper-wrapper">
-            {if $qrcodes}
-            {loop $qrcodes $row}
-            <div class="swiper-slide" data-id="{$row['id']}">
-                <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
-                    <p style="font-family: numFont!important;">
-                    </p>
+        <div class="swiper-container">
+            <!-- <div class="swiper-wrapper">
+                {if $banks}
+                    {loop $banks $row}
+                    <div class="swiper-slide" data-id="{$row['id']}">
+                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                        <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
+                            <p style="font-family: numFont!important;">
+                                {if $row['numbers_type'] == 1}
+                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
+                                {else}
+                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
+                                {/if}
+                            </p>
+                        </div>
+                    </div>
+                    {/loop}
+                {else}
+                    <div class="swiper-slide" data-id="0">
+                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                        <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
+                            <p style="font-family: numFont!important;">
+                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
+                            </p>
+                        </div>
+                    </div>
+                {/if}
+            </div> -->
+            <div class="swiper-wrapper">
+                {if $qrcodes}
+                {loop $qrcodes $row}
+                <div class="swiper-slide" data-id="{$row['id']}">
+                    <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                    <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
+                        <p style="font-family: numFont!important;">
+                        </p>
+                    </div>
                 </div>
-            </div>
-            {/loop}
-            {else}
-            <div class="swiper-slide" data-id="0">
-                <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                <div class="cardsInfo"><h2>*****</h2><span>收款二维码</span>
-                    <p style="font-family: numFont!important;">
-                    </p>
+                {/loop}
+                {else}
+                <div class="swiper-slide" data-id="0">
+                    <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
+                    <div class="cardsInfo"><h2>*****</h2><span>收款二维码</span>
+                        <p style="font-family: numFont!important;">
+                        </p>
+                    </div>
                 </div>
+                {/if}
             </div>
-            {/if}
-        </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
                 {if $banks}
@@ -104,6 +132,7 @@
                 {/if}
             </div>
             <!--<div class="swiper-pagination"></div>-->
+        </div>
     </div>
     <div class="txInfo">
         <div class="txFrame">
