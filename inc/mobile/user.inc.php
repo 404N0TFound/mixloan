@@ -83,6 +83,7 @@ if($operation=='index'){
 		'img_url'=>$headimgurl,
 		'createtime'=>time(),
 		'uniacid'=>$_W['uniacid'],
+        'status'=>1
 	);
 	pdo_insert('xuan_mixloan_withdraw_qrcode', $insert);
 	show_json(1);
