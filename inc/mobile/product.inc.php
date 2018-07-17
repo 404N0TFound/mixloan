@@ -9,11 +9,11 @@ if($operation=='index'){
 	//首页
     $credit_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
     $credit_list = m('product')->packupItems($credit_list);
-    $loan_day_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>1], FALSE);
+    $loan_day_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>1], ' sort desc');
     $loan_day_list = m('product')->packupItems($loan_day_list);
-    $loan_week_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>7], FALSE);
+    $loan_week_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>7], ' sort desc');
     $loan_week_list = m('product')->packupItems($loan_month_list);
-    $loan_month_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>30], FALSE);
+    $loan_month_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>30], ' sort desc');
     $loan_month_list = m('product')->packupItems($loan_month_list);
 	include $this->template('product/index');
 }  else if ($operation == 'getProduct') {

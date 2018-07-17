@@ -289,7 +289,7 @@ if($operation=='buy'){
 	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
 	$bonus = formatMoney($bonus);
 	$can_use = formatMoney($can_use);
-	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0]);
+	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0], ' id ASC');
 	foreach ($percent_list as $row) {
 		$ids[] = $row['pid'];
 	}
