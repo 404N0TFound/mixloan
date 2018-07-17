@@ -1,0 +1,154 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>消息中心</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <style type="text/css">
+        /*x兼容性*/
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.agent-secmes .mes-list li dl dd{width: 63%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+        div.agent-foot p>img {
+            width:1.1rem;
+        }
+        div.agent-secmes .logo{margin-top: 0.5rem}
+    </style>
+
+    {template 'common/wxshare'}
+</head>
+<body class="bglightgray" style="background: white">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<script type="text/javascript">
+    function return_back(){
+        mui.init({
+            beforeback: function(){
+                var message_type = plus.webview.getWebviewById('message_type');
+                mui.fire(message_type,'refresh');
+                return true;
+            }
+        });
+        mui.back();
+    }
+    function read_msg(id){
+        var url = "{php echo $this->createMobileUrl('user', array('op'=>'read_message'));}&id=" + id;
+        mui.openWindow({url:url});
+    }
+</script>
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white;}
+    .app_header_back{text-align: center;color: #666}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+    .main-header ul{height: 2.4rem;}
+    .main-header li{width: 50%; text-align: center;float: left;padding: 0.5rem 0;background: white}
+    .main-header .active {border-bottom: #00a2ff 3px solid; }
+    .main-header .active a {color: #00a2ff}
+    a.more_hotcards, a.no_hotcards {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        height: 42px;
+        line-height: 42px;
+        font-size: 15px;
+        color: #727272;
+        display: none;
+    }
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="return_back()">
+        <span>消息中心</span>
+    </div>
+</div>
+{/if}
+<div class="agent-main rem2">
+    <div class="main-header">
+        <ul>
+            <li {if $type == 1}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>1, 'isread'=>$is_read))}')">系统消息({$system_count})</a></li>
+            <li {if $type == 2}class="active"{/if}><a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'message', 'type'=>2, 'isread'=>$is_read))}')">个人消息({$person_count})</a></li>
+        </ul>
+    </div>
+    <div class="main-contain">
+        <div class="agent_contain" style="position: relative;top:-0.4rem;">
+            <ul class="clearfix" id="follow_list" temp-id="9999999">
+
+            </ul>
+        </div>
+        <div style="text-align: center;">
+            <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/picture/loading_1.png" style="width: 18px;" />加载中</a>
+            <a class="no_hotcards">没有更多咯~</a>
+        </div>
+        <div style="height: 3rem"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    post_data();
+    $(window).scroll(function(){
+        var srollPos = $(window).scrollTop();    //滚动条距顶部距离(页面超出窗口的高度)
+        totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+        if($(document).height() <= totalheight) {
+            post_data();
+        }
+    });
+    function post_data(){
+        $('.more_hotcards').show();
+        var id = $('#follow_list').attr('temp-id');
+        var temp_id = id;
+        $.post("{php echo $this->createMobileUrl('user', array('op'=>'getMessage', 'type' => $type, 'isread'=>$is_read))}", {"id":id},
+            function(data){
+                $('.more_hotcards').hide();
+                if(data.code==1){
+                    var _data = data.data.list;
+                    var str='';
+                    for (var i = 0; i < _data.length; i++) {
+                        if (temp_id > _data[i].id) {
+                            temp_id = _data[i].id;
+                        }
+                        str += ' <li class="new_guide">\
+                                    <a onclick="read_msg(\'' + _data[i].id + '\')">\
+                                        <img src="' + _data[i].avatar + '" />\
+                                        ' + _data[i].nickname + '\
+                                        <em>' + _data[i].createtime + ' &nbsp;<img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>\
+                                    </a>\
+                                </li>';
+                    }
+                    $('#follow_list').append(str);
+                    $('#follow_list').attr('temp-id', temp_id);
+                } else {
+                    $('.no_hotcards').show();
+                }
+            },'json'
+        );
+    }
+</script>
+</body>
+</html>
