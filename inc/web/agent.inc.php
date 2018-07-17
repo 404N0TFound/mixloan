@@ -226,7 +226,9 @@ if ($operation == 'list') {
         $endtime = date('Y-m-d H:i:s');
     }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    if ($_GPC['export'] != 1) {
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
         $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
