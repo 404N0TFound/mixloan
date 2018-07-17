@@ -127,11 +127,11 @@
             </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
-                {if $banks}
+                {if $qrcodes}
                 <a class="deleteFlag" href="javascript:;">-</a>
                 {/if}
             </div>
-            <!--<div class="swiper-pagination"></div>-->
+            <!-- <div class="swiper-pagination"></div> -->
         </div>
     </div>
     <div class="txInfo">
@@ -296,14 +296,14 @@
     $("div.addCards a.dailiFlag").click(function(){
         var cardNum=$("div.settleCards .swiper-wrapper .swiper-slide").length;
         if(cardNum>=4){
-            layer.msg("最多可添加4种收款方式");
+            layer.msg("最多可添加4张银行卡");
             return false;
         }else{
             var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
             openNew(_url);
         }
     })
-    //删除银行卡
+    //添加银行卡
     $("div.addCards a.deleteFlag").click(function(){
         var id = $("div.swiper-slide-active").attr("data-id");
         layer.confirm('确定要删除这个提现方式吗', {
