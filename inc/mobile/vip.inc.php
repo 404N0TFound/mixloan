@@ -36,6 +36,8 @@ if($operation=='buy'){
         );
         //调用pay方法
         $this->pay($params);
+    } else {
+        header("location:{$this->createMobileUrl('user')}");
     }
 	exit;
 } else if ($operation == 'notify_url') {
