@@ -258,7 +258,7 @@
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png"></label><input type="" name="cache" id="cache" placeholder="请输入图形验证码" style="width: 50%;"><img src="" id="cache_img" style="width: 3.3rem; height: 1.3rem;float: right"></li>
                     <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2_1.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>-->
-                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode" class="smscode" placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);">获取</a></li>
+                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode"  placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);" class="smscode">获取</a></li>
             </ul>
             <p class="ppdTip"><!-- <span>注册即视为同意</span><a href="{$item['ext_info']['contract_url']}">《借款人注册协议》</a> --></p>
         </div>
@@ -360,7 +360,11 @@
     $("#to_apply").click(function(){
         upSubmit();
     })
-    $('#cache_img').click(function(){
+    $("#sendMess").click(function () {
+        getCheck();
+    })
+    function getCheck(){
+        $("#sendMess").unbind("click");
         var cache = $('#cache').val();
         var phone =$("#phone").val();
         if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
@@ -380,13 +384,34 @@
         }
         $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode'))}",{'phone':phone, 'cache':cache, 'token':1},
             function(data){
-                if (data.code == 1) {
-                    layer.msg('发送成功');
+                if (data.code == '0') {
+                    layer.msg("已发送，请注意查收");
+                    curCount = 60;
+                    InterValObj = window.setInterval(SetRemainTime, 1000);
+                    flagsms = false;
                 }else{
                     layer.msg(data.msg);
+                    $("#sendMess").bind("click",function(){
+                        getCheck();
+                    });
                 }
             },'json')
-    })
+    }
+
+    function SetRemainTime() {
+        if (curCount == 0) {
+            window.clearInterval(InterValObj);//停止计时器
+            flagsms = true;
+            curCount = 60;
+            $("#sendMess").html("发送");
+            $("#sendMess").bind("click",function(){
+                getCheck();
+            });
+        } else {
+            curCount--;
+            $("#sendMess").html(curCount+"s");
+        }
+    }
     function upSubmit() {
         var _name=$("#applyname").val();
         var phone =$("#phone").val();
