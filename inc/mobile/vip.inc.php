@@ -22,7 +22,7 @@ if($operation=='buy'){
     if ($member['id'] == 6905) {
         $config['buy_vip_price'] = 0.01;
     }
-	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+	$notify_url = 'http://zhidian.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
 	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
 	if (empty($record)) {
@@ -725,7 +725,7 @@ if($operation=='buy'){
 	if ($member['id'] == '6905') {
 		$config['buy_partner_price'] = 0.1;
 	}
-	$notify_url = 'http://wx.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+	$notify_url = 'http://zhidian.luohengwangluo.com/addons/xuan_mixloan/lib/wechat/payResult.php';
 	$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=2 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
 	if (empty($record)) {

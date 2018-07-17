@@ -171,7 +171,7 @@ class Xuan_mixloan_Member {
             //     </body>
             // </html>");
             // return;
-            header("location:http://wx.luohengwangluo.com/app/index.php?i=2&c=entry&op=login&do=index&m=xuan_mixloan");
+            header("location:http://zhidian.luohengwangluo.com/app/index.php?i=2&c=entry&op=login&do=index&m=xuan_mixloan");
             return false;
         }
         $wx = WeAccount::create();
