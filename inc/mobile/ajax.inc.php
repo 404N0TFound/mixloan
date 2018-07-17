@@ -16,6 +16,11 @@ if($operation == 'getCode'){
 			show_json(102);
 		}
 	}
+    if ($_GPC['token']) {
+        if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+            show_json(-1, [], "图形验证码不正确");
+        }
+    }
 	if($_GPC['type']=='register'){
 		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
 	} else {

@@ -116,6 +116,11 @@ if($operation=='index'){
             show_json(-1, [], '该代理产品已被下架');
         }
     }
+    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
+        show_json(-1, [], "短信验证码不符");
+    } else {
+        setcookie('cache_code', 'outdate', time()+10);
+    }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
