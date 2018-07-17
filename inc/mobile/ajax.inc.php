@@ -9,9 +9,7 @@ if($operation == 'getCode'){
 	$phone = trim($_GPC['phone']);
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
-	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
-	}
+	$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
     if ($_GPC['activity'] == 1) {
         $verify = pdo_fetchcolumn("SELECT count(1) FROM ".tablename('xuan_mixloan_member').' WHERE phone=:phone and uniacid=:uniacid', array('phone'=>$phone, ':uniacid'=>$_W['uniacid']));
         if ($verify) {
