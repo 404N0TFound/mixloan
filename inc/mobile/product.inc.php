@@ -22,6 +22,8 @@ if($operation=='index'){
         $loan_large_con = ['type' => 2, 'is_show' => 1, 'loan_type' => 1];
         $loan_small_con = ['type' => 2, 'is_show' => 1, 'loan_type' => 2];
     }
+    $card_list = m('product')->getList([], $card_con, FALSE);
+    $card_list = m('product')->packupItems($card_list);
     $loan_large_list = m('product')->getList([], $loan_large_con, FALSE);
     $loan_large_list = m('product')->packupItems($loan_large_list);
     $loan_small_list = m('product')->getList([], $loan_small_con, FALSE);
