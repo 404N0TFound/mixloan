@@ -1,0 +1,382 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>口子详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/artical/css/new_base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/artical/css/associate2.css"><!-- 关联注册 -->
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/artical/css/base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/artical/css/condetail.css">
+    <script src="../addons/xuan_mixloan/template/style/artical/js/jquery.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/artical/js/lmy.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/artical/js/layer.js"></script>   
+    <style type="text/css">
+        *{word-wrap:break-word;}
+        img{max-width: 100%;}
+        div.listConCom .adv{width: 90%;margin: 0 auto;margin-top:0.5rem;}
+        div.listConCom .adv a{display: block;}
+        div.kzCon{padding-top: 0;}
+        div.kzUnit{padding:0.5rem 6% 0.2rem 6%;}
+        div.topicHeader{position: relative;}
+        
+        /*避免缓存 2018.06.26*/
+        div.stickup{position: relative;width: 108%;left: -4%; padding-top: 1rem;}
+        div.stickupLeft img{display:inline-block; width: 100%;}
+        div.stickup img.dailiMkt{position: absolute;width: 28%;left: 33.5%;bottom: 31.6%;}
+    </style>
+    <script type="text/javascript">  
+
+    </script>
+</head>
+<body class="bodybg">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+    </script>
+    {if !is_weixin()}
+    <style type="text/css">
+        .app_header{height: 80px;width: 100%;background: #ffffff}
+        .app_header_back{text-align: center;color: white}
+        .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+        .app_header_back img{float:left;width: 12px;}
+        .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    </style>
+    <div class="app_header">
+        <div class="app_header_back">
+            <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+            <span></span>
+        </div>
+    </div>
+    {/if}
+    <div class="conDetail kzArticle" data-daili="0">
+        <h1 id="kzTitle"></h1>
+        <!-- 口子发布者 -->
+        <div class="listCon">
+            <div class="listConCom" id="listCon">
+                <!-- 帖子 -->
+                <div class="unitCom kzUnit">
+                    <a href="javascript:void(0);">
+                        <div class="listUnitCom">
+                            <div class="topicHeader">
+                                <span><img id="releaserImg" src="{php echo tomedia($config['logo']);}"></span>
+                                <div class="topicHeaderInfo">
+                                    <h2 id="nickname">{$config['wx_name']}</h2>
+                                    <p id="releaseDate">
+                                        手把手教你撸小贷，撸不成你提刀砍我
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="adv" style="display: none;">
+                    <a id="adv_url" href="javascript:void(0);"><img id="adv_img" src="../addons/xuan_mixloan/template/style/artical/picture//imgload.png"></a>
+                </div>
+            </div>
+        </div>
+        <!-- 口子文章内容 -->
+        <div class="kzCon">
+            <div id="articleCon">{$item['ext_info']['content']}</div>
+            <!-- 文章相关数据统计 -->
+            <div class="timeAtabCom timeAtabGap">
+                <span><img src="../addons/xuan_mixloan/template/style/artical/picture//tab.png"><em id="kzTab">新手教程</em></span>
+                <ul>
+                    <li><img src="../addons/xuan_mixloan/template/style/artical/picture//view.png"><span id="kzView">{$item['apply_nums']}</span></li>
+                    <li><img src="../addons/xuan_mixloan/template/style/artical/picture//recommend.png"><span id="kzRec">{$item['praise_count']}</span></li>
+                    <li><img src="../addons/xuan_mixloan/template/style/artical/picture//commend.png"><span id="kzEval">{$item['comment_count']}</span></li>
+                </ul>
+            </div>
+            <!-- 代理代呗店二维码 -->
+                    </div>
+        <!-- 点赞 -->
+        <div class="kzRecommend">
+            <p>
+                <span class="recBtn" onclick="recommend(this);" data-index="{if $is_praise}1{else}0{/if}">               
+                    <img class="notRec" src="../addons/xuan_mixloan/template/style/artical/picture//rec.png" style="{if $is_praise == 1}display: none;{/if}">
+                    <img class="isRec" src="../addons/xuan_mixloan/template/style/artical/picture//h_rec.png" style="{if $is_praise == 0}display: none;{/if}">
+                </span>
+            </p>
+            <p><em id="kzRec2">{$item['praise_count']}</em><label>点赞</label></p>
+        </div>
+        <!-- 推荐 -->
+        <!-- <div class="recPro"><a href="javascript:void(0);"><img src="../addons/xuan_mixloan/template/style/artical/picture//temp-2.png"></a></div> -->
+        <!-- 评论区 -->
+        <div class="evalList">
+            <div class="evalListBox" style="display: block;">
+                <!-- <div class="evalUnit evalUnitCom">
+                    <div class="evalReleaser"><span><img src="../addons/xuan_mixloan/template/style/artical/picture//temp1.png"></span><h3>这里是昵称</h3><b>2018-03-17</b></div>
+                    <h2>很有用的文章，看了之后对这家的了解程度增加了不少，非常感谢作者的说明！</h2>
+                    <div class="evalUnitFloorBox">
+                        <div class="evalUnitFloor evalUnitCom">
+                            <div class="evalReleaser"><span><img src="../addons/xuan_mixloan/template/style/artical/picture//temp1.png"></span><h3>这里是昵称</h3><b>2018-03-17</b></div>
+                            <h2>拍拍贷</h2>
+                        </div>
+                        <div class="evalUnitFloor evalUnitCom">
+                            <div class="evalReleaser"><span><img src="../addons/xuan_mixloan/template/style/artical/picture//temp1.png"></span><h3>这里是昵称</h3><b>2018-03-17</b></div>
+                            <h2>很有用的文章，看了之后对这家的了解程度增加了不少，非常感谢作者的说明！</h2>
+                        </div>
+                    </div>                    
+                </div> -->
+            </div>
+            <div class="empty">
+                <img src="../addons/xuan_mixloan/template/style/artical/picture//empty_daike.png">
+                <p>暂无评论，快去评论一下吧~</p>
+            </div>
+            <div class="dataLoading"><span class="loading"><i></i><u>加载中...</u></span><span class="nomore" style="display: none;">没有更多评论咯</span></div>
+            <div class="bottomGap"></div>   
+        </div>        
+    </div>
+    <!-- 发表评论 -->
+            <div class="evaluate">    </if>    
+        <div class="evaluateCon">
+            <span>
+                <textarea autoHeight="true" class="release_text" id="evalCon" placeholder="我来说两句..."></textarea>                
+                
+            </span>
+            <a href="javascript:void(0);" id="toEval" onclick="evalFloor1();">发表</a>            
+        </div>
+    </div>
+   
+
+<script type="text/javascript">
+    // 初始化参数
+    var min_id = 99999999;
+
+    $(document).ready(function(){
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        perList();//评论列表  
+    })
+
+    //口子评论下拉加载数据
+    $(window).scroll(function(){
+        var $this =$(this),
+        viewH =$(this).height(),//可见高度
+        contentH=$("div.conDetail").outerHeight();
+        scrollTop =$(window).scrollTop();//滚动高度
+        if(contentH - viewH - scrollTop <= 10) {
+            perList();          
+        }
+    });
+
+    function dataTransform(str){
+        return str;
+    }
+    //评论列表  
+    function perList(){
+            $.post("{php echo $this->createMobileUrl('channel', array('op' => 'getComment', 'artical_id' => $id))}",{'id' : min_id},
+                function(res){
+                    // console.log(res);
+                    if(res.code==1){
+                        var data = dataTransform(res.data.list);
+                        $("div.dataLoading").css('display','block');
+                        $("div.evalList .empty").hide();
+                        postDataAdd(data);
+                    }else{
+                        //暂无评论
+                        $("div.empty").hide();
+                        $("div.dataLoading .loading").hide();
+                        $("div.dataLoading .nomore").show();
+                    }
+                },'json')
+            //没有更多数据了
+            // $("div.empty").hide();
+            // $("div.dataLoading .loading").hide();
+            // $("div.dataLoading .nomore").show();
+        
+    }
+
+    // 点赞-取消点赞
+    function recommend(index){
+        $("div.recBtn").attr("onclick","javascript:void(0);");
+        var _this=$(".recBtn");
+        $.post("",{},
+            function(res){
+                if(res.code==0){
+                    if(_this.attr("data-index")=="0"){
+                        //未点赞-点赞
+                        _this.find("img").hide();
+                        _this.find("img.isRec").show();
+                        _this.attr("data-index","1");
+                        $("#kzRec,#kzRec2").html(parseInt($("#kzRec").html())+1);
+                        $("div.recBtn").attr("onclick","recommend();");
+                        layer.msg(res.message);
+                    }else{
+                        //点赞-未点赞
+                        _this.find("img").hide();
+                        _this.find("img.notRec").show();    
+                        _this.attr("data-index","0");    
+                        $("#kzRec,#kzRec2").html(parseInt($("#kzRec").html())-1);    
+                        $("div.recBtn").attr("onclick","recommend();");
+                        layer.msg(res.message);
+                    }
+                }else{
+                    layer.msg(res.message);
+                    $("div.recBtn").attr("onclick","recommend();");
+                    return false;
+                }
+            },'json')
+    }
+
+    // 评价口子
+    function evalFloor1(){
+        var index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $("#toEval").attr("onclick","javascript:void(0);");
+        var content=$("#evalCon").val();
+        if(content==''){
+            layer.close(index_lay);
+            layer.msg('请输入评论内容');
+            return false;
+            $("#toEval").attr("onclick","evalFloor1();");
+        }
+        $.post("",{},
+            function(res){
+                console.log(res);
+                if(res.code==0){
+                    layer.msg(res.message,{time:800},function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.close(index_lay);
+                    layer.msg(res.message,{time:800},function(){
+                        location.reload();
+                    });
+                    $("#toEval").attr("onclick","evalFloor1();");
+                    return false;
+                }
+            },'json')
+    }
+
+    //评论列表返回值绑值
+    function postDataAdd(dataList){
+        console.log(dataList);
+        if(dataList.length>0){
+            for(var i=0;i<dataList.length;i++){
+                var id=dataTransform(dataList[i].id);//口子评论id
+                var headimgurl=dataTransform(dataList[i].avatar);//头像
+                var nickname=dataTransform(dataList[i].nickname);//昵称
+                var content=dataTransform(dataList[i].content);//评论内容
+                var create_time=dataTransform(dataList[i].create_time);//评论时间
+                var replyList=dataList[i].replyList//二级评论
+                var bindStr=''; 
+                if (id < min_id) {
+                    min_id = id;
+                }
+                bindStr+='<div class="evalUnit evalUnitCom" data-id="'+ id +'" data-nickname="'+ nickname +'" onclick="eval(this);">';
+                bindStr+='<div class="evalReleaser"><span><img src="'+ headimgurl +'"></span><h3><span>'+ nickname +'</span>';
+                bindStr+='</h3><b>'+ create_time +'</b></div>';
+                bindStr+='<h2>'+ content +'</h2>';    
+                //二级评论            
+                if(replyList!=''){
+                    bindStr+='<div class="evalUnitFloorBox">';
+                    for(var j=0;j<replyList.length;j++){
+                        var headimgurl2=dataTransform(dataList[i].headimgurl);//头像
+                        var nickname2=dataTransform(replyList[j].nickname);//昵称
+                        var content2=dataTransform(replyList[j].content);//评论内容
+                        var create_time2=dataTransform(replyList[j].create_time);//评论时间
+                        var id=dataTransform(replyList[j].id);//口子二级评论id
+                        bindStr+='<div class="evalUnitFloor evalUnitCom">';
+                        bindStr+='<div class="evalReleaser"><span><img src="'+ headimgurl2 +'"></span><h3><span>'+ nickname2 +'</span>';
+                        bindStr+='</h3><b>'+ create_time2 +'</b></div>'
+                        bindStr+='<h2>'+ content2 +'</h2>';
+                        bindStr+='</div>';                        
+                    }
+                    bindStr+='</div>';
+                }
+                bindStr+='</div>';
+                $("div.evalListBox").show().append(bindStr);
+            }
+        }  
+        if(currentPage==1&&dataList.length<numPerPage){
+            if(dataList.length<3){
+                $("div.dataLoading").hide();
+            }else{
+                $("div.dataLoading .loading").hide();
+                $("div.dataLoading .nomore").show();
+            }
+            scrollFlag=false;
+        }     
+        scrollFlag=true;
+        currentPage++;
+    }
+
+    // 点赞-取消点赞
+    function recommend(index){
+        $("div.recBtn").attr("onclick","javascript:void(0);");
+        var _this=$(".recBtn");
+        $.post("{php echo $this->createMobileUrl('channel', array('op' => 'artical_praise', 'id' => $id))}",{},
+            function(res){
+                if(res.code==1){
+                    if(_this.attr("data-index")=="0"){
+                        //未点赞-点赞
+                        _this.find("img").hide();
+                        _this.find("img.isRec").show();
+                        _this.attr("data-index","1");
+                        $("#kzRec,#kzRec2").html(parseInt($("#kzRec").html())+1);
+                        $("div.recBtn").attr("onclick","recommend();");
+                        layer.msg(res.message);
+                    }else{
+                        //点赞-未点赞
+                        _this.find("img").hide();
+                        _this.find("img.notRec").show();    
+                        _this.attr("data-index","0");    
+                        $("#kzRec,#kzRec2").html(parseInt($("#kzRec").html())-1);    
+                        $("div.recBtn").attr("onclick","recommend();");
+                        layer.msg(res.message);
+                    }
+                }else{
+                    layer.msg(res.msg);
+                    $("div.recBtn").attr("onclick","recommend();");
+                    return false;
+                }
+            },'json')
+    }
+
+    // 评价口子
+    function evalFloor1(){
+        var index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $("#toEval").attr("onclick","javascript:void(0);");
+        var content=$("#evalCon").val();
+        if(content==''){
+            layer.close(index_lay);
+            layer.msg('请输入评论内容');
+            return false;
+            $("#toEval").attr("onclick","evalFloor1();");
+        }
+        $.post("{php echo $this->createMobileUrl('channel', array('op' => 'artical_comment', 'id' => $id))}",{"content":content},
+            function(res){
+                console.log(res);
+                if(res.code==1){
+                    layer.msg(res.message,{time:800},function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.close(index_lay);
+                    layer.msg(res.message,{time:800},function(){
+                        location.reload();
+                    });
+                    $("#toEval").attr("onclick","evalFloor1();");
+                    return false;
+                }
+            },'json')
+    }
+
+</script>
+
+
+</body>
+</html>

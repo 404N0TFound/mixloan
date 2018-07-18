@@ -1,0 +1,53 @@
+﻿div.associate{position: absolute;top:0;left: 0;width: 100%; height:100%;background: rgba(0,0,0,0.4);z-index: 999;}
+div.fill_info{background: #fff;padding-bottom: 15px;width: 90%;margin:0 auto;margin-top: 8%;border-radius: 0.65rem;box-shadow: 0px 0px 15px rgba(0,0,0,0.42);}
+div.fill_info ul{width: 80%;margin:0 auto; border-radius: 30px!important;}
+div.fill_info ul li{position: relative; margin-top: 1.6rem;}
+div.fill_info ul li p{opacity: 0; position: absolute;top:0;left: 0;width: 100%; font-size: 0.5rem;color: #aaaaaa;height: 1rem;line-height: 1rem;
+	z-index: 1;pointer-events: none;transition: all 0.2s;margin-top: 0!important;text-align: left;text-indent: 0.4rem;}
+div.fill_info ul li .inputArea{position: relative; height: 1.6rem;line-height: 1rem;box-sizing: border-box;border-bottom: 1px solid #dddddd;}
+div.inputArea input{display: inline-block;width: 100%; height: 1.2rem;font-size: 0.62rem;color: #666666;border:none;text-indent: 0.4rem;}
+div.inputArea b{opacity: 0; display: inline-block;position: absolute;bottom: -1px;left: 50%;width: 0.1rem;height: 1px;background-color: #1896f1;
+	z-index: 1;transition: all 0.5s;}
+div.inputArea u{opacity: 0; display: inline-block;position: absolute;bottom: -1px;right: 50%;width: 0.1rem;height: 1px;background-color: #1896f1;
+	z-index: 1;transition: all 0.5s;}
+div.inputArea em{display: inline-block;position: absolute;top:0;right: 0; width: 2rem;text-align: center; height: 1.5rem;line-height: 1rem;}
+div.inputArea em img{display: inline-block;width: 0.9rem;}
+div.inputArea a{display: inline-block;position: absolute;top:0.15rem;right: 0; height: 1.2rem;line-height: 1.2rem;padding:0 0.35rem;color: #aaaaaa;
+	font-size: 0.5rem;}
+div.inputArea a:before{position: absolute;top:20%;left: 0; display: inline-block;content: "";width: 1px;height: 60%;background-color: #e6e6e6;}
+
+div.fill_info>p.regbg{position: fixed;width: 90%;bottom: 3%;left: 5%;}
+div.fill_info>p.regbg img{width: 100%;display: block;}
+div.fill_info ul li.re_psw span{width:70px;}
+div.submit_btn{text-align: center;}
+div.fill_info a.to_buy{display: inline-block; width:84%;margin:0px auto; margin-top:1.4rem; height:1.8rem;line-height: 1.9rem;border-radius: 1rem; font-size: 0.65rem; text-align: center;color: #fff;background-color: #0195ff;letter-spacing: 5px;}
+div.fill_info>img{width: 100%;display: block;margin: 0 auto 5% auto;}
+div.regProtocol{text-indent: 10%;padding-top: 10px;}
+div.regProtocol label{display: inline;margin-right: 0.3rem;}
+div.regProtocol label img{width: 0.55rem;height: 0.55rem;display: inline-block;vertical-align: middle;margin-top: -3px;}
+div.regProtocol span{color: #9a989b;font-style: 12px;display: inline;font-size: 0.5rem;}
+div.associate{display: none;}
+div.regProtocol a{display: inline;color: #0194fc;font-style: 12px;font-size: 0.5rem;}
+div.associateLogin ul{margin:2rem auto 0.5rem auto;}
+div.associateReg p{text-align: center;margin-top: 1rem;}
+div.associateReg p span,div.associateRePwd p span{display: inline;color: #9a9a9a;font-size: 0.5rem;}
+div.associateReg p a,div.associateRePwd p a{display: inline;color: #29acff;font-size: 0.5rem;}
+div.associateLogin p{margin-top: 0.8rem;overflow: hidden;padding-bottom: 1.8rem;line-height: 0.8rem;}
+div.associateLogin p a{color: #0195ff;font-size: 0.58rem;}
+div.associateLogin p a.assPwdG{float: left;margin-left: 9%;}
+div.associateLogin p a.assRegG{float: right;margin-right: 9%;}
+
+div.reviseStepTab{width: 80%;margin: 0 auto;padding-top: 0rem;}
+div.reviseStepTab ul{overflow: hidden;width: 100%;border-radius: 0!important;}
+div.reviseStepTab ul li{position: relative; float: left;width: 50%;height: 1.6rem;line-height: 1.6rem;background-color: #e6e6e6;color: #fff;
+	font-size: 0.6rem;text-align: center;margin-top: 1rem;}
+div.reviseStepTab ul li.on{background-color: #1996f2;}
+div.reviseStepTab ul li.step1.on:after{position: absolute;right: -0.8rem;top:0;content: "";display: inline-block; width: 0;height: 0;border-top: 0.8rem solid transparent;
+	border-bottom: 0.8rem solid transparent;border-left: 0.8rem solid #1996f2;z-index: 1;}
+div.reviseStepTab ul li.step2.on:before{position: absolute;left: 0;top:0; content: "";display: inline-block; width: 0;height: 0;border-top: 0.8rem solid transparent;
+	border-bottom: 0.8rem solid transparent;border-left: 0.8rem solid #e6e6e6;z-index: 1;}
+div.associateRePwd .submit_btn a{margin-top: 1.8rem;}
+div.associateRePwd>p{text-align: center;margin-top: 1.5rem;}
+
+/*弹窗时页面样式*/
+.associating{height: 100%;padding-bottom: 0; overflow: hidden;}
