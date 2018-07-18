@@ -19,8 +19,8 @@ class Xuan_mixloan_User
         if ($uid) {
             return pdo_fetchcolumn("select openid from ".tablename("xuan_mixloan_member")." where id={$uid}");
         } else {
-            $userinfo = $this->getInfo(false, true);
-            return $userinfo['openid'];
+//            $userinfo = $this->getInfo(false, true);
+//            return $userinfo['openid'];
         }
     }
     function getPerOpenid()
