@@ -47,8 +47,8 @@
             vertical-align: middle;
             line-height: 1.5em;
         }
-        .agent-foot a.home{
-            height: 3.3rem
+        a .home{
+            height: 3.5rem;
         }
     </style>
 </head>
@@ -133,7 +133,7 @@
             {if $member['user_type']['code'] == 1}
             <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')" class="weui_grid js_grid">
                 <div class="weui_grid_icon">
-                    <img src="../addons/xuan_mixloan/template/style/new_user_index/images/inviteCode.png" alt="">
+                    <img src="../addons/xuan_mixloan/template/style/new_user_index/images/user_inviteCode.png" alt="">
                 </div>
                 <p class="weui_grid_label">推荐有奖</p>
             </a>
@@ -204,8 +204,7 @@
             <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
         </a>
         <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
-            <img class="lazy" src="../addons/xuan_mixloan/template/style/new_user_index/images/friendcircle_1.png" width="45px" style="height: 85%;" alt="">
-            <p>朋友圈</p>
+            <img class="lazy" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px"  alt="">
         </a>
         <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
