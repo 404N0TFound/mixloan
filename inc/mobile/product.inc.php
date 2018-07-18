@@ -92,7 +92,7 @@ if($operation=='index'){
 			$online_loan_thr = [];
 		}
 	}
-	$small_loans = m('product')->getSpecialLoan(16);
+	$small_loans = m('product')->getSpecialLoan(17);
 	foreach ($small_loans as $key => $loan) {
 		$small_loan_thr[] = $loan;
 		if (count($small_loan_thr) > 2 || $key == max(array_keys($small_loans))) {
@@ -100,7 +100,7 @@ if($operation=='index'){
 			$small_loan_thr = [];
 		}
 	}
-	$cash_loans = m('product')->getSpecialLoan(17);
+	$cash_loans = m('product')->getSpecialLoan(16);
 	foreach ($cash_loans as $key => $loan) {
 		$cash_loan_thr[] = $loan;
 		if (count($cash_loan_thr) > 2 || $key == max(array_keys($cash_loans))) {
