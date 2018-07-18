@@ -24,8 +24,12 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
     <style type="text/css">
         body{background-color: #f1f1f1;}
-        img {
-            pointer-events: none;
+        div.btm_state{margin-top: 3rem}
+        #to_regist{
+            padding: 0.5rem 3.4rem;
+            background: #f24257;
+            color: white;
+            border-radius: 1rem;
         }
     </style>
     {php echo register_jssdk();}
@@ -97,7 +101,9 @@
                             <input type="text" name="pass"  id="pass" placeholder="请输入您的密码" />
                         </div>
                     </div>
-                    <img id="to_regist" src="../addons/xuan_mixloan/template/style/picture/regorder.png">
+                    <div style="width: 100%;text-align: center;margin-top: 1rem">
+                        <a id="to_regist" >立即预留名额</a>
+                    </div>
                 </div>
             </div>
             <!-- 老代理 -->
@@ -113,22 +119,6 @@
                 <a id="downloadApp" onclick="download_app('https://fir.im/7zta')"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
         </div>
-        <!-- <div class="intro_common progress">
-          <img src="../addons/xuan_mixloan/template/style/picture/intro2-1.png" />
-          <div class="prog_main">
-            <p>最高奖励：<span><em>0</em>%</span></p>
-            <div class="prog_ani">
-              <div class="progress-out" id="progress">
-                  <div class="percent-show"><label>%</label><em></em><span>0</span></div>
-                  <div class="progress-in"></div>
-              </div>
-            </div>
-          </div>
-        </div>  -->
-        <!--  <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro1-1.png" /></div>
-         <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro3-1.png" /></div>   -->
-        <!-- <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro4.png" /></div> -->
-        <!-- <div class="intro_common"><img src="../addons/xuan_mixloan/template/style/picture/intro5-1.png" /></div> -->
         <div class="btm_state"><p><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}用户注册协议》</a></p></div>
     </div>
 </div>
