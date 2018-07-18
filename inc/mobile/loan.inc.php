@@ -97,7 +97,7 @@ if($operation=='index'){
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");
     }
-    if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
+    if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
     $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
