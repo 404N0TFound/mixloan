@@ -425,6 +425,13 @@
             });
             return false;
         }
+        if (smscode == '') {
+            layer.tips('请输入短信验证码', '#smscode', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }
         if(_name=='' || _name=="请输入姓名"){
             document.getElementById('applyname').focus();
             layer.tips('请输入姓名', '#applyname', {

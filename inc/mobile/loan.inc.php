@@ -92,6 +92,11 @@ if($operation=='index'){
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
     }
+    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
+        show_json(-1, [], "短信验证码不符");
+    } else {
+        setcookie('cache_code', 'outdate', time()+10);
+    }
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
     if ($inviter == $member['id']) {
@@ -115,11 +120,6 @@ if($operation=='index'){
         if (in_array($id, $remove_ids)) {
             show_json(-1, [], '该代理产品已被下架');
         }
-    }
-    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
-        show_json(-1, [], "短信验证码不符");
-    } else {
-        setcookie('cache_code', 'outdate', time()+10);
     }
     if ($info['type'] == 1) {
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
