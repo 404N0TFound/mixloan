@@ -7,10 +7,25 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
-    $agent = m('member')->checkAgent($member['id']);
-    if ($agent['code']!=1) {
-        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
+    $hot_list = m('product')->packupItems($hot_list);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove['remove_ids']) {
+        $where = " and id not in ({$remove['remove_ids']})";
+        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+        $loan_large_con = ['type' => 2, 'is_show' => 1, 'n_id' => $remove['remove_ids'], 'loan_type' => 1];
+        $loan_small_con = ['type' => 2, 'is_show' => 1, 'n_id' => $remove['remove_ids'], 'loan_type' => 2];
+    } else {
+        $where = "";
+        $card_con = ['type' => 1, 'is_show' => 1];
+        $loan_large_con = ['type' => 2, 'is_show' => 1, 'loan_type' => 1];
+        $loan_small_con = ['type' => 2, 'is_show' => 1, 'loan_type' => 2];
     }
+    $loan_large_list = m('product')->getList([], $loan_large_con, FALSE);
+    $loan_large_list = m('product')->packupItems($loan_large_list);
+    $loan_small_list = m('product')->getList([], $loan_small_con, FALSE);
+    $loan_small_list = m('product')->packupItems($loan_small_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
@@ -36,10 +51,11 @@ if($operation=='index'){
     }
     $new = m('product')->getRecommends($where);
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], $card_con, FALSE);
-    $loan = m('product')->getList([], $loan_con, FALSE);
-    $card = m('product')->packupItems($card);
-    $loan = m('product')->packupItems($loan);
+//    $card = m('product')->getList([], $card_con, FALSE);
+//    $loan = m('product')->getList([], $loan_con, FALSE);
+//    $card = m('product')->packupItems($card);
+//    $loan = m('product')->packupItems($loan);
+    $card = $loan = array();
     $arr = array(
         'banner'=>$banner,
         'new'=>$new,
