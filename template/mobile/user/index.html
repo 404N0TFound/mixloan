@@ -201,6 +201,20 @@
                     </a>
                 </li>
                 {/if}
+                <li class="new_guide">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'pos'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/pos.png" />
+                        pos机
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                <li class="new_guide">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'huabei'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/huabei.png" />
+                        花呗套现
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
                 <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
