@@ -44,8 +44,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		global $_W, $_GPC;
 		$uniacid=$_W['uniacid'];
 		$fee = $params['fee'];
-		$openid = m('user')->getOpenid();
-		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
 		if ($params['result'] == 'success') {
             if ($params['from']=='notify') {
