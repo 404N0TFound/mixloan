@@ -29,7 +29,8 @@ class Xuan_mixloan_Poster
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
         if (strstr(tomedia($config['poster_image']), 'cloud')) {
-            $bgpng = imagecreatefromstring(curl_file_get_contents(tomedia($config['poster_image'])));
+            $poster_image = tomedia($config['poster_image']) . '?imageslim';
+            $bgpng = imagecreatefromstring(file_get_contents($poster_image));
         } else {
             $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
             $bgpng = imagecreatefrompng($bgpath);
