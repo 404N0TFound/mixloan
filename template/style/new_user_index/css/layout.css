@@ -1,0 +1,59 @@
+﻿@charset "utf-8";
+*{
+    margin: 0;
+    padding: 0;
+    border:0;
+}
+.am-header-default {
+    background-color: #454545;
+	padding:0;
+}
+
+
+.am-navbar-default .am-navbar-nav {
+    background-color: #454545;
+}
+#navbar_price{
+	background-color:#868686;
+	color:#ffffff;
+	padding-left:50px;
+}
+#navbar_buybtn{
+	background-color:#ff5959;
+	color:#ffffff;
+	font-size:100%;
+	text-align:center
+}
+#index_main{
+	padding:2px 1px;
+	font-size:85%;
+    text-align:center;
+}
+.wos-form{
+	padding:10px 0;
+}
+.wos-form-height{
+	height:35px;
+	line-height:35px;
+}
+.wos-form-title{
+	padding-top:2px;
+}
+.wos-form-height input{border:0;outline:none;}
+.wos-form-height .wei{
+	background-image:url(../images/ss.png);
+	background-color:#3f92ff;
+}
+.wos-form-height .yi{
+	background-image:url(../images/xx.png);
+	background-color:#ff5959;
+}
+.wos-form-height .xuan{
+	background-position:0px center;
+	background-repeat:no-repeat;
+	color:#ffffff;
+	margin:5px 3px 0 0;
+	padding:10px 5px 10px 23px;
+	line-height:33px;
+	border-radius:5px;
+}
