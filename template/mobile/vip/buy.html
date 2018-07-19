@@ -415,7 +415,8 @@
 				var _url = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type;
 				openNew(_url);
 				{else}
-				layer.msg('请在微信端购买');
+				var _url = "{php echo $this->createMobileUrl('mix', ['op'=>'service'])}";
+				openNew(_url);
 				{/if}
 			}else{
 				layer.msg("请先阅读{$config['title']}用户服务协议");
