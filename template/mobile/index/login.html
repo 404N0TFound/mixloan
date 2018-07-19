@@ -55,6 +55,9 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    if (typeof(plus) == 'undefined') {
+        openNew("{php echo $this->createMobileUrl('index', array('op' => 'exit'))}");
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">

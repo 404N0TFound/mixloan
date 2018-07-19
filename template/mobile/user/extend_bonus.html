@@ -1,0 +1,315 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>{$config['title']} - 推荐有钱</title>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/lmy_5.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/add_prize_2.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+
+</head>
+<style>
+    .prize_text{ background:url(../addons/xuan_mixloan/template/style/images/bag_2.png) center top no-repeat;background-size:100% 100%;}
+    .prize_footer{background:url(../addons/xuan_mixloan/template/style/images/bg_ss.png)  top center ;}
+</style>
+<body>
+<!-- end -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #9e8a60}
+    .share_botton{position: absolute;right: 35px;top: 50px}
+    .share_botton img{ width: 20px;}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>推荐有钱</span>
+        <a class="share_botton" onclick="shareHref()"><img src="../addons/xuan_mixloan/template/style/picture/share_botton.png"></a>
+    </div>
+</div>
+<script type="text/javascript">
+    var Intent = null,
+        File = null,
+        Uri = null,
+        main = null;
+    var shares = null;
+    var shareImageUrl = '';
+    mui.plusReady(function() {
+        updateSerivces();
+        if (plus.os.name == "Android") {
+            Intent = plus.android.importClass("android.content.Intent");
+            File = plus.android.importClass("java.io.File");
+            Uri = plus.android.importClass("android.net.Uri");
+            main = plus.android.runtimeMainActivity();
+        }
+    })
+    /**
+     * 更新分享服务
+     */
+    function updateSerivces() {
+        plus.share.getServices(function(s) {
+            shares = {};
+            for (var i in s) {
+                var t = s[i];
+                shares[t.id] = t;
+            }
+            outSet("获取分享服务列表成功");
+        }, function(e) {
+            outSet("获取分享服务列表失败：" + e.message);
+        });
+    }
+    /**
+     * 分享操作
+     */
+    function shareAction(id, ex) {
+        console.log('id = ' + id);
+        console.log('ex = ' + ex);
+        console.log('shares[id]' + shares[id]);
+        var s = null;
+        if (!id || !(s = shares[id])) {
+            outLine("无效的分享服务！");
+            return;
+        }
+        if (s.authenticated) {
+            outSet("---已授权---");
+            shareMessage(s, ex);
+        } else {
+            outSet("---未授权---");
+            s.authorize(function() {
+                shareMessage(s, ex);
+            }, function(e) {
+                outLine("认证授权失败");
+            });
+        }
+    }
+    /**
+     * 发送分享消息
+     */
+    function shareMessage(s, ex) {
+        var msg = {
+            href: "{$share_link}",
+            title: "{$config['share_title']}",
+            content: "{$config['share_desc']}",
+            thumbs: ["{php echo tomedia($config['share_image']);}"],
+            pictures: ["{php echo tomedia($config['share_image']);}"],
+            extra: {
+                scene: ex
+            }
+        };
+        s.send(msg, function() {
+            outLine("分享成功!");
+        }, function(e) {
+            console.log(JSON.stringify(e));
+            outLine("分享失败"+JSON.stringify(e));
+        });
+    }
+    /**
+     * 分享按钮点击事件
+     * 注意这里的这些id值
+     */
+    function shareHref() {
+        var ids = [{
+                id: "weixin",
+                ex: "WXSceneSession"  /*微信好友*/
+            }, {
+                id: "weixin",
+                ex: "WXSceneTimeline" /*微信朋友圈*/
+            }],
+            bts = [{
+                title: "发送给微信好友"
+            }, {
+                title: "分享到微信朋友圈"
+            }];
+        plus.nativeUI.actionSheet({
+                cancel: "取消",
+                buttons: bts
+            },
+            function(e) {
+                var i = e.index;
+                console.log('i = ' + i);
+                if (i > 0) {
+                    shareAction(ids[i - 1].id, ids[i - 1].ex);
+                }
+            }
+        );
+    }
+    // 控制台输出日志
+    function outSet(msg) {
+        console.log(msg);
+    }
+    // 界面弹出吐司提示
+    function outLine(msg) {
+        mui.toast(msg);
+    }
+</script>
+{/if}
+<div class="prize_tail">
+    <div class="share dn" style="display: none;">
+        <p id="share_title"></p>
+        <p id="share_desc"></p>
+        <p id="share_imgUrl"></p>
+        <p id="share_link"></p>
+
+    </div>
+
+    <div class="prize_head">
+        <img src="{php echo tomedia($config['extend_bonus_pic1']);}" />
+        <div class="prize_text">
+            <div  class="prize_text_bot" id="s1">
+                <ul class="clearfix" id="gun_ul">
+                    {loop $phones $phone}
+                    <li><a href="javascript:;">尾号{$phone}的用户,领取了{$config['extend_bonus_money']}元现金</a></li>
+                    {/loop}
+                </ul>
+            </div>
+        </div>
+
+        <div class="prize_money"><img src="../addons/xuan_mixloan/template/style/picture/money_2.png" /> </div>
+        <div class="prize_money_s prize_money_s1"><img src="../addons/xuan_mixloan/template/style/picture/jb1_2.png" /> </div>
+        <div class="prize_money_s prize_money_s2"><img src="../addons/xuan_mixloan/template/style/picture/jb3_2.png" /> </div>
+        <div class="prize_money_s prize_money_s3"><img src="../addons/xuan_mixloan/template/style/picture/jb4_2.png" /> </div>
+        <div class="prize_money_s prize_money_s4"><img src="../addons/xuan_mixloan/template/style/picture/jb5_2.png" /> </div>
+        <div class="prize_money_s prize_money_s5"><img src="../addons/xuan_mixloan/template/style/picture/jb4_2.png" /> </div>
+        <div class="prize_money_s prize_money_s6"><img src="../addons/xuan_mixloan/template/style/picture/jb3_2.png" /> </div>
+        <!-- 动画end -->
+        <div class="prize_rule">
+            <a onclick="showRules()" id="re_rule">
+                <img src="../addons/xuan_mixloan/template/style/picture/right_art.png" />
+            </a>
+        </div>
+    </div>
+    <div class="gift_pic">
+        <img src="{php echo tomedia($config['extend_bonus_pic2']);}" />
+        <div class="gift_btns">
+            <a href="javascript:void(0);" id="sub_button">
+                <img src="../addons/xuan_mixloan/template/style/picture/btns.png" />
+            </a>
+        </div>
+    </div>
+    <!-- center -->
+    <div class="prize_center">
+        <img src="../addons/xuan_mixloan/template/style/picture/gift_center_2.png" />
+        <div class="prize_moy">
+            <p><b id="reward">{$money_count}</b><span>元</span></p>
+            <p class="two"><b id="recomNum">{$follow_count}</b><span>人</span></p>
+            <div class="click_view">
+                <a><span class="on"><img src="../addons/xuan_mixloan/template/style/picture/button_2.png"></span></a>
+            </div>
+        </div>
+    </div>
+    <div class="prize_footer">
+        <div class="prize_phb">
+            <img src="../addons/xuan_mixloan/template/style/picture/phb.png" />
+            <div class="ranking_list">
+                {if $list}
+                {loop $list $key $value}
+                <dl class="clearfix">
+                    <dd><b>{if $key==0}<img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b>{else if $key==1}<img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b>{else if $key==2}<img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b>{else}{php echo $key+1;}</b>{/if}</dd>
+                    <dd><img src="{$value['avatar']}"></dd><dd><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd><dd><p><label>¥</label>{$value['bonus']}</p></dd>
+                </dl>
+                {/loop}
+                {else}
+                <dl><p style='font-size0.6rem;'>暂无数据</p></dl>
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <!-- end -->
+</div>
+
+<!-- 购买代理弹窗 -->
+
+<div id="prize_art" class="prize_art dn" style="display: none;">
+    <div class="prize_botm">
+        <div  class="prize_head">
+            <img src="../addons/xuan_mixloan/template/style/picture/prize_top_2.png"  />
+            <p style="line-height: 1.8em">只有{$config['title']}代理才能参加活动哦~</p>
+        </div>
+        <div class="submit_foot"><a id="share_href" href="{php echo $this->createMobileUrl('vip', array('op'=>'buy'))}" ><img src="../addons/xuan_mixloan/template/style/picture/prize_but_2.png" /></a></div>
+        <div class="close_shan" id="close_shan"><img src="../addons/xuan_mixloan/template/style/picture/prize_shan_2.png" /></div>
+    </div>
+</div>
+<div id="layer_rules" style="display: none">
+    <img src="{php echo tomedia($config['extend_bonus_pic3'])}">
+</div>
+</body>
+
+
+<script type="text/javascript">
+    //接口
+
+    $(function() {
+        $("#sub_button").click(function(){
+            {if $agent['code'] != 1}
+            $('#prize_art').show();
+            {else}
+            openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}');
+            {/if}
+            })
+        $(".click_view a").click(function(){
+            {if $agent['code'] != 1}
+            $('#prize_art').show();
+            {else}
+            openNew("{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}");
+            {/if}
+            })
+        $('#close_shan').click(function() {
+            $('#prize_art').hide();
+        });
+        $('#shear_close').click(function() {
+            $('#tong').hide();
+        });
+        //
+
+
+    })
+    function showRules(){
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false,
+            content: $('#layer_rules')
+        });
+    }
+    // 滚动
+    function AutoScroll(obj){
+        var margin_top=$(obj).find("ul li").height();
+        $(obj).find("ul:first").animate({
+            marginTop:-margin_top
+        },500,function(){
+            $(this).css({marginTop:"0px"}).find("li:first").appendTo(this);
+        });
+    }
+    $(document).ready(function(){
+        setInterval('AutoScroll("#s1")',3000);
+    });
+
+</script>
+
+<!-- END -->
+
+</html>
