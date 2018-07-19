@@ -74,15 +74,18 @@
         div.daili_toapply{top:0;}
         div.daili_toapply p{background-color: #f8f8f8;height: 34px;margin-top: 3px;}
     }
-    div.reback_img ul.reback_money li span{
-        font-size: 13px;
-    }
     /*弹窗样式*/
     div.layui-layer-content{padding: 10px 0px!important;}
+    div.reback_img ul.reback_money li span {
+        font-size: 12px;
+    }
+    div.ewm_main p a{width: 28%;margin:10px 5px;float: left;}
+    .downloadimg{}
 </style>
 <script type="text/javascript">
     var aa = "{$poster_path}";
-    var daili_url = "{$poster_url}";
+    var daili_short_url = "{$poster_short_url}";
+    var daili_long_url = "{$poster_long_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
@@ -90,7 +93,6 @@
     },"json");
 </script>
 <body class="bglightgray">
-
 
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
@@ -156,9 +158,9 @@
         <span class="account_title">结算方式</span>
         <div class="account_way">
             <ul>
-                <li>{if $info['count_time'] == 1}【日结】，当日发卡成功当日结算工资。
-                    {else if $info['count_time'] == 7}【周结】，每周一结算。
-                    {else if $info['count_time'] == 30}【月结】，每月初的前五个工作日开始结算。
+                <li>{if $info['count_time'] == 1}【日结】，第二天18点结算前一天工资。
+                    {else if $info['count_time'] == 7}【周结】，每周二结算完成。
+                    {else if $info['count_time'] == 30}【月结】，每月五至十五日结算完成。
                     {/if}
                 </li>
                 <li>首次注册申请借款符合结算标准。</li>
@@ -170,7 +172,7 @@
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}二级：{$info['ext_info']['done_two_init_reward_money']}元
                 </li>
-                {else}
+                {else if $info['done_reward_type']==2}
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
                 </li>
@@ -181,14 +183,14 @@
 
                 {if $info['re_reward_type']==1}
                 <li>
-                    注册直推：{$info['ext_info']['re_one_init_reward_money']}元
+                    注册申请：{$info['ext_info']['re_one_init_reward_money']}元
                 </li>
                 <li>
                     注册二级：{$info['ext_info']['re_two_init_reward_money']}元
                 </li>
                 {else if $info['re_reward_type']==2}
                 <li>
-                    注册直推：{$info['ext_info']['re_one_init_reward_per']}点
+                    注册申请：{$info['ext_info']['re_one_init_reward_per']}点
                 </li>
                 <li>
                     注册二级：{$info['ext_info']['re_two_init_reward_per']}点
@@ -205,7 +207,7 @@
 {if $info['ext_info']['is_extra_reward']}
 <div class="nb_basic nb_rank">
     <div class="nb_title">
-        <span>排行榜</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png"/><em>2018年01月排行（前10名）</em>
+        <span>排行榜</span><img src="../addons/xuan_mixloan/template/style/picture/title_1.png"/><em>（前10名）</em>
     </div>
     <div class="phb_table">
         <div class="phb_title">
@@ -256,7 +258,7 @@
     document.writeln("                    </div>");
     document.writeln("                    <div id=\'compose2\' style=\'display: none\'></div>");
     document.writeln("                </div>");
-    document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_url +"</textarea><a class=\'copy copy-btn\' href=\'javascript:;\'>复制推广链接</a></p>");
+    document.writeln("            <p><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_short_url +"</textarea><textarea id=\'bar\' style=\'resize: none;height: 32px;\' class=\'autogenerate\' readonly>"+ daili_long_url +"</textarea><a style=\"margin-left:5%\" onclick=\'downloadimg()\' href=\'javascript:;\'>保存海报</a><a class=\'copy copy-btn\' id=\"copy_long\" href=\'javascript:;\'>复制长链接</a><a class=\'copy copy-btn\' id=\"copy_short\" href=\'javascript:;\'>复制短链接</a></p>");
     document.writeln("            <span><img src=\'../addons/xuan_mixloan/template/style/images/share2.png\' /></span>");
     // }
     document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
@@ -346,8 +348,19 @@
         return succeed;
     }
     //点击复制事件
-    $(".copy-btn").on("click",function(){
+    $("#copy_short").on("click",function(){
         copyToClipboard(document.getElementsByTagName("textarea")[0]);
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+            $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+            $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+        }
+    })
+    $("#copy_long").on("click",function(){
+        copyToClipboard(document.getElementsByTagName("textarea")[1]);
         document.activeElement.blur();
         if(succeed){
             layer.msg("复制成功！");
@@ -369,17 +382,19 @@
             var imgSrc = this.src;
             plus.nativeUI.actionSheet(actionList,function(e){
                 if (e.index == 1) {
+                    plus.nativeUI.showWaiting("保存中");
                     var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
                         console.log(status);
                         if (status == 200) {
+                            plus.nativeUI.closeWaiting();
                             plus.gallery.save(d.filename,function(){
                                 plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
                                     entry.remove();
                                 })
-                                return alert('图片已保存');
+                                return plus.nativeUI.alert('图片已保存');
                             })
                         } else {
-                            return alert('保存失败' + status);
+                            return plus.nativeUI.alert('保存失败' + status);
                         }
                     });
                     imgDtask.start();
@@ -389,5 +404,34 @@
     })
 </script>
 {/if}
+<script type="text/javascript">
+    var downloadimg = function(){
+        {if !is_weixin()}
+        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+        var imgSrc = $('#source_img').attr('src');
+        plus.nativeUI.actionSheet(actionList,function(e){
+            if (e.index == 1) {
+                plus.nativeUI.showWaiting("保存中");
+                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                    if (status == 200) {
+                        plus.nativeUI.closeWaiting();
+                        plus.gallery.save(d.filename,function(){
+                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                entry.remove();
+                            })
+                            return plus.nativeUI.alert('图片已保存');
+                        })
+                    } else {
+                        return plus.nativeUI.alert('保存失败' + status);
+                    }
+                });
+                imgDtask.start();
+            }
+        })
+        {else}
+        layer.msg('长按图片以保存图片');
+        {/if}
+        }
+</script>
 </body>
 </html>
