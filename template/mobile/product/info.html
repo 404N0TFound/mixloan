@@ -240,7 +240,11 @@ document.writeln("    </div>");
 $("#daili_toapply").click(function(){
     //图片合成并弹出
     {if $verify}
-    window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode', 'type'=>1, 'pid'=>$id))}"
+    $("div.daili_ewm").show();
+    $(".daili_ewm").height($(window).height());
+    setTimeout(function(){
+        ewm_style();
+    },20)
     {else}
     $('.pop_art').show();
     {/if}
