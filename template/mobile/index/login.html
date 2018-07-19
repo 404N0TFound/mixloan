@@ -52,6 +52,9 @@
 	{template 'common/wxshare'}
 </head>
 <script type="text/javascript">
+    if (typeof(plus) == 'undefined') {
+        window.location.href="{php echo $this->createMobileUrl('index', array('op' => 'exit'))}"
+    }
     function openNew(url){
         mui.openWindow({url:url});
     }
