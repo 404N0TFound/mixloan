@@ -172,7 +172,7 @@ class Xuan_mixloan_Member
             //     </body>
             // </html>");
             // return;
-            header("location:http://www.edjrw.com/app/index.php?i=2&c=entry&op=login&do=index&m=xuan_mixloan");
+            header("location:http://www.edcfw.com/app/index.php?i=2&c=entry&op=login&do=index&m=xuan_mixloan");
             return false;
         }
         $member   = m('member')->getMember($openid);
