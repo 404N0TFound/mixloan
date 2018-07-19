@@ -91,8 +91,8 @@ class Xuan_mixloan_Poster
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
-        if (strstr(tomedia($config['poster_image']), 'cloud')) {
-            $bgpng = imagecreatefromstring(file_get_contents(tomedia($config['poster_image'])));
+        if (strstr(tomedia($ext_info['back']), 'cloud')) {
+            $bgpng = imagecreatefromstring(file_get_contents(tomedia($ext_info['back'])));
         } else {
             $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
             $bgpng = imagecreatefrompng($bgpath);
