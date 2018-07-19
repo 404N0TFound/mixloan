@@ -184,13 +184,11 @@ if($operation == 'getCode'){
 	show_json(1, m('member')->getMember($openid));
 }else if ($operation == 'apply_temp') {
     //常规脚本
+    load()->func('file');
     $ids = [];
-    m('smscode')->sendSms('15738518587', '1234546');
-    if (!empty($ids)) {
-        echo implode(',', $ids);
-    } else {
-        echo 'empty';
-    }
+    $filename = '123.png';
+   	$file = file_upload($_FILES['file'], 'image', $filename, true);
+   	var_dump($file);
 } 
 
 ?>
