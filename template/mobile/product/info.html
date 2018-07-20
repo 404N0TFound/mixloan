@@ -85,9 +85,13 @@
     var aa = "{$poster_path}";
     var daili_short_url = "{$poster_short_url}";
     var daili_long_url = "{$poster_long_url}";
+    var index_lay = layer.load();
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
+        layer.close(index_lay);
         if (data.code==1) {
             history.go(0);
+        } else {
+            $('#source_img').attr('src', data.data.post_url);
         }
     },"json");
 </script>

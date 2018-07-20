@@ -179,15 +179,25 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
-} else if ($operation == 'checkMember') {
-	$openid = m('user')->getOpenid();
-	show_json(1, m('member')->getMember($openid));
-}else if ($operation == 'apply_temp') {
+} else if ($operation == 'upload_file') {
+	$fileroot = $_GPC['fileroot'];
+	$filename = time() . '.png';
+    load()->library('qiniu');
+    $auth = new Qiniu\Auth($_W['setting']['remote']['qiniu']['accesskey'], $_W['setting']['remote']['qiniu']['secretkey']);
+    $config = new Qiniu\Config();
+    $uploadmgr = new Qiniu\Storage\UploadManager($config);
+                    $putpolicy = Qiniu\base64_urlSafeEncode(json_encode(array(
+            'scope' => $_W['setting']['remote']['qiniu']['bucket'] . ':' . $filename,
+    )));
+    $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
+    list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
+    echo 'http://pc4ao15gp.bkt.clouddn.com/' . $filename ;
+} else if ($operation == 'apply_temp') {
     //常规脚本
     load()->func('file');
     $ids = [];
     $filename = '123.png';
-   	$file = file_upload($_FILES['file'], 'image', $filename, true);
+   	$file = file_upload($_FILES['upload'], 'image', $filename, true);
    	var_dump($file);
 } 
 

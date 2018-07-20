@@ -29,7 +29,8 @@ class Xuan_mixloan_Poster
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
         if (strstr(tomedia($config['poster_image']), 'cloud')) {
-            $bgpng = imagecreatefromstring(file_get_contents(tomedia($config['poster_image'])));
+            $tomedia_img = trim(tomedia($config['poster_image']));
+            $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
         } else {
             $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
             $bgpng = imagecreatefrompng($bgpath);
@@ -62,16 +63,24 @@ class Xuan_mixloan_Poster
         imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
+            if (strstr(tomedia($config['poster_image']), 'cloud')) { 
+                $url = 'http://cheexuan.com/app/index.php?i=3&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $res = file_get_contents($url . '&fileroot=' . $params['out']);
+                $poster = $res;
+                unlink($params['out']);
+            } else {
+                $poster = $params['poster_path'];
+            }
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
                 'pid'=>$params['pid'],
                 'type'=>$params['type'],
-                'poster'=>$params['poster_path'],
+                'poster'=>$poster,
                 'createtime'=>time(),
             );
             pdo_insert('xuan_mixloan_poster',$insert);
-            return true;
+            return $poster;
         } else {
             return false;
         }
@@ -91,7 +100,8 @@ class Xuan_mixloan_Poster
             return false;
         }
         if (strstr(tomedia($ext_info['back']), 'cloud')) {
-            $bgpng = imagecreatefromstring(file_get_contents(tomedia($ext_info['back'])));
+            $tomedia_img = trim(tomedia($ext_info['back']));
+            $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
         } else {
             $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
             $bgpng = imagecreatefrompng($bgpath);
@@ -139,16 +149,24 @@ class Xuan_mixloan_Poster
         @imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
+            if (strstr(tomedia($ext_info['back']), 'cloud')) { 
+                $url = 'http://cheexuan.com/app/index.php?i=3&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $res = file_get_contents($url . '&fileroot=' . $params['out']);
+                $poster = $res;
+                unlink($params['out']);
+            } else {
+                $poster = $params['poster_path'];
+            }
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
                 'pid'=>$params['pid'],
                 'type'=>$params['type'],
-                'poster'=>$params['poster_path'],
+                'poster'=>$poster,
                 'createtime'=>time(),
             );
             pdo_insert('xuan_mixloan_poster',$insert);
-            return true;
+            return $poster;
         } else {
             return false;
         }
