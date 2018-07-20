@@ -267,17 +267,17 @@ if($operation=='buy'){
         $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验";
         if (!$posterArr) {
             $created = false;
-             $wx = WeAccount::create();
-             $barcode = array(
+            $wx = WeAccount::create();
+            $barcode = array(
                  'action_name'=>"QR_LIMIT_SCENE",
                  'action_info'=> array(
                      'scene' => array(
                          'scene_id'=>$member['id'],
                      )
                  )
-             );
-             $res = $wx->barCodeCreateDisposable($barcode);
-             $url = $res['url'];
+            );
+            $res = $wx->barCodeCreateDisposable($barcode);
+            $url = $res['url'];
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
