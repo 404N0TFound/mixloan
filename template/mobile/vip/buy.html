@@ -415,7 +415,7 @@
 				var _url = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type;
 				openNew(_url);
 				{else}
-				var _url = "{php echo $this->createMobileUrl('mix', ['op'=>'service'])}";
+				var _url = "{php echo $this->createMobileUrl('mix', ['op'=>'service_wx'])}";
 				openNew(_url);
 				{/if}
 			}else{

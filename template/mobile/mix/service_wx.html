@@ -1,0 +1,48 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>联系客服</title>
+
+    {template 'common/wxshare'}
+</head>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffc5c8}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: white}
+</style>
+<body  style="margin:0">
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+        <span>联系客服</span>
+    </div>
+</div>
+{/if}
+<div class="service_header">
+    <div class="service_one">
+        <div class="service_two"><img src="../addons/xuan_mixloan/template/style/picture/service_wx.png" style="width: 100%" /></div>
+    </div>
+</div>
+<script type="text/javascript">
+   
+</script>
+
+</body>
+</html>

@@ -14,5 +14,7 @@ if($operation=='service'){
 } else if ($operation == 'questions') {
 	//问题中心
 	include $this->template('mix/questions');
+} else if ($openid = 'service_wx') {
+	//微信客服
+	include $this->template('mix/service_wx');
 }
-?>
