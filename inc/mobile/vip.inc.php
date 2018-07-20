@@ -23,7 +23,7 @@ if($operation=='buy'){
 		$config['buy_vip_price'] = 0.01;
 	}
 	if (!is_weixin()) {
-        $notify_url = 'http://zfb.ao361.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $notify_url = 'http://54fdy.com/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
         if (empty($record)) {
