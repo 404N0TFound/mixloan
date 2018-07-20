@@ -29,12 +29,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
             !strexists($_SERVER['REQUEST_URI'], 'exit'),
 		);
 		foreach ($condition as $value) {
-			if ($value == false) {
-				$con = false;
-				break;
-			} else {
-				$con = true;
-			}
+            if (strexists($_SERVER['REQUEST_URI'], 'register') && !is_weixin()) {
+                $con = false;
+            } else {
+                $con = true;
+            }
 		}
 		if ($con) {
 			m('member')->checkMember();
