@@ -144,7 +144,7 @@
                     </a>
                     {/if}
                     {if $member['user_type']['code'] == 1}
-                    <a onclick="extend_bonus()" class="weui_grid js_grid">
+                    <a href="{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/tuijianyouqian.png" alt="">
                         </div>
@@ -247,8 +247,8 @@ function loginout(){
     // openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
 }
 function extend_bonus() {
-    var url = "{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}";
-    mui.openWindow({url:url, id:'extend_bonus', createNew:true});
+    // var url = "{php echo $this->createMobileUrl('user', array('op' => 'extend_bonus'))}";
+    // mui.openWindow({url:url, id:'extend_bonus', createNew:true});
 }
 </script>        
     </body>
