@@ -194,11 +194,9 @@ if($operation == 'getCode'){
     echo 'http://pc4ao15gp.bkt.clouddn.com/' . $filename ;
 } else if ($operation == 'apply_temp') {
     //常规脚本
-    load()->func('file');
-    $ids = [];
-    $filename = '123.png';
-   	$file = file_upload($_FILES['upload'], 'image', $filename, true);
-   	var_dump($file);
-} 
+}  else if ($operation == 'checkMember') {
+    $openid = m('user')->getOpenid();
+    show_json(1, m('member')->getMember($openid));
+}
 
 ?>
