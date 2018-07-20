@@ -128,26 +128,26 @@ if($operation=='buy'){
                 'ext_info'=>json_encode($ext_info),
             );
             pdo_insert('xuan_mixloan_msg', $insert);
-            m('member')->upgradePartner($inviter_one, $config);
+            // m('member')->upgradePartner($inviter_one, $config);
             //二级
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
             $man_two = m('member')->getInviterInfo($inviter_two);
-            if ($man_two['partner']) {
-                $partner_bonus = $config['inviter_fee_one']*$fee*0.01*$config['partner_bonus']*0.01;
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $man_one['id'],
-                    'phone' => $man_one['phone'],
-                    'inviter' => $inviter_two,
-                    'extra_bonus'=>$partner_bonus,
-                    'status'=>2,
-                    'relate_id'=>$one_insert_id,
-                    'createtime'=>time(),
-                    'degree'=>1,
-                    'type'=>5
-                );
-                pdo_insert('xuan_mixloan_bonus', $insert_i);
-            }
+            // if ($man_two['partner']) {
+            //     $partner_bonus = $config['inviter_fee_one']*$fee*0.01*$config['partner_bonus']*0.01;
+            //     $insert_i = array(
+            //         'uniacid' => $_W['uniacid'],
+            //         'uid' => $man_one['id'],
+            //         'phone' => $man_one['phone'],
+            //         'inviter' => $inviter_two,
+            //         'extra_bonus'=>$partner_bonus,
+            //         'status'=>2,
+            //         'relate_id'=>$one_insert_id,
+            //         'createtime'=>time(),
+            //         'degree'=>1,
+            //         'type'=>5
+            //     );
+            //     pdo_insert('xuan_mixloan_bonus', $insert_i);
+            // }
             if ($inviter_two && $config['inviter_fee_two']) {
                 $insert_i = array(
                     'uniacid' => $_W['uniacid'],
@@ -181,22 +181,22 @@ if($operation=='buy'){
                 //三级
                 $inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
                 $man_thr = m('member')->getInviterInfo($inviter_thr);
-                if ($man_thr['partner']) {
-                    $partner_bonus = $config['inviter_fee_two']*$fee*0.01*$config['partner_bonus']*0.01;
-                    $insert_i = array(
-                        'uniacid' => $_W['uniacid'],
-                        'uid' => $man_two['id'],
-                        'phone' => $man_two['phone'],
-                        'inviter' => $inviter_thr,
-                        'extra_bonus'=>$partner_bonus,
-                        'status'=>2,
-                        'relate_id'=>$two_insert_id,
-                        'createtime'=>time(),
-                        'degree'=>1,
-                        'type'=>5
-                    );
-                    pdo_insert('xuan_mixloan_bonus', $insert_i);
-                }
+                // if ($man_thr['partner']) {
+                //     $partner_bonus = $config['inviter_fee_two']*$fee*0.01*$config['partner_bonus']*0.01;
+                //     $insert_i = array(
+                //         'uniacid' => $_W['uniacid'],
+                //         'uid' => $man_two['id'],
+                //         'phone' => $man_two['phone'],
+                //         'inviter' => $inviter_thr,
+                //         'extra_bonus'=>$partner_bonus,
+                //         'status'=>2,
+                //         'relate_id'=>$two_insert_id,
+                //         'createtime'=>time(),
+                //         'degree'=>1,
+                //         'type'=>5
+                //     );
+                //     pdo_insert('xuan_mixloan_bonus', $insert_i);
+                // }
                 if ($inviter_thr && $config['inviter_fee_three']) {
                     $insert_i = array(
                         'uniacid' => $_W['uniacid'],
@@ -228,24 +228,24 @@ if($operation=='buy'){
                     );
                     pdo_insert('xuan_mixloan_msg', $insert);
                     //四级
-                    $inviter_four = m('member')->getInviter($man_thr['phone'], $man_thr['openid']);
-                    $man_four = m('member')->getInviterInfo($inviter_four);
-                    if ($man_four['partner']) {
-                        $partner_bonus = $config['inviter_fee_three']*$fee*0.01*$config['partner_bonus']*0.01;
-                        $insert_i = array(
-                            'uniacid' => $_W['uniacid'],
-                            'uid' => $man_thr['id'],
-                            'phone' => $man_thr['phone'],
-                            'inviter' => $inviter_four,
-                            'extra_bonus'=>$partner_bonus,
-                            'status'=>2,
-                            'relate_id'=>$thr_insert_id,
-                            'createtime'=>time(),
-                            'degree'=>1,
-                            'type'=>5
-                        );
-                        pdo_insert('xuan_mixloan_bonus', $insert_i);
-                    }
+                    //$inviter_four = m('member')->getInviter($man_thr['phone'], $man_thr['openid']);
+                    //$man_four = m('member')->getInviterInfo($inviter_four);
+                    // if ($man_four['partner']) {
+                    //     $partner_bonus = $config['inviter_fee_three']*$fee*0.01*$config['partner_bonus']*0.01;
+                    //     $insert_i = array(
+                    //         'uniacid' => $_W['uniacid'],
+                    //         'uid' => $man_thr['id'],
+                    //         'phone' => $man_thr['phone'],
+                    //         'inviter' => $inviter_four,
+                    //         'extra_bonus'=>$partner_bonus,
+                    //         'status'=>2,
+                    //         'relate_id'=>$thr_insert_id,
+                    //         'createtime'=>time(),
+                    //         'degree'=>1,
+                    //         'type'=>5
+                    //     );
+                    //     pdo_insert('xuan_mixloan_bonus', $insert_i);
+                    // }
                 }
             }
         }

@@ -70,11 +70,7 @@
                     <td>{$row['phone']}</td>
                     <td>
                         {if $row['type']==1}
-                            {if $row['partner']}
-                            <span class="label label-info">合伙人</span>
-                            {else}
                             <span class="label label-info">{$row['user_type']}</span>
-                            {/if}
                         {else}
                         <span class="label label-default">{$row['user_type']}</span>
                         {/if}
