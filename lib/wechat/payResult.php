@@ -23,7 +23,7 @@ if($sign == $data['sign']){
         $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=1 WHERE notify_id='{$data['out_trade_no']}'";
         mysqli_query($con, $sql);
         mysqli_close($con);
-        header("location:http://0833st.com/app/index.php?i=7&c=entry&op=notify_url" .
+        header("location:http://wwxx.huodong007.cn/app/index.php?i=7&c=entry&op=notify_url" .
             "&do=vip&m=xuan_mixloan&notify_id={$data['out_trade_no']}");
     } else {
         $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=-1 WHERE notify_id='{$data['out_trade_no']}'";
