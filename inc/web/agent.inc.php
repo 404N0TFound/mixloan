@@ -80,17 +80,6 @@ if ($operation == 'list') {
     unset($row);
     if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
-            if ($row['status'] == -2){
-                $row['status'] = '邀请用户已注册过，不产生佣金';
-            } else if ($row['status'] == -1){
-                $row['status'] = '注册失败';
-            } else if ($row['status'] == 0){
-                $row['status'] = '邀请中';
-            } else if ($row['status'] == 1){
-                $row['status'] = '已注册';
-            } else if ($row['status'] == 1){
-                $row['status'] = '已完成';
-            }
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
                 $row['inviter_name'] = $row['inviter']['nickname'];
@@ -100,6 +89,13 @@ if ($operation == 'list') {
                 $row['inviter_name'] = '无';
                 $row['inviter_count'] = 0;
                 $row['inviter_sum'] = 0;
+            }
+            if ($row['degree'] == 1) {
+                $row['degree'] = '一级';
+            } else if ($row['degree'] == 2) {
+                $row['degree'] = '二级';
+            } else if ($row['degree'] == 3) {
+                $row['degree'] = '三级';
             }
             if ($row['count_time'] == 1) {
                 $row['count_time'] = '日结';
@@ -143,36 +139,41 @@ if ($operation == 'list') {
                 array(
                     'title' => '手机号',
                     'field' => 'phone',
-                    'width' => 20
+                    'width' => 12
                 ),
                 array(
                     'title' => '结算方式',
                     'field' => 'count_time',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '下款金额',
                     'field' => 'relate_money',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '注册奖励',
                     'field' => 're_bonus',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '下款/卡奖励',
                     'field' => 'done_bonus',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
                     'title' => '额外奖励',
                     'field' => 'extra_bonus',
-                    'width' => 20
+                    'width' => 10
                 ),
                 array(
-                    'title' => '状态',
+                    'title' => '状态（0邀请中，1已注册，2已完成，-1失败）',
                     'field' => 'status',
+                    'width' => 35
+                ),
+                array(
+                    'title' => '等级',
+                    'field' => 'degree',
                     'width' => 10
                 ),
                 array(
@@ -192,7 +193,6 @@ if ($operation == 'list') {
                 ),
             )
         ));
-        unset($row);
     }
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
