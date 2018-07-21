@@ -8,7 +8,16 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+    $condition = array();
+    $relate_ids = pdo_fetchall('select relate_id from ' . tablename('xuan_mixloan_prduct') . '
+            where status=0 and type=2');
+    foreach ($relate_ids as $value) {
+        $ids[] = $value['relate_id'];
+    }
+    if ($ids) {
+        $condition['n_id'] = $ids;
+    }
+	$list = m('loan')->getList([], $condition);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
