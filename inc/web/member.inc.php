@@ -17,7 +17,17 @@ if ($operation == 'list') {
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and createtime>{$start} and createtime<={$end}";
+    } else {
+        $starttime = date('Y-m');
+        $endtime = date('Y-m-d H:i:s');
+    }
+    $sql = 'select * from ' . tablename('xuan_mixloan_member') . " where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
