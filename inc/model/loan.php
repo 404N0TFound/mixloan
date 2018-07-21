@@ -79,7 +79,7 @@ class Xuan_mixloan_Loan
         global $_W;
         $sql = "SELECT * FROM " . tablename('xuan_mixloan_loan') . " where 1";
         $relate_ids = pdo_fetchall('select relate_id from ' . tablename('xuan_mixloan_product') . '
-                where status=0 and type=2');
+                where status=-1 and type=2');
         foreach ($relate_ids as $value) {
             $ids[] = $value['relate_id'];
         }

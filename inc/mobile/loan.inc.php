@@ -10,7 +10,7 @@ if($operation=='index'){
 	//贷款中心首页
     $condition = array();
     $relate_ids = pdo_fetchall('select relate_id from ' . tablename('xuan_mixloan_product') . '
-            where status=0 and type=2');
+            where status=-1 and type=2');
     foreach ($relate_ids as $value) {
         $ids[] = $value['relate_id'];
     }
