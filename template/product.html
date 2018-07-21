@@ -1,6 +1,6 @@
 {template 'common/header'}
 <style type="text/css">
-   
+
 </style>
 <ul class="nav nav-tabs">
     <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('product')}">产品列表</a></li>
@@ -23,7 +23,7 @@
                     <input type="text" class="form-control"  name="name" value="{$_GPC['name']}"/>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -31,90 +31,88 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
-            
-            
             <div class="form-group">
             </div>
         </form>
     </div>
 </div><div class="clearfix">
-<div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
-    <div class="panel-body">
-        <table class="table table-hover" style="overflow:visible;">
-            <thead class="navbar-inner">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>产品ID</th>
                     <th style='width:120px;'>产品名称</th>
                     <th style='width:200px;'>添加时间</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
-                        
+
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                
+
                                 <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'update','id' => $row['id']));}" title='编辑产品'><i class='fa fa-edit'></i> 编辑产品</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'delete','id' => $row['id']));}" title='删除产品' onclick="return confirm('确定要删除该产品吗？');"><i class='fa fa-remove'></i> 删除产品</a></li>
+                                <!-- <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'delete','id' => $row['id']));}" title='删除产品' onclick="return confirm('确定要删除该产品吗？');"><i class='fa fa-remove'></i> 删除产品</a></li> -->
                             </ul>
                         </div>
-                        
+
                     </td>
                 </tr>
                 {/loop}
-            </tbody>
-        </table>
-        {$pager}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
     </div>
-</div>
 </div>
 {else if $operation == 'advs_list'}
 <div class="clearfix">
-<div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
-    <div class="panel-body">
-        <table class="table table-hover" style="overflow:visible;">
-            <thead class="navbar-inner">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>广告ID</th>
                     <th style='width:120px;'>广告名称</th>
                     <th style='width:200px;'>添加时间</th>
                     <th>操作</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
-                        
+
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                
+
                                 <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'advs_update','id' => $row['id']));}" title='编辑广告'><i class='fa fa-edit'></i> 编辑广告</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('product',array('op'=>'advs_delete','id' => $row['id']));}" title='删除广告' onclick="return confirm('确定要删除该广告吗？');"><i class='fa fa-remove'></i> 删除广告</a></li>
                             </ul>
                         </div>
-                        
+
                     </td>
                 </tr>
                 {/loop}
-            </tbody>
-        </table>
-        {$pager}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
     </div>
-</div>
 </div>
 {else if $operation == 'add' || $operation == 'update'}
 <div class="panel panel-info">
@@ -151,14 +149,14 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请宣传长图</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     {php echo tpl_form_field_image('data[ext_info][apply_pic]',$item['ext_info']['apply_pic']);}
-                                <span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
+                    <span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
                 </div>
             </div>
             <div class="form-group" >
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">海报设置</label>
                 <div class="col-sm-4 col-xs-6">
                     {php echo tpl_form_field_image('data[ext_info][poster_image]',$item['ext_info']['poster_image']);}
-                                <span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
+                    <span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
                 </div>
                 <div class="col-sm-3 col-xs-3">
                     <select class="form-control" name="data[ext_info][poster_avatar]">
@@ -227,123 +225,173 @@
                         <option value="2" {if $item['done_reward_type']==2}selected{/if}>点数</option>
                     </select>
                 </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['done_reward_type']!=1}style="display: none"{/if}>
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[done_reward_money]" value="{$item['done_reward_money']}" placeholder="请填写固定金额" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['done_reward_type']!=2}style="display: none"{/if}>
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[done_reward_per]" value="{$item['done_reward_per']}" placeholder="请填写点数" />
-                        <span class="input-group-addon" >点</span>
-                    </div>
+            </div>
+            <div class="form-group done_reward_type2"  {if $item['done_reward_type']!=2}style="display: none"{/if}>
+            <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;一级奖励</label>
+            <div class="col-sm-3 col-lg-3 col-xs-12">
+                <div class="input-group">
+                    <input type="text" class="form-control"  name="data[ext_info][done_one_init_reward_per]" value="{$item['ext_info']['done_one_init_reward_per']}" placeholder="请填写点数" />
+                    <span class="input-group-addon">点</span>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册款/卡&nbsp;奖励方式</label>
-                <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <select class="form-control" name="data[re_reward_type]" onchange="change_re_type();">
-                        <option value="0" {if $item['re_reward_type']==0}selected{/if}>不奖励</option>
-                        <option value="1" {if $item['re_reward_type']==1}selected{/if}>固定金额</option>
-                        <option value="2" {if $item['re_reward_type']==2}selected{/if}>点数</option>
-                    </select>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12" {if $item['re_reward_type']!=1}style="display: none"{/if}>
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[re_reward_money]" value="{$item['re_reward_money']}" placeholder="请填写固定金额" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12"  {if $item['re_reward_type']!=2}style="display: none"{/if}>
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[re_reward_per]" value="{$item['re_reward_per']}" placeholder="请填写点数" />
-                        <span class="input-group-addon" >点</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖金</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="data[ext_info][is_extra_reward]" onchange="additional();">
-                        <option value="0" {if $item['ext_info']['is_extra_reward']==0}selected{/if}>不设奖金</option>
-                        <option value="1" {if $item['ext_info']['is_extra_reward']==1}selected{/if}>设置奖金</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group extra" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励方式</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="data[ext_info][extra_reward_type]" onchange="additional_type();">
-                        <option value="0" {if $item['ext_info']['extra_reward_type']==0}selected{/if}>满额奖励</option>
-                        <option value="1" {if $item['ext_info']['extra_reward_type']==1}selected{/if}>满人奖励</option>
-                    </select>
-                    <span class="help-block">提示：下卡奖励只能通过满人方式</span>
-                </div>
-            </div>
-            <div class="form-group" id="cond" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']==1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_cond]" value="{$item['ext_info']['extra_reward_one_cond']}" placeholder="条件1，满多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_cond]" value="{$item['ext_info']['extra_reward_two_cond']}" placeholder="条件2，满多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_cond]" value="{$item['ext_info']['extra_reward_thr_cond']}" placeholder="条件3，满多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group" id="con" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']!=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_con]" value="{$item['ext_info']['extra_reward_one_con']}" placeholder="条件1，满多少" />
-                        <span class="input-group-addon" >人</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_con]" value="{$item['ext_info']['extra_reward_two_con']}" placeholder="条件2，满多少" />
-                        <span class="input-group-addon" >人</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_con]" value="{$item['ext_info']['extra_reward_thr_con']}" placeholder="条件3，满多少" />
-                        <span class="input-group-addon" >人</span>
-                    </div>
-                </div>
-            </div>
-             <div class="form-group extra" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if}>
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励现金</label>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_money]" value="{$item['ext_info']['extra_reward_one_money']}" placeholder="满足条件1后奖励多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_money]" value="{$item['ext_info']['extra_reward_two_money']}" placeholder="满足条件2后奖励多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-                 <div class="col-sm-3 col-lg-3 col-xs-12">
-                    <div class="input-group">
-                        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_money]" value="{$item['ext_info']['extra_reward_thr_money']}" placeholder="满足条件3后奖励多少" />
-                        <span class="input-group-addon" >元</span>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="form-group done_reward_type2"  {if $item['done_reward_type']!=2}style="display: none"{/if} >
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;二级奖励</label>
+    <div class="col-sm-3 col-lg-3 col-xs-12">
+        <div class="input-group">
+            <input type="text" class="form-control"  name="data[ext_info][done_two_init_reward_per]" value="{$item['ext_info']['done_two_init_reward_per']}" placeholder="请填写点数" />
+            <span class="input-group-addon">点</span>
+        </div>
+    </div>
+</div>
+<div class="form-group done_reward_type1"  {if $item['done_reward_type']!=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;一级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][done_one_init_reward_money]" value="{$item['ext_info']['done_one_init_reward_money']}" placeholder="请填写奖励金额" />
+        <span class="input-group-addon">元</span>
+    </div>
+</div>
+</div>
+<div class="form-group done_reward_type1"  {if $item['done_reward_type']!=1}style="display: none"{/if} >
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款/卡&nbsp;二级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][done_two_init_reward_money]" value="{$item['ext_info']['done_two_init_reward_money']}" placeholder="请填写奖励金额" />
+        <span class="input-group-addon">元</span>
+    </div>
+</div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册款/卡&nbsp;奖励方式</label>
+    <div class="col-sm-3 col-lg-3 col-xs-12">
+        <select class="form-control" name="data[re_reward_type]" onchange="change_re_type();">
+            <option value="0" {if $item['re_reward_type']==0}selected{/if}>不奖励</option>
+            <option value="1" {if $item['re_reward_type']==1}selected{/if}>固定金额</option>
+            <option value="2" {if $item['re_reward_type']==2}selected{/if}>点数</option>
+        </select>
+    </div>
+</div>
+<div class="form-group re_reward_type1"  {if $item['re_reward_type']!=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;一级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][re_one_init_reward_money]" value="{$item['ext_info']['re_one_init_reward_money']}" placeholder="请填写奖励金额" />
+        <span class="input-group-addon">元</span>
+    </div>
+</div>
+</div>
+<div class="form-group re_reward_type1"  {if $item['re_reward_type']!=1}style="display: none"{/if} >
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;二级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][re_two_init_reward_money]" value="{$item['ext_info']['re_two_init_reward_money']}" placeholder="请填写奖励金额" />
+        <span class="input-group-addon">元</span>
+    </div>
+</div>
+</div>
+<div class="form-group re_reward_type2"  {if $item['re_reward_type']!=2}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;一级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][re_one_init_reward_per]" value="{$item['ext_info']['re_one_init_reward_per']}" placeholder="请填写奖励点数" />
+        <span class="input-group-addon">点</span>
+    </div>
+</div>
+</div>
+<div class="form-group re_reward_type2"  {if $item['re_reward_type']!=2}style="display: none"{/if} >
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册&nbsp;二级奖励</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][re_two_init_reward_per]" value="{$item['ext_info']['re_two_init_reward_per']}" placeholder="请填写奖励点数" />
+        <span class="input-group-addon">点</span>
+    </div>
+</div>
+</div>
+
+<div class="form-group">
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖金</label>
+    <div class="col-sm-8 col-lg-9 col-xs-12">
+        <select class="form-control" name="data[ext_info][is_extra_reward]" onchange="additional();">
+            <option value="0" {if $item['ext_info']['is_extra_reward']==0}selected{/if}>不设奖金</option>
+            <option value="1" {if $item['ext_info']['is_extra_reward']==1}selected{/if}>设置奖金</option>
+        </select>
+    </div>
+</div>
+<div class="form-group extra" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励方式</label>
+<div class="col-sm-8 col-lg-9 col-xs-12">
+    <select class="form-control" name="data[ext_info][extra_reward_type]" onchange="additional_type();">
+        <option value="0" {if $item['ext_info']['extra_reward_type']==0}selected{/if}>满额奖励</option>
+        <option value="1" {if $item['ext_info']['extra_reward_type']==1}selected{/if}>满人奖励</option>
+    </select>
+    <span class="help-block">提示：下卡奖励只能通过满人方式</span>
+</div>
+</div>
+<div class="form-group" id="cond" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']==1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_cond]" value="{$item['ext_info']['extra_reward_one_cond']}" placeholder="条件1，满多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_cond]" value="{$item['ext_info']['extra_reward_two_cond']}" placeholder="条件2，满多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_cond]" value="{$item['ext_info']['extra_reward_thr_cond']}" placeholder="条件3，满多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+</div>
+<div class="form-group" id="con" {if $item['ext_info']['is_extra_reward']!=1 || $item['ext_info']['extra_reward_type']!=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励条件</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_con]" value="{$item['ext_info']['extra_reward_one_con']}" placeholder="条件1，满多少" />
+        <span class="input-group-addon" >人</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_con]" value="{$item['ext_info']['extra_reward_two_con']}" placeholder="条件2，满多少" />
+        <span class="input-group-addon" >人</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_con]" value="{$item['ext_info']['extra_reward_thr_con']}" placeholder="条件3，满多少" />
+        <span class="input-group-addon" >人</span>
+    </div>
+</div>
+</div>
+<div class="form-group extra" {if $item['ext_info']['is_extra_reward']!=1}style="display: none"{/if}>
+<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励现金</label>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_one_money]" value="{$item['ext_info']['extra_reward_one_money']}" placeholder="满足条件1后奖励多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_two_money]" value="{$item['ext_info']['extra_reward_two_money']}" placeholder="满足条件2后奖励多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+<div class="col-sm-3 col-lg-3 col-xs-12">
+    <div class="input-group">
+        <input type="text" class="form-control"  name="data[ext_info][extra_reward_thr_money]" value="{$item['ext_info']['extra_reward_thr_money']}" placeholder="满足条件3后奖励多少" />
+        <span class="input-group-addon" >元</span>
+    </div>
+</div>
+</div>
 <script type="text/javascript">
     var change_s = function (){
         var c_json = {$c_json};
@@ -371,95 +419,93 @@
     }
     var change_c = function(a_json) {
         var sel_id = {if $item['relate_id']}{$item['relate_id']}{else}0{/if};
-        var type = {if $item['type']}{$item['type']}{else}0{/if};
-        a_html = '<option value="0">选择关联产品</option>';
-        for (var i=0; i<a_json.length; i++) {
-            if (a_json[i].id == sel_id && a_json[i].type == type) {
-                var _select = 'selected';
-            } else {
-                var _select = '';
+            var type = {if $item['type']}{$item['type']}{else}0{/if};
+                a_html = '<option value="0">选择关联产品</option>';
+                for (var i=0; i<a_json.length; i++) {
+                    if (a_json[i].id == sel_id && a_json[i].type == type) {
+                        var _select = 'selected';
+                    } else {
+                        var _select = '';
+                    }
+                    a_html += '<option value="' + a_json[i].id + '" ' + _select + '>' + a_json[i].name + '</option>';
+                }
+                $("select[name='data[relate_id]']").html("");
+                $("select[name='data[relate_id]']").html(a_html);
+                $("select[name='data[relate_id]']").parent().parent().show(500);
             }
-            a_html += '<option value="' + a_json[i].id + '" ' + _select + '>' + a_json[i].name + '</option>';
-        }
-        $("select[name='data[relate_id]']").html("");
-        $("select[name='data[relate_id]']").html(a_html);
-        $("select[name='data[relate_id]']").parent().parent().show(500);
-    }
-    function isEmptyObject(e) {  
-        var t;  
-        for (t in e)  
-            return !1;  
-        return !0  
-    }  
-    change_s();
-
-    var change_done_type =function (){
-        var value = $("select[name='data[done_reward_type]']").val();
-        if (value == 1) {
-            $("input[name='data[done_reward_money]']").parent().parent().show(500);
-            $("input[name='data[done_reward_per]']").parent().parent().hide(500);
-        } else if (value == 2) {
-            $("input[name='data[done_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[done_reward_per]']").parent().parent().show(500);
-        } else {
-            $("input[name='data[done_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[done_reward_per]']").parent().parent().hide(500);
-        }
-    }
-
-    var change_re_type =function (){
-        var value = $("select[name='data[re_reward_type]']").val();
-        if (value == 1) {
-            $("input[name='data[re_reward_money]']").parent().parent().show(500);
-            $("input[name='data[re_reward_per]']").parent().parent().hide(500);
-        } else if (value == 2) {
-            $("input[name='data[re_reward_money]']").parent().parent().hide(500);
-            $("input[name='data[re_reward_per]']").parent().parent().show(500);
-        } else {
-            $("input[name='data[re_reward_money]']").hide(500);
-            $("input[name='data[re_reward_per]']").parent().parent().hide(500);
-        }
-    }
-    var additional = function (){
-        var value = $("select[name='data[ext_info][is_extra_reward]']").val();
-        if (value == 1) {
-            $('.extra').show(500);
-            {if $item['ext_info']['extra_reward_type']}
-            $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().show(500);
-            $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().hide();
-            {else}
-            $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().show(500);
-            $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().hide();
-            {/if}
-        } else {
-            $('#cond').hide(500);
-            $('#con').hide(500);
-            $('.extra').hide(500);
-        }
-    }
-    var additional_type = function () {
-        var value = $("select[name='data[ext_info][extra_reward_type]']").val();
-        console.log(value);
-        if (value == 1) {
-            $("#cond").hide(500);
-            $("#con").show(500);
-        } else {
-            $("#cond").show(500);
-            $("#con").hide(500);
-        }
-    }
+            function isEmptyObject(e) {
+                var t;
+                for (t in e)
+                    return !1;
+                return !0
+            }
+            change_s();
+            var change_done_type =function (){
+                var value = $("select[name='data[done_reward_type]']").val();
+                if (value == 1) {
+                    $('.done_reward_type1').show(300);
+                    $('.done_reward_type2').hide(300);
+                } else if (value == 2) {
+                    $('.done_reward_type1').hide(300);
+                    $('.done_reward_type2').show(300);
+                } else {
+                    $('.done_reward_type1').hide(300);
+                    $('.done_reward_type2').hide(300);
+                }
+            }
+            var change_re_type =function (){
+                var value = $("select[name='data[re_reward_type]']").val();
+                if (value == 1) {
+                    $('.re_reward_type1').show(300);
+                    $('.re_reward_type2').hide(300);
+                } else if (value == 2) {
+                    $('.re_reward_type2').show(300);
+                    $('.re_reward_type1').hide(300);
+                } else {
+                    $('.re_reward_type1').hide(300);
+                    $('.re_reward_type2').hide(300);
+                }
+            }
+            var additional = function (){
+                var value = $("select[name='data[ext_info][is_extra_reward]']").val();
+                if (value == 1) {
+                    $('.extra').show(500);
+                    {if $item['ext_info']['extra_reward_type']}
+                    $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().show(500);
+                    $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().hide();
+                    {else}
+                    $("input[name='data[ext_info][extra_reward_thr_cond]']").parent().parent().parent().show(500);
+                    $("input[name='data[ext_info][extra_reward_thr_con]']").parent().parent().parent().hide();
+                    {/if}
+                    } else {
+                        $('#cond').hide(500);
+                        $('#con').hide(500);
+                        $('.extra').hide(500);
+                    }
+                }
+                var additional_type = function () {
+                    var value = $("select[name='data[ext_info][extra_reward_type]']").val();
+                    console.log(value);
+                    if (value == 1) {
+                        $("#cond").hide(500);
+                        $("#con").show(500);
+                    } else {
+                        $("#cond").show(500);
+                        $("#con").hide(500);
+                    }
+                }
 </script>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
-                <div class="col-sm-7 col-lg-9 col-xs-12">
-                    <input class="btn btn-default" type="submit" value="提交">
-                    <input type="hidden" name="token" value="{$_W['token']}" />
-                </div>
-            </div>
-            <div class="form-group">
-            </div>
-        </form>
+<div class="form-group">
+    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+    <div class="col-sm-7 col-lg-9 col-xs-12">
+        <input class="btn btn-default" type="submit" value="提交">
+        <input type="hidden" name="token" value="{$_W['token']}" />
     </div>
+</div>
+<div class="form-group">
+</div>
+</form>
+</div>
 </div>
 <script type="text/javascript">
     $(document).on('click', ".reduce", function(){
@@ -468,7 +514,7 @@
             alert('标签最少要为1个');
             return false;
         } else {
-            $(this).parent().parent().hide(300, function(){ $(this).remove(); }); 
+            $(this).parent().parent().hide(300, function(){ $(this).remove(); });
         }
     })
     $(document).on('click', ".plus", function(){

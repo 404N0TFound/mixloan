@@ -160,34 +160,34 @@ class Xuan_mixloan_Product
             }
             $res['imgs'] = $item['ext_info']['logo'];
             if ($item['done_reward_type'] == 1) {
-                if ($item['done_reward_money'] == intval($item['done_reward_money'])) {
-                    $done_money = intval($item['done_reward_money']);
+                if ($item['ext_info']['done_one_init_reward_money'] == intval($item['ext_info']['done_one_init_reward_money'])) {
+                    $done_money = intval($item['ext_info']['done_one_init_reward_money']);
                 } else {
-                    $done_money = $item['done_reward_money'];
+                    $done_money = $item['ext_info']['done_one_init_reward_money'];
                 }
                 $res['intro1'] = "{$done_money}";
             } else if ($item['done_reward_type'] == 2){
-                if ($item['done_reward_per'] == intval($item['done_reward_per'])) {
-                    $done_per = intval($item['done_reward_per']);
+                if ($item['ext_info']['done_one_init_reward_per'] == intval($item['ext_info']['done_one_init_reward_per'])) {
+                    $done_per = intval($item['ext_info']['done_one_init_reward_per']);
                 } else {
-                    $done_per = $item['done_reward_per'];
+                    $done_per = $item['ext_info']['done_one_init_reward_per'];
                 }
-                 $res['intro1'] = "{$done_per}点";
+                $res['intro1'] = "{$done_per}点";
             }
             if ($item['re_reward_type'] == 1) {
-                if ($item['re_reward_money'] == intval($item['re_reward_money'])) {
-                    $re_money = intval($item['re_reward_money']);
+                if ($item['ext_info']['re_one_init_reward_money'] == intval($item['ext_info']['re_one_init_reward_money'])) {
+                    $re_money = intval($item['ext_info']['re_one_init_reward_money']);
                 } else {
-                    $re_money = $item['re_reward_money'];
+                    $re_money = $item['ext_info']['re_one_init_reward_money'];
                 }
                 $res['intro1'] .= "+注册{$re_money}";
             } else if ($item['re_reward_type'] == 2){
-                if ($item['re_reward_per'] == intval($item['re_reward_per'])) {
-                    $re_per = intval($item['re_reward_per']);
+                if ($item['ext_info']['re_one_init_reward_per'] == intval($item['ext_info']['re_one_init_reward_per'])) {
+                    $re_per = intval($item['ext_info']['re_one_init_reward_per']);
                 } else {
-                    $re_per = $item['re_reward_per'];
+                    $re_per = $item['ext_info']['re_one_init_reward_per'];
                 }
-                 $res['intro1'] .= "+注册{$re_per}点";
+                $res['intro1'] .= "+注册{$re_per}点";
             }
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
