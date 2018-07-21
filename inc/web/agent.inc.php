@@ -12,8 +12,14 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
-    if (!empty($_GPC['name'])) {
-        $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND b.id='{$_GPC['id']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
     }
     if ($_GPC['bonus']) {
         $sql = 'select 
@@ -120,7 +126,7 @@ if ($operation == 'list') {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
         }
-        $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        $row['inviter'] = pdo_fetch("select id,avatar,nickname,phone from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
     if ($_GPC['export'] == 1) {
