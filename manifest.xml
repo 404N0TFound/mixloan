@@ -32,12 +32,25 @@
       <entry title="代理会员" do="agent" state="" direct="false" />
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
+      <entry title="活动管理" do="activity" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_activity`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1挑战代理，2挑战佣金',
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_msg`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg` (
@@ -225,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已下款/发卡',
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品，2代理，3挑战代理，3挑战佣金',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),

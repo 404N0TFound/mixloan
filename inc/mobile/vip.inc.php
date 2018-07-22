@@ -159,6 +159,7 @@ if($operation=='buy'){
                     'status'=>2,
                     'createtime'=>time(),
                     'degree'=>1,
+                    'type'=>2,
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 $one_insert_id = pdo_insertid();
@@ -193,7 +194,8 @@ if($operation=='buy'){
                         're_bonus'=>$re_bonus,
                         'status'=>2,
                         'createtime'=>time(),
-                        'degree'=>2
+                        'degree'=>2,
+                        'type'=>2
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 }
