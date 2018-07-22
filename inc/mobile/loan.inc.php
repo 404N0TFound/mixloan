@@ -72,7 +72,7 @@ if($operation=='index'){
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
     $info = m('product')->getList(['id','is_show'], ['id'=>$pid])[$pid];
     if (empty($info['is_show'])){
-        message('该产品已被下架');
+        message('该产品已被下架', $this->createMobileUrl('user'), 'error');
     }
     include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
