@@ -1,6 +1,7 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
     <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member')}">会员列表</a></li>
+    <li {if $operation=='partner_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'partner_list'))}">合伙人列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -285,6 +286,167 @@
 
             <div class="form-group"> </div>
         </form>
+    </div>
+</div>
+{else if $operation == 'partner_list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="member" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员id</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="uid" value="{$_GPC['uid']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员信息</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="nickname" value="{$_GPC['nickname']}" placeholder="可搜索昵称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading" style="height: 50px">
+            <div style="float: left;width: 78%;"> 总数：{$total} </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:150px;'>升级费用</th>
+                    <th style='width:150px;'>升级单号</th>
+                    <th style='width:150px;'>升级时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>
+                        <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+                        {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                    </td>
+                    <td>{$row['fee']}</td>
+                    <td>{$row['tid']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'below_list','inviter' => $row['uid']));}" title='下级列表'><i class='fa fa-edit'></i> 下级列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'partner_delete','id' => $row['id']));}" title='取消合伙人' onclick="return confirm('确定要取消合伙人吗？');"><i class='fa fa-remove'></i> 取消合伙人</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'below_list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="member" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员昵称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="nickname" value="{$_GPC['nickname']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading" style="height: 50px">
+            <div style="float: left;width: 78%;"> 总数：{$total} </div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:150px;'>身份</th>
+                    <th style='width:150px;'>加入时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>
+                        <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+                        {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                    </td>
+                    <td>{$row['agent']['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['id']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
     </div>
 </div>
 {/if}

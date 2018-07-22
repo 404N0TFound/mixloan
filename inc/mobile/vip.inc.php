@@ -176,6 +176,7 @@ if($operation=='buy'){
                     'status'=>2,
                     'createtime'=>time(),
                     'degree'=>1,
+                    'type'=>2,
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 $one_insert_id = pdo_insertid();
@@ -196,6 +197,25 @@ if($operation=='buy'){
             $man_one = m('member')->getInviterInfo($inviter);
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
             if ($inviter_two) {
+            	$partner_bonus = $config['inviter_fee_one']*0.01*$config['partner_bonus'];
+                if ($partner_bonus) {
+                    $partner = m('member')->checkPartner($inviter_two);
+                    if ($partner['code'] == 1) {
+                        $insert_i = array(
+                            'uniacid' => $_W['uniacid'],
+                            'uid' => $inviter,
+                            'phone' => $man_one['phone'],
+                            'inviter' => $inviter_two,
+                            'extra_bonus'=>$partner_bonus,
+                            'status'=>2,
+                            'pid'=>$one_insert_id,
+                            'createtime'=>time(),
+                            'degree'=>1,
+                            'type'=>3
+                        );
+                        pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                    }
+                }
                 $re_bonus = $config['inviter_fee_two'];
                 if ($re_bonus) {
                     $insert_i = array(
@@ -210,9 +230,11 @@ if($operation=='buy'){
                         're_bonus'=>$re_bonus,
                         'status'=>2,
                         'createtime'=>time(),
-                        'degree'=>2
+                        'degree'=>2,
+                    	'type'=>2,
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                    $two_insert_id = pdo_insertid();
                 }
                 //消息提醒
                 $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
@@ -226,6 +248,31 @@ if($operation=='buy'){
                     'ext_info'=>json_encode($ext_info),
                 );
                 pdo_insert('xuan_mixloan_msg', $insert);
+                 //三级
+                $man_two = m('member')->getInviterInfo($inviter_two);
+                $inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+                if ($inviter_thr) {
+                    $partner_bonus = $config['inviter_fee_two']*0.01*$config['partner_bonus'];
+                    if ($partner_bonus) {
+                        $partner = m('member')->checkPartner($inviter_thr);
+                        if ($partner['code'] == 1) {
+                            $insert_i = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $inviter_two,
+                                'phone' => $man_two['phone'],
+                                'inviter' => $inviter_thr,
+                                'extra_bonus'=>$partner_bonus,
+                                'status'=>2,
+                                'pid'=>$two_insert_id,
+                                'createtime'=>time(),
+                                'degree'=>1,
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        }
+                    }
+                    $re_bonus = $config['inviter_fee_two'];
+                }
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
@@ -597,4 +644,59 @@ if($operation=='buy'){
 } else if ($operation == 'choose_pay_type') {
     //选择付款方式
     include $this->template('vip/choose_pay_type');
+} else if ($operation == 'partner_join_type') {
+    //选择合伙人加入方式
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        header("location:{$this->createMobileUrl('vip', array('op' => 'partner_center'))}");
+    }
+    include $this->template('vip/partner_join_type');
+}else if ($operation == 'partner_upgrade') {
+    //满足条件自动升级
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
+    }
+    $list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
+		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+		where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
+    $uids = array();
+    foreach ($list as $row) {
+        if ($row['uid']) {
+            $uids[] = $row['uid'];
+        }
+    }
+    if ($uids) {
+        $uid_string = '(' . implode(',', $uids) . ')';
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . "
+			where uid in {$uid_string}");
+        if ($count >= $config['partner_vip_nums']) {
+            $tid = "30002" . date('YmdHis', time());
+            $insert['uid'] = $member['id'];
+            $insert['createtime'] = time();
+            $insert['uniacid'] = $_W['uniacid'];
+            $insert['tid'] = $tid;
+            $insert['fee'] = 0;
+            pdo_insert('xuan_mixloan_partner', $insert);
+            message('升级合伙人成功', $this->createMobileUrl('user'), 'sccuess');
+        } else {
+            message('您还没达到升级条件呢~', $this->createMobileUrl('user'), 'error');
+        }
+    } else {
+        message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
+    }
+} else if ($operation == 'partner_center') {
+    //合伙人中心
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
+		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+    foreach ($list as &$row) {
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+    }
+    unset($row);
+    include $this->template('vip/partner_center');
 }
