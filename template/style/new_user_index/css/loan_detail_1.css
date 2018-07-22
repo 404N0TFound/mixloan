@@ -1,0 +1,97 @@
+﻿/*
+* @Author: win
+* @Date:   2017-09-13 14:56:36
+* @Last Modified by:   win
+* @Last Modified time: 2017-09-13 15:34:30
+*/
+*,*:before,*:after{box-sizing:border-box;-webkit-box-sizing:border-box;}
+.content{
+	padding: 10px 3% 50px;
+}
+.fon15{
+    color: #3a3a3a;
+    font-size: 15px;
+    line-height: 26px;
+}
+
+.content .txt-detail{
+    line-height: 20px;
+    color: #6a6a6a;
+    font-size: 13px;
+}
+.content .txt-detail label,.content .txt-detail span{
+	font-size: 13px;
+}
+.content .tager-lis{
+	display: flex;
+	overflow: hidden;
+}
+.content .tager-lis .info-x1{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #6a6a6a;
+   	line-height: 22px;
+}
+.content .tager-lis label,.content .tager-lis span{
+	font-size: 13px;
+	line-height: 22px;
+}
+.content .goods_logo{
+    max-width: 60px;
+    height: 60px;
+    float: left;
+    display: block;
+    margin-right: 10px;
+}
+.inp-box {
+    padding: 8px 0;
+}
+.inp-box .inp-txt{
+    line-height: 35px;
+    height: 35px;
+    border: 1px solid #c20d23;
+    font-size: 14px;
+    color: #999;
+    width: 100%;
+    border-radius: 2px;
+    display: block;
+    padding: 0 8px;
+    margin: 0;
+    outline: none;
+}
+.a-box {
+    padding: 8px 0;
+    overflow: hidden;
+}
+.inp-child1{
+    width: 50%;
+    float: left;
+}
+.inp-child2{
+    width: 40%;
+    float: right;
+}
+.inp-btn {
+    line-height: 35px;
+    display: block;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background: #e40012;
+    border-radius: 5px;
+    background-size: cover;
+}
+
+.infotext p{
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #8f8f94;
+}
+.infotext p b{
+    font-size: 14px;
+    color: #8f8f94;
+    font-weight: bold;
+}

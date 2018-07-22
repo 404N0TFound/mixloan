@@ -11,5 +11,10 @@ if($operation=='service'){
 } else if ($operation == 'tutorials') {
 	//新手指南
 	include $this->template('mix/tutorials');
+} else if ($operation == 'tutorials_new') {
+	//新手指南
+	include $this->template('mix/tutorials_new');
+} else if ($operation == 'salary_new') {
+	//薪酬详解
+	include $this->template('mix/salary_new');
 }
-?>

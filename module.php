@@ -36,6 +36,8 @@ class Xuan_mixloanModule extends WeModule {
                     'tpl_notice4'=>$_GPC['tpl_notice4'],
                     'tpl_notice5'=>$_GPC['tpl_notice5'],
                     'register_contract'=> htmlspecialchars_decode($_GPC['register_contract']),
+                    'tutorials_new'=> htmlspecialchars_decode($_GPC['tutorials_new']),
+                    'salary_new'=> htmlspecialchars_decode($_GPC['salary_new']),
                     'buy_vip_price' =>$_GPC['buy_vip_price'],
                     'inviter_fee_one'=>$_GPC['inviter_fee_one'],
                     'inviter_fee_two'=>$_GPC['inviter_fee_two'],
@@ -50,6 +52,12 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
                     'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
                     'backup'=>$_GPC['backup'],
+                    'extend_bonus_nums'=>$_GPC['extend_bonus_nums'],
+                    'extend_bonus_money'=>$_GPC['extend_bonus_money'],
+                    'extend_bonus_pic1'=>$_GPC['extend_bonus_pic1'],
+                    'extend_bonus_pic2'=>$_GPC['extend_bonus_pic2'],
+                    'extend_bonus_pic3'=>$_GPC['extend_bonus_pic3'],
+                    'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
             	);
 
             if ($this->saveSettings($cfg)) {
