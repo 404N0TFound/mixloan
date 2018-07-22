@@ -196,7 +196,7 @@ if($operation=='index'){
     //三级
     $inviter_info = m('member')->getInviterInfo($second_inviter);
     $third_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
-    if ($second_inviter) {
+    if ($third_inviter) {
         $insert['inviter'] = $third_inviter;
         $insert['degree'] = 3;
         pdo_insert('xuan_mixloan_product_apply', $insert);
