@@ -141,7 +141,7 @@ if($operation=='index'){
         $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -150,19 +150,7 @@ if($operation=='index'){
             'to_uid'=>$inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
-        if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
-        }
+        pdo_insert('xuan_mixloan_msg', $msg);
         $status = 0;
     } else {
         $status = -2;
@@ -211,7 +199,7 @@ if($operation=='index'){
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -220,7 +208,7 @@ if($operation=='index'){
             'to_uid'=>$second_inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
+        pdo_insert('xuan_mixloan_msg', $msg);
     }
     show_json(1, $pro['ext_info']['url']);
 }
