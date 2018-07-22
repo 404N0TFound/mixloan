@@ -119,7 +119,7 @@ if($operation=='index'){
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $record = m('product')->getApplyList(['id'], ['relate_id'=>$id, 'phone'=>$_GPC['phone']]);
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
@@ -164,14 +164,14 @@ if($operation=='index'){
         'status'=>$status,
         'createtime'=>time()
     );
-    pdo_insert('xuan_mixloan_product_bonus', $insert);
+    pdo_insert('xuan_mixloan_bonus', $insert);
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
     if ($second_inviter) {
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
-        pdo_insert('xuan_mixloan_product_bonus', $insert);
+        pdo_insert('xuan_mixloan_bonus', $insert);
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
         $datam = array(
             "first" => array(
@@ -199,7 +199,7 @@ if($operation=='index'){
     if ($third_inviter) {
         $insert['inviter'] = $third_inviter;
         $insert['degree'] = 3;
-        pdo_insert('xuan_mixloan_product_bonus', $insert);
+        pdo_insert('xuan_mixloan_bonus', $insert);
         $inviter_thr = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$third_inviter));
         $datam = array(
             "first" => array(
