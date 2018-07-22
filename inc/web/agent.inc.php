@@ -122,9 +122,15 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 3) {
+            $row['realname'] = '系统';
+            $row['name'] = '挑战代理';
+        } else if ($row['type'] == 4) {
+            $row['realname'] = '系统';
+            $row['name'] = '挑战佣金';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname,phone from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
