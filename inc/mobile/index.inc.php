@@ -61,7 +61,7 @@ if($operation=='register'){
     } else {
         //没有openid的情况
         $openid = md5($phone);
-        $nickname = "用户" . $phone;
+        $nickname = "用户" . substr($phone, -6);
         $insert = array(
             'uniacid'=>$_W['uniacid'],
             'openid'=>$openid,
