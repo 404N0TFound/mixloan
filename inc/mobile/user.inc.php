@@ -26,6 +26,9 @@ if($operation=='index'){
 } else if ($operation == 'bind_card') {
 	//绑卡
 	include $this->template('user/bind_card');
+} else if ($operation == 'bind_qrcode') {
+    //绑卡
+    include $this->template('user/bind_card_qrcode');
 } else if ($operation == 'checkBank') {
 	//查银行卡是哪家的
 	$bankno = trim($_GPC['cardNo']);
@@ -67,7 +70,24 @@ if($operation=='index'){
 	);
 	pdo_insert('xuan_mixloan_creditCard', $insert);
 	show_json(1);
-}else if ($operation == 'set') {
+} else if ($operation == 'bank_img') {
+    //上传收款二维码接口
+    $name = trim($_GPC['name']);
+    $headimgurl = trim($_GPC['headimgurl']);
+    if (empty($name) || empty($headimgurl)) {
+        show_json(-1, [], "缺少上传参数");
+    }
+    $insert = array(
+        'name'=>$name,
+        'uid'=>$member['id'],
+        'img_url'=>$headimgurl,
+        'createtime'=>time(),
+        'uniacid'=>$_W['uniacid'],
+        'status'=>1
+    );
+    pdo_insert('xuan_mixloan_withdraw_qrcode', $insert);
+    show_json(1);
+} else if ($operation == 'set') {
 	//修改资料
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
 	if ($agent) {
@@ -138,4 +158,12 @@ if($operation=='index'){
         $share_link = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id'])));
     }
     include $this->template('user/extend_bonus');
+} else if ($operation == 'delete_qrcode') {
+    //删除二维码
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        show_json(-1, [], '出错了');
+    }
+    pdo_update('xuan_mixloan_withdraw_qrcode', array('status' => 0), array('id' => $id));
+    show_json(1, [], '删除成功');
 }
