@@ -521,7 +521,7 @@ if($operation=='buy'){
     } else if ($item['type'] == 2) {
         //挑战佣金
         $list = pdo_fetchall('select SUM(re_bonus+done_bonus+extra_bonus) AS sum,inviter from ' . tablename('xuan_mixloan_product_apply') . "
-            where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type in (1,2)
+            where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type=2
             group by inviter having sum <> 0
             order by sum desc limit 10");
     }
