@@ -36,7 +36,7 @@ if($operation=='register'){
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://weixin.rod3bi.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'avatar'=>'http://hqph.bjhantangyuanlin.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
             'status'=>-2,
         );

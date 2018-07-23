@@ -248,12 +248,12 @@ if($operation == 'getCode'){
     $list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
     foreach ($list as $row) {
         if (strstr($row['avatar'], '3dmjg.com')) {
-            $img_url = str_replace('3dmjg.com', 'weixin.rod3bi.cn', $row['avatar']);
+            $img_url = str_replace('3dmjg.com', 'hqph.bjhantangyuanlin.com', $row['avatar']);
             $ids[] = $row['id'];
             pdo_update('xuan_mixloan_member', array('avatar'=>$img_url), array('id'=>$row['id']));
         }
         if (strstr($row['avatar'], 'clpdk.cn')) {
-            $img_url = str_replace('clpdk.cn', 'weixin.rod3bi.cn', $row['avatar']);
+            $img_url = str_replace('clpdk.cn', 'hqph.bjhantangyuanlin.com', $row['avatar']);
             $ids[] = $row['id'];
             pdo_update('xuan_mixloan_member', array('avatar'=>$img_url), array('id'=>$row['id']));
         }
