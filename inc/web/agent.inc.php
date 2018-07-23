@@ -327,6 +327,7 @@ if ($operation == 'list') {
     $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_bonus")." WHERE inviter={$item['inviter']} AND status>1 AND relate_id={$item['relate_id']} AND type={$item['type']}") ? : 0;
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $re_money = $_GPC['data']['re_bonus'];
         $count_money = $_GPC['data']['done_bonus'] + $_GPC['data']['extra_bonus'];
         $one_man = m('member')->getInviterInfo($item['inviter']);
@@ -346,6 +347,17 @@ if ($operation == 'list') {
                     'type'=>5
                 );
                 pdo_insert('xuan_mixloan_bonus', $insert);
+                $ext_info = array('content' => "你好，你的团队邀请了{$item['realname']}成功注册了{$info['name']}，奖励推广佣金{$re_money}元，继续推荐产品，即可获得更多佣金奖励" . $info['name'] . "，请及时跟进。", 'remark' => "点击后台“我的账户->去提现”，立享提现快感", 'url' => $url);
+                $insert = array(
+                    'is_read'=>0,
+                    'uid'=>$item['uid'],
+                    'type'=>2,
+                    'createtime'=>time(),
+                    'uniacid'=>$_W['uniacid'],
+                    'to_uid'=>$item['inviter'],
+                    'ext_info'=>json_encode($ext_info),
+                );
+                pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
         if ($_GPC['data']['status'] == 2 && $count_money>0 && $item['status'] < 2) {
@@ -362,6 +374,17 @@ if ($operation == 'list') {
                     'type'=>5
                 );
                 pdo_insert('xuan_mixloan_bonus', $insert);
+                $ext_info = array('content' => "你好，你的团队邀请了{$item['realname']}成功下款/卡了{$info['name']}，奖励推广佣金{$count_money}元，继续推荐产品，即可获得更多佣金奖励" . $info['name'] . "，请及时跟进。", 'remark' => "点击后台“我的账户->去提现”，立享提现快感", 'url' => $url);
+                $insert = array(
+                    'is_read'=>0,
+                    'uid'=>$item['uid'],
+                    'type'=>2,
+                    'createtime'=>time(),
+                    'uniacid'=>$_W['uniacid'],
+                    'to_uid'=>$item['inviter'],
+                    'ext_info'=>json_encode($ext_info),
+                );
+                pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
         pdo_update('xuan_mixloan_bonus', $_GPC['data'], array('id'=>$item['id']));
