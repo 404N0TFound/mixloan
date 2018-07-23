@@ -102,6 +102,9 @@
 </div>
 </div>
 <script type="text/javascript">
+    var return_msg_url = function () {
+        window.location.href="{php echo $this->createWebUrl('member', ['op'=>'msg'])}";
+    }
     var return_text_url = function () {
         window.location.href="{php echo $this->createWebUrl('member', ['op'=>'send_msg'])}";
     }
