@@ -234,7 +234,7 @@ if($operation=='index'){
     for ($i=0; $i < 10; $i++) {
         $phones[] = rand(1111,9999);
     }
-    $list = pdo_fetchall("SELECT inviter,SUM(re_bonus) AS bonus FROM ".tablename('xuan_mixloan_product_apply')." WHERE pid=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter HAVING bonus<>0 ORDER BY bonus DESC");
+    $list = pdo_fetchall("SELECT inviter,SUM(re_bonus) AS bonus FROM ".tablename('xuan_mixloan_product_apply')." WHERE pid=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter HAVING bonus<>0 ORDER BY bonus DESC LIMIT 8");
     if (!empty($list)) {
         foreach ($list as &$row) {
             $temp_member = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['inviter']));
