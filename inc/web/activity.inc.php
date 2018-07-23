@@ -85,16 +85,13 @@ if ($operation == 'list') {
         $row['avatar'] = $man['avatar'];
         $row['nickname'] = $man['nickname'];
         $row['is_pay'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply'). "
-            where pid={$item['id']} and type={$type}") ? : 0;
+            where pid={$item['id']} and type={$type} and inviter={$row['inviter']}") ? : 0;
     }
     unset($row);
 } else if ($operation == 'rank_update') {
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_activity"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
-    if ($item['ext_info']['endtime'] > time()) {
-        message('活动还没结束', '', 'error');
-    }
     if ($_GPC['post']) {
         $data = $_GPC['data'];
         $data['createtime'] = time();

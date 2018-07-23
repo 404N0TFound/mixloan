@@ -1,0 +1,122 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>{$config['title']} - 沙场点兵</title>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/lmy_5.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/add_prize_2.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+
+</head>
+<style>
+    .prize_text{ background:url(../addons/xuan_mixloan/template/style/images/bag_2.png) center top no-repeat;background-size:100% 100%;}
+    .prize_footer{background:url(../addons/xuan_mixloan/template/style/images/bg_ss.png)  top center ;}
+    .challenge_a{
+        border-radius: 1rem;
+        background: #f8ba1b;
+        padding: 0.35rem 1.2rem;
+        margin:0 0.5rem;
+        margin-top: 0.5rem;
+        display: inline-block;
+        color:#fbf1d7;
+        letter-spacing: 0.15rem;
+    }
+</style>
+<body>
+<!-- end -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #9e8a60}
+    .share_botton{position: absolute;right: 35px;top: 50px}
+    .share_botton img{ width: 20px;}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>挑战活动</span>
+    </div>
+</div>
+{/if}
+<div class="prize_tail">
+
+    <div class="prize_head">
+       
+        <div class="prize_rule">
+            <a onclick="showRules()" id="re_rule">
+                <img src="../addons/xuan_mixloan/template/style/picture/right_art.png" style="margin-top: 0.2rem" />
+            </a>
+        </div>
+    </div>
+    <div class="prize_footer">
+        <div class="prize_phb">
+            <img src="../addons/xuan_mixloan/template/style/picture/phb_meitu_1.png" />
+            <div class="ranking_list">
+                {if $list}
+                {loop $list $key $value}
+                <dl class="clearfix">
+                    <dd><b>{if $key==0}<img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b>{else if $key==1}<img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b>{else if $key==2}<img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b>{else}{php echo $key+1;}</b>{/if}</dd>
+                    <dd><img src="{$value['avatar']}"></dd><dd><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd>
+                    <dd>
+                        {if $item['type'] == 1}
+                        <p><label></label>{$value['count']}人</p>
+                        {else if $item['type'] == 2}
+                        <p><label>¥</label>{$value['sum']}元</p>
+                        {/if}
+                    </dd>
+                </dl>
+                {/loop}
+                {else}
+                <dl><p style='font-size0.6rem;'>暂无数据</p></dl>
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    <!-- end -->
+</div>
+
+<div id="layer_rules" style="display: none">
+    <img src="{php echo tomedia($item['ext_info']['rule_pic'])}">
+</div>
+</body>
+
+
+<script type="text/javascript">
+    //接口
+
+    
+    function showRules(){
+        layer.open({
+            type: 1,
+            shade: false,
+            title: false,
+            content: $('#layer_rules')
+        });
+    }
+</script>
+
+
+</html>

@@ -484,5 +484,46 @@ if($operation=='buy'){
 } else if ($operation == 'checkPay') {
     //选择付款方式
     include $this->template('vip/checkPay');
+} else if ($operation == 'challenge') {
+	//挑战
+	$type = intval($_GPC['type']) ? : 1;
+	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_activity') . ' 
+		where type=:type and uniacid=:uniacid
+		order by id desc', array(':type' => $type, ':uniacid' => $_W['uniacid']));
+	if (empty($item)) {
+		message('抱歉，暂时没有可用活动', '', 'error');
+	}
+	$item['ext_info'] = json_decode($item['ext_info'], true);
+	if ($item['ext_info']['endtime'] < time()) {
+		message('挑战已结束', '', 'error');
+	}
+	if ($item['ext_info']['starttime'] > time()) {
+		message('挑战尚未开始', '', 'error');
+	}
+    $starttime = $item['ext_info']['starttime'];
+    $endtime = $item['ext_info']['endtime'];
+	if ($item['type'] == 1) {
+        //挑战代理
+        $list = pdo_fetchall('select COUNT(*) AS count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
+            where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type=2 and degree=1
+            group by inviter
+            order by count desc limit 10");
+    } else if ($item['type'] == 2) {
+        //挑战佣金
+        $list = pdo_fetchall('select SUM(re_bonus+done_bonus+extra_bonus) AS sum,inviter from ' . tablename('xuan_mixloan_product_apply') . "
+            where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type in (1,2)
+            group by inviter having sum <> 0
+            order by sum desc limit 10");
+    }
+    foreach ($list as &$row) {
+        $type = $item['type'] == 1 ? 3 : 4;
+        $man = pdo_fetch('select nickname,avatar,phone from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['inviter']));
+        $row['avatar'] = $man['avatar'];
+        $row['phone'] = $man['phone'];
+        $row['nickname'] = $man['nickname'];
+    }
+    unset($row);
+    include $this->template('vip/challenge');
 }
 

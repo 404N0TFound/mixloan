@@ -24,6 +24,16 @@
 <style>
     .prize_text{ background:url(../addons/xuan_mixloan/template/style/images/bag_2.png) center top no-repeat;background-size:100% 100%;}
     .prize_footer{background:url(../addons/xuan_mixloan/template/style/images/bg_ss.png)  top center ;}
+    .challenge_a{
+        border-radius: 1rem;
+        background: #f8ba1b;
+        padding: 0.35rem 1.2rem;
+        margin:0 0.5rem;
+        margin-top: 0.5rem;
+        display: inline-block;
+        color:#fbf1d7;
+        letter-spacing: 0.15rem;
+    }
 </style>
 <body>
 <!-- end -->
@@ -93,6 +103,14 @@
                 <img src="../addons/xuan_mixloan/template/style/picture/btns.png" />
             </a>
         </div>
+    </div>
+    <div class="" style="background: #eb4547;text-align: center;height: 3rem">
+        <a href="javascript:void(0);" class="challenge_a" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'challenge', 'type' => 1))}')">
+            挑战代理
+        </a>
+        <a href="javascript:void(0);" class="challenge_a" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'challenge', 'type' => 2))}')">
+            挑战佣金
+        </a>
     </div>
     <!-- center -->
     <div class="prize_center">
