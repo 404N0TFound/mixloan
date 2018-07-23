@@ -7,21 +7,23 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $new_list = m('product')->getRecommends();
+    $new_list = m('product')->packupItems($new_list);
+    $recommend_list = m('product')->getList([], ['is_recommend'=>1, 'is_show'=>1], " sort desc", 12);
+    $recommend_list = m('product')->packupItems($recommend_list);
+    $card_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], " sort desc");
+    $loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1], " sort desc");
+    $card_list = m('product')->packupItems($card_list);
+    $loan_list = m('product')->packupItems($loan_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
-    $new = m('product')->getRecommends();
-    $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], " sort desc");
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], " sort desc");
-    $card = m('product')->packupItems($card);
-    $loan = m('product')->packupItems($loan);
     $arr = array(
         'banner'=>$banner,
-        'new'=>$new,
-        'card'=>$card,
-        'loan'=>$loan
+        'new'=>array(),
+        'card'=>array(),
+        'loan'=>array(),
     );
     show_json(1, $arr);
 } else if ($operation == 'info') {
