@@ -205,7 +205,7 @@
                         var dTitle=days[i].name;
                         var dImgs=days[i].ext_info.logo;
                         var dCount=days[i].count_num;
-                        dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
+                        dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
                         if(dCount=='0'){
                             dayStr += '<span></span></li>';
                         }else{
@@ -224,40 +224,7 @@
                         var mvalid=0;
                         var mloan=week[j].succ;
                         var mrewards=week[j].count_bonus;
-                        // var unit=week[j].unit;
-                        if(mId=="2"||mId=="21"){
-                            if(mId=="21"){
-                                if(gdFlag){
-                                    //2018/1/1之前数据
-                                    if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productZero">'
-                                    }else{
-                                        weekStr += '<ul>'
-                                    }
-                                }else{
-                                    //2018/1/1之后数据
-                                    if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productXrf productZero">';
-                                    }else{
-                                        weekStr += '<ul class="productXrf">'
-                                    }
-                                }
-                            }else{
-                                //2 信而富;
-                                if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                    weekStr += '<ul class="productXrf productZero">';
-                                }else{
-                                    weekStr += '<ul class="productXrf">'
-                                }
-                            }
-                        }else{
-                            if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                weekStr += '<ul class="productZero">'
-                            }else{
-                                weekStr += '<ul>'
-                            }
-                        }
-
+                        weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         weekStr += '<li>'+ mTitle +'</li>';
                         weekStr += '<li>'+ mapply +'</li>';
 
@@ -266,6 +233,7 @@
                         weekStr += '</ul>';
                         $("div.weekProduct").append(weekStr);
                     }
+
 
                     $("div.monthProduct").html("");
                     var month=data.months_list;//月结
@@ -277,7 +245,7 @@
                         var mvalid=0;
                         var mloan=month[j].succ;
                         var mrewards=month[j].count_bonus;
-                        monthStr += '<ul>'
+                        monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         monthStr += '<li>'+ mTitle +'</li>';
                         monthStr += '<li>'+ mapply +'</li>';
 
@@ -318,11 +286,8 @@
     // 日结产品跳转
     function dayDetail(index){
         var id=$(index).attr("data-id");
-        var diff=$(index).attr("data-diff");
-        var month=$("#pointM").html();
-        var year=$("#pointY").html();
-        var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-        // location.href=url;
+        var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
+        openNew(url)
     }
 </script>
 </body>
