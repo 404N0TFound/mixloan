@@ -1,0 +1,240 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>上传微信收款二维码</title>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/intial.css" />
+    <!-- pic -->
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new.css">
+    <style>
+        input:disabled{
+            -webkit-text-fill-color: #666;
+            -webkit-opacity: 1;
+            color: #666;
+        }
+        .pic_one,.pic_two,.pic_tre{display: none;}
+    </style>
+
+    {template 'common/wxshare'}
+</head>
+<body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>添加收款二维码</span>
+    </div>
+</div>
+{/if}
+<div class="agent-main">
+    <div class="main-contain">
+        <div class="personfile">
+            <input type="hidden" value="1"  id="userid" name="userid">
+            <ul class="clearfix">
+                <li class="border clearfix">
+                    <div class="list-name">二维码名称</div>
+                    <div class="input-wap"><input type="text" name="name" id="name" value="{$item['name']}" placeholder="为这个二维码起一个名称"  ></div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                <li class="border first clearfix">
+                    <div class="list-name">收款二维码</div>
+                    <div class="input-wap" >
+                        <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn"/>
+                        <input type="hidden" value="" id="headimgurl"  name="headimgurl" data-name="">
+                    </div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+    <div class="agent_foot">
+        <a href="javascript:;"  id="upSubmit">保存</a>
+    </div>
+</div>
+<!--图片裁剪-->
+<div class="clipbg displaynone">
+    <div id="clipArea"></div>
+    <div class="loading displaynone">正在载入图片...</div>
+    <div class="footer">
+        <dl>
+            <dd style="background: #0195ff; color: #ffffff;border: none;">打开相册
+                <input type="file" id="file" accept="image/*" >
+            </dd>
+            <dd id="clipBtn">完成裁剪</dd>
+        </dl>
+        <div class="back">取消</div>
+    </div>
+</div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/hammer.min.js" ></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lrz.all.bundle.js" ></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/iscroll-zoom-min.js" ></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/photoclip.js" ></script>
+
+<!-- js -->
+<script type="text/javascript">
+    // 图片上传
+    $("#btn").click(function(){
+        $(".clipbg").fadeIn();
+
+    })
+    var clipArea = new  PhotoClip("#clipArea", {
+        size: [300, 300],//裁剪框大小
+        outputSize:[0,0],//打开图片大小，[0,0]表示原图大小
+        file: "#file",
+        ok: "#clipBtn",
+        loadStart: function() {
+            $(".loading").removeClass("displaynone");
+        },
+        loadComplete: function() {
+            $(".loading").addClass("displaynone");
+        },
+        done: function(dataURL) {
+            //console.log(dataURL);
+            $("#btn").attr("src",dataURL);
+            uploadImage();
+            $(".clipbg").fadeOut();
+        }
+
+    });
+
+    $(".back").click(function(){
+        $(".clipbg").fadeOut();
+    })
+    ////////////////////
+    function uploadImage () {
+        var imguploadimg=layer.load(1, {
+            shade: [0.5,'#000']
+        });
+        var base64=$("#btn")[0].src;
+        $.post("{php echo $this->createMobileUrl('user', array('op'=>'uploadImage'))}", {'carousel':base64 },
+            function(data) {
+                if(data.code==1){
+                    var avatar_url=data.data.avatar_url;
+
+                    $("#headimgurl").attr("data-name",avatar_url).addClass("uploadindex");
+                    layer.close(imguploadimg);
+                }else{
+                    layer.msg("系统繁忙,请重试!~");
+                    return false;
+                }
+
+            },'json');
+    }
+
+    ///////判段
+    $(function(){
+        var realname=$("input[name='realname']").val();  //姓名
+        var phone=$("input[name='phone']").val();   //手机号
+        var idcard=$("input[name='idcard']").val();   //身份证
+        if(realname!=""){
+            $("input[name='realname']").attr("disabled",true);
+        }else{
+            $('.pic_one').show();
+        }
+        if(phone!=""){
+            $("input[name='phone']").attr("disabled",true);
+        }else{
+            $('.pic_two').show();
+        }
+        if(idcard!=""){
+            $("input[name='idcard']").attr("disabled",true);
+        }else{
+            $('.pic_tre').show();
+        }
+
+        $('#upSubmit').click(function(){
+            upSubmit();
+        })
+
+    });
+
+    // 恢复点击事件
+    function click(){
+        $("#upSubmit").bind("click",function(){
+            upSubmit();
+        });
+    }
+
+    function dataTransform(res){
+        var ret="";
+        if(res==null||res==undefined){
+            ret="";
+        }else{
+            ret=res;
+        }
+        return ret;
+    }
+
+
+    function upSubmit() {
+        $("#upSubmit").unbind('click');
+        var headimgurl=$("#headimgurl").attr("data-name");  //头像
+        var name=$("input[name='name']").val();   //身份证
+        if (name == "") {
+            layer.msg("请填写名称");
+            return false;
+        }
+        if (headimgurl == "") {
+            layer.msg("请上传微信收款二维码");
+            return false;
+        }
+        var imguploadimg=layer.load(1, {
+            shade: [0.5,'#000']
+        });
+        var ajax = {};
+        ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'bank_img'))}";
+        ajax.type = "post";
+        ajax.dataType="json";
+        ajax.data = {'name':dataTransform(name),'headimgurl':dataTransform(headimgurl)};
+        ajax.success = function (data) {
+            //alert(data);
+            layer.close(imguploadimg);
+            if (data.code == 1) {
+                $('.pic_one').hide();
+                $('.pic_two').hide();
+                $('.pic_tre').hide();
+                layer.msg('资料提交成功', {
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    window.location.href = "{php echo $this->createMobileUrl('vip', array('op'=>'withdraw'))}";
+                });
+            }
+            else {
+                layer.msg(data.msg);
+                click();
+                return false;
+            }
+
+        }
+        $.ajax(ajax);
+    }
+
+</script>
+
+</body>
+</html>
