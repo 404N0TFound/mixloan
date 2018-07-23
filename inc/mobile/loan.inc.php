@@ -110,40 +110,18 @@ if($operation=='index'){
         // }
     }
     if ($inviter) {
-        $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
-        $datam = array(
-            "first" => array(
-                "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
-                "color" => "#173177"
-            ) ,
-            "keyword1" => array(
-                'value' => trim($_GPC['name']),
-                "color" => "#4a5077"
-            ) ,
-            "keyword2" => array(
-                'value' => date('Y-m-d H:i:s', time()),
-                "color" => "#4a5077"
-            ) ,
-            "remark" => array(
-                "value" => '点击查看详情',
-                "color" => "#4a5077"
-            ) ,
+        $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$inviter,
+            'ext_info'=>json_encode($ext_info),
         );
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
-        $account = WeAccount::create($_W['acid']);
-        //$account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
-        if ($openid) {
-            // pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
-        }
-        if (!$inviter_uid) {
-            $insert_i = array(
-                'uniacid' => $_W['uniacid'],
-                'uid' => $inviter,
-                'phone' => trim($_GPC['phone']),
-                'createtime' => time()
-            );
-            pdo_insert('xuan_mixloan_inviter', $insert_i);
-        }
+        pdo_insert('xuan_mixloan_msg', $insert);
         $status = 0;
     } else {
         $status = -2;

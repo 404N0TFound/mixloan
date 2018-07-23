@@ -238,6 +238,14 @@
                         </a>
                     </li>
                     {if !is_weixin()}
+                    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')" class="weui_grid js_grid">
+                        <div class="weui_grid_icon">
+                            <img src="../addons/xuan_mixloan/template/style/new_user_index/images/xiaoxi.png" alt="">
+                        </div>
+                        <p class="weui_grid_label">我的消息</p>
+                    </a>
+                    {/if}
+                    {if !is_weixin()}
                     <li class="customer">
                         <a onclick="loginout()">
                             <img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" />
