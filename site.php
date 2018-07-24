@@ -21,6 +21,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			!strexists($_SERVER['REQUEST_URI'], 'apply'),
 			!strexists($_SERVER['REQUEST_URI'], 'queue'),
 			!strexists($_SERVER['REQUEST_URI'], 'temp'),
+			!strexists($_SERVER['REQUEST_URI'], 'partner'),
+			!strexists($_SERVER['REQUEST_URI'], 'register'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {

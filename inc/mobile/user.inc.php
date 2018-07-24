@@ -118,7 +118,6 @@ if($operation=='index'){
 		'nickname'=>trim($_GPC['nickname']),
 		'wechat'=>trim($_GPC['wechatnum']),
 		'realname'=>trim($_GPC['realname']),
-		'phone'=>trim($_GPC['phone']),
 		'certno'=>trim($_GPC['idcard']),
 	), array('id'=>$member['id']));
 	show_json(1);
