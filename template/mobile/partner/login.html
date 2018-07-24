@@ -9,21 +9,22 @@
 <body>
 <div class="container">
 	<section id="content">
-		<form action="">
+		<form action="{php echo $this->createMobileUrl('partner', array('op' => 'login_submit'))}" method="post">
 			<h1>代理登陆</h1>
 			<div>
-				<input type="text" placeholder="手机号" required="" id="username" />
+				<input type="text" placeholder="手机号"  id="phone" name="phone" style="background-position: 10px 13px !important;" required=""/>
 			</div>
 			<div>
-				<input type="password" placeholder="密码" required="" id="password" />
+				<input type="password" placeholder="新密码" name="password" style="background-position: 10px -50px !important;" required="" />
 			</div>
 			<div class="">
-				<span class="help-block u-errormessage" id="js-server-helpinfo">&nbsp;</span>
+				<span class="help-block u-errormessage" id="js-server-helpinfo"></span>
 			</div> 
+
 			<div>
 				<!-- <input type="submit" value="Log in" /> -->
-				<input type="submit" value="登录" class="btn btn-primary" id="js-btn-login"/>
-				<a href="{php echo $this->createMobileUrl('partner', array('op' => 'find_pass'))}">忘记密码?</a>
+				<input type="submit" value="提交" class="btn btn-primary" id="js-btn-login"/>
+				<a href="{php echo $this->createMobileUrl('partner', array('op' => 'find_pass'))}">忘记密码？</a>
 			</div>
 		</form><!-- form -->
 		
