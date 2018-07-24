@@ -181,7 +181,7 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'upload_file') {
 	$fileroot = $_GPC['fileroot'];
-	$filename = time() . '.png';
+	$filename = time() . rand(1,99999) . '.png';
     load()->library('qiniu');
     $auth = new Qiniu\Auth($_W['setting']['remote']['qiniu']['accesskey'], $_W['setting']['remote']['qiniu']['secretkey']);
     $config = new Qiniu\Config();
