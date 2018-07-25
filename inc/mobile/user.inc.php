@@ -180,32 +180,58 @@ else if ($operation == 'message')
 else if ($operation == 'read_message')
 {
     //阅读消息
-    $id = intval($_GPC['id']);
-    if (empty($id))
-    {
-        message('出错啦', '', 'error');
-    }
-    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_msg') . ' where id=:id', array(':id' => $id));
-    if ($item['is_read'] != 1)
-    {
-        pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $id));
-    }
-    if ($item['type'] == 1)
-    {
-        $item['nickname'] = '系统消息';
-    }
-    else
-    {
-        if ($item['uid'] == 0)
-        {
-            $item['nickname'] = '匿名用户';
-        }
-        else
-        {
-            $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
-            $item['nickname'] = $man['nickname'];
-        }
-    }
-    $item['ext_info'] = json_decode($item['ext_info'], true);
-    include $this->template('user/read_message');
+    // $id = intval($_GPC['id']);
+    // if (empty($id))
+    // {
+    //     message('出错啦', '', 'error');
+    // }
+    // $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_msg') . ' where id=:id', array(':id' => $id));
+    // if ($item['is_read'] != 1)
+    // {
+    //     pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $id));
+    // }
+    // if ($item['type'] == 1)
+    // {
+    //     $item['nickname'] = '系统消息';
+    // }
+    // else
+    // {
+    //     if ($item['uid'] == 0)
+    //     {
+    //         $item['nickname'] = '匿名用户';
+    //     }
+    //     else
+    //     {
+    //         $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+    //         $item['nickname'] = $man['nickname'];
+    //     }
+    // }
+    // $item['ext_info'] = json_decode($item['ext_info'], true);
+    // include $this->template('user/read_message');
+    pdo_update('xuan_mixloan_msg', array('is_read' => 1), array('id' => $_GPC['id']));
+    show_json(1);
+} else if ($operation == 'new_message') {
+	// 新的消息界面
+    include $this->template('user/new_message');
+} else if ($operation == 'get_message') {
+	$page = intval($_GPC['page']) ? : 1;
+	$pageSize = intval($_GPC['pageSize']) ? : 10;
+	$condition = array(':to_uid' => $member['id']);
+	$sql = 'select id,is_read,createtime,type,ext_info from ' . tablename('xuan_mixloan_msg') . '
+			where to_uid=:to_uid order by id desc';
+	$sql.= " limit " . ($pageSize - 1) * $page . ',' . $page;
+	$list = pdo_fetchall($sql, $condition);
+	foreach ($list as &$row) {
+		$row['ext_info'] = json_decode($row['ext_info'], 1);
+		if ($row['type'] == 1) {
+			$row['ext_info']['title'] = '系统通知';
+		} else {
+			$row['ext_info']['title'] = '个人消息';
+		}
+		$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+	}
+	unset($row);
+	$totalRow = pdo_fetchcolumn( 'select id,uid,createtime,type,ext_info from ' . tablename('xuan_mixloan_msg') . '
+			where to_uid=:to_uid', $condition);
+	show_json(1, ['list' => $list, 'totalRow' => $totalRow], '获取成功');
 }

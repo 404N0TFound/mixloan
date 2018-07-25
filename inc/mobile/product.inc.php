@@ -111,9 +111,6 @@ if($operation=='index'){
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
     }
-	if ($inviter == $member['id']) {
-		show_json(-1, [], "您不能自己邀请自己");
-	}
 	if ($id <= 0) {
 		show_json(-1, [], "id为空");
 	}
@@ -132,12 +129,6 @@ if($operation=='index'){
 	}
 	if ($record) {
 		show_json(1, $pro['ext_info']['url']);
-	}
-	if ($config['jdwx_open'] == 1) {
-		// $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-		// if ($res['code'] == -1) {
-		// 	show_json($res['code'], [], $res['msg']);
-		// }
 	}
 	if ($inviter) {
 		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));

@@ -1,0 +1,143 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="e-mail=no" name="format-detection" />
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">
+<title>我的通知</title>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/message/js/jquery_1.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/message/js/lmy_1.js"></script>
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/message/css/lmy_2.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/message/css/notice_1.css">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/message/js/layer_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/message/js/dropload.min_1.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/message/js/conmmon_1.js"></script>
+</head>
+<body style="background:#f3f3f3;">
+<!-- 普通 -->
+<div class="notice_tail" >
+    <style type="text/css">
+        .app_header{ height: 2rem; background: white}
+        .app_header .div_back{position: absolute;top: 0.4rem;left: 0.8rem}
+        .app_header .div_back img{width: 1rem}
+        .header_title{position: absolute;top: 0.5rem;left: 42%;font-size: 0.65rem}
+    </style>
+    <div class="app_header">
+        <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/message/picture/back_grey.png"></div>
+        <div class="header_title">消息中心</div>
+    </div> 
+	<div class="notice_lists" id="pullrefresh">
+		
+	</div>
+</div>
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+var user_read_message_url =  "{php echo $this->createMobileUrl('user', array('op' => 'read_message'))}";
+var user_message_url = "{php echo $this->createMobileUrl('user', array('op' => 'get_message'))}";
+function openNew(id, url){
+	 $.ajax({
+        type: 'POST',
+        url: user_read_message_url,
+        data:{'id':id},
+		dataType: 'json',
+        success: function(data){
+        	if (data.code == 1) {
+        		mui.openWindow({url:url,createNew:true});
+        	}
+        }
+    });
+}
+$(function(){
+ 	var page = 0;
+    var pageSize = 5;
+	$('.notice_tail').dropload({
+        scrollArea :window,
+		domDown: {
+            domClass: 'dropload-down',
+            domLoad: '<div class="dropload-load"><span class="loading dropload-loading"></span>加载中...</div>',
+            domNoData: '<div class="dropload-noData">我是有底线的</div>'
+        },
+		loadDownFn : function(me){
+          	page++;
+          	var result = '';
+            $.ajax({
+                type: 'POST',
+                url: user_message_url,
+                data:{'page':page,'pageSize':pageSize},
+				dataType: 'json',
+                success: function(data){
+                	console.log(data);
+                    var arrLen_list = data.data.list;
+                 	var arrLen = arrLen_list.length;
+                 	var totalRow = data.data.totalRow;
+                 	if(totalRow=="0"){
+                 		$('.notice_lists').append("<p class='null_num'><img src='../addons/xuan_mixloan/template/style/message/picture/empty_daike.png'>暂无数据</p>");
+                 		$('div.dropload-down').hide();
+                 	}else{
+						if(arrLen > 0){
+	                        for(var i=0; i<arrLen; i++){
+	                        	var id = arrLen_list[i].id;
+	                        	var create_time=arrLen_list[i].createtime;
+	                    		var content=arrLen_list[i].ext_info.content;
+	                     		var title=arrLen_list[i].ext_info.title;
+								var is_read=arrLen_list[i].is_read;
+								var type=arrLen_list[i].type;
+								var link_url=arrLen_list[i].ext_info.url;; ///链接
+
+								//console.log(type);
+								
+								result+='<div class="notice_list">'
+								result+='<h3>'+create_time+'</h3>'
+
+								result+='<a onclick="openNew(' + id + ',\'' + link_url + '\')">'
+
+								result+='<ul class="clearfix">'
+								if(is_read=="0"){
+									result+='<li><h2 class="active">'+title+'</h2></li>'
+								}else{
+									result+='<li><h2>'+title+'</h2></li>'
+								}
+
+								result+='<li>'
+								result+='<p>'+content+'</p>'
+								if(type!="9" && type!="0" ){
+									result+='<p class="detail"><img src="../addons/xuan_mixloan/template/style/message/picture/back_1.png"></p>'
+								}
+								result+='</li>'
+								result+='</ul>'
+								result+='</a>'
+								result+='</div>';	
+							}
+						}else {
+	                      	me.lock();
+	                       	me.noData();
+	                    }
+	                   	setTimeout(function(){
+	                       $('.notice_lists').append(result);
+	                       me.resetload();
+	                    },100);
+	                }   
+                },
+                error: function(xhr, type){
+                	me.resetload();
+                }
+            });
+        }
+    });
+});
+
+
+</script>
+</body>
+
+</html>

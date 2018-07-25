@@ -1,0 +1,82 @@
+﻿img{height: auto;}h1,h2,h3,h4{font-weight: normal;}
+body{height: 100%;font-family:Helvetica,sans-serifSimSun, Microsoft YaHei, Arial, "\534E\6587\9ED1\4F53", sans-serif;position: relative;}
+.layui-layer{margin:0 auto;}
+
+/*通知*/
+
+div.notice_tail{width:100%;margin:0 auto;}
+div.notice_list{width:100%;margin:0 auto;}
+div.notice_list ul{width:100%;margin:0 auto;background:#fff;}
+div.notice_list ul li{width:100%;margin:0 auto;padding:4.2% 0;position: relative;}
+div.notice_list h3{font-size:0.5rem;text-align:center;color:#b4b4b4;padding:4% 0 2.7%;}
+div.notice_list ul li h2{width:87%;margin-left:5%;font-size:0.65rem;text-align:left;color:#333333;}
+div.notice_list ul li p{width:81%;margin-left:5%;font-size:0.55rem;text-align:left;color:#999999;line-height: 1.6em;}
+div.notice_list ul li:nth-child(1){border-bottom:1px solid #e6e6e6;padding:3% 0;}
+div.notice_list ul li h2.active:before{content: '';position: absolute;top:0.8rem;right:5.2%;
+width: 0.28rem;height: 0.28rem;background:#f53a1d;border-radius: 50%;}
+
+div.notice_list p.detail{font-size:0.5rem;text-align:center;color:#999;background:#fff;    width: 10%;position: absolute;top:32%;right: 0}
+div.notice_list p.detail a{color:#999;display: inline-block;width: 100%;padding:1.3% 0 5%;}
+div.notice_list p.detail img{width:0.45rem;height: auto;}
+
+div.notice_lists p.null_num img{width:6rem;height: auto;margin:0% auto;display: block;}
+div.notice_lists p.null_num{width:100%;margin:20% auto;font-size:0.6rem;text-align:center;color:#999;}
+
+.dropload-up,.dropload-down{
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    font-size:0.45rem;
+ 
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+}
+.dropload-down{
+    height: 2rem;
+}
+.dropload-refresh,.dropload-update,.dropload-load,.dropload-noData{
+    height: 1.8rem;
+    line-height: 1.8rem;
+    font-size:0.5rem;
+    text-align: center;
+    color:#999;
+}
+.dropload-load .loading{
+	vertical-align: middle;	
+  background-color: #999;
+  width: 0.5rem;
+  height:0.5rem;
+  border-radius: 100%;
+  margin: -0.1rem 0.2rem 0;
+  -webkit-animation-fill-mode: both;animation-fill-mode: both;
+  border: 2px solid #999;
+  border-bottom-color: transparent;background: transparent !important;
+  display: inline-block;
+  -webkit-animation: rotate 0.75s 0s linear infinite;animation: rotate 0.75s 0s linear infinite; }
+
+
+
+
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1); }
+
+  50% {
+    -webkit-transform: rotate(180deg) scale(0.6);
+            transform: rotate(180deg) scale(0.6); }
+
+  100% {
+    -webkit-transform: rotate(360deg) scale(1);
+            transform: rotate(360deg) scale(1); } 
+}
+
+@keyframes scale {
+  30% {
+    -webkit-transform: scale(0.3);
+            transform: scale(0.3); }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } 
+}
