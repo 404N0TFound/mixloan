@@ -17,6 +17,29 @@
     <!-- Google Fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/partner/js/Lightweight-Chart/cssCharts.css"> 
+    <!-- /. WRAPPER  -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script src="../addons/xuan_mixloan/template/style/partner/js/jquery-1.10.2.js"></script>
+    
+    <!-- Bootstrap Js -->
+    <script src="../addons/xuan_mixloan/template/style/partner/js/bootstrap.min.js"></script>
+    
+    <script src="../addons/xuan_mixloan/template/style/partner/materialize/js/materialize.min.js"></script>
+    
+    <!-- Metis Menu Js -->
+    <script src="../addons/xuan_mixloan/template/style/partner/js/jquery.metisMenu.js"></script>
+    <!-- Morris Chart Js -->
+    <script src="../addons/xuan_mixloan/template/style/partner/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/partner/js/morris/morris.js"></script>
+    
+    
+    <script src="../addons/xuan_mixloan/template/style/partner/js/easypiechart.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/partner/js/easypiechart-data.js"></script>
+    
+     <script src="../addons/xuan_mixloan/template/style/partner/js/Lightweight-Chart/jquery.chart.js"></script>
+    <!-- Custom Js -->
+    
 </head>
 
 <body>
@@ -81,6 +104,24 @@
 				                                <i class="material-icons prefix {if $product}active{/if}">airplay</i> <input id="icon_product" name="product" type="text" value="{$product}" class="validate"> <label for="icon_product" class="{if $product}active{/if}">关联产品</label>
 				                            </div>
 				                        </div>
+                                        <div class="row">
+                                           <div class='col-sm-2' style="margin-left: 2%">
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker1'>
+                                                        <input type='date' class="form-control" placeholder="开始时间" name="starttime" value="{$starttime}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <div class='col-sm-2'>
+                                                <div class="form-group">
+                                                    <div class='input-group date' id='datetimepicker2'>
+                                                        <input type='date' class="form-control" placeholder="结束时间" name="endtime" value="{$endtime}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script type="text/javascript">
+                                            </script>
+                                        </div>
 				                        <a class="waves-effect waves-light btn" style="padding: 6px 40px">查询</a>
 				                    </form>
 				                    <div class="clearBoth"></div>
@@ -142,38 +183,14 @@
         </div>
         <!-- /. PAGE WRAPPER  -->
     </div>
-    <!-- /. WRAPPER  -->
-    <!-- JS Scripts-->
-    <!-- jQuery Js -->
-    <script src="../addons/xuan_mixloan/template/style/partner/js/jquery-1.10.2.js"></script>
-	
-	<!-- Bootstrap Js -->
-    <script src="../addons/xuan_mixloan/template/style/partner/js/bootstrap.min.js"></script>
- 	
-	<script src="../addons/xuan_mixloan/template/style/partner/materialize/js/materialize.min.js"></script>
-	
-    <!-- Metis Menu Js -->
-    <script src="../addons/xuan_mixloan/template/style/partner/js/jquery.metisMenu.js"></script>
-    <!-- Morris Chart Js -->
-    <script src="../addons/xuan_mixloan/template/style/partner/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/partner/js/morris/morris.js"></script>
-	
-	
-	<script src="../addons/xuan_mixloan/template/style/partner/js/easypiechart.js"></script>
-	<script src="../addons/xuan_mixloan/template/style/partner/js/easypiechart-data.js"></script>
-	
-	 <script src="../addons/xuan_mixloan/template/style/partner/js/Lightweight-Chart/jquery.chart.js"></script>
-	
-    <!-- Custom Js -->
-    <script src="../addons/xuan_mixloan/template/style/partner/js/custom-scripts.js"></script> 
 
     <script type="text/javascript">
-    	$('.waves-effect').click(function(){
-    		$('#form1').submit();
-    	})
- 		function loginout(){
- 			window.location.href="{php echo $this->createMobileUrl('partner', array('op' => 'loginout'))}"
- 		}
+        $('.waves-effect').click(function(){
+            $('#form1').submit();
+        })
+        function loginout(){
+            window.location.href="{php echo $this->createMobileUrl('partner', array('op' => 'loginout'))}"
+        }
     </script>
 </body>
 

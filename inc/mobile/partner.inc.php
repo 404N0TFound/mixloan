@@ -89,6 +89,8 @@ if($operation=='login') {
 	$where = '';
 	$realname = trim($_GPC['realname']);
 	$phone = trim($_GPC['phone']);
+	$starttime = trim($_GPC['starttime']);
+	$endtime = trim($_GPC['endtime']);
 	$product = trim($_GPC['product']);
 	if (empty($user_id)) {
 		message('用户不存在', '', 'error');
@@ -103,6 +105,14 @@ if($operation=='login') {
 	if ($phone) {
 		$where .= " and phone like :phone";
 		$cond[':phone'] = '%' . $phone . '%'; 
+	}
+	if ($starttime) {
+		$where .= " and createtime>:starttime";
+		$cond[':starttime'] = strtotime($starttime); 
+	}
+	if ($endtime) {
+		$where .= " and createtime<:endtime";
+		$cond[':endtime'] = strtotime($endtime); 
 	}
 	if ($product) {
 		$pids = array();
