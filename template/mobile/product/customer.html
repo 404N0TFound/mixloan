@@ -29,6 +29,8 @@
 		div.agent-foot{padding-bottom:20px; }
 		div.agent-main{padding-bottom:20px;}
 	}
+    div.cusLtop .cusLApplyNum h1{font-size: 0.6rem}
+    #applyNum{font-size: 0.6rem}
 	div.agent-foot p>img {
 		width: 1.15rem;
 	}
@@ -113,7 +115,7 @@
 	<div class="cusLtop">
 		<img src="../addons/xuan_mixloan/template/style/picture/cusbg_1.png" />
 		<p><img src="../addons/xuan_mixloan/template/style/picture/calender_1.png" /><span id="pointY"></span><span>年</span><span id="pointM"></span><span>月</span></p>
-		<div class="cusLApplyNum"><a class="btnLeft btnLeftL" style="font-size: 0.4rem"></a><h1>共<span id="applyNum" style="font-size: 0.7rem"></span>申请</h1><a class="btnRight btnRightD"></a></div>
+		<div class="cusLApplyNum"><a class="btnLeft btnLeftL" style="font-size: 0.4rem"></a><h1>共<span id="applyNum"></span>申请</h1><a class="btnRight btnRightD"></a></div>
 	</div>
 	<div class="accCommon dayAccount">
 		<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
@@ -196,7 +198,7 @@
                     var data=res.data;
                     var applys=data.applys;//申请数
                     var days=data.days_list;//日结
-                    $("#applyNum").html(applys.one_degree + '(直推)+' + applys.two_degree + '(二级)');
+                    $("#applyNum").html(applys.one_degree + '(直推)+' + applys.two_degree + '(二级)+' + applys.three_degree + '(三级)');
                     $("div.dayProduct ul").html("");
                     for(i=0;i<days.length;i++){
                         var dayStr='';
@@ -205,7 +207,7 @@
                         var dTitle=days[i].name;
                         var dImgs=days[i].ext_info.logo;
                         var dCount=days[i].count_num;
-                        dayStr += '<li><a data-id='+ dId +' data-diff='+ diff +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
+                        dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
                         if(dCount=='0'){
                             dayStr += '<span></span></li>';
                         }else{
@@ -224,40 +226,7 @@
                         var mvalid=0;
                         var mloan=week[j].succ;
                         var mrewards=week[j].count_bonus;
-                        // var unit=week[j].unit;
-                        if(mId=="2"||mId=="21"){
-                            if(mId=="21"){
-                                if(gdFlag){
-                                    //2018/1/1之前数据
-                                    if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productZero">'
-                                    }else{
-                                        weekStr += '<ul>'
-                                    }
-                                }else{
-                                    //2018/1/1之后数据
-                                    if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                        weekStr += '<ul class="productXrf productZero">';
-                                    }else{
-                                        weekStr += '<ul class="productXrf">'
-                                    }
-                                }
-                            }else{
-                                //2 信而富;
-                                if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                                    weekStr += '<ul class="productXrf productZero">';
-                                }else{
-                                    weekStr += '<ul class="productXrf">'
-                                }
-                            }
-                        }else{
-                            if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                                weekStr += '<ul class="productZero">'
-                            }else{
-                                weekStr += '<ul>'
-                            }
-                        }
-
+                        weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         weekStr += '<li>'+ mTitle +'</li>';
                         weekStr += '<li>'+ mapply +'</li>';
 
@@ -266,6 +235,7 @@
                         weekStr += '</ul>';
                         $("div.weekProduct").append(weekStr);
                     }
+
 
                     $("div.monthProduct").html("");
                     var month=data.months_list;//月结
@@ -277,7 +247,7 @@
                         var mvalid=0;
                         var mloan=month[j].succ;
                         var mrewards=month[j].count_bonus;
-                        monthStr += '<ul>'
+                        monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         monthStr += '<li>'+ mTitle +'</li>';
                         monthStr += '<li>'+ mapply +'</li>';
 
@@ -318,11 +288,8 @@
     // 日结产品跳转
     function dayDetail(index){
         var id=$(index).attr("data-id");
-        var diff=$(index).attr("data-diff");
-        var month=$("#pointM").html();
-        var year=$("#pointY").html();
-        var url="/Wap/Backstage/loanDetail/id/"+id+"/diff/"+diff+"/year/"+year+"/month/"+month;
-        // location.href=url;
+        var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
+        openNew(url)
     }
 </script>
 </body>

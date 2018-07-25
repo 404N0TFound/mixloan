@@ -314,6 +314,8 @@ class Xuan_mixloan_Product
                     $ret['one_degree'] = $row['count'];
                 } else if ($row['degree'] == 2){
                     $ret['two_degree'] = $row['count'];
+                } else if ($row['degree'] == 3){
+                    $ret['three_degree'] = $row['count'];
                 }
             }
         }
@@ -322,6 +324,9 @@ class Xuan_mixloan_Product
         }
         if (!$ret['two_degree']) {
             $ret['two_degree'] = 0;
+        }
+        if (!$ret['three_degree']) {
+            $ret['three_degree'] = 0;
         }
         return $ret;
     }
