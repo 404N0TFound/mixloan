@@ -40,7 +40,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
 {if !is_weixin()}
@@ -67,7 +67,7 @@
 </style>
 <div class="app_header">
 	<div class="app_header_back">
-		<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back();">
+		<img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('user')}')">
 		<span>消息中心</span>
 	</div>
 </div>

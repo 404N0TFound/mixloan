@@ -183,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `phone` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
   `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1银行卡 2支付宝账号',
+  `status` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
@@ -334,6 +335,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `relate_id` int(11) NOT NULL COMMENT '关联id',
+   `sort` int(11) NOT NULL COMMENT '排序',
   `type` tinyint(2) NOT NULL COMMENT '1信用卡，2贷款',
   `is_show` tinyint(2) NOT NULL COMMENT '是否上架',
   `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
