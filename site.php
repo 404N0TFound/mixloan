@@ -38,15 +38,15 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		global $_W, $_GPC;
 		$uniacid=$_W['uniacid'];
 		$fee = $params['fee'];
-		$openid = m('user')->getOpenid();
-		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
 		if ($params['result'] == 'success') {
-            if (empty($openid)) {
+            if ($params['from']=='notify') {
                 $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
-                    where openid=:openid', array(':openid' => $openid));
+                $member = m('member')->getMember($openid);
+            } else {
+                $openid = m('user')->getOpenid();
+                $member = m('member')->getMember($openid);
             }
             if (empty($openid)) {
                 message('请不要重复提交', $this->createMobileUrl('user'), 'error');
