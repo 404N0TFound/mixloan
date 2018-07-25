@@ -32,9 +32,8 @@ if($operation=='login') {
 	if ($record['pass'] != $password) {
 		message('密码不正确', '', 'error');
 	}
-	$agent = m('member')->checkAgent($record['id']);
-	if ($agent['code'] != 1) {
-		message('该用户不是代理', '', 'error');
+	if ($member['backstage'] != 1) {
+		message('该用户没有权限，请联系管理员设置权限', '', 'error');
 	}
 	$_SESSION['user_id'] = $record['id'];
 	header("location:{$this->createMobileUrl('partner', array('op' => 'default'))}");

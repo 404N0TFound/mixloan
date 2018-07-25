@@ -11,8 +11,8 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = ' AND status<>-1';
-    if (!empty($_GPC['openid'])) {
-        $wheres.= " AND openid='{$openid}'";
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND openid='{$_GPC['id']}'";
     }
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
@@ -182,6 +182,28 @@ if ($operation == 'list') {
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
         
     }
+} else if ($operation == 'set_backstage') {
+    // 设置后台权限
+    $id = intval($_GPC['id']);
+    pdo_update('xuan_mixloan_member', array('backstage' => 1), array('id' => $id));
+    message('设置成功', referer(), 'success');
+} else if ($operation == 'backstage_list') {
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = ' AND backstage=1';
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'remove_backstage') {
+    // 设置后台权限
+    $id = intval($_GPC['id']);
+    pdo_update('xuan_mixloan_member', array('backstage' => 0), array('id' => $id));
+    message('设置成功', referer(), 'success');
 }
 include $this->template('member');
 ?>

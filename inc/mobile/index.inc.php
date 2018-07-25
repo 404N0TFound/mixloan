@@ -43,6 +43,6 @@ if($operation=='register'){
 	//更新操作
 	$arr = ['phone'=>$phone, 'pass'=>$pwd];
 	pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-	show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+	show_json(1, ['url'=>$this->createMobileUrl('user', ['op'=>''])], "注册成功");
 }
 ?>
