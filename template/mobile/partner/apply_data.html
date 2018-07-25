@@ -95,6 +95,7 @@
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 30px;">id</th>
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 50px;">客户姓名</th>
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 75px;">客户手机</th>
+                                    <th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 75px;">申请时间</th>
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 100px;">关联产品</th>
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 50px;">等级</th>
                                 	<th class="center" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1"  style="width: 50px;">佣金</th>
@@ -107,6 +108,7 @@
                                     <td class="center">{$row['id']}</td>
                                     <td class="center">{$row['realname']}</td>
                                     <td class="center">{$row['phone']}</td>
+                                    <td class="center">{php echo date('Y-m-d H:i:s', $row['createtime'])}</td>
                                     <td class="center"><img src="{$row['product_logo']}" style="width: 35px;border-radius: 50%"> &nbsp;&nbsp; {$row['product_name']}</td>
                                     <td class="center">
                                     	{if $row['degree']== 1}

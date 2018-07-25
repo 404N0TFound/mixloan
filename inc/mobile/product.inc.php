@@ -146,21 +146,6 @@ if($operation=='index'){
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $account = WeAccount::create($_W['acid']);
         $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
-        if ($openid) {
-            // pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
-        }
-        if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
-        }
         $status = 0;
     } else {
         $status = -2;
