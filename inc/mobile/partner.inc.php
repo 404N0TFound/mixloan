@@ -24,7 +24,7 @@ if($operation=='login') {
 	if (empty($password)) {
 		message('密码不能为空', '', 'error');
 	}
-	$record = pdo_fetch('select id,pass from ' . tablename('xuan_mixloan_member') . '
+	$record = pdo_fetch('select id,pass,backstage from ' . tablename('xuan_mixloan_member') . '
 	 	where phone=:phone', array(':phone' => $phone));
 	if (empty($record)) {
 		message('用户不存在', '', 'error');
@@ -32,7 +32,7 @@ if($operation=='login') {
 	if ($record['pass'] != $password) {
 		message('密码不正确', '', 'error');
 	}
-	if ($member['backstage'] != 1) {
+	if ($record['backstage'] != 1) {
 		message('该用户没有权限，请联系管理员设置权限', '', 'error');
 	}
 	$_SESSION['user_id'] = $record['id'];

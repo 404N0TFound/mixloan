@@ -1,7 +1,7 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
     <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member')}">会员列表</a></li>
-    <li {if $operation=='backstage_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op'=>'backstage_list')}">后台权限列表</a></li>
+    <li {if $operation=='backstage_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op'=>'backstage_list'))}">后台权限列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">

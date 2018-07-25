@@ -428,6 +428,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `country` varchar(50) NOT NULL,
   `avatar` text NOT NULL,
   `sex` int(2) NOT NULL,
+  `backstage` tinyint(2) NOT NULL,
   `createtime` int(20) NOT NULL,
   `inviter` varchar(30) NOT NULL,
   `phone` varchar(50) NOT NULL,
