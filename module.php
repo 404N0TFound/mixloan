@@ -57,7 +57,7 @@ class Xuan_mixloanModule extends WeModule {
             }
 		}
 		$setting = $this->module['config'];
-        
+        $partner_index = $_W['siteroot'] . 'app/' .$this->createMobileUrl('partner', array('op'=>'login'));
         $queue_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('ajax', array('op'=>'queue'));
         $vip_buy = $this->shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')));
         $mix_tutorials = $this->shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('mix', array('op'=>'tutorials')));
