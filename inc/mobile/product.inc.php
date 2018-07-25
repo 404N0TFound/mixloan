@@ -7,6 +7,8 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
 	//首页
+    $hot_list = m('product')->getList([], ['day_hot'=>1, 'is_show'=>1], FALSE);
+    $hot_list = m('product')->packupItems($hot_list);
     $credit_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
     $credit_list = m('product')->packupItems($credit_list);
     $loan_day_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>1], ' sort desc');
