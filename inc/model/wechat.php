@@ -2209,9 +2209,9 @@ class Xuan_mixloan_Wechat
         $mch_id = $this->partnerid;
         $body = $out_trade_no.'的订单';
         if($url=="phonecard"){
-            $notify_url = 'http://xu.wjrzm.cn/app/index.php?i=3&c=entry&do=notify&m=xuan_hole';
+            $notify_url = 'http://xu.wjrzm.cn/app/index.php?i=1&c=entry&do=notify&m=xuan_hole';
         }else{
-            $notify_url = 'http://xu.wjrzm.cn/app/index.php?i=3&c=entry&do=notify&m=xuan_hole';
+            $notify_url = 'http://xu.wjrzm.cn/app/index.php?i=1&c=entry&do=notify&m=xuan_hole';
         }
         $spbill_create_ip = $_SERVER["REMOTE_ADDR"];
         $nonce_str = $this->generateNonceStr();
