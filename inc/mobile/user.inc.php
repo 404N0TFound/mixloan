@@ -8,6 +8,9 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//会员中心
+    if ($member['partner'] == 1) {
+        $member['user_type']['name'] = '合伙人';
+    }
 	if (empty($member['phone'])) {
 		header("location:{$this->createMobileUrl('index', array('op'=>'register'))}");
 	}
