@@ -424,6 +424,23 @@
 {/if}
 <script type="text/javascript">
     
+var iosXIndex=false;
+$(document).ready(function(){
+    //页面初始化
+    $("div.popLoanApplyCommon").css("height",$(window).height());
+    var bodyH=(parseInt($(window).height()))-75+"px";
+    $("div.cJframe").css({"height":bodyH,"overflow":"auto"});
+})
+//判断手机是否为iphoneX,处理兼容问题
+$(function(){
+    isIphoneX();
+})
+function isIphoneX(){
+    var iosXVersion=/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
+    if(iosXVersion){
+        iosXIndex=true;
+    }
+}
 $('#cache_img').click(function(){
     getImgCache();
 })
@@ -439,7 +456,30 @@ function getImgCache(){
             }
         },'json')
 }
-
+//避免输入法影响样式
+$('div.popLoanInfo input').on('focus',function(e){
+    var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
+    window.onresize = function () {
+        var h = $(window).height();
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/2){
+                $("div.popLoanApply .popLoanMain").css("top","10%");
+            }else{
+                $("div.popLoanApply .popLoanMain").css("top","31%");
+            }
+        }
+    }
+    if(isIOS){
+        if(iosXIndex){
+            $("div.popLoanApply .popLoanMain").css("top","30%");
+        }else{
+            $("div.popLoanApply .popLoanMain").css("top","30%");
+        }
+        e.stopPropagation();
+        return false;
+    }
+})
 function upSubmit() {
     $(".apply_button").unbind('click');
     var _name=$("#applyname").val();
