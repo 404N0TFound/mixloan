@@ -46,13 +46,13 @@
 {if !is_weixin()}
 <script type="text/javascript">
     function unread(){
-        var url = '{php echo $this->createMobileUrl('user', array('op'=>'message', 'isread'=>0))}';
+        var url = '{php echo $this->createMobileUrl('user', array('op'=>'new_message', 'type'=>1))}';
         var message = plus.webview.getWebviewById('message');
         mui.fire(message,'refresh');
         mui.openWindow({url:url, id:'message'});
     }
     function read(){
-        var url = '{php echo $this->createMobileUrl('user', array('op'=>'message', 'isread'=>1))}';
+        var url = '{php echo $this->createMobileUrl('user', array('op'=>'new_message', 'type'=>2))}';
         var message = plus.webview.getWebviewById('message');
         mui.fire(message,'refresh');
         mui.openWindow({url:url, id:'message'});
@@ -79,14 +79,14 @@
                 <li class="new_guide">
                     <a onclick="unread()">
                         <img src="../addons/xuan_mixloan/template/style/picture/message_unread.png" style="width: 0.8rem" />
-                        未读消息（{$unread}条）
+                        系统消息（{$unread}条）
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
                 <li class="new_guide">
                     <a onclick="read()">
                         <img src="../addons/xuan_mixloan/template/style/picture/message_read.png" />
-                        已读消息（{$read}条）
+                        个人消息（{$read}条）
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>

@@ -43,19 +43,9 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
 var user_read_message_url =  "{php echo $this->createMobileUrl('user', array('op' => 'read_message'))}";
-var user_message_url = "{php echo $this->createMobileUrl('user', array('op' => 'get_message'))}";
-function openNew(id, url){
-	 $.ajax({
-        type: 'POST',
-        url: user_read_message_url,
-        data:{'id':id},
-		dataType: 'json',
-        success: function(data){
-        	if (data.code == 1) {
-        		mui.openWindow({url:url,createNew:true});
-        	}
-        }
-    });
+var user_message_url = "{php echo $this->createMobileUrl('user', array('op' => 'get_message', 'type' => $type))}";
+function openNew(url){
+	mui.openWindow({url:url,createNew:true});
 }
 $(function(){
  	var page = 0;
@@ -92,14 +82,14 @@ $(function(){
 	                     		var title=arrLen_list[i].ext_info.title;
 								var is_read=arrLen_list[i].is_read;
 								var type=arrLen_list[i].type;
-								var link_url=arrLen_list[i].ext_info.url;; ///链接
+								var link_url= "{php echo $this->createMobileUrl('user', array('op' => 'read_message'))}&id=" + id; ///链接
 
 								//console.log(type);
 								
 								result+='<div class="notice_list">'
 								result+='<h3>'+create_time+'</h3>'
 
-								result+='<a onclick="openNew(' + id + ',\'' + link_url + '\')">'
+								result+='<a onclick="openNew(\'' + link_url + '\')">'
 
 								result+='<ul class="clearfix">'
 								if(is_read=="0"){
