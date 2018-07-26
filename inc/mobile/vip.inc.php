@@ -8,6 +8,9 @@ $member = m('member')->getMember($openid);
 $agent = m('member')->checkAgent($member['id']);
 if($operation=='buy'){
 	//购买会员
+    if (!$member['phone']) {
+        message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+    }
 	if ($agent['code']==1) {
 		$verify = 1;
 	} else {
@@ -269,18 +272,7 @@ if($operation=='buy'){
     if ($type == 3) {
         $tips = "";
         if (!$posterArr) {
-            $created = false;
-            $wx = WeAccount::create();
-            $barcode = array(
-                'action_name'=>"QR_LIMIT_SCENE",
-                'action_info'=> array(
-                    'scene' => array(
-                        'scene_id'=>$member['id'],
-                    )
-                )
-            );
-            $res = $wx->barCodeCreateDisposable($barcode);
-            $url = $res['url'];
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register','inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
@@ -373,4 +365,8 @@ if($operation=='buy'){
     }
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
     message($ret, '', 'success');
+} else if ($operation == 'app_register') {
+    //邀请注册
+    $inviter = m('member')->getInviterInfo($_GPC['inviter']);
+    include $this->template('vip/register');
 }

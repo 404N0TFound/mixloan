@@ -26,6 +26,15 @@
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function openBank(id){
+        window.location.href = "{php echo $this->createMobileUrl('bank', array('op'=>'display'))}&id=" + id;
+    }
+    function return_user(){
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        var user_index = plus.webview.getWebviewById('user_index');
+        mui.fire(user_index,'refresh');
+        mui.openWindow({url:user_url, id:'user_index'});
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -92,18 +101,17 @@
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>今日口子</p>
+        <p>发现</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'extend_bonus'))}')" class="home" >
-        <img class="lazy" src="../addons/xuan_mixloan/template/style/new_user_index/images/tuijianyouqian.png" width="45px" alt="">
-        <p>推荐有奖</p>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-        <p>{$config['title']}客</p>
+        <p>{$config['title']}</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+    <a onclick="return_user()" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
         <p>个人中心</p>
     </a>
@@ -191,7 +199,7 @@
         <h1><span>智能推荐</span></h1>
         {loop $recommends $re}
         <div class="recommend_main cards_recommend" data-id="{$re['id']}"onclick="clickNum(this);">
-            <a onclick="openNew('{$re['ext_info']['url']}')">
+            <a onclick="openBank('{$re['id']}')">
                 <h2>{$re['name']}</h2>
                 <div class="recommend_detail">
                     <span class="card_img"><img src="{php echo tomedia($re['ext_info']['pic'])}" /></span>
@@ -214,7 +222,7 @@
         <div class="hotC_list">
             {loop $list $card}
             <div class="hot_main" data-id="{$card['id']}" onclick="clickNum(this);">
-                <a onclick="openNew('{$card['ext_info']['url']}')">
+                <a onclick="openBank('{$card['id']}')">
                     <span><img src="{php echo tomedia($card['ext_info']['pic'])}" /></span>
                     <div class="hot_detail">
                         <h2>{$card['name']}</h2>
