@@ -5,13 +5,26 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='index';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
+if ($member['status'] == '0') {
+    // 冻结
+    die("<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
+            <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+        </head>
+        <body>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结，联系客服处理</h4></div></div></div>
+        </body>
+    </html>");
+}
 if($operation=='index'){
     //首页
-    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], ' sort desc', 6);
     $hot_list = m('product')->packupItems($hot_list);
-    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], FALSE);
+    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], ' sort desc');
     $loan_large_list = m('product')->packupItems($loan_large_list);
-    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], FALSE);
+    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], ' sort desc');
     $loan_small_list = m('product')->packupItems($loan_small_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {

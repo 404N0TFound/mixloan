@@ -5,6 +5,19 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='register';
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
+if ($member['status'] == '0') {
+    // 冻结
+    die("<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
+            <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+        </head>
+        <body>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结，联系客服处理</h4></div></div></div>
+        </body>
+    </html>");
+}
 if($operation=='register'){
 	//注册
 	include $this->template('index/register');
@@ -70,7 +83,7 @@ if($operation=='register'){
             'createtime'=>time(),
             'avatar'=>'http://cheexuan.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
-            'status'=>-2,
+            'status'=>1,
         );
         pdo_insert('xuan_mixloan_member', $insert);
         $member_id = pdo_insertid();
