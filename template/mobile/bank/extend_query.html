@@ -17,70 +17,166 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_3.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkt_3.css">
 
-	{template 'common/wxshare'}
+    {template 'common/wxshare'}
 </head>
-<body class="bglightgray">    
-    <div class="agent-header">
-        进度查询
-        <a class="return" onclick="javascript:history.go(-1)">返回</a>
+<body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    div.rate_main{margin-top: 0;padding-top: 0}
+</style>
+<style type="text/css">
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        div.agent-foot{padding-bottom:20px; }
+        div.agent-main{padding-bottom:0px;}
+    }
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 8px;
+        z-index: 999;
+        line-height: 0px;
+        top: 2rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    .agent-foot{
+        height: 4rem
+    }
+    div.agent-foot p.foot_img {
+        height: 2.22rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 2.22rem;
+        width: 2.1rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.8rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>进度查询</span>
     </div>
-    <div class="rate_main">
-        <div class="rate_common rate_check">
-            <h2><span>进度查询</span></h2>
-            <ul>
+</div>
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'extend_bonus'))}')" class="home" >
+        <img class="lazy" src="../addons/xuan_mixloan/template/style/new_user_index/images/tuijianyouqian.png" width="45px" alt="">
+        <p>推荐有奖</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{else}
+<div class="agent-header">
+    进度查询
+    <a class="return" onclick="javascript:history.go(-1)">返回</a>
+</div>
+{/if}
+<div class="rate_main">
+    <div class="rate_common rate_check">
+        <h2><span>进度查询</span></h2>
+        <ul>
             {loop $banks $row}
+            <ul>
+                {loop $row $key}
                 <li>
-                    <a href="{$row['ext_info']['query_url']}">
-                        <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>                        
-                        <span>{$row['name']}</span>
+                    <a onclick="openNew('{$key['ext_info']['query_url']}')">
+                        <p><img src="{php echo tomedia($key['ext_info']['logo']);}" /></p>
+                        <span>{$key['name']}</span>
                     </a>
                 </li>
+                {/loop}
+            </ul>
             {/loop}
-            </ul>
-        </div>
-        <div class="rate_common rate_recommend">
-            <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next_1.png" /></a></h2>
-            <ul>
-                <li>
-                    <h1>光大银行</h1>
-                    <span><img src="../addons/xuan_mixloan/template/style/picture/20171129100219_1.png" /></span>                    
-                    <p>当天通过审核</p>
-                    <a href="https://xyk.cebbank.com/cebmms/apply/ps/card-list.htm?level=124&pro_code=FHTG067632SJ118SHCY" data-productid="7">马上办卡</a>
-                </li>
-            </ul>
-        </div>
     </div>
-
-    <script type="text/javascript">
+    <div class="rate_common rate_recommend">
+        <h2><span>智能推荐</span><a class="next_card">换一批<img src="../addons/xuan_mixloan/template/style/picture/next_1.png" /></a></h2>
+        <ul>
+            <li>
+                <h1>光大银行</h1>
+                <span><img src="../addons/xuan_mixloan/template/style/picture/20171129100219_1.png" /></span>
+                <p>当天通过审核</p>
+                <a href="https://xyk.cebbank.com/cebmms/apply/ps/card-list.htm?level=124&pro_code=FHTG067632SJ118SHCY" data-productid="7">马上办卡</a>
+            </li>
+        </ul>
+    </div>
+</div>
+{if !is_weixin()}
+<div style="height: 4rem"></div>
+{/if}
+<script type="text/javascript">
+    getBank();
+    $(".next_card").click(function(){
         getBank();
-        $(".next_card").click(function(){
-            getBank();
-        })
-        function getBank() {
-            $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getBank'))}",
-                function(data){
-                    if(data.code==1){
-                        $("div.rate_recommend ul").html("");
-                        var _data=data.data;
-                        for(i=0;i<_data.length;i++){
-                            var title=_data[i].title1;
-                            var title2=_data[i].title2;
-                            var imgs=_data[i].imgs;
-                            var url=_data[i].url;   
-                            var want_id=_data[i].id;                          
-                            $("div.rate_recommend ul").append("<li>"
-                                                                + "<h1>"+ title +"</h1>"
-                                                                + "<span><img src="+imgs+" /></span>"
-                                                                + "<p>"+ title2 +"</p>"
-                                                                + "<a href="+ url +" data-productid="+ want_id +">马上办卡</a>"
-                                                            + "</li>")
-                        }                        
-                    }else{
-                        layer.msg(data.msg);
-                        return false;
+    })
+    function getBank() {
+        $.post("{php echo $this->createMobileUrl('bank', array('op'=>'getBank'))}",
+            function(data){
+                if(data.code==1){
+                    $("div.rate_recommend ul").html("");
+                    var _data=data.data;
+                    for(i=0;i<_data.length;i++){
+                        var title=_data[i].title1;
+                        var title2=_data[i].title2;
+                        var imgs=_data[i].imgs;
+                        var url=_data[i].url;
+                        var want_id=_data[i].id;
+                        $("div.rate_recommend ul").append("<li>"
+                            + "<h1>"+ title +"</h1>"
+                            + "<span><img src="+imgs+" /></span>"
+                            + "<p>"+ title2 +"</p>"
+                            + "<a onclick=\"openNew('"+ url +"')\" data-productid="+ want_id +">马上办卡</a>"
+                            + "</li>")
                     }
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
             },'json')
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

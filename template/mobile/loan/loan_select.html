@@ -17,286 +17,428 @@
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>    
-   
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
 
-	{template 'common/wxshare'}
+
+    {template 'common/wxshare'}
 </head>
 <body class="bglightgray">
-    <div class="loan_tab">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    {if !is_weixin()}
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function clickButton(){
+        var url = "{php echo $this->createMobileUrl('loan')}";
+        webview = plus.webview.create(url)
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("返回首页");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+
+    }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton}] }});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
+    {else}
+    function openLoan(url){
+        mui.openWindow({url:url});
+    }
+    {/if}
+        function openNew(url){
+            mui.openWindow({url:url});
+        }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    div.filter_tab{
+        top: 70px
+    }
+</style>
+
+<style type="text/css">
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        div.agent-foot{padding-bottom:20px; }
+        div.agent-main{padding-bottom:0px;}
+    }
+    div.loan_tab ul li a{
+        height: 70px;
+        line-height: 95px
+    }
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 8px;
+        z-index: 999;
+        line-height: 0px;
+        top: 2rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+    .agent-foot{
+        height: 4rem
+    }
+    div.agent-foot p.foot_img {
+        height: 2.22rem;
+        margin-top: 0.1rem;
+    }
+    div.agent-foot p>img {
+        height: 2.22rem;
+        width: 2.1rem;
+        max-height: 100%;
+    }
+    .agent-foot p {
+        font-size: 0.85rem;
+        font-family: Helvetica !important;
+        vertical-align: middle;
+        line-height: 1.5em;
+    }
+    a.more_hotcards, a.no_hotcards{
+        bottom: 4rem
+    }
+</style>
+<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
+{/if}
+<div class="loan_tab">
+    <ul>
+        <li><a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">首页</a></li>
+        <li class="on"><a href="javascript:;">贷款</a></li>
+        <li><a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}')">办卡</a></li>
+    </ul>
+</div>
+{if !is_weixin()}
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>今日口子</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+{/if}
+<div class="filter_frame">
+    <div class="filter_tab">
         <ul>
-            <li><a href="{php echo $this->createMobileUrl('loan', array('op'=>''))}">首页</a></li>
-            <li class="on"><a href="javascript:;">贷款</a></li>
-            <li><a href="{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'))}">办卡</a></li>
+            <li class="tab" data-filter="multiple" data-classify="0"><span>综合排序</span></li>
+            <li class="tab" data-filter="amount" data-classify="2"><span>不限金额</span></li>
+            <li class="tab" data-filter="term" data-classify="3"><span>不限期限</span></li>
+            <li class="tab" data-filter="flex" data-classify="1"><span>不限类型</span></li>
         </ul>
     </div>
-    <div class="filter_frame">
-        <div class="filter_tab">
-            <ul>
-                <li class="tab" data-filter="multiple" data-classify="0"><span>综合排序</span></li>
-                <li class="tab" data-filter="amount" data-classify="2"><span>不限金额</span></li>
-                <li class="tab" data-filter="term" data-classify="3"><span>不限期限</span></li>
-                <li class="tab" data-filter="flex" data-classify="1"><span>不限类型</span></li>
-            </ul>
+    <div class="filter_result">
+        <div class="no_result">
+            <img src="../addons/xuan_mixloan/template/style/picture/no_result_1.png">
+            没有找到符合条件的贷款
         </div>
-        <div class="filter_result">
-            <div class="no_result">
-                <img src="../addons/xuan_mixloan/template/style/picture/no_result_1.png">
-                没有找到符合条件的贷款
-            </div>            
-            <div class="result_list">            
-                <div class="loan_product" data-productid="21" onclick="clickNum(this);">
-                    <a href="https://img.hengchang6.com/jsd_hyd/?utm_source=kadaibao&utm_campaign=h5&utm_content=532&utm_a=a">
-                        <ul>
-                            <li>
-                                <span><img src="../addons/xuan_mixloan/template/style/picture//20171101173438_1.jpg" /></span>
-                                <div class="loan_info">
-                                    <h2>恒易贷</h2>
-                                    <div class="rate_info">
-                                                                                <span>利率:<em>0.75%</em>/月</span>                                    
-                                        <span>期限:<em>3-36</em>/月</span>
-                                        <p><em>200000</em>元</p>
-                                    </div>
-                                    <div class="extra_info">
-                                        <dl>
-                                            <dd style="color: #436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">信用卡认证</em></dd><dd style="color: #7D26CD;border: 1px solid #7D26CD;"><em style="font-family: '微软雅黑'!important;">征信认证</em></dd>                                    </dl>
-                                        <span>3833人已申请</span>
-                                    </div>
+        <div class="result_list">
+            <div class="loan_product" data-productid="21" onclick="clickNum(this);">
+                <a href="https://img.hengchang6.com/jsd_hyd/?utm_source=kadaibao&utm_campaign=h5&utm_content=532&utm_a=a">
+                    <ul>
+                        <li>
+                            <span><img src="../addons/xuan_mixloan/template/style/picture//20171101173438_1.jpg" /></span>
+                            <div class="loan_info">
+                                <h2>恒易贷</h2>
+                                <div class="rate_info">
+                                    <span>利率:<em>0.75%</em>/月</span>
+                                    <span>期限:<em>3-36</em>/月</span>
+                                    <p><em>200000</em>元</p>
                                 </div>
-                            </li>
-                        </ul>
-                    </a>
-                </div>
+                                <div class="extra_info">
+                                    <dl>
+                                        <dd style="color: #436EEE;border: 1px solid #436EEE;"><em style="font-family: '微软雅黑'!important;">信用卡认证</em></dd><dd style="color: #7D26CD;border: 1px solid #7D26CD;"><em style="font-family: '微软雅黑'!important;">征信认证</em></dd>                                    </dl>
+                                    <span>3833人已申请</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </a>
             </div>
         </div>
     </div>
-    <div class="pop_filter">
-        <div class="filter_floor"></div>
-        <div class="filter_list">
-            <ul class="filter_layer filter_common multiple" id="multiple">
-                <li data-no="0" data-flag="">综合排序</li>
-                <li data-flag="1">额度最高</li>
-                <li data-flag="2">利率最低</li>
-                <li data-flag="3">通过率高</li>
-            </ul>
-            <ul class="filter_layer filter_common amount" id="amount">
-                <li data-no="0" data-min="" data-max="">不限金额</li>
-                <li data-min="0" data-max="10000" data-id="33">1万以内</li>
-                <li data-min="10001" data-max="50000" data-id="34">1-5万</li>
-                <li data-min="50001" data-max="100000" data-id="35">5-10万</li>
-                <li data-min="100000" data-max="15000000" data-id="36">10万以上</li>            
-            </ul>
-            <ul class="filter_layer filter_common term" id="term">
-                <li data-no="0" data-from="" data-to="">不限期限</li>
-                <li data-from="0" data-to="6" data-id="37">6月内</li>
-                <li data-from="6" data-to="12" data-id="38">6-12月</li>
-                <li data-from="12" data-to="24" data-id="39">12-24月</li>
-                <li data-from="24" data-to="100" data-id="40">24月以上</li>            
-            </ul>
-            <ul class="filter_layer filter_common flex" id="flex">
-                <li data-no="0" data-id="">不限类型</li>
-                <li data-id="1"> 手机号贷</li>
-                <li data-id="2">身份证贷</li>
-                <li data-id="3">芝麻分贷</li>
-                <li data-id="4">不查征信</li>
-                <li data-id="5">信用卡贷</li>
-                <li data-id="6">公积金贷</li>  
-                <li data-id="7">大额贷</li>     
-                <li data-id="8">抵押贷</li>      
-            </ul>
-        </div>
+</div>
+<div class="pop_filter">
+    <div class="filter_floor"></div>
+    <div class="filter_list">
+        <ul class="filter_layer filter_common multiple" id="multiple">
+            <li data-no="0" data-flag="">综合排序</li>
+            <li data-flag="1">额度最高</li>
+            <li data-flag="2">利率最低</li>
+            <li data-flag="3">通过率高</li>
+        </ul>
+        <ul class="filter_layer filter_common amount" id="amount">
+            <li data-no="0" data-min="" data-max="">不限金额</li>
+            <li data-min="0" data-max="10000" data-id="33">1万以内</li>
+            <li data-min="10001" data-max="50000" data-id="34">1-5万</li>
+            <li data-min="50001" data-max="100000" data-id="35">5-10万</li>
+            <li data-min="100000" data-max="15000000" data-id="36">10万以上</li>
+        </ul>
+        <ul class="filter_layer filter_common term" id="term">
+            <li data-no="0" data-from="" data-to="">不限期限</li>
+            <li data-from="0" data-to="6" data-id="37">6月内</li>
+            <li data-from="6" data-to="12" data-id="38">6-12月</li>
+            <li data-from="12" data-to="24" data-id="39">12-24月</li>
+            <li data-from="24" data-to="100" data-id="40">24月以上</li>
+        </ul>
+        <ul class="filter_layer filter_common flex" id="flex">
+            <li data-no="0" data-id="">不限类型</li>
+            <li data-id="1"> 手机号贷</li>
+            <li data-id="2">身份证贷</li>
+            <li data-id="3">芝麻分贷</li>
+            <li data-id="4">不查征信</li>
+            <li data-id="5">信用卡贷</li>
+            <li data-id="6">公积金贷</li>
+            <li data-id="7">大额贷</li>
+            <li data-id="8">抵押贷</li>
+        </ul>
     </div>
+</div>
 
+{if !is_weixin()}
+<div style="height: 4rem"></div>
+{/if}
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
 <script type="text/javascript">
-var rollFlag=0;//监听页面滚动
-// 页面初始化
-$(document).ready(function(){
-    var fr_T=($("div.loan_tab").height())+($("div.filter_tab").height())+5+"px";
-    $("div.filter_result").css("margin-top",fr_T);
-})
+    var rollFlag=0;//监听页面滚动
+    // 页面初始化
+    $(document).ready(function(){
+        var fr_T=($("div.loan_tab").height())+($("div.filter_tab").height())+5+"px";
+        $("div.filter_result").css("margin-top",fr_T);
+    })
 
 
 
-// 外部筛选
-$("div.filter_tab ul li").click(function(){
-    var _this=$(this);
-    var _id=$(this).attr("data-filter");
+    // 外部筛选
+    $("div.filter_tab ul li").click(function(){
+        var _this=$(this);
+        var _id=$(this).attr("data-filter");
 
-    // 移除所有class添加指定class
-    if($("#"+_id).css("display")!="none"){
-        //已展开
-        if($("#"+_id).find("li.filter_on").length>0){
-            _this.removeAttr("class").addClass("tab_on");
-        }else{
-            _this.removeAttr("class").addClass("tab");
-        }            
-        $("#"+_id).css("display","none");
-        layer_cancel();       
-    }else{
-        //未展开
-        //判断当前有无打开的弹层
-        if($("div.filter_tab ul li.tab_onchoose").length>0){
-            // 当前展开的id
-            var current_id=$("div.filter_tab ul li.tab_onchoose").attr("data-filter");
-            if($("#"+current_id).find("li.filter_on").length>0){
-                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab_on");
+        // 移除所有class添加指定class
+        if($("#"+_id).css("display")!="none"){
+            //已展开
+            if($("#"+_id).find("li.filter_on").length>0){
+                _this.removeAttr("class").addClass("tab_on");
             }else{
-                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab");
+                _this.removeAttr("class").addClass("tab");
             }
-            _this.removeAttr("class").addClass("tab_onchoose");
-            $(".filter_layer").css("display","none");
-            $("div.pop_filter").show();
-            $("body").addClass("forbid");
-            $("#"+_id).css("display","block");            
+            $("#"+_id).css("display","none");
+            layer_cancel();
         }else{
-            _this.removeAttr("class").addClass("tab_onchoose");
-            $(".filter_layer").css("display","none");
-            $("div.pop_filter").show();
-            $("body").addClass("forbid");
-            $("#"+_id).css("display","block");
-        } 
-        rollFlag = 1;            
-    }   
-})
-// 内部筛选
-$("div.filter_list .filter_common li").click(function(){
-    var _this=$(this);
-    _this.parent().find("li").removeClass("filter_on");
-    _this.addClass("filter_on");
-    var _id=_this.parent().attr("id");
-    var no=_this.attr("data-no");//判断是否为不限制
-    var val=_this.html();
-    if(no=="0"){
-        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab").find("span").html(val);
-        _this.removeClass("filter_on");
-    }else{
-        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab_on").find("span").html(val);
-    }
-    $("#"+_id).css("display","none");   
-    layer_cancel();
-    //接口
-    filter();
-})
-// 弹层取消
-function layer_cancel(){
-    $("div.pop_filter").hide();
-    $("body").removeClass("forbid");
-    rollFlag = 0;
-}
-pop_filter();
-function pop_filter(){
-    var window_height=$(window).height();
-    var window_width=$(window).width();
-    var loan_tabH=$("div.loan_tab").outerHeight();
-    var filter_tabH=$("div.filter_tab").outerHeight();
-    var pop_filterH=window_height-loan_tabH-filter_tabH+"px";
-    $(".pop_filter").width(window_width);
-    $(".pop_filter").height(pop_filterH);
-}
-$("div.filter_floor").click(function(){
-    $("div.filter_tab ul li.tab_onchoose").click();
-})
-// 筛选
-// 返回值判断
-function dataTransform(res){
-    var ret="";
-    if(res==null||res==undefined){
-        ret="";
-    }else{
-        ret=res;
-    }
-    return ret;
-}
-function filter(){
-    var order=dataTransform($("#multiple li.filter_on").attr("data-flag"));
-    var begin=dataTransform($("#amount li.filter_on").attr("data-min"));
-    var end=dataTransform($("#amount li.filter_on").attr("data-max"));
-    var from=dataTransform($("#term li.filter_on").attr("data-from"));
-    var to=dataTransform($("#term li.filter_on").attr("data-to"));
-    var _id=dataTransform($("#flex li.filter_on").attr("data-id"));
-    post_data(order, begin, end, from, to, _id);
-}
-var classify_id={if !empty($_GPC['type'])}{$_GPC['type']}{else}''{/if};
-if(classify_id!=''){
-    $("#flex").find("li[data-id="+ classify_id +"]").click();
-} else {
-    post_data(null, null, null, null, null, null);
-}
-function post_data(order, begin, end, from, to, _id){
-    $.post("{php echo $this->createMobileUrl('loan', array('op'=>'getLoan'))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"type":_id},
-        function(data){
-            if(data.code==1){
-                $("div.result_list").html("");
-                $("div.no_result").hide();
-                var _data=data.data;
-                console.log(_data);
-                result(_data);
-            }else{
-                $("div.result_list").html("");
-                $("div.no_result").show();
-                var _data=data.data;
-                result(_data);
-            }
-            function result(_data){
-                for(i=0;i<_data.length;i++){
-                    var url=_data[i].ext_info.url;
-                    var id=_data[i].id;
-                    var imgs=_data[i].ext_info.logo;
-                    var title=_data[i].name;
-                    var percent=_data[i].rate;
-                    var rate_type=_data[i].rate_type;
-                    var range_l=_data[i].time_blow;
-                    var range_h=_data[i].time_high;
-                    var edu=_data[i].money_high;
-                    var click=_data[i].apply_nums;
-                    var ele=_data[i].ext_info.tag;//标签
-                    $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                                    + "<a href="+ dataTransform(url) +">"
-                                                        + "<ul>"
-                                                            + "<li>"
-                                                                + "<span><img src="+ imgs +" /></span>"
-                                                                + "<div class=\"loan_info\">"
-                                                                    + "<h2>"+ dataTransform(title) +"</h2>"
-                                                                    + "<div class=\"rate_info\">"
-                                                                        + "<span>利率:<em>"+ dataTransform(percent) +"%</em>/ "+rate_type+" </span>"
-                                                                        + "<span>期限:<em>"+range_l+"-"+ range_h +"</em>/月</span>"
-                                                                        + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
-                                                                    + "</div>"
-                                                                    + "<div class=\"extra_info\">"
-                                                                        + "<dl>"
-                                                                        + "</dl>"
-                                                                        + "<span>"+ dataTransform(click) +"人已申请</span>"
-                                                                    + "</div>"
-                                                                + "</div>"
-                                                            + "</li>"
-                                                        + "</ul>"
-                                                    + "</a>"
-                                                + "</div>")
-                    for(j=0;j<ele.length;j++){
-                        var tab=ele[j];
-                        var tab_style=ele[j][1];
-                        $("div.loan_product").eq(i).find("div.extra_info dl").append("<dd style=\"color: "+ tab_style +";border:1px solid "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ dataTransform(tab) +"</em></dd>");
-                    }
+            //未展开
+            //判断当前有无打开的弹层
+            if($("div.filter_tab ul li.tab_onchoose").length>0){
+                // 当前展开的id
+                var current_id=$("div.filter_tab ul li.tab_onchoose").attr("data-filter");
+                if($("#"+current_id).find("li.filter_on").length>0){
+                    $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab_on");
+                }else{
+                    $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab");
                 }
+                _this.removeAttr("class").addClass("tab_onchoose");
+                $(".filter_layer").css("display","none");
+                $("div.pop_filter").show();
+                $("body").addClass("forbid");
+                $("#"+_id).css("display","block");
+            }else{
+                _this.removeAttr("class").addClass("tab_onchoose");
+                $(".filter_layer").css("display","none");
+                $("div.pop_filter").show();
+                $("body").addClass("forbid");
+                $("#"+_id).css("display","block");
             }
-        },'json')
-}
+            rollFlag = 1;
+        }
+    })
+    // 内部筛选
+    $("div.filter_list .filter_common li").click(function(){
+        var _this=$(this);
+        _this.parent().find("li").removeClass("filter_on");
+        _this.addClass("filter_on");
+        var _id=_this.parent().attr("id");
+        var no=_this.attr("data-no");//判断是否为不限制
+        var val=_this.html();
+        if(no=="0"){
+            $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab").find("span").html(val);
+            _this.removeClass("filter_on");
+        }else{
+            $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab_on").find("span").html(val);
+        }
+        $("#"+_id).css("display","none");
+        layer_cancel();
+        //接口
+        filter();
+    })
+    // 弹层取消
+    function layer_cancel(){
+        $("div.pop_filter").hide();
+        $("body").removeClass("forbid");
+        rollFlag = 0;
+    }
+    pop_filter();
+    function pop_filter(){
+        var window_height=$(window).height();
+        var window_width=$(window).width();
+        var loan_tabH=$("div.loan_tab").outerHeight();
+        var filter_tabH=$("div.filter_tab").outerHeight();
+        var pop_filterH=window_height-loan_tabH-filter_tabH+"px";
+        $(".pop_filter").width(window_width);
+        $(".pop_filter").height(pop_filterH);
+    }
+    $("div.filter_floor").click(function(){
+        $("div.filter_tab ul li.tab_onchoose").click();
+    })
+    // 筛选
+    // 返回值判断
+    function dataTransform(res){
+        var ret="";
+        if(res==null||res==undefined){
+            ret="";
+        }else{
+            ret=res;
+        }
+        return ret;
+    }
+    function filter(){
+        var order=dataTransform($("#multiple li.filter_on").attr("data-flag"));
+        var begin=dataTransform($("#amount li.filter_on").attr("data-min"));
+        var end=dataTransform($("#amount li.filter_on").attr("data-max"));
+        var from=dataTransform($("#term li.filter_on").attr("data-from"));
+        var to=dataTransform($("#term li.filter_on").attr("data-to"));
+        var _id=dataTransform($("#flex li.filter_on").attr("data-id"));
+        post_data(order, begin, end, from, to, _id);
+    }
+    var classify_id={if !empty($_GPC['type'])}{$_GPC['type']}{else}''{/if};
+        if(classify_id!=''){
+            $("#flex").find("li[data-id="+ classify_id +"]").click();
+        } else {
+            post_data(null, null, null, null, null, null);
+        }
+        function post_data(order, begin, end, from, to, _id){
+            $.post("{php echo $this->createMobileUrl('loan', array('op'=>'getLoan'))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"type":_id},
+                function(data){
+                    if(data.code==1){
+                        $("div.result_list").html("");
+                        $("div.no_result").hide();
+                        var _data=data.data;
+                        console.log(_data);
+                        result(_data);
+                    }else{
+                        $("div.result_list").html("");
+                        $("div.no_result").show();
+                        var _data=data.data;
+                        result(_data);
+                    }
+                    function result(_data){
+                        for(i=0;i<_data.length;i++){
+                            var url=_data[i].ext_info.url;
+                            var id=_data[i].id;
+                            var imgs=_data[i].ext_info.logo;
+                            var title=_data[i].name;
+                            var percent=_data[i].rate;
+                            var rate_type=_data[i].rate_type;
+                            var range_l=_data[i].time_blow;
+                            var range_h=_data[i].time_high;
+                            var edu=_data[i].money_high;
+                            var click=_data[i].apply_nums;
+                            var ele=_data[i].ext_info.tag;//标签
+                            $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
+                                + "<a onclick=\"openLoan('"+ dataTransform(url) +"')\">"
+                                + "<ul>"
+                                + "<li>"
+                                + "<span><img src="+ imgs +" /></span>"
+                                + "<div class=\"loan_info\">"
+                                + "<h2>"+ dataTransform(title) +"</h2>"
+                                + "<div class=\"rate_info\">"
+                                + "<span>利率:<em>"+ dataTransform(percent) +"%</em>/ "+rate_type+" </span>"
+                                + "<span>期限:<em>"+range_l+"-"+ range_h +"</em>/月</span>"
+                                + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
+                                + "</div>"
+                                + "<div class=\"extra_info\">"
+                                + "<dl>"
+                                + "</dl>"
+                                + "<span>"+ dataTransform(click) +"人已申请</span>"
+                                + "</div>"
+                                + "</div>"
+                                + "</li>"
+                                + "</ul>"
+                                + "</a>"
+                                + "</div>")
+                            for(j=0;j<ele.length;j++){
+                                var tab=ele[j];
+                                var tab_style=ele[j][1];
+                                $("div.loan_product").eq(i).find("div.extra_info dl").append("<dd style=\"color: "+ tab_style +";border:1px solid "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ dataTransform(tab) +"</em></dd>");
+                            }
+                        }
+                    }
+                },'json')
+        }
 //监听页面滚动
-document.addEventListener('touchmove', function (event) {
-    if(rollFlag==1){
-        event.preventDefault();
-    } 
-})
+        document.addEventListener('touchmove', function (event) {
+            if(rollFlag==1){
+                event.preventDefault();
+            }
+        })
 // 记录点击数
-function clickNum(index){
-    var channel=2;
-    var productId=$(index).attr("data-productid");
-    $.post("{php echo $this->createMobileUrl('loan', array('op'=>'loanView'))}",{"id":productId},
-        function(data){
-            console.log(data);
-        },'json')
-}
+        function clickNum(index){
+            var channel=2;
+            var productId=$(index).attr("data-productid");
+            $.post("{php echo $this->createMobileUrl('loan', array('op'=>'loanView'))}",{"id":productId},
+                function(data){
+                    console.log(data);
+                },'json')
+        }
 </script>
 </body>
 </html>

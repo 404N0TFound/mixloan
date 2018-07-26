@@ -44,15 +44,30 @@
             div#recommend{padding-bottom:20px;}
 
         }
+        .download{
+            position: absolute;
+            left: 0rem;
+            top: 0.1rem;
+            display: inline-block;
+            font-size: 0.5rem;
+            height: 1rem;
+            line-height: 1rem;
+            padding: 0 0.2rem;
+            box-sizing: border-box;
+            border: 1px solid #0096ff;
+            border-radius: 0.2rem;
+            color: #0096ff;
+            -webkit-tap-highlight-color: rgba(255,255,255,0);
+            text-decoration: none;
+        }
     </style>
     {php echo register_jssdk();}
     <script>
         //微信分享
-        var title = "{$title}";
-        var imgUrl = "{$imgUrl}";
-        var desc =  "{$desc}";
-        var link =  "{$link}";
-
+        var title = "{$member['nickname']}邀请你加入{$config['title']}";
+        var imgUrl = "{$member['avatar']}";
+        var desc = "{$config['desc']}";
+        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
@@ -67,7 +82,6 @@
                     alert("分享失败");
                 }
             });
-
 //分享给好友
             wx.onMenuShareAppMessage({
                 title: title, // 分享标题
@@ -84,10 +98,29 @@
                 }
             });
         });
-
     </script>
-</head>
 <body class="bglightgray">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>我的邀请码</span>
+    </div>
+</div>
+{/if}
 <div class="bglightgray_tail">
     <div class="posterBuild">
         <img src="../addons/xuan_mixloan/template/style/picture/uploading.png" />
@@ -112,13 +145,13 @@
         </div>
     </div>
     <div style="height:1.0rem;" id="recommend" data-name=""></div>
-    <div class="posterT_app dn" id="posterT_app">
+    <div class="posterT_app dn" id="posterT_app" style="display: none">
         <!--  <p>点击右上角分享专属链接给好友</p> -->
         <p><a id="savePoster" href="downPoster" title="">保存图片</a></p><p class="copyLink" >复制文本
         <!-- <input id="clip_num" value="" readonly="" ></p> -->
     </div>
-    <div class="posterT dn" id="posterT" style="display: block">
-        <p id="recommend_text">长按图片保存分享朋友</p>
+    <div class="posterT dn" id="posterT" style="display: none">
+        <!--  <p>点击右上角分享专属链接给好友</p> -->
 
     </div>
 </div>
@@ -152,9 +185,9 @@
                     var str_one="";
                     str_one+='<div class="swiper-slide">'
                         +'<div class="initialImg">'
-                    str_one+='<img src="'+_data.posterArr[i].poster+'">'
+                    str_one+='<img class="shareImg" src="'+_data.posterArr[i].poster+'">'
                         +'</div>';
-                    console.log(str_one);
+                    // console.log(str_one);
                     $('#mpBig_post').append(str_one);
                     var str_two="";
                     str_two+='<li  onClick="mpSmall_ock(this,'+i+')">'
@@ -187,35 +220,88 @@
                         observeParents:true
                     });
                 }
-                // $('#posterT').text('');
+                $('#posterT').text('');
                 var str="";
-                str+='<p id="recommend_text">您可复制链接或长按海报分享给好友'
+                str+='<p id="recommend_text">长按海报分享给好友'
+                    +'<span class="download" onclick="download_pic()" href="javascript:void(0);" >保存图片</span>'
                     +'<a class="copy copy-btn" href="javascript:void(0);" >复制文本</a>'
                     +'<input id="clip_num"  readonly="" >'
                     +'</p>';
 
-                {if $_GPC['type'] != 3}
                 $('#posterT').append(str);
-                {/if}
 
-                    $(".copyLink").click(function(){
-                        var tetx_dl2=$('#mpSmall_dl dd.on').find('p').text();
-                        $('#clip_num').val(etx_dl2);
-                        copyNum();
+                $(".copyLink").click(function(){
+                    var tetx_dl2=$('#mpSmall_dl dd.on').find('p').text();
+                    $('#clip_num').val(etx_dl2);
+                    copyNum();
+                })
+                $(".copy-btn").click(function(){
+                    var tetx_dl=$('#mpSmall_dl dd.on').find('p').text();
+                    // console.log(tetx_dl);
+                    $('#clip_num').val(tetx_dl);
+                    copyNum();
+                })
+            }else{
+                layer.msg(data.message);
+                return false;
+            }
+            {if !is_weixin()}
+            mui.plusReady(function(){
+                $('.shareImg').click(function(){
+                    var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+                    var imgSrc = this.src;
+                    plus.nativeUI.actionSheet(actionList,function(e){
+                        if (e.index == 1) {
+                            plus.nativeUI.showWaiting("保存中");
+                            var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                                plus.nativeUI.closeWaiting();
+                                if (status == 200) {
+                                    plus.gallery.save(d.filename,function(){
+                                        plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                            entry.remove();
+                                        })
+                                        return plus.nativeUI.alert('图片已保存');
+                                    })
+                                } else {
+                                    return plus.nativeUI.alert('保存失败' + status);
+                                }
+                            });
+                            imgDtask.start();
+                        }
                     })
-                    $(".copy-btn").click(function(){
-                        var tetx_dl=$('#mpSmall_dl dd.on').find('p').text();
-                        console.log(tetx_dl);
-                        $('#clip_num').val(tetx_dl);
-                        copyNum();
-                    })
-                }else{
-                    layer.msg(data.message);
-                    return false;
-                }
+                })
+            })
+            {/if}
             }, "JSON");
     })
 
+    var download_pic = function(){
+        if (typeof(plus) == 'undefined') {
+            layer.msg('请长按海报进行保存');
+            return false;
+        }
+        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+        var imgSrc = $('.swiper-slide-active .initialImg img').attr('src');
+        plus.nativeUI.actionSheet(actionList,function(e){
+            if (e.index == 1) {
+                plus.nativeUI.showWaiting("保存中");
+                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                    plus.nativeUI.closeWaiting();
+                    if (status == 200) {
+                        plus.gallery.save(d.filename,function(){
+                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                entry.remove();
+                            })
+                            return plus.nativeUI.alert('图片已保存');
+                        })
+                    } else {
+                        return plus.nativeUI.alert('保存失败' + status);
+                    }
+                });
+                imgDtask.start();
+            }
+        })
+    }
 
 </script>
 <script>

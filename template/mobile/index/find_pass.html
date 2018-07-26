@@ -7,7 +7,7 @@
 	<meta content="black" name="apple-mobile-web-app-status-bar-style">
 	<meta content="telephone=no" name="format-detection">
 	<meta  content="e-mail=no" name="format-detection"/>
-	<title>{$config['title']}注册</title>
+	<title>找回密码</title>
 	<script src="../addons/xuan_mixloan/template/style/js//jquery_3.js"></script>
 	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_3.css" id="layui_layer_skinlayercss">
@@ -54,15 +54,6 @@
         mui.openWindow({url:url});
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-	.app_header{height: 70px;width: 100%}
-</style>
-<script type="text/javascript">
-</script>
-<div class="app_header">
-</div>
-{/if}
 <body class="bgcolor">
 <div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
@@ -78,14 +69,11 @@
 		</li>
 		<li class="psw">
 			<label><img src="../addons/xuan_mixloan/template/style/picture/pswd_3.png" /></label>
-			<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您的登录密码">
+			<input type="password" name="" id="psw" onpaste="return false" ondragenter="return false"  onkeyup="this.value=check(this.value)" placeholder="请设置您新的登录密码">
 		</li>
 	</ul>
-	{if !$_GPC['layer']}
-	<div class="regProtocol"><label id="protocol" data-index="1" class="choosed"><img class="selected" src="../addons/xuan_mixloan/template/style/picture/wx_noselect_3.png"><img class="noselect" style="display: none;" src="../addons/xuan_mixloan/template/style/picture/wx_select_3.png"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'));}">《{$config['title']}用户注册协议》</a></div>
-	{/if}
 	<div class="submit_btn">
-		<a class="to_buy">注册</a>
+		<a class="to_buy">提交</a>
 	</div>
 	<!-- <p class="regbg"><img src="../addons/xuan_mixloan/template/style/picture/regbg_3.png" /></p> -->
 </div>
@@ -168,33 +156,19 @@
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'find_pass_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
             function(data){
                 console.log(data);
                 if(data.code==1){
-                    if (typeof(plus) == "undefined") {
-                        {if !is_weixin()}
-                        layer.msg('注册成功，请在app内登陆');
-                        {else}
-                        {if $_GPC['layer']}
-                        parent.layer.closeAll();
-                        {else}
-                        layer.msg(data.msg,{time:2000},function(){
-                            openNew(data.data.url);
-                        });
-                        {/if}
-                            {/if}
-                            } else {
-                            layer.msg(data.msg,{time:2000},function(){
-                                openNew(data.data.url);
-                            });
-                        }
-                        }else{
-                            layer.msg(data.msg);
-                            bind_click();
-                            return false;
-                        }
-                    },'json')
+                    layer.msg(data.msg,{time:2000},function(){
+                        openNew(data.data.url);
+                    });
+                }else{
+                    layer.msg(data.msg);
+                    bind_click();
+                    return false;
+                }
+            },'json')
     }
     function bind_click(){
         $(".to_buy").bind("click",function(){
