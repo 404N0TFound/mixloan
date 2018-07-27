@@ -118,6 +118,12 @@
                             <dd class="xian"></dd>
                             <dd>职务：{$member['user_type']['name']}</dd>
                         </dl>
+                        <dl style="margin-top: 0.3rem">
+                            <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
+                        </dl>
+                        <dl style="margin-top: 0.3rem">
+                            <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({php echo func_substr_replace($inviterInfo['phone']);}){else}平台{/if}</dd>
+                        </dl>
                     </li>
                 </ul>
             </div>
