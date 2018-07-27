@@ -142,8 +142,10 @@ if($operation=='index'){
 else if ($operation == 'message_type')
 {
     //消息中心
-    $read = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=1', array(':to_uid' => $member['id']));
-    $unread = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . ' where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id']));
+    $system = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
+    	where to_uid=:to_uid and type=1', array(':to_uid' => $member['id']));
+    $person = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
+    	where to_uid=:to_uid and type=2', array(':to_uid' => $member['id']));
     include $this->template('user/message_type');
 }
 else if ($operation == 'message')
@@ -219,7 +221,7 @@ else if ($operation == 'read_message')
 	$condition = array(':to_uid' => $member['id'], ':type' => $type);
 	$sql = 'select id,is_read,createtime,type,ext_info from ' . tablename('xuan_mixloan_msg') . '
 			where to_uid=:to_uid and type=:type order by id desc';
-	$sql.= " limit " . ($pageSize - 1) * $page . ',' . $page;
+	$sql.= " limit " . ($page - 1) * $pageSize . ',' . $pageSize;
 	$list = pdo_fetchall($sql, $condition);
 	foreach ($list as &$row) {
 		$row['ext_info'] = json_decode($row['ext_info'], 1);
