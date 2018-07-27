@@ -246,7 +246,7 @@ if ($operation == 'list') {
     }
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_bonus') . " a
         left join ".tablename("xuan_mixloan_member")." b {$join_condition} {$join}
-        where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . '
+        where a.uniacid={$_W['uniacid']} and a.status<>-2 and a.degree=1" . $wheres . '
         ORDER BY a.id DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
