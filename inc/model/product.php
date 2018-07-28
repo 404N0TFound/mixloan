@@ -298,29 +298,32 @@ class Xuan_mixloan_Product
 
 
     /**
-    *   申请位数 
-    **/
+     *   申请位数
+     **/
     public function getApplys($params=[]) {
         global $_W;
         $inviter = (int)$params['inviter'];
         $begin = strtotime($params['begin']);
-        $end = strtotime($params['begin']." +1 month -1 day");
-        $fields = "COUNT(1) AS count";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0";
-        $res = pdo_fetchcolumn($sql);
-        if (!$res) {
-            $count = 0;
-        } else {
-            $count = $res;
+        $end = strtotime($params['begin']." +1 month");
+        $fields = "COUNT(1) AS count,degree";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND type=1 GROUP BY degree";
+        $res = pdo_fetchall($sql);
+        if ($res) {
+            foreach ($res as $row) {
+                if ($row['degree'] == 1) {
+                    $ret['one_degree'] = $row['count'];
+                } else if ($row['degree'] == 2){
+                    $ret['two_degree'] = $row['count'];
+                }
+            }
         }
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." WHERE qrcid=:qrcid AND type=1 AND uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end}";
-        $res = pdo_fetchcolumn($sql,array(":qrcid"=>$inviter));
-        if (!$res) {
-            $count += 0;
-        } else {
-            $count += $res;
+        if (!$ret['one_degree']) {
+            $ret['one_degree'] = 0;
         }
-        return $count;
+        if (!$ret['two_degree']) {
+            $ret['two_degree'] = 0;
+        }
+        return $ret;
     }
 
     /**
