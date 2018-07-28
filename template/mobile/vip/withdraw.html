@@ -37,6 +37,7 @@
         .swiper-container .swiper-wrapper .swiper-slide-next{margin-right: 11%;margin-left: 5%;}
         .swiper-pagination-bullet{width: 12px;height:2px;border-radius: 25%;background: #bfe1fd;opacity: 1;}
         .swiper-pagination-bullet-active{background:#0084ff;}
+        .footer_tips{padding: 20px 30px;font-size: 13px;color:#999}
     </style>
 
     {template 'common/wxshare'}
@@ -96,6 +97,12 @@
         </div>
         <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
     </div>
+    <div class="footer_tips" style="text-align: center;">
+        <div class="charge" style="margin:1rem 0;color:black">实际到账金额：0元</div>
+        <div class="tips">
+            请知悉：平台提现手续费率为{$config['withdraw_charge']}%，实际到账为扣除手续费后的提现金额
+        </div>
+    </div>
 </div>
 <div class="pop_common timealert">
     <div class='floor'></div>
@@ -115,6 +122,7 @@
 </body>
 <script type="text/javascript">
     // 产品首页banner
+    var withdraw_charge = {$config['withdraw_charge']};
     var mySwiper = new Swiper('.swiper-container', {
         direction: 'horizontal',
         slidesPerView: "auto",
@@ -142,6 +150,8 @@
         {
             $(this).val(v.substr(0, v.length - 1));
         }
+        var charge = v * (1 - 0.01 * withdraw_charge);
+        $('.charge').html("实际到账金额：" + charge + "元");
     });
     // 申请提现
     function tixian(index){

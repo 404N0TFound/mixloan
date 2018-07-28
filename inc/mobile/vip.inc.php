@@ -189,11 +189,13 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+	$actual_bonus = $bonus * (1 -  $config['withdraw_charge'] * 0.01);
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
 		'bank_id'=>$bank_id,
 		'bonus'=>$bonus,
+		'actual_bonus'=>$actual_bonus,
 		'createtime'=>time(),
 		'status'=>0
 	);
