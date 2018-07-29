@@ -23,7 +23,7 @@ if($operation=='buy'){
     {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
-    if ($member['id'] == 3)
+    if ($member['id'] == 9)
     {
         $config['buy_vip_price'] = 0.01;
     }
@@ -571,4 +571,7 @@ if($operation=='buy'){
     //邀请注册
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);
     include $this->template('vip/register');
+} else if ($operation == 'checkPay') {
+    //检测有没有付款成功
+    include $this->template('vip/checkPay');
 }

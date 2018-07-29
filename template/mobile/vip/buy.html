@@ -344,11 +344,7 @@
     })
     //购买
     $("#to_buy").click(function(){
-		{if is_weixin()}
         toPurchase();
-		{else}
-		layer.msg('请在微信中购买');
-		{/if}
     })
 
     function toPurchase(){
