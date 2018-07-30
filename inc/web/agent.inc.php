@@ -380,12 +380,20 @@ if ($operation == 'list') {
     if ($_GPC['post'] == 1) {
         if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
             //支付宝收款接口
-            $payment_no = date('YmdHis');
-            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
-            if ($result['code'] == -1) {
-                message($result['msg'], '', 'error');
-            } else {
-                $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
+            }
+            else
+            {
+                setcookie($cookie, 1, time()+60);
             }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
