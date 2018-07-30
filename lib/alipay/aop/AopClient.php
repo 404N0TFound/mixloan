@@ -1023,7 +1023,6 @@ class AopClient {
 	public function checkResponseSign($request, $signData, $resp, $respObject) {
 
 		if (!$this->checkEmpty($this->alipayPublicKey) || !$this->checkEmpty($this->alipayrsaPublicKey)) {
-
 			if ($signData == null || $this->checkEmpty($signData->sign) || $this->checkEmpty($signData->signSourceData)) {
 
 				throw new Exception(" check sign Fail! The reason : signData is Empty");
