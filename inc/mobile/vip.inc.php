@@ -245,21 +245,36 @@ if($operation=='buy'){
 	    }
 	}
 	include $this->template('vip/inviteCode');
-} else if ($operation == 'followList') {
+} else if ($operation == 'followList_bp') {
 	//关注列表
-	$follow_list = pdo_fetchall("SELECT a.createtime,b.nickname FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC");
-	$count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
-	$count = $count ? : 0;
-	$cTime = getTime();
-	$star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
-	$end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");
-	$today_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
-	$today_count = $today_count ? : 0;
-	$star_time = strtotime("{$cTime[0]}-{$cTime[1]}-01");
-	$end_time = strtotime("{$cTime[0]}-{$cTime[1]}-01 +1 month");
-	$month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
-	$month_count = $month_count ? : 0;
-	include $this->template('vip/followList');
+    $follow_list = pdo_fetchall(
+        "SELECT a.createtime,a.openid,b.nickname FROM " .tablename("qrcode_stat"). " a
+		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
+		WHERE a.qrcid={$member['id']} AND a.type=1
+		GROUP BY a.openid
+		ORDER BY a.id DESC");
+    foreach ($follow_list as &$row) {
+        if (empty($row['nickname'])) {
+            $row['nickname'] = pdo_fetchcolumn(
+                'select nickname from ' .tablename('mc_mapping_fans'). '
+				where openid=:openid', array(':openid'=>$row['openid']));
+        }
+    }
+    unset($row);
+    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
+    $count = $count ? : 0;
+    $cTime = getTime();
+    $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
+    $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");
+    $today_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $today_count = $today_count ? : 0;
+    $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-01");
+    $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-01 +1 month");
+    $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $month_count = $month_count ? : 0;
+    $follow_count = count($follow_list) ? : 0;
+    $buy_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0") ? : 0;
+    include $this->template('vip/followList_bp');
 } else if ($operation == 'extendList') {
 	//推广成功
 	$extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
@@ -357,5 +372,46 @@ if($operation=='buy'){
     }
     unset($row);
     include $this->template('vip/partner_center');
+} else if ($operation == 'followList') {
+    //下级列表
+    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
+		WHERE inviter={$member['id']} AND status>0 AND type=2") ? : 0;
+    $follow_count = pdo_fetchcolumn("SELECT count(DISTINCT openid) FROM " . tablename("qrcode_stat") . "
+		WHERE qrcid={$member['id']} AND type=1") ? : 0;
+    include $this->template('vip/followList');
+} else if ($operation == 'getFollowList') {
+    //获取下级列表
+    $id = intval($_GPC['id']);
+    $follow_list = pdo_fetchall(
+        "SELECT a.id,a.createtime,a.openid,b.nickname,b.avatar,b.id as uid FROM " .tablename("qrcode_stat"). " a
+		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
+		WHERE a.qrcid={$member['id']} AND a.type=1 AND a.id<{$id}
+		GROUP BY a.openid
+		ORDER BY a.id DESC LIMIT 5");
+    foreach ($follow_list as &$row) {
+        if (empty($row['uid'])) {
+            $temp = pdo_fetch('select nickname from ' .tablename('mc_mapping_fans'). '
+				where openid=:openid', array(':openid'=>$row['openid']));
+            if ($temp) {
+                $row['nickname'] = $temp['nickname'];
+                $row['avatar']   = $temp['avatar'];
+            } else {
+                $row['nickname'] = '未更新';
+                $row['avatar'] = '';
+            }
+            $row['uid'] = 0;
+        }
+        $row['createtime1'] = date('Y-m-d', $row['createtime']);
+        $row['createtime2'] = date('Y-m-d H:i:s', $row['createtime']);
+        $row['agent'] = m('member')->checkAgent($row['uid']);
+        $row['bonus'] = pdo_fetchcolumn("SELECT re_bonus FROM " . tablename("xuan_mixloan_product_apply") . "
+			WHERE inviter={$member['id']} AND uid={$row['uid']} AND type=2") ? : '无';
+    }
+    unset($row);
+    if (!empty($follow_list)) {
+        show_json(1, ['list' => array_values($follow_list)], '获取成功');
+    } else {
+        show_json(-1);
+    }
 }
 
