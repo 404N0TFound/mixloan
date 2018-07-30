@@ -788,7 +788,9 @@ if($operation=='buy'){
 	$posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
 	$created = true;
 	if ($type == 3) {
-		$tips = "";
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
+        $share_url = shortUrl( $url );
+        $tips = "汇容客—我的随身银行:{$share_url}";
 		if (!$posterArr) {
 			$created = false;
 			// $wx = WeAccount::create();
@@ -802,7 +804,6 @@ if($operation=='buy'){
 		 //    );
 		 //    $res = $wx->barCodeCreateDisposable($barcode);
 			// $url = $res['url'];
-			$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
 			if (empty($config['inviter_poster'])) {
 				message("请检查海报是否上传", "", "error");
 			}
@@ -831,7 +832,7 @@ if($operation=='buy'){
 	} else if ($type == 2) {
 		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
 		$share_url = shortUrl( $url );
-		$tips = "汇容客—我的随身银行";
+		$tips = "汇容客—我的随身银行:{$share_url}";
 		if (!$posterArr) {
 			$created = false;
 			if (empty($config['product_poster'])) {
