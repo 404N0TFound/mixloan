@@ -131,18 +131,27 @@ if($operation=='index'){
             'ext_info'=>json_encode($ext_info),
         );
         pdo_insert('xuan_mixloan_msg', $msg);
-        if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
-        }
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $account = WeAccount::create($_W['acid']);
+        $account->sendTplNotice($inviter_one['openid'], $config['tpl_notice1'], $datam, $url);
         $status = 0;
     } else {
         $status = -2;
@@ -182,6 +191,25 @@ if($operation=='index'){
             'ext_info'=>json_encode($ext_info),
         );
         pdo_insert('xuan_mixloan_msg', $msg);
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
     }
     //三级
     $inviter_info = m('member')->getInviterInfo($second_inviter);
@@ -203,6 +231,25 @@ if($operation=='index'){
             'ext_info'=>json_encode($ext_info),
         );
         pdo_insert('xuan_mixloan_msg', $msg);
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您团队的邀请申请了的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_thr['openid'], $config['tpl_notice1'], $datam, $url);
     }
     show_json(1, $pro['ext_info']['url']);
 }
