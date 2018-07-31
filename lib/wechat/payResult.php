@@ -11,11 +11,11 @@ foreach ($data as $k => $v){
         $buff .= $k . '=' . $v . '&';
     }
 }
-$stringSignTemp = $buff . 'key=ab123456789001234567899874561230';//key为证书密钥
+$stringSignTemp = $buff . 'key=q3ygfbyrkx01pcmlll0qwyer5trdygvr';//key为证书密钥
 $sign = strtoupper(md5($stringSignTemp));
 //判断算出的签名和通知信息的签名是否一致
 $json = json_encode($data);
-$con = mysqli_connect("127.0.0.1","yirong_fuziyo_c","F6JAfN6aYR","yirong_fuziyo_c");
+$con = mysqli_connect("127.0.0.1","b9l9_top","iHxYxjPcSZ","b9l9_top");
 if($sign == $data['sign']){
     if ($data['result_code'] == 'SUCCESS') {
         $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=1 WHERE notify_id='{$data['out_trade_no']}'";
