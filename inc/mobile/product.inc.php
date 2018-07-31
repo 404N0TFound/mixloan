@@ -163,25 +163,25 @@ if($operation=='index'){
         );
         pdo_insert('xuan_mixloan_bonus', $insert);
         //二级
-        $inviter_info = m('member')->getInviterInfo($inviter);
-        $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
-        if ($second_inviter) {
-            $insert['inviter'] = $second_inviter;
-            $insert['degree'] = 2;
-            pdo_insert('xuan_mixloan_bonus', $insert);
-            $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-            $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-            $insert = array(
-                'is_read'=>0,
-                'uid'=>$member['id'],
-                'type'=>2,
-                'createtime'=>time(),
-                'uniacid'=>$_W['uniacid'],
-                'to_uid'=>$second_inviter,
-                'ext_info'=>json_encode($ext_info),
-            );
-            pdo_insert('xuan_mixloan_msg', $insert);
-        }
+        // $inviter_info = m('member')->getInviterInfo($inviter);
+        // $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+        // if ($second_inviter) {
+        //     $insert['inviter'] = $second_inviter;
+        //     $insert['degree'] = 2;
+        //     pdo_insert('xuan_mixloan_bonus', $insert);
+        //     $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
+        //     $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        //     $insert = array(
+        //         'is_read'=>0,
+        //         'uid'=>$member['id'],
+        //         'type'=>2,
+        //         'createtime'=>time(),
+        //         'uniacid'=>$_W['uniacid'],
+        //         'to_uid'=>$second_inviter,
+        //         'ext_info'=>json_encode($ext_info),
+        //     );
+        //     pdo_insert('xuan_mixloan_msg', $insert);
+        // }
         $redirect_url = $pro['ext_info']['url'];
     } else {
         $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));

@@ -490,43 +490,54 @@ if($operation=='buy'){
 	}
 	unset($row);
 	$accounts_list = pdo_fetchall("SELECT a.id,a.bonus,a.createtime,b.banknum,b.bankname FROM ".tablename("xuan_mixloan_withdraw")." a LEFT JOIN ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id WHERE a.uid={$member['id']} ORDER BY id DESC");
-	foreach ($accounts_list as &$row) {
-		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
-		$row['year'] = date('m-d', $row['createtime']);
-		$row['hour'] = date('H:i', $row['createtime']);
-		$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
-		switch ($row['status']) {
-			case '0':
-				$row['status'] = '申请中';
-				break;
-			case '1':
-				$row['status'] = '提现成功';
-				break;
-			case '-1':
-				$row['status'] = '提现失败';
-				break;
-		}
-	}
-	unset($row);
+    foreach ($accounts_list as &$row) {
+        $row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
+        $row['year'] = date('m-d', $row['createtime']);
+        $row['hour'] = date('H:i', $row['createtime']);
+        if ($row['type'] == 1) {
+            $row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+        } else {
+            if ($row['phone']) {
+                $row['bankmes'] =  "支付宝 尾号(" . substr($row['phone'], -4) . ")";
+            } else {
+                $row['bankmes'] =  "收款二维码";
+            }
+        }
+        switch ($row['status']) {
+            case '0':
+                $row['status'] = '申请中';
+                break;
+            case '1':
+                $row['status'] = '提现成功';
+                break;
+            case '-1':
+                $row['status'] = '提现失败';
+                break;
+        }
+    }
+    unset($row);
 	include $this->template('vip/salary');
 } else if ($operation == 'withdraw') {
     //提现
-    // $banks = pdo_fetchall("SELECT id,bankname,banknum FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid", array(':uid'=>$member['id']));
-    // foreach ($banks as &$row) {
-    // 	if (count($row['banknum']) == 16) {
-    // 		$row['numbers_type'] = 1;
-    // 		$row['numbers'][0] = substr($row['banknum'], 0, 4);
-    // 		$row['numbers'][1] = substr($row['banknum'], 4, 4);
-    // 		$row['numbers'][2] = substr($row['banknum'], 8, 4);
-    // 		$row['numbers'][3] = substr($row['banknum'], 12, 4);
-    // 	} else {
-    // 		$row['numbers_type'] = 2;
-    // 		$row['numbers'][0] = substr($row['banknum'], 0, 6);
-    // 		$row['numbers'][1] = substr($row['banknum'], 6);
-    // 	}
-    // }
-    // unset($row);
-    $qrcodes = pdo_fetchall("SELECT id,name,img_url FROM ".tablename('xuan_mixloan_withdraw_qrcode'). " WHERE uid=:uid", array(':uid'=>$member['id']));
+    $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
+    foreach ($banks as &$row) {
+        if ($row['type'] == 1) {
+            if (count($row['banknum']) == 16) {
+                $row['numbers_type'] = 1;
+                $row['numbers'][0] = substr($row['banknum'], 0, 4);
+                $row['numbers'][1] = substr($row['banknum'], 4, 4);
+                $row['numbers'][2] = substr($row['banknum'], 8, 4);
+                $row['numbers'][3] = substr($row['banknum'], 12, 4);
+            } else {
+                $row['numbers_type'] = 2;
+                $row['numbers'][0] = substr($row['banknum'], 0, 6);
+                $row['numbers'][1] = substr($row['banknum'], 6);
+            }
+        } else if ($row['type'] == 2) {
+
+        }
+    }
+    unset($row);
     $bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
     $can_use = $bonus - m('member')->sumWithdraw($member['id']);
     include $this->template('vip/withdraw');
