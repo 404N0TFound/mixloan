@@ -491,7 +491,7 @@ if($operation=='buy'){
         $tips = "";
         if (!$posterArr) {
             $created = false;
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op' => 'index', 'inviter'=>$member['id']));
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
