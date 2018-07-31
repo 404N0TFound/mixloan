@@ -38,7 +38,7 @@ if($operation=='register'){
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://nrogo.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'avatar'=>'http://cyxxfw.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
             'status'=>-2,
         );
