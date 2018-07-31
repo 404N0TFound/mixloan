@@ -121,7 +121,7 @@ if($operation=='index'){
         $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -130,7 +130,7 @@ if($operation=='index'){
             'to_uid'=>$inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
+        pdo_insert('xuan_mixloan_msg', $msg);
         if (!$inviter_uid) {
             $check = m('member')->checkIfRelation($inviter, $member['id']);
             if ($check == false) {
@@ -172,7 +172,7 @@ if($operation=='index'){
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -181,7 +181,7 @@ if($operation=='index'){
             'to_uid'=>$second_inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
+        pdo_insert('xuan_mixloan_msg', $msg);
     }
     //三级
     $inviter_info = m('member')->getInviterInfo($second_inviter);
