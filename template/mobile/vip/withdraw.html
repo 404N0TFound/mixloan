@@ -37,69 +37,56 @@
         .swiper-container .swiper-wrapper .swiper-slide-next{margin-right: 11%;margin-left: 5%;}
         .swiper-pagination-bullet{width: 12px;height:2px;border-radius: 25%;background: #bfe1fd;opacity: 1;}
         .swiper-pagination-bullet-active{background:#0084ff;}
+        .deleteFlag{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            background-color: #1c92fe;
+            color: #fff;
+            text-align: center;
+            line-height: 23px;
+            font-size: 22px;
+        }
+        .footer_tips{padding: 20px 30px;font-size: 13px;color:#999}
     </style>
 
     {template 'common/wxshare'}
 </head>
 <body class="bglightgray">
-<div class="agent-main pt44" style="padding-top: 0;">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
-    <script type="text/javascript">
-        function openNew(url){
-            mui.openWindow({url:url});
-        }
-    </script>
-    {if !is_weixin()}
-    <style type="text/css">
-        .app_header{height: 80px;width: 100%;background: #ffffff}
-        .app_header_back{text-align: center;color: white}
-        .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-        .app_header_back img{float:left;width: 12px;}
-        .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-    </style>
-    <div class="app_header">
-        <div class="app_header_back">
-            <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
-            <span>提现</span>
-        </div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url, createNew:true});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+        <span>提现</span>
     </div>
-    {/if}
+</div>
+{/if}
+<div class="agent-main pt44" style="padding-top: 0;">
     <div class="settleCards">
         <div class="swiper-container">
-            <!-- <div class="swiper-wrapper">
-                {if $banks}
-                    {loop $banks $row}
-                    <div class="swiper-slide" data-id="{$row['id']}">
-                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                        <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
-                            <p style="font-family: numFont!important;">
-                                {if $row['numbers_type'] == 1}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
-                                {else}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
-                                {/if}
-                            </p>
-                        </div>
-                    </div>
-                    {/loop}
-                {else}
-                    <div class="swiper-slide" data-id="0">
-                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                        <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
-                            <p style="font-family: numFont!important;">
-                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
-                            </p>
-                        </div>
-                    </div>
-                {/if}
-            </div> -->
             <div class="swiper-wrapper">
-                {if $qrcodes}
-                {loop $qrcodes $row}
+                {if $banks}
+                {loop $banks $row}
                 <div class="swiper-slide" data-id="{$row['id']}">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
+                    <div class="cardsInfo">
+                        <h2>支付宝收款</h2>
                         <p style="font-family: numFont!important;">
+                            <span>{$row['realname']}&nbsp;&nbsp;&nbsp;{$row['phone']}</span>
                         </p>
                     </div>
                 </div>
@@ -107,8 +94,9 @@
                 {else}
                 <div class="swiper-slide" data-id="0">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>*****</h2><span>收款二维码</span>
+                    <div class="cardsInfo"><h2>****</h2><span>添加提现方式</span>
                         <p style="font-family: numFont!important;">
+                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
                         </p>
                     </div>
                 </div>
@@ -116,8 +104,11 @@
             </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
+                {if $banks}
+                <a class="deleteFlag" href="javascript:;">-</a>
+                {/if}
             </div>
-            <div class="swiper-pagination"></div>
+            <!--<div class="swiper-pagination"></div>-->
         </div>
     </div>
     <div class="txInfo">
@@ -138,6 +129,11 @@
         </div>
         <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
     </div>
+    <!-- <div class="footer_tips" style="text-align: center;">
+        <div class="tips" style="color:red">
+            提示：工作日9:00至21:00提现2小时内到账
+        </div>
+    </div> -->
 </div>
 <div class="pop_common timealert">
     <div class='floor'></div>
@@ -236,10 +232,10 @@
         ajax.data.card_id=bankId;
         ajax.success = function (data) {
             if (data.code == 1) {
-                layer.msg('提现成功', {
+                layer.msg('提现成功，T+0日到账', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = "{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}";
+                    openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}');
                 });
             } else {
                 layer.msg(data.msg);
@@ -282,12 +278,35 @@
     $("div.addCards a.dailiFlag").click(function(){
         var cardNum=$("div.settleCards .swiper-wrapper .swiper-slide").length;
         if(cardNum>=4){
-            layer.msg("最多可添加4张银行卡");
+            layer.msg("最多可添加4种收款方式");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_alipay'])}";
             openNew(_url);
         }
+    })
+    //删除银行卡
+    $("div.addCards a.deleteFlag").click(function(){
+        var id = $("div.swiper-slide-active").attr("data-id");
+        layer.confirm('确定要删除这个提现方式吗', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var ajax = {};
+            ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'delete_qrcode'))}";
+            ajax.type = "post";
+            ajax.data = {'id':id};
+            ajax.dataType = "json";
+            ajax.success = function (data) {
+                if (data.code == 1) {
+                    layer.msg('删除成功');
+                    history.go(0);
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+            $.ajax(ajax);
+        }, function(){
+        });
     })
     //关闭弹窗
     $(".layer_close").click(function(){
