@@ -81,11 +81,14 @@
     div.layui-layer-content{padding: 10px 0px!important;}
 </style>
 <script type="text/javascript">
+    var created = 0；
     var aa = "{$poster_path}";
     var daili_url = "{$poster_url}";
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
+        } else if (data.code == 2) {
+            created = 1;
         }
     },"json");
 </script>
@@ -263,11 +266,13 @@
     $("#daili_toapply").click(function(){
         //图片合成并弹出
         {if $verify}
-        $("div.daili_ewm").show();
-        $(".daili_ewm").height($(window).height());
-        setTimeout(function(){
+        if (created == 1) {
+            $("div.daili_ewm").show();
+            $(".daili_ewm").height($(window).height());
             ewm_style();
-        },20)
+        } else {
+            layer.msg('海报生成中');
+        }
         {else}
         $('.pop_art').show();
         {/if}
