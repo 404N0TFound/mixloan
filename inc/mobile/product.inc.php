@@ -266,7 +266,7 @@ if($operation=='index'){
             $row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
         }
         $row['count_bonus'] = $weeks_bonus_list[$row['id']]['bonus'] ? : 0;
-        $row['count_num'] = 0;
+        // $row['count_num'] = 0;
     }
     unset($row);
     foreach ($months_list as &$row) {
@@ -277,7 +277,7 @@ if($operation=='index'){
             $row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
         }
         $row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
-        $row['count_num'] = 0;
+        // $row['count_num'] = 0;
     }
     unset($row);
     $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];
