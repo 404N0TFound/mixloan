@@ -332,4 +332,4 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
-}
+} 

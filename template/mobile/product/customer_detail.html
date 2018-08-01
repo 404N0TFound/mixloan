@@ -14,14 +14,13 @@
 			text-align: center;
 		}
 	</style>
-	<link rel="stylesheet" href="../../style/css/czym.css">
 </head>
 
 <body>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
 </script>
 {if !is_weixin()}
@@ -41,12 +40,13 @@
 {/if}
 <div class="particulars-box" id="app" v-cloak>
 	<div class="indent-tab-box">
-		<a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>1))}" {if $degree == 1}class="active"{/if}>直推</a>
-		<a href="{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>2))}" {if $degree == 2}class="active"{/if}>二级</a>
+		<a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>1))}')" {if $degree == 1}class="active"{/if}>直推</a>
+		<a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>2))}')" {if $degree == 2}class="active"{/if}>二级</a>
 	</div>
 	<!--小提示  -->
 	<div class="ptars-smts-box">
-		月结产品非实时状态,本月客户状态则在下月5-15日结算
+		月结产品非实时状态,本月客户状态则在下月5-15日结算<br/>
+		提示：本列表是客户在指点填写资料的记录，不能视为官方申请记录。
 	</div>
 
 	<!--人数显示  -->
@@ -72,11 +72,11 @@
 	<!--tab  -->
 	<div class="indent-tab-box">
 
-		<a {if $type==1}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>1])}')" >所有订单<span></span></a>
+		<a {if $type==1}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>1, 'degree'=>$degree])}')" >所有订单<span></span></a>
 
-		<a {if $type==2}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>2])}')" >有效订单<span></span></a>
+		<a {if $type==2}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>2, 'degree'=>$degree])}')" >有效订单<span></span></a>
 
-		<a {if $type==3}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>3])}')" >失效订单<span></span></a>
+		<a {if $type==3}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>3, 'degree'=>$degree])}')" >失效订单<span></span></a>
 	</div>
 
 	<!--订单列表  -->
