@@ -36,7 +36,6 @@ class Xuan_mixloanModule extends WeModule {
                     'tpl_notice4'=>$_GPC['tpl_notice4'],
                     'tpl_notice5'=>$_GPC['tpl_notice5'],
                     'register_contract'=> htmlspecialchars_decode($_GPC['register_contract']),
-                    'buy_vip_price' =>$_GPC['buy_vip_price'],
                     'inviter_fee_one'=>$_GPC['inviter_fee_one'],
                     'inviter_fee_two'=>$_GPC['inviter_fee_two'],
                     'inviter_fee_three'=>$_GPC['inviter_fee_three'],
@@ -50,7 +49,11 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_content'=>htmlspecialchars_decode($_GPC['buy_content']),
                     'buy_question' =>htmlspecialchars_decode($_GPC['buy_question']),
                     'buy_contract'=>htmlspecialchars_decode($_GPC['buy_contract']),
-                    'wx_qrcode'=>$_GPC['wx_qrcode']
+                    'wx_qrcode'=>$_GPC['wx_qrcode'],
+                    'buy_init_vip_days'=>$_GPC['buy_init_vip_days'],
+                    'buy_mid_vip_days'=>$_GPC['buy_mid_vip_days'],
+                    'buy_init_vip_fee'=>$_GPC['buy_init_vip_fee'],
+                    'buy_mid_vip_fee'=>$_GPC['buy_mid_vip_fee'],
             	);
 
             if ($this->saveSettings($cfg)) {
