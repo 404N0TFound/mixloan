@@ -381,11 +381,11 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">邀请人</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
-                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px"> 
-                        {$inviter['nickname']}  
-                            {if $itme['degree']==1}<span class="label label-info">一级{$agent['name']}</span
-                            {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
-                            {/if}
+                    <p class="form-control-static"><img src="{$inviter['avatar']}" width="30px">
+                        {$inviter['nickname']}
+                        {if $itme['degree']==1}<span class="label label-info">一级{$agent['name']}</span
+                                {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
+                        {/if}
                     </p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
@@ -413,7 +413,7 @@
                     <p class="form-control-static"><img src="{php echo tomedia($info['ext_info']['logo']);}" width="30px"> {$info['name']}</p>
                 </div>
             </div>
-            {if $item['pid']}
+            {if $item['type']==1}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励信息</label>
                 <div class="col-sm-2 col-lg-3 col-xs-12">
@@ -422,22 +422,22 @@
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">注册奖励：
                         {if $info['done_reward_type']==1}
-                            {$info['done_reward_money']}元
+                        {$info['done_reward_money']}元
                         {else if $info['done_reward_type']==2}
-                            {$info['done_reward_per']}点
+                        {$info['done_reward_per']}点
                         {else}
-                            无
+                        无
                         {/if}
                     </p>
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">下款/卡奖励：
                         {if $info['re_reward_type']==1}
-                            {$info['re_reward_money']}元
+                        {$info['re_reward_money']}元
                         {else if $info['re_reward_type']==2}
-                            {$info['re_reward_per']}点
+                        {$info['re_reward_per']}点
                         {else}
-                            无
+                        无
                         {/if}
                     </p>
                 </div>
@@ -460,7 +460,7 @@
                     {/if}
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
-                        {if $info['ext_info']['extra_reward_type'] == 0}
+                    {if $info['ext_info']['extra_reward_type'] == 0}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_cond']}元奖励{$info['ext_info']['extra_reward_thr_money']}</p>
                     {else}
                     <p class="form-control-static">满{$info['ext_info']['extra_reward_thr_con']}人奖励{$info['ext_info']['extra_reward_thr_money']}</p>
@@ -482,8 +482,8 @@
                         <option value="0" {if $item['status']==0}selected{/if}>邀请中</option>
                         <option value="1" {if $item['status']==1}selected{/if}>已注册</option>
                         {/if}
-                        <option value="2" {if $item['status']==2}selected{/if}> 
-                                {if $item['pid']==0}已完成{else}已下款/卡{/if}
+                        <option value="2" {if $item['status']==2}selected{/if}>
+                        {if $item['type']!=1}已完成{else}已下款/卡{/if}
                         </option>
                     </select>
                 </div>
@@ -494,7 +494,7 @@
                     <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
                 </div>
             </div>
-            {if $item['pid'] !=0}
+            {if $item['type'] == 1}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款金额</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -507,13 +507,13 @@
                     <input type="text" class="form-control"  name="data[done_bonus]" value="{$item['done_bonus']}"/>
                 </div>
             </div>
+            {/if}
             <div class="form-group status" {if $item['status']<=1}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">额外奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[extra_bonus]" value="{$item['extra_bonus']}"/>
                 </div>
             </div>
-            {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -524,8 +524,8 @@
             <div class="form-group">
             </div>
         </form>
+        </div>
     </div>
-</div>
 <script type="text/javascript">
     var change_stauts = function () {
         var value = $("select[name='data[status]']").val();

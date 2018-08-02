@@ -10,7 +10,8 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' AND status<>-1';
+    $status = $_GPC['status'] != '' ? $_GPC['status'] : 1;
+    $wheres = ' AND status=' . $status;
     if (!empty($_GPC['id'])) {
         $wheres.= " AND id='{$_GPC['id']}'";
     }
@@ -35,14 +36,19 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
-    $member = m('member')->getMember($_GPC['id']);
-    pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0, 'phone'=>'', 'certno'=>''), array('id'=>$_GPC['id']));
-    pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
-    pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
-    pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
-    pdo_delete('qrcode_stat', array("openid" => $member["openid"]));
-    pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
-    message("删除成功");
+    // $member = m('member')->getMember($_GPC['id']);
+    // pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0, 'phone'=>'', 'certno'=>''), array('id'=>$_GPC['id']));
+    // pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
+    // pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
+    // pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
+    // pdo_delete('qrcode_stat', array("openid" => $member['openid']));
+    // pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
+    pdo_update('xuan_mixloan_member', array('status' => 0), array('id' => $_GPC['id']));
+    message("冻结成功", referer(), 'sccuess');
+} else if ($operation == 'recovery') {
+    // 解冻
+    pdo_update('xuan_mixloan_member', array('status' => 1), array('id' => $_GPC['id']));
+    message("解冻成功", referer(), 'sccuess');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
@@ -288,6 +294,57 @@ if ($operation == 'list') {
             message("发送成功，总计发送{$count}条", "", "success");
         }
     }
+} else if ($operation == 'partner_list') {
+    //合伙人
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['uid'])) {
+        $wheres.= " AND a.uid='{$_GPC['uid']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_partner') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_partner') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'partner_delete') {
+    //合伙人
+    pdo_delete('xuan_mixloan_partner', array("id" => $_GPC['id']));
+    message("删除成功", referer());
+} else if ($operation == 'below_list') {
+    //下级列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['inviter'])) {
+        $wheres.= " AND a.qrcid='{$_GPC['inviter']}'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.openid,a.createtime,b.id,b.avatar,b.nickname from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres . ' GROUP BY a.openid ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['agent'] = m('member')->checkAgent($row['id']);
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(DISTINCT a.openid) from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres);
+    $pager = pagination($total, $pindex, $psize);
 }
 include $this->template('member');
 ?>

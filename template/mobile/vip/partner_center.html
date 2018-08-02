@@ -27,7 +27,7 @@
 <div class="app_header">
     <div class="app_header_back">
         <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>收入记录</span>
+        <span>合伙人中心</span>
     </div>
 </div>
 {/if}
@@ -43,8 +43,8 @@
         {loop $list $row}
         <div class="record-li" >
             <div class="prd-timer-box">
-                <img src="{$man['avatar']}"></img>
-                <span class="head-tl-xt">{$man['nickname']}</span>
+                <img src="{$row['avatar']}"></img>
+                <span class="head-tl-xt">{$row['nickname']}</span>
                 <!--订单编号  -->
                 <span class="rg-xt">订单:{$row['id']}</span>
             </div>
@@ -52,19 +52,19 @@
 
                 <div class="prd-lf-box">
                     <!--结算类型  -->
-                    <span>结算类型: {$row['bonus_name']}</span>
+                    <span>结算类型: 分红奖励</span>
                     <span>手机号：{$row['phone']}</span>
 
                     <span>{$row['createtime']}</span>
                 </div>
                 <div class="prd-rg-box">
-                    <span>{$row['bonus']}元</span>
+                    <span>{$row['extra_bonus']}元</span>
                 </div>
             </div>
         </div>
         {/loop}
         {else}
-        <div style="margin-top: 50px;" class="meiyou" ><img src="../addons/xuan_mixloan/template/style/picture/404d.png" alt=""><p style="text-align: center;">暂时没有更多数据啦！</p></div>
+        <div style="margin-top: 50px;text-align: center;" class="meiyou" v-if="ag.length < 1"><img src="../addons/xuan_mixloan/template/style/picture/404d.png" style="width: 100px"><p style="text-align: center;">暂时没有更多数据啦！</p></div>
         {/if}
     </div>
 

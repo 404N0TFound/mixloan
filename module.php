@@ -62,6 +62,9 @@ class Xuan_mixloanModule extends WeModule {
                     'extend_bonus_pic2'=>$_GPC['extend_bonus_pic2'],
                     'extend_bonus_pic3'=>$_GPC['extend_bonus_pic3'],
                     'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
+                    'buy_partner_price'=>$_GPC['buy_partner_price'],
+                    'partner_vip_nums'=>$_GPC['partner_vip_nums'],
+                    'partner_bonus'=>$_GPC['partner_bonus'],
                     'backup'=>$_GPC['backup'],
             	);
 

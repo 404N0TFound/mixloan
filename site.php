@@ -28,6 +28,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
             !strexists($_SERVER['REQUEST_URI'], 'notify_url'),
             !strexists($_SERVER['REQUEST_URI'], 'exit'),
             !strexists($_SERVER['REQUEST_URI'], 'do=loan'),
+            !strexists($_SERVER['REQUEST_URI'], 'upload_file'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {
@@ -188,7 +189,22 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
-			} else if ($type=='10003') {
+			} else if ($type == '10002') {
+                //合伙人购买
+                $partner = m('member')->checkPartner($member['id']);;
+                if ($partner['code'] == 1) {
+                    message("您已经是合伙人，请不要重复提交", $this->createMobileUrl('user'), "error");
+                }
+                $insert = array(
+                    "uniacid"=>$_W["uniacid"],
+                    "uid"=>$member['id'],
+                    "createtime"=>time(),
+                    "tid"=>$params['tid'],
+                    "fee"=>$fee,
+                );
+                pdo_insert("xuan_mixloan_partner", $insert);
+                message("支付成功", $this->createMobileUrl('user'), "success");
+            } else if ($type=='10003') {
                 //信用查询付费
                 $id = $_SESSION['credit_id'];
                 if (empty($id)) {
@@ -235,6 +251,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         'createtime'=>time(),
                         'pid'=>-1,
                         'degree'=>1,
+                        'type'=>4
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     $datam = array(
@@ -274,6 +291,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             'createtime'=>time(),
                             'pid'=>-1,
                             'degree'=>2,
+                        	'type'=>4
                         );
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
                         $datam = array(
@@ -313,6 +331,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                 'createtime'=>time(),
                                 'pid'=>-1,
                                 'degree'=>3,
+                        		'type'=>4
                             );
                             pdo_insert('xuan_mixloan_product_apply', $insert_i);
                             $datam = array(

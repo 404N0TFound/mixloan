@@ -6,6 +6,19 @@ $config = $this->module['config'];
 $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 $agent = m('member')->checkAgent($member['id']);
+if ($member['status'] == '0') {
+    // 冻结
+    die("<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
+            <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+        </head>
+        <body>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结，联系客服处理</h4></div></div></div>
+        </body>
+    </html>");
+}
 if($operation=='buy'){
 	//购买会员
 	if (!$member['phone']) {
@@ -121,6 +134,7 @@ if($operation=='buy'){
         if ($agent['code'] == 1) {
             message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
         }
+        pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
         $insert = array(
             "uniacid"=>$_W["uniacid"],
             "uid"=>$member['id'],
@@ -159,8 +173,10 @@ if($operation=='buy'){
                     'status'=>2,
                     'createtime'=>time(),
                     'degree'=>1,
+                    'type'=>2,
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                $one_insert_id = pdo_insertid();
             }
             //消息提醒
             $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
@@ -178,6 +194,25 @@ if($operation=='buy'){
             $man_one = m('member')->getInviterInfo($inviter);
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
             if ($inviter_two) {
+                $partner_bonus = $config['inviter_fee_one']*0.01*$config['partner_bonus'];
+                if ($partner_bonus) {
+                    $partner = m('member')->checkPartner($inviter_two);
+                    if ($partner['code'] == 1) {
+                        $insert_i = array(
+                            'uniacid' => $_W['uniacid'],
+                            'uid' => $inviter,
+                            'phone' => $man_one['phone'],
+                            'inviter' => $inviter_two,
+                            'extra_bonus'=>$partner_bonus,
+                            'status'=>2,
+                            'pid'=>$one_insert_id,
+                            'createtime'=>time(),
+                            'degree'=>1,
+                            'type'=>3
+                        );
+                        pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                    }
+                }
                 $re_bonus = $config['inviter_fee_two'];
                 if ($re_bonus) {
                     $insert_i = array(
@@ -193,8 +228,10 @@ if($operation=='buy'){
                         'status'=>2,
                         'createtime'=>time(),
                         'degree'=>2,
+                        'type'=>2,
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                    $two_insert_id = pdo_insertid();
                 }
                 //消息提醒
                 $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
@@ -208,52 +245,97 @@ if($operation=='buy'){
                     'ext_info'=>json_encode($ext_info),
                 );
                 pdo_insert('xuan_mixloan_msg', $insert);
+                //三级
+                $man_two = m('member')->getInviterInfo($inviter_two);
+                $inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+                if ($inviter_thr) {
+                    $partner_bonus = $config['inviter_fee_two']*0.01*$config['partner_bonus'];
+                    if ($partner_bonus) {
+                        $partner = m('member')->checkPartner($inviter_thr);
+                        if ($partner['code'] == 1) {
+                            $insert_i = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $inviter_two,
+                                'phone' => $man_two['phone'],
+                                'inviter' => $inviter_thr,
+                                'extra_bonus'=>$partner_bonus,
+                                'status'=>2,
+                                'pid'=>$two_insert_id,
+                                'createtime'=>time(),
+                                'degree'=>1,
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        }
+                    }
+                    $re_bonus = $config['inviter_fee_two'];
+                }
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
-    } 
+    }  else if ($type == '10002') {
+        //合伙人购买
+        $partner = m('member')->checkPartner($member['id']);;
+        if ($partner['code'] == 1) {
+            message("您已经是合伙人，请不要重复提交", $this->createMobileUrl('user'), "error");
+        }
+        $insert = array(
+            "uniacid"=>$_W["uniacid"],
+            "uid"=>$member['id'],
+            "createtime"=>time(),
+            "tid"=>$params['tid'],
+            "fee"=>$fee,
+        );
+        pdo_insert("xuan_mixloan_partner", $insert);
+        message("支付成功", $this->createMobileUrl('user'), "success");
+    }
 } else if ($operation == 'createPost') {
     if ($agent['code'] != 1) {
-        show_json(-1, [], '您不是代理');
+        show_json(-1, [], '您不是会员');
     }
-	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
-	if ($type == 1) {
-		$id = intval($_GPC['id']);
-		$product = m('product')->getList(['id','ext_info'], ['id'=>$id])[$id];
-		$cfg = [];
-		$cfg['logo'] = $config['logo'];
-		$cfg['poster_avatar'] = $product['ext_info']['poster_avatar'];
-		$cfg['poster_image'] = $product['ext_info']['poster_image'];
-		$cfg['poster_color'] = $product['ext_info']['poster_color'];
-		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
-    	$out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
-    	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
-	} else {
-		$id = 0;
-		$cfg = $config;
-		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
-    	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
-    	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
-	}
-	$poster = m('poster')->getPoster(["COUNT(1) AS count"], ["pid"=>$id, "type"=>$type, "uid"=>$member['id']]);
-	if (!$poster["count"]) {
-		$params = array(
-			"url" => $url,
-			"member" => $member,
-			"type" => $type,
-			"pid" => $id,
-			"out" => $out,
-			"poster_path" => $poster_path
-		);
-		$res = m('poster')->createPoster($cfg, $params);
-		if ($res) {
-	        show_json(1, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-		} else {
-	        show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
-		}
-	} else {
-		show_json(2, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-	}
+    $type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
+    if ($type == 1) {
+        $id = intval($_GPC['id']);
+        $product = m('product')->getList(['id','ext_info','type','relate_id'], ['id'=>$id])[$id];
+        $cfg = [];
+        $cfg['logo'] = $config['logo'];
+        $cfg['poster_avatar'] = $product['ext_info']['poster_avatar'];
+        $cfg['poster_image'] = $product['ext_info']['poster_image'];
+        $cfg['poster_color'] = $product['ext_info']['poster_color'];
+        if ($product['type'] == 1){
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
+        } else {
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
+        }
+        $out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
+        $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
+    } else {
+        $id = 0;
+        $cfg = $config;
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+        $out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
+        $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
+    }
+    $poster = pdo_fetch('select poster from ' . tablename('xuan_mixloan_poster') . ' 
+        where pid=:pid and uid=:uid', array(':pid' => $id, ':uid' => $member['id']));
+    if (!$poster) {
+        $params = array(
+            "url" => $url,
+            "member" => $member,
+            "type" => $type,
+            "pid" => $id,
+            "out" => $out,
+            "poster_path" => $poster_path
+        );
+        $res = m('poster')->createPoster($cfg, $params);
+        if ($res) {
+            show_json(1, ['post_url'=>$res, 'agent_url'=>$url]);
+        } else {
+            show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
+        }
+    } else {
+        show_json(2, ['post_url'=>$poster['poster'], 'agent_url'=>$url]);
+    }
 	
 } else if ($operation == 'createPostAllProduct') {
 	//我的代理店
@@ -494,21 +576,18 @@ if($operation=='buy'){
         $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验";
         if (!$posterArr) {
             $created = false;
-            if ($config['wx_qrcode_type']) {
-	            $wx = WeAccount::create();
-	            $barcode = array(
-	                'action_name'=>"QR_LIMIT_SCENE",
-	                'action_info'=> array(
-	                    'scene' => array(
-	                        'scene_id'=>$member['id'],
-	                    )
-	                )
-	            );
-	            $res = $wx->barCodeCreateDisposable($barcode);
-	            $url = $res['url'];
-            } else {
-            	$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register','inviter'=>$member['id']));
-            }
+            // $wx = WeAccount::create();
+            // $barcode = array(
+            //     'action_name'=>"QR_LIMIT_SCENE",
+            //     'action_info'=> array(
+            //         'scene' => array(
+            //             'scene_id'=>$member['id'],
+            //         )
+            //     )
+            // );
+            // $res = $wx->barCodeCreateDisposable($barcode);
+            // $url = $res['url'];
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
@@ -529,7 +608,7 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }
@@ -560,19 +639,15 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }
         }
     } else if ($type == 1){
         $pid = intval($_GPC['pid']);
-        $product = m('product')->getList(['id', 'type', 'ext_info', 'relate_id'], ['id'=>$pid])[$pid];
-	    if ($product['type'] == 1) {
-        	$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
-	    } else {
-	        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'inviter'=>$member['id'], 'pid'=>$pid));
-	    }
+        $product = m('product')->getList(['id','ext_info'], ['id'=>$pid])[$pid];
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$pid, 'inviter'=>$member['id']));
         $share_url = shortUrl( $url );
         $tips = "{$config['title']}—我的随身银行：{$share_url}";
         if (!$posterArr) {
@@ -597,7 +672,7 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }
@@ -641,6 +716,134 @@ if($operation=='buy'){
             $row['phone'] = '无';
         }
         $row['bonus'] = $row['extra_bonus'] + $row['re_bonus'] + $row['done_bonus'] ? : 0;
+    }
+    unset($row);
+    include $this->template('vip/partner_center');
+} else if ($operation == 'partner_join_type') {
+    //选择合伙人加入方式
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        header("location:{$this->createMobileUrl('vip', array('op' => 'partner_center'))}");
+    }
+    include $this->template('vip/partner_join_type');
+} else if ($operation == 'partner_buy') {
+    //购买合伙人
+    if (!$member['phone']) {
+        message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+    }
+    $partner = m('member')->checkPartner($member['id']);
+	if ($partner['code'] == 1) {
+		header("location:{$this->createMobileUrl('vip', array('op'=>'partner_center'))}");
+	}
+	if (!$member['phone']) {
+		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	}
+	if ($member['id'] == 18) {
+		$config['buy_partner_price'] = 0.01;
+	}
+	if (is_weixin()) {
+	    $tid = "10002" . date('YmdHis', time());
+	    $title = "购买{$config['title']}合伙人";
+	    $fee = $config['buy_partner_price'];
+	    $params = array(
+	        'tid' => $tid,
+	        'ordersn' => $tid,
+	        'title' => $title,
+	        'fee' => $fee,
+	        'user' => $member['id'],
+	    );
+	    //调用pay方法
+	    $this->pay($params);
+	} else {
+		$notify_url = 'http://juxinwangluo.xin/addons/xuan_mixloan/lib/wechat/payResult.php';
+		$record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+			where type=2 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
+		if (empty($record)) {
+			$tid = "10002" . date('YmdHis', time());
+		    $trade_no = "ZML".date("YmdHis");
+			$insert = array(
+				'notify_id'=>$trade_no,
+				'tid'=>$tid,
+				'createtime'=>time(),
+				'uid'=>$member['id'],
+				'uniacid'=>$_W['uniacid'],
+				'fee'=>$config['buy_partner_price'],
+				'is_pay'=>0,
+				'type'=>2
+			);
+			pdo_insert('xuan_mixloan_paylog', $insert);
+		} else {
+			if ($record['createtime'] + 5 < time()) {
+				$tid = "10002" . date('YmdHis', time());
+			    $trade_no = "ZML".date("YmdHis");
+				$insert = array(
+					'notify_id'=>$trade_no,
+					'tid'=>$tid,
+					'createtime'=>time(),
+					'uid'=>$member['id'],
+					'uniacid'=>$_W['uniacid'],
+					'fee'=>$config['buy_partner_price'],
+					'is_pay'=>0,
+					'type'=>2
+				);
+				pdo_insert('xuan_mixloan_paylog', $insert);
+			} else {
+		    	$trade_no = $record['notify_id'];
+			}
+		}
+		$result = m('pay')->H5pay($trade_no, $config['buy_partner_price'], $notify_url);
+		if ($result['code'] == 1) {
+			$redirect_url = urlencode($_W['siteroot'] . 'app/' .
+				$this->createMobileUrl('vip', array('op'=>'checkPay', 'notify_id'=>$trade_no)));
+			$url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+		}
+		include $this->template('vip/openHref');
+	}
+} else if ($operation == 'partner_upgrade') {
+    //满足条件自动升级
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
+    }
+    $list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
+		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+		where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
+    $uids = array();
+    foreach ($list as $row) {
+        if ($row['uid']) {
+            $uids[] = $row['uid'];
+        }
+    }
+    if ($uids) {
+        $uid_string = '(' . implode(',', $uids) . ')';
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . "
+			where uid in {$uid_string}");
+        if ($count >= $config['partner_vip_nums']) {
+            $tid = "30002" . date('YmdHis', time());
+            $insert['uid'] = $member['id'];
+            $insert['createtime'] = time();
+            $insert['uniacid'] = $_W['uniacid'];
+            $insert['tid'] = $tid;
+            $insert['fee'] = 0;
+            pdo_insert('xuan_mixloan_partner', $insert);
+            message('升级合伙人成功', $this->createMobileUrl('user'), 'sccuess');
+        } else {
+            message('您还没达到升级条件呢~', $this->createMobileUrl('user'), 'error');
+        }
+    } else {
+        message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
+    }
+} else if ($operation == 'partner_center') {
+    //合伙人中心
+    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
+		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+    foreach ($list as &$row) {
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
+			where id=:id', array(':id'=>$row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
     }
     unset($row);
     include $this->template('vip/partner_center');
