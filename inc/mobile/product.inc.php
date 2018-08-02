@@ -249,6 +249,7 @@ if($operation=='index'){
         $condition_days = ['count_time'=>1, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
         $condition_weeks = ['count_time'=>7, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
         $condition_months = ['count_time'=>30, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
+        $params['remove_ids'] = $remove['remove_ids'];
     } else {
         $condition_days = ['count_time'=>1];
         $condition_weeks = ['count_time'=>7];
