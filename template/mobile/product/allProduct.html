@@ -70,33 +70,7 @@
     <!-- fix -->
     <div class="fix"></div>
     <!-- fix -->
-    <!-- 秒办卡 -->
-    <div class="loanindex_inform2 clearfix">
-        <span id="test3" name="test3"><leabl></leabl>秒办卡</span><ul><li><p>精选额度大,下卡快的优质信用卡</p></li></ul>
-    </div>
-    <div class="swiper-container  swiper_list">
-        <div class="swiper-wrapper">
-            {loop $credit_all $credit_thr}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                    {loop $credit_thr $cre}
-                    <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cre['id'], 'inviter'=>$inviter))}')">
-                            <div class="swiper_div">
-                                <p class="c2" style="background:#8296b2"><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />{$cre['v_name']}</p>
-                                <div class="top_img1"><img src="{$cre['card_pic']}" /></div>
-                                <h2>{$cre['name']}</h2>
-                            </div>
-                        </a>
-                    </li>
-                    {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
+
     <!-- 轮播 end-->
     <div class="loanindex_shortcut">
         {loop $credits_blow $cred}
@@ -114,17 +88,6 @@
     </div>
 
     <!-- fix -->
-    <div class="fix"></div>
-
-    <div class="loanindex_inform2 loanindex_inform_jindu clearfix">
-        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}')">
-            <span style="width:80%"><leabl style="margin-right:2.5%;"></leabl>申卡进度查询</span>
-            <p> <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow.png" /> </p>
-        </a>
-    </div>
-    <!-- fix -->
-    <div class="fix"></div>
-    <!-- fix -->
     <!-- 秒到账 -->
     <div class="loanindex_inform2 clearfix">
         <span id="test2" name="test3"><leabl></leabl>秒到账</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
@@ -136,7 +99,7 @@
                 <ul class="clearfix">
                     {loop $speed $sp}
                     <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
                             <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                                 <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                                 <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -154,7 +117,7 @@
     </div>
     <div class="loanindex_shortcut2">
         {loop $speed_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
             <ul class="clearfix">
                 <li class="clearfix">
                     <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
@@ -190,7 +153,7 @@
                 <ul class="clearfix">
                     {loop $speed $sp}
                     <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
                             <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                                 <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                                 <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -208,7 +171,7 @@
     </div>
     <div class="loanindex_shortcut2">
         {loop $large_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
             <ul class="clearfix">
                 <li class="clearfix">
                     <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>

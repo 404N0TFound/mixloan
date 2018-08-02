@@ -57,6 +57,15 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $where = " and a.id not in ({$remove['remove_ids']})";
+        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+    } else {
+        $where = "";
+        $card_con = ['type' => 1, 'is_show' => 1];
+    }
     $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
     foreach ($credits as $credit) {
         $id[] = $credit['relate_id'];
@@ -234,9 +243,20 @@ if($operation=='index'){
     $year = (int)$_GPC['year'];
     $params['begin'] = "{$year}-{$month}-01";
     $params['inviter'] = $member['id'];
-    $days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
-    $weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
-    $months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
+    if ($config['customer_hide_product']) {
+        $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+            where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+        $condition_days = ['count_time'=>1, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
+        $condition_weeks = ['count_time'=>7, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
+        $condition_months = ['count_time'=>30, 'is_show'=>1, 'n_id' => $remove['remove_ids']];
+    } else {
+        $condition_days = ['count_time'=>1];
+        $condition_weeks = ['count_time'=>7];
+        $condition_months = ['count_time'=>30];
+    }
+    $days_list = m('product')->getList(['id', 'name', 'ext_info'], $condition_days);
+    $weeks_list = m('product')->getList(['id', 'name', 'type'], $condition_weeks);
+    $months_list = m('product')->getList(['id', 'name', 'type'], $condition_months);
     $invite_list = m('product')->getInviteList($params);
     $days_ids = m('product')->getIds($days_list);
     $weeks_ids = m('product')->getIds($weeks_list);

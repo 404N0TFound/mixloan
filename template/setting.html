@@ -76,6 +76,15 @@
 							</div>
 						</div>
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">客户列表隐藏下架产品</label>
+							<div class="col-sm-3 col-xs-4">
+								<select class="form-control" name="customer_hide_product">
+									<option value="0" {if $setting['customer_hide_product'] == 0}selected{/if}>否</option>
+									<option value="1" {if $setting['customer_hide_product'] == 1}selected{/if}>是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">监控链接</label>
 							<div class="col-sm-6 col-xs-12">
 								<input type="text"  value="{$queue_url}" class="form-control" readonly>

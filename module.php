@@ -54,7 +54,8 @@ class Xuan_mixloanModule extends WeModule {
                     'wx_qrcode'=>$_GPC['wx_qrcode'],
                     'backup'=>$_GPC['backup'],
                     'withdraw_day_limit' => $_GPC['withdraw_day_limit'],
-                    'withdraw_money_limit' => $_GPC['withdraw_money_limit']
+                    'withdraw_money_limit' => $_GPC['withdraw_money_limit'],
+                    'customer_hide_product'=>$_GPC['customer_hide_product']
             	);
 
             if ($this->saveSettings($cfg)) {
