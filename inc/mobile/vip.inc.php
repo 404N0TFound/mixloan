@@ -33,9 +33,15 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
+	$type = intval($_GPC['type']);
 	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
+	if ($type == 1) {
+		$fee = $config['buy_init_vip_price'];
+	} else {
+		$fee = $config['buy_mid_vip_price'];
+	}
+	$_SESSION['level'] = $type;
 	$params = array(
 	    'tid' => $tid, 
 	    'ordersn' => $tid, 

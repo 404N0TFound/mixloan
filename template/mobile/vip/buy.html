@@ -10,10 +10,31 @@
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_buy_vip/css/kashen.css">
 	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_3.css">
 	<script src="../addons/xuan_mixloan/template/style/new_buy_vip/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
 </head>
 <body>
-<!--<div class="wdfanhui"><a href="--><!--"></a><span>评论详情</span></div>-->
-<!--<div class="cheng2"></div>-->
+<style type="text/css">
+	#layer_notice{
+		padding: 50px;
+		text-align: center;
+		display: none
+	}
+	#layer_notice .item{
+		display: flex;
+	    width: 9.2rem;
+	    -ms-flex-flow: row nowrap;
+	    flex-flow: row nowrap;
+	    -ms-flex-align: center;
+	    align-items: center;
+	    -ms-flex-pack: start;
+	    justify-content: flex-start;
+	    border: 1px solid #e3e3e3;
+	    padding: .24rem .4rem;
+	    border-radius: .4rem;
+	    margin-top: .66rem;
+	}
+	.price-area{margin-left: 2rem}
+</style>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
 function openNew(url){
@@ -45,7 +66,7 @@ function openNew(url){
 <div class="zhinan-mai">
 	<div>
 		<h3>{$config['title']}代理会员资格</h3>
-		<span class="zn-price">￥{$config['buy_vip_price']}元</span><span class="zn-price2">支付立即成为代理</span><span class="zn-price2">已售{$buy_count}</span>
+		<span class="zn-price">￥{$config['buy_init_vip_price']}元</span><span class="zn-price2">支付立即成为代理</span><span class="zn-price2">已售{$buy_count}</span>
 	</div>
 	<ul class="xiang_xiang">
 		<li><span>网贷申请全步骤</span></li>
@@ -79,12 +100,38 @@ function openNew(url){
 </form>-->
 
 
+<div id="layer_notice">
+	{if $config['buy_init_vip_price']}
+	<div class="item active" onclick="purchase(1)">
+		<div class="part-left">
+			<div class="title"><h2>{$config['buy_init_vip_days']}天</h2></div> 
+		</div>
+		<div class="price-area"><span class="price">￥<i>{$config['buy_init_vip_price']}</i></span></div>
+	</div>
+	{/if}
+	{if $config['buy_mid_vip_price']}
+	<div class="item active" onclick="purchase(2)">
+		<div class="part-left">
+			<div class="title"><h2>{$config['buy_mid_vip_days']}天</h2></div> 
+		</div>
+		<div class="price-area"><span class="price">￥<i>{$config['buy_mid_vip_price']}</i></span></div>
+	</div>
+	{/if}
+</div>
 <script src="../addons/xuan_mixloan/template/style/new_buy_vip/js/t-charging.min.js"></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script>
 
 function toPurchase(){
-	openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}");
+	 layer.open({
+        type: 1,
+        shade: false,
+        title: false,
+        content: $('#layer_notice')
+    });
+}
+function purchase(type){
+	openNew("{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}&type="+type);
 }
 $(function(){
 	var mySwiper = new Swiper('.swiper-container', {

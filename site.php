@@ -47,27 +47,28 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		global $_W, $_GPC;
 		$uniacid=$_W['uniacid'];
 		$fee = $params['fee'];
-		$openid = m('user')->getOpenid();
-		$member = m('member')->getMember($openid);
 		$config = $this -> module['config'];
 		if ($params['result'] == 'success') {
             if ($params['from']=='notify') {
-                $user_id = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
+                $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                if (intval($user_id) == $user_id) {
-                    $openid = pdo_fetchcolumn('select openid from '.tablename('xuan_mixloan_member').'
-                    where id=:id', array(':id'=>$user_id));
-                } else {
-                    $openid = $user_id;
-                }
+                $member = m('member')->getMember($openid);
+            } else {
+                $openid = m('user')->getOpenid();
                 $member = m('member')->getMember($openid);
             }
-            if (empty($openid)) {
+            if (empty($member['id'])) {
                 message('请不要重复提交', $this->createMobileUrl('user'), 'error');
             }
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
+				$level = $_SESSION['level'];
+				if ($level == 1) {
+					$effecttime = time() + $config['buy_init_vip_days'] * 86400;
+				} else {
+					$effecttime = time() + $config['buy_mid_vip_days'] * 86400;
+				}
 				$agent = m('member')->checkAgent($member['id']);
 				if ($agent['code'] == 1) {
 					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
@@ -78,6 +79,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						"createtime"=>time(),
 						"tid"=>$params['tid'],
 						"fee"=>$fee,
+						"effecttime"=>$effecttime,
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
 				//模板消息提醒

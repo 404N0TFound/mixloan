@@ -52,8 +52,8 @@ class Xuan_mixloanModule extends WeModule {
                     'wx_qrcode'=>$_GPC['wx_qrcode'],
                     'buy_init_vip_days'=>$_GPC['buy_init_vip_days'],
                     'buy_mid_vip_days'=>$_GPC['buy_mid_vip_days'],
-                    'buy_init_vip_fee'=>$_GPC['buy_init_vip_fee'],
-                    'buy_mid_vip_fee'=>$_GPC['buy_mid_vip_fee'],
+                    'buy_init_vip_price'=>$_GPC['buy_init_vip_price'],
+                    'buy_mid_vip_price'=>$_GPC['buy_mid_vip_price'],
             	);
 
             if ($this->saveSettings($cfg)) {
