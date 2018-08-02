@@ -325,7 +325,69 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
+} else if ($operation == 'choose_show_up') {
+    //代理产品上下架分类
+    include $this->template('product/choose_show_up');
+} else if ($operation == 'show_up') {
+    //代理产品上下架
+    $type = intval($_GPC['type']) ? : 1;
+    $list = m('product')->getList(['id', 'name', 'ext_info'],['is_show' => 1, 'type' => $type]);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+    }
+    else
+    {
+        $remove_ids = array();
+    }
+    include $this->template('product/show_up');
+} else if ($operation == 'set_show_up') {
+    //设置代理产品上下架
+    $id = intval($_GPC['id']);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids))
+        {
+            //上架
+            foreach ($remove_ids as $val)
+            {
+                if ($val != $id)
+                {
+                    $new_ids[] = $val;
+                }
+            }
+            if (empty($new_ids))
+            {
+                pdo_delete('xuan_mixloan_product_remove', array('id' => $remove['id']));
+            }
+            else
+            {
+                $new_ids = implode(',', $new_ids);
+                pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            }
+            show_json(1);
+        }
+        else
+        {
+            //下架
+            $remove_ids[] = $id;
+            $new_ids = implode(',', $remove_ids);
+            pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            show_json(-1);
+        }
+    }
+    else
+    {
+        //下架
+        $remove_ids[] = $id;
+        $new_ids = implode(',', $remove_ids);
+        $insert = array('uniacid' => $_W['uniacid'], 'uid' => $member['id'], 'remove_ids' => $new_ids);
+        pdo_insert('xuan_mixloan_product_remove', $insert);
+        show_json(-1);
+    }
 }
-
-
-?>
