@@ -76,7 +76,7 @@ if($operation=='index'){
             $speed_loan_thr = [];
         }
     }
-    $large_loans = m('product')->getSpecialLoan(7);
+    $large_loans = m('product')->getSpecialLoan();
     foreach ($large_loans as $key => $loan) {
         $large_loan_thr[] = $loan;
         if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {

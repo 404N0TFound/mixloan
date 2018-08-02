@@ -199,9 +199,13 @@ class Xuan_mixloan_Product
     /**
     *   获取特殊贷款
     **/
-    public function getSpecialLoan($type) {
+    public function getSpecialLoan($type = '') {
         global $_W;
-        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 AND a.is_show=1 ORDER BY b.id";
+        $wheres = '';
+        if ($type) {
+            $wheres .= " AND find_in_set('{$type}',b.type)";
+        }
+        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND a.type=2 AND a.is_show=1 {$wheres} ORDER BY b.id";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
