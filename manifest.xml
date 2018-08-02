@@ -34,12 +34,55 @@
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
       <entry title="信用查询" do="credit" state="" direct="false" />
 		  <entry title="海报管理" do="poster" state="" direct="false" />
+      <entry title="帮助中心" do="help" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_help`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_help` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `title` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `category_id` tinyint(4) NOT NULL COMMENT '分类id',
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `category_id` (`category_id`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_help_category`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_help_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1帮助',
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `tid` varchar(100) NOT NULL,
+  `fee` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_msg`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg` (

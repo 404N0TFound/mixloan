@@ -1,0 +1,64 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection" />
+    <title>常见问题</title>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/help/js/jquery_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/help/js/lmy_1.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/help/css/lmy_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/help/css/cust_list_1.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/help/js/layer_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/help/js/conmmon_1.js"></script>
+    <style type="text/css">
+        div.que_header{padding-top: 2%;}
+        div.ques_tail .ques_section dt span{width: 0.8rem;height: 0.8rem;margin-top: 0.2rem;line-height: 0.9rem}
+        div.que_list dl dd{width: 25%}
+        .header_back{width: 9%;float: left}
+        .header_back img{width: 20px;height: 20px;    margin-top: 15px;margin-left: 10px;}
+    </style>
+    <script src="../../style/help/js/help_index.js"></script>
+</head>
+<body style="background:#f3f3f3 " >
+<div class="que_header">
+    <div class="header_back"><img src="../addons/xuan_mixloan/template/style/help/picture/back_grey.png" onclick="mui.back()"></div>
+    <div class="que_head" style="width: 90%;float: left">
+        <ul class="clearfix">
+            <!-- 	<li class="one"><a href="javascript:history.back(-1)"><img src="../addons/xuan_mixloan/template/style/help/picture/qu_left_1.png"></a></li> -->
+            <li class="two">
+                <div class="que_int clearfix">
+                    <p id="sos"><img src="../addons/xuan_mixloan/template/style/help/picture/sos_1.png"></p>
+                    <p><input type="text" name="" value=""  placeholder="请输入关键字搜索" id="keyword"></p>
+                    <p class="dn" id="closer"><span><img src="../addons/xuan_mixloan/template/style/help/picture/qu_shan_1.png"></span></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="que_list">
+        <dl class="clearfix" id="product_dl">
+
+        </dl>
+    </div>
+</div>
+<div class="ques_tail dn" >
+    <p class="ques_head"><label></label><span id="ques_text"></span></p>
+    <div id="ques_tail"></div>
+</div>
+<!--盗版一时爽，全家火葬场-->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    var user_help_category_url = "{php echo $this->createMobileUrl('help', array('op' => 'category'))}";
+    var user_help_url = "{php echo $this->createMobileUrl('help', array('op' => 'questions'))}";
+
+
+</script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/help/js/help_index.js"></script>
+
+</body>
+</html>
