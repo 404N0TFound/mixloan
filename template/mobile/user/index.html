@@ -176,6 +176,15 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    {if $partner['code'] == 1}
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('partner', array('op' => 'login_type'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/images/partner_backstage.png" />
+                            合伙人后台
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />

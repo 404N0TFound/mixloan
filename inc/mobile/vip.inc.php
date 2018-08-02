@@ -690,36 +690,7 @@ if($operation=='buy'){
 } else if ($operation == 'openHref') {
     //打开链接
     include $this->template('vip/openNew');
-} else if ($operation == 'partner_center') {
-    //分佣明细
-    $uid = intval($_GPC['uid']);
-    if (empty($uid)) {
-        message('出错啦', '', 'error');
-    }
-    $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
-        where inviter=:inviter and status>0 order by id desc', array(':inviter'=>$uid));
-    $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
-            where id=:id', array(':id'=>$uid));
-    foreach ($list as &$row) {
-        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
-        if ($row['pid'] == -1) {
-            $row['bonus_name'] = '信用查询奖励';
-        } else if ($row['pid'] == 0) {
-            $row['bonus_name'] = '购买会员奖励';
-        } else {
-            $row['bonus_name'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_product') . '
-                where id=:id', array(':id' => $row['pid']));
-        }
-        if ($row['phone']) {
-            $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
-        } else {
-            $row['phone'] = '无';
-        }
-        $row['bonus'] = $row['extra_bonus'] + $row['re_bonus'] + $row['done_bonus'] ? : 0;
-    }
-    unset($row);
-    include $this->template('vip/partner_center');
-} else if ($operation == 'partner_join_type') {
+}  else if ($operation == 'partner_join_type') {
     //选择合伙人加入方式
     $partner = m('member')->checkPartner($member['id']);
     if ($partner['code']) {

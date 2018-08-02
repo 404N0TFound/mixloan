@@ -135,9 +135,26 @@ if($operation=='login') {
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql, $cond);
     foreach ($list as &$row) {
-        $pro = m('product')->getList(['id', 'name', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
-        $row['product_name'] = $pro['name'];
-        $row['product_logo'] = tomedia($pro['ext_info']['logo']);
+        if ($row['type'] == 1) {
+            $pro = m('product')->getList(['id', 'name', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
+            $row['product_name'] = $pro['name'];
+            $row['product_logo'] = tomedia($pro['ext_info']['logo']);
+        } else if ($row['type'] == 2) {
+            $row['realname'] = pdo_fetchcolumn('select nickanem from ' . tablename('xuan_mixloan_member') . '
+                where id=:id', array(':id' => $row['uid']));
+            $row['product_name'] = '邀请代理奖励';
+            $row['product_logo'] = '../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png';
+        } else if ($row['type'] == 3) {
+            $row['realname'] = pdo_fetchcolumn('select nickanem from ' . tablename('xuan_mixloan_member') . '
+                where id=:id', array(':id' => $row['uid']));
+            $row['product_name'] = '合伙人分佣';
+            $row['product_logo'] = '../addons/xuan_mixloan/template/style/images/partner.png';
+        } else if ($row['type'] == 4) {
+            $row['realname'] = pdo_fetchcolumn('select nickanem from ' . tablename('xuan_mixloan_member') . '
+                where id=:id', array(':id' => $row['uid']));
+            $row['product_name'] = '信用查询分佣';
+            $row['product_logo'] = '../addons/xuan_mixloan/template/style/images/partner.png';
+        }
         $row['bonus'] = $row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'];
     }
     unset($row);
@@ -145,4 +162,25 @@ if($operation=='login') {
 			inviter=:inviter ' . $where, $cond);
     $pager = pagination($total, $pindex, $psize);
     include $this->template('partner/apply_data');
+} else if ($operation == 'login_type') {
+    // 登陆方式
+    $login_url = $_W['siteroot'] . '/app/' . 
+                $this->createMobileUrl('partner', array('op' => 'login'));
+    include $this->template('partner/login_type');
+} else if ($operation == 'login_user') {
+    // 用户直接跳转
+    $openid = m('user')->getOpenid();
+    $member = m('member')->getMember($openid);
+    if (empty($member['id'])) {
+        message('用户不存在', '', 'error');
+    }
+    if ($member['status'] == 0) {
+        message('您已被冻结', '', 'error');
+    }
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code'] != 1) {
+        message('您不是合伙人身份', '', 'error');
+    }
+    $_SESSION['user_id'] = $member['id'];
+    header("location:{$this->createMobileUrl('partner', array('op' => 'default'))}");
 }
