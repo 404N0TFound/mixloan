@@ -27,6 +27,8 @@
     .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
     .app_header_back img{float:left;width: 12px;}
     .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    .footer{margin-top: 3rem;width: 100%;text-align: center}
+    .footer a {display: inline-block;padding: 0.4rem 1.7rem;border-radius: 0.3rem;border:1px solid #598af7;color:#598af7;font-size: 0.65rem}
 </style>
 <div class="app_header">
     <div class="app_header_back">
@@ -38,8 +40,15 @@
 <div>
     <img src="{$poster_path}" width="100%" height="100%" id="source_img">
 </div>
-{if !is_weixin()}
+<div class="footer">
+    <a style="margin-right: 1rem" onclick="downloadimg()">保存图片</a>
+    <a style="margin-left: 1rem" id="copy_short">复制链接</a>
+    <textarea style=" position: absolute; top: 0; left: -100%;width: 50%;" readonly>{$shortUrl}</textarea>
+</div>
+<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
 <script type="text/javascript">
+{if !is_weixin()}
     mui.plusReady(function(){
         document.getElementById('source_img').addEventListener("click", function(){
             var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
@@ -64,7 +73,99 @@
             })
         })
     })
-</script>
 {/if}
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
+
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
+
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
+        }
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+        // copy the selection
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            console.log(target.textContent);
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
+    }
+    //点击复制事件
+    $("#copy_short").on("click",function(){
+        var elm = document.getElementsByTagName("textarea")[0];
+        copyToClipboard(elm);
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("已复制");
+            $("div.layui-layer-msg").css({"width":'30%',"left":"35%"});
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+            $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
+        }
+    })
+</script>
+<script type="text/javascript">
+    var downloadimg = function(){
+        {if !is_weixin()}
+        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+        var imgSrc = $('#source_img').attr('src');
+        plus.nativeUI.actionSheet(actionList,function(e){
+            if (e.index == 1) {
+                plus.nativeUI.showWaiting("保存中");
+                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                    if (status == 200) {
+                        plus.nativeUI.closeWaiting();
+                        plus.gallery.save(d.filename,function(){
+                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                entry.remove();
+                            })
+                            return plus.nativeUI.alert('图片已保存');
+                        })
+                    } else {
+                        return plus.nativeUI.alert('保存失败' + status);
+                    }
+                });
+                imgDtask.start();
+            }
+        })
+        {else}
+        layer.msg('长按图片以保存图片');
+        {/if}
+    }
+</script>
 </body>
 </html>
