@@ -255,7 +255,7 @@ if($operation=='index'){
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
     foreach ($days_list as &$row) {
         $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
-        $row['count_num'] = 0;
+        // $row['count_num'] = 0;
     }
     unset($row);
     foreach ($weeks_list as &$row) {
