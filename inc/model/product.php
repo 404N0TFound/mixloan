@@ -331,51 +331,30 @@ class Xuan_mixloan_Product
     public function getInviteList($params=[]) {
         global $_W;
         $inviter = (int)$params['inviter'];
-        $begin = strtotime($params['begin']);
-        $end = strtotime($params['begin']." +1 month -1 day");
         $fields = "b.nickname,b.id as uid,a.openid,a.createtime,c.id,d.re_bonus";
-        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
         //取消时间限制
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid and d.degree=1 WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} GROUP BY a.openid ORDER BY a.id DESC";
-        $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
-        foreach ($list as $value) {
-            if ($value['uid']) {
-                $uids[] = $value['uid'];
+        $sql = "select a.openid,a.createtime,b.id as uid from " . tablename('qrcode_stat') . ' a
+            left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+            where a.qrcid = ' . $inviter . ' and a.type = 1
+            group by a.openid
+            order by a.id desc';
+        $list = pdo_fetchall($sql);
+        foreach ($list as &$row) {
+            if ($row['uid']) {
+                $row['pay'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . '
+                    where uid=:uid', array(':uid' => $row['uid'])) ? 1 : 0;
+                $row['re_bonus'] = pdo_fetchcolumn('select re_bonus from ' . tablename('xuan_mixloan_product_apply') . "
+                    where uid={$row['uid']} and inviter={$inviter} and pid=0 and degree=1") ? : 0;
+            } else {
+                $uid = mc_openid2uid($row['openid']);
+                $fans = mc_fetch($uid,array('nickname'));
+                $row['nickname'] = $fans['nickname'];
+                $row['pay'] = 0;
+                $row['re_bonus'] = 0;
             }
+            $row['createtime'] = date('Y-m-d', $row['createtime']);
         }
-        $con = "";
-        if (!empty($uids)) {
-            $uids_string = '(' . implode(',', $uids) . ')';
-            $con .= " AND a.uid NOT IN {$uids_string} AND a.uniacid={$_W['uniacid']}";
-        }
-        // $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.createtime>={$begin} AND a.createtime<{$end} AND a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
-        $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
-        if ($list && $new){
-            $list = array_merge($list, $new);
-        } else if ($new) {
-            $list = $new;
-        }
-        if (!$list) {
-            $list = [];
-        } else {
-            foreach ($list as &$row) {
-                if (!$row['nickname']) {
-                    $uid = mc_openid2uid($row['openid']);
-                    $fans = mc_fetch($uid,array('nickname'));
-                    $row['nickname'] = $fans['nickname'];
-                }
-                if ($row['id']) {
-                    $row['pay'] = 1;
-                } else {
-                    $row['pay'] = 0;
-                }
-                if (!$row['re_bonus']) {
-                    $row['re_bonus'] = 0;
-                }
-                $row['createtime'] = date('Y-m-d', $row['createtime']);
-            }
-            unset($row);
-        }
+        unset($row);
         return $list;
     }
 
