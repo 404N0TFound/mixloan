@@ -12,8 +12,14 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
-    if (!empty($_GPC['name'])) {
-        $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
+    if (!empty($_GPC['uid'])) {
+        $wheres.= " AND b.id = '{$_GPC['uid']}'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone='{$_GPC['phone']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
     }
     if ($_GPC['bonus']) {
         $sql = 'select 
