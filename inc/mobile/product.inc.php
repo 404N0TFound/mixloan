@@ -57,6 +57,8 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
+    $shop = pdo_fetch('select * from ' . tablename('xuan_mixloan_shop') . ' 
+        where uid=:uid', array(':uid' => $member['id']));
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
     if ($remove['remove_ids']) {
@@ -266,12 +268,20 @@ if($operation=='index'){
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);
+    $days_succ_list = m('product')->getNums($days_ids, $params, 2);
     $weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
     $months_succ_list = m('product')->getNums($months_ids, $params, 2);
+    $days_bonus_list = m('product')->getNums($days_ids, $params, 3);
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
     foreach ($days_list as &$row) {
         $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $days_succ_list[$row['id']]['count'] ? $days_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $days_succ_list[$row['id']]['relate_money'] ? $days_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $days_bonus_list[$row['id']]['bonus'] ? : 0;
     }
     unset($row);
     foreach ($weeks_list as &$row) {
@@ -348,6 +358,8 @@ if($operation=='index'){
     include $this->template('product/customer_detail');
 } else if ($operation == 'choose_show_up') {
     //代理产品上下架分类
+    $shop = pdo_fetch('select * from ' . tablename('xuan_mixloan_shop') . ' 
+        where uid=:uid', array(':uid' => $member['id']));
     include $this->template('product/choose_show_up');
 } else if ($operation == 'show_up') {
     //代理产品上下架
@@ -411,4 +423,22 @@ if($operation=='index'){
         pdo_insert('xuan_mixloan_product_remove', $insert);
         show_json(-1);
     }
+} else if ($operation == 'shop_background') {
+    // 店铺背景
+    $pic_url = trim($_GPC['pic_url']);
+    if (empty($pic_url)) {
+        show_json(-1, [], '背景为空');
+    }
+    $shop_id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_shop') . ' 
+        where uid=:uid', array(':uid' => $member['id']));
+    if ($shop_id) {
+        $update = array('background' => $pic_url);
+        pdo_update('xuan_mixloan_shop', $update, array('id' => $shop_id));
+    } else {
+        $insert = array();
+        $insert['background'] = $pic_url;
+        $insert['uid']        = $member['id'];
+        pdo_insert('xuan_mixloan_shop', $insert);
+    }
+    show_json(1, [], 'OK');
 }

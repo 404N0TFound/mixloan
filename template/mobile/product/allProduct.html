@@ -69,22 +69,10 @@
     </div>
     <!-- fix -->
     <div class="fix"></div>
-    <!-- fix -->
-
-    <!-- 轮播 end-->
     <div class="loanindex_shortcut">
-        {loop $credits_blow $cred}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cred['id'], 'inviter'=>$inviter))}')">
-            <ul class="clearfix">
-                <li class="clearfix">
-                    <div class="f1"><img src="{$cred['ext_info']['logo']}" /></div>
-                    <div class="f2"><h2>{$cred['name']}</h2><p>{$cred['intro']}</p></div>
-                    <div class="f3"><p>批卡速度:<span>{$cred['speed']}</span></p><p>平均额度:<span>{$cred['limit']}</span></p></div>
-                    <div class="f4"><h3>秒批申卡</h3></div>
-                </li>
-            </ul>
-        </a>
-        {/loop}
+    {if $shop['background']}
+      <img src="{$shop['background']}" width="100%">
+    {/if}
     </div>
 
     <!-- fix -->

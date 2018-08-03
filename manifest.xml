@@ -39,14 +39,12 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
-DROP TABLE IF EXISTS `ims_xuan_mixloan_product_remove`;
-CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_remove` (
+DROP TABLE IF EXISTS `ims_xuan_mixloan_shop`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uniacid` int(11) NOT NULL,
+  `background` varchar(255) NOT NULL,
   `uid` int(11) NOT NULL,
-  `remove_ids` varchar(200) NOT NULL COMMENT '移除的id',
   PRIMARY KEY (`id`),
-  KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
