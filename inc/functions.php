@@ -177,19 +177,13 @@ function RGBToHex($rgb){
 *   缩短地址
 **/
 function shortUrl($target) {
-    return $target;
     $target_url = urlencode($target);
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
     if (!$short || $short['createtime'] < time()-86400) {
-        $url = "http://goo.gd/action/json.php?source=1681459862&url_long={$target_url}";
-        $json = file_get_contents($url);
-        $arr = json_decode($json, true);
-        if ($arr['urls'][0]['result'] == true) {
-            pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$arr['urls'][0]['url_short'], 'createtime'=>time()]);
-            return $arr['urls'][0]['url_short'];
-        } else {
-            return false;
-        }
+        $url = "http://api.uee.me/api.php?url={$target_url}";
+        $result = file_get_contents($url);
+        pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$result, 'createtime'=>time()]);
+        return $result;
     } else {
         return $short['short_url'];
     }

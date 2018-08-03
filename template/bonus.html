@@ -1,0 +1,124 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('bonus')}">奖励列表</a></li>
+    <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('bonus', array('op' => 'add'));}">添加/编辑&nbsp;奖励</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="bonus" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="name" value="{$_GPC['name']}"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>名称</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+                        
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                
+                                <li><a  href="{php echo $this->createWebUrl('bonus',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('bonus',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+                        
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'add' || $operation == 'update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;奖励</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="bonus" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" placeholder="方便辨别" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" placeholder="越小越靠前" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">佣金总额</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][bonus]" value="{$item['ext_info']['bonus']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">奖励金额</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][money]" value="{$item['ext_info']['money']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+
+{/if}
+{template 'common/footer'}
