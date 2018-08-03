@@ -39,8 +39,58 @@ if($operation=='buy'){
         );
         //调用pay方法
         $this->pay($params);
-    } else {
-        header("location:{$this->createMobileUrl('user')}");
+    }
+    else
+    {
+        $notify_url = 'http://www.hulianwang114.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
+            $tid = "10001" . date('YmdHis', time());
+            $trade_no = "ZML".date("YmdHis");
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$config['buy_mid_vip_price'],
+                'is_pay'=>0,
+                'type'=>1
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10001" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$config['buy_mid_vip_price'],
+                    'is_pay'=>0,
+                    'type'=>1
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
+        }
+        $result = m('pay')->H5pay($trade_no, $config['buy_mid_vip_price'], $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        } else {
+            message('请稍后再试', $this->createMobileUrl('user'), 'error');
+        }
+        include $this->template('vip/openHref');
     }
 	exit;
 } else if ($operation == 'notify_url') {
@@ -135,22 +185,6 @@ if($operation=='buy'){
             //二级
             $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
             $man_two = m('member')->getInviterInfo($inviter_two);
-            // if ($man_two['partner']) {
-            //     $partner_bonus = $config['inviter_fee_one']*$fee*0.01*$config['partner_bonus']*0.01;
-            //     $insert_i = array(
-            //         'uniacid' => $_W['uniacid'],
-            //         'uid' => $man_one['id'],
-            //         'phone' => $man_one['phone'],
-            //         'inviter' => $inviter_two,
-            //         'extra_bonus'=>$partner_bonus,
-            //         'status'=>2,
-            //         'relate_id'=>$one_insert_id,
-            //         'createtime'=>time(),
-            //         'degree'=>1,
-            //         'type'=>5
-            //     );
-            //     pdo_insert('xuan_mixloan_bonus', $insert_i);
-            // }
             if ($inviter_two && $config['inviter_fee_two']) {
                 $insert_i = array(
                     'uniacid' => $_W['uniacid'],
@@ -184,22 +218,6 @@ if($operation=='buy'){
                 //三级
                 $inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
                 $man_thr = m('member')->getInviterInfo($inviter_thr);
-                // if ($man_thr['partner']) {
-                //     $partner_bonus = $config['inviter_fee_two']*$fee*0.01*$config['partner_bonus']*0.01;
-                //     $insert_i = array(
-                //         'uniacid' => $_W['uniacid'],
-                //         'uid' => $man_two['id'],
-                //         'phone' => $man_two['phone'],
-                //         'inviter' => $inviter_thr,
-                //         'extra_bonus'=>$partner_bonus,
-                //         'status'=>2,
-                //         'relate_id'=>$two_insert_id,
-                //         'createtime'=>time(),
-                //         'degree'=>1,
-                //         'type'=>5
-                //     );
-                //     pdo_insert('xuan_mixloan_bonus', $insert_i);
-                // }
                 if ($inviter_thr && $config['inviter_fee_three']) {
                     $insert_i = array(
                         'uniacid' => $_W['uniacid'],
@@ -230,98 +248,10 @@ if($operation=='buy'){
                         'ext_info'=>json_encode($ext_info),
                     );
                     pdo_insert('xuan_mixloan_msg', $insert);
-                    //四级
-                    //$inviter_four = m('member')->getInviter($man_thr['phone'], $man_thr['openid']);
-                    //$man_four = m('member')->getInviterInfo($inviter_four);
-                    // if ($man_four['partner']) {
-                    //     $partner_bonus = $config['inviter_fee_three']*$fee*0.01*$config['partner_bonus']*0.01;
-                    //     $insert_i = array(
-                    //         'uniacid' => $_W['uniacid'],
-                    //         'uid' => $man_thr['id'],
-                    //         'phone' => $man_thr['phone'],
-                    //         'inviter' => $inviter_four,
-                    //         'extra_bonus'=>$partner_bonus,
-                    //         'status'=>2,
-                    //         'relate_id'=>$thr_insert_id,
-                    //         'createtime'=>time(),
-                    //         'degree'=>1,
-                    //         'type'=>5
-                    //     );
-                    //     pdo_insert('xuan_mixloan_bonus', $insert_i);
-                    // }
                 }
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
-    } else if ($type == '10002') {
-        if (empty($_SESSION['channel_id'])) {
-            message("发起支付失效，请重新支付", "", "error");
-        }
-        $cid = (int)$_SESSION['channel_id'];
-        $is_pay = m('channel')->checkPayArtical($cid, $member['id']);
-        if ($is_pay) {
-            message("您已经购买过此文章，无需再次购买", "", "error");
-        }
-        $insert = array(
-            'uid'=>$member['id'],
-            'cid'=>$cid,
-            'uniacid'=>$_W['uniacid'],
-            'createtime'=>time(),
-            'tid'=>$params['tid'],
-            'fee'=>$fee,
-        );
-        pdo_insert('xuan_mixloan_channel_pay', $insert);
-        $ext_info = pdo_fetchcolumn('select ext_info from '.tablename('xuan_mixloan_channel').' where id=:id', array(':id'=>$cid));
-        $ext_info = json_decode($ext_info, 1);
-        $inviter = m('member')->getInviter($member['phone'], $member['openid']);
-        $inviter_agent = m('member')->checkAgent($inviter);
-        if ($inviter_agent['level'] == 1) {
-            $fee_back = $ext_info['init_fee_back'] * 0.01 * $fee;
-        } else if ($inviter_agent['level'] == 2) {
-            $fee_back = $ext_info['mid_fee_back'] * 0.01 * $fee;
-        }
-        $account = WeAccount::create($_W['acid']);
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
-        $man = m('member')->getInviterInfo($inviter);
-        if ($inviter && $fee_back) {
-            $insert_i = array(
-                'uniacid' => $_W['uniacid'],
-                'uid' => $member['id'],
-                'phone' => $member['phone'],
-                'certno' => $member['certno'],
-                'realname' => $member['realname'],
-                'inviter' => $inviter,
-                'extra_bonus'=>$fee_back,
-                'done_bonus'=>0,
-                're_bonus'=>0,
-                'status'=>2,
-                'createtime'=>time(),
-                'degree'=>1,
-                'type'=>3,
-                'relate_id'=>$cid
-            );
-            pdo_insert('xuan_mixloan_bonus', $insert_i);
-            $datam = array(
-                "first" => array(
-                    "value" => "您好，您的徒弟{$member['nickname']}成功购买了口子文章，奖励您推广佣金，继续推荐口子文章，即可获得更多佣金奖励",
-                    "color" => "#173177"
-                ) ,
-                "order" => array(
-                    "value" => $params['tid'],
-                    "color" => "#173177"
-                ) ,
-                "money" => array(
-                    "value" => $fee_back,
-                    "color" => "#173177"
-                ) ,
-                "remark" => array(
-                    "value" => '点击查看详情',
-                    "color" => "#4a5077"
-                ) ,
-            );
-            $account->sendTplNotice($man['openid'], $config['tpl_notice5'], $datam, $url);
-        }
-        message("支付成功", $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$cid)), "success");
     }
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {

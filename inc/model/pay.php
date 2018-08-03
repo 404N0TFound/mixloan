@@ -2,9 +2,9 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wxe34ba0c6b9d8b7da";
-    private $mchid = "1508548871";
-    private $secrect_key = "0hicbhb5auexpvgvhi0q03zugm1marcr";
+    private $appid = "wxe71cc739c7166a17";
+    private $mchid = "1510504531";
+    private $secrect_key = "ab123456789001234567899123456789";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -13,55 +13,9 @@ class Xuan_mixloan_Pay
     private $apiclient_key = "/www/wwwroot/wx.uohengwangluo.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
     function __construct()
     {
-//        if (!file_exists($this->publickey_path)) {
-//            $this->GetPubRsa();
-//        }
-    }
-    /**
-     * 打款
-     * @param $bank_no
-     * @param $true_name
-     * @param $bank_code
-     * @param $amount 单位：分
-     * @param $desc
-     * @return array
-     */
-    function pay($bank_no, $true_name, $bank_code, $amount, $desc)
-    {
-        if (empty($bank_no)) {
-            return ["code"=>-1, "msg"=>"银行卡号不能为空"];
-        }
-        if (empty($true_name)) {
-            return ["code"=>-1, "msg"=>"姓名不能为空"];
-        }
-        if (empty($bank_code)) {
-            return ["code"=>-1, "msg"=>"银行代码不能为空"];
-        }
-        if (empty($desc)) {
-            return ["code"=>-1, "msg"=>"说明不能为空"];
-        }
-        $trade_no = "ZML".date("YmdHis");
-        $params["mch_id"] = $this->mchid;
-        $params["partner_trade_no"] = $trade_no;
-        $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params["enc_bank_no"] = $this->rsa_encrypt($bank_no);
-        $params["enc_true_name"] = $this->rsa_encrypt($true_name);
-        $params["bank_code"] = $bank_code;
-        $params["amount"] = intval($amount*100);
-        $params["desc"] = $desc;
-        $string = $this->GetHttpQueryString($params);
-        $sign = $this->GetSign($string);
-        $params["sign"] = $sign;
-        $result = $this->curl($this->pay_url, $params, true);
-        if ($result['return_code'] == "SUCCESS") {
-            $data = array(
-                "partner_trade_no"=>$result["partner_trade_no"],
-                "payment_no"=>$result["payment_no"],
-            );
-            return ["code"=>1, "msg"=>$result["err_code_des"], "data"=>$data];
-        } else {
-            return ["code"=>-1, "msg"=>$result["err_code_des"]];
-        }
+        // if (!file_exists($this->publickey_path)) {
+        //     $this->GetPubRsa();
+        // }
     }
     /**
      * H5支付
@@ -81,12 +35,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '融合时代官方充值';
+        $params['body'] = '斑马官方充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://weixin.cccc2222.cn","wap_name": "融合时代官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://crmj168.com","wap_name": "斑马官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
