@@ -35,10 +35,10 @@ if($operation=='login') {
     if ($record['status'] == 0) {
         message('您已被冻结', '', 'error');
     }
-    $partner = m('member')->checkPartner($record['id']);
-    if ($partner['code'] != 1) {
-        message('您不是合伙人身份', '', 'error');
-    }
+    // $partner = m('member')->checkPartner($record['id']);
+    // if ($partner['code'] != 1) {
+    //     message('您不是合伙人身份', '', 'error');
+    // }
     $_SESSION['user_id'] = $record['id'];
     header("location:{$this->createMobileUrl('partner', array('op' => 'default'))}");
 } else if ($operation == 'find_pass_submit') {
@@ -177,10 +177,10 @@ if($operation=='login') {
     if ($member['status'] == 0) {
         message('您已被冻结', '', 'error');
     }
-    $partner = m('member')->checkPartner($member['id']);
-    if ($partner['code'] != 1) {
-        message('您不是合伙人身份', '', 'error');
-    }
+    // $partner = m('member')->checkPartner($member['id']);
+    // if ($partner['code'] != 1) {
+    //     message('您不是合伙人身份', '', 'error');
+    // }
     $_SESSION['user_id'] = $member['id'];
     header("location:{$this->createMobileUrl('partner', array('op' => 'default'))}");
 }
