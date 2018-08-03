@@ -17,7 +17,9 @@ class Xuan_mixloan_Product
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
                 } else if ($k == 'n_id') {
-                    $wheres .= " AND `id` NOT IN ({$v})";
+                    if (!empty($v)) {
+                        $wheres .= " AND `id` NOT IN ({$v})";
+                    }
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
