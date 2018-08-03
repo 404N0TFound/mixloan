@@ -1,0 +1,59 @@
+﻿/*
+* @Author: Administrator
+* @Date:   2016-11-07 21:37:13
+* @Last Modified by:   win
+* @Last Modified time: 2017-09-13 14:53:34
+*/
+.content .list{
+    overflow: hidden;
+    padding: 11px 15px;
+    -webkit-touch-callout: none;
+    width: 100%;
+    background: #FFF8F4;
+    border-bottom: 1px solid #ECDAC8;
+}
+.content .list h2{
+	line-height: 26px;
+    color: #e40012;
+    font-size: 15px;
+    font-weight: normal;
+    display: block;
+}
+.content .list{
+	overflow: hidden;
+	display: block;
+}
+.content .list img{
+	max-width: 60px;
+	height: 60px;
+	float: left;
+	display: block;
+	margin-right: 10px;
+}
+.content .list .txt-detail{
+    line-height: 20px;
+    color: #6a6a6a;
+    font-size: 13px;
+}
+.content .list .txt-detail label,.content .list .txt-detail span{
+	font-size: 13px;
+}
+.content .list .tager-lis{
+	display: flex;
+	overflow: hidden;
+}
+.content .list .tager-lis .info-x1{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    color: #6a6a6a;
+   	line-height: 22px;
+}
+.content .list .tager-lis label,.content .list .tager-lis span{
+	font-size: 13px;
+	line-height: 22px;
+}
+
+
+
+

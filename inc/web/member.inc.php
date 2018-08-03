@@ -49,6 +49,15 @@ if ($operation == 'list') {
     // 解冻
     pdo_update('xuan_mixloan_member', array('status' => 1), array('id' => $_GPC['id']));
     message("解冻成功", referer(), 'sccuess');
+} else if ($operation == 'true_delete') {
+    // 永久删除
+     $member = m('member')->getMember($_GPC['id']);
+     pdo_update('xuan_mixloan_member', array("status" => -1, 'openid'=>'', 'uid'=>0, 'phone'=>'', 'certno'=>''), array('id'=>$_GPC['id']));
+     pdo_delete('xuan_mixloan_inviter', array("phone" => $member["phone"]));
+     pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
+     pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
+     pdo_delete('qrcode_stat', array("openid" => $member['openid']));
+     pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);

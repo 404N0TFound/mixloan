@@ -85,7 +85,9 @@
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['id']));}" title='解除解冻' ><i class='fa fa-check'></i> 解除解冻</a></li>
-                                {/if}                            </ul>
+                                {/if}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'true_delete','id' => $row['id']));}" title='删除会员' onclick="return confirm('确定要删除会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li>
+                            </ul>
                         </div>
                         
                     </td>
