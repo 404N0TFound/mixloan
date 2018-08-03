@@ -181,7 +181,9 @@ function shortUrl($target) {
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
     if (!$short || $short['createtime'] < time()-86400) {
         $url = "http://api.uee.me/api.php?url={$target_url}";
-        $result = file_get_contents($url);
+        $result = trim(file_get_contents($url));
+        $result = explode('://', $result);
+        $result = 'http://' . $result[1];
         pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$result, 'createtime'=>time()]);
         return $result;
     } else {

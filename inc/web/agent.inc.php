@@ -68,16 +68,15 @@ if ($operation == 'list') {
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
-    echo $sql;die;
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if ($row['type'] == 1) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
-        } else if ($row['type'] == 2) {
+        } else if ($row['type'] == 4) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '昨日佣金奖励';
         }
@@ -384,21 +383,21 @@ if ($operation == 'list') {
     if ($_GPC['post'] == 1) {
         if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
             //支付宝收款接口
-            // $cookie = 'withdraw' . $id;
-            // if (!$_COOKIE[$cookie])
-            // {
-            //     $payment_no = date('YmdHis');
-            //     $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
-            //     if ($result['code'] == -1) {
-            //         message($result['msg'], '', 'error');
-            //     } else {
-            //         $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
-            //     }
-            // }
-            // else
-            // {
-            //     setcookie($cookie, 1, time()+60);
-            // }
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
+            }
+            else
+            {
+                setcookie($cookie, 1, time()+60);
+            }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));

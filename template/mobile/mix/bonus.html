@@ -87,9 +87,7 @@
                 <dl class="clearfix">
                     <dd style="width: 33.33%"><b>佣金{$value['ext_info']['bonus']}</b></dd>
                     <dd style="color:red">￥{$value['ext_info']['money']}</dd>
-                    <dd>
-                        <a class="get_bonus {if $value['if_get']==1}active{/if}" {if $value['if_get']==1}onclick="get_bonus({$value['id']})"{/if}>{if $value['if_get']== 2}已{/if}领取</a>
-                    </dd>
+                    <dd><a class="get_bonus {if $value['if_get']==1}active{/if}" {if $value['if_get']==1}onclick="get_bonus('{$value['id']}')"{/if}>{if $value['if_get']==2}已{/if}领取</a></dd>
                 </dl>
                 {/loop}
                 {else}
@@ -129,8 +127,8 @@
             function(data) {
                 layer.close(loadimg);
                 if(data.code==1){
-                    layer.msg(data.msg， {time:300}, function(){
-                    history.go(0);
+                    layer.msg(data.msg, {time:300}, function(){
+                        history.go(0);
                     });
                 }else{
                     layer.msg(data.msg);
