@@ -15,7 +15,7 @@ $stringSignTemp = $buff . 'key=ab123456789001234567899123456789';//key为证书�
 $sign = strtoupper(md5($stringSignTemp));
 //判断算出的签名和通知信息的签名是否一致
 $json = json_encode($data);
-$con = mysqli_connect("127.0.0.1","we701","inRKRLDSLM4AsKit","we701");
+$con = mysqli_connect("127.0.0.1","we701","inRKRLDSLM4AsKit","we7");
 if($sign == $data['sign']){
     if ($data['result_code'] == 'SUCCESS') {
         $sql = "INSERT INTO ims_xuan_mixloan_log (ext_info) VALUES ('{$json}')";
