@@ -60,7 +60,7 @@ if($operation=='index'){
     //全部产品
     $inviter = intval($_GPC['inviter']);
     $shop = pdo_fetch('select * from ' . tablename('xuan_mixloan_shop') . ' 
-        where uid=:uid', array(':uid' => $member['id']));
+        where uid=:uid', array(':uid' => $inviter));
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
     if ($remove['remove_ids']) {
