@@ -44,6 +44,22 @@
             div#recommend{padding-bottom:20px;}
 
         }
+        .download{
+            position: absolute;
+            left: 0rem;
+            top: 0.1rem;
+            display: inline-block;
+            font-size: 0.5rem;
+            height: 1rem;
+            line-height: 1rem;
+            padding: 0 0.2rem;
+            box-sizing: border-box;
+            border: 1px solid #0096ff;
+            border-radius: 0.2rem;
+            color: #0096ff;
+            -webkit-tap-highlight-color: rgba(255,255,255,0);
+            text-decoration: none;
+        }
     </style>
     {php echo register_jssdk();}
     <script>
@@ -51,7 +67,7 @@
         var title = "{$member['nickname']}邀请你加入{$config['title']}";
         var imgUrl = "{$member['avatar']}";
         var desc = "{$config['desc']}";
-        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']))}"
+        var link = "{php echo $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
         wx.ready(function(){
             wx.onMenuShareTimeline({
                 title: title, // 分享标题
@@ -207,6 +223,7 @@
                 $('#posterT').text('');
                 var str="";
                 str+='<p id="recommend_text">长按海报分享给好友'
+                    +'<span class="download" onclick="download_pic()" href="javascript:void(0);" >保存图片</span>'
                     +'<a class="copy copy-btn" href="javascript:void(0);" >复制文本</a>'
                     +'<input id="clip_num"  readonly="" >'
                     +'</p>';
@@ -235,17 +252,18 @@
                     var imgSrc = this.src;
                     plus.nativeUI.actionSheet(actionList,function(e){
                         if (e.index == 1) {
+                            plus.nativeUI.showWaiting("保存中");
                             var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
-                                console.log(status);
+                                plus.nativeUI.closeWaiting();
                                 if (status == 200) {
                                     plus.gallery.save(d.filename,function(){
                                         plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
                                             entry.remove();
                                         })
-                                        return alert('图片已保存');
+                                        return plus.nativeUI.alert('图片已保存');
                                     })
                                 } else {
-                                    return alert('保存失败' + status);
+                                    return plus.nativeUI.alert('保存失败' + status);
                                 }
                             });
                             imgDtask.start();
@@ -256,7 +274,33 @@
             {/if}
             }, "JSON");
     })
-
+    var download_pic = function(){
+        if (typeof(plus) == 'undefined') {
+            layer.msg('请长按海报进行保存');
+            return false;
+        }
+        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
+        var imgSrc = $('.swiper-slide-active .initialImg img').attr('src');
+        plus.nativeUI.actionSheet(actionList,function(e){
+            if (e.index == 1) {
+                plus.nativeUI.showWaiting("保存中");
+                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
+                    plus.nativeUI.closeWaiting();
+                    if (status == 200) {
+                        plus.gallery.save(d.filename,function(){
+                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
+                                entry.remove();
+                            })
+                            return plus.nativeUI.alert('图片已保存');
+                        })
+                    } else {
+                        return plus.nativeUI.alert('保存失败' + status);
+                    }
+                });
+                imgDtask.start();
+            }
+        })
+    }
 
 </script>
 <script>
