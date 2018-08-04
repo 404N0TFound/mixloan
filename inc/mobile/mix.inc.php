@@ -33,11 +33,11 @@ if($operation=='service'){
     $end_time  = date('Y-m-d');
     $endtime   = strtotime($end_time);
     $starttime = strtotime("{$end_time} -1 days");
-    $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter and type=4 and createtime>=' . $endtime, array(':inviter' => $member['id']));
     $count_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
+        where inviter=:inviter and type<>4 and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
     foreach ($list as &$row) {
+        $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
+            where inviter=:inviter and type=4 and pid=' . $row['id'] . ' and createtime>=' . $endtime, array(':inviter' => $member['id']));
         $row['ext_info'] = json_decode($row['ext_info'], 1);
         if (!$record) {
             $row['if_get'] = $count_bonus >= $row['ext_info']['bonus'] ? 1 :0; 
@@ -64,12 +64,12 @@ if($operation=='service'){
     $endtime   = strtotime($end_time);
     $starttime = strtotime("{$end_time} -1 days");
     $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter and type=4 and createtime>=' . $endtime, array(':inviter' => $member['id']));
+        where inviter=:inviter and type=4 and pid=' . $id . ' and createtime>=' . $endtime, array(':inviter' => $member['id']));
     if ($record) {
         show_json(-1, [], '您已领取过今日奖励');
     }
     $count_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
+        where inviter=:inviter and type<>4 and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
     if ($count_bonus < $row['ext_info']['bonus']) {
         show_json(-1, [], '条件没有达到无法领取哦');
     }
@@ -85,4 +85,9 @@ if($operation=='service'){
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     show_json(1, [], '领取成功');
+} else if ($operation == 'bonus_record') {
+    // 领取记录
+    $list = pdo_fetchall('select extra_bonus,createtime from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter and type=4 order by id desc', array(':inviter' => $member['id']));
+    include $this->template('mix/bonus_record');
 }

@@ -29,6 +29,10 @@
     .get_bonus{border-radius: 0.2rem;padding: 0.2rem 0.8rem;display: inline-block;background: grey;color:white;margin-top: 0.8rem;font-size: 0.65rem}
     div.prize_footer .ranking_list{max-height: none}
     .active{background: #2498fb}
+    .tips a{
+        display: inline-block;
+        font-size: 0.6rem;
+    }
 </style>
 <body>
 <!-- end -->
@@ -36,6 +40,10 @@
 <script type="text/javascript">
     function openNew(url){
         mui.openWindow({url:url});
+    }
+    function return_record(){
+        var _url = "{php echo $this->createMobileUrl('mix', array('op' => 'bonus_record'))}"
+        mui.openWindow({url:_url, createNew:true});
     }
 </script>
 {if !is_weixin()}
@@ -80,7 +88,10 @@
     <div class="prize_footer">
         <div class="prize_phb">
             <img src="../addons/xuan_mixloan/template/style/picture/phb_meitu_1.png" />
-            <div class="tips">昨日佣金总额：{$count_bonus}</div>
+            <div class="tips">
+                <a style="float: left;margin-left: 1rem">昨日佣金总额：{$count_bonus}</a>
+                <a onclick="return_record()" style="float: right;margin-right: 1rem;background: #eb4547;padding: 0.2rem;color:white;border-radius: 0.3rem">领取记录</a>
+            </div>
             <div class="ranking_list">
                 {if $list}
                 {loop $list $key $value}
