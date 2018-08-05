@@ -282,7 +282,7 @@
     function dayDetail(index){
         var id=$(index).attr("data-id");
         var url="{php echo $this->createMobileUrl('product',['op'=>'customer_detail','inviter'=>$member['id']])}&pid="+id;
-        // openNew(url)
+        openNew(url)
     }
 </script>
 </body>
