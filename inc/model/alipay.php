@@ -30,17 +30,16 @@ class Xuan_mixloan_Alipay
         $aop->postCharset       = 'utf-8';
         $aop->format            = 'json';
         $request                = new AlipayFundTransToaccountTransferRequest();
-        $record = pdo_fetch('select id,createtime from ' . tablename('xuan_mixloan_alipay_log') . ' where 
-            account=:account', array(':account' => $payee_account));
+        $account = md5($payee_account . floatval($amount));
+        $record = pdo_fetch('select id from ' . tablename('xuan_mixloan_alipay_log') . ' where 
+            account=:account', array(':account' => $account));
         if (!empty($record)) {
-            if ($record['createtime'] + 86400 > time()) {
-                return array('code' => -1, 'msg' => '同一账户一天只能打款一次');
-            } else {
-                pdo_update('xuan_mixloan_alipay_log', array('createtime' => time()), array('id' => $record['id']));
-            }
+            if ($record) {
+                return array('code' => -1, 'msg' => '不允许重复打款');
+            } 
         } else {
             $insert = array();
-            $insert['account'] = $payee_account;
+            $insert['account'] = $account;
             $insert['createtime'] = time();
             pdo_insert('xuan_mixloan_alipay_log', $insert);
         }
