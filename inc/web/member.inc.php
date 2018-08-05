@@ -55,6 +55,7 @@ if ($operation == 'list') {
             "createtime"=>time(),
             "tid"=>$tid,
             "fee"=>0,
+            "time"=>time()+86400*$config['buy_init_vip_days']
     );
     pdo_insert("xuan_mixloan_payment",$insert);
     //模板消息提醒
@@ -82,7 +83,7 @@ if ($operation == 'list') {
             'inviter' => $inviter,
             'extra_bonus'=>0,
             'done_bonus'=>0,
-            're_bonus'=>$config['inviter_fee_one'],
+            're_bonus'=>$config['inviter_fee_one'] * 0.01 * $config['buy_init_vip_price'],
             'status'=>2,
             'createtime'=>time()
         );
@@ -99,7 +100,7 @@ if ($operation == 'list') {
                 "color" => "#173177"
             ) ,
             "money" => array(
-                "value" => $config['inviter_fee_one'],
+                "value" => $config['inviter_fee_one'] * 0.01 * $config['buy_init_vip_price'],
                 "color" => "#173177"
             ) ,
             "remark" => array(
