@@ -174,21 +174,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="type" onchange="change_s()">
-                        <option value="0">选择产品类型</option>
-                        <option value="1" {if $_GPC['type']==1}selected{/if}>信用卡</option>
-                        <option value="2" {if $_GPC['type']==2}selected{/if}>贷款</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关联产品</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="relate_id">
-                        <option value="0">选择关联产品</option>
-                    </select>
+                    <input type="text" class="form-control"  name="pro_name" value="{$_GPC['pro_name']}"/>
                 </div>
             </div>
             <div class="form-group">
@@ -199,6 +187,16 @@
                         <option value="0" {if $_GPC['status']=='0'}selected{/if}>邀请中</option>
                         <option value="1" {if $_GPC['status']=='1'}selected{/if}>已注册</option>
                         <option value="2" {if $_GPC['status']=='2'}selected{/if}>已完成</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">等级</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="degree">
+                        <option value="">筛选等级</option>
+                        <option value="1" {if $_GPC['degree']=='1'}selected{/if}>一级</option>
+                        <option value="2" {if $_GPC['degree']=='2'}selected{/if}>二级</option>
                     </select>
                 </div>
             </div>
@@ -217,56 +215,6 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
-            <script type="text/javascript">
-                var change_s = function (){
-                    var c_json = {$c_json};
-                    var s_json = {$s_json};
-                    var value = $("select[name='type']").val();
-                    console.log(value);
-                    if (value == 1) {
-                        if (isEmptyObject(c_json)) {
-                            $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
-                            alert('请先在银行管理中添加卡');
-                            return false;
-                        }
-                        change_c(c_json)
-                    } else if (value == 2) {
-                        if (isEmptyObject(s_json)) {
-                            $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
-                            alert('请先在贷款超市中添加贷款');
-                            return false;
-                        }
-                        change_c(s_json)
-                    } else {
-                        $("select[name='relate_id']").parent().parent().hide(500);
-                    }
-                }
-                var change_c = function(a_json) {
-                    var sel_id = {if $_GPC['relate_id']}{$_GPC['relate_id']}{else}0{/if};
-                    var type = {if $_GPC['type']}{$_GPC['type']}{else}0{/if};
-                    a_html = '<option value="0">选择关联产品</option>';
-                    for (var i=0; i<a_json.length; i++) {
-                        if (a_json[i].id == sel_id && a_json[i].type == type) {
-                            var _select = 'selected';
-                        } else {
-                            var _select = '';
-                        }
-                        a_html += '<option value="' + a_json[i].id + '" ' + _select + '>' + a_json[i].name + '</option>';
-                    }
-                    $("select[name='relate_id']").html("");
-                    $("select[name='relate_id']").html(a_html);
-                    $("select[name='relate_id']").parent().parent().show(500);
-                }
-                function isEmptyObject(e) {  
-                    var t;  
-                    for (t in e)  
-                        return !1;  
-                    return !0  
-                }  
-                change_s();
-            </script>           
             <div class="form-group">
             </div>
         </form>
