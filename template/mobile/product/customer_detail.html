@@ -44,10 +44,10 @@
 		<a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer_detail', 'pid'=>$_GPC['pid'], 'inviter'=>$_GPC['inviter'], 'degree'=>2))}')" {if $degree == 2}class="active"{/if}>二级</a>
 	</div>
 	<!--小提示  -->
-	<div class="ptars-smts-box">
+	<!-- <div class="ptars-smts-box">
 		月结产品非实时状态,本月客户状态则在下月5-15日结算<br/>
 		提示：本列表是客户在指点填写资料的记录，不能视为官方申请记录。
-	</div>
+	</div> -->
 
 	<!--人数显示  -->
 	<div class="ptars-pepo-box">
@@ -95,7 +95,7 @@
 				<div class="head-ms-box">
 					<div class="part-lf-box">
 						<span>订单状态: {$row['state']}</span>
-						<span>手机号码: {$row['phone']}</span>
+						<span>手机号码: {$row['phone']}&nbsp;&nbsp;客户姓名：{$row['realname']}</span>
 						<span>{$row['createtime']}</span>
 					</div>
 					<div class="part-rg-box">
