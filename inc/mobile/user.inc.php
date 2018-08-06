@@ -132,4 +132,32 @@ if($operation=='index'){
 	} else {
 		show_json(-1);
 	}
+} else if ($operation == 'delete_qrcode') {
+    //删除二维码
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        show_json(-1, [], '出错了');
+    }
+    pdo_update('xuan_mixloan_creditCard', array('status' => 0), array('id' => $id));
+    show_json(1, [], '删除成功');
+} else if ($operation == 'bind_alipay') {
+    //绑支付宝
+    include $this->template('user/bind_alipay');
+} else if ($operation == 'bind_alipay_submit') {
+    //验证银行卡
+    $realname = trim($_GPC['realname']);
+    $phone = trim($_GPC['phone']);
+    if (!$realname || !$phone) {
+        show_json(-1, [], '参数不能为空');
+    }
+    $insert = array(
+        'uniacid'=>$_W['uniacid'],
+        'realname'=>$realname,
+        'phone' =>$phone,
+        'createtime'=>time(),
+        'uid'=>$member['id'],
+        'type'=>2
+    );
+    pdo_insert('xuan_mixloan_creditCard', $insert);
+    show_json(1);
 }
