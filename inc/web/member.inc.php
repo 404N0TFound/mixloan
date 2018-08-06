@@ -55,7 +55,7 @@ if ($operation == 'list') {
             "createtime"=>time(),
             "tid"=>$tid,
             "fee"=>0,
-            "time"=>time()+86400*$config['buy_init_vip_days']
+            "effecttime"=>time()+86400*$config['buy_init_vip_days']
     );
     pdo_insert("xuan_mixloan_payment",$insert);
     //模板消息提醒

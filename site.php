@@ -70,6 +70,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 if ($agent['code'] == 1) {
                     message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
                 }
+                if ($_SESSION['level'] == 1) {
+                    $effecttime = time()+86400*$config['buy_init_vip_days'];
+                } else {
+                    $effecttime = time()+86400*$config['buy_mid_vip_days'];
+                }
                 pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
                 $insert = array(
                     "uniacid"=>$_W["uniacid"],
@@ -77,6 +82,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                     "createtime"=>time(),
                     "tid"=>$params['tid'],
                     "fee"=>$fee,
+                    'effecttime'=>$effecttime,
                 );
                 pdo_insert("xuan_mixloan_payment", $insert);
                 //模板消息提醒
