@@ -41,7 +41,7 @@ if($operation=='buy'){
 	} else {
 		$fee = $config['buy_mid_vip_price'];
 	}
-	$_SESSION['level'] = $type;
+	setcookie('level', $type, time() + 120);
 	$params = array(
 	    'tid' => $tid, 
 	    'ordersn' => $tid, 
