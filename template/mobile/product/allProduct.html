@@ -68,60 +68,8 @@
         </div>
     </div>
     <!-- fix -->
-    <div class="fix"></div>
-    <!-- fix -->
-    <!-- 秒办卡 -->
-    <div class="loanindex_inform2 clearfix">
-        <span id="test3" name="test3"><leabl></leabl>秒办卡</span><ul><li><p>精选额度大,下卡快的优质信用卡</p></li></ul>
-    </div>
-    <div class="swiper-container  swiper_list">
-        <div class="swiper-wrapper">
-            {loop $credit_all $credit_thr}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                    {loop $credit_thr $cre}
-                    <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cre['id'], 'inviter'=>$inviter))}')">
-                            <div class="swiper_div">
-                                <p class="c2" style="background:#8296b2"><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />{$cre['v_name']}</p>
-                                <div class="top_img1"><img src="{$cre['card_pic']}" /></div>
-                                <h2>{$cre['name']}</h2>
-                            </div>
-                        </a>
-                    </li>
-                    {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-    <!-- 轮播 end-->
-    <div class="loanindex_shortcut">
-        {loop $credits_blow $cred}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cred['id'], 'inviter'=>$inviter))}')">
-            <ul class="clearfix">
-                <li class="clearfix">
-                    <div class="f1"><img src="{$cred['ext_info']['logo']}" /></div>
-                    <div class="f2"><h2>{$cred['name']}</h2><p>{$cred['intro']}</p></div>
-                    <div class="f3"><p>批卡速度:<span>{$cred['speed']}</span></p><p>平均额度:<span>{$cred['limit']}</span></p></div>
-                    <div class="f4"><h3>秒批申卡</h3></div>
-                </li>
-            </ul>
-        </a>
-        {/loop}
-    </div>
+    
 
-    <!-- fix -->
-    <div class="fix"></div>
-
-    <div class="loanindex_inform2 loanindex_inform_jindu clearfix">
-        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}')">
-            <span style="width:80%"><leabl style="margin-right:2.5%;"></leabl>申卡进度查询</span>
-            <p> <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow.png" /> </p>
-        </a>
-    </div>
     <!-- fix -->
     <div class="fix"></div>
     <!-- fix -->
