@@ -138,8 +138,14 @@ if($operation=='buy'){
 		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
 		$row['year'] = date('m-d', $row['createtime']);
 		$row['hour'] = date('H:i', $row['createtime']);
-		$row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
-		switch ($row['status']) {
+        if ($row['type'] == 1) {
+            $row['bankmes'] =  "{$row['bankname']} 尾号(" . substr($row['banknum'], -4) . ")";
+        } else if ($row['type'] == 2) {
+            $row['bankmes'] =  "支付宝 尾号(" . substr($row['phone'], -4) . ")";
+        } else {
+            $row['bankmes'] = "二维码收款";
+        }
+        switch ($row['status']) {
 			case '0':
 				$row['status'] = '申请中';
 				break;
