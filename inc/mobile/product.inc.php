@@ -142,7 +142,7 @@ if($operation=='index'){
     $id = intval($_GPC['id']);
     $inviter = intval($_GPC['inviter']);
     $info = m('product')->getList(['id', 'type', 'ext_info','is_show'],['id'=>$id])[$id];
-    if ($info['type'] == 1) {
+    if ($info['type'] == 2) {
         message('不允许在这里申请小贷产品');
     }
     if ( empty($info['is_show']) ) {
@@ -189,7 +189,7 @@ if($operation=='index'){
         show_json(-1, [], '邀请二维码过期');
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    if ($info['type'] == 1) {
+    if ($info['type'] == 2) {
         message('不允许在这里申请小贷产品');
         if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
             show_json(-1, [], '资料不能为空');
