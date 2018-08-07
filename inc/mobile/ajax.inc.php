@@ -204,7 +204,7 @@ if($operation == 'getCode'){
     )));
     $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
     list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
-    echo 'http://pc4ao15gp.bkt.clouddn.com/' . $filename ;
+    echo  $_W['setting']['remote']['qiniu']['url'] . '/' . $filename ;
 } else if ($operation == 'apply_temp') {
     //常规脚本
 }  else if ($operation == 'checkMember') {
