@@ -210,7 +210,7 @@ if($operation=='buy'){
         $payment_no = date('YmdHis');
         $result = m('alipay')->transfer($payment_no, $bonus, $bank['phone'], $bank['realname']);
         if ($result['code'] == -1) {
-            message($result['msg'], '', 'error');
+            show_json(-1, null, $result['msg']);
         } else {
             $ext_info['payment_no'] = $result['order_id'];
         }
