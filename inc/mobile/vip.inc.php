@@ -196,13 +196,31 @@ if($operation=='buy'){
 	if ($bonus < 100) {
 		show_json(-1, null, "超过100才能体现");
 	}
+    $bank = pdo_fetch("SELECT * FROM " . tablename("xuan_mixloan_creditCard") . "
+        WHERE id=:id", array(':id'=>$bank_id));
+    $cookie = 'withdraw' . $id;
+    if (!$_COOKIE[$cookie] && $bank['type'] == 2)
+    {
+        $payment_no = date('YmdHis');
+        $result = m('alipay')->transfer($payment_no, $bonus, $bank['phone'], $bank['realname']);
+        if ($result['code'] == -1) {
+            message($result['msg'], '', 'error');
+        } else {
+            $ext_info['payment_no'] = $result['order_id'];
+        }
+    }
+    else
+    {
+        setcookie($cookie, 1, time()+60);
+    }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
 		'bank_id'=>$bank_id,
 		'bonus'=>$bonus,
 		'createtime'=>time(),
-		'status'=>0
+		'status'=>1,
+        'ext_info'=>json_encode($ext_info)
 	);
 	pdo_insert('xuan_mixloan_withdraw', $insert);
 	show_json(1, null, "提现成功");
