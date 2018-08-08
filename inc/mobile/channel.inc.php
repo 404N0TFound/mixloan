@@ -79,7 +79,17 @@ if($operation=='index'){
 		message('抱歉，文章已不存在', '', 'error');
 	}
 	$item = $res[$id];
+	if ($item['ext_info']['agent']) {
+		$agent = m('member')->checkAgent($member['id']);
+		if ($agent['code'] != 1) {
+	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+		}
+	}
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
+	$item['praise'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_artical_praise') . '
+		where relate_id=:relate_id', array(':relate_id' => $id));
+	$praise = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_artical_praise') . '
+		where relate_id=:relate_id and uid=:uid', array(':relate_id' => $id, ':uid' => $member['id'])) ? : 0;
 	if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
 		$share_image = $result[1];
 	} else {
@@ -139,5 +149,21 @@ if($operation=='index'){
 	}
 	$list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['subject_id'=>$subjectRes['id']]);
 	include $this->template('channel/subject');
+} else if ($operation == 'praise') {
+	// 点赞
+	$is_praise = intval($_GPC['is_praise']);
+	$id        = intval($_GPC['id']);
+	if ($is_praise == 1) {
+		$cond = array();
+		$cond['uid'] = $member['id'];
+		$cond['relate_id'] = $id;
+		pdo_delete('xuan_mixloan_artical_praise', $cond);
+		show_json(1, [], '已取消点赞');
+	} else {
+		$insert = array();
+		$insert['uid'] = $member['id'];
+		$insert['relate_id'] = $id;
+		pdo_insert('xuan_mixloan_artical_praise', $insert);
+		show_json(1, [], '已点赞');
+	}
 }
-?>

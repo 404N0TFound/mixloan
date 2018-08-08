@@ -133,6 +133,9 @@
     div.recommend ul li p{color: #999999;font-weight: 400;height:13px; line-height: 13px;font-size: 13px;text-align: center;overflow: hidden;word-wrap: nowrap;padding:0px 3px;}
     /*div.recommend ul li a{display: inline-block;padding:5px 10px;border-radius: 5px;border:1px solid #5cb3ff;color: #5cb3ff;font-size: 16px;}*/
     .agent-main a{text-decoration: underline;}
+    .artical_footre{margin: 1rem 0;text-align: right;width: 100%}
+    .artical_footre a{display: inline-block;margin-right: 0.5rem}
+    .artical_footre a img {width: 1rem;height: 1rem;margin-right: 0.5rem;vertical-align: middle;}
 </style>
 <body>
 
@@ -181,7 +184,15 @@
 
         <!-- JiaThis Button END -->
     </div>
-
+    <div class="artical_footre">
+        <a class="artical_footre_a" is_praise="{$praise}" numbers="{$item['praise']}">
+            {if $praise}
+            <img src="../addons/xuan_mixloan/template/style/images/praise_active.png">赞({$item['praise']})
+            {else}
+            <img src="../addons/xuan_mixloan/template/style/images/praise.png">赞({$item['praise']})
+            {/if}
+        </a>
+    </div>
 </div>
 
 <div class="recommend">
@@ -342,27 +353,7 @@
         })
 // 返回
         $(".return").click(function(){
-            function GetQueryString(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return unescape(r[2]); return null;
-            };
-            var count = GetQueryString("count");
-            kouziFlag=GetQueryString("kouziFlag");
-            if(kouziFlag){
-                if(kouziFlag=="kouzi"){
-                    var _url="/wap/idai/evdaynew.html";
-                    location.href=_url;
-                }else if(kouziFlag=="credit"){
-                    var _url="/wap/idai/evdayhot.html";
-                    location.href=_url;
-                }else if(kouziFlag=="newcomer"){
-                    var _url="/wap/idai/evdaycourse.html";
-                    location.href=_url;
-                }
-            }else{
-                history.back(-1);
-            }
+            history.back(-1);
         })
         getRecommend();
 // 换一批
@@ -395,9 +386,12 @@
 // 点击查看大图
         $(function(){
             $(".pimg").click(function(){
-                if($(this).hasClass("pimg")){
-                    var _this = $(this);//将当前的pimg元素作为_this传入函数
-                    imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+                var _src = $(this).attr('src');
+                if (_src.search('praise') == -1) {
+                    if($(this).hasClass("pimg")){
+                        var _this = $(this);//将当前的pimg元素作为_this传入函数
+                        imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
+                    } 
                 }
             });
         });
@@ -447,6 +441,33 @@
                 return false;
             });
         }
+        $('.artical_footre_a').click(function(){
+            //点赞
+            var is_praise = $(this).attr('is_praise');
+            var numbers = $(this).attr('numbers');
+            $.post("{php echo $this->createMobileUrl('channel', array('op'=>'praise', 'id' => $id))}", {is_praise:is_praise}, function(data){
+                var code=data.code;
+                if(code==1){
+                    layer.msg(data.msg, {time:100}, function(){
+                        if (is_praise == '1') {
+                            numbers = parseInt(numbers)-1;
+                            $('.artical_footre_a').attr('numbers', numbers);
+                            $('.artical_footre_a').attr('is_praise', 0);
+                            var _str = '<img src="../addons/xuan_mixloan/template/style/images/praise.png">赞(' + numbers + ')';
+                            $('.artical_footre_a').html(_str);
+                        } else {
+                            numbers = parseInt(numbers)+1;
+                            $('.artical_footre_a').attr('numbers', numbers);
+                            $('.artical_footre_a').attr('is_praise', 1);
+                            var _str = '<img src="../addons/xuan_mixloan/template/style/images/praise_active.png">赞(' + numbers + ')';
+                            $('.artical_footre_a').html(_str);
+                        }
+                    });
+                } else {
+                    layer.msg(data.msg);
+                }
+            }, 'json')
+        })
 
 </script>
 
