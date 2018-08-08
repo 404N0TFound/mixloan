@@ -7,7 +7,7 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
-    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
     $hot_list = m('product')->packupItems($hot_list);
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));

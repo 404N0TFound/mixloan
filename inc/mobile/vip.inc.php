@@ -780,7 +780,7 @@ if($operation=='buy'){
 } else if ($operation == 'partner_center') {
 	//合伙人中心
 	$list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
-		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+		where inviter=:inviter and type=3 order by id desc limit 50', array(':inviter'=>$member['id']));
 	foreach ($list as &$row) {
 		$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
 		$man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
