@@ -199,8 +199,8 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
-	if ($bonus < 100) {
-		show_json(-1, null, "超过100才能体现");
+	if ($bonus < 1) {
+		show_json(-1, null, "1块钱都没，提个毛线");
 	}
     $bank = pdo_fetch("SELECT * FROM " . tablename("xuan_mixloan_creditCard") . "
         WHERE id=:id", array(':id'=>$bank_id));
