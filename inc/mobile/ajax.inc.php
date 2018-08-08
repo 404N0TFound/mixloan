@@ -188,13 +188,21 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        $list = pdo_fetchall('SELECT id,avatar FROM ' . tablename('xuan_mixloan_member') . '
+        	WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
         foreach ($list as $row) {
         	if (strstr($row['avatar'], 'wx.luohengwangluo.com')) {
         		$avatar = str_replace('wx.luohengwangluo.com', 'zhidian.luohengwangluo.com', $row['avatar']);
         		pdo_update('xuan_mixloan_member', array('avatar' => $avatar), array('id' => $row['id']));
         		$ids[] = $row['id'];
         	}
+        }
+    } else if ($_GPC['type'] == 'remove') {
+        $list = pdo_fetchall('SELECT id,remove_ids FROM ' . tablename('xuan_mixloan_product_remove') . '
+        	WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        foreach ($list as $row) {
+        	$remove_ids = rtrim($row['remove_ids'], ',');
+        	pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $remove_ids), array('id' => $row['id']));
         }
     }
     if (!empty($ids)) {

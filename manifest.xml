@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_remove` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uniacid` int(11) NOT NULL,
   `uid` int(11) NOT NULL,
-  `remove_ids` varchar(200) NOT NULL COMMENT '移除的id',
+  `remove_ids` text NOT NULL COMMENT '移除的id',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
