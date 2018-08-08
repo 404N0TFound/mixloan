@@ -68,6 +68,7 @@ if($operation=='index'){
 		$agent = m('member')->checkAgent($member['id']);
 		if ($agent['code']!=1) {
 	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+	        exit();
 		}
 	}
 	$id = intval($_GPC['id']);
@@ -83,6 +84,7 @@ if($operation=='index'){
 		$agent = m('member')->checkAgent($member['id']);
 		if ($agent['code'] != 1) {
 	        header("location:{$this->createMobileUrl('vip', array('op'=>'buy'))}");
+	        exit();
 		}
 	}
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
