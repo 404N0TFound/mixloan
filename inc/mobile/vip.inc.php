@@ -507,14 +507,14 @@ if($operation=='buy'){
 } else if ($operation == 'partner_center') {
     //合伙人中心
     $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
-		where inviter=:inviter and type=3 order by id desc', array(':inviter'=>$member['id']));
+		where inviter=:inviter and type=1 and degree=2 order by id desc', array(':inviter'=>$member['id']));
     foreach ($list as &$row) {
+    	$pro = m('product')->getList(['id', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
+    	$re_bonus = $pro['ext_info']['re_two_init_reward_money'] ? : 0;
         $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
-        $man = pdo_fetch('select nickname,avatar from '.tablename('xuan_mixloan_member').'
-			where id=:id', array(':id'=>$row['uid']));
-        $row['avatar'] = $man['avatar'];
-        $row['nickname'] = $man['nickname'];
+        $row['avatar'] = '../addons/xuan_mixloan/template/style/new_user_index/images/tixian.png';
         $row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3, 3);
+        $row['bonus'] = $row['re_bonus'] - $re_bonus;
     }
     unset($row);
     include $this->template('vip/partner_center');

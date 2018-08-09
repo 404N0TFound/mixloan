@@ -336,6 +336,8 @@ if ($operation == 'list') {
             if (empty($value[0])) {
                 continue;
             }
+            $item = pdo_fetch('select id,degree,inviter from ' .tablename('xuan_mixloan_product_apply'). '
+                where id=:id', array(':id'=>$value[0]));
             $status = trim($value[11]);
             if (!in_array($status, array(0,1,2,-1))) {
                 $failed += 1;
@@ -346,8 +348,12 @@ if ($operation == 'list') {
             $update['relate_money'] = trim($value[7]) ? : 0;
             //注册奖励
             $update['re_bonus'] = trim($value[8]) ? : 0;
-            if ($partner['code'] == 1) {
-                $update['re_bonus'] += 1;
+            if ($item['degree'] == 2) {
+                //合伙人奖励
+                $partner = m('member')->checkPartner($item['inviter']);
+                if ($partner['code'] == 1) {
+                    $update['re_bonus'] += $config['partner_bonus'];
+                }
             }
             //完成奖励
             $update['done_bonus'] = trim($value[9]) ? : 0;
