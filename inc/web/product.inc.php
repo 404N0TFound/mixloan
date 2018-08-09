@@ -115,7 +115,7 @@ if ($operation == 'list') {
     //获取关联产品
     $name = trim($_GPC['name']);
     $type = intval($_GPC['type']);
-    $items = m('product')->getList(['id', 'name'], ['name' => $name, 'type' => $type]);
+    $items = m('product')->getList(['id', 'name'], ['lk_name' => $name, 'type' => $type]);
     if ($items) {
         show_json(1, ['items' => array_values($items)]);
     } else {

@@ -17,6 +17,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND phone LIKE '%{$_GPC['phone']}%'";
+    }
     $sql = 'select * from ' . tablename('xuan_mixloan_member') . "
         where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
     if ($_GPC['export'] != 1) {
