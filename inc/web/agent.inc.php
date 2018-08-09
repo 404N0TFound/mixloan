@@ -417,6 +417,24 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname,openid from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone,type from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
+        if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
+            //支付宝收款接口
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
+            }
+            else
+            {
+                setcookie($cookie, 1, time()+60);
+            }
+        }
         if ($_GPC['data']['status'] == 1) {
             $wx = WeAccount::create();
             $msg = array(
@@ -619,6 +637,39 @@ if ($operation == 'list') {
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
+} else if ($operation == 'withdraw_operation') {
+    // 提现快捷操作
+    $id = intval($_GPC['id']);
+    $status = intval($_GPC['status']);
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). "
+        where id={$id}");
+    $bank = pdo_fetch('select realname,bankname,banknum,phone,type from '.tablename("xuan_mixloan_creditCard")."
+        where id=:id",array(':id'=>$item['bank_id']));
+    $data['status'] = $status;
+    if ($bank['type'] == 1) {
+        message('该申请不是支付宝提现', referer(), 'sccuess');
+    }
+    if ($status == 1) {
+        //支付宝收款接口
+        $cookie = 'withdraw' . $id;
+        if (!$_COOKIE[$cookie])
+        {
+            $payment_no = date('YmdHis');
+            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+            if ($result['code'] == -1) {
+                message($result['msg'], '', 'error');
+            } else {
+                $data['ext_info']['payment_no'] = $result['order_id'];
+                $data['ext_info'] = json_encode($data['ext_info']);
+            }
+        }
+        else
+        {
+            setcookie($cookie, 1, time()+60);
+        }
+    }
+    pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
+    message('操作成功', referer(), 'sccuess');
 }
 include $this->template('agent');
 ?>

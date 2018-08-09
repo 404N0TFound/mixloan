@@ -8,6 +8,8 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id'], $config);;
 if($operation=='index'){
 	//会员中心
+    $inviter = m('member')->getInviter($member['phone'], $openid);
+    $inviterInfo = m('member')->getInviterInfo($inviter);
 	$unread_count = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
 		where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id'])) ? : 0;
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "

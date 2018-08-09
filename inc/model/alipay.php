@@ -1,7 +1,7 @@
 <?php
 defined('IN_IA') or exit('Access Denied');
-require_once('/www/wwwroot/addons/wx.wyhrkj.com/xuan_mixloan/lib/alipay/aop/AopClient.php');
-require_once('/www/wwwroot/addons/wx.wyhrkj.com/xuan_mixloan/lib/alipay/aop/request/AlipayFundTransToaccountTransferRequest.php');
+require_once('/www/wwwroot/wx.wyhrkj.com/addons/xuan_mixloan/lib/alipay/aop/AopClient.php');
+require_once('/www/wwwroot/wx.wyhrkj.com/addons/xuan_mixloan/lib/alipay/aop/request/AlipayFundTransToaccountTransferRequest.php');
 class Xuan_mixloan_Alipay
 {
     private $gatewayUrl = 'https://openapi.alipay.com/gateway.do';
@@ -31,10 +31,10 @@ class Xuan_mixloan_Alipay
         $aop->format            = 'json';
         $request                = new AlipayFundTransToaccountTransferRequest();
         $account = md5($payee_account . floatval($amount));
-        $record = pdo_fetch('select id from ' . tablename('xuan_mixloan_alipay_log') . ' where 
-            account=:account', array(':account' => $account));
+        $record = pdo_fetch('select id,createtime from ' . tablename('xuan_mixloan_alipay_log') . ' where 
+            account=:account order by id desc', array(':account' => $account));
         if (!empty($record)) {
-            if ($record) {
+            if ($record['createtime'] + 86400 > time()) {
                 return array('code' => -1, 'msg' => '不允许重复打款');
             }
         } else {
