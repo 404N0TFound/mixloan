@@ -242,6 +242,11 @@ if ($operation == 'list') {
             $info['done_reward_per'] = $info['ext_info']['done_two_init_reward_per'];
             $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
             $info['re_reward_per'] = $info['ext_info']['re_two_init_reward_per'];
+        } else if ($item['degree'] == 3) {
+            $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
+            $info['done_reward_per'] = $info['ext_info']['done_thr_init_reward_per'];
+            $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+            $info['re_reward_per'] = $info['ext_info']['re_thr_init_reward_per'];
         }
     } else {
         $info['name'] = '邀请购买代理奖励';
@@ -341,6 +346,9 @@ if ($operation == 'list') {
             $update['relate_money'] = trim($value[7]) ? : 0;
             //注册奖励
             $update['re_bonus'] = trim($value[8]) ? : 0;
+            if ($partner['code'] == 1) {
+                $update['re_bonus'] += 1;
+            }
             //完成奖励
             $update['done_bonus'] = trim($value[9]) ? : 0;
             //额外奖励
