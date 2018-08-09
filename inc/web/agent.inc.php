@@ -38,14 +38,11 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
-    if (!empty($_GPC['type'])) {
-        $wheres.= " AND c.type='{$_GPC['type']}'";
-    }
     if (!empty($_GPC['degree'])) {
         $wheres.= " AND a.degree='{$_GPC['degree']}'";
     }
     if (!empty($_GPC['relate_id'])) {
-        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+        $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
     }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";

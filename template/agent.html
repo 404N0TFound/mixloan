@@ -264,7 +264,7 @@
                         return false;
                     }
                     var name = $('#relate_name').val();
-                    $.post("{php echo $this->createWebUrl('product', array('op'=>'getRelate'))}", {'name':name, 'type':type},
+                    $.post("{php echo $this->createWebUrl('product', array('op'=>'getProductRelate'))}", {'name':name, 'type':type},
                         function(data) {
                             if(data.code==1){
                                 var str = "";

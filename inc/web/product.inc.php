@@ -111,5 +111,15 @@ if ($operation == 'list') {
     } else {
         show_json(-1);
     }
+} else if ($operation == 'getProductRelate') {
+    //获取关联产品
+    $name = trim($_GPC['name']);
+    $type = intval($_GPC['type']);
+    $items = m('product')->getList(['id', 'name'], ['name' => $name, 'type' => $type]);
+    if ($items) {
+        show_json(1, ['items' => array_values($items)]);
+    } else {
+        show_json(-1);
+    }
 }
 include $this->template('product');
