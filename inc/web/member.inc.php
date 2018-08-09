@@ -25,7 +25,18 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'])['code'];
+
+            $agent = m('member')->checkAgent($row['id']);
+            if ($agent['code'] == 1) {
+                $partner = m('member')->checkPartner($row['id']);
+                if ($partner['code'] == 1) {
+                    $row['type'] = '合伙人';
+                } else {
+                    $row['type'] = '代理';
+                }
+            } else {
+                $row['type'] = '用户'
+            }
         }
         unset($row);
     } else {
