@@ -390,4 +390,20 @@ class Xuan_mixloan_Member
         }
         return false;
     }
+    /*
+     *   查看是否加入过合伙人
+    */
+    function checkPartner($uid) {
+        if (empty($uid)) {
+            return ['code' => '0', 'name' => '用户'];
+        }
+        $check = pdo_fetch('SELECT id FROM ' . tablename("xuan_mixloan_partner") . " WHERE uid=:uid ORDER BY id DESC", array(
+            ':uid' => $uid
+        ));
+        if ($check) {
+            return ['code' => '1', 'name' => '合伙人', 'id' => $check['id']];
+        } else {
+            return ['code' => '0', 'name' => '用户'];
+        }
+    }
 }

@@ -1,0 +1,83 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" >
+    <meta content = "yes" name = "apple-mobile-web-app-capable" >
+    <meta content = "black" name = "apple-mobile-web-app-status-bar-style" >
+    <meta content = "telephone=no" name = "format-detection" >
+    <meta content = "e-mail=no" name = "format-detection" / >
+    <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
+    <meta http - equiv = "Pragma" content = "no-cache" / >
+    <meta http - equiv = "Expires" content = "0" / >
+    <title>升级合伙人</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <style type="text/css">
+        /*x兼容性*/
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+        }
+        div.agent-secmes .mes-list li dl dd{width: 63%}
+        div.agent-secmes .mes-list li dl dd:last-child{width: 30%}
+        div.agent-foot p>img {
+            width:1.1rem;
+        }
+        div.agent-secmes .logo{margin-top: 0.5rem}
+    </style>
+
+    {template 'common/wxshare'}
+</head>
+<body class="bglightgray" >
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #00a2ff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back();">
+        <span>升级合伙人</span>
+    </div>
+</div>
+{/if}
+<div class="agent-main rem2" style="margin-top: 0.5rem">
+    <div class="main-contain">
+        <div class="agent_contain" style="position: relative;top:-0.4rem;">
+            <ul class="clearfix">
+                <li class="new_guide">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_upgrade', 'post'=>1))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/partner_upgrade.png" />
+                        我已达到升级条件
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div style="height: 3rem"></div>
+    </div>
+</div>
+
+<script>
+
+</script>
+</body>
+</html>
