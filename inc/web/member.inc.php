@@ -246,6 +246,10 @@ if ($operation == 'list') {
         where a.type=1 "  . $wheres . ' GROUP BY a.openid ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['agent'] = m('member')->checkAgent($row['id']);
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(DISTINCT a.openid) from ' . tablename('qrcode_stat') . " a 
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
