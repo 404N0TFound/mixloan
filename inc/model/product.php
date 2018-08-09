@@ -165,14 +165,14 @@ class Xuan_mixloan_Product
                 } else {
                     $done_money = $item['ext_info']['done_one_height_reward_money'];
                 }
-                $res['intro1'] = "{$done_money}";
+                $res['intro1'] = "+{$done_money}";
             } else if ($item['done_reward_type'] == 2){
                 if ($item['ext_info']['done_one_height_reward_per'] == intval($item['ext_info']['done_one_height_reward_per'])) {
                     $done_per = intval($item['ext_info']['done_one_height_reward_per']);
                 } else {
                     $done_per = $item['ext_info']['done_one_height_reward_per'];
                 }
-                 $res['intro1'] = "{$done_per}点";
+                 $res['intro1'] = "+{$done_per}点";
             }
             if ($item['re_reward_type'] == 1) {
                 if ($item['ext_info']['re_one_height_reward_money'] == intval($item['ext_info']['re_one_height_reward_money'])) {
@@ -180,14 +180,14 @@ class Xuan_mixloan_Product
                 } else {
                     $re_money = $item['ext_info']['re_one_height_reward_money'];
                 }
-                $res['intro1'] .= "+申请{$re_money}";
+                $res['intro1'] .= " 申请+{$re_money}";
             } else if ($item['re_reward_type'] == 2){
                 if ($item['ext_info']['re_one_height_reward_per'] == intval($item['ext_info']['re_one_height_reward_per'])) {
                     $re_per = intval($item['ext_info']['re_one_height_reward_per']);
                 } else {
                     $re_per = $item['ext_info']['re_one_height_reward_per'];
                 }
-                 $res['intro1'] .= "+申请{$re_per}点";
+                 $res['intro1'] .= " 申请+{$re_per}点";
             }
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
