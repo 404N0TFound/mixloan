@@ -188,7 +188,6 @@ if($operation=='index'){
         if ($row['type'] == 1)
         {
             $row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
-            $row['nickname'] = '系统消息';
         }
         else
         {
@@ -201,8 +200,8 @@ if($operation=='index'){
                 $man = pdo_fetch('select avatar from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
                 $row['avatar'] = $man['avatar'];
             }
-            $row['short_content'] = mb_substr($ext_info['content'], 0, 8) . '...';
         }
+        $row['short_content'] = mb_substr($ext_info['content'], 0, 5, 'UTF-8') . '...';
         $row['createtime'] = date('Y-m-d H:i', $row['createtime']);
     }
     unset($row);

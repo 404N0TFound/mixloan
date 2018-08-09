@@ -145,7 +145,7 @@ if($operation=='index'){
         // $account = WeAccount::create($_W['acid']);
         // $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $ext_info = array('content' => "尊敬的用户您好，{$_GPC['name']}({$_GPC['phone']})通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
         $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
@@ -215,7 +215,7 @@ if($operation=='index'){
         // );
         // $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $ext_info = array('content' => "尊敬的用户您好，{$_GPC['name']}({$_GPC['phone']})通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
         $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
@@ -235,7 +235,7 @@ if($operation=='index'){
         pdo_insert('xuan_mixloan_product_apply', $insert);
         $inviter_thr = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$third_inviter));
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的团队邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $ext_info = array('content' => "尊敬的用户您好，{$_GPC['name']}({$_GPC['phone']})通过您的团队邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
         $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
