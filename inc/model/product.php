@@ -17,7 +17,7 @@ class Xuan_mixloan_Product
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
                 } else if ($k == 'lk_name') {
-                    $wheres .= " AND `name` like '%{$v_string}%'";
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }

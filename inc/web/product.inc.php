@@ -102,9 +102,9 @@ if ($operation == 'list') {
     $name = trim($_GPC['name']);
     $type = intval($_GPC['type']);
     if ($type == 1) {
-        $items = m('bank')->getCard(['id', 'name'], ['name' => $name]);
+        $items = m('bank')->getCard(['id', 'name'], ['lk_name' => $name]);
     } else if ($type == 2) {
-        $items = m('loan')->getList(['id', 'name'], ['name' => $name]);
+        $items = m('loan')->getList(['id', 'name'], ['lk_name' => $name]);
     }
     if ($items) {
         show_json(1, ['items' => array_values($items)]);
