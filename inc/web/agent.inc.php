@@ -61,18 +61,6 @@ if ($operation == 'list') {
         $endtime = date("Y-m-d H:i:s");
         $starttime = date("Y-m-d H:i:s", strtotime("{$endtime} -1 month"));
     }
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
-    }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
@@ -358,15 +346,64 @@ if ($operation == 'list') {
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
         if ($item['degree'] == 1 && $item['pid'] > 0) {
-            //自动给二级打款
+            //自动给二三级打款
             $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
                 where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
             if ($second_item) {
+                if ($info['done_reward_type'] == 1) {
+                    $done_bonus = $info['ext_info']['done_two_height_reward_money'];
+                } else if ($info['done_reward_type'] == 2) {
+                    $done_bonus = ($info['ext_info']['done_two_height_reward_per'] / $info['ext_info']['done_one_height_reward_per']) * $_GPC['data']['done_bonus'];
+                    $done_bonus = round($done_bonus, 2);
+                } else {
+                    $done_bonus = 0;
+                }
+                if ($info['re_reward_type'] == 1) {
+                    $re_bonus = $info['ext_info']['re_two_height_reward_money'];
+                } else if ($info['re_reward_type'] == 2) {
+                    $re_bonus = ($info['ext_info']['re_two_height_reward_per'] / $info['re_one_height_reward_per']) * $_GPC['data']['re_bonus'];
+                    $re_bonus = round($re_bonus, 2);
+                } else {
+                    $re_bonus = 0;
+                }
                 $second_update['relate_money'] = $_GPC['data']['relate_money'];
-                $second_update['done_bonus'] = $_GPC['data']['done_bonus']*0.1;
-                $second_update['re_bonus'] = $_GPC['data']['re_bonus']*0.1;
+                if ($done_bonus) {
+                    $second_update['done_bonus'] = $done_bonus;
+                }
+                if ($re_bonus) {
+                    $second_update['re_bonus'] = $re_bonus;
+                }
                 $second_update['status'] = $_GPC['data']['status'];
                 pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+            }
+            $third_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                where pid=:pid and phone=:phone and degree=3', array(':pid' => $item['pid'], ':phone' => $item['phone']));
+            if ($third_item) {
+                if ($info['done_reward_type'] == 1) {
+                    $done_bonus = $info['ext_info']['done_thr_height_reward_money'];
+                } else if ($info['done_reward_type'] == 2) {
+                    $done_bonus = ($info['ext_info']['done_thr_height_reward_per'] / $info['ext_info']['done_one_height_reward_per']) * $_GPC['data']['done_bonus'];
+                    $done_bonus = round($done_bonus, 2);
+                } else {
+                    $done_bonus = 0;
+                }
+                if ($info['re_reward_type'] == 1) {
+                    $re_bonus = $info['ext_info']['re_thr_height_reward_money'];
+                } else if ($info['re_reward_type'] == 2) {
+                    $re_bonus = ($info['ext_info']['re_thr_height_reward_per'] / $info['re_one_height_reward_per']) * $_GPC['data']['re_bonus'];
+                    $re_bonus = round($re_bonus, 2);
+                } else {
+                    $re_bonus = 0;
+                }
+                $third_update['relate_money'] = $_GPC['data']['relate_money'];
+                if ($done_bonus) {
+                    $third_update['done_bonus'] = $done_bonus;
+                }
+                if ($re_bonus) {
+                    $third_update['re_bonus'] = $re_bonus;
+                }
+                $third_update['status'] = $_GPC['data']['status'];
+                pdo_update('xuan_mixloan_product_apply', $third_update, array('id'=>$third_item['id']));
             }
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
@@ -457,8 +494,9 @@ if ($operation == 'list') {
                 $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
                 $item = pdo_fetch('select * from ' .tablename('xuan_mixloan_product_apply'). '
                     where id=:id', array(':id'=>$value[0]));
-                $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
+                $info = pdo_fetch('select name,done_reward_type,re_reward_type,ext_info from ' .tablename("xuan_mixloan_product"). "
                     where id=:id", array(':id'=>$item['pid']));
+                $info['ext_info'] = json_decode($info['ext_info'], 1);
                 $inviter = m('member')->getInviterInfo($item['inviter']);
                 if ($status == 1 && $update['re_bonus']>0) {
                     $datam = array(
@@ -501,15 +539,64 @@ if ($operation == 'list') {
                     );
                 }
                 if ($datam && $item['degree'] == 1 && $item['pid'] > 0) {
-                    //自动给二级打款
+                    //自动给二三级打款
                     $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
                         where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
                     if ($second_item) {
+                        if ($info['done_reward_type'] == 1) {
+                            $done_bonus = $info['ext_info']['done_two_height_reward_money'];
+                        } else if ($info['done_reward_type'] == 2) {
+                            $done_bonus = ($info['ext_info']['done_two_height_reward_per'] / $info['ext_info']['done_one_height_reward_per']) * $update['done_bonus'];
+                            $done_bonus = round($done_bonus, 2);
+                        } else {
+                            $done_bonus = 0;
+                        }
+                        if ($info['re_reward_type'] == 1) {
+                            $re_bonus = $info['ext_info']['re_two_height_reward_money'];
+                        } else if ($info['re_reward_type'] == 2) {
+                            $re_bonus = ($info['ext_info']['re_two_height_reward_per'] / $info['re_one_height_reward_per']) * $update['re_bonus'];
+                            $re_bonus = round($re_bonus, 2);
+                        } else {
+                            $re_bonus = 0;
+                        }
                         $second_update['relate_money'] = $update['relate_money'];
-                        $second_update['done_bonus'] = $update['done_bonus']*0.1;
-                        $second_update['re_bonus'] = $update['re_bonus']*0.1;
-                        $second_update['status'] = $update['status'];
+                        if ($done_bonus) {
+                            $second_update['done_bonus'] = $done_bonus;
+                        }
+                        if ($re_bonus) {
+                            $second_update['re_bonus'] = $re_bonus;
+                        }
+                        $second_update['status'] = $status;
                         pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+                    }
+                    $third_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                        where pid=:pid and phone=:phone and degree=3', array(':pid' => $item['pid'], ':phone' => $item['phone']));
+                    if ($third_item) {
+                        if ($info['done_reward_type'] == 1) {
+                            $done_bonus = $info['ext_info']['done_thr_height_reward_money'];
+                        } else if ($info['done_reward_type'] == 2) {
+                            $done_bonus = ($info['ext_info']['done_thr_height_reward_per'] / $info['ext_info']['done_one_height_reward_per']) * $update['done_bonus'];
+                            $done_bonus = round($done_bonus, 2);
+                        } else {
+                            $done_bonus = 0;
+                        }
+                        if ($info['re_reward_type'] == 1) {
+                            $re_bonus = $info['ext_info']['re_thr_height_reward_money'];
+                        } else if ($info['re_reward_type'] == 2) {
+                            $re_bonus = ($info['ext_info']['re_thr_height_reward_per'] / $info['re_one_height_reward_per']) * $update['re_bonus'];
+                            $re_bonus = round($re_bonus, 2);
+                        } else {
+                            $re_bonus = 0;
+                        }
+                        $third_update['relate_money'] = $update['relate_money'];
+                        if ($done_bonus) {
+                            $third_update['done_bonus'] = $done_bonus;
+                        }
+                        if ($re_bonus) {
+                            $third_update['re_bonus'] = $re_bonus;
+                        }
+                        $third_update['status'] = $status;
+                        pdo_update('xuan_mixloan_product_apply', $third_update, array('id'=>$third_item['id']));
                     }
                 }
                 if ($datam) {

@@ -736,6 +736,9 @@ if($operation=='buy'){
 	if (!$bonus) {
 		show_json(-1, null, "提现金额不能为0");
 	}
+    if ($bonus < 10) {
+        show_json(-1, null, "提现金额不能低于10元");
+    }
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
@@ -752,16 +755,29 @@ if($operation=='buy'){
     if ($times>0) {
         show_json(-1, null, "一天只能提现1次");
     }
-	$insert = array(
-		'uniacid'=>$_W['uniacid'],
-		'uid'=>$member['id'],
-		'bank_id'=>$bank_id,
-		'bonus'=>$bonus,
-		'createtime'=>time(),
-		'status'=>0
-	);
-	pdo_insert('xuan_mixloan_withdraw', $insert);
-	show_json(1, null, "提现成功，T+1日到账");
+    $week = date("w"); 
+    if ($week == 6 || $week == 7) {
+        show_json(-1, null, "请在工作日提现哦");
+    }
+    $now_time = explode(':', date('i:s'));
+    if ($now_time[0] > 9 && $now_time[0] < 18) {
+        if ($now_time[0] == 17 && $now_time[1] > 30) {
+            show_json(-1, null, "请在上午9点到下午5点半点之间提现哦");
+        } else {
+            $insert = array(
+                'uniacid'=>$_W['uniacid'],
+                'uid'=>$member['id'],
+                'bank_id'=>$bank_id,
+                'bonus'=>$bonus,
+                'createtime'=>time(),
+                'status'=>0
+            );
+            pdo_insert('xuan_mixloan_withdraw', $insert);
+            show_json(1, null, "提现成功，T+1日到账");
+        }
+    } else {
+        show_json(-1, null, "请在上午9点到下午5点半点之间提现哦");
+    }
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
 	$type = intval($_GPC['type']);

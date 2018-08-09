@@ -26,20 +26,14 @@ if ($operation == 'list') {
 } else if ($operation == 'add') {
     //添加
     $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
+    if (empty($posters)) {
+        message('请先添加海报', $this->createWebUrl('poster'), 'error');
     }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     if ($_GPC['post'] == 1) {
         $data = $_GPC['data'];
+        if (empty($data['relate_id'])) {
+            message("请关联产品", '', "error");
+        }
         $data['uniacid'] = $_W['uniacid'];
         $data['createtime'] = time();
         $data['ext_info'] = json_encode($data['ext_info']);
@@ -50,21 +44,22 @@ if ($operation == 'list') {
     //编辑
     $id = intval($_GPC['id']);
     $posters = pdo_fetchall("SELECT * FROM ".tablename('xuan_mixloan_poster_data'). " ORDER BY id DESC");
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
+    if (empty($posters)) {
+        message('请先添加海报', $this->createWebUrl('poster'), 'error');
     }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
+    if ($item['type'] == 1) {
+        $temp = m('bank')->getCard(['id', 'name'], ['id' => $item['relate_id']])[$item['relate_id']];
+        $relate_name = $temp['name'];
+    } else {
+        $temp = m('loan')->getList(['id', 'name'], ['id' => $item['relate_id']])[$item['relate_id']];
+        $relate_name = $temp['name'];
+    }
     if ($_GPC['post'] == 1) {
+        if (empty($_GPC['data']['relate_id'])) {
+            message("请关联产品", '', "error");
+        }
         pdo_delete('xuan_mixloan_poster', array('pid'=>$item['id']));
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_product', $_GPC['data'], array('id'=>$item['id']));
@@ -102,6 +97,19 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_product_advs', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('product', array('op' => 'advs_list')), "sccuess");
     }
+} else if ($operation == 'getRelate') {
+    //获取关联产品
+    $name = trim($_GPC['name']);
+    $type = intval($_GPC['type']);
+    if ($type == 1) {
+        $items = m('bank')->getCard(['id', 'name'], ['name' => $name]);
+    } else if ($type == 2) {
+        $items = m('loan')->getList(['id', 'name'], ['name' => $name]);
+    }
+    if ($items) {
+        show_json(1, ['items' => array_values($items)]);
+    } else {
+        show_json(-1);
+    }
 }
 include $this->template('product');
-?>

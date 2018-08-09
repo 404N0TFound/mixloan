@@ -179,11 +179,12 @@ if($operation=='index'){
     $is_read = intval($_GPC['isread']);
     $type = intval($_GPC['type']) ? : 1;
     $condition = array(':to_uid' => $member['id'], ':is_read' => $is_read, ':type' => $type);
-    $list = pdo_fetchall("select id,uid,createtime,type from " . tablename('xuan_mixloan_msg') . "
+    $list = pdo_fetchall("select id,uid,createtime,type,ext_info from " . tablename('xuan_mixloan_msg') . "
 		where to_uid=:to_uid and is_read=:is_read and type=:type and id<{$id}
 		order by id desc limit 15", $condition);
     foreach ($list as &$row)
     {
+    	$ext_info = json_decode($row['ext_info'], 1);
         if ($row['type'] == 1)
         {
             $row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
@@ -194,14 +195,13 @@ if($operation=='index'){
             if ($row['uid'] == 0)
             {
                 $row['avatar'] = '../addons/xuan_mixloan/template/style/picture/system.png';
-                $row['nickname'] = '匿名用户';
             }
             else
             {
-                $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
+                $man = pdo_fetch('select avatar from ' . tablename('xuan_mixloan_member') . ' where id=:id', array(':id'=>$row['uid']));
                 $row['avatar'] = $man['avatar'];
-                $row['nickname'] = $man['nickname'];
             }
+            $row['short_content'] = mb_substr($ext_info['content'], 0, 8) . '...';
         }
         $row['createtime'] = date('Y-m-d H:i', $row['createtime']);
     }
