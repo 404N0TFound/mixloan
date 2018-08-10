@@ -70,7 +70,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 if ($agent['code'] == 1) {
                     message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
                 }
-                if ($_COOKIE['level'] == 1) {
+                if (floatval($fee) == floatval($config['buy_init_vip_price'])) {
                     $effecttime = time()+86400*$config['buy_init_vip_days'];
                 } else {
                     $effecttime = time()+86400*$config['buy_mid_vip_days'];
