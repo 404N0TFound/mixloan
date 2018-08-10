@@ -151,10 +151,10 @@ class Xuan_mixloan_Product
                 case '1':
                     $res['day'] = 1;
                     break;
-                case '30':
+                case '7':
                     $res['day'] = 2;
                     break;
-                case '7':
+                case '30':
                     $res['day'] = 3;
                     break;
             }

@@ -7,21 +7,29 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
+    $hot_list = m('product')->packupItems($hot_list);
+    $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
+    $card_list = m('product')->packupItems($card_list);
+    $loan_large_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>1], FALSE);
+    $loan_large_list = m('product')->packupItems($loan_large_list);
+    $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
+    $loan_small_list = m('product')->packupItems($loan_small_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
-    $card = m('product')->packupItems($card);
-    $loan = m('product')->packupItems($loan);
+    // $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    // $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
+    // $card = m('product')->packupItems($card);
+    // $loan = m('product')->packupItems($loan);
     $arr = array(
         'banner'=>$banner,
         'new'=>$new,
-        'card'=>$card,
-        'loan'=>$loan
+        'card'=>array(),
+        'loan'=>array(),
     );
     show_json(1, $arr);
 } else if ($operation == 'info') {
