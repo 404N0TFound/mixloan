@@ -163,6 +163,7 @@ function RGBToHex($rgb){
     }
     return $hexColor;
 }
+
 /**
  *   缩短地址
  **/
@@ -170,12 +171,16 @@ function shortUrl($target) {
     $target_url = urlencode($target);
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
     if (!$short || $short['createtime'] < time()-86400) {
-        $url = "http://api.uee.me/api.php?url={$target_url}";
-        $result = trim(file_get_contents($url));
-        $result = explode('://', $result);
-        $result = 'http://' . $result[1];
-        pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$result, 'createtime'=>time()]);
-        return $result;
+        $long_url = urlencode($target);
+        $url      = "http://fuziyo.cn/short.php?url=".$long_url;
+        $json     = file_get_contents( $url );
+        $arr      = json_decode($json, true);
+        if ($arr['code'] == 1) {
+            pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$arr['url'], 'createtime'=>time()]);
+            return $arr['url'];
+        } else {
+            return false;
+        }
     } else {
         return $short['short_url'];
     }
