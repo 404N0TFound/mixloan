@@ -28,7 +28,9 @@ if($operation=='index'){
     if ($remove_ids)
     {
         $cond = array('n_id' => $remove_ids);
-    }	if (empty($recommends)) {
+    }
+    $recommends = m('loan')->getRecommends($cond);
+    if (empty($recommends)) {
 		show_json(-1);
 	}
 	show_json(1, array_values($recommends));
