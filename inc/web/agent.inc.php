@@ -306,7 +306,7 @@ if ($operation == 'list') {
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
-        message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
+        message("提交成功", referer(), "sccuess");
     }
 } else if ($operation == 'withdraw_update') {
     //提现更改
