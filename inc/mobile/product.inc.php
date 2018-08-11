@@ -316,7 +316,50 @@ if($operation=='index'){
 	$invite_list = m('product')->getInviteList($params);
 	$arr = ['invite_list'=>array_values($invite_list)];
 	show_json(1, $arr);
+} else if ($operation == 'customer_detail') {
+    //详情
+    $pid = intval($_GPC['pid']);
+    $inviter = intval($_GPC['inviter']);
+    $degree = intval($_GPC['degree']) ? : 1;
+    $type = $_GPC['type'] ? : 1;
+    if (empty($pid) || empty($inviter)) {
+        message('查询出错', '', 'error');
+    }
+    $arr = array(':pid'=>$pid, ':inviter'=>$inviter);
+    if ($type == 1) {
+        $condition = ' WHERE inviter=:inviter AND pid=:pid';
+    } else if ($type == 2) {
+        $condition = ' WHERE inviter=:inviter AND pid=:pid AND status>0';
+    } else if ($type == 3) {
+        $condition = ' WHERE inviter=:inviter AND pid=:pid AND status=-1';
+    }
+    $condition .= " and degree={$degree}";
+    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,realname,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
+    $list = pdo_fetchall($sql, $arr);
+    if (!empty($list)) {
+        foreach ($list as &$row) {
+            $row['product'] = m('product')->getList(['id','ext_info','name','count_time'],['id'=>$row['pid']])[$row['pid']];
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+            $row['bonus'] = $row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'];
+            if ($row['status'] == 1) {
+                $row['state'] = '已注册';
+            } else if ($row['status'] == -1) {
+                $row['state'] = '已失效';
+            } else if ($row['status'] == 0) {
+                $row['state'] = '申请中';
+            } else if ($row['status'] == 2) {
+                $row['state'] = '已成功';
+            }
+            if ($row['degree'] == 1) {
+                $row['degree'] = '直推';
+            } else if ($row['degree'] == 2) {
+                $row['degree'] = '二级';
+            }
+            if ($row['product']['count_time'] != 1) {
+            	$row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3);
+            }
+        }
+        unset($row);
+    }
+    include $this->template('product/customer_detail');
 }
-
-
-?>

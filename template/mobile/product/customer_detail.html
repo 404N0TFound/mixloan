@@ -1,0 +1,104 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/customlist_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/customlist_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+
+    {template 'common/wxshare'}
+</head>
+<style type="text/css">
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        div.agent-foot{padding-bottom:20px; }
+        div.agent-main{padding-bottom:20px;}
+    }
+    .order_detail a {display: inline-block;width: 100%;padding-top: 0.2rem;padding-left: 1rem;}
+    .order_d_right {padding-right: 0.7rem; padding-top: 0.5rem}
+    .bglightgray{background-color: #f2f2f2;}
+    /**{font-family: "Helvetica"!important;}*/
+    div.backtabcontent{font-family: Helvetica!important;display: none;}
+    div.agent-foot p>img {
+        width:1.1rem;
+    }
+
+    div.backtabcontent{display: block;}
+</style>
+<body style="background: #f0f0f0;">
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url, createNew:true});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: black}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>申请详情</span>
+    </div>
+</div>
+{/if}
+<div class="backtabcontent tabcontent agent-main">
+    <div style="background-color: #f8f8f8;height:5px;width:100%;"></div>
+    <div class="tabmain exbalance" style="display: block;padding-bottom: 3rem;">
+        <div class="AC_main">
+            <div class="orderLists">
+
+                <div id="percent" class="percent_list list_common">
+                    {if $list}
+                    {loop $list $row}
+                    <div class="order_list">
+                        <h2>
+                            <img src="{$row['product']['ext_info']['logo']}">
+                            {$row['product']['name']}({$row['degree']})
+                            <span>状态：{$row['state']}</span>
+                        </h2>
+                        <div class="order_detail">
+                            <div style="width: 70%;float:left;">
+                                <a>申请人：{$row['realname']}({$row['phone']})</a>
+                                <a>{$row['createtime']}</a>
+                            </div>
+                            <div style="width: 30%;float:left;">
+                                <div class="order_d_right">
+                                    <span>工资(元)：</span><span style="color:orange;font-size: 0.8rem">{$row['bonus']}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {/loop}
+                    {else}
+                    <div class="norecord">暂无记录</div>
+                    {/if}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+</script>
+
+</body>
+</html>
