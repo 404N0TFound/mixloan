@@ -342,7 +342,7 @@ if($operation=='buy'){
 	//提现提交
 	$bonus = trim($_GPC['money']);
 	$bank_id = intval($_GPC['card_id']);
-	if (!$bonus) {
+	if ($bonus<0) {
 		show_json(-1, null, "提现金额不能为0");
 	}
     if ($config['withdraw_money_limit'] && $bonus < $config['withdraw_money_limit']) {
