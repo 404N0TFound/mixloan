@@ -756,7 +756,7 @@ if($operation=='buy'){
         show_json(-1, null, "一天只能提现1次");
     }
     $week = date("w"); 
-    if ($week == 6 || $week == 7) {
+    if ($week == 6 || $week == 0) {
         show_json(-1, null, "请在工作日提现哦");
     }
     $now_time = explode(':', date('H:i'));
