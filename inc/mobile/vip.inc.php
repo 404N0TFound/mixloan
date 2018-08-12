@@ -369,7 +369,11 @@ if($operation=='buy'){
 	//提现提交
 	$bonus = trim($_GPC['money']);
 	$bank_id = intval($_GPC['card_id']);
-	if (!$bonus) {
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code'] != 1) {
+        show_json(-1, null, "你不是会员");
+    }
+	if ($bonus < 0) {
 		show_json(-1, null, "提现金额不能为0");
 	}
 	if (!$bank_id) {
