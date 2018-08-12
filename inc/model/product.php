@@ -331,7 +331,7 @@ class Xuan_mixloan_Product
         $inviter = (int)$params['inviter'];
         $fields = "b.nickname,b.id as uid,a.openid,a.createtime,c.id,d.re_bonus";
         //取消时间限制
-        $sql = "select a.openid,a.createtime,b.id as uid from " . tablename('qrcode_stat') . ' a
+        $sql = "select a.openid,a.createtime,b.id,b.nickname as uid from " . tablename('qrcode_stat') . ' a
             left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
             where a.qrcid = ' . $inviter . ' and a.type = 1
             group by a.openid
