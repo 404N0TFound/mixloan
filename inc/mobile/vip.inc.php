@@ -367,7 +367,7 @@ if($operation=='buy'){
 	include $this->template('vip/withdraw');
 } else if ($operation == 'withdraw_submit') {
 	//提现提交
-	$bonus = trim($_GPC['money']);
+	$bonus = floatval($_GPC['money']);
 	$bank_id = intval($_GPC['card_id']);
     $agent = m('member')->checkAgent($member['id']);
     if ($agent['code'] != 1) {

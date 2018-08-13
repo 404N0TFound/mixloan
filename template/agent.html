@@ -297,8 +297,8 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
-                    <td>   <img src="{$row['man']['avatar']}" width="35px">&nbsp;{$row['man']['nickname']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>   <img src="{$row['man']['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   
