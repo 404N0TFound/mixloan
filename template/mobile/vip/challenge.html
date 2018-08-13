@@ -72,7 +72,11 @@
     </div>
     <div class="prize_footer">
         <div class="prize_phb">
-            <img src="../addons/xuan_mixloan/template/style/picture/phb_meitu_1.png" />
+            {if $type == 1}
+            <img src="../addons/xuan_mixloan/template/style/images/phb_meitu_1_meitu_4.png" />
+            {else}
+            <img src="../addons/xuan_mixloan/template/style/images/phb_meitu_1_meitu_3.png" />
+            {/if}
             <div class="ranking_list">
                 {if $list}
                 {loop $list $key $value}

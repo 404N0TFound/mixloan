@@ -63,8 +63,10 @@ if ($operation == 'list') {
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_activity"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
-    $starttime = $item['ext_info']['starttime'];
-    $endtime = $item['ext_info']['endtime'];
+    // $starttime = $item['ext_info']['starttime'];
+    // $endtime = $item['ext_info']['endtime'];
+    $starttime = strtotime(date('Y-m-d') . ' -1 days');
+    $endtime = strtotime(date('Y-m-d'));
     if ($item['type'] == 1) {
         //挑战代理
         $list = pdo_fetchall('select COUNT(*) AS count,inviter from ' . tablename('xuan_mixloan_product_apply') . "

@@ -28,6 +28,8 @@ class Xuan_mixloan_Loan
                         $v_string = '(' . implode(',', $v) . ')';
                         $wheres .= " AND `id` NOT IN {$v_string}";
                     }
+                } else if ($k == 'lk_name') {
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }

@@ -25,18 +25,6 @@ if ($operation == 'list') {
     message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
-    }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     if ($_GPC['post'] == 1) {
         $data = $_GPC['data'];
         $data['uniacid'] = $_W['uniacid'];
@@ -51,20 +39,15 @@ if ($operation == 'list') {
 } else if ($operation == 'update') {
     //编辑
     $id = intval($_GPC['id']);
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
-    }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
+    if ($item['type'] == 1) {
+        $temp = m('bank')->getCard(['id', 'name'], ['id' => $item['relate_id']])[$item['relate_id']];
+        $relate_name = $temp['name'];
+    } else {
+        $temp = m('loan')->getList(['id', 'name'], ['id' => $item['relate_id']])[$item['relate_id']];
+        $relate_name = $temp['name'];
+    }
     if ($_GPC['post'] == 1) {
         if (!$_GPC['data']['relate_id']) {
             message('请选择关联产品', '', 'error');
@@ -105,6 +88,30 @@ if ($operation == 'list') {
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_product_advs', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('product', array('op' => 'advs_list')), "sccuess");
+    }
+} else if ($operation == 'getRelate') {
+    //获取关联产品
+    $name = trim($_GPC['name']);
+    $type = intval($_GPC['type']);
+    if ($type == 1) {
+        $items = m('bank')->getCard(['id', 'name'], ['lk_name' => $name]);
+    } else if ($type == 2) {
+        $items = m('loan')->getList(['id', 'name'], ['lk_name' => $name]);
+    }
+    if ($items) {
+        show_json(1, ['items' => array_values($items)]);
+    } else {
+        show_json(-1);
+    }
+} else if ($operation == 'getProductRelate') {
+    //获取关联产品
+    $name = trim($_GPC['name']);
+    $type = intval($_GPC['type']);
+    $items = m('product')->getList(['id', 'name'], ['lk_name' => $name, 'type' => $type]);
+    if ($items) {
+        show_json(1, ['items' => array_values($items)]);
+    } else {
+        show_json(-1);
     }
 }
 include $this->template('product');

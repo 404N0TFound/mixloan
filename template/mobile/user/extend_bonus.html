@@ -34,6 +34,17 @@
         color:#fbf1d7;
         letter-spacing: 0.15rem;
     }
+    .dd5{
+        font-size: 0.8rem !important;
+        text-align: -webkit-center !important;
+        color: #ff3557 !important;
+        font-family: 'num' !important;
+        font-weight: 600 !important;
+        padding: 0 !important;
+    }
+    div.prize_footer .ranking_list dl dd:nth-child(5){
+        line-height: 3rem;
+    }
 </style>
 <body>
 <!-- end -->
@@ -125,13 +136,16 @@
     </div>
     <div class="prize_footer">
         <div class="prize_phb">
-            <img src="../addons/xuan_mixloan/template/style/picture/phb.png" />
+            <img src="../addons/xuan_mixloan/template/style/images/phb_meitu_1_meitu_2.png" />
             <div class="ranking_list">
                 {if $list}
                 {loop $list $key $value}
                 <dl class="clearfix">
                     <dd><b>{if $key==0}<img src="../addons/xuan_mixloan/template/style/picture/p1.png"></b>{else if $key==1}<img src="../addons/xuan_mixloan/template/style/picture/p2.png"></b>{else if $key==2}<img src="../addons/xuan_mixloan/template/style/picture/p3.png"></b>{else}{php echo $key+1;}</b>{/if}</dd>
-                    <dd><img src="{$value['avatar']}"></dd><dd><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd><dd><p><label>¥</label>{$value['bonus']}</p></dd>
+                    <dd style="width:15%"><img src="{$value['avatar']}" style="width: 1rem;height: 1rem"></dd>
+                    <dd style="width:30%"><h3>{$value['nickname']}</h3><p>{$value['phone']}</p></dd>
+                    <dd style="width:20%"><p><label>¥</label>{$value['bonus']}</p></dd>
+                    <dd style="width:15%"><p class="dd5">{$value['numbers']}人</p></dd>
                 </dl>
                 {/loop}
                 {else}

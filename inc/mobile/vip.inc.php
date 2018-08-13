@@ -510,8 +510,10 @@ if($operation=='buy'){
 	if ($item['ext_info']['starttime'] > time()) {
 		message('挑战尚未开始', '', 'error');
 	}
-    $starttime = $item['ext_info']['starttime'];
-    $endtime = $item['ext_info']['endtime'];
+    // $starttime = $item['ext_info']['starttime'];
+    // $endtime = $item['ext_info']['endtime'];
+    $starttime = strtotime(date('Y-m-d'));
+    $endtime = strtotime(date('Y-m-d') . ' +1 days');
 	if ($item['type'] == 1) {
         //挑战代理
         $list = pdo_fetchall('select COUNT(*) AS count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
