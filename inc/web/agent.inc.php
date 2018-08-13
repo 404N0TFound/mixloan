@@ -42,9 +42,9 @@ if ($operation == 'list') {
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
     }
-    if (!empty($_GPC['time'])) {
-        $starttime = $_GPC['time']['start'];
-        $endtime = $_GPC['time']['end'];
+    if (!empty($_GPC['time']) || $_GPC['starttime'] || $_GPC['endtime']) {
+        $starttime = $_GPC['time']['start'] ? : $_GPC['starttime'];
+        $endtime = $_GPC['time']['end'] ? : $_GPC['endtime'];
         $start = strtotime($starttime);
         $end = strtotime($endtime);
         $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
@@ -306,7 +306,8 @@ if ($operation == 'list') {
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
-        message("提交成功", referer(), "sccuess");
+
+        message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list', 'relate_id' => $_GPC['relate_id'], 'status' => $_GPC['status'], 'type' => $_GPC['type'], 'name' => $_GPC['name'], 'starttime' => $_GPC['starttime'], 'endtime' => $_GPC['endtime'])), "sccuess");
     }
 } else if ($operation == 'withdraw_update') {
     //提现更改
