@@ -116,7 +116,7 @@
             <h2>提现金额(元)</h2>
             <div class="txMoney">
                 <span><img src="../addons/xuan_mixloan/template/style/picture/money.png"></span>
-                <input type="text" name="money" id="money" class="money" placeholder="请输入取现金额" />
+                <input type="text" name="money" id="money" class="money" placeholder="{if $times>0}当天非首次提现需要手续费一元{else}请输入取现金额{/if}" />
                 <a href="javascript:;" onclick="allMoney()">全部提现</a>
             </div>
             <p>可用余额：<span id="allmoney">{$can_use}</span><span>（元）</span></p>
@@ -129,9 +129,12 @@
         </div>
         <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
     </div>
-    <div class="footer_tips" style="text-align: center;">
+    <div class="footer_tips" style="margin-left: 10%">
         <div class="tips" style="color:red">
-            提示：工作日9:00至21:00提现2小时内到账
+            提示：1.工作日9:00至21:00提现2小时内到账<br/>
+            2.支付宝账号请不要设置隐私<br/>
+            3.支付宝姓名要为对应的真实姓名<br/>
+            4.邮箱支付宝请填写邮箱<br/>
         </div>
     </div>
 </div>

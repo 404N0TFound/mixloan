@@ -167,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw` (
   `uid` int(11) NOT NULL,
   `bank_id` varchar(11) NOT NULL,
   `bonus` decimal(6,2) NOT NULL,
+  `money` decimal(6,2) NOT NULL,
   `status` tinyint(2) NOT NULL COMMENT '-1失败 0审核中 1已打款',
   `createtime` int(11) NOT NULL,
   `ext_info` varchar(255) NOT NULL,

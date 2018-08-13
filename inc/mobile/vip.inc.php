@@ -174,6 +174,10 @@ if($operation=='buy'){
 	include $this->template('vip/salary');
 } else if ($operation == 'withdraw') {
     //提现
+    $date = date('Y-m-d');
+    $today = strtotime("{$date}");
+    $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
+		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
     $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
     foreach ($banks as &$row) {
         if ($row['type'] == 1) {
@@ -222,11 +226,20 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
+	if ($times > 0) {
+		$money = $bonus;
+	} else {
+		if ($bonus < 1) {
+			show_json(-1, null, "可提现余额不足");
+		}
+		$money = $bonus - 1;
+	}
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
 		'uid'=>$member['id'],
 		'bank_id'=>$bank_id,
 		'bonus'=>$bonus,
+		'money'=>$money,
 		'createtime'=>time(),
 		'status'=>0
 	);
