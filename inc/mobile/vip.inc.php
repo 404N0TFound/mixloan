@@ -444,8 +444,8 @@ if($operation=='buy'){
     $today = strtotime("{$date}");
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
 		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
-    if ($times>0) {
-        show_json(-1, null, "一天只能提现1次");
+    if ($times>4) {
+        show_json(-1, null, "一天只能提现5次");
     }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],
