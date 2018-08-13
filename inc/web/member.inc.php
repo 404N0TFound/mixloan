@@ -10,7 +10,8 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' AND status<>-1';
+    $status = $_GPC['status'] != '' ? $_GPC['status'] : 1;
+    $wheres = ' AND status=' . $status;
     if (!empty($_GPC['id'])) {
         $wheres.= " AND id='{$_GPC['id']}'";
     }
