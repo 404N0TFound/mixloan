@@ -137,14 +137,20 @@
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
                     <td  style="overflow:visible;">
-                        
-                        <div class="btn-group btn-group-sm" >
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" onclick="return confirm('确定要删除该记录吗？');">删除</a>
+                        &nbsp;
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => 1, 'id' => $row['id']));}" onclick="return confirm('确定要打款吗？');">打款</a>
+                        &nbsp;
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => -1,'id' => $row['id']));}">失败</a>
+                        &nbsp;
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update', 'id' => $row['id']));}" target="_blank">查看详情</a>
+                        <!-- <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update','id' => $row['id']));}" title='处理'><i class='fa fa-edit'></i> 处理</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update','id' => $row['id']));}" title='处理' target="_blank"><i class='fa fa-edit'></i> 处理</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除该记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </td>
                 </tr>
                 {/loop}
