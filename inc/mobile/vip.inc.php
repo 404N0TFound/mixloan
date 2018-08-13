@@ -519,20 +519,20 @@ if($operation=='buy'){
         $list = pdo_fetchall('select COUNT(*) AS count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
             where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type=2 and degree=1
             group by inviter
-            order by count desc limit 10");
+            order by count desc limit 20");
     } else if ($item['type'] == 2) {
         //挑战佣金
         $list = pdo_fetchall('select SUM(re_bonus+done_bonus+extra_bonus) AS sum,inviter from ' . tablename('xuan_mixloan_product_apply') . "
             where uniacid={$_W['uniacid']} and createtime>{$starttime} and createtime<={$endtime} and type=2
             group by inviter having sum <> 0
-            order by sum desc limit 10");
+            order by sum desc limit 20");
     }
     foreach ($list as &$row) {
         $type = $item['type'] == 1 ? 3 : 4;
         $man = pdo_fetch('select nickname,avatar,phone from ' . tablename('xuan_mixloan_member') . '
             where id=:id', array(':id' => $row['inviter']));
         $row['avatar'] = $man['avatar'];
-        $row['phone'] = $man['phone'];
+        $row['phone'] = substr($man['phone'], 0, 4) . '****' . substr($man['phone'], -3, 3);;
         $row['nickname'] = $man['nickname'];
     }
     unset($row);
