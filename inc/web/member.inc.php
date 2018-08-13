@@ -29,12 +29,12 @@ if ($operation == 'list') {
             if ($agent['code'] == 1) {
                 $partner = m('member')->checkPartner($row['id']);
                 if ($partner['code'] == 1) {
-                    $row['type'] = '合伙人';
+                    $row['type'] = 3;
                 } else {
-                    $row['type'] = '代理';
+                    $row['type'] = 2;
                 }
             } else {
-                $row['type'] = '用户';
+                $row['type'] = 1;
             }
         }
         unset($row);
