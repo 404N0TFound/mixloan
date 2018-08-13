@@ -286,7 +286,7 @@
             layer.msg("最多可添加4种收款方式");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_type'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_alipay'])}";
             openNew(_url);
         }
     })
