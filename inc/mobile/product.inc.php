@@ -355,7 +355,7 @@ if($operation=='index'){
             } else if ($row['degree'] == 2) {
                 $row['degree'] = '二级';
             }
-            if ($row['product']['count_time'] != 1) {
+            if ($row['product']['count_time'] == 1) {
             	$row['phone'] = substr($row['phone'], 0, 4) . '****' . substr($row['phone'], -3);
             }
         }
