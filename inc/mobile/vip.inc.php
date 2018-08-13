@@ -226,7 +226,7 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
-	if ($times > 0) {
+	if (!$times) {
 		$money = $bonus;
 	} else {
 		if ($bonus < 1) {

@@ -387,7 +387,7 @@ if ($operation == 'list') {
             if (!$_COOKIE[$cookie])
             {
                 $payment_no = date('YmdHis');
-                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                $result = m('alipay')->transfer($payment_no, $item['money'], $bank['phone'], $bank['realname']);
                 if ($result['code'] == -1) {
                     message($result['msg'], '', 'error');
                 } else {
