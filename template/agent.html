@@ -172,6 +172,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">邀请人昵称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="nickname" value="{$_GPC['nickname']}"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="type" onchange="change_s()">
@@ -291,8 +297,8 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
+                    <td>   <img src="{$row['man']['avatar']}" width="35px">&nbsp;{$row['man']['nickname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   
