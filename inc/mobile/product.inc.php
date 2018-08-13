@@ -189,119 +189,108 @@ if($operation=='index'){
         show_json(-1, [], '邀请二维码过期');
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    if ($info['type'] == 2) {
-        message('不允许在这里申请小贷产品');
-        if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
-            show_json(-1, [], '资料不能为空');
-        }
-        $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
-        if ($record) {
-            show_json(-1, [], "您已经申请过啦");
-        }
-        if ($config['jdwx_open'] == 1) {
-            // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-            // if ($res['code'] == -1) {
-            //     show_json($res['code'], [], $res['msg']);
-            // }
-        }
-        if ($inviter) {
-            // $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
-            // $datam = array(
-            //     "first" => array(
-            //         "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
-            //         "color" => "#173177"
-            //     ) ,
-            //     "keyword1" => array(
-            //         'value' => trim($_GPC['name']),
-            //         "color" => "#4a5077"
-            //     ) ,
-            //     "keyword2" => array(
-            //         'value' => date('Y-m-d H:i:s', time()),
-            //         "color" => "#4a5077"
-            //     ) ,
-            //     "remark" => array(
-            //         "value" => '点击查看详情',
-            //         "color" => "#4a5077"
-            //     ) ,
-            // );
-            // $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
-            // $account = WeAccount::create($_W['acid']);
-            // $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
-            $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-            $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-            $insert = array(
-                'is_read'=>0,
-                'uid'=>$member['id'],
-                'type'=>2,
-                'createtime'=>time(),
-                'uniacid'=>$_W['uniacid'],
-                'to_uid'=>$inviter,
-                'ext_info'=>json_encode($ext_info),
-            );
-            pdo_insert('xuan_mixloan_msg', $insert);
-            $status = 0;
-        } else {
-            $status = -2;
-        }
-        $insert = array(
-            'uniacid' => $_W['uniacid'],
-            'uid' => $member['id'],
-            'phone' => trim($_GPC['phone']),
-            'certno' => trim($_GPC['idcard']),
-            'realname' => trim($_GPC['name']),
-            'pid' => $id,
-            'inviter' => $inviter,
-            're_bonus'=>0,
-            'done_bonus'=>0,
-            'extra_bonus'=>0,
-            'status'=>$status,
-            'createtime'=>time()
-        );
-        pdo_insert('xuan_mixloan_product_apply', $insert);
-        //二级
-        $inviter_info = m('member')->getInviterInfo($inviter);
-        $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
-        if ($second_inviter) {
-            $insert['inviter'] = $second_inviter;
-            $insert['degree'] = 2;
-            pdo_insert('xuan_mixloan_product_apply', $insert);
-            // $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
-            // $datam = array(
-            //     "first" => array(
-            //         "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_info['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
-            //         "color" => "#173177"
-            //     ) ,
-            //     "keyword1" => array(
-            //         'value' => trim($_GPC['name']),
-            //         "color" => "#4a5077"
-            //     ) ,
-            //     "keyword2" => array(
-            //         'value' => date('Y-m-d H:i:s', time()),
-            //         "color" => "#4a5077"
-            //     ) ,
-            //     "remark" => array(
-            //         "value" => '点击查看详情',
-            //         "color" => "#4a5077"
-            //     ) ,
-            // );
-            // $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
-            $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-            $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-            $insert = array(
-                'is_read'=>0,
-                'uid'=>$member['id'],
-                'type'=>2,
-                'createtime'=>time(),
-                'uniacid'=>$_W['uniacid'],
-                'to_uid'=>$second_inviter,
-                'ext_info'=>json_encode($ext_info),
-            );
-            pdo_insert('xuan_mixloan_msg', $insert);
-        }
-        $redirect_url = $pro['ext_info']['url'];
-    } else {
-        $redirect_url = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$pro['id'], 'inviter'=>$inviter, 'pid'=>$info['id']));
+    if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
+        show_json(-1, [], '资料不能为空');
     }
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    if ($record) {
+        show_json(-1, [], "您已经申请过啦");
+    }
+    if ($inviter) {
+        // $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
+        // $datam = array(
+        //     "first" => array(
+        //         "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
+        //         "color" => "#173177"
+        //     ) ,
+        //     "keyword1" => array(
+        //         'value' => trim($_GPC['name']),
+        //         "color" => "#4a5077"
+        //     ) ,
+        //     "keyword2" => array(
+        //         'value' => date('Y-m-d H:i:s', time()),
+        //         "color" => "#4a5077"
+        //     ) ,
+        //     "remark" => array(
+        //         "value" => '点击查看详情',
+        //         "color" => "#4a5077"
+        //     ) ,
+        // );
+        // $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        // $account = WeAccount::create($_W['acid']);
+        // $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
+        $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $msg = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $msg);
+        $status = 0;
+    } else {
+        $status = -2;
+    }
+    $insert = array(
+        'uniacid' => $_W['uniacid'],
+        'uid' => $member['id'],
+        'phone' => trim($_GPC['phone']),
+        'certno' => trim($_GPC['idcard']),
+        'realname' => trim($_GPC['name']),
+        'pid' => $id,
+        'inviter' => $inviter,
+        're_bonus'=>0,
+        'done_bonus'=>0,
+        'extra_bonus'=>0,
+        'status'=>$status,
+        'createtime'=>time()
+    );
+    pdo_insert('xuan_mixloan_product_apply', $insert);
+    //二级
+    $inviter_info = m('member')->getInviterInfo($inviter);
+    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    if ($second_inviter) {
+        $insert['inviter'] = $second_inviter;
+        $insert['degree'] = 2;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+        // $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+        // $datam = array(
+        //     "first" => array(
+        //         "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_info['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+        //         "color" => "#173177"
+        //     ) ,
+        //     "keyword1" => array(
+        //         'value' => trim($_GPC['name']),
+        //         "color" => "#4a5077"
+        //     ) ,
+        //     "keyword2" => array(
+        //         'value' => date('Y-m-d H:i:s', time()),
+        //         "color" => "#4a5077"
+        //     ) ,
+        //     "remark" => array(
+        //         "value" => '点击查看详情',
+        //         "color" => "#4a5077"
+        //     ) ,
+        // );
+        // $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+        $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $msg = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$second_inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $msg);
+    }
+    $redirect_url = $pro['ext_info']['url'];
     show_json(1, $redirect_url);
 } else if ($operation == 'customer') {
     //客户列表
