@@ -760,7 +760,7 @@ if($operation=='buy'){
         show_json(-1, null, "请在工作日提现哦");
     }
     $now_time = explode(':', date('H:i'));
-    if ($now_time[0] >= 9 && $now_time[0] <= 18) {
+    if ($now_time[0] >= 9 && $now_time[0] <= 17) {
         if ($now_time[0] == 17 && $now_time[1] > 30) {
             show_json(-1, null, "请在上午9点到下午5点半点之间提现哦");
         } else {
