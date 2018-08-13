@@ -207,6 +207,9 @@ if ($operation == 'list') {
     if (isset($_GPC['status']) && $_GPC['status'] != "") {
         $wheres .= " and a.status={$_GPC['status']}";
     }
+    if (isset($_GPC['nickname']) && $_GPC['nickname'] != "") {
+        $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+    }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
