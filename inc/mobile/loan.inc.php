@@ -154,18 +154,6 @@ if($operation=='index'){
         if ($openid) {
             // pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
         }
-        if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
-        }
         $status = 0;
     } else {
         $status = -2;
