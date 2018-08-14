@@ -41,6 +41,10 @@
     function openNew(url){
         mui.openWindow({url:url, createNew:true});
     }
+    function return_user(){
+        var url = "{php echo $this->createMobileUrl('user')}"
+        mui.openWindow({url:url, createNew:true});
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
@@ -69,7 +73,7 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
         <p>推广中心</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('user')}')">
+    <a onclick="return_user()">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
         <p>个人中心</p>
     </a>

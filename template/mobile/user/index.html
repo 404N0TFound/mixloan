@@ -45,6 +45,10 @@
     function openNew(url){
         mui.openWindow({url:url, createNew:true});
     }
+    function return_user(){
+        var _url = "{php echo $this->createMobileUrl('user')}"
+        mui.openWindow({url:url, createNew:true});
+    }
 </script>
 {if !is_weixin()}
 <script type="text/javascript">
