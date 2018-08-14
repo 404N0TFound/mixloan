@@ -131,18 +131,7 @@ if($operation=='index'){
             'ext_info'=>json_encode($ext_info),
         );
         pdo_insert('xuan_mixloan_msg', $insert);
-        if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
-        }
+        
         $status = 0;
     } else {
         $status = -2;
