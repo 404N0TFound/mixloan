@@ -294,9 +294,9 @@
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
                     <th style='width:200px;'>邀请时间</th>
-                    <th style='width:80px;'>邀请等级</th>
-                    <th style='width:120px;'>状态</th>
-                    <th>操作</th>
+                    <th style='width:50px;'>邀请等级</th>
+                    <th style='width:50px;'>状态</th>
+                    <th style="text-align: center;width: 250px">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -320,11 +320,14 @@
                         {/if}</td>
                     <td  style="overflow:visible;">
                         <div class="btn-group btn-group-sm" >
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_update','id' => $row['id'], 'relate_id' => $_GPC['relate_id'], 'type' => $_GPC['type'], 'name' => $_GPC['name'], 'starttime' => $starttime, 'endtime' => $endtime, 'status' => $_GPC['status']));}" title='管理'><i class='fa fa-edit'></i> 管理</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
-                            </ul>
+                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_delete','id' => $row['id']));}" onclick="return confirm('确定要删除该记录吗？');">删除</a>
+                            &nbsp;
+                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_operation', 'status' => 1, 'id' => $row['id']));}">已注册</a>
+                            &nbsp;
+                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_operation', 'status' => -1,'id' => $row['id']));}">注册失败</a>
+                            &nbsp;
+                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_update','id' => $row['id'], 'relate_id' => $_GPC['relate_id'], 'type' => $_GPC['type'], 'name' => $_GPC['name'], 'starttime' => $starttime, 'endtime' => $endtime, 'status' => $_GPC['status']));}">查看详情</a>
+
                         </div>
                     </td>
                 </tr>
@@ -466,7 +469,7 @@
             <div class="form-group" id="register" {if $item['status']<=0}style="display: none"{/if}>
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">注册奖励</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[re_bonus]" value="{$item['re_bonus']}"/>
+                    <input type="text" class="form-control"  name="data[re_bonus]" id="re_bonus" value="{$item['re_bonus']}"/>
                 </div>
             </div>
             {if $item['pid'] !=0}
@@ -503,8 +506,12 @@
 </div>
 <script type="text/javascript">
     var change_stauts = function () {
+        var done_bonus = {php echo $info['re_reward_money'] ? : 0};
         var value = $("select[name='data[status]']").val();
         if (value>0) {
+            if (done_bonus != 0) {
+                $('#re_bonus').val(done_bonus);
+            }
             $('#register').show();
             if (value>1) {
                 $('.status').show();
