@@ -219,6 +219,19 @@ if ($operation == 'list') {
     if (isset($_GPC['status']) && $_GPC['status'] != "") {
         $wheres .= " and a.status={$_GPC['status']}";
     }
+    if (!empty($_GPC['nickname'])) {
+        $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+    } else {
+        $starttime = date('Y-m');
+        $endtime = date('Y-m-d H:i:s');
+    }
     $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
