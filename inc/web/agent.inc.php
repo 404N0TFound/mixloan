@@ -430,16 +430,13 @@ if ($operation == 'list') {
                 where id=:id", array(':id'=>$item['pid']));
             $info['ext_info'] = json_decode($info['ext_info'], true);
             if ($item['degree'] == 1) {
-                $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
                 $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
             } else if ($item['degree'] == 2) {
-                $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
                 $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
             } else if ($item['degree'] == 3) {
-                $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
                 $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
             }
-            $update['re_bonus'] = floatval($info['done_reward_money']) ? : floatval($info['re_reward_money']);
+            $update['re_bonus'] = floatval($info['re_reward_money']) ? : 0;
         }
     }
     pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));

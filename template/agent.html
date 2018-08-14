@@ -399,10 +399,10 @@
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">注册奖励：
-                        {if $info['done_reward_type']==1}
-                            {$info['done_reward_money']}元
-                        {else if $info['done_reward_type']==2}
-                            {$info['done_reward_per']}点
+                        {if $info['re_reward_type']==1}
+                            {$info['re_reward_money']}元
+                        {else if $info['re_reward_type']==2}
+                            {$info['re_reward_per']}点
                         {else}
                             无
                         {/if}
@@ -410,10 +410,10 @@
                 </div>
                 <div class="col-sm-3 col-lg-4 col-xs-12">
                     <p class="form-control-static">下款/卡奖励：
-                        {if $info['re_reward_type']==1}
-                            {$info['re_reward_money']}元
-                        {else if $info['re_reward_type']==2}
-                            {$info['re_reward_per']}点
+                        {if $info['done_reward_type']==1}
+                            {$info['done_reward_money']}元
+                        {else if $info['done_reward_type']==2}
+                            {$info['done_reward_per']}点
                         {else}
                             无
                         {/if}
@@ -506,11 +506,11 @@
 </div>
 <script type="text/javascript">
     var change_stauts = function () {
-        var done_bonus = {php echo $info['re_reward_money'] ? : 0};
+        var re_bonus = {php echo $info['re_reward_money'] ? : 0};
         var value = $("select[name='data[status]']").val();
         if (value>0) {
-            if (done_bonus != 0) {
-                $('#re_bonus').val(done_bonus);
+            if (re_bonus != 0) {
+                $('#re_bonus').val(re_bonus);
             }
             $('#register').show();
             if (value>1) {
