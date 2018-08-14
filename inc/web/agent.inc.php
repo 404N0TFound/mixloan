@@ -378,7 +378,7 @@ if ($operation == 'list') {
                 }
                 $second_update['relate_money'] = $_GPC['data']['relate_money'];
                 if ($done_bonus) {
-                    $second_update['done_bonus'] = $done_bonus;
+                    // $second_update['done_bonus'] = $done_bonus;
                 }
                 if ($re_bonus) {
                     $second_update['re_bonus'] = $re_bonus;
@@ -407,7 +407,7 @@ if ($operation == 'list') {
                 }
                 $third_update['relate_money'] = $_GPC['data']['relate_money'];
                 if ($done_bonus) {
-                    $third_update['done_bonus'] = $done_bonus;
+                    // $third_update['done_bonus'] = $done_bonus;
                 }
                 if ($re_bonus) {
                     $third_update['re_bonus'] = $re_bonus;
@@ -589,7 +589,7 @@ if ($operation == 'list') {
                         }
                         $second_update['relate_money'] = $update['relate_money'];
                         if ($done_bonus) {
-                            $second_update['done_bonus'] = $done_bonus;
+                            // $second_update['done_bonus'] = $done_bonus;
                         }
                         if ($re_bonus) {
                             $second_update['re_bonus'] = $re_bonus;
@@ -618,7 +618,7 @@ if ($operation == 'list') {
                         }
                         $third_update['relate_money'] = $update['relate_money'];
                         if ($done_bonus) {
-                            $third_update['done_bonus'] = $done_bonus;
+                            // $third_update['done_bonus'] = $done_bonus;
                         }
                         if ($re_bonus) {
                             $third_update['re_bonus'] = $re_bonus;
