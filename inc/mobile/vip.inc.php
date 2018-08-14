@@ -507,7 +507,8 @@ if($operation=='buy'){
 } else if ($operation == 'partner_center') {
     //合伙人中心
     $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
-		where inviter=:inviter and pid<>0 and degree=2 order by id desc', array(':inviter'=>$member['id']));
+		where inviter=:inviter and pid<>0 and degree=2 and status>0 
+        order by id desc', array(':inviter'=>$member['id']));
     foreach ($list as &$row) {
     	$pro = m('product')->getList(['id', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
     	$re_bonus = $pro['ext_info']['re_two_init_reward_money'] ? : 0;
