@@ -384,6 +384,68 @@ if($operation=='buy'){
                     'ext_info'=>json_encode($ext_info),
                 );
                 pdo_insert('xuan_mixloan_msg', $insert);
+                //三级
+                $man_two = m('member')->getInviterInfo($inviter_two);
+                $inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+                if ($inviter_thr) {
+                    $agent = m('member')->checkAgent($inviter_thr, $config);
+                    if ($agent['level'] == 1) {
+                        $re_bonus = $config['inviter_fee_thr_init'] * 0.01 * $fee;
+                    } else if ($agent['level'] == 2) {
+                        $re_bonus = $config['inviter_fee_thr_mid'] * 0.01 * $fee;
+                    } else if ($agent['level'] == 3) {
+                        $re_bonus = $config['inviter_fee_thr_height'] * 0.01 * $fee;
+                    }
+                    if ($re_bonus) {
+                        $insert_i = array(
+                            'uniacid' => $_W['uniacid'],
+                            'uid' => $member['id'],
+                            'phone' => $member['phone'],
+                            'certno' => $member['certno'],
+                            'realname' => $member['realname'],
+                            'inviter' => $inviter_thr,
+                            'extra_bonus'=>0,
+                            'done_bonus'=>0,
+                            're_bonus'=>$re_bonus,
+                            'status'=>2,
+                            'createtime'=>time(),
+                            'degree'=>3
+                        );
+                        pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                    }
+                    //模板消息提醒
+                    $thr_openid = m('user')->getOpenid($inviter_thr);
+                    $datam = array(
+                        "first" => array(
+                            "value" => "您好，您的团队邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                            "color" => "#173177"
+                        ) ,
+                        "order" => array(
+                            "value" => $params['tid'],
+                            "color" => "#173177"
+                        ) ,
+                        "money" => array(
+                            "value" => $re_bonus,
+                            "color" => "#173177"
+                        ) ,
+                        "remark" => array(
+                            "value" => '点击查看详情',
+                            "color" => "#4a5077"
+                        ) ,
+                    );
+                    $account = WeAccount::create($_W['acid']);
+                    $account->sendTplNotice($thr_openid, $config['tpl_notice5'], $datam, $url);
+                    $ext_info = array('content' => "您好，您的团队邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金{$re_bonus}元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", 'url' => $url);
+                    $insert = array(
+                        'is_read'=>0,
+                        'type'=>1,
+                        'createtime'=>time(),
+                        'uniacid'=>$_W['uniacid'],
+                        'to_uid'=>$inviter_thr,
+                        'ext_info'=>json_encode($ext_info),
+                    );
+                    pdo_insert('xuan_mixloan_msg', $insert);
+                }
             }
         }
         message("支付成功", $this->createMobileUrl('user'), "success");
