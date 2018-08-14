@@ -19,7 +19,7 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-	if ($member['id'] == 93) {
+	if ($member['id'] == 1) {
 		$config['buy_vip_price'] = 0.01;
 	}
 	if (!is_weixin()) {
