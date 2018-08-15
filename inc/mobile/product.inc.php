@@ -252,6 +252,7 @@ if($operation=='index'){
 } else if ($operation == 'customer_detail') {
     //详情
     $pid = intval($_GPC['pid']);
+    $degree = intval($_GPC['degree']);
     $inviter = intval($_GPC['inviter']);
     $type = $_GPC['type'] ? : 1;
     if (empty($pid) || empty($inviter)) {
