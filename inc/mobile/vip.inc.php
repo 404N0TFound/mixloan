@@ -452,8 +452,8 @@ if($operation=='buy'){
     } else if ($type == '10002') {
         //升级会员付费
         $agent = m('member')->checkAgent($member['id'], $config);;
-        if ($agent['level'] == 3) {
-            message("您已经是最高级会员，请不要重复升级", $this->createMobileUrl('user'), "error");
+        if ($agent['level'] == $params['level']) {
+            message("请不要重复升级", $this->createMobileUrl('user'), "error");
         }
         if (!$_SESSION['upgrade_level']) {
         	$_SESSION['upgrade_level'] = $params['level'];
