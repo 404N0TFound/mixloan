@@ -311,7 +311,7 @@ if($operation=='buy'){
     $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
     $created = true;
     if ($type == 3) {
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'', 'inviter'=>$member['id']));
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('index', array('op'=>'register', 'inviter'=>$member['id']));
         $share_url = shortUrl( $url );
         $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验：{$share_url}";
         if (!$posterArr) {
