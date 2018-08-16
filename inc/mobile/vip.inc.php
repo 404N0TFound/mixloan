@@ -389,8 +389,8 @@ if($operation=='buy'){
 	if ($bonus < 0) {
 		show_json(-1, null, "提现金额不能为0");
 	}
-    if ($bonus > 10) {
-        show_json(-1, null, "10元起提");
+    if ($bonus < 5) {
+        show_json(-1, null, "5元起提");
     }
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
