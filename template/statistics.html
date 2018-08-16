@@ -1,0 +1,121 @@
+{template 'common/header'}
+<style type="text/css">
+.today,.yesterday{font-size: 21px !important}
+</style>
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('statistics', array('op' => 'list'));}">统计中心</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="statistics" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">时间筛选</label>
+                <div class="col-sm-9 col-xs-12">
+                    {php echo tpl_form_field_daterange('time', array('starttime'=>$starttime,'endtime'=>$endtime),true);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="welcome-container">
+    <div class="panel we7-panel account-stat">
+        <div class="panel-heading">
+            筛选/总数
+        </div>
+        <div class="panel-body we7-padding-vertical">
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">购买代理数</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$vip_buy_nums['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$vip_buy_nums['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">购买代理金额</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$vip_buy_fee['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$vip_buy_fee['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">购买代理返佣</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$vip_buy_reward['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$vip_buy_reward['all']}</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body we7-padding-vertical">
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">提现总金额</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$withdraw_money['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$withdraw_money['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">申请中提现</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">-</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$withdraw_apply['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">剩余未提现余额</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">-</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$balance['all']}</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body we7-padding-vertical">
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">佣金总额</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$reward['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$reward['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">产品佣金</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$reward_product['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$reward_product['all']}</span>
+                </div>
+            </div>
+            <div class="col-sm-3 text-center" style="width: 33.33%">
+                <div class="title">合伙人佣金</div>
+                <div>
+                    <span class="today ng-binding" ng-init="0" ng-bind="fans_kpi.today.new">{$reward_partner['filter']}</span>
+                    <span class="pipe">/</span>
+                    <span class="yesterday ng-binding" ng-init="0" ng-bind="fans_kpi.yesterday.new">{$reward_partner['all']}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+{template 'common/footer'}

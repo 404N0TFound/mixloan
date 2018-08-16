@@ -205,11 +205,25 @@ if($operation == 'getCode'){
     $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
     list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
     echo  $_W['setting']['remote']['qiniu']['url'] . '/' . $filename ;
-} else if ($operation == 'apply_temp') {
-    //常规脚本
-}  else if ($operation == 'checkMember') {
+} else if ($operation == 'checkMember') {
     $openid = m('user')->getOpenid();
     show_json(1, m('member')->getMember($openid));
+} else if ($operation == 'apply_temp') {
+    //常规脚本
+    $ids = [];
+     if ($_GPC['type'] == 'temp') {
+        $list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        foreach ($list as $row) {
+            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+            if ($row['left_bonus']<0) {
+                echo $row['uid'] . ':' . $row['left_bonus'] . "<br/>";
+            }
+        }
+    }
+    if (!empty($ids)) {
+        echo implode(',', $ids);
+    } else {
+        echo 'empty';
+    }
 }
-
-?>
