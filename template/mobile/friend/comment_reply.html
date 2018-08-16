@@ -250,15 +250,8 @@
         $.post("{php echo $this->createMobileUrl('friend', array('op'=>'post_reply'));}",{parent_id:id, content:content, imgs_url:imgs_url, reply_type:reply_type, reply_id:reply_id},
             function(res){
                 if (res.type == 'success') {
-                    layer.msg("评论成功",{time:1000});
-                    {if is_weixin()}
-                    history.go(0);
-                    {else}
-                    mui.plusReady(function(){
-                        var self = plus.webview.currentWebview();
-                        self.reload(true);
-                    })
-                    {/if}
+                        layer.msg("评论成功",{time:1000});
+                        history.go(0);
                     } else {
                         $(".to_submit").attr("send", 1);
                         layer.msg(res.message,{time:1000});
