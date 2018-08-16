@@ -160,7 +160,7 @@ class Xuan_mixloan_Member
         if (empty($openid)) {
             $openid = m('user')->getOpenid();
         }
-        if (empty($openid)) {
+        if (empty($openid) && !strexists($_SERVER['REQUEST_URI'], 'register')) {
             header('location:' . $_W['siteroot'] . "/app/index.php?i={$_W['uniacid']}&c=entry&do=index&m=xuan_mixloan&op=login");
             exit();
             // die("<!DOCTYPE html>
@@ -180,7 +180,7 @@ class Xuan_mixloan_Member
         $followed = m('user')->followed($openid);
         $uid      = 0;
         $mc       = array();
-        if (empty($member)) {
+        if (empty($member) && !empty($openid)) {
             load()->model('mc');
             if ($followed) {
                 $uid = mc_openid2uid($openid);
