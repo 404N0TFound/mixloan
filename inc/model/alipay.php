@@ -31,12 +31,12 @@ class Xuan_mixloan_Alipay
         $aop->format            = 'json';
         $request                = new AlipayFundTransToaccountTransferRequest();
         $account = md5($payee_account . floatval($amount));
-        $record = pdo_fetch('select id from ' . tablename('xuan_mixloan_alipay_log') . ' where 
-            account=:account', array(':account' => $account));
+        $record = pdo_fetch('select id,createtime from ' . tablename('xuan_mixloan_alipay_log') . ' where 
+            account=:account order by id desc', array(':account' => $account));
         if (!empty($record)) {
-            if ($record) {
+            if ($record['createtime'] + 86400 > time()) {
                 return array('code' => -1, 'msg' => '不允许重复打款');
-            } 
+            }
         } else {
             $insert = array();
             $insert['account'] = $account;
