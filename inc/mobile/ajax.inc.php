@@ -249,15 +249,12 @@ if($operation == 'getCode'){
     }
 } else if ($operation == 'temp') {
 	//临时脚本
-	$list = pdo_fetchall('select uid,phone,pid from '.tablename('xuan_mixloan_product_apply').' where inviter=:inviter and degree=1', array(':inviter' => '15'));
+	$list = pdo_fetchall('select id,avatar from '.tablename('xuan_mixloan_member').'', array());
 	foreach ($list as $row) {
-		if ($row['uid']) {
-			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where uid=:uid and pid=:pid and degree=2', array(':uid'=>$row['uid'], ':pid'=>$row['pid']));
-		} else {
-			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where phone=:phone and pid=:pid and degree=2', array(':phone'=>$row['phone'], ':pid'=>$row['pid']));
-		}
-		if ($id) {
-			$ids[] = $id;
+		if (strstr($row['avatar'], 'wx.luohengwangluo.com')) {
+			$avatar = str_replace('wx.luohengwangluo.com', 'ss-k.cn', $row['avatar']);
+			pdo_update('xuan_mixloan_member', array('avatar' => $avatar), array('id' => $row['id']));
+			$ids[] = $row['id'];
 		}
 	}
 	echo implode(',', $ids);
