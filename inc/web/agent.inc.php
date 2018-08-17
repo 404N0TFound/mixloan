@@ -45,11 +45,8 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.uid='{$_GPC['uid']}'";
     }
-    if (!empty($_GPC['type'])) {
-        $wheres.= " AND c.type='{$_GPC['type']}'";
-    }
     if (!empty($_GPC['relate_id'])) {
-        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+        $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
     }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
@@ -64,18 +61,6 @@ if ($operation == 'list') {
         $starttime = "";
         $endtime = "";
     }
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
-    }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
     $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;

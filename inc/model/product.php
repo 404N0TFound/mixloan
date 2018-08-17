@@ -16,6 +16,8 @@ class Xuan_mixloan_Product
                 if ($k == 'id' && is_array($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
+                } else if ($k == 'lk_name') {
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
