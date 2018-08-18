@@ -19,19 +19,22 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	 $tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
-	exit;
+	$tid = "10001" . date('YmdHis', time());
+	if ($config['pay_type'] == 1) {
+		$title = "购买{$config['title']}代理会员";
+		$fee = $config['buy_vip_price'];
+		$params = array(
+		    'tid' => $tid, 
+		    'ordersn' => $tid, 
+		    'title' => $title, 
+		    'fee' => $fee, 
+		    'user' => $member['id'], 
+		);
+		//调用pay方法
+		$this->pay($params);
+	} else {
+		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/codepay/pay.php');
+	}
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
 	   	show_json(-1, [], '您还不是代理哦');
