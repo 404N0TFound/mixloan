@@ -262,20 +262,24 @@ if($operation=='index'){
     $days_list = m('product')->getList(['id', 'name', 'ext_info'], $condition_days);
     $weeks_list = m('product')->getList(['id', 'name', 'type'], $condition_weeks);
     $months_list = m('product')->getList(['id', 'name', 'type'], $condition_months);
-    $invite_list = m('product')->getInviteList($params);
+    $invite_list = m('product')->getList(['id', 'name', 'type'], ['is_show' => 0]);
     $days_ids = m('product')->getIds($days_list);
     $weeks_ids = m('product')->getIds($weeks_list);
     $months_ids = m('product')->getIds($months_list);
+    $invite_ids = m('product')->getIds($invite_list);
     $applys = m('product')->getApplys($params);
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);
+    $invite_count_list = m('product')->getNums($invite_ids, $params, 1);
     $days_succ_list = m('product')->getNums($days_ids, $params, 2);
     $weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
     $months_succ_list = m('product')->getNums($months_ids, $params, 2);
+    $invite_succ_list = m('product')->getNums($invite_ids, $params, 2);
     $days_bonus_list = m('product')->getNums($days_ids, $params, 3);
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
+    $invite_bonus_list = m('product')->getNums($invite_ids, $params, 3);
     foreach ($days_list as &$row) {
         $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
         if ($row['type'] == 1) {
@@ -304,6 +308,16 @@ if($operation=='index'){
             $row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
         }
         $row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
+    }
+    unset($row);
+    foreach ($invite_list as &$row) {
+        $row['count_num'] = $invite_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $invite_succ_list[$row['id']]['count'] ? $invite_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $invite_succ_list[$row['id']]['relate_money'] ? $invite_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $invite_bonus_list[$row['id']]['bonus'] ? : 0;
     }
     unset($row);
     $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];

@@ -562,4 +562,8 @@ if($operation=='buy'){
     $code = $cache->getCode();
     setcookie('authcode', md5($code), time()+300);
     include $this->template('vip/register');
+} else if ($operation == 'filed_withdraw') {
+	// 提现失败
+	pdo_update('xuan_mixloan_withdraw_delete', array('is_read' => 1), array('uid' => $member['id']));
+	header("location:{$this->createMobileUrl('vip', array('op' => 'withdraw'))}");
 }

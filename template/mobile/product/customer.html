@@ -135,11 +135,11 @@
 <div style="height:2rem;"></div>
 <!-- end -->
 <div class="product_head">
-	<ul class="clearfix">
+	<!-- <ul class="clearfix">
 		<li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
 		<li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
 		<li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li>
-	</ul>
+	</ul> -->
 </div>
 <div class="cusLMain agent-main" style="height:auto;">
 	<div class="cusLtop">
@@ -186,19 +186,19 @@
 		<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
 		</div>
 	</div>
-	<!--<div class="accCommon monthAccount">-->
-		<!--<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下级代理</h1>-->
-		<!--<div class="productLstC monthATitle">-->
-			<!--<ul>-->
-				<!--<li>徒弟名称</li>-->
-				<!--<li>关注时间</li>-->
-				<!--<li>是否开通</li>-->
-				<!--<li>奖金/元</li>-->
-			<!--</ul>-->
-		<!--</div>-->
-		<!--<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">-->
-		<!--</div>-->
-	<!--</div>-->
+	<div class="accCommon monthAccount">
+		<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下架产品</h1>
+		<div class="productLstC monthATitle">
+			<ul>
+                <li>产品</li>
+                <li>申请数/位</li>
+                <li>放款成功</li>
+                <li>奖金/元</li>
+			</ul>
+		</div>
+		<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
+		</div>
+	</div>
 </div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
 <script type="text/javascript">
@@ -309,28 +309,27 @@
                         monthStr += '</ul>';
                         $("div.monthProduct").append(monthStr);
                     }
+                    $("div.inviteProduct").html("");
+                    var invite=data.invite_list;//月结
+                    console.log(invite);
+                    for(j=0;j<invite.length;j++){
+                        var inviteStr='';
+                        var mId=invite[j].id;
+                        var mTitle=invite[j].name;
+                        var mapply=invite[j].count_num;
+                        var mvalid=0;
+                        var mloan=invite[j].succ;
+                        var mrewards=invite[j].count_bonus;
+                        inviteStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                        inviteStr += '<li>'+ mTitle +'</li>';
+                        inviteStr += '<li>'+ mapply +'</li>';
+                    
+                        inviteStr += '<li>'+ mloan +'</li>';
+                        inviteStr += '<li>¥ '+ mrewards +'</li>';
+                        inviteStr += '</ul>';
+                        $("div.inviteProduct").append(inviteStr);
+                    }
                     layer.close(layerindex);
-                    // $("div.inviteProduct").html("");
-                    // var invite=data.invite_list;//月结
-                    // for(j=0;j<invite.length;j++){
-                    //     var inviteStr='';
-                    //     var mTitle=invite[j].nickname;
-                    //     var mCreatetime=invite[j].createtime;
-                    //     if (invite[j].pay == 1) {
-                    //         var mPay = '是'
-                    //     } else {
-                    //         var mPay = '否';
-                    //     }
-                    //     var mrewards=invite[j].re_bonus;
-                    //     inviteStr += '<ul>'
-                    //     inviteStr += '<li>'+ mTitle +'</li>';
-                    //     inviteStr += '<li>'+ mCreatetime +'</li>';
-                    //
-                    //     inviteStr += '<li>'+ mPay +'</li>';
-                    //     inviteStr += '<li>¥ '+ mrewards +'</li>';
-                    //     inviteStr += '</ul>';
-                    //     $("div.inviteProduct").append(inviteStr);
-                    // }
                 }else{
                     layer.close(layerindex);
                     layer.msg("接口数据错误，请重试！");

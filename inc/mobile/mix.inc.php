@@ -31,13 +31,15 @@ if($operation=='service'){
     $list = pdo_fetchall('select id,ext_info from ' . tablename('xuan_mixloan_bonus') . '
         where uniacid=:uniacid order by sort asc', array(':uniacid' => $_W['uniacid']));
     $temp_time  = date('Y-m-d');
+    $today = strtotime($temp_time);
     $starttime = strtotime("{$temp_time} -2 days");
     $endtime   = strtotime("{$temp_time} -1 days");
     $count_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
         where inviter=:inviter and type<>4 and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
     foreach ($list as &$row) {
+
         $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
-            where inviter=:inviter and type=4 and pid=' . $row['id'] . ' and createtime>=' . $endtime, array(':inviter' => $member['id']));
+            where inviter=:inviter and type=4 and pid=' . $row['id'] . ' and createtime>=' . $today, array(':inviter' => $member['id']));
         $row['ext_info'] = json_decode($row['ext_info'], 1);
         if (!$record) {
             $row['if_get'] = $count_bonus >= $row['ext_info']['bonus'] ? 1 :0; 
@@ -61,10 +63,11 @@ if($operation=='service'){
         where id=:id', array(':id' => $id));
     $item['ext_info'] = json_decode($item['ext_info'], 1);
     $temp_time  = date('Y-m-d');
+    $today = strtotime($temp_time);
     $starttime = strtotime("{$temp_time} -2 days");
     $endtime   = strtotime("{$temp_time} -1 days");
     $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter and type=4 and pid=' . $id . ' and createtime>=' . $endtime, array(':inviter' => $member['id']));
+        where inviter=:inviter and type=4 and pid=' . $id . ' and createtime>=' . $today, array(':inviter' => $member['id']));
     if ($record) {
         show_json(-1, [], '您已领取过今日奖励');
     }

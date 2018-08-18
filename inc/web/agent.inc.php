@@ -290,6 +290,14 @@ if ($operation == 'list') {
     pdo_delete('xuan_mixloan_product_apply', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
 } else if ($operation == 'withdraw_delete') {
+    $item = pdo_fetch('select bonus,uid from ' . tablename('xuan_mixloan_withdraw') . '
+         where id=:id', array(':id' => $_GPC['id']));
+    $insert = array();
+    $insert['uid'] = $item['uid'];
+    $insert['money'] = $item['bonus'];
+    $insert['createtime'] = time();
+    $insert['is_read'] = 0;
+    pdo_insert('xuan_mixloan_withdraw_delete', $insert);
     pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
 } else if ($operation == 'apply_update') {

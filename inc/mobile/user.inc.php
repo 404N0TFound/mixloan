@@ -11,6 +11,8 @@ if($operation=='index'){
     if (empty($member['phone'])) {
         message('请先绑定手机', $this->createMobileUrl('index', array('op'=>'register')), 'error');
     }
+    $withdraw_delete = pdo_fetch('select id,money from ' . tablename('xuan_mixloan_withdraw_delete') . '
+    	where uid=:uid and is_read=0 order by id desc', array(':uid' => $member['id']));
     $inviter = m('member')->getInviter($member['phone'], $openid);
     $inviterInfo = m('member')->getInviterInfo($inviter);
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
