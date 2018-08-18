@@ -20,6 +20,8 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
     //首页
+    $new_list = m('product')->getList([], ['is_show'=>1], ' id desc', 9);
+    $new_list = m('product')->packupItems($new_list);
     $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], ' sort desc', 9);
     $hot_list = m('product')->packupItems($hot_list);
     $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], ' sort desc');
