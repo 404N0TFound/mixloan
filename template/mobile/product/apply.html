@@ -21,9 +21,16 @@
         .pp-bg{position: relative;width: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;}
         h6,.h6{color: #999;font-size: 12px;line-height: 1.8;}
         div.popLoanApplyCommon .popLoanMain{padding-bottom: 0.5rem;}
+        div.daili_footer{min-height: 0px;box-shadow: #eaeaea -2px 4px 10px 10px;}
+        .footer_apply{width: 35%;background: white;float: left;text-align: center;}
+        .footer_apply a {padding: 0.6rem 1rem;display: inline-block;color:black;}
+        .footer_agent a {padding: 0.6rem 2rem;display: inline-block;color:white;}
+        .footer_agent{width: 65%;background: #0195ff;float: left;text-align: center;}
         @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
             div.Japply_contents{padding-bottom: 88px;}
             div.toApply{padding:12px 0 20px 0;}
+            .footer_apply a {padding: 0.9rem 1rem;}
+            .footer_agent a {padding: 0.9rem 2rem;}
         }
     </style>
 
@@ -33,9 +40,20 @@
 <div class="cJframe">
     <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />
 </div>
-<div class="toApply">
-    <a class="dummyApply" id="dummyApply" href="javascript:void(0);">申请</a>
-    <a class="to_apply" id="to_apply" href="javascript:void(0);" style="display: none;">申请</a>
+<div class="daili_footer">
+    <div class="footer_apply">
+        <a class="dummyApply" id="dummyApply">
+            我要申请
+        </a>
+    </div>
+    <div class="footer_agent">
+        <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要代理</a>
+    </div>
+</div>
+<div class="toApply" style="display: none;">
+    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);">
+        申请
+    </a>
 </div>
 <!-- 申请弹窗 -->
 <div class="popLoanApplyCommon popLoanApply">
@@ -99,17 +117,17 @@
             var u = navigator.userAgent;
             if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
                 if(h <= window.screen.availHeight/2){
-                    $('.to_apply').hide();
+                    $('.toApply').hide();
                     $("div.popLoanApply .popLoanMain").css("top","10%");
                 }else{
-                    $('.to_apply').show();
+                    $('.toApply').show();
                     $("div.popLoanApply .popLoanMain").css("top","31%");
                 }
             }
         }
         if(isIOS){
             rollFlag=1;
-            $('.to_apply').hide();
+            $('.toApply').hide();
             if(iosXIndex){
                 //iphoneX
                 $("div.popLoanApply .popLoanMain").css("top","55%");
@@ -124,7 +142,7 @@
         var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
         if(isIOS){
             rollFlag=0;
-            $('.to_apply').show();
+            $('.toApply').show();
             if(iosXIndex){
                 //iphoneX
                 $("div.popLoanApply .popLoanMain").css("top","42%");
@@ -284,14 +302,14 @@
         setTimeout(function(){
             if(iosXIndex){
                 //iphoneX
-                $("div.popLoanMain").css({"top":"42%","opacity":"1"});
+                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
             }else{
                 $("div.popLoanMain").css({"top":"30%","opacity":"1"});
             }
         },100)
         $("div.toApply").css({"background-color":"transparent","border":"none"});
-        $("div.toApply a.dummyApply").hide();
-        $("div.toApply a.to_apply").show();
+        // $("a.dummyApply").hide();
+        $(".toApply").show();
     })
     // 退出申请框
     $("div.popLoanApplyCover").click(function(){
@@ -301,8 +319,8 @@
             rollFlag=0;
             $("div.popLoanApply").hide();
             $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
-            $("div.toApply a.dummyApply").show();
-            $("div.toApply a.to_apply").hide();
+            $("a.dummyApply").show();
+            $(".toApply").hide();
         },100)
     })
     //防止点击输入时退出申请框
