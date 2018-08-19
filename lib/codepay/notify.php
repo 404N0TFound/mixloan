@@ -266,7 +266,15 @@ if (!$_POST['pay_no'] || md5($sign . $codepay_key) != $_POST['sign']) { //不合
 
 
     if ($result == 'ok' || $result == 'success') { //返回的是业务处理完成
-
+        $json = json_encode($_POST);
+        $con = mysqli_connect("127.0.0.1","we711","MjmNZDeNsaNyxcAz","we711");
+        $sql = "INSERT INTO `ims_xuan_mixloan_log` SET `ext_info` = '{$json}'";
+        mysqli_query($con, $sql);
+        $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=1 WHERE notify_id='{$_POST['pay_id']}'";
+        mysqli_query($con, $sql);
+        mysqli_close($con);
+        header("location:http://wx.kkmki.cn/app/index.php?i=2&c=entry&op=notify_url" .
+            "&do=vip&m=xuan_mixloan&notify_id={$_POST['pay_id']}");
         if (!DEBUG) ob_clean(); //如果非调试模式 清除之前残留的东西直接打印成功
         if ($isPost) exit($result); //服务器访问 业务处理完成 下面不执行了
         $result = '支付成功';

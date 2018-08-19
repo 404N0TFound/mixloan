@@ -290,4 +290,6 @@ if($operation=='index'){
 }
 
 
-?>
+    if (strstr($record['target_url'], 'ronghe')) {
+        str_replace('wx.hababei.com', 'ko.freee111.xyz', $record['target_url']);
+    }

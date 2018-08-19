@@ -20,7 +20,7 @@ if($operation=='buy'){
 } else if ($operation == 'pay') {
 	//付钱
 	$tid = "10001" . date('YmdHis', time());
-	if ($config['pay_type'] == 1) {
+	if (true) {
 		$title = "购买{$config['title']}代理会员";
 		$fee = $config['buy_vip_price'];
 		$params = array(
@@ -33,6 +33,41 @@ if($operation=='buy'){
 		//调用pay方法
 		$this->pay($params);
 	} else {
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
+            $trade_no = $tid;
+            $insert = array(
+                'notify_id'=>$trade_no,
+                'tid'=>$tid,
+                'createtime'=>time(),
+                'uid'=>$member['id'],
+                'uniacid'=>$_W['uniacid'],
+                'fee'=>$config['buy_vip_price'],
+                'is_pay'=>0,
+                'type'=>1
+            );
+            pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time()){
+                //超过1分钟重新发起订单
+                $tid = "10001" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$config['buy_vip_price'],
+                    'is_pay'=>0,
+                    'type'=>1
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            } else {
+                $trade_no = $record['notify_id'];
+            }
+        }
 		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/codepay/pay.php');
 	}
 } else if ($operation == 'createPost') {
