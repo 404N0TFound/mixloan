@@ -43,11 +43,11 @@
 <div class="daili_footer">
     <div class="footer_apply">
         <a class="dummyApply" id="dummyApply">
-            我要申请
+            我要代理
         </a>
     </div>
     <div class="footer_agent">
-        <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要代理</a>
+        <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要申请</a>
     </div>
 </div>
 <div class="toApply" style="display: none;">
@@ -295,7 +295,7 @@
         });
     }
     //弹出申请填写框
-    $("#dummyApply").click(function(){
+    $("#daili_toapply").click(function(){
         $("body").css({"height":$(window).height(),"overflow":"hidden"});
         rollFlag=1;
         $("div.popLoanApply").show();
