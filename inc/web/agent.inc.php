@@ -349,6 +349,54 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
-} 
+}  else if ($operation == 'import') {
+    //导入excel
+    if ($_GPC['post']) {
+        $excel_file = $_FILES['excel_file'];
+        if ($excel_file['file_size'] > 2097152) {
+            message('不能上传超过2M的文件', '', 'error');
+        }
+        $values = m('excel')->import('excel_file');
+        $failed = $sccuess = 0;
+        $createtime = time();
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        foreach ($values as $value) {
+            if (empty($value[0])) {
+                continue;
+            }
+            $status = trim($value[11]);
+            if (!in_array($status, array(0,1,2,-1))) {
+                $failed += 1;
+                continue;
+            }
+            $update['status'] = $status;
+            //下款金额
+            $update['relate_money'] = trim($value[7]) ? : 0;
+            //注册奖励
+            $update['re_bonus'] = trim($value[8]) ? : 0;
+            //完成奖励
+            $update['done_bonus'] = trim($value[9]) ? : 0;
+            //额外奖励
+            $update['extra_bonus'] = trim($value[10]) ? : 0;
+            $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
+            if ($result) {
+                $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
+                $item = pdo_fetch('select * from ' .tablename('xuan_mixloan_product_apply'). '
+                    where id=:id', array(':id'=>$value[0]));
+                $info = pdo_fetch('select name,done_reward_type,re_reward_type,ext_info from ' .tablename("xuan_mixloan_product"). "
+                    where id=:id", array(':id'=>$item['pid']));
+                $info['ext_info'] = json_decode($info['ext_info'], 1);
+                $inviter = m('member')->getInviterInfo($item['inviter']);
+                if ($status == 1 && $update['re_bonus']>0) {
+
+                }
+                $sccuess += 1;
+            } else {
+                $failed += 1;
+            }
+        }
+        message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
+    }
+}
 include $this->template('agent');
 ?>
