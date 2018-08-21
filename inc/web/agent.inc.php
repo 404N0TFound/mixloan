@@ -39,6 +39,19 @@ if ($operation == 'list') {
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
+    if ($_GPC['status'] != "") {
+        $wheres.= " AND a.status='{$_GPC['status']}'";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+    } else {
+        $starttime = date('Y-m');
+        $endtime = date('Y-m-d');
+    }
     $c_arr = m('bank')->getCard(['id', 'name']);
     $s_arr = m('loan')->getList(['id', 'name']);
     foreach ($c_arr as &$row) {
