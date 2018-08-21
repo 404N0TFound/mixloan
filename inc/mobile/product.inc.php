@@ -50,7 +50,16 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
-    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
+    if ($remove['remove_ids']) {
+        $where = " and a.id not in ({$remove['remove_ids']})";
+        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
+    } else {
+        $where = "";
+        $card_con = ['type' => 1, 'is_show' => 1];
+    }
+    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], $card_con);
     foreach ($credits as $credit) {
         $id[] = $credit['relate_id'];
     }
@@ -68,7 +77,7 @@ if($operation=='index'){
             $credit_thr = [];
         }
     }
-    $speed_loans = m('product')->getSpecialLoan(9);
+    $speed_loans = m('product')->getSpecialLoan(9, $where);
     foreach ($speed_loans as $key => $loan) {
         $speed_loan_thr[] = $loan;
         if (count($speed_loan_thr) > 2 || $key == max(array_keys($speed_loans))) {
@@ -76,7 +85,7 @@ if($operation=='index'){
             $speed_loan_thr = [];
         }
     }
-    $large_loans = m('product')->getSpecialLoan(7);
+    $large_loans = m('product')->getSpecialLoan(7, $where);
     foreach ($large_loans as $key => $loan) {
         $large_loan_thr[] = $loan;
         if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {
@@ -318,4 +327,71 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
+} else if ($operation == 'choose_show_up') {
+    //代理产品上下架分类
+    include $this->template('product/choose_show_up');
+} else if ($operation == 'show_up') {
+    //代理产品上下架
+    $type = intval($_GPC['type']) ? : 1;
+    $list = m('product')->getList(['id', 'name', 'ext_info'],['is_show' => 1, 'type' => $type]);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+    }
+    else
+    {
+        $remove_ids = array();
+    }
+    include $this->template('product/show_up');
+} else if ($operation == 'set_show_up') {
+    //设置代理产品上下架
+    $id = intval($_GPC['id']);
+    $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+        where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+    if ($remove)
+    {
+        $remove_ids = explode(',', $remove['remove_ids']);
+        if (in_array($id, $remove_ids))
+        {
+            //上架
+            foreach ($remove_ids as $val)
+            {
+                if ($val != $id)
+                {
+                    $new_ids[] = $val;
+                }
+            }
+            if (empty($new_ids))
+            {
+                pdo_delete('xuan_mixloan_product_remove', array('id' => $remove['id']));
+            }
+            else
+            {
+                $new_ids = implode(',', $new_ids);
+                pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            }
+            show_json(1);
+        }
+        else
+        {
+            //下架
+            $remove_ids[] = $id;
+            $new_ids = implode(',', $remove_ids);
+            pdo_update('xuan_mixloan_product_remove', array('remove_ids' => $new_ids), array('id' => $remove['id']));
+            show_json(-1);
+        }
+    }
+    else
+    {
+        //下架
+        $remove_ids[] = $id;
+        $new_ids = implode(',', $remove_ids);
+        $insert = array('uniacid' => $_W['uniacid'], 'uid' => $member['id'], 'remove_ids' => $new_ids);
+        pdo_insert('xuan_mixloan_product_remove', $insert);
+        show_json(-1);
+    }
+
+
 }
