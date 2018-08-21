@@ -102,7 +102,7 @@ if($operation=='index'){
     $inviter = intval($_GPC['inviter']);
     $info = m('product')->getList(['id', 'type', 'ext_info', 'is_show'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
-        message('该代理产品已被下架', '', 'info');
+        header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
     }
     include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
