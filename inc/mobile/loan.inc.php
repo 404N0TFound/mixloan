@@ -72,14 +72,14 @@ if($operation=='index'){
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
     $info = m('product')->getList(['id','is_show'], ['id'=>$pid])[$pid];
     if (empty($info['is_show'])){
-        message('该产品已被下架');
+        header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
     }
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
     if ($remove['remove_ids']) {
         $remove_ids = explode(',', $remove['remove_ids']);
         if (in_array($pid, $remove_ids)) {
-            message('该产品已代理被下架');
+            header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         }
     }
 	include $this->template('loan/apply');

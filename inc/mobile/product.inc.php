@@ -146,14 +146,14 @@ if($operation=='index'){
         message('不允许在这里申请小贷产品');
     }
     if ( empty($info['is_show']) ) {
-        message('该代理产品已被下架', '', 'info');
+        header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
     }
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
     if ($remove['remove_ids']) {
         $remove_ids = explode(',', $remove['remove_ids']);
         if (in_array($id, $remove_ids)) {
-            message('该产品已代理被下架');
+            header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         }
     }
     include $this->template('product/apply');
