@@ -822,9 +822,9 @@ if($operation=='buy'){
         show_json(-1, null, "请在工作日提现哦");
     }
     $now_time = explode(':', date('H:i'));
-    if ($now_time[0] >= 9 && $now_time[0] <= 19) {
-        if ($now_time[0] == 19 && $now_time[1] > 30) {
-            show_json(-1, null, "请在上午9点到晚上7点半点之间提现哦");
+    if ($now_time[0] >= 9 && $now_time[0] <= 18) {
+        if ($now_time[0] == 18 && $now_time[1] > 30) {
+            show_json(-1, null, "请在上午9点到晚上6点半点之间提现哦");
         } else {
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
