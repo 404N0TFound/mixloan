@@ -100,7 +100,8 @@ if($operation=='index'){
     }
     $record = m('product')->getApplyList(['id'], ['relate_id'=>$id, 'phone'=>$_GPC['phone']]);
     if ($record) {
-        show_json(1, $pro['ext_info']['url']);
+        show_json(-1, [], "你已经申请过啦");
+        // show_json(1, $pro['ext_info']['url']);
     }
     if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
         //show_json(-1, [], "短信验证码不符");
