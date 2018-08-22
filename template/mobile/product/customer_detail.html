@@ -47,7 +47,9 @@
     <!--小提示  -->
     <div class="ptars-smts-box">
         月结产品非实时状态,本月客户状态则在下月5-15日结算<br/>
-        提示：本列表是客户在指点填写资料的记录，不能视为官方申请记录。
+        提示：本列表是客户在指点填写资料的记录，不能视为官方申请记录。<br/>
+        申请中人数+成功人数＋失败人数=申请人数<br/>
+        申请中就是还没走判定成功和失败的那种
     </div>
 
     <!--人数显示  -->
@@ -61,6 +63,11 @@
         <div class="pepo-list-box">
             <span>{$count_succ_num}</span>
             <span>成功人数(人)</span>
+        </div>
+
+        <div class="pepo-list-box">
+            <span>{$count_ing_num}</span>
+            <span>未结算数（人)</span>
         </div>
 
         <div class="pepo-list-box">

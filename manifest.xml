@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_delete` (
   `uid` int(11) NOT NULL,
   `money` decimal(10,2) NOT NULL,
   `is_read` tinyint(2) NOT NULL,
+  `reason` varchar(50) NOT NULL,
   `createtime` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`)

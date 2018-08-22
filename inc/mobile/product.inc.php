@@ -347,6 +347,8 @@ if($operation=='index'){
         WHERE inviter=:inviter AND pid=:pid AND status>0 and degree={$degree}", $arr) ? : 0;
     $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_product_apply') . "
         WHERE inviter=:inviter AND pid=:pid and degree={$degree}", $arr) ? : 0;
+    $count_ing_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+        WHERE inviter=:inviter AND pid=:pid AND status=0 and degree={$degree}", $arr) ? : 0;
     $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
     $list = pdo_fetchall($sql, $arr);
     if (!empty($list)) {
