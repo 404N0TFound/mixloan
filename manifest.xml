@@ -349,6 +349,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `type` tinyint(2) NOT NULL COMMENT '1信用卡，2贷款',
   `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
   `is_show` tinyint(2) NOT NULL COMMENT '是否展示',
+  `is_new` tinyint(2) NOT NULL COMMENT '是否新品',
   `day_hot` tinyint(2) NOT NULL COMMENT '每日热推',
   `count_time` tinyint(2) NOT NULL COMMENT '结算时间',
   `done_reward_type` int(11) NOT NULL COMMENT '结束奖励方式，0不奖励，1奖励现金，2奖励点数',
