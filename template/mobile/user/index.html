@@ -123,6 +123,23 @@
                         <i class="list-arrow"></i>
                     </span>
                 </a>
+                {if $withdraw_delete}
+                <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'filed_withdraw'))}');" class="list-item list-thumb list-thumb-sm" style="border-top:none;">
+                    <strong>
+                        <i class="icon icon-user-wallet"></i>提现失败提醒</strong>
+                    <span style="top: 13px;">
+                <span class="">{$withdraw_delete['reason']}</span>
+                <i class="list-arrow"></i>
+            </span>
+                </a>
+                {/if}
+                <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}');" class="list-item list-thumb list-thumb-sm" style="border-top:none;">
+                    <strong>
+                        <i class="icon icon-user-wallet"></i>客户列表</strong>
+                    <span style="top: 13px;">
+                    <i class="list-arrow"></i>
+                </span>
+                </a>
             </div>
             <!-- content -->
             <div class="bd" style="margin: 0 auto">

@@ -223,8 +223,19 @@ if ($operation == 'list') {
     pdo_delete('xuan_mixloan_product_apply', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
 } else if ($operation == 'withdraw_delete') {
-    pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
-    message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    if ($_GPC['post']) {
+        $item = pdo_fetch('select bonus,uid from ' . tablename('xuan_mixloan_withdraw') . '
+             where id=:id', array(':id' => $_GPC['id']));
+        $insert = array();
+        $insert['uid'] = $item['uid'];
+        $insert['money'] = $item['bonus'];
+        $insert['reason'] = $_GPC['reason'];
+        $insert['createtime'] = time();
+        $insert['is_read'] = 0;
+        pdo_insert('xuan_mixloan_withdraw_delete', $insert);
+        pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
+        message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    }
 } else if ($operation == 'apply_update') {
     //申请编辑
     $id = intval($_GPC['id']);
@@ -386,6 +397,39 @@ if ($operation == 'list') {
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
+} else if ($operation == 'withdraw_operation') {
+    // 提现快捷操作
+    $id = intval($_GPC['id']);
+    $status = intval($_GPC['status']);
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). "
+        where id={$id}");
+    $bank = pdo_fetch('select realname,bankname,banknum,phone,type from '.tablename("xuan_mixloan_creditCard")."
+        where id=:id",array(':id'=>$item['bank_id']));
+    $data['status'] = $status;
+    if ($bank['type'] == 1) {
+        message('该申请不是支付宝提现', referer(), 'sccuess');
+    }
+    if ($status == 1) {
+        //支付宝收款接口
+        $cookie = 'withdraw' . $id;
+        if (!$_COOKIE[$cookie])
+        {
+            $payment_no = date('YmdHis');
+            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+            if ($result['code'] == -1) {
+                message($result['msg'], '', 'error');
+            } else {
+                $data['ext_info']['payment_no'] = $result['order_id'];
+                $data['ext_info'] = json_encode($data['ext_info']);
+            }
+        }
+        else
+        {
+            setcookie($cookie, 1, time()+60);
+        }
+    }
+    pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
+    message('操作成功', referer(), 'sccuess');
 }
 include $this->template('agent');
 ?>
