@@ -98,7 +98,7 @@ if($operation=='index'){
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    $record = m('product')->getApplyList(['id'], ['relate_id'=>$id, 'phone'=>$_GPC['phone']]);
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
     if ($record) {
         show_json(-1, [], "你已经申请过啦");
         // show_json(1, $pro['ext_info']['url']);
