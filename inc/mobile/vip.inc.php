@@ -257,25 +257,26 @@ if($operation=='buy'){
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
-	$poster = m('poster')->getPoster(["COUNT(1) AS count"], ["pid"=>$id, "type"=>$type, "uid"=>$member['id']]);
-	if (!$poster["count"]) {
-		$params = array(
-			"url" => $url,
-			"member" => $member,
-			"type" => $type,
-			"pid" => $id,
-			"out" => $out,
-			"poster_path" => $poster_path
-		);
-		$res = m('poster')->createPoster($cfg, $params);
-		if ($res) {
-	        show_json(1, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-		} else {
-	        show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
-		}
-	} else {
-		show_json(2, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-	}
+    $poster = pdo_fetch('select poster from ' . tablename('xuan_mixloan_poster') . ' 
+        where pid=:pid and uid=:uid', array(':pid' => $id, ':uid' => $member['id']));
+    if (!$poster) {
+        $params = array(
+            "url" => $url,
+            "member" => $member,
+            "type" => $type,
+            "pid" => $id,
+            "out" => $out,
+            "poster_path" => $poster_path
+        );
+        $res = m('poster')->createPoster($cfg, $params);
+        if ($res) {
+            show_json(1, ['post_url'=>$res, 'agent_url'=>$url]);
+        } else {
+            show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
+        }
+    } else {
+        show_json(2, ['post_url'=>$poster['poster'], 'agent_url'=>$url]);
+    }
 	
 } else if ($operation == 'createPostAllProduct') {
 	//我的代理店
@@ -476,24 +477,21 @@ if($operation=='buy'){
     $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
     $created = true;
     if ($type == 3) {
-        $tips = "";
+        $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验";
         if (!$posterArr) {
             $created = false;
-            if ($config['wx_invite_code']) {
-                $wx = WeAccount::create();
-                $barcode = array(
-                    'action_name'=>"QR_LIMIT_SCENE",
-                    'action_info'=> array(
-                        'scene' => array(
-                            'scene_id'=>$member['id'],
-                        )
-                    )
-                );
-                $res = $wx->barCodeCreateDisposable($barcode);
-                $url = $res['url'];
-            } else {
-                $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register', 'inviter'=>$member['id']));
-            }
+            // $wx = WeAccount::create();
+            // $barcode = array(
+            //     'action_name'=>"QR_LIMIT_SCENE",
+            //     'action_info'=> array(
+            //         'scene' => array(
+            //             'scene_id'=>$member['id'],
+            //         )
+            //     )
+            // );
+            // $res = $wx->barCodeCreateDisposable($barcode);
+            // $url = $res['url'];
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
@@ -514,7 +512,7 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }
@@ -545,7 +543,7 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }
@@ -578,7 +576,7 @@ if($operation=='buy'){
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
-                    $temp['poster'] = $poster_path;
+                    $temp['poster'] = $invite_res;
                     $posterArr[] = $temp;
                 }
             }

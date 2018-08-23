@@ -64,7 +64,7 @@ class Xuan_mixloan_Poster
         imagedestroy($bgpng);
         if ($res) {
             if (strstr(tomedia($config['poster_image']), 'caibabaimages')) {
-                $url = 'http://cheexuan.com/app/index.php?i=3&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
                 $res = file_get_contents($url . '&fileroot=' . $params['out']);
                 $poster = $res;
                 unlink($params['out']);
@@ -150,7 +150,7 @@ class Xuan_mixloan_Poster
         imagedestroy($bgpng);
         if ($res) {
             if (strstr(tomedia($ext_info['back']), 'caibabaimages')) {
-                $url = 'http://cheexuan.com/app/index.php?i=3&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
                 $res = file_get_contents($url . '&fileroot=' . $params['out']);
                 $poster = $res;
                 unlink($params['out']);
