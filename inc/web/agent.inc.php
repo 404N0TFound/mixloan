@@ -354,6 +354,120 @@ if ($operation == 'list') {
         }
         message("上传完毕，成功数{$sccuess}，失败数{$failed}", '', 'sccuess');
     }
+} else if ($operation == 'new_import') {
+    // 新导入功能
+    if ($_GPC['post']) {
+        $excel_file = $_FILES['excel_file'];
+        if ($excel_file['file_size'] > 2097152) {
+            message('不能上传超过2M的文件', '', 'error');
+        }
+        $values = m('excel')->import('excel_file');
+        $failed = $success = 0;
+        foreach ($values as $value)
+        {
+            $pro_name = trim($value['3']);
+            if (!empty($pro_name))
+            {
+                $product[$pro_name] = $pro_name;
+            }
+        }
+        $products = m('product')->getList([], ['name'=>array_values($product)]);
+        foreach ($products as $value) 
+        {
+            $pro_list[$value['name']] = $value;
+        }
+        foreach ($values as $value)
+        {
+            $phone    = trim($value[2]);
+            $pro_name = trim($value[3]);
+            if (empty($phone))
+            {
+                $failed += 1;
+                continue;
+            }
+            if (empty($pro_name))
+            {
+                $failed += 1;
+                continue;
+            }
+            $relate_money = trim($value[4]);
+            $relate_id = $pro_list[$pro_name]['id'];
+            $product = $pro_list[$pro_name];
+            //一级
+            $item_one = pdo_fetch('select * from ' . tablename("xuan_mixloan_product_apply") . "
+                where phone={$phone} and pid={$relate_id} and degree=1");
+            if (!empty($item_one))
+            {
+                $update = array();
+                $update['status'] = 2;
+                if ($product['re_reward_type'] == 1) 
+                {
+                    $update['re_bonus'] = $product['ext_info']['re_one_init_reward_money'];
+                }
+                else if ($product['re_reward_type'] == 2) 
+                {
+                    $update['re_bonus'] = $product['ext_info']['re_one_init_reward_per'] * $relate_money * 0.01;
+                }
+                if ($product['done_reward_type'] == 1) 
+                {
+                    $update['done_bonus'] = $product['ext_info']['done_one_init_reward_money'];
+                }
+                else if ($product['re_reward_type'] == 2) 
+                {
+                    $update['done_bonus'] = $product['ext_info']['done_one_init_reward_per'] * $relate_money * 0.01;
+                }
+                if (trim($value[5]))
+                {
+                    $update['re_bonus'] = trim($value[5]);
+                }
+                if (trim($value[7]))
+                {
+                    $update['done_bonus'] = trim($value[7]);
+                }
+                $update['relate_money'] = intval($relate_money);
+                $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$item_one['id']));
+                if ($result) {
+                    $success += 1;
+                } else {
+                    $failed += 1;
+                }
+            }
+            $item_two = pdo_fetch('select * from ' . tablename("xuan_mixloan_product_apply") . "
+                where phone={$phone} and pid={$relate_id} and degree=2");
+            if (!empty($item_two))
+            {
+                $update = array();
+                $update['status'] = 2;
+                if ($product['re_reward_type'] == 1) 
+                {
+                    $update['re_bonus'] = $product['ext_info']['re_two_init_reward_money'];
+                }
+                else if ($product['re_reward_type'] == 2) 
+                {
+                    $update['re_bonus'] = $product['ext_info']['re_two_init_reward_per'] * $relate_money * 0.01;
+                }
+                if ($product['done_reward_type'] == 1) 
+                {
+                    $update['done_bonus'] = $product['ext_info']['done_two_init_reward_money'];
+                }
+                else if ($product['re_reward_type'] == 2) 
+                {
+                    $update['done_bonus'] = $product['ext_info']['done_two_init_reward_per'] * $relate_money * 0.01;
+                }
+                if (trim($value[6]))
+                {
+                    $update['re_bonus'] = trim($value[6]);
+                }
+                if (trim($value[8]))
+                {
+                    $update['done_bonus'] = trim($value[8]);
+                }
+                $update['relate_money'] = intval($relate_money);
+                $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$item_two['id']));
+            }
+        }
+        message("上传完毕，成功数{$success}，失败数{$failed}", '', 'success');
+    }
 }
 include $this->template('agent');
 ?>
