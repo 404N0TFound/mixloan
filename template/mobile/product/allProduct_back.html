@@ -1,0 +1,248 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="e-mail=no" name="format-detection"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>贷款中心</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_1.css" >
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkts.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+
+    <style>
+        #demos{height:0.8rem;margin-top:0.5%;}
+        div.loanindex_inform ul li{height: 2rem;line-height:0.8rem;}
+        div.loanindex_shortcut ul li h2 {
+            text-align: left;
+            font-size: 0.5rem;
+            color: #000;
+            padding-top: 0.2rem;
+        }
+    </style>
+
+    {template 'common/wxshare'}
+</head>
+<body class="bglightgray" style="background:#fff;" >
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #ffffff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('product')}')">
+        <span>贷款中心</span>
+    </div>
+</div>
+{/if}
+<div class="loanindex_main" >
+    <div class="loanindex_inform clearfix">
+        <span><img src="../addons/xuan_mixloan/template/style/picture/gonggao_black.png" /></span>
+        <div id="demos" style="overflow:hidden;">
+            <ul >
+                {loop $barrage $ba}
+                <li><p><b>{$ba['phone']}</b>刚刚成功申请了<b>{$ba['name']}</b></p></li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+    <!-- fix -->
+    <div class="fix"></div>
+    <div class="loanindex_shortcut">
+    {if $shop['background']}
+      <img src="{$shop['background']}" width="100%">
+    {/if}
+    </div>
+
+    <!-- fix -->
+    <!-- 秒到账 -->
+    <div class="loanindex_inform2 clearfix">
+        <span id="test2" name="test3"><leabl></leabl>秒到账</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
+    </div>
+    <div class="swiper-container  swiper_list swiper_list2">
+        <div class="swiper-wrapper">
+            {loop $speed_loan_all $speed}
+            <div class="swiper-slide">
+                <ul class="clearfix">
+                    {loop $speed $sp}
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
+                            <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
+                                <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
+                                <h2>{$sp['name']}</h2>
+                            </div>
+                        </a>
+                    </li>
+                    {/loop}
+                </ul>
+            </div>
+            {/loop}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="loanindex_shortcut2">
+        {loop $speed_loans $loan}
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
+            <ul class="clearfix">
+                <li class="clearfix">
+                    <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
+                    <div class="f2">
+                        <h2>
+                            <b>{$loan['name']}</b>
+                            {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
+                        </h2>
+                        <p>
+                            {loop $loan['ext_info']['tag'] $tag}
+                            <span>{$tag}</span>
+                            {/loop}
+                        </p>
+                    </div>
+                    <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
+                    <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
+                </li>
+            </ul>
+        </a>
+        {/loop}
+    </div>
+    <!-- fix -->
+    <div class="fix"></div>
+    <!-- fix -->
+    <!-- 大额度 -->
+    <div class="loanindex_inform2 clearfix">
+        <span id="test1" name="test1"><leabl></leabl>大额贷</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
+    </div>
+    <div class="swiper-container  swiper_list swiper_list2">
+        <div class="swiper-wrapper">
+            {loop $large_loan_all $speed}
+            <div class="swiper-slide">
+                <ul class="clearfix">
+                    {loop $speed $sp}
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
+                            <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
+                                <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
+                                <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
+                                <h2>{$sp['name']}</h2>
+                            </div>
+                        </a>
+                    </li>
+                    {/loop}
+                </ul>
+            </div>
+            {/loop}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="loanindex_shortcut2">
+        {loop $large_loans $loan}
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
+            <ul class="clearfix">
+                <li class="clearfix">
+                    <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
+                    <div class="f2">
+                        <h2>
+                            <b>{$loan['name']}</b>
+                            {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
+                        </h2>
+                        <p>
+                            {loop $loan['ext_info']['tag'] $tag}
+                            <span>{$tag}</span>
+                            {/loop}
+                        </p>
+                    </div>
+                    <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
+                    <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
+                </li>
+            </ul>
+        </a>
+        {/loop}
+    </div>
+</div>
+
+<!-- 弹窗按钮 -->
+<div class="wrap">
+    <div class="menu"><img class="icon_menu" src="../addons/xuan_mixloan/template/style/picture/bu.png" /><span></span></div>
+    <div class="btn btn1 close" data-num="1"><a href="#test1"><p><img src="../addons/xuan_mixloan/template/style/picture/but2.png" /><br/>大额贷</p></a></div>
+    <div class="btn btn2 close" data-num="2"><a href="#test2"><p><img src="../addons/xuan_mixloan/template/style/picture/but3.png" /><br/>秒到账</p></a></div>
+    <div class="btn btn3 close" data-num="3"><a href="#test3"><p><img src="../addons/xuan_mixloan/template/style/picture/but4.png" /><br/>秒办卡</p></a></div>
+    <!-- -->
+</div>
+
+
+
+<!-- 弹窗按钮end -->
+
+<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
+<script type="text/javascript">
+    ///////文字滚动
+    function AutoScroll(obj) {
+        $(obj).find("ul:first").animate({
+                marginTop: "-0.6rem"
+            },500,
+            function() {
+                $(this).css({
+                    marginTop: "0px"
+                }).find("li:first").appendTo(this);
+            });
+    }
+    $(document).ready(function() {
+        setInterval('AutoScroll("#demos")', 3000)
+    })
+
+
+    ///////弹窗按钮
+
+    $(function(){
+        $(".menu").click(function(){
+            var span = $(this).parent().find("div.btn");
+            if(span.hasClass("close")){
+                span.fadeIn(500);
+                $(this).find("img.icon_menu").addClass("roe");
+                span.addClass("open").removeClass("close")
+            }else{
+                span.fadeOut(500);
+                $(this).find("img.icon_menu").removeClass("roe");
+                span.removeClass("open").addClass("close")
+
+            }
+        });
+    });
+
+
+    // 轮播插件
+    var swiper = new Swiper('.swiper-container', {
+        paginationClickable: true,
+        centeredSlides: true,
+        autoplay: 5000,
+        pagination: '.swiper-pagination',
+        autoplayDisableOnInteraction: false
+    });
+
+
+</script>
+</body>
+</html>

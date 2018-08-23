@@ -193,6 +193,7 @@ class Xuan_mixloan_Product
                 }
                  $res['intro1'] .= "+申请{$re_per}点";
             }
+            $res['relate_id'] = $item['relate_id'];
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
             $return[] = $res;

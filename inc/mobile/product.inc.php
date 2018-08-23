@@ -59,53 +59,35 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
     //全部产品
     $inviter = intval($_GPC['inviter']);
+    $inviter_info = m('member')->getInviterInfo($inviter);
     $shop = pdo_fetch('select * from ' . tablename('xuan_mixloan_shop') . ' 
         where uid=:uid', array(':uid' => $inviter));
     $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
         where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $inviter));
-    if ($remove['remove_ids']) {
-        $where = " and a.id not in ({$remove['remove_ids']})";
-        $card_con = ['type' => 1, 'is_show' => 1, 'n_id' => $remove['remove_ids']];
-    } else {
-        $where = "";
-        $card_con = ['type' => 1, 'is_show' => 1];
-    }
-    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
-    foreach ($credits as $credit) {
-        $id[] = $credit['relate_id'];
-    }
-    $cards = m('bank')->getCard(['id', 'ext_info'], ['id'=>$id]);
-    foreach ($credits as $key => $credit) {
-        $credits[$key]['v_name'] = $cards[$credit['relate_id']]['ext_info']['v_name'];
-        $credits[$key]['card_pic'] = tomedia($cards[$credit['relate_id']]['ext_info']['pic']);
-        $credits[$key]['tag'] = $cards[$credit['relate_id']]['ext_info']['tag'];
-        $credits[$key]['speed'] = $cards[$credit['relate_id']]['ext_info']['speed'];
-        $credits[$key]['limit'] = $cards[$credit['relate_id']]['ext_info']['limit'];
-        $credits[$key]['intro'] = $cards[$credit['relate_id']]['ext_info']['intro'];
-        $credit_thr[] = $credits[$key];
-        if (count($credit_thr) > 2 || $key == max(array_keys($credits))) {
-            $credit_all[] = $credit_thr;
-            $credit_thr = [];
+    $cates = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_product_category') . "
+        where uniacid={$_W['uniacid']} ORDER BY sort DESC");
+    foreach ($cates as &$cate) {
+        if ($remove['remove_ids']) {
+            $list = m('product')->getList([], ['category'=>$cate['id'], 'is_show'=>1, 'n_id'=>$remove['remove_ids']], FALSE);
+        } else {
+            $list = m('product')->getList([], ['category'=>$cate['id'], 'is_show'=>1], FALSE);
         }
-    }
-    $speed_loans = m('product')->getSpecialLoan(9);
-    foreach ($speed_loans as $key => $loan) {
-        $speed_loan_thr[] = $loan;
-        if (count($speed_loan_thr) > 2 || $key == max(array_keys($speed_loans))) {
-            $speed_loan_all[] = $speed_loan_thr;
-            $speed_loan_thr = [];
+        $cate['list'] = m('product')->packupItems($list);
+        foreach ($cate['list'] as &$row) {
+            if ($row['type'] == 1) {
+                $row['url'] = $this->createMobileUrl('product', array('op' => 'apply', 'id' => $row['id'], 'inviter'=>$inviter));
+                $info = m('bank')->getCard(['id', 'ext_info'], ['id' => $row['relate_id']])[$row['relate_id']];
+                $row['tag'] = $info['ext_info']['v_name'];
+            } else {
+                $row['url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$inviter, 'pid'=>$row['id']));
+                $info = m('loan')->getList(['id', 'money_high'], ['id' => $row['relate_id']])[$row['relate_id']];
+                $row['tag'] = '最高额度' . $info['money_high'];
+            }
         }
+        unset($row);
+        $cate['ext_info'] = json_decode($cate['ext_info'], true);
     }
-    $large_loans = m('product')->getSpecialLoan(7);
-    foreach ($large_loans as $key => $loan) {
-        $large_loan_thr[] = $loan;
-        if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {
-            $large_loan_all[] = $large_loan_thr;
-            $large_loan_thr = [];
-        }
-    }
-    $credits_blow = array_slice($credits, (int)count($credits)/2, ceil(count($credits)/5));
-    $barrage = m('product')->getBarrage($credits, array_merge($speed_loans, $large_loans));
+    unset($cate);
     include $this->template('product/allProduct');
 } else if ($operation == 'apply') {
     //申请产品
