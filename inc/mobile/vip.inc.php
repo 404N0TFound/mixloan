@@ -19,27 +19,44 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-    $notify_url = 'http://hqph.bjhantangyuanlin.com/addons/xuan_mixloan/lib/wechat/payResult.php';
-    $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
-		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
-    if (empty($record)) {
+    if ($member['id'] == 2) {
+        $config['buy_vip_price'] = 0.01;
+    }
+    if ($_GPC['way'] == 'alipay')
+    {
         $tid = "10001" . date('YmdHis', time());
-        $trade_no = "ZML".date("YmdHis");
-        $insert = array(
-            'notify_id'=>$trade_no,
-            'tid'=>$tid,
-            'createtime'=>time(),
-            'uid'=>$member['id'],
-            'uniacid'=>$_W['uniacid'],
-            'fee'=>$config['buy_vip_price'],
-            'is_pay'=>0,
-            'type'=>1
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $member['id'],
+            'module' => 'xuan_mixloan'
         );
-        pdo_insert('xuan_mixloan_paylog', $insert);
-    } else {
-        if ($record['createtime']+60 < time())
-        {
-            //超过1分钟重新发起订单
+        $insert = array(
+            'openid' => $openid,
+            'uniacid' => $_W['uniacid'],
+            'acid' => $_W['uniacid'],
+            'tid' => $tid,
+            'fee' => $fee,
+            'status' => 0,
+            'module' => 'xuan_mixloan',
+            'card_fee' => $fee,
+        );
+        pdo_insert('core_paylog', $insert);
+        $url = url('mc/cash/alipay') . "&params=" . base64_encode(json_encode($params));
+        include $this->template('vip/openHref');
+        //调用pay方法
+        // $this->pay($params);
+    }
+    else if ($_GPC['way'] == 'wechat')
+    {
+        $notify_url = 'http://hqph.bjhantangyuanlin.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+        if (empty($record)) {
             $tid = "10001" . date('YmdHis', time());
             $trade_no = "ZML".date("YmdHis");
             $insert = array(
@@ -53,19 +70,40 @@ if($operation=='buy'){
                 'type'=>1
             );
             pdo_insert('xuan_mixloan_paylog', $insert);
+        } else {
+            if ($record['createtime']+60 < time())
+            {
+                //超过1分钟重新发起订单
+                $tid = "10001" . date('YmdHis', time());
+                $trade_no = "ZML".date("YmdHis");
+                $insert = array(
+                    'notify_id'=>$trade_no,
+                    'tid'=>$tid,
+                    'createtime'=>time(),
+                    'uid'=>$member['id'],
+                    'uniacid'=>$_W['uniacid'],
+                    'fee'=>$config['buy_vip_price'],
+                    'is_pay'=>0,
+                    'type'=>1
+                );
+                pdo_insert('xuan_mixloan_paylog', $insert);
+            }
+            else
+            {
+                $trade_no = $record['notify_id'];
+            }
         }
-        else
-        {
-            $trade_no = $record['notify_id'];
+        $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
+        if ($result['code'] == 1) {
+            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                $this->createMobileUrl('vip', array('op'=>'checkPay')));
+            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+        } else {
+            message('请稍后再试', $this->createMobileUrl('user'), 'error');
         }
+        include $this->template('vip/openHref');
     }
-    $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
-    if ($result['code'] == 1) {
-        $redirect_url = urlencode($_W['siteroot'] . 'app/' .
-            $this->createMobileUrl('vip', array('op'=>'checkPay')));
-        $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
-    }
-    include $this->template('vip/openHref');
+    exit;
 } else if ($operation == 'notify_url') {
     $notify_id = $_GPC['notify_id'];
     if (empty($notify_id)) {
@@ -475,6 +513,9 @@ if($operation=='buy'){
     //邀请注册
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);
     include $this->template('vip/register');
+} else if ($operation == 'choose_pay_type') {
+    //选择付款方式
+    include $this->template('vip/choose_pay_type');
 } else if ($operation == 'checkPay') {
     //检测有没有付款成功
     include $this->template('vip/checkPay');
