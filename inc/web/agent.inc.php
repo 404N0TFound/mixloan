@@ -408,12 +408,13 @@ if ($operation == 'list') {
                 $failed += 1;
                 continue;
             }
+            $relate_key   = substr($phone, 0, 3) . substr($phone, -4);
             $relate_money = trim($value[4]);
-            $relate_id = $pro_list[$pro_name]['id'];
-            $product = $pro_list[$pro_name];
+            $relate_id    = $pro_list[$pro_name]['id'];
+            $product      = $pro_list[$pro_name];
             //一级
             $item_one = pdo_fetch('select * from ' . tablename("xuan_mixloan_product_apply") . "
-                where phone={$phone} and pid={$relate_id} and degree=1");
+                where relate_key={$relate_key} and pid={$relate_id} and degree=1");
             if (!empty($item_one))
             {
                 $update = array();
@@ -434,11 +435,11 @@ if ($operation == 'list') {
                 {
                     $update['done_bonus'] = $product['ext_info']['done_one_init_reward_per'] * $relate_money * 0.01;
                 }
-                if (trim($value[5]))
+                if (trim($value[5]) != '')
                 {
                     $update['re_bonus'] = trim($value[5]);
                 }
-                if (trim($value[7]))
+                if (trim($value[7]) != '')
                 {
                     $update['done_bonus'] = trim($value[7]);
                 }
@@ -451,7 +452,7 @@ if ($operation == 'list') {
                 }
             }
             $item_two = pdo_fetch('select * from ' . tablename("xuan_mixloan_product_apply") . "
-                where phone={$phone} and pid={$relate_id} and degree=2");
+                where relate_key={$relate_key} and pid={$relate_id} and degree=2");
             if (!empty($item_two))
             {
                 $update = array();
@@ -472,11 +473,11 @@ if ($operation == 'list') {
                 {
                     $update['done_bonus'] = $product['ext_info']['done_two_init_reward_per'] * $relate_money * 0.01;
                 }
-                if (trim($value[6]))
+                if (trim($value[6]) != '')
                 {
                     $update['re_bonus'] = trim($value[6]);
                 }
-                if (trim($value[8]))
+                if (trim($value[8]) != '')
                 {
                     $update['done_bonus'] = trim($value[8]);
                 }

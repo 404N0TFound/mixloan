@@ -253,6 +253,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `extra_bonus` decimal(7,2) NOT NULL,
   `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已下款/发卡',
   `createtime` int(11) NOT NULL,
+  `relate_key` int(8) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),

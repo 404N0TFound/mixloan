@@ -114,7 +114,8 @@ if($operation=='index'){
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $relate_key = substr($_GPC['phone'], 0, 3) . substr($_GPC['phone'], -4);
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'relate_key'=>$relate_key]);
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
@@ -149,7 +150,8 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'relate_key'=>$relate_key
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     //二级
