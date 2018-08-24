@@ -311,38 +311,22 @@
 						</div>
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">产品总代理海报设置</label>
-							<div class="col-sm-4 col-xs-6">
-								{php echo tpl_form_field_image(poster_image,$setting['poster_image']);}
-								<span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
-							</div>
-							<div class="col-sm-2 col-xs-3">
-								<select class="form-control" name="poster_avatar">
-									<option value="1" {if $setting['poster_avatar']==1}selected{/if}>是</option>
-									<option value="0" {if $setting['poster_avatar']==0}selected{/if}>否</option>
-								</select>
-								<span class="help-block">是否需要头像</span>
-							</div>
-							<div class="col-sm-2 col-xs-3">
-								{php echo tpl_form_field_color('poster_color',$setting['poster_color']);}
-								<span class="help-block">昵称颜色</span>
+							<div class="col-sm-9 col-xs-9">
+								{loop $posters $poster}
+								<div class="checkbox">
+									<label><input type="checkbox" name="product_poster[]" {if @in_array($poster['id'],$setting['product_poster'])}checked{/if} value="{$poster['id']}">{$poster['name']}</label>
+								</div>
+								{/loop}
 							</div>
 						</div>
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请海报设置</label>
-							<div class="col-sm-4 col-xs-6">
-								{php echo tpl_form_field_image(invite_image,$setting['invite_image']);}
-								<span class="help-block">推荐尺寸：360*600，务必上传png图片</span>
-							</div>
-							<div class="col-sm-2 col-xs-3">
-								<select class="form-control" name="invite_avatar">
-									<option value="1" {if $setting['invite_avatar']==1}selected{/if}>是</option>
-									<option value="0" {if $setting['invite_avatar']==0}selected{/if}>否</option>
-								</select>
-								<span class="help-block">是否需要头像</span>
-							</div>
-							<div class="col-sm-2 col-xs-3">
-								{php echo tpl_form_field_color('invite_color',$setting['invite_color']);}
-								<span class="help-block">昵称颜色</span>
+							<div class="col-sm-9 col-xs-9">
+								{loop $posters $poster}
+								<div class="checkbox">
+									<label><input type="checkbox" name="inviter_poster[]" {if @in_array($poster['id'],$setting['inviter_poster'])}checked{/if} value="{$poster['id']}">{$poster['name']}</label>
+								</div>
+								{/loop}
 							</div>
 						</div>
 					</div>
