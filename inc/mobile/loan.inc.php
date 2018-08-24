@@ -80,6 +80,11 @@ if($operation=='index'){
     $id = intval($_GPC['id']);
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $member['openid']);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
+    $inviter_info = pdo_fetch('select status from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $inviter));
+    if ($inviter_info['status'] == 0) {
+        show_json(-1, [], "该代理已被封禁");
+    }
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");
     }
