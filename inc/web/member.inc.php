@@ -10,7 +10,7 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' AND status<>-1';
+    $status = $_GPC['status'] != '' ? $_GPC['status'] : 1;
     if (!empty($_GPC['openid'])) {
         $wheres.= " AND openid='{$openid}'";
     }
@@ -38,6 +38,10 @@ if ($operation == 'list') {
     pdo_delete('xuan_mixloan_inviter', array("uid" => $_GPC["id"]));
     pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
     message("删除成功");
+} else if ($operation == 'recovery') {
+    // 解冻
+    pdo_update('xuan_mixloan_member', array('status' => 1), array('id' => $_GPC['id']));
+    message("解冻成功", referer(), 'sccuess');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
