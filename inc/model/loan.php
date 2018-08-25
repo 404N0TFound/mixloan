@@ -84,7 +84,7 @@ class Xuan_mixloan_Loan
         return $list;
     }
 
-    public function getRecommends(){
+    public function getRecommends($conditon){
         global $_W;
         if (!empty($conditon)) {
             foreach ($conditon as $k => $v) {
