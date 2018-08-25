@@ -72,6 +72,7 @@ if($operation=='buy'){
             );
             pdo_insert('xuan_mixloan_paylog', $insert);
         } else {
+            message('维护中', $this->createMobileUrl('user'), 'error');
             if ($record['createtime']+60 < time())
             {
                 //超过1分钟重新发起订单

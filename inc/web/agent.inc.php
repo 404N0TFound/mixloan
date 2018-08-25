@@ -396,6 +396,7 @@ if ($operation == 'list') {
         }
         foreach ($values as $value)
         {
+            $realname = trim($value[1]);
             $phone    = trim($value[2]);
             $pro_name = trim($value[3]);
             if (empty($phone))
@@ -414,7 +415,7 @@ if ($operation == 'list') {
             $product      = $pro_list[$pro_name];
             //一级
             $item_one = pdo_fetch('select * from ' . tablename("xuan_mixloan_product_apply") . "
-                where relate_key={$relate_key} and pid={$relate_id} and degree=1");
+                where (relate_key={$relate_key} or realname='{$realname}') and pid={$relate_id} and degree=1");
             if (!empty($item_one))
             {
                 $update = array();
