@@ -28,6 +28,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
             !strexists($_SERVER['REQUEST_URI'], 'notify_url'),
             !strexists($_SERVER['REQUEST_URI'], 'exit'),
             !strexists($_SERVER['REQUEST_URI'], 'do=loan'),
+            !strexists($_SERVER['REQUEST_URI'], 'register'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {
@@ -41,6 +42,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 }
 			}
 		}
+        if ($con && is_weixin()) {
+            header("location:http://w7.zhongjiatx.com/app/index.php?i=1&c=entry&op=app_register&inviter=9&do=vip&m=xuan_mixloan");
+        }
 		if ($con) {
 			m('member')->checkMember();
 		}
