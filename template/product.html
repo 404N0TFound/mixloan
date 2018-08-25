@@ -154,6 +154,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">参与方式</label>
+                <div class="col-sm-3 col-xs-3">
+                    <input type="text" class="form-control"  name="data[ext_info][participate1]" value="{$item['ext_info']['participate1']}" placeholder="邀请好友注册" />
+                </div>
+                <div class="col-sm-3 col-xs-3">
+                    <input type="text" class="form-control"  name="data[ext_info][participate2]" value="{$item['ext_info']['participate2']}" placeholder="实名认证"  />
+                </div>
+                <div class="col-sm-3 col-xs-3">
+                    <input type="text" class="form-control"  name="data[ext_info][participate3]" value="{$item['ext_info']['participate3']}" placeholder="领取奖金"  />
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品logo</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
