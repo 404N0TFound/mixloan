@@ -335,6 +335,7 @@ if ($operation == 'list') {
             $cookie = 'withdraw' . $id;
             if (!$_COOKIE[$cookie])
             {
+                setcookie($cookie, 1, time()+120);
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
                 if ($result['code'] == -1) {
@@ -342,10 +343,6 @@ if ($operation == 'list') {
                 } else {
                     $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
                 }
-            }
-            else
-            {
-                setcookie($cookie, 1, time()+60);
             }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
@@ -414,6 +411,7 @@ if ($operation == 'list') {
         $cookie = 'withdraw' . $id;
         if (!$_COOKIE[$cookie])
         {
+            setcookie($cookie, 1, time()+120);
             $payment_no = date('YmdHis');
             $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
             if ($result['code'] == -1) {
@@ -422,10 +420,6 @@ if ($operation == 'list') {
                 $data['ext_info']['payment_no'] = $result['order_id'];
                 $data['ext_info'] = json_encode($data['ext_info']);
             }
-        }
-        else
-        {
-            setcookie($cookie, 1, time()+60);
         }
     }
     pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
