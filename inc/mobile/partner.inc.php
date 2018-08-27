@@ -25,7 +25,7 @@ if($operation=='login') {
 		message('密码不能为空', '', 'error');
 	}
 	$record = pdo_fetch('select id,pass,backstage from ' . tablename('xuan_mixloan_member') . '
-	 	where phone=:phone', array(':phone' => $phone));
+	 	where phone=:phone and uniacid=:uniacid', array(':phone' => $phone, ':uniacid' => $_W['uniacid']));
 	if (empty($record)) {
 		message('用户不存在', '', 'error');
 	}
