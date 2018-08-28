@@ -93,7 +93,13 @@
         <!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
         <div class="swiper-container">
             <div class="swiper-wrapper" id="swiper-wrapper">
-                <!--    -->
+                {loop $advs $adv}
+                <div class='swiper-slide'>
+                    <a href='{$adv['url']}'>
+                    <img src='{$adv['image']}' />
+                    </a>
+                </div>
+                {/loop}
             </div>
             <!-- Add Pagination -->
             <div class="swiper-pagination"></div>

@@ -7,6 +7,7 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $advs = m('product')->getAdvs();
     $new_list = m('product')->getRecommends();
     $new_list = m('product')->packupItems($new_list);
     $recommend_list = m('product')->getList([], ['is_recommend'=>1, 'is_show'=>1], " sort desc", 12);
