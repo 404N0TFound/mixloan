@@ -260,6 +260,8 @@ if ($operation == 'list') {
         $info['name'] = '合伙人分红，关联id：' . $item['pid'];
     } else if ($item['type'] == 4){
         $info['name'] = '信用查询分佣，关联id：' . $item['pid'];
+    } else if ($item['type'] == 5){
+        $info['name'] = '每日佣金奖励，关联id：' . $item['pid'];
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;

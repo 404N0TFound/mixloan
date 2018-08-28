@@ -35,12 +35,26 @@
       <entry title="信用查询" do="credit" state="" direct="false" />
 		  <entry title="海报管理" do="poster" state="" direct="false" />
       <entry title="帮助中心" do="help" state="" direct="false" />
+		<entry title="奖励管理" do="bonus" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_bonus`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bonus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_artical_praise`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_artical_praise` (
