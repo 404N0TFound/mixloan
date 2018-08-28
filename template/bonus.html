@@ -57,6 +57,7 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
 
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','relate_id' => $row['id'], 'type' => 5));}" title='奖励'><i class='fa fa-edit'></i> 奖励</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('bonus',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('bonus',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除</a></li>
                             </ul>

@@ -45,6 +45,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.uid='{$_GPC['uid']}'";
     }
+    if (!empty($_GPC['type'])) {
+        $wheres.= " AND a.type='{$_GPC['type']}'";
+    }
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
     }
@@ -67,12 +70,17 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
-        } else if ($row['pid']==-1) {
+        } else if ($row['type'] == 3) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请信用查询';
+        } else if ($row['type'] == 4) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['name'] = '合伙人分红';
+        } else if ($row['type'] == 5) {
+            $row['name'] = '每日佣金奖励';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
