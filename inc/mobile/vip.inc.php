@@ -398,7 +398,7 @@ if($operation=='buy'){
                 $row['type'] = '日结';
             } else if ($pros[$row['pid']]['count_time'] == 7) {
                 $row['type'] = '周结';
-            } else if ($pros[$row['pid']]['count_time'] == 7) {
+            } else if ($pros[$row['pid']]['count_time'] == 30) {
                 $row['type'] = '月结';
             }
         } else {
