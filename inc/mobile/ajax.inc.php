@@ -236,10 +236,18 @@ if($operation == 'getCode'){
 	//临时脚本
 	$list = pdo_fetchall('SELECT id,img_url FROM '.tablename('xuan_mixloan_withdraw_qrcode').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
 	foreach ($list as $row) {
-		if (strstr($row['img_url'], 'wx.yonka.wang')) {
-			$img_url = str_replace('wx.yonka.wang', 'tk.yonka.wang', $row['img_url']);
+		if (strstr($row['img_url'], 'yyzq.fuziyo.cn')) {
+			$img_url = str_replace('yyzq.fuziyo.cn', 'weixin.jhhai.cn', $row['img_url']);
 			// echo $img_url;
 			pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url'=>$img_url), array('id'=>$row['id']));
+		}
+	}
+	$list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+	foreach ($list as $row) {
+		if (strstr($row['avatar'], 'yyzq.fuziyo.cn')) {
+			$avatar = str_replace('yyzq.fuziyo.cn', 'weixin.jhhai.cn', $row['avatar']);
+			// echo $img_url;
+			pdo_update('xuan_mixloan_member', array('avatar'=>$avatar), array('id'=>$row['id']));
 		}
 	}
 }
