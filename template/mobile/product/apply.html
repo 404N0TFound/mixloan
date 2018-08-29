@@ -266,21 +266,21 @@ function click(){
     });
 }
 //弹出申请填写框
-$("#daili_toapply").click(function(){
+$("#dummyApply").click(function(){
     $("body").css({"height":$(window).height(),"overflow":"hidden"});
-    rollFlag=1;
+    rollFlag=1;    
     $("div.popLoanApply").show();
     setTimeout(function(){
         if(iosXIndex){
             //iphoneX
-            $("div.popLoanMain").css({"top":"30%","opacity":"1"});
+            $("div.popLoanMain").css({"top":"42%","opacity":"1"});
         }else{
             $("div.popLoanMain").css({"top":"30%","opacity":"1"});
-        }
+        }        
     },100)
     $("div.toApply").css({"background-color":"transparent","border":"none"});
-    // $("a.dummyApply").hide();
-    $(".toApply").show();
+    $("div.toApply a.dummyApply").hide();
+    $("div.toApply a.to_apply").show();
 })
 // 退出申请框
 $("div.popLoanApplyCover").click(function(){
@@ -290,10 +290,10 @@ $("div.popLoanApplyCover").click(function(){
         rollFlag=0;
         $("div.popLoanApply").hide();
         $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
-        $("a.dummyApply").show();
-        $(".toApply").hide();
-    },100)
-});
+        $("div.toApply a.dummyApply").show();
+        $("div.toApply a.to_apply").hide();
+    },100)    
+})
 //防止点击输入时退出申请框
 $("div.popLoanInfo input").click(function(e){
     e.stopPropagation();
