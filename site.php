@@ -122,7 +122,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							're_bonus'=>$re_bonus,
 							'status'=>2,
 							'createtime'=>time(),
-							'degree'=>1
+							'degree'=>1,
+                            'type'=>2
 						);
 						pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					}
@@ -173,7 +174,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								're_bonus'=>$re_bonus,
 								'status'=>2,
 								'createtime'=>time(),
-								'degree'=>2
+								'degree'=>2,
+                                'type'=>2
 							);
 							pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						}
@@ -224,7 +226,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 						 			're_bonus'=>$re_bonus,
 						 			'status'=>2,
 						 			'createtime'=>time(),
-						 			'degree'=>3
+						 			'degree'=>3,
+                                    'type'=>2
 						 		);
 						 		pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						 	}

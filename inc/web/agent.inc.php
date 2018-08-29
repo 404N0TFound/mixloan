@@ -355,9 +355,31 @@ if ($operation == 'list') {
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
+        if ($count_money > 0) {
+            $up_inviter = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+            $partner_bonus = $count_money*0.01*$config['partner_bonus'];
+            if ($partner_bonus>0.01 && $up_inviter) {
+                $partner = m('member')->checkPartner($up_inviter);
+                if ($partner['code'] == 1) {
+                    $insert_i = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $item['inviter'],
+                        'phone' => $one_man['phone'],
+                        'inviter' => $up_inviter,
+                        'extra_bonus'=>$partner_bonus,
+                        'status'=>2,
+                        'pid'=>$item['id'],
+                        'createtime'=>time(),
+                        'degree'=>1,
+                        'type'=>3
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                }
+            }
+        }
         if ($item['degree'] == 1 && $item['pid'] > 0) {
             //自动给二三级打款
-            $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+            $second_item = pdo_fetch('select id,inviter from ' . tablename('xuan_mixloan_product_apply') . '
                 where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
             if ($second_item) {
                 if ($info['done_reward_type'] == 1) {
@@ -385,8 +407,31 @@ if ($operation == 'list') {
                 }
                 $second_update['status'] = $_GPC['data']['status'];
                 pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+                if ($re_bonus > 0) {
+                    $two_man = m('member')->getInviterInfo($second_item['inviter']);
+                    $up_inviter = m('member')->getInviter($two_man['phone'], $two_man['openid']);
+                    $partner_bonus = $re_bonus*0.01*$config['partner_bonus'];
+                    if ($partner_bonus>0.01 && $up_inviter) {
+                        $partner = m('member')->checkPartner($up_inviter);
+                        if ($partner['code'] == 1) {
+                            $insert_i = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $second_item['inviter'],
+                                'phone' => $two_man['phone'],
+                                'inviter' => $up_inviter,
+                                'extra_bonus'=>$partner_bonus,
+                                'status'=>2,
+                                'pid'=>$second_item['id'],
+                                'createtime'=>time(),
+                                'degree'=>1,
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        }
+                    }
+                }
             }
-            $third_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+            $third_item = pdo_fetch('select id,inviter from ' . tablename('xuan_mixloan_product_apply') . '
                 where pid=:pid and phone=:phone and degree=3', array(':pid' => $item['pid'], ':phone' => $item['phone']));
             if ($third_item) {
                 if ($info['done_reward_type'] == 1) {
@@ -414,6 +459,29 @@ if ($operation == 'list') {
                 }
                 $third_update['status'] = $_GPC['data']['status'];
                 pdo_update('xuan_mixloan_product_apply', $third_update, array('id'=>$third_item['id']));
+                if ($re_bonus > 0) {
+                    $thr_man = m('member')->getInviterInfo($third_item['inviter']);
+                    $up_inviter = m('member')->getInviter($thr_man['phone'], $thr_man['openid']);
+                    $partner_bonus = $re_bonus*0.01*$config['partner_bonus'];
+                    if ($partner_bonus>0.01 && $up_inviter) {
+                        $partner = m('member')->checkPartner($up_inviter);
+                        if ($partner['code'] == 1) {
+                            $insert_i = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $third_item['inviter'],
+                                'phone' => $thr_man['phone'],
+                                'inviter' => $up_inviter,
+                                'extra_bonus'=>$partner_bonus,
+                                'status'=>2,
+                                'pid'=>$third_item['id'],
+                                'createtime'=>time(),
+                                'degree'=>1,
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        }
+                    }
+                }
             }
         }
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
@@ -525,7 +593,7 @@ if ($operation == 'list') {
                 $info = pdo_fetch('select name,done_reward_type,re_reward_type,ext_info from ' .tablename("xuan_mixloan_product"). "
                     where id=:id", array(':id'=>$item['pid']));
                 $info['ext_info'] = json_decode($info['ext_info'], 1);
-                $inviter = m('member')->getInviterInfo($item['inviter']);
+                $one_man = m('member')->getInviterInfo($item['inviter']);
                 if ($status == 1 && $update['re_bonus']>0) {
                     $datam = array(
                         "first" => array(
@@ -566,9 +634,31 @@ if ($operation == 'list') {
                         ) ,
                     );
                 }
+                if ($count_money > 0) {
+                    $up_inviter = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+                    $partner_bonus = $count_money*0.01*$config['partner_bonus'];
+                    if ($partner_bonus>0.01 && $up_inviter) {
+                        $partner = m('member')->checkPartner($up_inviter);
+                        if ($partner['code'] == 1) {
+                            $insert_i = array(
+                                'uniacid' => $_W['uniacid'],
+                                'uid' => $item['inviter'],
+                                'phone' => $one_man['phone'],
+                                'inviter' => $up_inviter,
+                                'extra_bonus'=>$partner_bonus,
+                                'status'=>2,
+                                'pid'=>$item['id'],
+                                'createtime'=>time(),
+                                'degree'=>1,
+                                'type'=>3
+                            );
+                            pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        }
+                    }
+                }
                 if ($datam && $item['degree'] == 1 && $item['pid'] > 0) {
                     //自动给二三级打款
-                    $second_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                    $second_item = pdo_fetch('select id,inviter from ' . tablename('xuan_mixloan_product_apply') . '
                         where pid=:pid and phone=:phone and degree=2', array(':pid' => $item['pid'], ':phone' => $item['phone']));
                     if ($second_item) {
                         if ($info['done_reward_type'] == 1) {
@@ -596,8 +686,31 @@ if ($operation == 'list') {
                         }
                         $second_update['status'] = $status;
                         pdo_update('xuan_mixloan_product_apply', $second_update, array('id'=>$second_item['id']));
+                        if ($re_bonus > 0) {
+                            $two_man = m('member')->getInviterInfo($second_item['inviter']);
+                            $up_inviter = m('member')->getInviter($two_man['phone'], $two_man['openid']);
+                            $partner_bonus = $re_bonus*0.01*$config['partner_bonus'];
+                            if ($partner_bonus>0.01 && $up_inviter) {
+                                $partner = m('member')->checkPartner($up_inviter);
+                                if ($partner['code'] == 1) {
+                                    $insert_i = array(
+                                        'uniacid' => $_W['uniacid'],
+                                        'uid' => $second_item['inviter'],
+                                        'phone' => $two_man['phone'],
+                                        'inviter' => $up_inviter,
+                                        'extra_bonus'=>$partner_bonus,
+                                        'status'=>2,
+                                        'pid'=>$second_item['id'],
+                                        'createtime'=>time(),
+                                        'degree'=>1,
+                                        'type'=>3
+                                    );
+                                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                                }
+                            }
+                        }
                     }
-                    $third_item = pdo_fetch('select id from ' . tablename('xuan_mixloan_product_apply') . '
+                    $third_item = pdo_fetch('select id,inviter from ' . tablename('xuan_mixloan_product_apply') . '
                         where pid=:pid and phone=:phone and degree=3', array(':pid' => $item['pid'], ':phone' => $item['phone']));
                     if ($third_item) {
                         if ($info['done_reward_type'] == 1) {
@@ -625,6 +738,29 @@ if ($operation == 'list') {
                         }
                         $third_update['status'] = $status;
                         pdo_update('xuan_mixloan_product_apply', $third_update, array('id'=>$third_item['id']));
+                        if ($re_bonus > 0) {
+                            $thr_man = m('member')->getInviterInfo($third_item['inviter']);
+                            $up_inviter = m('member')->getInviter($thr_man['phone'], $thr_man['openid']);
+                            $partner_bonus = $re_bonus*0.01*$config['partner_bonus'];
+                            if ($partner_bonus>0.01 && $up_inviter) {
+                                $partner = m('member')->checkPartner($up_inviter);
+                                if ($partner['code'] == 1) {
+                                    $insert_i = array(
+                                        'uniacid' => $_W['uniacid'],
+                                        'uid' => $third_item['inviter'],
+                                        'phone' => $thr_man['phone'],
+                                        'inviter' => $up_inviter,
+                                        'extra_bonus'=>$partner_bonus,
+                                        'status'=>2,
+                                        'pid'=>$third_item['id'],
+                                        'createtime'=>time(),
+                                        'degree'=>1,
+                                        'type'=>3
+                                    );
+                                    pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                                }
+                            }
+                        }
                     }
                 }
                 if ($datam) {
