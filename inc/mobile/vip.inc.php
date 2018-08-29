@@ -58,7 +58,7 @@ if($operation=='buy'){
 	$poster = m('poster')->getPoster(["COUNT(1) AS count"], ["pid"=>$id, "type"=>$type, "uid"=>$member['id']]);
 	if (!$poster["count"]) {
 		$params = array(
-			"url" => $url,
+			"url" => shortUrl($url),
 			"member" => $member,
 			"type" => $type,
 			"pid" => $id,
@@ -67,7 +67,7 @@ if($operation=='buy'){
 		);
 		$res = m('poster')->createPoster($cfg, $params);
 		if ($res) {
-	        show_json(1, ['post_url'=>$poster_path, 'agent_url'=>$url]);
+	        show_json(1, ['post_url'=>$poster_path, 'agent_url'=>shortUrl($url)]);
 		} else {
 	        show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
 		}
@@ -335,7 +335,7 @@ if($operation=='buy'){
                 $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}_{$row}.png";
                 $params = array(
                     "poster_id" => $row,
-                    "url" => $url,
+                    "url" => $share_url,
                     "member" => $member,
                     "type" => 3,
                     "pid" => 0,
@@ -366,7 +366,7 @@ if($operation=='buy'){
                 $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$member['id']}_{$row}.png";
                 $params = array(
                     "poster_id" => $row,
-                    "url" => $url,
+                    "url" => $share_url,
                     "member" => $member,
                     "type" => 2,
                     "pid" => 0,
@@ -403,7 +403,7 @@ if($operation=='buy'){
                 $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/product_{$pid}_{$member['id']}_{$row}.png";
                 $params = array(
                     "poster_id" => $row,
-                    "url" => $url,
+                    "url" => $share_url,
                     "member" => $member,
                     "type" => 1,
                     "pid" => $pid,
