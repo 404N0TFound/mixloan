@@ -247,19 +247,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="type">
-                        <option value="0">选择产品类型</option>
-                        <option value="1" {if $_GPC['type']==1}selected{/if}>信用卡</option>
-                        <option value="2" {if $_GPC['type']==2}selected{/if}>贷款</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关联产品</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="relate_name" id="relate_name" onkeyup="change_relate()" value="{$_GPC['relate_name']}" />
+                    <input type="text" class="form-control"  name="relate_name" id="relate_name" onkeyup="change_relate()" value="{$_GPC['relate_name']}" autocomplete="off"/>
                     <input type="hidden" id="relate_id" name="relate_id" value="{$_GPC['relate_id']}">
                     <ul class="search_result" style="display: none"></ul>
                 </div>
@@ -292,14 +282,8 @@
             </div>
             <script type="text/javascript">
                 var change_relate = function(){
-                    var type = $("select[name='type']").val();
-                    if (type == 0) {
-                        alert('请选择分类');
-                        $("select[name='type']").focus();
-                        return false;
-                    }
                     var name = $('#relate_name').val();
-                    $.post("{php echo $this->createWebUrl('product', array('op'=>'getProductRelate'))}", {'name':name, 'type':type},
+                    $.post("{php echo $this->createWebUrl('product', array('op'=>'getProductRelate'))}", {'name':name},
                         function(data) {
                             if(data.code==1){
                                 var str = "";
