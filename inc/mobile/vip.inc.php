@@ -591,7 +591,8 @@ if($operation=='buy'){
                     'status'=>2,
                     'pid'=>-1,
                     'createtime'=>time(),
-                    'degree'=>1
+                    'degree'=>1,
+                    'type'=>2
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
             }
@@ -653,7 +654,8 @@ if($operation=='buy'){
                         'status'=>2,
                         'pid'=>-1,
                         'createtime'=>time(),
-                        'degree'=>2
+                        'degree'=>2,
+                        'type'=>2
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 }
@@ -790,23 +792,30 @@ if($operation=='buy'){
 	}
 	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
 	foreach ($percent_list as &$row) {
-		if ($row['pid'] == 0){
-			$row['name'] = '邀请购买代理';
-			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else if ($row['pid'] == -1) {
-			$row['name'] = '邀请升级代理';
-			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else {
-			$row['name'] = $pros[$row['pid']]['name'];
-			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
-		}
-		if ($row['pid'] <= 0 || $pros[$row['pid']]['count_time'] == 1) {
+	    if ($row['type'] == 1) {
+            $row['name'] = $pros[$row['pid']]['name'];
+            $row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
+        } else if($row['type'] == 2) {
+            if ($row['pid'] == 0){
+                $row['name'] = '邀请购买代理';
+                $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+            } else if ($row['pid'] == -1) {
+                $row['name'] = '邀请升级代理';
+                $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+            }
+        } else if ($row['type'] == 3) {
+            $row['name'] = '合伙人佣金';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        }
+		if ($pros[$row['pid']]['count_time'] == 1) {
 			$row['type'] = '日结';
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
 			$row['type'] = '周结';
-		} else if ($pros[$row['pid']]['count_time'] == 7) {
+		} else if ($pros[$row['pid']]['count_time'] == 30) {
 			$row['type'] = '月结';
-		}
+		} else {
+            $row['type'] = '现结';
+        }
 		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}

@@ -320,7 +320,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 							'status'=>2,
 							'pid'=>-1,
 							'createtime'=>time(),
-							'degree'=>1
+							'degree'=>1,
+                            'type'=>2
 						);
 						pdo_insert('xuan_mixloan_product_apply', $insert_i);
 					}
@@ -372,7 +373,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 								'status'=>2,
 								'pid'=>-1,
 								'createtime'=>time(),
-								'degree'=>2
+								'degree'=>2,
+                                'type'=>2
 							);
 							pdo_insert('xuan_mixloan_product_apply', $insert_i);
 						}

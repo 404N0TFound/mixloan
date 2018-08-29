@@ -67,12 +67,12 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if ($row['pid'] == 0) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
-        } else if ($row['pid'] == -1) {
+        } else if ($row['type'] == 3) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
-            $row['name'] = '升级代理';
+            $row['name'] = '合伙人分红';
         }
         $man = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['uid']}");
         $row['nickname'] = $man['nickname'];
@@ -242,7 +242,7 @@ if ($operation == 'list') {
     //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
-    if ($item['pid']>0) {
+    if ($item['type']==1) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
         $agent = m('member')->checkAgent($item['inviter'], $config);
         $info['ext_info'] = json_decode($info['ext_info'], true);
@@ -298,10 +298,10 @@ if ($operation == 'list') {
                 $info['re_reward_per'] = $info['ext_info']['re_thr_height_reward_per'];
             }
         }
-    } else if ($row['pid'] == 0){
+    } else if ($item['type'] == 2){
         $info['name'] = '邀请购买代理奖励';
-    } else if ($row['pid'] == -1){
-        $info['name'] = '邀请升级代理奖励';
+    } else if ($item['type'] == 3){
+        $info['name'] = '合伙人分红，关联id：' . $item['pid'];
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
