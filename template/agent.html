@@ -221,6 +221,7 @@
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
                     <button type="submit" name="export" value="1" class="btn btn-primary">导出 Excel</button>
                     <a href="{php echo $this->createWebUrl('agent', array('op'=>'import'))}" class="btn btn-primary">导入 Excel</a>
+                    <a href="{php echo $this->createWebUrl('agent', array('op'=>'new_import'))}" class="btn btn-primary">（新）导入 Excel</a>
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
@@ -567,7 +568,7 @@
         }
     }
 </script>
-{else if $operation == 'import'}
+{else if $operation == 'import' || $operation == 'new_import'}
 <div class="panel panel-info">
     <div class="panel-heading">导入管理</div>
     <div class="panel-body">
@@ -579,6 +580,20 @@
             <input type="hidden" name="op" value="{$operation}" />
             <input type="hidden" name="post" value="1" />
 
+            {if $operation == 'new_import'}
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">示例excel</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <a href="../addons/xuan_mixloan/data/excel/example.xlsx" download="example">点我下载</a>
+                    <span class="help-block" style="color:red">
+                    提示：<br/>
+                    1.为确保佣金准确发放，假如只需发放申请佣金的，那就在一级和二级下卡/下款佣金那里填0！！<br/>
+                    2.一二级奖励若为空会自动关联产品的奖励信息。<br/>
+                    3.最好先拿几个数据测试一下，搞明白怎么用再批量导，导完后也再看数据统计有没有出错。
+                    </span>
+                </div>
+            </div>
+            {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">选择文件</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
