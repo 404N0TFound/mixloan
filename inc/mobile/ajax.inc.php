@@ -211,15 +211,13 @@ if($operation == 'getCode'){
 } else if ($operation == 'apply_temp') {
     //常规脚本
     $ids = [];
-     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT uid FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-        foreach ($list as $row) {
-            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-            if ($row['left_bonus']<0) {
-                echo $row['uid'] . ':' . $row['left_bonus'] . "<br/>";
-            }
-        }
+    $list = pdo_fetchall('select id,phone from ' . tablename('xuan_mixloan_product_apply') . '
+		where uniacid=:uniacid and relate_key=0 order by id desc limit 1000', array(':uniacid' => $_W['uniacid']));
+    foreach ($list as $row)
+    {
+        $row['relate_key'] = substr($row['phone'], 0, 3) . substr($row['phone'], -3);
+        pdo_update('xuan_mixloan_product_apply', array('relate_key' => $row['relate_key']), array('id' => $row['id']));
+        $ids[] = $row['id'];
     }
     if (!empty($ids)) {
         echo implode(',', $ids);

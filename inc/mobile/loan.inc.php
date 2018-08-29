@@ -103,9 +103,10 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $relate_key = substr($_GPC['phone'], 0, 3) . substr($_GPC['phone'], -3);
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'relate_key'=>$relate_key]);
     if ($record) {
-        show_json(-1, [], "您已经申请过啦");
+        show_json(-1, [], '您已经申请过了');
     }
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
@@ -181,7 +182,8 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'relate_key'=>$relate_key
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     //二级

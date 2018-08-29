@@ -136,7 +136,8 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $relate_key = substr($_GPC['phone'], 0, 3) . substr($_GPC['phone'], -3);
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'relate_key'=>$relate_key]);
     if ($record) {
         show_json(-1, [], "您已经申请过啦");
     }
@@ -207,7 +208,8 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'relate_key'=>$relate_key
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     //二级
