@@ -60,8 +60,8 @@ if ($operation == 'list')
         // 产品申请
         $sql = "select count(*) from " . tablename('xuan_mixloan_product_apply') .  "
             where uniacid={$_W['uniacid']}";
-        $user['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
-        $user['all']    = pdo_fetchcolumn($sql) ? : 0;
+        $product_apply['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
+        $product_apply['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 代理数
         $sql = "select count(*) from " . tablename('xuan_mixloan_payment') .  "
             where uniacid={$_W['uniacid']}";
