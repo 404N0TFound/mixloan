@@ -23,10 +23,17 @@
     <style type="text/css">
         html,body{height:100%;min-height:100%;background-color: #eee;}
         .credit-bg{background-color: #fff;}
+        div.daili_footer{min-height: 0px;box-shadow: #eaeaea -2px 4px 10px 10px;}
+        .footer_apply{width: 35%;background: white;float: left;text-align: center;}
+        .footer_apply a {padding: 0.6rem 1rem;display: inline-block;color:black;}
+        .footer_agent a {padding: 0.6rem 2rem;display: inline-block;color:white;}
+        .footer_agent{width: 65%;background: #0195ff;float: left;text-align: center;}
         .pp-bg{position: relative;width: 100%;height: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;-webkit-overflow-scrolling : touch;}
         @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
             div.cJframe{padding-bottom: 83px;}
             div.toApply{padding:12px 0 20px 0;}
+            .footer_apply a {padding: 0.9rem 1rem;}
+            .footer_agent a {padding: 0.9rem 2rem;}
         }
     </style>
 </head>
@@ -238,11 +245,18 @@
         </div>
     </div>
 </div>
-<div class="toApply">
-    <a class="dummyApply" id="dummyApply">
-        申请
-    </a>
-    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" style="display: none;">
+<div class="daili_footer">
+    <div class="footer_apply">
+        <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
+            我要代理
+        </a>
+    </div>
+    <div class="footer_agent">
+        <a id="daili_toapply" >我要申请</a>
+    </div>
+</div>
+<div class="toApply" style="display: none;">
+    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" >
         申请
     </a>
 </div>
@@ -322,7 +336,7 @@
         }
     }
     //弹出申请填写框
-    $("#dummyApply").click(function(){
+    $("#daili_toapply").click(function(){
         $("body").css({"height":$(window).height(),"overflow":"hidden"});
         rollFlag=1;
         $("div.popLoanApply").show();
@@ -335,8 +349,8 @@
             }
         },100)
         $("div.toApply").css({"background-color":"transparent","border":"none"});
-        $("div.toApply a.dummyApply").hide();
-        $("div.toApply a.to_apply").show();
+        // $("a.dummyApply").hide();
+        $("div.toApply").show();
     })
     // 退出申请框
     $("div.popLoanApplyCover").click(function(){
@@ -346,8 +360,8 @@
             rollFlag=0;
             $("div.popLoanApply").hide();
             $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
-            $("div.toApply a.dummyApply").show();
-            $("div.toApply a.to_apply").hide();
+            $("a.dummyApply").show();
+            $("div.toApply").hide();
         },100)
     })
     //防止点击输入时退出申请框
