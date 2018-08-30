@@ -282,6 +282,7 @@
         }
         var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
         var imgSrc = $('.swiper-slide-active .initialImg img').attr('src');
+        imgSrc = imgSrc.replace(/(^\s*)|(\s*$)/g, "");
         plus.nativeUI.actionSheet(actionList,function(e){
             if (e.index == 1) {
                 plus.nativeUI.showWaiting("保存中");
