@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
     <style type="text/css">
         body{background-color: #f1f1f1;}
+        div.btm_state{margin-top: 3rem}
+
     </style>
     {php echo register_jssdk();}
     <script>
@@ -79,6 +81,11 @@
                             <label><img src="../addons/xuan_mixloan/template/style/picture/phone1-1.png"></label>
                             <input type="tel" name="phone" maxlength="11" id="phone" placeholder="请输入您的手机号" />
                         </div>
+                        <div class="regBindCommon">
+                            <label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png" style="width: 0.65rem;"></label>
+                            <input type="text" name="imgCode" id="imgCode" placeholder="请输入图形验证码" />
+                            <a href="javascript:void(0);" ><img src="" id="cache_img" style="width: 2.5rem;height: 1.2rem"></a>
+                        </div>
                         <div class="regBindCommon regBindCode">
                             <label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png" style="width: 0.65rem;"></label>
                             <input type="number" name="smsCode" id="smsCode" placeholder="请输入您的验证码" />
@@ -95,14 +102,14 @@
             <!-- 老代理 -->
             <div class="regInfoCommon regDaili" style="display: none;">
                 <img src="../addons/xuan_mixloan/template/style/picture/106_meitu_2.png">
-                <a id="downloadApp" href="http://xmvip.vip/f8p9W3" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
-                <a id="downloadApp" href="http://xmvip.vip/xKUwL3"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
+                <a id="downloadApp" href="http://xmvip.vip/GRJ2L4" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" href="http://xmvip.vip/PLdJ6"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
             <!-- i代用户第一次申请 -->
             <div class="regInfoCommon userFirstSubmit" style="display: none;">
                 <img src="../addons/xuan_mixloan/template/style/picture/104_meitu_1.png">
-                <a id="downloadApp" href="http://xmvip.vip/f8p9W3" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
-                <a id="downloadApp" href="http://xmvip.vip/xKUwL3"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
+                <a id="downloadApp" href="http://xmvip.vip/GRJ2L4" style="top: 40%"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_android.png"></a>
+                <a id="downloadApp" href="http://xmvip.vip/PLdJ6"><img src="../addons/xuan_mixloan/template/style/picture/dwlapp_ios.png"></a>
             </div>
         </div>
         <!-- <div class="intro_common progress">
@@ -126,6 +133,20 @@
 </div>
 <!--end -->
 <script type="text/javascript">
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
     // 进度条
     (function ($) {
         if (typeof($.fn.myProgress) != 'undefined') {
@@ -256,6 +277,17 @@
     function getCheck() {
         $("#sendMess").unbind("click");
         var phone = $("#phone").val();
+        var cache = $('#imgCode').val();
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#imgCode', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            $("#sendMess").bind("click",function(){
+                getCheck();
+            });
+            return false;
+        }
         if(phone=='' || phone=="请输入手机号码"){
             document.getElementById('phone').focus();
 
@@ -287,7 +319,7 @@
             }
         }
 
-        $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'activity'=>1))}",{"phone":phone},
+        $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'activity'=>1))}",{"phone":phone,"img_cache":cache},
             function(res){
                 if(res.code==102){
                     //已经是代理
