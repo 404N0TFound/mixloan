@@ -194,7 +194,7 @@ if($operation=='buy'){
 	}
 	exit;
 } else if ($operation == 'notify_url') {
-    $notify_id = $_GPC['notify_id'];
+    $notify_id = trim($_GPC['notify_id']);
     if (empty($notify_id)) {
         message('notify_id为空', '', 'error');
     }
