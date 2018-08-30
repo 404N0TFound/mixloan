@@ -13,6 +13,7 @@ if($operation=='register'){
 	include $this->template('index/register_contract');
 } else if ($operation == 'register_ajax') {
     //注册提交
+    $openid = '';
     $phone = $_GPC['phone'];
     $pwd = $_GPC['pwd'];
     $smsCode = $_GPC['smsCode'];

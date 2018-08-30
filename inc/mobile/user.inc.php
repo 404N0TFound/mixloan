@@ -13,6 +13,8 @@ if($operation=='index'){
     }
     $inviter = m('member')->getInviter($member['phone'], $openid);
     $inviterInfo = m('member')->getInviterInfo($inviter);
+    $unread_count = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
+		where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id'])) ? : 0;
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;

@@ -31,6 +31,13 @@
         div.agent-foot p>img {
             width:1.1rem;
         }
+        .unread_count{
+            padding: 0.2rem;
+            background: #e03f3f;
+            color: white;
+            border-radius: 0.5rem;
+            margin-right: 10px;
+        }
     </style>
 
     {template 'common/wxshare'}
@@ -143,24 +150,14 @@
         </div>
         <div class="agent_contain" style="position: relative;top:-0.4rem;">
             {if $member['user_type']['code'] == 1}
-            <div class="informAlert">
-                <div class="informContent clearfix">
-                    <span>是否开启消息提醒</span>
-                    <div class="ifInform">
-                        <a class="yesInform" data-attr="yesInform" style="{if $member['user_type']['msg'] != 1}display: none;{/if}"></a>
-                        <a class="noInform" data-attr="noInform" style="{if $member['user_type']['msg'] == 1}display: none;{/if}"></a>
-                        <span data-inform="{if $member['user_type']['msg'] != 1}noInform{else}yesInform{/if}" class="inform_way" style="{if $member['user_type']['msg'] != 1}left: 0.01rem;{else}left: 0.75rem;{/if}"></span>
-                    </div>
-                </div>
-                <div class="ifInform_txt"><p>若关闭此开关，您将不再收到该公众号的消息提醒。</p></div>
-            </div>
+
             {/if}
             <ul class="clearfix">
                 <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')">
                         <img src="../addons/xuan_mixloan/template/style/images/message_2.png" />
                         系统公告
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        <em><span class="unread_count">{$unread_count}</span><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
                 <li class="new_guide">
