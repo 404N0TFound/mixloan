@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster_data` (
   `name` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
   `ext_info` text NOT NULL,
-  `prefix_text` varchar(20) NOT NULL,
+  `prefix_text` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
@@ -312,6 +312,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster` (
   `pid` int(11) NOT NULL,
   `createtime` int(11) NOT NULL,
   `poster` varchar(200) NOT NULL,
+  `prefix_text` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `pid` (`pid`),
