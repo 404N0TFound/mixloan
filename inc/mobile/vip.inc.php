@@ -664,4 +664,7 @@ if($operation=='buy'){
     unset($row);
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
     message($ret, '', 'success');
+} else if ($operation == 'set') {
+	// 设置
+    include $this->template('vip/set');
 }

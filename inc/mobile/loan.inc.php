@@ -92,6 +92,13 @@ if($operation=='index'){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
+    $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
+        where uid=:uid', array(':uid' => $inviter));
+    if ($is_close) {
+        $condition = true;
+    } else {
+        $condition = false;
+    }
     include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
