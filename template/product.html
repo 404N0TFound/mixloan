@@ -210,6 +210,15 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group" {if $item['type']!=2}style="display: none"{/if} id='loan_type'>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款分类</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[loan_type]">
+                        <option value="1" {if $item['loan_type'] == 1} selected="" {/if}>大额贷款</option>
+                        <option value="2" {if $item['loan_type'] == 2} selected="" {/if}>小额贷款</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关联产品</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
@@ -432,6 +441,7 @@
         var s_json = {$s_json};
         var value = $("select[name='data[type]']").val();
         if (value == 1) {
+            $('#loan_type').hide(500);
             if (isEmptyObject(c_json)) {
                 $("select[name='data[relate_id]']").html("");
                 $("select[name='data[relate_id]']").parent().parent().hide(500);
@@ -440,6 +450,7 @@
             }
             change_c(c_json)
         } else if (value == 2) {
+            $('#loan_type').show(500);
             if (isEmptyObject(s_json)) {
                 $("select[name='data[relate_id]']").html("");
                 $("select[name='data[relate_id]']").parent().parent().hide(500);
@@ -448,6 +459,7 @@
             }
             change_c(s_json)
         } else {
+            $('#loan_type').hide(500);
             $("select[name='data[relate_id]']").parent().parent().hide(500);
         }
     }
