@@ -584,9 +584,7 @@ if($operation=='buy'){
                 if (!$invite_res) {
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
-                    $temp = [];
-                    $temp['poster'] = $invite_res;
-                    $posterArr[] = $temp;
+                    $posterArr[] = $invite_res;
                 }
             }
         }
@@ -615,9 +613,7 @@ if($operation=='buy'){
                 if (!$invite_res) {
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
-                    $temp = [];
-                    $temp['poster'] = $invite_res;
-                    $posterArr[] = $temp;
+                    $posterArr[] = $invite_res;
                 }
             }
         }
@@ -651,9 +647,7 @@ if($operation=='buy'){
                 if (!$invite_res) {
                     message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
                 } else {
-                    $temp = [];
-                    $temp['poster'] = $invite_res;
-                    $posterArr[] = $temp;
+                    $posterArr[] = $invite_res;
                 }
             }
         }

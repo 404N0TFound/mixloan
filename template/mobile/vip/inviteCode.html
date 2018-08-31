@@ -182,26 +182,27 @@
                 var _data=data.message;
                 var list_leg=_data.posterArr.length;
                 for(var i=0;i<list_leg;i++){
+                    console.log(_data.posterArr[i].poster);
                     var str_one="";
                     str_one+='<div class="swiper-slide">'
                         +'<div class="initialImg">'
-                    str_one+='<img class="shareImg" src="'+_data.posterArr[i].poster.poster+'">'
+                    str_one+='<img class="shareImg" src="'+_data.posterArr[i].poster+'">'
                         +'</div>';
                     // console.log(str_one);
                     $('#mpBig_post').append(str_one);
                     var str_two="";
                     str_two+='<li  onClick="mpSmall_ock(this,'+i+')">'
                         +'<div class="initialImg thumbnail" >'
-                    str_two+='<img class="ewm" src="'+_data.posterArr[i].poster.poster+'" prefix_text="'+_data.posterArr[i].poster.prefix_text+'">'
+                    str_two+='<img class="ewm" src="'+_data.posterArr[i].poster+'" prefix_text="'+_data.posterArr[i].prefix_text+'">'
                         +'</div>'
                         +'<a id="sp_bot"></a>'
                         +'</li>';
                     $('#mpSmall_post').append(str_two);
                     var str_tre="";
                     if (i == 0) {
-                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.posterArr[i].poster.prefix_text+'</p></dd>'
+                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
                     } else {
-                        str_tre+='<dd class="dn"><p>'+_data.posterArr[i].poster.prefix_text+'</p></dd>'
+                        str_tre+='<dd class="dn"><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
                     }
                     $('#mpSmall_dl').append(str_tre);
                     initialSwiper = new Swiper('.posterImg', {
