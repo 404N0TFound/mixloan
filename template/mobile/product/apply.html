@@ -41,14 +41,14 @@
     <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />
 </div>
 <div class="daili_footer">
-    {if $condition}
+    {if !$is_close}
     <div class="footer_apply">
         <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
             我要代理
         </a>
     </div>
     {/if}
-    <div class="footer_agent" {if !$condition}style="width:100%"{/if}>
+    <div class="footer_agent" {if $is_close}style="width:100%"{/if}>
         <a id="daili_toapply">我要申请</a>
     </div>
 </div>
