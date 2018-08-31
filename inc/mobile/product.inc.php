@@ -118,6 +118,8 @@ if($operation=='index'){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
+    $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
+        where uid=:uid', array(':uid' => $inviter));
     include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
     //申请产品
