@@ -30,6 +30,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
             !strexists($_SERVER['REQUEST_URI'], 'upload_file'),
             !strexists($_SERVER['REQUEST_URI'], 'exit'),
             !strexists($_SERVER['REQUEST_URI'], 'do=loan'),
+            !strexists($_SERVER['REQUEST_URI'], 'announce'),
 		);
 		foreach ($condition as $value) {
 			if ($value == false) {
