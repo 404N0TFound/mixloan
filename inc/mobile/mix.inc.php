@@ -28,6 +28,9 @@ if($operation=='service'){
 		where uniacid=:uniacid order by id desc', array(':uniacid' => $_W['uniacid']));
     if ($announce) {
         $announce['ext_info'] = json_decode($announce['ext_info'], 1);
+        if (!$cid) {
+            show_json(1, [], $announce['ext_info']['content']);
+        }
         $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_announce_record') . '
 			where relate_id=:relate_id and cid=:cid', array(':relate_id'=>$announce['id'], ':cid'=>$cid));
         if (!$record) {
