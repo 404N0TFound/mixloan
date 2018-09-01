@@ -2,16 +2,13 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wx768d0f148e0c0aae";
-    private $mchid = "1317925001";
-    private $secrect_key = "oet5zqt4tlxdi0vdqlrzvlirzavcnlk0";
+    private $appid = "wx6aa2398cf8cf97bd";
+    private $mchid = "1496553472";
+    private $secrect_key = "0c80ae30e0d22503aa7b09d54c64aa9f";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
-    private $publickey_path = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/key/ras.pub";
-    private $apiclient_cert = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
-    private $apiclient_key = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
     function __construct()
     {
         // if (!file_exists($this->publickey_path)) {
@@ -121,12 +118,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '洁美官方充值';
+        $params['body'] = '水滴官方充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "洁美官方充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "水滴官方充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
