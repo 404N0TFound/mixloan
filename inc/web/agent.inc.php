@@ -415,6 +415,7 @@ if ($operation == 'list') {
             $payment_no = date('YmdHis');
             $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
             if ($result['code'] == -1) {
+                setcookie($cookie, 0, time()+120);
                 message($result['msg'], '', 'error');
             } else {
                 $data['ext_info']['payment_no'] = $result['order_id'];
