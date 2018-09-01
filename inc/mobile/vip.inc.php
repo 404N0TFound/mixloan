@@ -843,4 +843,28 @@ if($operation=='buy'){
 	} else {
 		show_json(-1);
 	}
+} else if ($operation == 'set') {
+    // 设置
+    $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
+		where uid=:uid', array(':uid' => $member['id']));
+    include $this->template('vip/set');
+} else if ($operation == 'set_submit') {
+    // 设置提交
+    $active = $_GPC['active'];
+    $id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_agent_close') . '
+		where uid=:uid', array(':uid' => $member['id']));
+    if ($active == 'false') {
+        if ($id) {
+            pdo_update('xuan_mixloan_agent_close', array('is_close' => 1), array('id' => $id));
+        } else {
+            $insert = array();
+            $insert['uid'] = $member['id'];
+            $insert['is_close'] = 1;
+            pdo_insert('xuan_mixloan_agent_close', $insert);
+        }
+    } else {
+        if ($id) {
+            pdo_update('xuan_mixloan_agent_close', array('is_close' => 0), array('id' => $id));
+        }
+    }
 }
