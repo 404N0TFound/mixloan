@@ -457,6 +457,16 @@ if($operation=='buy'){
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
+    if ($config['withdraw_money_limit'] && $bonus < $config['withdraw_money_limit']) {
+        show_json(-1, null, "提现金额不能小于" . $config['withdraw_money_limit'] . "元");
+    }
+    $date = date('Y-m-d');
+    $today = strtotime($date);
+    $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
+		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
+    if ($config['withdraw_day_limit'] && $config['withdraw_day_limit'] <= $times) {
+        show_json(-1, null, "一天只能提现" . $config['withdraw_day_limit'] . "次");
+    }
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;

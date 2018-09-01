@@ -419,6 +419,7 @@ if ($operation == 'list') {
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
                 if ($result['code'] == -1) {
+                    $redis->set($key, 0);
                     message($result['msg'], '', 'error');
                 } else {
                     $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];

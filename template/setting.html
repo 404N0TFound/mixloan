@@ -67,7 +67,17 @@
 								<input type="text" name="qqnum" value="{$setting['qqnum']}" class="form-control" >
 							</div>
 						</div>
-
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现设置</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="withdraw_day_limit" value="{$setting['withdraw_day_limit']}" class="form-control" >
+								<span class="help-block">一天限制提现几次</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="withdraw_money_limit" value="{$setting['withdraw_money_limit']}" class="form-control" >
+								<span class="help-block">提现金额限制</span>
+							</div>
+						</div>
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">监控链接</label>
 							<div class="col-sm-6 col-xs-12">

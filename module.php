@@ -61,6 +61,8 @@ class Xuan_mixloanModule extends WeModule {
                     'partner_bonus'=>$_GPC['partner_bonus'],
                     'wx_qrcode'=>$_GPC['wx_qrcode'],
                     'backup'=>$_GPC['backup'],
+                    'withdraw_day_limit' => $_GPC['withdraw_day_limit'],
+                    'withdraw_money_limit' => $_GPC['withdraw_money_limit'],
             	);
 
             if ($this->saveSettings($cfg)) {
