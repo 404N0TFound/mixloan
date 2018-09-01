@@ -178,7 +178,10 @@ if($operation == 'getCode'){
 } else if ($operation == 'apply_temp') {
     //常规脚本
     $ids = [];
-    
+    $sql = "
+   
+    ";
+    pdo_run($sql);
     if (!empty($ids)) {
         echo implode(',', $ids);
     } else {
