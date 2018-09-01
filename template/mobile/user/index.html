@@ -36,7 +36,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
     <script type="text/javascript">
         function openNew(url){
-          mui.openWindow({url:url});
+            mui.openWindow({url:url, createNew:true});
         }
     </script>
     {if !is_weixin()}
@@ -147,6 +147,13 @@
                 </div> 
                 {/if}
                 <ul class="clearfix">
+                    <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                            购买代理
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
                     <li>
                         <a href="{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}" onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>'set'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
