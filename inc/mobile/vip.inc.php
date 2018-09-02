@@ -653,10 +653,10 @@ if($operation=='buy'){
         }
     }
     foreach ($posterArr as &$row) {
-    	if (!$row['poster']['prefix_text']) {
-    		$row['poster']['prefix_text'] = '';
+    	if (!$row['prefix_text']) {
+    		$row['prefix_text'] = '';
     	}
-    	$row['poster']['prefix_text'] = $row['poster']['prefix_text'].$share_url;
+    	$row['prefix_text'] = $row['prefix_text'].$share_url;
     }
     unset($row);
     $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
