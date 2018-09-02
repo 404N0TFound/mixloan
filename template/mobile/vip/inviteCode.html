@@ -60,6 +60,7 @@
             -webkit-tap-highlight-color: rgba(255,255,255,0);
             text-decoration: none;
         }
+        div.mpSmall dl.mpSmall_dl dd span{display: none}
     </style>
     {php echo register_jssdk();}
     <script>
@@ -199,9 +200,9 @@
                     $('#mpSmall_post').append(str_two);
                     var str_tre="";
                     if (i == 0) {
-                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.tips+'</p></dd>'
+                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.tips+'</p><span>'+_data.tips_long+'</span></dd>'
                     } else {
-                        str_tre+='<dd class="dn"><p>'+_data.tips+'</p></dd>'
+                        str_tre+='<dd class="dn"><p>'+_data.tips+'</p><span>'+_data.tips_long+'</span></dd>'
                     }
                     $('#mpSmall_dl').append(str_tre);
                     initialSwiper = new Swiper('.posterImg', {
@@ -229,9 +230,10 @@
                     +'<input id="clip_num"  readonly="" >'
                     +'</p>';
                 {else}
-                str+='<p id="recommend_text">长按海报分享给好友'
+                str+='<p id="recommend_text">'
                     +'<span class="download" onclick="download_pic()" href="javascript:void(0);" >保存图片</span>'
-                    +'<a class="copy copy-btn" href="javascript:void(0);" >复制短链接</a>'
+                    +'<a class="copy copy-btn" bind-type="short"  href="javascript:void(0);" style="right:40%">复制短链接</a>'
+                    +'<a class="copy copy-btn" bind-type="long" href="javascript:void(0);" >复制长链接</a>'
                     +'<input id="clip_num"  readonly="" >'
                     +'</p>';
                 {/if}
@@ -243,7 +245,12 @@
                     copyNum();
                 })
                 $(".copy-btn").click(function(){
-                    var tetx_dl=$('#mpSmall_dl dd.on').find('p').text();
+                    var bind_type = $(this).attr('bind-type');
+                    if (bind_type == 'long') {
+                        var tetx_dl=$('#mpSmall_dl dd.on').find('span').text();
+                    } else {
+                        var tetx_dl=$('#mpSmall_dl dd.on').find('p').text();
+                    }
                     // console.log(tetx_dl);
                     $('#clip_num').val(tetx_dl);
                     copyNum();

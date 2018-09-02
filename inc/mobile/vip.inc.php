@@ -586,7 +586,9 @@ if($operation=='buy'){
     $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
     $created = true;
     if ($type == 3) {
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
         $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验";
+        $tips_long = "{$config['title']}—我的随身银行：{$url}";
         if (!$posterArr) {
             $created = false;
             // $wx = WeAccount::create();
@@ -600,7 +602,6 @@ if($operation=='buy'){
             // );
             // $res = $wx->barCodeCreateDisposable($barcode);
             // $url = $res['url'];
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }
@@ -630,6 +631,7 @@ if($operation=='buy'){
         $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
         $share_url = shortUrl( $url );
         $tips = "{$config['title']}—我的随身银行：{$share_url}";
+        $tips_long = "{$config['title']}—我的随身银行：{$url}";
         if (!$posterArr) {
             $created = false;
             if (empty($config['product_poster'])) {
@@ -667,6 +669,7 @@ if($operation=='buy'){
         }
         $share_url = shortUrl( $url );
         $tips = "{$config['title']}—我的随身银行：{$share_url}";
+        $tips_long = "{$config['title']}—我的随身银行：{$url}";
         if (!$posterArr) {
             $created = false;
             if (empty($product['ext_info']['poster'])) {
@@ -695,7 +698,7 @@ if($operation=='buy'){
             }
         }
     }
-    $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created);
+    $ret = array('tips'=>$tips, 'posterArr'=>$posterArr, 'created'=>$created, 'tips_long'=>$tips_long);
     message($ret, '', 'success');
 } else if ($operation == 'register') {
     //邀请注册
@@ -835,4 +838,28 @@ if($operation=='buy'){
     }
     unset($row);
     include $this->template('vip/partner_center');
+} else if ($operation == 'set') {
+    // 设置
+    $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
+		where uid=:uid', array(':uid' => $member['id']));
+    include $this->template('vip/set');
+} else if ($operation == 'set_submit') {
+    // 设置提交
+    $active = $_GPC['active'];
+    $id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_agent_close') . '
+		where uid=:uid', array(':uid' => $member['id']));
+    if ($active == 'false') {
+        if ($id) {
+            pdo_update('xuan_mixloan_agent_close', array('is_close' => 1), array('id' => $id));
+        } else {
+            $insert = array();
+            $insert['uid'] = $member['id'];
+            $insert['is_close'] = 1;
+            pdo_insert('xuan_mixloan_agent_close', $insert);
+        }
+    } else {
+        if ($id) {
+            pdo_update('xuan_mixloan_agent_close', array('is_close' => 0), array('id' => $id));
+        }
+    }
 }
