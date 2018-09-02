@@ -238,13 +238,13 @@ if($operation=='index'){
     }
     $item['ext_info'] = json_decode($item['ext_info'], true);
     include $this->template('user/read_message');
-} else if ($operation == 'delete_qrcode') {
+} else if ($operation == 'delete_withdraw') {
     //删除二维码
     $id = intval($_GPC['id']);
     if (empty($id)) {
         show_json(-1, [], '出错了');
     }
-    pdo_update('xuan_mixloan_withdraw_qrcode', array('status' => 0), array('id' => $id));
+    pdo_update('xuan_mixloan_creditCard', array('status' => 0), array('id' => $id));
     show_json(1, [], '删除成功');
 } else if ($operation == 'bind_alipay') {
     //绑支付宝

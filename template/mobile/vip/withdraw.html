@@ -48,6 +48,7 @@
             line-height: 23px;
             font-size: 22px;
         }
+        .footer_tips{padding: 20px 30px;font-size: 13px;color:#999}
     </style>
 
     {template 'common/wxshare'}
@@ -77,40 +78,15 @@
 <div class="agent-main pt44" style="padding-top: 0;">
     <div class="settleCards">
         <div class="swiper-container">
-            <!-- <div class="swiper-wrapper">
-                {if $banks}
-                    {loop $banks $row}
-                    <div class="swiper-slide" data-id="{$row['id']}">
-                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                        <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
-                            <p style="font-family: numFont!important;">
-                                {if $row['numbers_type'] == 1}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
-                                {else}
-                            <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
-                                {/if}
-                            </p>
-                        </div>
-                    </div>
-                    {/loop}
-                {else}
-                    <div class="swiper-slide" data-id="0">
-                        <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                        <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
-                            <p style="font-family: numFont!important;">
-                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
-                            </p>
-                        </div>
-                    </div>
-                {/if}
-            </div> -->
             <div class="swiper-wrapper">
-                {if $qrcodes}
-                {loop $qrcodes $row}
+                {if $banks}
+                {loop $banks $row}
                 <div class="swiper-slide" data-id="{$row['id']}">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>{$row['name']}</h2><span>收款二维码</span>
+                    <div class="cardsInfo">
+                        <h2>支付宝收款</h2>
                         <p style="font-family: numFont!important;">
+                            <span>{$row['realname']}&nbsp;&nbsp;&nbsp;{$row['phone']}</span>
                         </p>
                     </div>
                 </div>
@@ -118,8 +94,9 @@
                 {else}
                 <div class="swiper-slide" data-id="0">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>*****</h2><span>支付宝收款二维码</span>
+                    <div class="cardsInfo"><h2>****</h2><span>添加提现方式</span>
                         <p style="font-family: numFont!important;">
+                            <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
                         </p>
                     </div>
                 </div>
@@ -127,11 +104,11 @@
             </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
-                {if $qrcodes}
+                {if $banks}
                 <a class="deleteFlag" href="javascript:;">-</a>
                 {/if}
             </div>
-            <!-- <div class="swiper-pagination"></div> -->
+            <!--<div class="swiper-pagination"></div>-->
         </div>
     </div>
     <div class="txInfo">
@@ -139,7 +116,7 @@
             <h2>提现金额(元)</h2>
             <div class="txMoney">
                 <span><img src="../addons/xuan_mixloan/template/style/picture/money.png"></span>
-                <input type="text" name="money" id="money" class="money" placeholder="请输入取现金额" />
+                <input type="text" name="money" id="money" class="money" placeholder="{if $times>0}当天非首次提现需要手续费一元{else}请输入取现金额{/if}" />
                 <a href="javascript:;" onclick="allMoney()">全部提现</a>
             </div>
             <p>可用余额：<span id="allmoney">{$can_use}</span><span>（元）</span></p>
@@ -151,6 +128,14 @@
              </div>     -->
         </div>
         <a class="txSubmit" id="lineblue-btn" href="javascript:void(0);" onclick="tixian();">立即提现</a>
+    </div>
+    <div class="footer_tips" style="margin-left: 10%">
+        <div class="tips" style="color:red">
+            提现失败原因：1.支付宝没有关闭隐私设置，搜索不到<br/>
+            2.一个手机绑定两个支付宝，最后添加邮箱支付宝<br/>
+            3.支付宝账号与姓名一定要匹配<br/>
+            4.连续提现两次金额不要相同，比如上次500，这次499<br/>
+        </div>
     </div>
 </div>
 <div class="pop_common timealert">
@@ -250,7 +235,7 @@
         ajax.data.card_id=bankId;
         ajax.success = function (data) {
             if (data.code == 1) {
-                layer.msg('提现成功', {
+                layer.msg('提现成功，T+0日到账', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
                     openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}');
@@ -296,14 +281,14 @@
     $("div.addCards a.dailiFlag").click(function(){
         var cardNum=$("div.settleCards .swiper-wrapper .swiper-slide").length;
         if(cardNum>=4){
-            layer.msg("最多可添加4张银行卡");
+            layer.msg("最多可添加4种收款方式");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_alipay'])}";
             openNew(_url);
         }
     })
-    //添加银行卡
+    //删除银行卡
     $("div.addCards a.deleteFlag").click(function(){
         var id = $("div.swiper-slide-active").attr("data-id");
         layer.confirm('确定要删除这个提现方式吗', {
