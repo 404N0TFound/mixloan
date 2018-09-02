@@ -458,6 +458,21 @@ if ($operation == 'list') {
             $templateId=$config['tpl_notice6'];
             $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
         }
+        if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
+            //支付宝收款接口
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                setcookie($cookie, 1, time()+120);
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
+            }
+        }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
