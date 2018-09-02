@@ -700,7 +700,8 @@
             <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="number">
             <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">打款流水号</label>
             <div class="col-sm-8 col-lg-9 col-xs-12">
-                <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" />
+                <input type="text" class="form-control"  name="data[ext_info][payment_no]" value="{$item['ext_info']['payment_no']}" readonly="" />
+                <span class="help-block">支付宝打款会自动生成</span>
             </div>
     </div>
     <div class="form-group">
