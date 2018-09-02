@@ -70,7 +70,9 @@ div.vip_article{margin:8px 0px;}
 /*轮播图*/
 div.swiper-slide a{position: relative; display: inline-block;width: 100%;height:100%;}
 div.swiper-slide a img{display: block;}
-div.swiper-slide .swiper_title{position: absolute;bottom: 0px;left: 0px;width: 100%;text-align: center;padding:5px 0; color: #fff; background-color: rgba(0,0,0,0.3);font-weight: bold;}
+div.swiper-slide .swiper_title{position: absolute;bottom: 0px;left: 0px;width: 100%;
+  text-align: center;padding:5px 0; color: #fff; background-color: rgba(0,0,0,0.3);
+  font-weight: bold;font-size:13px;}
 /*搜索框*/
 div.to_search{position: fixed;bottom: 5%;right:1rem;width: 60px;height: 60px;text-align: center;line-height: 60px; border-radius: 100%;background-color: rgba(70,162,253,0.75);box-shadow:0px 0px 20px rgba(70,162,253,1);z-index: 99;}
 div.to_search img{display: inline-block;width: 40%;vertical-align: middle;animation-duration:1.6s;animation-fill-mode: both;animation-name: room;animation-iteration-count: infinite;transition-timing-function:ease-in-out;transform-origin: 50% 50% 0;}
@@ -116,9 +118,9 @@ div.list_unit p a{float:right; display: inline-block; width:70px; height:25px;te
 /*search*/
 .to_search{right:20px;height:100%;}
 .search-submit{position: relative;}
-.search-content{width:100%; /*background: url("../images/search.png") no-repeat 10px center; background-size: 20px 20px;*/ box-sizing: border-box; border:8px solid #e2e2e2; border-left:10px solid #e2e2e2; border-right:10px solid #e2e2e2; line-height: 32px; text-indent:15px;}
-.search-submit a{position: absolute; display: inline-block;width:50px;text-align: center; height:50px;line-height:50px;top:0px;right:10px;}
-.search-submit a img{width:25px; max-width: 100%;vertical-align: middle;}
+.search-content{width:100%; /*background: url("../images/search.png") no-repeat 10px center; background-size: 20px 20px;*/ box-sizing: border-box; border:0.3rem solid #e2e2e2; border-left:0.36rem solid #e2e2e2; border-right:0.36rem solid #e2e2e2; height: 1.9rem; text-indent:15px;appearance:none;-webkit-appearance:none;-moz-appearance:none;font-size: 0.62rem;}
+.search-submit a{position: absolute;background: #fff; display: inline-block;width:1.8rem;text-align: center; height:1.3rem;line-height:1.3rem;top:0.3rem;right:10px;z-index: 1;}
+.search-submit a img{width:50%; max-width: 100%;vertical-align: middle;}
 .hot-search{width:95%;margin:0 auto;overflow: hidden;}
 .hot-search ul{height:auto;overflow: hidden;}
 .hot-search ul li{-webkit-tap-highlight-color:rgba(255,255,255,0);padding:3px 9px; float:left; border:1px solid #53b9ff; border-radius: 15px; margin:10px 5px; margin-bottom: 0; cursor: pointer;max-width: 110px;overflow: hidden; text-overflow: ellipsis;white-space: nowrap;}
@@ -1057,7 +1059,7 @@ div.ACmain_top .accountData{width: 56%;float: left;}
 div.ACmain_top .accountData ul li:first-child{box-sizing: border-box;border-bottom: 1px dashed #fff;}
 div.ACmain_top .accountData ul li p{font-size: 0.6rem;color: #fff;padding-left: 15%;line-height: 2rem;}
 div.ACmain_top .accountData ul li h1{font-size: 1rem;text-align: right;color: #fff;padding-right: 15%;font-weight: lighter;padding-bottom: 0.8rem;}
-div.ACmain_top .accountData ul li h1 em{font-size: 0.8rem;font-weight: normal;font-style: normal;}
+div.ACmain_top .accountData ul li h1 em{font-size: 0.8rem;font-weight: normal;font-style: normal;vertical-align: baseline;}
 div.ACmain_top .txBtn{position: absolute;top:0;right: 0; height:100%;width: 44%;float: left;}
 div.ACmain_top .txBtn a{display: inline-block;width: 70%;text-align: center;color: #3aa9fb;font-size: 0.7rem; height:2rem;line-height:2.05rem;margin:40% 15%; border-radius: 2rem;background: #fff;box-shadow: 2px 0 12px rgba(0,0,0,0.2);}
 div.account_tab{background: #fff;border-radius: 3px; bottom: -20px;}
@@ -1083,14 +1085,14 @@ div.order_detail{position: relative;height: 2rem; padding:0.5rem 0;overflow: hid
 div.order_detail_wd{height: 2.6rem;}
 div.order_detail ul{overflow: hidden;display:flex;align-items: center;}
 div.order_detail ul li{height:3rem;float: left;box-sizing: border-box;;}
-div.order_detail ul li:first-child{width: 30%;padding-top: 0.65rem;}
+div.order_detail ul li:first-child{width: 30%;padding-top: 0.35rem;}
 div.order_detail ul li:last-child{width: 70%;}
-div.order_detail ul li p{font-size: 0.7rem;height:0.7rem; color: #595959;text-align: center;}
+div.order_detail ul li p{font-size: 0.7rem;height:1rem;line-height: 1rem; color: #595959;text-align: center;}
 div.order_detail ul li b{display: block;text-align: center;font-style: normal;color: #656565;font-weight: normal;font-size: 0.56rem;padding-top:0.3rem;height:0.5rem;}
 div.order_detail ul li span{display: block;color: #585858;height: 1.5rem; line-height: 1.2rem;font-size: 0.62rem;}
 div.order_detail ul li span em{display: inline-block;font-size: 1rem;color: #ffbe29;font-weight: lighter;box-sizing: border-box;}
 div.order_detail ul li span b{display: inline-block;font-size: 0.73rem;color: #2a97fe;}
-div.order_detail ul li span em b{font-size: 0.8rem;font-weight: normal;font-style: normal;color: #ffbe29;box-sizing: border-box;height:100%;}
+div.order_detail ul li span em b{font-size: 0.8rem;font-weight: normal;font-style: normal;color: #ffbe29;box-sizing: border-box;height:100%;padding:0;vertical-align: baseline;}
 div.order_detail ul li span label{color: #989898;}
 div.order_detail ul li span.fail_r{color: #a8a8a8;font-size: 0.55rem;/*min-height: 24px;line-height: 14px;*/}
 div.order_detail>a{position: absolute; display: inline-block;width: 16px;text-align: center;color: #fff;/*top:0;left: -2%;*/top: 0px; left: -2%; bottom: 0; right: 0;-webkit-transform-origin-x: 0; -webkit-transform: scale(0.8);border-top-right-radius: 2.5px;border-bottom-right-radius: 2.5px;}
