@@ -42,7 +42,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 }
 			}
 		}
-        if (!strexists($_SERVER['REQUEST_URI'], 'register') && !strexists($_SERVER['REQUEST_URI'], 'apply')  && !strexists($_SERVER['REQUEST_URI'], 'getCode') && is_weixin()) {
+        if (!strexists($_SERVER['REQUEST_URI'], 'register') && !strexists($_SERVER['REQUEST_URI'], 'allProduct') && !strexists($_SERVER['REQUEST_URI'], 'apply')  && !strexists($_SERVER['REQUEST_URI'], 'getCode') && is_weixin()) {
            die("<!DOCTYPE html>
                 <html>
                     <head>
