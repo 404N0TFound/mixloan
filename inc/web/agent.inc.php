@@ -15,7 +15,16 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
     }
-    $sql = 'select a.id,a.uid,b.nickname,b.avatar,b.phone,a.createtime,a.fee,a.tid from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
+    }
+    if (!empty($_GPC['below_uid'])) {
+        $man = pdo_fetch('select openid,phone from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $_GPC['below_uid']));
+        $inviter = m('member')->getInviter($man['phone'], $man['openid']);
+        $wheres.= " AND b.id={$inviter}";
+    }
+    $sql = 'select a.id,a.uid,b.nickname,b.avatar,b.phone,a.createtime,a.fee,a.tid,b.status from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -598,6 +607,13 @@ if ($operation == 'list') {
             where inviter=:inviter', array(':inviter' => $row['id'])) ? : 0;
     }
     unset($row);
-}
+} else if ($operation == 'agent_remove') {
+    pdo_update('xuan_mixloan_member', array('status' => 0), array('id' => $_GPC['uid']));
+    message("冻结成功", referer(), 'sccuess');
+} else if ($operation == 'agent_recovery') {
+    // 解冻
+    pdo_update('xuan_mixloan_member', array('status' => 1), array('id' => $_GPC['uid']));
+    message("解冻成功", referer(), 'sccuess');
+} 
 include $this->template('agent');
 ?>
