@@ -53,7 +53,7 @@ if($operation=='buy'){
         //调用pay方法
         $this->pay($params);
     } else {
-        message('产品开通中', '', 'error');
+        message('产品权限开通中', '', 'error');
         $notify_url = 'http://toorui.com/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
