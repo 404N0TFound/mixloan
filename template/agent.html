@@ -172,7 +172,7 @@
                 <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>ID</th>
-                    <th style='width:120px;'>申请者</th>
+                    <th style='width:180px;'>申请者</th>
                     <th style='width:100px;'>申请金额</th>
                     <th style='width:100px;'>剩余金额</th>
                     <th style='width:150px;'>申请时间</th>
@@ -184,7 +184,14 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>   
+                        <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}&nbsp;
+                        {if $row['black']}
+                        <span class="label label-default">黑名单</span>
+                        {else}
+                        <span class="label label-info">白名单</span>
+                        {/if}
+                    </td>
                     <td>   {$row['bonus']}</td>
                     <td>   {$row['left_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>

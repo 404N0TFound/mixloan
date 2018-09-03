@@ -34,6 +34,8 @@ if ($operation == 'list') {
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
             $row['type'] = m('member')->checkAgent($row['id'])['code'];
+            $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+                where uid=:uid', array(':uid' => $row['id']));
         }
         unset($row);
     } else {
@@ -249,6 +251,19 @@ if ($operation == 'list') {
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
         
     }
+} else if ($operation == 'join_black') {
+    // 添加黑名单
+    $id = intval($_GPC['id']);
+    $insert = array();
+    $insert['createtime'] = time();
+    $insert['uid'] = $id;
+    pdo_insert('xuan_mixloan_blacklist', $insert);
+    message('添加成功', referer(), 'success');
+} else if ($operation == 'remove_black') {
+    // 移除黑名单
+    $id = intval($_GPC['id']);
+    pdo_delete('xuan_mixloan_blacklist', array('uid' => $id));
+    message('移除成功', referer(), 'success');
 }
 include $this->template('member');
 ?>

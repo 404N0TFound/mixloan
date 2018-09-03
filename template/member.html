@@ -90,7 +90,13 @@
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['id']));}" title='解除解冻' ><i class='fa fa-check'></i> 解除解冻</a></li>
-                                {/if}                            </ul>
+                                {/if}     
+                                {if !$row['black']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['id']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_black','id' => $row['id']));}" title='移除黑名单' ><i class='fa fa-check'></i> 移除黑名单</a></li>
+                                {/if}                            
+                            </ul>
                         </div>
                         
                     </td>
