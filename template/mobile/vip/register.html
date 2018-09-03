@@ -106,7 +106,8 @@
             </div>
         </div>
 
-        <div class="btm_state"><p><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}用户注册协议》</a></p></div>
+        <div class="btm_state" style="margin-top: 3.5rem"><p><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}用户注册协议》</a></p></div>
+        <div class="btm_state" style="margin-top: 1rem;text-align: center;" onclick="downloadApp()">已有账号，下载APP</div>
     </div>
 </div>
 <!--end -->
@@ -309,6 +310,15 @@
         }
     }
 
+    function downloadApp(){
+        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            // alert("iPhone系统");
+            window.location.href = "http://xmvip.vip/PsdKJ";
+        } else if (/(Android)/i.test(navigator.userAgent)) {
+            // android系统
+            window.location.href = "https://xmvip.vip/tgpor1";
+        }
+    }
 
 </script>
 
