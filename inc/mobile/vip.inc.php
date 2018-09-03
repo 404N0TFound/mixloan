@@ -23,7 +23,7 @@ if($operation=='buy'){
     {
     	$config['buy_vip_price'] = 0.01;
     }
-    $notify_url = 'http://xxlk.fuziyo.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
+    $notify_url = 'http://xin.xianghong7.xyz/addons/xuan_mixloan/lib/wechat/payResult.php';
     $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		where type=1 and is_pay=0 and uid=:uid', array(':uid'=>$member['id']));
     if (empty($record)) {
