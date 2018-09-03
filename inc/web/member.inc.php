@@ -36,6 +36,8 @@ if ($operation == 'list') {
             $row['type'] = m('member')->checkAgent($row['id'])['code'];
             $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
                 where uid=:uid', array(':uid' => $row['id']));
+            $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $row['id']));
         }
         unset($row);
     } else {
@@ -263,6 +265,19 @@ if ($operation == 'list') {
     // 移除黑名单
     $id = intval($_GPC['id']);
     pdo_delete('xuan_mixloan_blacklist', array('uid' => $id));
+    message('移除成功', referer(), 'success');
+} else if ($operation == 'join_white') {
+    // 添加黑名单
+    $id = intval($_GPC['id']);
+    $insert = array();
+    $insert['createtime'] = time();
+    $insert['uid'] = $id;
+    pdo_insert('xuan_mixloan_whitelist', $insert);
+    message('添加成功', referer(), 'success');
+} else if ($operation == 'remove_white') {
+    // 移除黑名单
+    $id = intval($_GPC['id']);
+    pdo_delete('xuan_mixloan_whitelist', array('uid' => $id));
     message('移除成功', referer(), 'success');
 }
 include $this->template('member');

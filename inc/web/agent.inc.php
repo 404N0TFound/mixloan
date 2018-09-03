@@ -239,6 +239,8 @@ if ($operation == 'list') {
         $row['left_bonus'] = round($row['left_bonus'], 2);
         $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
             where uid=:uid', array(':uid' => $row['uid']));
+        $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
     }
     unset($row);
     if ($_GPC['export'] == 1) {

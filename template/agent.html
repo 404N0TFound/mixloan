@@ -188,8 +188,10 @@
                         <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}&nbsp;
                         {if $row['black']}
                         <span class="label label-default">黑名单</span>
+                        {else if $row['white']}
+                        <span class="label label-success">白名单</span>
                         {else}
-                        <span class="label label-info">白名单</span>
+                        <span class="label label-info">未知</span>
                         {/if}
                     </td>
                     <td>   {$row['bonus']}</td>
