@@ -37,6 +37,7 @@ if ($operation == 'list') {
         }
         $data['uniacid'] = $_W['uniacid'];
         $data['createtime'] = time();
+        $data['ext_info']['free_content'] = htmlspecialchars_decode($data['ext_info']['free_content']);
         $data['ext_info']['content'] = htmlspecialchars_decode($data['ext_info']['content']);
         $data['ext_info'] = json_encode($data['ext_info']);
         pdo_insert('xuan_mixloan_channel', $data);
@@ -57,6 +58,7 @@ if ($operation == 'list') {
                 message('请添加专题', '', 'error');
             }
         }
+        $_GPC['data']['ext_info']['free_content'] = htmlspecialchars_decode($_GPC['data']['ext_info']['free_content']);
         $_GPC['data']['ext_info']['content'] = htmlspecialchars_decode($_GPC['data']['ext_info']['content']);
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_channel', $_GPC['data'], array('id'=>$item['id']));

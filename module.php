@@ -39,6 +39,8 @@ class Xuan_mixloanModule extends WeModule {
                     'inviter_fee_one'=>$_GPC['inviter_fee_one'],
                     'inviter_fee_two'=>$_GPC['inviter_fee_two'],
                     'inviter_fee_three'=>$_GPC['inviter_fee_three'],
+                    'inviter_fee_one_free'=>$_GPC['inviter_fee_one_free'],
+                    'inviter_fee_two_free'=>$_GPC['inviter_fee_two_free'],
                     'vip_friend'=>$_GPC['vip_friend'],
                     'vip_channel'=>$_GPC['vip_channel'],
                     'buy_adv_pics'=>$_GPC['buy_adv_pics'],

@@ -107,7 +107,12 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 //一级
                 $inviter = m('member')->getInviter($member['phone'], $member['openid']);
                 if ($inviter) {
-                    $re_bonus = $config['inviter_fee_one'] * $fee * 0.01;
+                    $agent = m('member')->checkAgent($inviter);
+                    if ($agent['code'] == 1) {
+                        $re_bonus = $config['inviter_fee_one'] * $fee * 0.01;
+                    } else {
+                        $re_bonus = $config['inviter_fee_one_free'] * $fee * 0.01;
+                    }
                     if ($re_bonus) {
                         $insert_i = array(
                             'uniacid' => $_W['uniacid'],
@@ -152,7 +157,12 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                     $man_one = m('member')->getInviterInfo($inviter);
                     $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
                     if ($inviter_two) {
-                        $re_bonus = $config['inviter_fee_two'] * $fee * 0.01;
+                        $agent = m('member')->checkAgent($inviter_two);
+                        if ($agent['code'] == 1) {
+                            $re_bonus = $config['inviter_fee_two'] * $fee * 0.01;
+                        } else {
+                            $re_bonus = $config['inviter_fee_two_free'] * $fee * 0.01;
+                        }
                         if ($re_bonus) {
                             $insert_i = array(
                                 'uniacid' => $_W['uniacid'],
