@@ -238,7 +238,7 @@ if($operation=='index'){
     }
     $item['ext_info'] = json_decode($item['ext_info'], true);
     include $this->template('user/read_message');
-} else if ($operation == 'delete_withdraw') {
+} else if ($operation == 'delete_qrcode') {
     //删除二维码
     $id = intval($_GPC['id']);
     if (empty($id)) {
