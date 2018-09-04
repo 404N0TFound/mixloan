@@ -89,6 +89,8 @@
     $.post("{php echo $this->createMobileUrl('vip', array('op'=>'createPost', 'type'=>1, 'id'=>$_GPC['id']))}", function(data){
         if (data.code==1) {
             history.go(0);
+        } else {
+            $('#source_img').attr('src', data.data.post_url);
         }
     },"json");
 </script>

@@ -270,26 +270,26 @@ if($operation=='buy'){
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
-	$poster = m('poster')->getPoster(["COUNT(1) AS count"], ["pid"=>$id, "type"=>$type, "uid"=>$member['id']]);
-	if (!$poster["count"]) {
-		$params = array(
-			"url" => $url,
-			"member" => $member,
-			"type" => $type,
-			"pid" => $id,
-			"out" => $out,
-			"poster_path" => $poster_path
-		);
-		$res = m('poster')->createPoster($cfg, $params);
-		if ($res) {
-	        show_json(1, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-		} else {
-	        show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
-		}
-	} else {
-		show_json(2, ['post_url'=>$poster_path, 'agent_url'=>$url]);
-	}
-	
+    $poster = pdo_fetch('select poster from ' . tablename('xuan_mixloan_poster') . ' 
+        where pid=:pid and uid=:uid', array(':pid' => $id, ':uid' => $member['id']));
+    if (!$poster) {
+        $params = array(
+            "url" => $url,
+            "member" => $member,
+            "type" => $type,
+            "pid" => $id,
+            "out" => $out,
+            "poster_path" => $poster_path
+        );
+        $res = m('poster')->createPoster($cfg, $params);
+        if ($res) {
+            show_json(1, ['post_url'=>$res, 'agent_url'=>$url]);
+        } else {
+            show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
+        }
+    } else {
+        show_json(2, ['post_url'=>$poster['poster'], 'agent_url'=>$url]);
+    }
 } else if ($operation == 'createPostAllProduct') {
 	//我的代理店
 	if ($agent['code']==1) {
@@ -470,6 +470,7 @@ if($operation=='buy'){
 	    if (!$invite_res) {
 	    	message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
 	    }
+        $poster_path = $invite_res;
 	}
 	include $this->template('vip/inviteCode');
 } else if ($operation == 'extendList') {
