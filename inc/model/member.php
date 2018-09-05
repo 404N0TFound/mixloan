@@ -207,7 +207,7 @@ class Xuan_mixloan_Member {
                 'country' => !empty($mc['country']) ? $mc['country'] : $userinfo['country'],
                 'sex' => !empty($mc['gender']) ? $mc['gender'] : $userinfo['sex'],
                 'createtime' => time() ,
-                'status' => - 2,
+                'status' => 1,
                 'unionid' => $tempinfo['unionid']
             );
             pdo_insert('xuan_mixloan_member', $member);
