@@ -200,7 +200,17 @@ if($operation == 'getCode'){
     } else {
         echo 'empty';
     }
+} else if ($operation == 'upload_file') {
+    $fileroot = $_GPC['fileroot'];
+    $filename = time() . rand(1,99999) . '.png';
+    load()->library('qiniu');
+    $auth = new Qiniu\Auth($_W['setting']['remote']['qiniu']['accesskey'], $_W['setting']['remote']['qiniu']['secretkey']);
+    $config = new Qiniu\Config();
+    $uploadmgr = new Qiniu\Storage\UploadManager($config);
+    $putpolicy = Qiniu\base64_urlSafeEncode(json_encode(array(
+        'scope' => $_W['setting']['remote']['qiniu']['bucket'] . ':' . $filename,
+    )));
+    $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
+    list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
+    echo  $_W['setting']['remote']['qiniu']['url'] . '/' . $filename ;
 }
-
-
-?>
