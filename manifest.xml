@@ -41,6 +41,15 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_withdraw_fail`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_fail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reason` varchar(150) NOT NULL,
+  `relate_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -104,6 +104,42 @@
 </div>
 </div>
 {else if $operation == 'withdraw_list'}
+<script type="text/javascript" src="https://res.layui.com/layui/dist/lay/modules/layer.js?v=1535898708529"></script>
+<script type="text/javascript">
+    var check_all_fun = function(){
+        var checked = $('.check_all').is(':checked');
+        if (checked == true) {
+            $('input:checkbox[name=check_fill]').prop('checked', true);
+        } else {
+            $('input:checkbox[name=check_fill]').prop('checked', false);
+        }
+    }
+    var pay_all = function(){
+        var arr = $('input:checkbox[name=check_fill]:checked');
+        if (arr.length <= 0) {
+            alert('请先勾选数据');
+        }
+        values = '';
+        $(arr).each(function(){ 
+            values += this.value + ',';
+        }); 
+        $('.shade').show();
+        $.post("{php echo $this->createWebUrl('agent', array('op'=>'check_all'))}", {'values':values},
+            function(data) {
+                if(data.code==1){
+                    history.go(0);
+                    settime
+                    setTimeout(function(){
+                        $('.shade').hide();
+                    }, 1000);
+                    return false;
+                }
+            },'json');
+    }
+</script>
+<div class="shade" style="width: 100%;height: 100%;background: grey;opacity: 0.8;position: fixed;top: 0;left: 0;z-index: 9999999;display: none;">
+    <div style="top: 40%;left: 45%;position: fixed;"><span style="color:black;font-size: 30px">等待中。。。</span></div>
+</div>
 <div class="panel panel-info">
     <div class="panel-heading">筛选</div>
     <div class="panel-body">
@@ -124,7 +160,16 @@
                     </select>
                 </div>
             </div>
-            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">种类</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="type">
+                        <option value="" >选择种类</option>
+                        <option value="1" {if $_GPC['type']==1}selected{/if} >银行卡</option>
+                        <option value="2" {if $_GPC['type']==2}selected{/if} >支付宝</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -147,29 +192,37 @@
     </div>
 </div><div class="clearfix">
 <div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-heading">总数：{$total}&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="pay_all()"> 勾选打款</button></div>
     <div class="panel-body">
         <table class="table table-hover" style="overflow:visible;">
             <thead class="navbar-inner">
                 <tr>
+                    <th style='width:60px;'><input type="checkbox" class="check_all" onchange="check_all_fun()">全选</td>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>申请者</th>
-                    <th style='width:100px;'>申请金额</th>
-                    <th style='width:100px;'>剩余金额</th>
+                    <th style='width:80px;'>申请金额</th>
+                    <th style='width:80px;'>剩余金额</th>
                     <th style='width:150px;'>申请时间</th>
-                    <th style='width:150px;'>状态</th>
+                    <th style='width:80px;'>状态</th>
                     <th style="text-align: center;">操作</th>
                 </tr>
             </thead>
             <tbody>
                 {loop $list $row}
                 <tr>
+                    <td>   <input type="checkbox" value="{$row['id']}" name="check_fill"></td>
                     <td>   {$row['id']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
                     <td>   {$row['bonus']}</td>
                     <td>   {$row['left_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
+                    <td>   
+                        {if $row['failed']}
+                        {$row['failed']}
+                        {else}
+                        {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}
+                        {/if}
+                    </td>
                     <td  style="overflow:visible;">
                         <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" onclick="return confirm('确定要删除该记录吗？');">删除</a>
                         &nbsp;
@@ -682,9 +735,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    $.post("http://90i0.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=3&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
+    $.post("http://wx.wyhrkj.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=3&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
         if (data.type=='success') {
-            $.post("http://90i0.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=2&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
+            $.post("http://wx.wyhrkj.com/app/index.php?i={$_W['uniacid']}&c=entry&op=createPoster&type=2&do=vip&m=xuan_mixloan&uid={$_GPC['uid']}", function(data){
                 if (data.type=='success') {
                     if (data.message.created == false) {
                         history.go(0);

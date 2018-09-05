@@ -209,12 +209,21 @@ if ($operation == 'list') {
     if (isset($_GPC['status']) && $_GPC['status'] != "") {
         $wheres .= " and a.status={$_GPC['status']}";
     }
-    $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    if ($_GPC['type'] != "") {
+        $wheres .= " and b.type={$_GPC['type']}";
+    }
+    $sql = 'select a.id,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
+        $man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
         $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
         $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+        $row['failed'] = pdo_fetchcolumn('select reason from ' . tablename('xuan_mixloan_withdraw_fail') . '
+            where relate_id=:relate_id', array(':relate_id' => $row['id']));
     }
     unset($row);
 
@@ -500,17 +509,19 @@ if ($operation == 'list') {
             $cookie = 'withdraw' . $id;
             if (!$_COOKIE[$cookie])
             {
+                setcookie($cookie, 1, time()+360);
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
                 if ($result['code'] == -1) {
+                    $insert['relate_id'] = $id;
+                    $insert['reason'] = $result['msg'];
+                    pdo_insert('xuan_mixloan_withdraw_fail', $insert);
                     message($result['msg'], '', 'error');
                 } else {
                     $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
                 }
-            }
-            else
-            {
-                setcookie($cookie, 1, time()+60);
+            } else {
+                message('不准重复操作', '', 'error');
             }
         }
         if ($_GPC['data']['status'] == 1) {
@@ -795,14 +806,19 @@ if ($operation == 'list') {
     if ($bank['type'] == 1) {
         message('该申请不是支付宝提现', referer(), 'sccuess');
     }
-    if ($status == 1) {
+    if ($status == 1 && $item['status'] != 1) {
         //支付宝收款接口
         $cookie = 'withdraw' . $id;
         if (!$_COOKIE[$cookie])
         {
+            setcookie($cookie, 1, time()+360);
             $payment_no = date('YmdHis');
             $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
             if ($result['code'] == -1) {
+                $insert = array();
+                $insert['relate_id'] = $id;
+                $insert['reason'] = $result['msg'];
+                pdo_insert('xuan_mixloan_withdraw_fail', $insert);
                 message($result['msg'], '', 'error');
             } else {
                 $data['ext_info']['payment_no'] = $result['order_id'];
@@ -811,11 +827,55 @@ if ($operation == 'list') {
         }
         else
         {
-            setcookie($cookie, 1, time()+60);
+            message('不准重复操作', '', 'error');
         }
     }
     pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
     message('操作成功', referer(), 'sccuess');
+} else if ($operation == 'check_all') {
+    // 批量操作
+    $values = rtrim($_GPC['values'], ',');
+    $values = explode(',', $values);
+    foreach ($values as $id) {
+        $status = 1;
+        $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). "
+            where id={$id}");
+        $bank = pdo_fetch('select realname,bankname,banknum,phone,type from '.tablename("xuan_mixloan_creditCard")."
+            where id=:id",array(':id'=>$item['bank_id']));
+        $data['status'] = $status;
+        if ($bank['type'] == 1) {
+            $insert['relate_id'] = $id;
+            $insert['reason'] = '该申请不是支付宝提现';
+            pdo_insert('xuan_mixloan_withdraw_fail', $insert);
+        }
+        if ($status == 1 && $item['status'] != 1) {
+            //支付宝收款接口
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                setcookie($cookie, 1, time()+360);
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    $insert = array();
+                    $insert['relate_id'] = $id;
+                    $insert['reason'] = $result['msg'];
+                    pdo_insert('xuan_mixloan_withdraw_fail', $insert);
+                } else {
+                    $data['ext_info']['payment_no'] = $result['order_id'];
+                    $data['ext_info'] = json_encode($data['ext_info']);
+                    pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
+                }
+            }
+            else
+            {
+                setcookie($cookie, 0, time()+360);
+                $insert['relate_id'] = $id;
+                $insert['reason'] = '不准重复操作';
+                pdo_insert('xuan_mixloan_withdraw_fail', $insert);
+            }
+        }
+    }
+    show_json(1, [], '操作成功');
 }
 include $this->template('agent');
-?>
