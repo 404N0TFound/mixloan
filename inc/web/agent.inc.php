@@ -25,6 +25,21 @@ if ($operation == 'list') {
     $list = pdo_fetchall($sql);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'freeze_list') {
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $status = $_GPC['status'] != '' ? $_GPC['status'] : 0;
+    $wheres = ' AND status=' . $status;
+    if (!empty($_GPC['id'])) {
+        $wheres.= " AND id='{$_GPC['id']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select * from ' . tablename('xuan_mixloan_member') . " where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
+    $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
     //申请列表
     $pindex = max(1, intval($_GPC['page']));

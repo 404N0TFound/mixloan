@@ -118,6 +118,7 @@ if ($operation == 'list') {
     pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
     pdo_delete('qrcode_stat', array("openid" => $member['openid']));
     pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
+    message("删除成功", referer(), 'sccuess');
 } else if ($operation == 'agent') {
     //设为代理
     $res = m('member')->checkAgent($_GPC['id']);
