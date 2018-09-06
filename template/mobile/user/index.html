@@ -222,6 +222,15 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
+                    {if $config['feedback_url']}
+                    <li>
+                        <a onclick="openW('{$config['feedback_url']}')">
+                            <img src="../addons/xuan_mixloan/template/style/images/feedback.png" />
+                            返佣反馈
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     {if !is_weixin()}
                     <li class="customer">
                         <a onclick="loginout()">
@@ -309,6 +318,55 @@ function switchButton(index){
             console.log(data);
         },'json')
 }
+
+{if !is_weixin()}
+var ws=null;
+var webview = null;
+function plusReady(){
+    ws=plus.webview.currentWebview();
+}
+if(window.plus){
+    plusReady();
+}else{
+    document.addEventListener('plusready', plusReady, false);
+}
+function clickButton(){
+    var url = "{php echo $this->createMobileUrl('user')}";
+    webview = plus.webview.create(url)
+    webview.onloading = function(){
+        plus.nativeUI.showWaiting("返回首页");
+    }
+    webview.onloaded = function(){
+        plus.nativeUI.closeWaiting();
+    }
+    webview.addEventListener('close', function(){
+        webview=null;
+    });
+    webview.addEventListener('titleUpdate', function(){
+        webview.show();
+    });
+
+}
+function openW(url){
+    webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'返佣反馈','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton,color:'black',fontSize:'14px'}] }});
+    webview.onloading = function(){
+        plus.nativeUI.showWaiting("跳转中");
+    }
+    webview.onloaded = function(){
+        plus.nativeUI.closeWaiting();
+    }
+    webview.addEventListener('close', function(){
+        webview=null;
+    });
+    webview.addEventListener('titleUpdate', function(){
+        webview.show();
+    });
+}
+{else}
+function openW(url){
+    mui.openWindow({url:url});
+}
+{/if}
 
 
 </script>
