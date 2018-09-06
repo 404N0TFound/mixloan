@@ -104,7 +104,7 @@ if($operation=='index'){
 } else if ($operation == 'uploadImage') {
 	//上传图片
 	$base_64 = trim($_GPC['carousel']);
-	// $res = base64_image_content($base_64, XUAN_MIXLOAN_PATH."data/avatar");
+	$res = base64_image_content($base_64, XUAN_MIXLOAN_PATH."data/avatar");
 	if ($res) {
 		$avatar_url = getNowHostUrl()."/addons/xuan_mixloan/data/avatar/{$res}";
 		show_json(1, ['avatar_url'=>$avatar_url]);
