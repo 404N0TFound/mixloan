@@ -32,9 +32,9 @@
       	<entry title="代理会员" do="agent" state="" direct="false" />
       	<entry title="口子管理" do="channel" state="" direct="false" />
       	<entry title="朋友圈管理" do="friend" state="" direct="false" />
-		<entry title="海报管理" do="poster" state="" direct="false" />
-		<entry title="信用查询" do="credit" state="" direct="false" />
-		<entry title="数据统计" do="statistics" state="" direct="false" />
+    		<entry title="海报管理" do="poster" state="" direct="false" />
+    		<entry title="信用查询" do="credit" state="" direct="false" />
+    		<entry title="数据统计" do="statistics" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
