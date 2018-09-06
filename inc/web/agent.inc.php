@@ -511,7 +511,7 @@ if ($operation == 'list') {
             {
                 setcookie($cookie, 1, time()+360);
                 $payment_no = date('YmdHis');
-                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname'], $id);
                 if ($result['code'] == -1) {
                     $insert['relate_id'] = $id;
                     $insert['reason'] = $result['msg'];
@@ -813,7 +813,7 @@ if ($operation == 'list') {
         {
             setcookie($cookie, 1, time()+360);
             $payment_no = date('YmdHis');
-            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname'], $id);
             if ($result['code'] == -1) {
                 $insert = array();
                 $insert['relate_id'] = $id;
@@ -855,7 +855,7 @@ if ($operation == 'list') {
             {
                 setcookie($cookie, 1, time()+360);
                 $payment_no = date('YmdHis');
-                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname'], $id);
                 if ($result['code'] == -1) {
                     $insert = array();
                     $insert['relate_id'] = $id;

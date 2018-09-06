@@ -899,23 +899,19 @@ if($operation=='buy'){
         show_json(-1, null, "请在工作日提现哦");
     }
     $now_time = explode(':', date('H:i'));
-    if ($now_time[0] >= 9 && $now_time[0] <= 18) {
-        if ($now_time[0] == 18 && $now_time[1] > 30) {
-            show_json(-1, null, "请在上午9点到晚上6点半点之间提现哦");
-        } else {
-            $insert = array(
-                'uniacid'=>$_W['uniacid'],
-                'uid'=>$member['id'],
-                'bank_id'=>$bank_id,
-                'bonus'=>$bonus,
-                'createtime'=>time(),
-                'status'=>0
-            );
-            pdo_insert('xuan_mixloan_withdraw', $insert);
-            show_json(1, null, "提现成功，T+1日到账");
-        }
+    if ($now_time[0] >= 9 && $now_time[0] <= 17) {
+        $insert = array(
+            'uniacid'=>$_W['uniacid'],
+            'uid'=>$member['id'],
+            'bank_id'=>$bank_id,
+            'bonus'=>$bonus,
+            'createtime'=>time(),
+            'status'=>0
+        );
+        pdo_insert('xuan_mixloan_withdraw', $insert);
+        show_json(1, null, "提现成功，T+1日到账");
     } else {
-        show_json(-1, null, "请在上午9点到晚上7点半点之间提现哦");
+        show_json(-1, null, "请在上午9点到晚上6点之间提现哦");
     }
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
