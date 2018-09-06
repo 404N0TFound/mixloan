@@ -200,6 +200,13 @@
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
+                <li>
+                    <a  onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')" >
+                        <img src="../addons/xuan_mixloan/template/style/images/myteam.png" />
+                        我的团队
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
                 {/if}
                 <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
