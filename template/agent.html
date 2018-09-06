@@ -440,6 +440,7 @@
                 <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>ID</th>
+                    <th style='width:80px;'>邀请者id</th>
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
@@ -453,6 +454,7 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
+                    <td>   {$row['inviter']}</td>
                     <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
