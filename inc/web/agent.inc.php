@@ -11,7 +11,7 @@ if ($operation == 'list') {
     //会员列表
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' and b.status=1';
+    $wheres = '';
     $cond = '';
     if (!empty($_GPC['name'])) {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['name']}%'";
