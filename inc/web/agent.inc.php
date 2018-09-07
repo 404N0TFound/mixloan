@@ -865,6 +865,7 @@ if ($operation == 'list') {
                     $data['ext_info']['payment_no'] = $result['order_id'];
                     $data['ext_info'] = json_encode($data['ext_info']);
                     pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
+                    usleep(500000);
                 }
             }
             else

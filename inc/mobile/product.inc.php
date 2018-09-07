@@ -141,6 +141,9 @@ if($operation=='index'){
 	}
 	if ($inviter) {
 		$inviter_one = m('member')->getInviterInfo($inviter);
+		if ($inviter_one['status'] != -2) {
+			show_json(-1, '用户已被删除');
+		}
 		$datam = array(
             "first" => array(
                 "value" => "尊敬的用户您好，有一个用户{$_GPC['name']}({$_GPC['phone']})通过您的邀请申请了{$info['name']}，请及时跟进。",
@@ -195,6 +198,10 @@ if($operation=='index'){
 	//二级
     $second_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
     if ($second_inviter) {
+		$inviter_two = m('member')->getInviterInfo($second_inviter);
+		if ($inviter_two['status'] != -2) {
+			show_json(-1, '用户已被删除');
+		}
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
         pdo_insert('xuan_mixloan_product_apply', $insert);
@@ -233,6 +240,10 @@ if($operation=='index'){
     //三级
     $third_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
     if ($third_inviter) {
+		$inviter_thr = m('member')->getInviterInfo($third_inviter);
+		if ($inviter_thr['status'] != -2) {
+			show_json(-1, '用户已被删除');
+		}
         $insert['inviter'] = $third_inviter;
         $insert['degree'] = 3;
         pdo_insert('xuan_mixloan_product_apply', $insert);
