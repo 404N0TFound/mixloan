@@ -250,7 +250,7 @@ if($operation=='buy'){
 	$type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
 	if ($type == 1) {
 		$id = intval($_GPC['id']);
-		$product = m('product')->getList(['id','ext_info', 'relate_id', 'type'], ['id'=>$id])[$id];
+		$product = m('product')->getList(['id','ext_info', 'relate_id', 'type', 'name'], ['id'=>$id])[$id];
 		$cfg = [];
 		$cfg['logo'] = $config['logo'];
 		$cfg['poster_avatar'] = $product['ext_info']['poster_avatar'];
@@ -279,8 +279,11 @@ if($operation=='buy'){
             "type" => $type,
             "pid" => $id,
             "out" => $out,
-            "poster_path" => $poster_path
+            "poster_path" => $poster_path,
         );
+        if ($type == 1) {
+            $params['product_name'] = $product['name'];
+        }
         $res = m('poster')->createPoster($cfg, $params);
         if ($res) {
             show_json(1, ['post_url'=>$res, 'agent_url'=>$url]);
