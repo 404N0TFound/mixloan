@@ -124,7 +124,7 @@ if($operation=='index'){
     if ($inviter) {
         $inviter_one = m('member')->getInviterInfo($inviter);
         if ($inviter_one['status'] != -2) {
-            show_json(-1, '用户已被删除');
+            show_json(-1, [], '用户已被删除');
         }
         // $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
         // $datam = array(
@@ -197,7 +197,7 @@ if($operation=='index'){
     if ($second_inviter) {
         $inviter_two = m('member')->getInviterInfo($second_inviter);
         if ($inviter_two['status'] != -2) {
-            show_json(-1, '用户已被删除');
+            show_json(-1, [], '用户已被删除');
         }
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
@@ -240,7 +240,7 @@ if($operation=='index'){
     if ($third_inviter) {
         $inviter_thr = m('member')->getInviterInfo($third_inviter);
         if ($inviter_thr['status'] != -2) {
-            show_json(-1, '用户已被删除');
+            show_json(-1, [], '用户已被删除');
         }
         $insert['inviter'] = $third_inviter;
         $insert['degree'] = 3;
