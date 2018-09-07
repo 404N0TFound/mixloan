@@ -105,7 +105,7 @@
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_white','id' => $row['uid']));}" title='移除白名单' ><i class='fa fa-check'></i> 移除白名单</a></li>
                                 {/if}
-                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'true_delete','id' => $row['uid']));}" title='删除会员' onclick="return confirm('确定要删除会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li>
+                                <!-- <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'true_delete','id' => $row['uid']));}" title='删除会员' onclick="return confirm('确定要删除会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li> -->
                             </ul>
                         </div>
                     </td>
@@ -474,7 +474,7 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_update','id' => $row['id']));}" title='管理'><i class='fa fa-edit'></i> 管理</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
+                                <!-- <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li> -->
                             </ul>
                         </div>
                     </td>
