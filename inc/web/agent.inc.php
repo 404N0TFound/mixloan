@@ -23,6 +23,13 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'freeze_list') {
