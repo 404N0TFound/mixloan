@@ -54,8 +54,25 @@ class Xuan_mixloan_Poster
         if ($params['product_name']) {
             //产品名称
             $poster_color = hex2rgb('#d6ff00');
+            if (mb_strlen($params['product_name'],"utf-8") == 3) {
+                $margin_left = imagesx($bgpng)*0.4;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 4) {
+                $margin_left = imagesx($bgpng)*0.38;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 5) {
+                $margin_left = imagesx($bgpng)*0.35;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 6) {
+                $margin_left = imagesx($bgpng)*0.32;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 7) {
+                $margin_left = imagesx($bgpng)*0.3;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 8) {
+                $margin_left = imagesx($bgpng)*0.3;
+            } else if (mb_strlen($params['product_name'],"utf-8") == 9) {
+                $margin_left = imagesx($bgpng)*0.28;
+            } else {
+                $margin_left = imagesx($bgpng)*0.4;
+            }
             $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
-            imagettftext($bgpng,imagesx($bgpng)*0.05,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.3,$color,$font,$params['product_name']);
+            imagettftext($bgpng,imagesx($bgpng)*0.05,0,$margin_left,imagesy($bgpng)*0.3,$color,$font,$params['product_name']);
         }
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.35,imagesx($bgpng)*0.35);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.35,imagesx($bgpng)*0.35,imagesx($QR),imagesy($QR));
