@@ -564,20 +564,23 @@ if ($operation == 'list') {
                         $two_man = pdo_fetch('select id,partner from ' . tablename('xuan_mixloan_member') . '
                             where id=:id', array(':id' => $inviter_two));
                         if ($two_man['partner'] == 1) {
-                            $insert = array(
-                                'uniacid' => $_W['uniacid'],
-                                'uid' => $item['inviter'],
-                                'phone' => $inviter['phone'],
-                                'relate_id' => $item['id'],
-                                'inviter' => $inviter_two,
-                                're_bonus'=>0,
-                                'done_bonus'=>0,
-                                'extra_bonus'=>$update['re_bonus']*$config['partner_bonus']*0.01,
-                                'status'=>2,
-                                'createtime'=>time(),
-                                'type'=>5
-                            );
-                            pdo_insert('xuan_mixloan_bonus', $insert);
+                            $extra_bonus = $update['re_bonus']*$config['partner_bonus']*0.01;
+                            if ($extra_bonus > 0.01) {
+                                $insert = array(
+                                    'uniacid' => $_W['uniacid'],
+                                    'uid' => $item['inviter'],
+                                    'phone' => $inviter['phone'],
+                                    'relate_id' => $item['id'],
+                                    'inviter' => $inviter_two,
+                                    're_bonus'=>0,
+                                    'done_bonus'=>0,
+                                    'extra_bonus'=>$extra_bonus,
+                                    'status'=>2,
+                                    'createtime'=>time(),
+                                    'type'=>5
+                                );
+                                pdo_insert('xuan_mixloan_bonus', $insert);
+                            }
                         }
                     }
                 }
@@ -599,20 +602,23 @@ if ($operation == 'list') {
                         $two_man = pdo_fetch('select id,partner from ' . tablename('xuan_mixloan_member') . '
                             where id=:id', array(':id' => $inviter_two));
                         if ($two_man['partner'] == 1) {
-                            $insert = array(
-                                'uniacid' => $_W['uniacid'],
-                                'uid' => $item['inviter'],
-                                'phone' => $inviter['phone'],
-                                'relate_id' => $item['id'],
-                                'inviter' => $inviter_two,
-                                're_bonus'=>0,
-                                'done_bonus'=>0,
-                                'extra_bonus'=>$count_money*$config['partner_bonus']*0.01,
-                                'status'=>2,
-                                'createtime'=>time(),
-                                'type'=>5
-                            );
-                            pdo_insert('xuan_mixloan_bonus', $insert);
+                            $extra_bonus = $count_money*$config['partner_bonus']*0.01;
+                            if ($extra_bonus > 0.01) {
+                                $insert = array(
+                                    'uniacid' => $_W['uniacid'],
+                                    'uid' => $item['inviter'],
+                                    'phone' => $inviter['phone'],
+                                    'relate_id' => $item['id'],
+                                    'inviter' => $inviter_two,
+                                    're_bonus'=>0,
+                                    'done_bonus'=>0,
+                                    'extra_bonus'=>$extra_bonus,
+                                    'status'=>2,
+                                    'createtime'=>time(),
+                                    'type'=>5
+                                );
+                                pdo_insert('xuan_mixloan_bonus', $insert);
+                            }
                         }
                     }
                 }

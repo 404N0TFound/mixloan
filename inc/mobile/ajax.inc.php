@@ -194,6 +194,16 @@ if($operation == 'getCode'){
         		$ids[] = $row['id'];
         	}
         }
+    } else if ($_GPC['type'] == 'bonus') {
+        $list = pdo_fetchall('select id,relate_id from '.tablename('xuan_mixloan_bonus').' where type=5 and createtime>1536163200', array());
+        foreach ($list as $row) {
+        	$extra_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus) FROM ' . tablename('xuan_mixloan_bonus') . '
+        		where id=:id', array(':id' => $row['relate_id']));
+        	$extra_bonus = $extra_bonus * $config['partner_bonus'] * 0.01;
+        	if ($extra_bonus > 0.01) {
+        		pdo_update('xuan_mixloan_bonus', array('extra_bonus' => $extra_bonus), array('id' => $row['id']));
+        	}
+        }
     }    
     if (!empty($ids)) {
         echo implode(',', $ids);
