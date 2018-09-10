@@ -15,8 +15,8 @@ if ($operation == 'list') {
     if (!empty($_GPC['id'])) {
         $wheres.= " AND id='{$_GPC['id']}'";
     }
-    if (!empty($_GPC['openid'])) {
-        $wheres.= " AND openid='{$_GPC['openid']}'";
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND phone='{$_GPC['phone']}'";
     }
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";

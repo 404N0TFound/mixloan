@@ -114,10 +114,13 @@ if($operation=='index'){
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
-    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
-        //show_json(-1, [], "短信验证码不符");
-    } else {
-        //setcookie('cache_code', 'outdate', time()+10);
+    if ($config['agent_invite_count']) {
+        $starttime = strtotime(date('Y-m-d'));
+        $agent_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+            where inviter=:inviter and degree=1 and createtime>' . $starttime, array(':inviter' => $inviter));
+        if ($agent_count >= $config['agent_invite_count']) {
+            show_json(-1, [], '该代理每日邀请数已受限制');
+        }
     }
     if ($config['jdwx_open'] == 1) {
         // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));

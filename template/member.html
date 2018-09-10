@@ -26,6 +26,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}" placeholder="可搜索手机"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
@@ -79,6 +85,8 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'below_list','inviter' => $row['id']));}" title='下级列表'><i class='fa fa-edit'></i> 下级列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['id']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'set_partner','id' => $row['id']));}" title='设为合伙人' onclick="return confirm('确定要设置该会员为合伙人吗？');"><i class='fa fa-list-alt'></i> 设为合伙人</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'update','id' => $row['id']));}" title='编辑会员' ><i class='fa fa-edit'></i> 编辑会员</a></li>
