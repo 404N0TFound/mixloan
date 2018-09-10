@@ -110,8 +110,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                     $agent = m('member')->checkAgent($inviter);
                     if ($agent['code'] == 1) {
                         $re_bonus = $config['inviter_fee_one'] * $fee * 0.01;
-                    } else {
-                        $re_bonus = $config['inviter_fee_one_free'] * $fee * 0.01;
                     }
                     if ($re_bonus) {
                         $insert_i = array(
@@ -160,8 +158,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         $agent = m('member')->checkAgent($inviter_two);
                         if ($agent['code'] == 1) {
                             $re_bonus = $config['inviter_fee_two'] * $fee * 0.01;
-                        } else {
-                            $re_bonus = $config['inviter_fee_two_free'] * $fee * 0.01;
                         }
                         if ($re_bonus) {
                             $insert_i = array(

@@ -159,6 +159,33 @@ if($operation=='index'){
 		'createtime'=>time()
 	);
 	pdo_insert('xuan_mixloan_product_apply', $insert);
+    //二级
+    $second_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
+    if ($second_inviter) {
+        $insert['inviter'] = $second_inviter;
+        $insert['degree'] = 2;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+        $inviter_two =m('member')->getInviterInfo($second_inviter);
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_one['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
+    }
 	show_json(1, $pro['ext_info']['url']);
 } else if ($operation == 'customer') {
 	//客户列表
