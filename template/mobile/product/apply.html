@@ -21,16 +21,9 @@
         .pp-bg{position: relative;width: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;}
         h6,.h6{color: #999;font-size: 12px;line-height: 1.8;}
         div.popLoanApplyCommon .popLoanMain{padding-bottom: 0.5rem;}
-        div.daili_footer{min-height: 0px;box-shadow: #eaeaea -2px 4px 10px 10px;}
-        .footer_apply{width: 35%;background: white;float: left;text-align: center;}
-        .footer_apply a {padding: 0.6rem 1rem;display: inline-block;color:black;}
-        .footer_agent a {padding: 0.6rem 2rem;display: inline-block;color:white;}
-        .footer_agent{width: 65%;background: #0195ff;float: left;text-align: center;}
         @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
             div.Japply_contents{padding-bottom: 88px;}
             div.toApply{padding:12px 0 20px 0;}
-            .footer_apply a {padding: 0.9rem 1rem;}
-            .footer_agent a {padding: 0.9rem 2rem;}
         }
     </style>
 
@@ -40,22 +33,9 @@
 <div class="cJframe">
     <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />
 </div>
-<div class="daili_footer">
-    {if !$is_close}
-    <div class="footer_apply">
-        <a class="dummyApply" id="dummyApply">
-            我要代理
-        </a>
-    </div>
-    {/if}
-    <div class="footer_agent" {if $is_close}style="width:100%"{/if}>
-    <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要申请</a>
-</div>
-</div>
-<div class="toApply" style="display: none;">
-    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);">
-        申请
-    </a>
+<div class="toApply">
+    <a class="dummyApply" id="dummyApply" href="javascript:void(0);">申请</a>
+    <a class="to_apply" id="to_apply" href="javascript:void(0);" style="display: none;">申请</a>
 </div>
 <!-- 申请弹窗 -->
 <div class="popLoanApplyCommon popLoanApply">
@@ -67,6 +47,7 @@
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
+                <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png"></label><input type="" name="cache" id="cache" placeholder="请输入图形验证码" style="width: 50%;"><img src="" id="cache_img" style="width: 3.3rem; height: 1.3rem;"></li>
             </ul>
             <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}服务协议》</a>。</p>
             <div class="applyTips">
@@ -94,7 +75,6 @@
             iosXIndex=true;
         }
     }
-
     var rollFlag=0;//监听屏幕滚动
     //避免输入法影响样式
     $('div.popLoanInfo input').on('focus',function(e){
@@ -104,17 +84,17 @@
             var u = navigator.userAgent;
             if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
                 if(h <= window.screen.availHeight/2){
-                    $('.toApply').hide();
+                    $('.to_apply').hide();
                     $("div.popLoanApply .popLoanMain").css("top","10%");
                 }else{
-                    $('.toApply').show();
+                    $('.to_apply').show();
                     $("div.popLoanApply .popLoanMain").css("top","31%");
                 }
             }
         }
         if(isIOS){
             rollFlag=1;
-            $('.toApply').hide();
+            $('.to_apply').hide();
             if(iosXIndex){
                 //iphoneX
                 $("div.popLoanApply .popLoanMain").css("top","55%");
@@ -129,7 +109,7 @@
         var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
         if(isIOS){
             rollFlag=0;
-            $('.toApply').show();
+            $('.to_apply').show();
             if(iosXIndex){
                 //iphoneX
                 $("div.popLoanApply .popLoanMain").css("top","42%");
@@ -158,8 +138,16 @@
         var _name=$("#applyname").val();
         var phone =$("#phone").val();
         var idcard =$("#idcard").val();
-        var postData={"name":_name,"phone":phone,"idcard":idcard};
-
+        var smscode =$("#smscode").val();
+        var cache = $('#cache').val();
+        var postData={"name":_name,"phone":phone,"idcard":idcard,"cache":cache};
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#cache', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }
         if(_name=='' || _name=="请输入姓名"){
             document.getElementById('applyname').focus();
 
@@ -213,6 +201,19 @@
                 click();
                 return false;
             }
+        }
+        if(smscode=='' || smscode=="请输入短信验证码"){
+            document.getElementById('smscode').focus();
+
+            layer.tips('请输入短信验证码', '#smscode', {
+
+                tips: [3, '#f90'],
+
+                time: 3000
+
+            });
+            click();
+            return false;
         }
         if (idcard == '请输入身份证号' || idcard == '') {
             document.getElementById('idcard').focus();
@@ -275,21 +276,21 @@
         });
     }
     //弹出申请填写框
-    $("#daili_toapply").click(function(){
+    $("#dummyApply").click(function(){
         $("body").css({"height":$(window).height(),"overflow":"hidden"});
         rollFlag=1;
         $("div.popLoanApply").show();
         setTimeout(function(){
             if(iosXIndex){
                 //iphoneX
-                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
+                $("div.popLoanMain").css({"top":"42%","opacity":"1"});
             }else{
                 $("div.popLoanMain").css({"top":"30%","opacity":"1"});
             }
         },100)
         $("div.toApply").css({"background-color":"transparent","border":"none"});
-        // $("a.dummyApply").hide();
-        $(".toApply").show();
+        $("div.toApply a.dummyApply").hide();
+        $("div.toApply a.to_apply").show();
     })
     // 退出申请框
     $("div.popLoanApplyCover").click(function(){
@@ -299,8 +300,8 @@
             rollFlag=0;
             $("div.popLoanApply").hide();
             $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
-            $("a.dummyApply").show();
-            $(".toApply").hide();
+            $("div.toApply a.dummyApply").show();
+            $("div.toApply a.to_apply").hide();
         },100)
     })
     //防止点击输入时退出申请框
