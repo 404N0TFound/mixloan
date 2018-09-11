@@ -65,7 +65,7 @@ if ($operation == 'list') {
     if ($_GPC['post'] == 1) {
         pdo_delete('xuan_mixloan_poster', array('pid'=>$item['id']));
         $data = $_GPC['data'];
-        $data['ext_info'] = '';
+        $data['ext_info'] = json_encode($data['ext_info']);
         pdo_update('xuan_mixloan_product', $data, array('id'=>$id));
         message("提交成功", $this->createWebUrl('product', array('op' => '')), "sccuess");
     }
