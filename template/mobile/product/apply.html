@@ -47,6 +47,7 @@
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
+                <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png"></label><input type="" name="cache" id="cache" placeholder="请输入图形验证码" style="width: 50%;"><img src="" id="cache_img" style="width: 3.3rem; height: 1.3rem;"></li>
             </ul>
             <p><label id="protocol" data-index="1" class="choosed"></label><span>阅读知晓并同意</span><a href="{php echo $this->createMobileUrl('index', array('op'=>'register_contract'))}">《{$config['title']}服务协议》</a>。</p>
             <div class="applyTips">
@@ -138,7 +139,15 @@
         var phone =$("#phone").val();
         var idcard =$("#idcard").val();
         var smscode =$("#smscode").val();
-        var postData={"name":_name,"phone":phone,"idcard":idcard,"smscode":smscode};
+        var cache = $('#cache').val();
+        var postData={"name":_name,"phone":phone,"idcard":idcard,"cache":cache};
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#cache', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }
         if(_name=='' || _name=="请输入姓名"){
             document.getElementById('applyname').focus();
 
