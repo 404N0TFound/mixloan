@@ -117,6 +117,9 @@ if($operation=='index'){
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+        show_json(-1, [], "图形验证码不正确");
+    }
     if ($inviter) {
         $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
