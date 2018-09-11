@@ -80,6 +80,7 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'set_partner','id' => $row['id']));}" title='设为合伙人' onclick="return confirm('确定要设置该会员为合伙人吗？');"><i class='fa fa-list-alt'></i> 设为合伙人</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'update','id' => $row['id']));}" title='编辑会员' ><i class='fa fa-edit'></i> 编辑会员</a></li>
                                 {if $status == 1}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>

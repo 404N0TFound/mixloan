@@ -303,7 +303,25 @@ if ($operation == 'list') {
             message("发送成功，总计发送{$count}条", "", "success");
         }
     }
-} else if ($operation == 'partner_list') {
+} else if ($operation == 'set_partner') {
+    //取消合伙人资格
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('id为空', '', 'error');
+    }
+    $partner = m('member')->checkPartner($id);
+    if ($partner['code'] != 1) {
+        $insert = array(
+            'uniacid' => $_W['uniacid'],
+            'uid' => $id,
+            'createtime' => time(),
+            'tid' => "20002" . date('YmdHis', time()),
+            'fee' => 0,
+        );
+        pdo_insert('xuan_mixloan_partner', $insert);
+    }
+    message("操作成功", $this->createWebUrl('member',array('op'=>'partner_list')), "success");
+}else if ($operation == 'partner_list') {
     //合伙人
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
