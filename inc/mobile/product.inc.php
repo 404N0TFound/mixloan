@@ -131,7 +131,7 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show', 'ext_info'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         show_json(-1, [], '该代理产品已被下架');
     }
@@ -144,11 +144,11 @@ if($operation=='index'){
     if ($record) {
     	show_json(1, $pro['ext_info']['url']);
     }
-    if ($pro['ext_info']['agent_invite_count']) {
+    if ($info['ext_info']['agent_invite_count']) {
         $starttime = strtotime(date('Y-m-d'));
         $agent_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
             where inviter=:inviter and degree=1 and createtime>' . $starttime, array(':inviter' => $inviter));
-        if ($agent_count >= $pro['ext_info']['agent_invite_count']) {
+        if ($agent_count >= $info['ext_info']['agent_invite_count']) {
             show_json(-1, [], '该代理每日邀请数已受限制');
         }
     }
