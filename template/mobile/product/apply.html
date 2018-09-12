@@ -47,8 +47,8 @@
         </a>
     </div>
     <div class="footer_agent">
-        <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要申请</a>
-    </div>
+    <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要申请</a>
+</div>
 </div>
 <div class="toApply" style="display: none;">
     <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);">
@@ -92,6 +92,7 @@
             iosXIndex=true;
         }
     }
+
     var rollFlag=0;//监听屏幕滚动
     //避免输入法影响样式
     $('div.popLoanInfo input').on('focus',function(e){
@@ -101,10 +102,10 @@
             var u = navigator.userAgent;
             if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
                 if(h <= window.screen.availHeight/2){
-                    $('.to_apply').hide();
+                    $('.toApply').hide();
                     $("div.popLoanApply .popLoanMain").css("top","10%");
                 }else{
-                    $('.to_apply').show();
+                    $('.toApply').show();
                     $("div.popLoanApply .popLoanMain").css("top","31%");
                 }
             }
@@ -155,8 +156,8 @@
         var _name=$("#applyname").val();
         var phone =$("#phone").val();
         var idcard =$("#idcard").val();
-        var smscode =$("#smscode").val();
-        var postData={"name":_name,"phone":phone,"idcard":idcard,"smscode":smscode};
+        var postData={"name":_name,"phone":phone,"idcard":idcard};
+
         if(_name=='' || _name=="请输入姓名"){
             document.getElementById('applyname').focus();
 
@@ -210,19 +211,6 @@
                 click();
                 return false;
             }
-        }
-        if(smscode=='' || smscode=="请输入短信验证码"){
-            document.getElementById('smscode').focus();
-
-            layer.tips('请输入短信验证码', '#smscode', {
-
-                tips: [3, '#f90'],
-
-                time: 3000
-
-            });
-            click();
-            return false;
         }
         if (idcard == '请输入身份证号' || idcard == '') {
             document.getElementById('idcard').focus();

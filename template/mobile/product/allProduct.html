@@ -136,7 +136,7 @@
                 <ul class="clearfix">
                     {loop $speed $sp}
                     <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
                             <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                                 <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                                 <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -154,7 +154,7 @@
     </div>
     <div class="loanindex_shortcut2">
         {loop $speed_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
             <ul class="clearfix">
                 <li class="clearfix">
                     <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
@@ -190,7 +190,7 @@
                 <ul class="clearfix">
                     {loop $speed $sp}
                     <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$sp['id'], 'inviter'=>$inviter))}')">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
                             <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
                                 <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
                                 <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
@@ -208,7 +208,7 @@
     </div>
     <div class="loanindex_shortcut2">
         {loop $large_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$loan['id'], 'inviter'=>$inviter))}')">
+        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
             <ul class="clearfix">
                 <li class="clearfix">
                     <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
