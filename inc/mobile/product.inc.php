@@ -146,8 +146,8 @@ if($operation=='index'){
     }
     if ($info['ext_info']['agent_invite_count']) {
         $starttime = strtotime(date('Y-m-d'));
-        $agent_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
-            where inviter=:inviter and degree=1 and createtime>' . $starttime, array(':inviter' => $inviter));
+        $agent_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+            where inviter=:inviter and degree=1 and pid={$id} and createtime>{$starttime}" , array(':inviter' => $inviter));
         if ($agent_count >= $info['ext_info']['agent_invite_count']) {
             show_json(-1, [], '该代理每日邀请数已受限制');
         }
