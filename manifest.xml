@@ -40,6 +40,16 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_alipay_log`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_alipay_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `account` varchar(150) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `account` (`account`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_announce_record`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -186,6 +196,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `bankname` varchar(20) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1银行卡 2支付宝账号',
+  `status` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)

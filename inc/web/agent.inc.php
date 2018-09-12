@@ -367,7 +367,12 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $member = pdo_fetch('select avatar,nickname,openid from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
+    if ($id<9374) {
+        //id 28之后改为微信二维码收款
+        $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
+    } else {
+        $bank = pdo_fetch('select * from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
+    }
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['status'] == 1) {
             $wx = WeAccount::create();
@@ -403,6 +408,24 @@ if ($operation == 'list') {
             );
             $templateId=$config['tpl_notice6'];
             $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
+        }
+        if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
+            //支付宝收款接口
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
+            }
+            else
+            {
+                setcookie($cookie, 1, time()+60);
+            }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));

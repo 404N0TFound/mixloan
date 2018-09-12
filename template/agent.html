@@ -655,8 +655,9 @@
                 </div>
             </div>
             {else}
+            {if $bank['tyep'] == 1}
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请信息</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">开卡信息</label>
                 <div class="col-sm-4 col-lg-5 col-xs-12">
                     <p class="form-control-static">银行卡：{$bank['banknum']}（{$bank['realname']}）</p>
                 </div>
@@ -667,6 +668,17 @@
                     <p class="form-control-static">手机：{$bank['phone']}</p>
                 </div>
             </div>
+            {else}
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">支付宝</label>
+                <div class="col-sm-4 col-lg-5 col-xs-12">
+                    <p class="form-control-static">收款账户：{$bank['phone']}</p>
+                </div>
+                <div class="col-sm-2 col-lg-3 col-xs-12">
+                    <p class="form-control-static">收款姓名：{$bank['realname']}</p>
+                </div>
+            </div>
+            {/if}
             {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提现状态</label>

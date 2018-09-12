@@ -179,7 +179,6 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     $sql = "
-   
     ";
     pdo_run($sql);
     if (!empty($ids)) {
