@@ -375,56 +375,54 @@ if ($operation == 'list') {
     }
     if ($_GPC['post'] == 1) {
         if ($_GPC['data']['status'] == 1) {
-            $wx = WeAccount::create();
-            $msg = array(
-                'first' => array(
-                    'value' => "您申请的提现金额已到帐。",
-                    "color" => "#4a5077"
-                ),
-                'keyword1' => array(
-                    'value' => date("Y-m-d H:i:s",time()),
-                    "color" => "#4a5077"
-                ),
-                'keyword2' => array(
-                    'value' => "微信转账",
-                    "color" => "#4a5077"
-                ),
-                'keyword3' => array(
-                    'value' => $item['bonus'],
-                    "color" => "#4a5077"
-                ),
-                'keyword4' => array(
-                    'value' => 0,
-                    "color" => "#4a5077"
-                ),
-                'keyword5' => array(
-                    'value' => $item['bonus'],
-                    "color" => "#4a5077"
-                ),
-                'remark' => array(
-                    'value' => "感谢你的使用。",
-                    "color" => "#A4D3EE"
-                ),
-            );
-            $templateId=$config['tpl_notice6'];
-            $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
+           
         }
         if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
             //支付宝收款接口
             $cookie = 'withdraw' . $id;
             if (!$_COOKIE[$cookie])
             {
+                setcookie($cookie, 1, time()+120);
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
                 if ($result['code'] == -1) {
                     message($result['msg'], '', 'error');
                 } else {
+                    $wx = WeAccount::create();
+                    $msg = array(
+                        'first' => array(
+                            'value' => "您申请的提现金额已到帐。",
+                            "color" => "#4a5077"
+                        ),
+                        'keyword1' => array(
+                            'value' => date("Y-m-d H:i:s",time()),
+                            "color" => "#4a5077"
+                        ),
+                        'keyword2' => array(
+                            'value' => "微信转账",
+                            "color" => "#4a5077"
+                        ),
+                        'keyword3' => array(
+                            'value' => $item['bonus'],
+                            "color" => "#4a5077"
+                        ),
+                        'keyword4' => array(
+                            'value' => 0,
+                            "color" => "#4a5077"
+                        ),
+                        'keyword5' => array(
+                            'value' => $item['bonus'],
+                            "color" => "#4a5077"
+                        ),
+                        'remark' => array(
+                            'value' => "感谢你的使用。",
+                            "color" => "#A4D3EE"
+                        ),
+                    );
+                    $templateId=$config['tpl_notice6'];
+                    $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
                     $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
                 }
-            }
-            else
-            {
-                setcookie($cookie, 1, time()+60);
             }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
