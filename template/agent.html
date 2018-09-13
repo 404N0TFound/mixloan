@@ -1,6 +1,25 @@
 {template 'common/header'}
 <style type="text/css">
-
+    .search_result{
+        width: 100%;
+        border-left: 1px solid;
+        border-bottom: 1px solid;
+        border-right: 1px solid;
+        background: white;
+        border-color: #e7e7eb;
+        border-radius: 0;
+        box-shadow: 0 0 0;
+        text-shadow: 0 0 0;
+        border-bottom-right-radius:4px;
+        border-bottom-left-radius:4px;
+    }
+    .search_result_li{
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+    .search_result_li:hover{
+        background: #e7e7eb
+    }
 </style>
 <ul class="nav nav-tabs">
     <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent')}">代理列表</a></li>
@@ -208,7 +227,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="type" onchange="change_s()">
+                    <select class="form-control" name="type">
                         <option value="0">选择产品类型</option>
                         <option value="1" {if $_GPC['type']==1}selected{/if}>信用卡</option>
                         <option value="2" {if $_GPC['type']==2}selected{/if}>贷款</option>
@@ -218,9 +237,9 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关联产品</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="relate_id">
-                        <option value="0">选择关联产品</option>
-                    </select>
+                    <input type="text" class="form-control"  name="relate_name" id="relate_name" onkeyup="change_relate()" value="{$_GPC['relate_name']}" />
+                    <input type="hidden" id="relate_id" name="relate_id" value="{$_GPC['relate_id']}">
+                    <ul class="search_result" style="display: none"></ul>
                 </div>
             </div>
             <div class="form-group">
@@ -250,54 +269,40 @@
                 </div>
             </div>
             <script type="text/javascript">
-                var change_s = function (){
-                    var c_json = {$c_json};
-                    var s_json = {$s_json};
-                    var value = $("select[name='type']").val();
-                    console.log(value);
-                    if (value == 1) {
-                        if (isEmptyObject(c_json)) {
-                            $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
-                            alert('请先在银行管理中添加卡');
-                            return false;
-                        }
-                        change_c(c_json)
-                    } else if (value == 2) {
-                        if (isEmptyObject(s_json)) {
-                            $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").parent().parent().hide(500);
-                            alert('请先在贷款超市中添加贷款');
-                            return false;
-                        }
-                        change_c(s_json)
-                    } else {
-                        $("select[name='relate_id']").parent().parent().hide(500);
+                var change_relate = function(){
+                    var type = $("select[name='type']").val();
+                    if (type == 0) {
+                        alert('请选择分类');
+                        $("select[name='type']").focus();
+                        return false;
                     }
-                }
-                var change_c = function(a_json) {
-                    var sel_id = {if $_GPC['relate_id']}{$_GPC['relate_id']}{else}0{/if};
-                        var type = {if $_GPC['type']}{$_GPC['type']}{else}0{/if};
-                            a_html = '<option value="0">选择关联产品</option>';
-                            for (var i=0; i<a_json.length; i++) {
-                                if (a_json[i].id == sel_id && a_json[i].type == type) {
-                                    var _select = 'selected';
-                                } else {
-                                    var _select = '';
+                    var name = $('#relate_name').val();
+                    $.post("{php echo $this->createWebUrl('product', array('op'=>'getProductRelate'))}", {'name':name, 'type':type},
+                        function(data) {
+                            if(data.code==1){
+                                var str = "";
+                                items = data.data.items;
+                                for (var i = 0; i < items.length; i++) {
+                                    str += '<li class="search_result_li" onclick="relate(' + items[i].id + ', \'' + items[i].name + '\')">' + items[i].name + '</li>';
                                 }
-                                a_html += '<option value="' + a_json[i].id + '" ' + _select + '>' + a_json[i].name + '</option>';
+                                $('.search_result').html(str);
+                                $('.search_result').show();
+                                return false;
+                            }else{
+                                var str='<li class="search_result_li">没有找到匹配项</li>';
+                                $('.search_result').html(str);
+                                $('.search_result').show();
+                                return false;
                             }
-                            $("select[name='relate_id']").html("");
-                            $("select[name='relate_id']").html(a_html);
-                            $("select[name='relate_id']").parent().parent().show(500);
-                        }
-                        function isEmptyObject(e) {
-                            var t;
-                            for (t in e)
-                                return !1;
-                            return !0
-                        }
-                        change_s();
+
+                        },'json');
+                }
+                var relate = function(id, name){
+                    console.log(id);
+                    $('#relate_id').val(id);
+                    $('#relate_name').val(name);
+                    $('.search_result').hide()
+                }
             </script>
             <div class="form-group">
             </div>

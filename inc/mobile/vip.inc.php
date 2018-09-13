@@ -130,9 +130,6 @@ if($operation=='buy'){
             $row['name'] = '合伙人分佣';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         } else if ($row['type'] == 4){
-            $row['name'] = '信用查询分佣';
-            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-        } else if ($row['type'] == 5){
             $row['name'] = '前日佣金奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         }
