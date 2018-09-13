@@ -43,9 +43,13 @@ if ($operation == 'list')
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         foreach ($list as &$row) {
             if ($type == 1) {
+                $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') . "
+                    where inviter={$row['id']} " . $cond);
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . "
                     where inviter={$row['id']} " . $cond);
             } else {
+                $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') . "
+                    where inviter={$row['id']} " . $cond);
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_backup') . "
                     where inviter={$row['id']} " . $cond);
             }

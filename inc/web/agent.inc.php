@@ -250,15 +250,13 @@ if ($operation == 'list') {
         $starttime = date('Y-m');
         $endtime = date('Y-m-d H:i:s');
     }
-    $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.id,b.nickname,b.avatar,b.balance,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-        $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-        $row['left_bonus'] = round($row['left_bonus'], 2);
+        $row['left_bonus'] = $row['balance'];
         $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
             where uid=:uid', array(':uid' => $row['uid']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '

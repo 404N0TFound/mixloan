@@ -351,6 +351,7 @@ if($operation=='buy'){
     show_json(1);
 } else if ($operation == 'alipay_notify') {
 	//支付宝异步回调
+
 	if ($_GPC['notify_id']) {
     	$params = pdo_fetch('select * from ' . tablename('xuan_mixloan_paylog') . '
         	where notify_id=:notify_id', array(':notify_id' => $_GPC['notify_id']));
