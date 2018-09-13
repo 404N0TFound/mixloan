@@ -120,13 +120,22 @@ if($operation=='buy'){
 	}
 	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
 	foreach ($percent_list as &$row) {
-		if ($row['pid'] == 0){
-			$row['name'] = '邀请购买代理';
-			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else {
-			$row['name'] = $pros[$row['pid']]['name'];
-			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
-		}
+        if ($row['type'] == 2){
+            $row['name'] = '邀请购买代理';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 1) {
+            $row['name'] = $pros[$row['pid']]['name'];
+            $row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
+        } else if ($row['type'] == 3){
+            $row['name'] = '合伙人分佣';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 4){
+            $row['name'] = '信用查询分佣';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 5){
+            $row['name'] = '前日佣金奖励';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        }
 		if ($row['pid'] == 0 || $pros[$row['pid']]['count_time'] == 1) {
 			$row['type'] = '日结';
 		} else if ($pros[$row['pid']]['count_time'] == 7) {
@@ -395,7 +404,8 @@ if($operation=='buy'){
                 're_bonus'=>$re_bonus,
                 'status'=>2,
                 'createtime'=>time(),
-                'degree'=>1
+                'degree'=>1,
+                'type'=>2
             );
             pdo_insert('xuan_mixloan_product_apply', $insert_i);
         }
@@ -439,7 +449,8 @@ if($operation=='buy'){
                     're_bonus'=>$re_bonus,
                     'status'=>2,
                     'createtime'=>time(),
-                    'degree'=>2
+                    'degree'=>2,
+                    'type'=>2
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
             }
@@ -483,7 +494,8 @@ if($operation=='buy'){
                         're_bonus'=>$re_bonus,
                         'status'=>2,
                         'createtime'=>time(),
-                        'degree'=>3
+                        'degree'=>3,
+                        'type'=>2
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 }

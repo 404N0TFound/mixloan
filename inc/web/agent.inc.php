@@ -73,9 +73,17 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 3) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['name'] = '邀请信用查询';
+        } else if ($row['type'] == 4) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['name'] = '合伙人分红';
+        } else if ($row['type'] == 5) {
+            $row['name'] = '前日佣金奖励';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -293,7 +301,7 @@ if ($operation == 'list') {
     //申请编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
-    if ($item['pid']) {
+    if ($item['type'] == 1) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
         $info['ext_info'] = json_decode($info['ext_info'], true);
         if ($item['degree'] == 1) {
@@ -312,8 +320,10 @@ if ($operation == 'list') {
             $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
             $info['re_reward_per'] = $info['ext_info']['re_thr_init_reward_per'];
         }
-    } else {
+    } else if ($item['type'] == 2) {
         $info['name'] = '邀请购买代理奖励';
+    } else if ($item['type'] == 3) {
+        $info['name'] = '前日佣金奖励，关联id：' . $item['pid'];
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
     $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
