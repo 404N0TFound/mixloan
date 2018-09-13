@@ -121,6 +121,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             'type'=>2
                         );
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                        pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter}");
+                        pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter}");
                     }
                     //模板消息提醒
                     $one_openid = m('user')->getOpenid($inviter);
@@ -166,6 +168,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                 'type'=>2
                             );
                             pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                            pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter_two}");
+                            pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter_two}");
                         }
                         //模板消息提醒
                         $two_openid = m('user')->getOpenid($inviter_two);
@@ -211,6 +215,8 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                     'type'=>2
                                 );
                                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
+                                pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter_thr}");
+                                pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter_thr}");
                             }
                             //模板消息提醒
                             $thr_openid = m('user')->getOpenid($inviter_thr);

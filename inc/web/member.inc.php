@@ -165,6 +165,8 @@ if ($operation == 'list') {
             'createtime'=>time()
         );
         pdo_insert('xuan_mixloan_product_apply', $insert_i);
+        pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$config['inviter_fee_one']} WHERE id={$inviter}");
+        pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$config['inviter_fee_one']} WHERE id={$inviter}");
         //模板消息提醒
         $one_openid = m('user')->getOpenid($inviter);
         $datam = array(

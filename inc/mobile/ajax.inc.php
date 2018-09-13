@@ -181,62 +181,55 @@ if($operation == 'getCode'){
 } else if ($operation == 'checkMember') {
 	$openid = m('user')->getOpenid();
 	show_json(1, m('member')->getMember($openid));
-}else if ($operation == 'apply_temp') {
-    //常规脚本
+}else if ($operation == 'backup_queue') {
     $ids = [];
-    if ($_GPC['type'] == 'product_apply') {
-        echo tomedia('images/191/2018/07/q555WfvCI52y3JTgYmczH3ukuh3E5U.png');
-    } else if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-        foreach ($list as $row) {
-            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-            if ($row['left_bonus']<0) {
-                if ($_GPC['update']) {
-                	$temp = pdo_fetch('SELECT id,extra_bonus FROM '.tablename('xuan_mixloan_product_apply')." WHERE inviter={$row['uid']} AND status>0 ORDER BY id ASC");
-                	if (!empty($temp)) {
-                		pdo_update('xuan_mixloan_product_apply', array('extra_bonus'=>$temp['extra_bonus']-$row['left_bonus']), array('id'=>$temp['id']));
-                	} else {
-	                	$insert = array(
-	                		'uniacid'=>$_W['uniacid'],
-	                		'uid'=>0,
-	                		'pid'=>1,
-	                		'phone'=>18270088787,
-	                		'certno'=>362532199109141716,
-	                		'realname'=>'赖敏',
-	                		'inviter'=>$row['uid'],
-	                		'extra_bonus'=>-$row['left_bonus'],
-	                		'createtime'=>time(),
-	                		'status'=>2,
-	                		'degree'=>1
-	                	);
-	                	pdo_insert('xuan_mixloan_product_apply', $insert);
-                	}
-                }
-                $ids[] = $row['uid'];
-            }
-        }
+    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_backup_id') . '
+    	where status=0 
+    	order by id asc limit 100');
+    foreach ($list as $row) {
+    	$id = $row['relate_id'];
+    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply') . '
+    		where id=:id', array(':id' => $id));
+    	pdo_insert('xuan_mixloan_product_apply_backup', $item);
+    	pdo_delete('xuan_mixloan_product_apply', array('id' => $id));
+    	pdo_update('xuan_mixloan_backup_id', array('status' => 1), array('id' => $row['id']));
     }
-    if (!empty($ids)) {
-        echo implode(',', $ids);
-    } else {
-        echo 'empty';
+} else if ($operation == 'recovery_queue') {
+	$ids = [];
+    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_recovery_id') . '
+    	where status=0 
+    	order by id asc limit 100');
+    foreach ($list as $row) {
+    	$id = $row['relate_id'];
+    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_backup') . '
+    		where id=:id', array(':id' => $id));
+    	pdo_insert('xuan_mixloan_product_apply', $item);
+    	pdo_delete('xuan_mixloan_product_apply_backup', array('id' => $id));
+    	pdo_update('xuan_mixloan_recovery_id', array('status' => 1), array('id' => $row['id']));
     }
 } else if ($operation == 'temp') {
 	//临时脚本
-	$list = pdo_fetchall('select uid,phone,pid from '.tablename('xuan_mixloan_product_apply').' where inviter=:inviter and degree=1', array(':inviter' => '15'));
+	$id = pdo_fetchcolumn('select max_id from ' . tablename('xuan_mixloan_maxid'));
+	$list = pdo_fetchall('select id from '.tablename('xuan_mixloan_member')."
+		where uniacid=:uniacid and id > {$id}
+		order by id asc limit 400", array(':uniacid' => $_W['uniacid']));
+	$new_id = $id;
 	foreach ($list as $row) {
-		if ($row['uid']) {
-			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where uid=:uid and pid=:pid and degree=2', array(':uid'=>$row['uid'], ':pid'=>$row['pid']));
-		} else {
-			$id = pdo_fetchcolumn('select id from '.tablename('xuan_mixloan_product_apply').' where phone=:phone and pid=:pid and degree=2', array(':phone'=>$row['phone'], ':pid'=>$row['pid']));
-		}
-		if ($id) {
-			$ids[] = $id;
-		}
+		$new_id = max($row['id'], $new_id);
+		$bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+			where inviter=:inviter and createtime<1536765344', array(':inviter' => $row['id'])) ? : 0;
+		$balance = ($bonus - pdo_fetchcolumn('select sum(bonus) from ' . tablename('xuan_mixloan_withdraw') . '
+			where uid=:uid and createtime<1536765344', array(':uid' => $row['id']))) ? : 0;
+		pdo_update('xuan_mixloan_member', array('bonus' => $bonus, 'balance' => $balance), array('id' => $row['id']));
+
 	}
-	echo implode(',', $ids);
+	pdo_update('xuan_mixloan_maxid', array('max_id' => $new_id));
+} else if ($operation == 'backup_temp') {
+	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_product_apply') . '
+    	where createtime>1527782400 and createtime<1530374400
+    	order by id asc limit 1000');
+    foreach ($list as $row) {
+    	pdo_insert('xuan_mixloan_product_apply_backup', $row);
+    	pdo_delete('xuan_mixloan_product_apply', array('id' => $row['id']));
+    }
 }
-
-
-?>
