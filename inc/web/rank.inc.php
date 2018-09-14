@@ -38,7 +38,7 @@ if ($operation == 'list')
         }
         $sql = "select * from " . tablename('xuan_mixloan_member') . '
             where uniacid=:uniacid ' . $wheres . '
-            order by bonus desc';
+            order by id desc';
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         foreach ($list as &$row) {

@@ -91,7 +91,15 @@ if ($operation == 'list') {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as $row) {
+        if ($row['pid'] && $row['type'] == 1) {
+            $pids[] = $row['pid'];
+        }
+    }
+    $products = m('product')->getList(['id', 'count_time', 'name'], ['id' => $pids]);
     foreach ($list as &$row) {
+        $row['count_time'] = $products[$row['pid']]['count_time'];
+        $row['name'] = $products[$row['pid']]['name'];
         if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
