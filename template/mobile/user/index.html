@@ -153,6 +153,15 @@
                 </div> 
                 {/if}
                 <ul class="clearfix">
+                    {if $withdraw_delete}
+                    <li>
+                        <a href="{php echo $this->createMobileUrl('vip', array('op'=>'filed_withdraw'))}">
+                            <img src="../addons/xuan_mixloan/template/style/picture/important.png" />
+                            提现失败：{$withdraw_delete['reason']}
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
+                    {/if}
                     <li>
                         <a href="{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}">
                             <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
