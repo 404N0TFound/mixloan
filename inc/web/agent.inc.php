@@ -474,14 +474,7 @@ if ($operation == 'list') {
             if ($status > 0) {
                 $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply') . '
                     where id=:id', array(':id' => $value[0]));
-                $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
-                if ($count_money > 0) {
-                    $difference = $count_money - $item['re_bonus'] - $item['done_bonus'] - $item['extra_bonus'];
-                    $difference = floatval($difference);
-                    if ($difference <= 0) {
-                        message('导入有错，id为' . $value[0], '', 'error');
-                    }
-                }
+                
             }
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
             if ($result) {
