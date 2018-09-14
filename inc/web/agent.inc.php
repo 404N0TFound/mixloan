@@ -317,9 +317,19 @@ if ($operation == 'list') {
     pdo_delete('xuan_mixloan_bonus', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
 } else if ($operation == 'withdraw_delete') {
-    //删除提现
-    pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
-    message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    if ($_GPC['post']) {
+        $item = pdo_fetch('select bonus,uid from ' . tablename('xuan_mixloan_withdraw') . '
+             where id=:id', array(':id' => $_GPC['id']));
+        $insert = array();
+        $insert['uid'] = $item['uid'];
+        $insert['money'] = $item['bonus'];
+        $insert['reason'] = $_GPC['reason'];
+        $insert['createtime'] = time();
+        $insert['is_read'] = 0;
+        pdo_insert('xuan_mixloan_withdraw_delete', $insert);
+        pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
+        message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
+    }
 } else if ($operation == 'apply_update') {
     //申请编辑
     $id = intval($_GPC['id']);

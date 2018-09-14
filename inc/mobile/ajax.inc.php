@@ -179,6 +179,18 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     $sql = "
+    
+DROP TABLE IF EXISTS `ims_xuan_mixloan_withdraw_delete`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_delete` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `money` decimal(10,2) NOT NULL,
+  `is_read` tinyint(2) NOT NULL,
+  `reason` varchar(50) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
     ";
     pdo_run($sql);
     if (!empty($ids)) {
