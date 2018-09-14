@@ -244,9 +244,6 @@ if ($operation == 'list') {
         pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
-} else if ($operation == 'withdraw_delete') {
-    pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
-    message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
 } else if ($operation == 'apply_update') {
     //申请编辑
     $id = intval($_GPC['id']);
