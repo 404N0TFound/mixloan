@@ -44,14 +44,14 @@ if ($operation == 'list')
         foreach ($list as &$row) {
             if ($type == 1) {
                 $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') . "
-                    where inviter={$row['id']} " . $cond);
+                    where inviter={$row['id']} " . $cond) ? : 0;
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . "
-                    where inviter={$row['id']} " . $cond);
+                    where inviter={$row['id']} " . $cond) ? : 0;
             } else {
                 $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') . "
-                    where inviter={$row['id']} " . $cond);
+                    where inviter={$row['id']} " . $cond) ? : 0;
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_backup') . "
-                    where inviter={$row['id']} " . $cond);
+                    where inviter={$row['id']} " . $cond) ? : 0;
             }
         }
         unset($row);

@@ -58,11 +58,8 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
-    if (!empty($_GPC['type'])) {
-        $wheres.= " AND c.type='{$_GPC['type']}'";
-    }
     if (!empty($_GPC['relate_id'])) {
-        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+        $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
     }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
@@ -89,7 +86,7 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.*,b.avatar from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -379,9 +376,6 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
-            $difference = $re_money - $item['re_bonus'];
-            pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$difference} WHERE id={$item['inviter']}");
-            pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$difference} WHERE id={$item['inviter']}");
         }
         if ($_GPC['data']['status'] == 2 && $count_money>0) {
             $datam = array(
@@ -403,10 +397,10 @@ if ($operation == 'list') {
                 ) ,
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
-            $difference = $count_money - $item['done_bonus'] - $item['extra_bonus'];
-            pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$difference} WHERE id={$item['inviter']}");
-            pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$difference} WHERE id={$item['inviter']}");
         }
+        $difference = $count_money + $re_bonus - $item['done_bonus'] - $item['extra_bonus'] - $item['re_bonus'];
+        pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$difference} WHERE id={$item['inviter']}");
+        pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$difference} WHERE id={$item['inviter']}");
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
@@ -475,8 +469,12 @@ if ($operation == 'list') {
                 $count_money = $update['re_bonus'] + $update['done_bonus'] + $update['extra_bonus'];
                 if ($count_money > 0) {
                     $difference = $count_money - $item['re_bonus'] - $item['done_bonus'] - $item['extra_bonus'];
-                    pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$difference} WHERE id={$item['inviter']}");
-                    pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$difference} WHERE id={$item['inviter']}");
+                    $difference = floatval($difference);
+                    if ($difference <= 0) {
+                        message('导入有错，id为' . $value[0], '', 'error');
+                    }
+                    pdo_run("UPDATE ims_xuan_mixloan_member set `balance`=`balance`+{$difference} WHERE id={$item['inviter']}");
+                    pdo_run("UPDATE ims_xuan_mixloan_member set `bonus`=`bonus`+{$difference} WHERE id={$item['inviter']}");
                 }
             }
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));

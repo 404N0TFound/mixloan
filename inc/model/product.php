@@ -20,6 +20,8 @@ class Xuan_mixloan_Product
                     if (!empty($v)) {
                         $wheres .= " AND `id` NOT IN ({$v})";
                     }
+                } else if ($k == 'lk_name') {
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
