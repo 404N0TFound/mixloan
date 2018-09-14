@@ -747,4 +747,8 @@ if($operation=='buy'){
             pdo_update('xuan_mixloan_agent_close', array('is_close' => 0), array('id' => $id));
         }
     }
+} else if ($operation == 'filed_withdraw') {
+    // 提现失败
+    pdo_update('xuan_mixloan_withdraw_delete', array('is_read' => 1), array('uid' => $member['id']));
+    header("location:{$this->createMobileUrl('vip', array('op' => 'withdraw'))}");
 }

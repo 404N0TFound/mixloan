@@ -1,0 +1,123 @@
+﻿/*
+* @Author: win
+* @Date:   2017-09-19 18:30:45
+* @Last Modified by:   win
+* @Last Modified time: 2017-09-19 18:57:18
+*/
+header{
+	background:#0091E6;
+}
+.content {
+    padding: 40px 0 0!important;
+	padding-top:119px!important;
+}
+
+#nav {
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    padding: 10px 0;
+    position: fixed;
+	top:48px;
+}
+
+#nav p {
+    font-size: 13px;
+}
+#nav span {
+    width: 30px;
+    height: 30px;
+    background: url(../images/icon1.png);
+    display: inline-block;
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(2) span{
+    background: url(../images/icon2_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(3) span{
+    background: url(../images/icon3_3.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav div:nth-child(4) span{
+    background: url(../images/icon4.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(1) span{
+    background: url(../images/icon1_active.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(2) span{
+    background: url(../images/icon2_active.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(3) span{
+    background: url(../images/icon3_active.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active:nth-child(4) span{
+    background: url(../images/icon4_active.png);
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+}
+#nav .active p{
+    font-weight: bold;
+}
+
+.list {
+    border-top: 2px solid #ab7c0b;
+    overflow: hidden;
+    padding: 5px 10px;
+}
+
+.list img {
+    width: 60px;
+    display: block;
+}
+
+.list .info {
+    padding-left: 15px;
+}
+
+.list .info p {
+    font-size: 15px;
+}
+
+.color_f9558e {
+    color: #f9558e;
+}
+
+.list .icon span {
+	-webkit-text-size-adjust:none;
+    font-size: 10px;
+    padding: 2px;
+    border-radius: 5px;
+    border: 1px solid #d2c07a;
+    margin: 3px;
+    color: #d2c07a;
+    display: inline-block;
+}
+
+.list .icon span:nth-child(2) {
+    color: #d88d8d;
+    border-color: #d88d8d;
+}
+
+.list .peopleNum p {
+    font-size: 15px;
+    margin-top: 24px;
+}
+
+.list .last_text {
+    border-top: 1px solid #ccc;
+    font-size: 13px;
+    margin-top: 10px;
+    line-height: 30px;
+}

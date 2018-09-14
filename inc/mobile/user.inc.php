@@ -28,6 +28,8 @@ if($operation=='index'){
     if ($partner['code'] == 1) {
         $member['user_type']['name'] = '合伙人';
     }
+    $withdraw_delete = pdo_fetch('select id,reason from ' . tablename('xuan_mixloan_withdraw_delete') . '
+    	where uid=:uid and is_read=0 order by id desc', array(':uid' => $member['id']));
     $inviter = m('member')->getInviter($member['phone'], $openid);
     $inviterInfo = m('member')->getInviterInfo($inviter);
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
