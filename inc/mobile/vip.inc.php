@@ -110,8 +110,9 @@ if($operation=='buy'){
 	} else {
 		$verify = 0;
 	}
-	$bonus = $member['bonus'];
-	$can_use = $member['balance'];
+	$all =  m('member')->sumBonus($member['id']);
+	$used = m('member')->sumWithdraw($member['id']);
+	$can_use = $all - $used;
 	$bonus = formatMoney($bonus);
 	$can_use = formatMoney($can_use);
 	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0], false, 50);
@@ -200,7 +201,9 @@ if($operation=='buy'){
         }
     }
     unset($row);
-    $can_use = $member['balance'];
+	$all =  m('member')->sumBonus($member['id']);
+	$used = m('member')->sumWithdraw($member['id']);
+	$can_use = $all - $used;
     include $this->template('vip/withdraw');
 } else if ($operation == 'withdraw_submit') {
 	//提现提交
@@ -225,7 +228,10 @@ if($operation=='buy'){
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
-	if ($bonus > $member['balance']) {
+	$all =  m('member')->sumBonus($member['id']);
+	$used = m('member')->sumWithdraw($member['id']);
+	$use = $all - $used;
+	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
 	if (!$times) {
@@ -246,7 +252,6 @@ if($operation=='buy'){
 		'status'=>0
 	);
 	pdo_insert('xuan_mixloan_withdraw', $insert);
-	pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance-{$bonus} WHERE id={$member['id']}");
 	show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
     //邀请二维码
@@ -417,8 +422,6 @@ if($operation=='buy'){
                 'type'=>2
             );
             pdo_insert('xuan_mixloan_product_apply', $insert_i);
-            pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter}");
-            pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter}");
         }
         //模板消息提醒
         $one_openid = m('user')->getOpenid($inviter);
@@ -464,8 +467,6 @@ if($operation=='buy'){
                     'type'=>2
                 );
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
-                pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter_two}");
-                pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter_two}");
             }
             //模板消息提醒
             $two_openid = m('user')->getOpenid($inviter_two);
@@ -511,8 +512,6 @@ if($operation=='buy'){
                         'type'=>2
                     );
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
-                    pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$re_bonus} WHERE id={$inviter_thr}");
-                    pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$re_bonus} WHERE id={$inviter_thr}");
                 }
                 //模板消息提醒
                 $thr_openid = m('user')->getOpenid($inviter_thr);

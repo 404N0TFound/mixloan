@@ -50,10 +50,14 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']} and status=0";
         $withdraw_apply['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 佣金总额
-        $sql = "select sum(bonus) from " . tablename('xuan_mixloan_member') .  "
-            where uniacid={$_W['uniacid']} and bonus>0";
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') .  "
+            where uniacid={$_W['uniacid']} and re_bonus>0";
         $reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward['all']    = pdo_fetchcolumn($sql) ? : 0;
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') .  "
+            where uniacid={$_W['uniacid']} and re_bonus>0";
+        $reward['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
+        $reward['all']    += pdo_fetchcolumn($sql) ? : 0;
         // 剩余未体现
         $balance['all']           = $reward['all'] - $withdraw_money['all'] ? : 0;
         // 产品佣金

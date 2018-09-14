@@ -247,13 +247,16 @@ if ($operation == 'list') {
         $starttime = date('Y-m');
         $endtime = date('Y-m-d H:i:s');
     }
-    $sql = 'select a.id,b.nickname,b.avatar,b.balance,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        $row['left_bonus'] = $row['balance'];
+        $all =  m('member')->sumBonus($row['uid']);
+        $used = m('member')->sumWithdraw($row['uid']);
+        $use = $all - $used;
+        $row['left_bonus'] = $use;
         $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
             where uid=:uid', array(':uid' => $row['uid']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
@@ -322,7 +325,6 @@ if ($operation == 'list') {
         $insert['is_read'] = 0;
         pdo_insert('xuan_mixloan_withdraw_delete', $insert);
         pdo_delete('xuan_mixloan_withdraw', array("id" => $_GPC["id"]));
-        pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$item['bonus']} WHERE id={$item['uid']}");
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
     }
 } else if ($operation == 'apply_update') {
@@ -398,9 +400,7 @@ if ($operation == 'list') {
             );
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
-        $difference = $count_money + $re_bonus - $item['done_bonus'] - $item['extra_bonus'] - $item['re_bonus'];
-        pdo_run("UPDATE ims_xuan_mixloan_member set balance=balance+{$difference} WHERE id={$item['inviter']}");
-        pdo_run("UPDATE ims_xuan_mixloan_member set bonus=bonus+{$difference} WHERE id={$item['inviter']}");
+       
         pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
@@ -473,8 +473,6 @@ if ($operation == 'list') {
                     if ($difference <= 0) {
                         message('导入有错，id为' . $value[0], '', 'error');
                     }
-                    pdo_run("UPDATE ims_xuan_mixloan_member set `balance`=`balance`+{$difference} WHERE id={$item['inviter']}");
-                    pdo_run("UPDATE ims_xuan_mixloan_member set `bonus`=`bonus`+{$difference} WHERE id={$item['inviter']}");
                 }
             }
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));

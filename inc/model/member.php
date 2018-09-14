@@ -291,6 +291,20 @@ class Xuan_mixloan_Member
         $res = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
         return $res;
     }
+     /**
+    *   获取用户全部奖金
+    **/
+    public function sumBonus($uid) {
+        if (!$uid) {
+            return 0;
+        }
+        $res = pdo_fetchcolumn("SELECT sum(done_bonus+extra_bonus+re_bonus) FROM ".tablename("xuan_mixloan_product_apply"). "
+            WHERE inviter={$uid}") ? : 0;
+        $backup = pdo_fetchcolumn("SELECT sum(done_bonus+extra_bonus+re_bonus) FROM ".tablename("xuan_mixloan_product_apply_backup"). "
+            WHERE inviter={$uid}") ? : 0;
+        return $res + $backup;
+    }
+
     /**
      *   口子进来的锁定上级
      *

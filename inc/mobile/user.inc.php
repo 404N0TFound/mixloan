@@ -15,9 +15,9 @@ if($operation=='index'){
     	where uid=:uid and is_read=0 order by id desc', array(':uid' => $member['id']));
     $inviter = m('member')->getInviter($member['phone'], $openid);
     $inviterInfo = m('member')->getInviterInfo($inviter);
-	$all = $member['bonus'];
+	$all =  m('member')->sumBonus($member['id']);
 	$used = m('member')->sumWithdraw($member['id']);
-	$use = $member['balance'];
+	$use = $all - $used;
 	if (!$all) $all = 0;
 	if (!$used) $used = 0;
 	if (!$use) $use = 0;
