@@ -113,7 +113,7 @@ if($operation=='buy'){
 	$all =  m('member')->sumBonus($member['id']);
 	$used = m('member')->sumWithdraw($member['id']);
 	$can_use = $all - $used;
-	$bonus = formatMoney($bonus);
+	$bonus = formatMoney($all);
 	$can_use = formatMoney($can_use);
 	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0], false, 50);
 	foreach ($percent_list as $row) {
@@ -306,8 +306,11 @@ if($operation=='buy'){
 } else if ($operation == 'extendList') {
     //推广成功
     $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
-    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
-    $count = $count ? : 0;
+    $backup_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply_backup")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
+    $extend_list = array_merge($extend_list, $backup_list);
+    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
+    $backup_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply_backup")." WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
+    $count = $count + $backup_count;
     $cTime = getTime();
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");

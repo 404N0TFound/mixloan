@@ -16,6 +16,7 @@
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
     <style type="text/css">
         .swiper-slide{max-height: 145px;overflow: hidden;}
@@ -119,10 +120,10 @@
 </div>
 {if !is_weixin()}
 <div class="agent-foot">
-    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
+    <!-- <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_cwd_1.png" /></p>
         <p>首页</p>
-    </a>
+    </a> -->
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
         <p>技术学习</p>
@@ -307,6 +308,23 @@
     <script type="text/javascript">
         // 页面初始化
         $(document).ready(function(){
+            if (typeof(plus) != 'undefined') {
+                var version = "{$config['version']}";
+                var ios_url = "{$config['ios_url']}";
+                var android_url = "{$config['android_url']}";
+                if (plus.runtime.version != version) {
+                    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                        // alert("iPhone系统");
+                        new_version_url = ios_url;
+                    } else if (/(Android)/i.test(navigator.userAgent)) {
+                        // android系统
+                        new_version_url = android_url;
+                    }
+                    layer.alert('请下载最新APP', function(){
+                        window.location.href=new_version_url;
+                    });
+                }
+            }
             var fr_T=($("div.loan_tab").height())+"px";
             $("div.loanindex_frame").css("margin-top",fr_T);
             $("img.ani_model").load(function(){

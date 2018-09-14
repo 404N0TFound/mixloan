@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_user_index/css/web.css" />
     <style type="text/css">.fancybox-margin{margin-right:0px;}</style>
     <script src="../addons/xuan_mixloan/template/style/new_user_index/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
     <style type="text/css">
         @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
             div.agent-foot{padding-bottom:5rem; }
@@ -208,10 +209,10 @@
     </div>
     <div class="" style="height:80px;display:black"></div>
     <div class="agent-foot">
-        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+       <!--  <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
             <p>首页</p>
-        </a>
+        </a> -->
         <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
             <p>技术学习</p>
@@ -232,6 +233,23 @@
         </a>
     </div>
     <script type="text/javascript">
+        if (typeof(plus) != 'undefined') {
+            var version = "{$config['version']}";
+            var ios_url = "{$config['ios_url']}";
+            var android_url = "{$config['android_url']}";
+            if (plus.runtime.version != version) {
+                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                    // alert("iPhone系统");
+                    new_version_url = ios_url;
+                } else if (/(Android)/i.test(navigator.userAgent)) {
+                    // android系统
+                    new_version_url = android_url;
+                }
+                layer.alert('请下载最新APP', function(){
+                    window.location.href=new_version_url;
+                });
+            }
+        }
         function loginout(){
             plus.nativeUI.actionSheet({
                 cancel: "取消",

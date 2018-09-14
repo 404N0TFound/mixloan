@@ -79,7 +79,7 @@ if($operation=='register'){
 } else if ($operation == 'login') {
     //登陆
     if (isset($_COOKIE['user_id'])) {
-        header("location:{$this->createMobileUrl('loan')}");
+        header("location:{$this->createMobileUrl('product')}");
     }
     include $this->template('index/login');
 } else if ($operation == 'login_ajax') {

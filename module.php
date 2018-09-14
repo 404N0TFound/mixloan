@@ -55,7 +55,10 @@ class Xuan_mixloanModule extends WeModule {
                     'backup'=>$_GPC['backup'],
                     'withdraw_day_limit' => $_GPC['withdraw_day_limit'],
                     'withdraw_money_limit' => $_GPC['withdraw_money_limit'],
-                    'customer_hide_product'=>$_GPC['customer_hide_product']
+                    'customer_hide_product'=>$_GPC['customer_hide_product'],
+                    'version'=>$_GPC['version'],
+                    'android_url'=>$_GPC['android_url'],
+                    'ios_url'=>$_GPC['ios_url']
             	);
 
             if ($this->saveSettings($cfg)) {
