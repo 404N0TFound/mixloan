@@ -169,16 +169,16 @@ if($operation=='index'){
             // pdo_update('xuan_mixloan_member', array('phone'=>trim($_GPC['phone']), 'certno'=>trim($_GPC['idcard'])), array('id'=>$member['id']));
         }
         if (!$inviter_uid) {
-            $check = m('member')->checkIfRelation($inviter, $member['id']);
-            if ($check == false) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $inviter,
-                    'phone' => trim($_GPC['phone']),
-                    'createtime' => time()
-                );
-                pdo_insert('xuan_mixloan_inviter', $insert_i);
-            }
+            // $check = m('member')->checkIfRelation($inviter, $member['id']);
+            // if ($check == false) {
+            //     $insert_i = array(
+            //         'uniacid' => $_W['uniacid'],
+            //         'uid' => $inviter,
+            //         'phone' => trim($_GPC['phone']),
+            //         'createtime' => time()
+            //     );
+            //     pdo_insert('xuan_mixloan_inviter', $insert_i);
+            // }
         }
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
         $insert = array(
