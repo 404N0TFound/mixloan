@@ -76,13 +76,13 @@
             <tbody>
                 {loop $list $row}
                 <tr>
-                    <td>   {$row['id']}</td>
+                    <td>   {$row['inviter']}</td>
                     <td>
-                        <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
-                        {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                        <img src="{if $row['member']['avatar']}{php echo tomedia($row['member']['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+                        {if empty($row['member']['nickname'])}未更新{else}{$row['member']['nickname']}{/if}
                     </td>
-                    <td>{$row['phone']}</td>
-                    <td>{$row['pass']}</td>
+                    <td>{$row['member']['phone']}</td>
+                    <td>{$row['member']['pass']}</td>
                     <td>{$row['count']}</td>
                     <td>{$row['bonus']}</td>
                     <td>{$row['balance']}</td>

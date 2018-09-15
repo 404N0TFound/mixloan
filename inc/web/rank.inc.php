@@ -29,34 +29,47 @@ if ($operation == 'list')
             $endtime =  date('Y-m-d H:i:s', $end);
         }
         $cond = '';
+        $wheres .= " and b.createtime > {$start} and b.createtime<= {$end}";
         $cond .= " and createtime > {$start} and createtime<= {$end}";
-        if (!empty($_GPC['nickname'])) {
-            $wheres .= " AND nickname LIKE '%{$_GPC['nickname']}%'";
-        }
         if (!empty($_GPC['id'])) {
-            $wheres .= " AND id = {$_GPC['id']}";
+            $wheres .= " AND b.inviter = {$_GPC['id']}";
         }
-        $sql = "select * from " . tablename('xuan_mixloan_member') . '
-            where uniacid=:uniacid ' . $wheres . '
-            order by id desc';
+        if ($type == 1) {
+            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apply') . " b 
+                where b.uniacid=:uniacid  " . $wheres . '
+                group by inviter
+                order by bonus desc';
+            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apply') . " b 
+                where b.uniacid=:uniacid  " . $wheres . '
+                ';
+        } else {
+            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apply_backup') . " b 
+                where b.uniacid=:uniacid  " . $wheres . '
+                group by inviter
+                order by bonus desc';
+            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apply_backup') . " b 
+                where b.uniacid=:uniacid  " . $wheres . '
+                ';
+
+        }
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         foreach ($list as &$row) {
+            $row['member'] = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
+                where id=:id', array(':id' => $row['inviter']));
+            $all =  m('member')->sumBonus($member['id']);
+            $used = m('member')->sumWithdraw($member['id']);
+            $row['balance'] = $all - $used;
             if ($type == 1) {
-                $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') . "
-                    where inviter={$row['id']} " . $cond) ? : 0;
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . "
-                    where inviter={$row['id']} " . $cond) ? : 0;
+                    where inviter={$row['inviter']} " . $cond) ? : 0;
             } else {
-                $row['bonus'] = pdo_fetchcolumn("select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') . "
-                    where inviter={$row['id']} " . $cond) ? : 0;
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_backup') . "
-                    where inviter={$row['id']} " . $cond) ? : 0;
+                    where inviter={$row['inviter']} " . $cond) ? : 0;
             }
         }
         unset($row);
-        $total = pdo_fetchcolumn( "select count(*) from " . tablename('xuan_mixloan_member') . '
-            where uniacid=:uniacid' . $wheres , array(':uniacid' => $_W['uniacid']));
+        $total = pdo_fetchcolumn($total_sql, array(':uniacid' => $_W['uniacid']));
         $pager = pagination($total, $pindex, $psize);
     }
 } else if ($operation == 'verify') {
