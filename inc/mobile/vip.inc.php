@@ -37,7 +37,6 @@ if($operation=='buy'){
 		// //调用pay方法
 		// $this->pay($params);
 	} else {
-        message('维护中');
         $notify_url = 'http://www.edcfw.com/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		            where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
