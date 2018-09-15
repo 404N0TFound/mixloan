@@ -267,12 +267,12 @@ class Xuan_mixloan_Member
     **/
     public function getInviter($phone, $openid="") {
         global $_W;
-        if (!$phone) {
-            return false;
-        }
-        $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
+        $res = false;
         if (!$res && $openid) {
-            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+            $res = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id ASC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        }
+        if (!$res && $phone) {
+            $res = pdo_fetchcolumn("SELECT uid FROM ".tablename("xuan_mixloan_inviter"). " WHERE phone=:phone", array(":phone"=>$phone));
         }
         return $res;
     }
@@ -285,6 +285,16 @@ class Xuan_mixloan_Member
             return false;
         }
         $res = pdo_fetchcolumn("SELECT phone FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
+        return $res;
+    }
+    /**
+     *   获取用户手机号和openid
+     **/
+    public function getInviterInfo($uid) {
+        if (!$uid) {
+            return false;
+        }
+        $res = pdo_fetch("SELECT phone,openid,nickname FROM ".tablename("xuan_mixloan_member"). " WHERE id={$uid}");
         return $res;
     }
     /**
