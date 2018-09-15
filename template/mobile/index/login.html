@@ -172,7 +172,7 @@
                 console.log(data);
                 if(data.code==1){
                     layer.msg("提交成功，正在跳转...",function(){
-                        mui.openWindow({url:data.data.url, id:'loan_index',createNew:true});
+                        mui.openWindow({url:data.data.url, id:'product_index',createNew:true});
                     });
                 }else{
                     layer.msg(data.msg);
