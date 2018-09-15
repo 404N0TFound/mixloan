@@ -196,6 +196,14 @@
                         </div>
                         <p class="weui_grid_label">新手指南</p>
                     </a>
+                    {if $member['user_type']['code'] == 1}
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'set'))}')" class="weui_grid js_grid">
+                        <div class="weui_grid_icon">
+                            <img src="../addons/xuan_mixloan/template/style/images/set.png" alt="">
+                        </div>
+                        <p class="weui_grid_label">代理设置</p>
+                    </a>
+                    {/if}
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/kefu.png" alt="">
@@ -234,7 +242,14 @@
                     <p>个人中心</p>
                 </a>
             </div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
 <script type="text/javascript">
+{if !$pay_pass && $member['user_type']['code'] == 1}
+layer.alert('请设置支付密码', function(){
+    var _url="{php echo $this->createMobileUrl('vip', array('op'=>'set'))}";
+    openNew(_url);
+});
+{/if}
 function loginout(){
     plus.nativeUI.actionSheet({
         cancel: "取消",

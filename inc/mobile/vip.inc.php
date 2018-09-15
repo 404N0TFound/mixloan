@@ -407,6 +407,7 @@ if($operation=='buy'){
 	//提现提交
 	$bonus = trim($_GPC['money']);
 	$bank_id = intval($_GPC['card_id']);
+	$pass = trim($_GPC['pass']);
 	if ($bonus<0) {
 		show_json(-1, null, "提现金额不能为0");
 	}
@@ -416,7 +417,16 @@ if($operation=='buy'){
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
-	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
+	if (empty($pass)) {
+		show_json(-1, null, "支付密码不能为空");
+	}
+    $pay_pass = pdo_fetchcolumn('select pass from ' . tablename('xuan_mixloan_paypass') . '
+    	where uid=:uid', array(':uid' => $member['id']));
+    if (md5(sha1($pass)) != $pay_pass) {
+		show_json(-1, null, "支付密码不符合");
+    }
+	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")."
+		WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
 	if ($bonus > $use) {
@@ -592,4 +602,36 @@ if($operation=='buy'){
     // 提现失败
     pdo_update('xuan_mixloan_withdraw_delete', array('is_read' => 1), array('uid' => $member['id']));
     header("location:{$this->createMobileUrl('vip', array('op' => 'withdraw'))}");
+} else if ($operation == 'set') {
+    // 设置
+    include $this->template('vip/set');
+} else if ($operation == 'set_pay_pass') {
+    // 设置支付密码
+    if ($_GPC['post']) {
+    	$pass = trim($_GPC['pass']);
+    	$smscode = trim($_GPC['smscode']);
+    	if (empty($pass)) {
+	        show_json(-1, null, "请填写支付密码");
+    	}
+    	if (empty($smscode)) {
+	        show_json(-1, null, "请填写验证码");
+    	}
+	    if (md5($member['phone'].$smscode) != $_COOKIE['cache_code']) {
+	        show_json(-1, null, "验证码不符或验证码已失效");
+	    }
+	    $record = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_paypass') . '
+	    	where uid=:uid', array(':uid' => $member['id']));
+	    $encryption = md5(sha1($pass));
+	    if ($record) {
+	    	pdo_update('xuan_mixloan_paypass', array('pass' => $encryption), array('id' => $record));
+	    } else {
+	    	$insert = array();
+	    	$insert['uid'] = $member['id'];
+	    	$insert['pass'] = $encryption;
+	    	pdo_insert('xuan_mixloan_paypass', $insert);
+	    }
+	    show_json(1, null, "设置成功");
+    }
+    include $this->template('vip/set_pay_pass');
 }
+

@@ -40,6 +40,15 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_paypass`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_paypass` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pass` varchar(50) NOT NULL,
+  `uid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_announce_record`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
