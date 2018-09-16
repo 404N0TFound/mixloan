@@ -562,7 +562,7 @@ if($operation=='buy'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    setcookie('authcode', md5($code), time()+300);
+    setcookie('authcode', sha1(md5($code)), time()+300);
     include $this->template('vip/register');
 } else if ($operation == 'filed_withdraw') {
 	// 提现失败
