@@ -17,7 +17,7 @@ if($operation == 'getCode'){
         }
     }
     $img_cache = strtolower(trim($_GPC['img_cache']));
-    if (md5($img_cache) != $_COOKIE['authcode']) {
+    if (sha1(md5($img_cache)) != $_COOKIE['authcode']) {
         show_json(-1, null, "图形验证码错误");
     }
 	if (isset($_COOKIE['cache_code'])) {

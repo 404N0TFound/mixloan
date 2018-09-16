@@ -116,8 +116,12 @@
             <h2>提现金额(元)</h2>
             <div class="txMoney">
                 <span><img src="../addons/xuan_mixloan/template/style/picture/money.png"></span>
-                <input type="text" name="money" id="money" class="money" placeholder="{if $times>0}当天非首次提现需要手续费一元{else}请输入取现金额{/if}" />
+                <input type="text" name="money" id="money" class="money" placeholder="请输入取现金额" style="width: 80%" />
                 <a href="javascript:;" onclick="allMoney()">全部提现</a>
+            </div>
+            <div class="txMoney">
+                <span><img src="../addons/xuan_mixloan/template/style/images/password.png"></span>
+                <input type="password" name="pass" id="pass" class="money" placeholder="请输入支付密码" style="width: 80%" />
             </div>
             <p>可用余额：<span id="allmoney">{$can_use}</span><span>（元）</span></p>
             <!--  <div class="validFrame">
@@ -197,6 +201,7 @@
         layer_style();
 
         var money=$("#money").val();
+        var pass=$("#pass").val();
         var validNum=$(".validNo").val();
         var bankId=$("div.swiper-slide-active").attr("data-id");
         if(bankId==""){
@@ -215,6 +220,15 @@
 
                 time: 3000
 
+            });
+            _click();
+            return false;
+        }
+        if(pass == ''){
+            document.getElementById('pass').focus();
+            layer.tips('请输入正确的支付密码', '#pass', {
+                tips: [3, '#f90'],
+                time: 3000
             });
             _click();
             return false;
