@@ -227,9 +227,11 @@ if($operation == 'getCode'){
 } else if ($operation == 'backup_temp') {
 	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_product_apply') . '
     	where createtime>1527782400 and createtime<1530374400
-    	order by id asc limit 1000');
+    	order by id asc limit 1');
+	var_dump($list);die;
     foreach ($list as $row) {
+    	var_dump($row);die;
     	pdo_insert('xuan_mixloan_product_apply_backup', $row);
-    	pdo_delete('xuan_mixloan_product_apply', array('id' => $row['id']));
+    	// pdo_delete('xuan_mixloan_product_apply', array('id' => $row['id']));
     }
 }
