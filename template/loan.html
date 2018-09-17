@@ -216,6 +216,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品详情</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][detail]', $item[ext_info][detail]);}
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">贷款链接</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[ext_info][url]" value="{$item['ext_info']['url']}" />
