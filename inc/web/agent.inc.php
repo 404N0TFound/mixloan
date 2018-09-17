@@ -547,5 +547,25 @@ if ($operation == 'list') {
             message('密码不正确');
         }
     }
+} else if ($operation == 'log') {
+    // 日志
+    $uid = intval($_GPC['uid']);
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_agent_log') . '
+        where uid=:uid', array(':uid' => $uid));
+    if ($item) {
+        $item['ext_info'] = json_decode($item['ext_info'], 1);
+    }
+    if ($_GPC['post']) {
+        $data = $_GPC['data'];
+        $data['ext_info']['log'] = htmlspecialchars_decode($data['ext_info']['log']);
+        $data['ext_info'] = json_encode($data['ext_info']);
+        if ($item) {
+            pdo_update('xuan_mixloan_agent_log', $data, array('id' => $item['id']));
+        } else {
+            $data['uid'] = $uid;
+            pdo_insert('xuan_mixloan_agent_log', $data);
+        }
+        message('设置成功', referer(), 'sccuess');
+    }
 }
 include $this->template('agent');
