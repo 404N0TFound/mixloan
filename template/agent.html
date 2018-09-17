@@ -92,6 +92,7 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'change_pass','uid' => $row['uid']));}" title='更改支付密码'><i class='fa fa-list-alt'></i> 更改支付密码</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='剥夺代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 剥夺代理</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['uid']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
@@ -819,6 +820,66 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'verify'}
+<div class="panel panel-info">
+    <div class="panel-heading">验证密码</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="agent" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="uid" value="{$uid}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">输入密码</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input class="form-control" name="password" type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"> 确认</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'change_pass'}
+<div class="panel panel-info">
+    <div class="panel-heading">更改支付密码</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="agent" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="uid" value="{$uid}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">输入新的支付密码</label>
+                <div class="col-sm-9 col-xs-12">
+                    <input class="form-control" name="password" type="password">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"> 确认</button>
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>

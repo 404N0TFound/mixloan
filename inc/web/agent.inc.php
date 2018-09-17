@@ -515,5 +515,37 @@ if ($operation == 'list') {
     }
     pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
     message('操作成功', referer(), 'sccuess');
+} else if ($operation == 'change_pass') {
+    // 更改支付密码
+    $uid = intval($_GPC['uid']);
+    if (!$_COOKIE['verify']) {
+        header("location:{$this->createWebUrl('agent', array('op' => 'verify', 'uid' => $uid))}");
+    }
+    if ($_GPC['post']) {
+        $pass = trim($_GPC['password']);
+        $record = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_paypass') . '
+            where uid=:uid', array(':uid' => $uid));
+        $encryption = md5(sha1($pass));
+        if ($record) {
+            pdo_update('xuan_mixloan_paypass', array('pass' => $encryption), array('id' => $record));
+        } else {
+            $insert = array();
+            $insert['uid'] = $uid;
+            $insert['pass'] = $encryption;
+            pdo_insert('xuan_mixloan_paypass', $insert);
+        }
+        message('更改成功', referer(), 'sccuess');
+    }
+} else if ($operation == 'verify') {
+    $uid = intval($_GPC['uid']);
+    if ($_GPC['post']) {
+        $password = trim($_GPC['password']);
+        if ($password == 'Laowu.0577') {
+            setcookie('verify', 1,time()+86400);
+            header("location:{$this->createWebUrl('agent', array('op' => 'change_pass', 'uid' => $uid))}");
+        } else {
+            message('密码不正确');
+        }
+    }
 }
 include $this->template('agent');
