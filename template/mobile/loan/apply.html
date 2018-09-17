@@ -258,7 +258,7 @@
     </div>
 </div>
 <div class="toApply" style="display: none;">
-    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" >
+    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" is_use="1">
         申请
     </a>
 </div>
@@ -374,10 +374,14 @@
 
     //提交
     $("#to_apply").click(function(){
-        upSubmit();
+        var is_use = $("#to_apply").attr('is_use');
+        if (is_use == '1') {
+            upSubmit();
+        }
     })
 
     function upSubmit() {
+        $("#to_apply").attr('is_use', 0);
         var _name=$("#applyname").val();
         var phone =$("#phone").val();
         var idcard =$("#idcard").val();
@@ -436,6 +440,7 @@
         }
         $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,
             function(data){
+                $("#to_apply").attr('is_use', 1);
                 if (data.code == 1) {
                     layer.msg('正在跳转...', {
                         time: 1000 //2秒关闭（如果不配置，默认是3秒）
