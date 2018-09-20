@@ -51,7 +51,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
 {if !is_weixin()}
@@ -172,29 +172,15 @@
             function(data){
                 console.log(data);
                 if(data.code==1){
-                    if (typeof(plus) == "undefined") {
-                        {if !is_weixin()}
-                        layer.msg('注册成功，请在app内登陆');
-                        {else}
-                        {if $_GPC['layer']}
-                        parent.layer.closeAll();
-                        {else}
-                        layer.msg(data.msg,{time:2000},function(){
-                            openNew(data.data.url);
-                        });
-                        {/if}
-                            {/if}
-                            } else {
-                            layer.msg(data.msg,{time:2000},function(){
-                                openNew(data.data.url);
-                            });
-                        }
-                        }else{
-                            layer.msg(data.msg);
-                            bind_click();
-                            return false;
-                        }
-                    },'json')
+                    layer.msg(data.msg, function(){
+                        window.location.href="{php echo $this->createMobileUrl('user')}";
+                    })
+                }else{
+                    layer.msg(data.msg);
+                    bind_click();
+                    return false;
+                }
+        },'json')
     }
     function bind_click(){
         $(".to_buy").bind("click",function(){

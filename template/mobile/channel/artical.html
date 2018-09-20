@@ -17,7 +17,31 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pinchzoom_1.js"></script>
+    <style type="text/css">
+        .swiper-slide{max-height: 145px;overflow: hidden;}
 
+        .agent-foot{
+            height: 4rem
+        }
+        div.agent-foot p.foot_img {
+            height: 2.22rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 2.22rem;
+            width: 2.1rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.85rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+        a.more_hotcards, a.no_hotcards{
+            bottom: 4rem
+        }
+    </style>
     {php echo register_jssdk();}
     <script>
         //微信分享
@@ -140,31 +164,12 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #ffffff}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 6%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-    .pt44{padding-top: 0}
-    .share_botton{position: absolute;right: 1.4rem;top: 47px}
-    .share_botton img{ width: 1.66rem;}
-</style>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>{$config['title']}</span>
-    </div>
-    <!-- <a class="share_botton" onclick="shareHref()"><img src="../addons/xuan_mixloan/template/style/picture/share_botton.png"></a> -->
-</div>
-{else}
 <div class="agent-header">
     {$config['title']}
-    <a class="return" onclick="javascript:history.go(-1)">返回</a>
+    <!-- <a class="return" onclick="javascript:history.go(-1)">返回</a> -->
 </div>
 {/if}
 

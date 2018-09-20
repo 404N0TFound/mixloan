@@ -20,6 +20,28 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/myslideup_1.js"></script>
     <style type="text/css">
         .swiper-slide{max-height: 145px;overflow: hidden;}
+
+        .agent-foot{
+            height: 4rem
+        }
+        div.agent-foot p.foot_img {
+            height: 2.22rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 2.22rem;
+            width: 2.1rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.85rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+        a.more_hotcards, a.no_hotcards{
+            bottom: 4rem
+        }
     </style>
 
     {template 'common/wxshare'}
@@ -28,7 +50,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url, createNew:true});
+        window.location.href=url
     }
     mui.plusReady(function() {
         console.log(mui.currentWebview.id);
@@ -43,64 +65,6 @@
         return false;
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-        div.agent-foot{padding-bottom:20px; }
-        div.agent-main{padding-bottom:0px;}
-    }
-    div.loan_tab ul li a{
-        height: 70px;
-        line-height: 95px
-    }
-</style>
-
-<style type="text/css">
-    div.loan_tab ul li a{
-        height: 70px;
-        line-height: 95px
-    }
-    .app_back {
-        position: absolute;
-        display: inline-block;
-        padding: 0 10px 0 8px;
-        z-index: 999;
-        line-height: 0px;
-        top: 2rem
-    }
-    .app_back img {
-        display: inline-block;
-        height: 16px;
-        margin: 13px 0;
-        vertical-align: middle;
-        left: 0;
-        top: 0;
-        transform: rotate(180deg);
-    }
-    .agent-foot{
-        height: 4rem
-    }
-    div.agent-foot p.foot_img {
-        height: 2.22rem;
-        margin-top: 0.1rem;
-    }
-    div.agent-foot p>img {
-        height: 2.22rem;
-        width: 2.1rem;
-        max-height: 100%;
-    }
-    .agent-foot p {
-        font-size: 0.85rem;
-        font-family: Helvetica !important;
-        vertical-align: middle;
-        line-height: 1.5em;
-    }
-    a.more_hotcards, a.no_hotcards{
-        bottom: 4rem
-    }
-</style>
-<!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
-{/if}
 <div class="loan_tab">
     <ul>
         <li class="on"><a href="javascript:;">首页</a></li>

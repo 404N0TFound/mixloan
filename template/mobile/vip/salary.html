@@ -40,14 +40,9 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-    .agent-header{height: 3rem;line-height: 4rem}
-</style>
-{/if}
     <div class="agent-header">
         {$config['title']}
        <a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>

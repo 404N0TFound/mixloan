@@ -99,7 +99,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
 {if !is_weixin()}
@@ -359,14 +359,7 @@
             function(res){
                 if (res.type == 'success') {
                     layer.msg("评论成功",{time:1000});
-                    {if is_weixin()}
                     history.go(0);
-                    {else}
-                    mui.plusReady(function(){
-                        var self = plus.webview.currentWebview();
-                        self.reload(true);
-                    })
-                    {/if}
                     } else {
                         $(".to_submit").attr("send", 1);
                         layer.msg(res.message,{time:1000});

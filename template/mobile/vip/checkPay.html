@@ -40,45 +40,22 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
-{if !is_weixin()}
-<script type="text/javascript">
-    function return_user(){
-        var user_url = '{php echo $this->createMobileUrl('user')}';
-        var user_index = plus.webview.getWebviewById('user_index');
-        mui.fire(user_index,'refresh');
-        mui.openWindow({url:user_url, id:'user_index'});
-    }
-</script>
-<style type="text/css">
-	.app_header{height: 80px;width: 100%;background: #00a2ff}
-	.app_header_back{text-align: center;color: white}
-	.app_header_back{padding-top: 48px;padding-left: 4%}
-	.app_header_back img{position: absolute;left:4%;width: 12px;}
-	.app_header_back span{margin-top: 10px;font-size: 17px}
-</style>
-<div class="app_header">
-	<div class="app_header_back">
-		<!-- <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)"> -->
-		<span>付款中心</span>
-	</div>
-</div>
-{/if}
 <div class="agent-main rem2" style="margin-top: 0.5rem">
 	<div class="main-contain">
 		<div class="agent_contain" style="position: relative;top:-0.4rem;">
 			<ul class="clearfix">
 				<li class="new_guide">
-					<a onclick="return_user()">
+					<a onclick="openNew('{php echo $this->createMobileUrl('user')}')">
 						<img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
 						付款成功
 						<em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
 					</a>
 				</li>
 				<li class="new_guide">
-					<a onclick="return_user()">
+					<a onclick="openNew('{php echo $this->createMobileUrl('user')}')">
 						<img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
 						付款失败
 						<em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>

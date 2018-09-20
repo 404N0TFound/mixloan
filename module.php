@@ -71,7 +71,10 @@ class Xuan_mixloanModule extends WeModule {
                     'extend_bonus_pic3'=>$_GPC['extend_bonus_pic3'],
                     'extend_bonus_pic4'=>$_GPC['extend_bonus_pic4'],
                     'partner_nums'=>$_GPC['partner_nums'],
-                    'partner_bonus'=>$_GPC['partner_bonus']
+                    'partner_bonus'=>$_GPC['partner_bonus'],
+                    'version'=>$_GPC['version'],
+                    'android_url'=>$_GPC['android_url'],
+                    'ios_url'=>$_GPC['ios_url']
               );
 
             if ($this->saveSettings($cfg)) {

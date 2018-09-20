@@ -99,29 +99,14 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #f3f4f6}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-</style>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>{$info['name']}</span>
-    </div>
-</div>
-{else}
+
 <div class="agent-header">
     {$info['name']}
     <a class="return" href="javascript:;" onclick="javascript:history.go(-1)">返回</a>
 </div>
-{/if}
     <div class="nb_banner">
     	<img src="{$info['ext_info']['pic']}" />
     </div>
@@ -243,7 +228,7 @@
         </div>
     </div>
     {/if}
-<!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/new_common_1.js?v001"></script> -->
+<script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
 <script type="text/javascript">
 document.writeln("<div class=\'pop_art\'>");
 document.writeln("          <div class=\'temp_share_bg\'>");
@@ -363,6 +348,7 @@ function copyToClipboard(elem) {
 }
 //点击复制事件
 $("#copy_short").on("click",function(){
+    {if is_weixin()}
     copyToClipboard(document.getElementsByTagName("textarea")[0]);
     document.activeElement.blur();
     if(succeed){
@@ -372,8 +358,13 @@ $("#copy_short").on("click",function(){
         layer.msg("您的手机版本较低，请升级版本后重试！");
         $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
     }
+    {else}
+    jsBridge.setClipboardText(daili_short_url);
+    layer.msg('复制成功');
+    {/if}
 })
 $("#copy_long").on("click",function(){
+    {if is_weixin()}
     copyToClipboard(document.getElementsByTagName("textarea")[1]);
     document.activeElement.blur();
     if(succeed){
@@ -383,67 +374,42 @@ $("#copy_long").on("click",function(){
         layer.msg("您的手机版本较低，请升级版本后重试！");
         $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
     }
+    {else}
+    jsBridge.setClipboardText(daili_long_url);
+    layer.msg('复制成功');
+    {/if}
 })
 $(".layer_close,.floor").click(function(){
     $(".pop,.pop_art").hide();      
 })
 </script>
-{if !is_weixin()}
-<script type="text/javascript">
-    mui.plusReady(function(){
-        document.getElementById('source_img').addEventListener("click", function(){
-            var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
-            var imgSrc = this.src;
-            plus.nativeUI.actionSheet(actionList,function(e){
-                if (e.index == 1) {
-                    var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
-                        console.log(status);
-                        if (status == 200) {
-                            plus.gallery.save(d.filename,function(){
-                                plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
-                                    entry.remove();
-                                })
-                                return alert('图片已保存');
-                            })
-                        } else {
-                            return alert('保存失败' + status);
-                        }
-                    });
-                    imgDtask.start();
-                }
-            })
-        })
-    })
-</script>
-{/if}
+
 <script type="text/javascript">
     var downloadimg = function(){
-        {if !is_weixin()}
         var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
         var imgSrc = $('#source_img').attr('src');
-        plus.nativeUI.actionSheet(actionList,function(e){
-            if (e.index == 1) {
-                plus.nativeUI.showWaiting("保存中");
-                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
-                    if (status == 200) {
-                        plus.nativeUI.closeWaiting();
-                        plus.gallery.save(d.filename,function(){
-                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
-                                entry.remove();
-                            })
-                            return plus.nativeUI.alert('图片已保存');
-                        })
-                    } else {
-                        return plus.nativeUI.alert('保存失败' + status);
-                    }
-                });
-                imgDtask.start();
-            }
-        })
-        {else}
-        layer.msg('长按图片以保存图片');
-        {/if}
-        }
+        
+        jsBridge.ready(function () {    
+            
+            jsBridge.showImages({
+              //屏幕方向 0自适应，1横屏，2竖屏，不提供则用APP设置值
+              screenOrientation: 0,
+              //显示保存到相册按钮，不提供则用APP设置值
+              save: true,
+              //显示一键分享多图按钮，不提供则用APP设置值
+              share: true,
+              //多图分享摘要文字，不提供则为网页标题+链接
+              share_text: "海报",
+              //图片组, text 是文字说明
+              items:[
+                {
+                  url :imgSrc,
+                  text:"海报"
+                }
+              ]
+            });
+        });
+    }
 </script>
 </body>
 </html>

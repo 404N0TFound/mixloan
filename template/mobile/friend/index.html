@@ -36,7 +36,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url, createNew:true});
+        window.location.href=url
     }
 </script>
 <style type="text/css">
@@ -86,14 +86,7 @@
     }
 </style>
 {if !is_weixin()}
-<script type="text/javascript">
-    mui.plusReady(function() {
-        console.log(mui.currentWebview.id);
-        window.addEventListener('refresh', function(event) {
-            mui.currentWebview.reload();
-        });
-    });
-</script>
+
 <style type="text/css">
     div.fc_guide{top: 70px}
     .agent-header{height: 70px;line-height: 90px}

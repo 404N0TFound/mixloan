@@ -53,7 +53,7 @@
 </head>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
     if (typeof(plus) == 'undefined') {
         // openNew('http://www.hulianwang114.com/app/index.php?i=2&c=entry&op=exit&do=index&m=xuan_mixloan');
@@ -63,18 +63,7 @@
 <style type="text/css">
     .app_header{height: 70px;width: 100%}
 </style>
-<script type="text/javascript">
-    mui.plusReady(function() {
-        plus.key.addEventListener('backbutton', function() {
-            if (confirm('确认退出？')) {
-                plus.runtime.quit();
-            }
-        }, false);
-        var wv=plus.webview.currentWebview();
-        // 关闭侧滑返回功能
-        wv.setStyle({'popGesture':'none'});
-    });
-</script>
+
 <div class="app_header">
 </div>
 {/if}

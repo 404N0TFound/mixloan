@@ -27,7 +27,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        window.location.href=url
     }
 </script>
 {if !is_weixin()}
@@ -265,18 +265,7 @@
                     layer.closeAll();
                     if(res.status=='OK'){
                         layer.msg("发布成功",{time:800,shift: -1,},function(){
-                            {if !is_weixin()}
-                            mui.init({
-                                beforeback: function(){
-                                    var friend_index = plus.webview.getWebviewById('./index.php?i=2&c=entry&op=&do=friend&m=xuan_mixloan');
-                                    mui.fire(friend_index,'refresh');
-                                    return true;
-                                }
-                            });
-                            mui.back();
-                            {else}
-                            openNew(res.url);
-                            {/if}
+                                openNew(res.url);
                             })
                     }else{
                         layer.msg(res.status);
