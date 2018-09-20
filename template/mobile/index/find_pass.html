@@ -63,6 +63,11 @@
             <input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
         </li>
         <li>
+            <label><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></label>
+            <input type="text" name="" id="imgCode" placeholder="请输入图形验证码" style="width: 60%">
+            <a style="width: 30%"><img src="" id="cache_img" style="width: 6rem" ></a>
+        </li>
+        <li>
             <label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
             <input type="number" name="" id="validcode" placeholder="请输入验证码">
             <a class="validnum">获取验证码</a>
@@ -82,6 +87,20 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/common_3.js></script>
 <script type="text/javascript">
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
 
     $(document).ready(function(){
         $("div.header ul li.head").find("img").load(function(){
@@ -179,6 +198,17 @@
     function getCheck(){
         $(".validnum").unbind("click");
         var flagsms = true;
+        var cache = $('#imgCode').val();
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#imgCode', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            $(".validnum").bind("click",function(){
+                getCheck();
+            });
+            return false;
+        }
         //启动计时器，1秒执行一次
         if (flagsms) {
             var phone = $("#phone").val();
@@ -191,7 +221,7 @@
                         getCheck();
                     });
                 }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone,"img_cache":cache},
                         function(data){
                             if(data.code==0){
                                 layer.msg("已发送，请注意查收");
