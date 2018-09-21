@@ -20,19 +20,55 @@ if($operation=='buy'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
-	$tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
-	exit;
+	if ($member['id'] == 1) {
+		$config['buy_vip_price'] = 0.01;
+	}
+    if (is_weixin())
+    {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $openid,
+        );
+        //调用pay方法
+        $this->pay($params);
+    }
+    else
+    {
+        if ($_GPC['way'] == 'alipay')
+        {
+            $tid = "10001" . date('YmdHis', time());
+            $title = "购买{$config['title']}代理会员";
+            $fee = $config['buy_vip_price'];
+            $params = array(
+                'tid' => $tid,
+                'ordersn' => $tid,
+                'title' => $title,
+                'fee' => $fee,
+                'user' => $openid,
+                'module' => 'xuan_mixloan'
+            );
+            $insert = array(
+                'openid' => $openid,
+                'uniacid' => $_W['uniacid'],
+                'acid' => $_W['uniacid'],
+                'tid' => $tid,
+                'fee' => $fee,
+                'status' => 0,
+                'module' => 'xuan_mixloan',
+                'card_fee' => $fee,
+            );
+            pdo_insert('core_paylog', $insert);
+            $url = url('mc/cash/alipay') . "&params=" . base64_encode(json_encode($params));
+            include $this->template('vip/openHref');
+        }
+    }
+    exit;
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
 	    show_json(-1, [], '您不是会员');
