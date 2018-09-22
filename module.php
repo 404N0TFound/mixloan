@@ -58,7 +58,9 @@ class Xuan_mixloanModule extends WeModule {
                     'customer_hide_product'=>$_GPC['customer_hide_product'],
                     'version'=>$_GPC['version'],
                     'android_url'=>$_GPC['android_url'],
-                    'ios_url'=>$_GPC['ios_url']
+                    'ios_url'=>$_GPC['ios_url'],
+                    'withdraw_open'=>$_GPC['withdraw_open'],
+                    'withdraw_close_tips'=>$_GPC['withdraw_close_tips'],
             	);
 
             if ($this->saveSettings($cfg)) {

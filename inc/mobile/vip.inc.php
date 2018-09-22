@@ -210,6 +210,9 @@ if($operation=='buy'){
     if ($member['status'] == 0) {
 		show_json(-1, null, "你已被冻结，请联系管理员");
     }
+    if (!$config['withdraw_open']) {
+		show_json(-1, null, $config['withdraw_close_tips']);
+    }
 	$bonus = trim($_GPC['money']);
 	$bank_id = intval($_GPC['card_id']);
     $pass = trim($_GPC['pass']);

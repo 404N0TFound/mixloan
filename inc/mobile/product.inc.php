@@ -54,6 +54,7 @@ if($operation=='index'){
         $poster_long_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id']));
     }
     if ($info['ext_info']['poster_text']) {
+        $poster_long_url = $info['ext_info']['poster_text'] . ':' . $poster_long_url;
         $poster_short_url = $info['ext_info']['poster_text'] . ':' . $poster_short_url;
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
