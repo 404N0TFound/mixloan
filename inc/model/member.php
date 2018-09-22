@@ -404,4 +404,76 @@ class Xuan_mixloan_Member
         }
         return false;
     }
+    public function getWhiteList($get=[], $conditon=[], $orderBy=FALSE, $limit=FALSE) {
+        global $_W;
+        $ret = [];
+        $wheres = $fields = "";
+        if (!empty($get)) {
+            $fields = implode(',', $get);
+        } else {
+            $fields = '*';
+        }
+        if (!empty($conditon)) {
+            foreach ($conditon as $k => $v) {
+                if (is_array($v)) {
+                    $v_string = implode(',', $v);
+                    $wheres .= " AND `{$k}` IN ({$v_string})";
+                }else {
+                    $wheres .= " AND `{$k}` = '{$v}'";
+                }
+            }
+        }
+        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_whitelist')." WHERE 1 {$wheres} ";
+        if ($orderBy) {
+            $sql .= " ORDER BY {$orderBy}";
+        } else {
+            $sql .= " ORDER BY id DESC";
+        }
+        if ($limit) {
+            $sql .= " LIMIT {$limit}";
+        }
+        $list = pdo_fetchall($sql);
+        if (!empty($list)) {
+            foreach ($list as $key => $value) {
+                $ret[$value['uid']] = $value;
+            }
+        }
+        return $ret;
+    }
+    public function getBlackList($get=[], $conditon=[], $orderBy=FALSE, $limit=FALSE) {
+        global $_W;
+        $ret = [];
+        $wheres = $fields = "";
+        if (!empty($get)) {
+            $fields = implode(',', $get);
+        } else {
+            $fields = '*';
+        }
+        if (!empty($conditon)) {
+            foreach ($conditon as $k => $v) {
+                if (is_array($v)) {
+                    $v_string = implode(',', $v);
+                    $wheres .= " AND `{$k}` IN ({$v_string})";
+                }else {
+                    $wheres .= " AND `{$k}` = '{$v}'";
+                }
+            }
+        }
+        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_blacklist')." WHERE 1 {$wheres} ";
+        if ($orderBy) {
+            $sql .= " ORDER BY {$orderBy}";
+        } else {
+            $sql .= " ORDER BY id DESC";
+        }
+        if ($limit) {
+            $sql .= " LIMIT {$limit}";
+        }
+        $list = pdo_fetchall($sql);
+        if (!empty($list)) {
+            foreach ($list as $key => $value) {
+                $ret[$value['uid']] = $value;
+            }
+        }
+        return $ret;
+    }
 }

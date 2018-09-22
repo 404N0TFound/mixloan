@@ -475,7 +475,17 @@
                         {else if $row['status']==0}<span class="label label-info">邀请中</span>
                         {else if $row['status']==1}<span class="label label-primary">已注册</span>
                         {else if $row['status']==2}<span class="label label-success">已完成</span>
-                        {/if}</td>
+                        {/if}
+                    </td>
+                    <td>
+                        {if $row['identify'] == 1}
+                        <span class="label label-default">黑名单</span>
+                        {else if $row['identify'] == 2}
+                        <span class="label label-success">白名单</span>
+                        {else}
+                        <span class="label label-info">未知</span>
+                        {/if}
+                    </td>
                     <td  style="overflow:visible;">
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>

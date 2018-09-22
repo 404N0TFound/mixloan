@@ -95,7 +95,12 @@ if ($operation == 'list') {
         if ($row['pid'] && $row['type'] == 1) {
             $pids[] = $row['pid'];
         }
+        if ($row['inviter']) {
+            $inviters[] = $row['inviter'];
+        }
     }
+    $blacks = m('member')->getBlackList(['uid'], ['uid'=>$inviters]);
+    $whites = m('member')->getWhiteList(['uid'], ['uid'=>$inviters]);
     $products = m('product')->getList(['id', 'count_time', 'name'], ['id' => $pids]);
     foreach ($list as &$row) {
         $row['count_time'] = $products[$row['pid']]['count_time'];
@@ -107,6 +112,17 @@ if ($operation == 'list') {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '昨日佣金奖励';
         }
+        $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        if ($blacks[$row['inviter']]) {
+            $row['identify'] = 1;
+        } else if ($whites[$row['inviter']]) {
+            $row['identify'] = 2;
+        } else {
+            $row['identify'] = 3;
+        }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
     unset($row);
@@ -114,7 +130,7 @@ if ($operation == 'list') {
         foreach ($list as &$row) {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
-                $row['inviter_name'] = $row['inviter']['nickname'];
+                $row['inviter_name'] = "({$row['inviter']['id']})" . $row['inviter']['nickname'];
                 $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
                 $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
             } else {
@@ -137,6 +153,13 @@ if ($operation == 'list') {
                 $row['count_time'] = '月结';
             } else {
                 $row['count_time'] = '现结';
+            }
+            if ($row['identify'] == 1) {
+                $row['identify'] = '黑名单';
+            } else if ($row['identify'] == 2) {
+                $row['identify'] = '白名单';
+            } else if ($row['identify'] == 3) {
+                $row['identify'] = '未知';
             }
         }
         unset($row);
@@ -164,8 +187,8 @@ if ($operation == 'list') {
                     'width' => 20
                 ),
                 array(
-                    'title' => '身份证',
-                    'field' => 'certno',
+                    'title' => '身份',
+                    'field' => 'identify',
                     'width' => 20
                 ),
                 array(
