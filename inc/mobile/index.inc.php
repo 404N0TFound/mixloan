@@ -143,7 +143,7 @@ if($operation=='register'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    setcookie('authcode', md5($code), time()+300);
+    setcookie('authcode', sha1(md5($code)), time()+300);
     include $this->template('index/find_pass');
 } else if ($operation == 'find_pass_ajax') {
     $phone = $_GPC['phone'];
@@ -175,7 +175,7 @@ if($operation=='register'){
         message('生成验证码失败', '', 'error');
     }
     $code = $cache->getCode();
-    setcookie('authcode', md5($code), time()+300);
+    setcookie('authcode', sha1(md5($code)), time()+300);
     include $this->template('index/find_user');
 } else if ($operation == 'find_user_submit') {
     //找回账号提交
