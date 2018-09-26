@@ -189,6 +189,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">品牌推广</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[is_band]" >
+                        <option value="0" {if $item['is_band']==0}selected{/if}>否</option>
+                        <option value="1" {if $item['is_band']==1}selected{/if}>是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">结算时间</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[count_time]" >
