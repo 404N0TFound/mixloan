@@ -433,6 +433,8 @@ if ($operation == 'list') {
                     $res = $wx->sendTplNotice($member['openid'],$templateId,$msg);
                     $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
                 }
+            } else {
+                message('不允许重复操作，请稍后再试', '' , 'error');
             }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
