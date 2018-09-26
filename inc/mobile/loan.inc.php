@@ -137,7 +137,8 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'sesame'=>$_GPC['sesame']
     );
     pdo_insert('xuan_mixloan_bonus', $insert);
     //二级

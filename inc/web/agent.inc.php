@@ -242,6 +242,11 @@ if ($operation == 'list') {
                     'width' => 35
                 ),
                 array(
+                    'title' => '芝麻分',
+                    'field' => 'sesame',
+                    'width' => 10
+                ),
+                array(
                     'title' => '等级',
                     'field' => 'degree',
                     'width' => 10

@@ -177,6 +177,8 @@ if($operation == 'getCode'){
 	}
 } else if ($operation == 'apply_temp11') {
     //常规脚本
+    $sql = "ALTER TABLE ims_xuan_mixloan_bonus ADD sesame int(11) NOT NULL";
+    pdo_run($sql);
 }
 
 
