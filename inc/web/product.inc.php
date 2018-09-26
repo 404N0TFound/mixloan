@@ -155,6 +155,11 @@ if ($operation == 'list') {
     } else {
         show_json(-1);
     }
+} else if ($operation == 'clear_poster') {
+    // 清理海报
+    pdo_delete('xuan_mixloan_poster');
+    pdo_delete('xuan_mixloan_shorturl');
+    message('清理完毕', referer(), 'success');
 }
 include $this->template('product');
 ?>

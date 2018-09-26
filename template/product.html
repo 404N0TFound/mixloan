@@ -31,7 +31,7 @@
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
-    <div class="panel-heading">筛选</div>
+    <div class="panel-heading">筛选 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="{php echo $this->createWebUrl('product', array('op' => 'clear_poster'))}">清理海报缓存</a></div>
     <div class="panel-body">
         <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
             <input type="hidden" name="c" value="site" />
