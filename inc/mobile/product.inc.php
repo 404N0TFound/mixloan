@@ -28,8 +28,8 @@ if($operation=='index'){
     $loan_large_list = m('product')->packupItems($loan_large_list);
     $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
     $loan_small_list = m('product')->packupItems($loan_small_list);
-    $bind_list = m('product')->getList([], ['is_show'=>1, 'is_bind'=>1], FALSE);
-    $bind_list = m('product')->packupItems($bind_list);
+    $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
+    $band_list = m('product')->packupItems($band_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品

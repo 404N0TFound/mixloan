@@ -51,8 +51,7 @@
 <div class="panel panel-default" style="font-size:11px;">
     <div class="panel-heading" style="height: 50px">
         <div style="float: left;width: 78%;"> 总数：{$total} </div>
-        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_text_url()">发送文本信息</button>
-        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_notice_url()">发送模板信息</button>
+        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_msg_url()">发送app消息</button>
     </div>
     <div class="panel-body">
         <table class="table table-hover" style="overflow:visible;">
@@ -108,6 +107,9 @@
 </div>
 </div>
 <script type="text/javascript">
+    var return_msg_url = function () {
+        window.location.href="{php echo $this->createWebUrl('member', ['op'=>'msg'])}";
+    }
     var return_text_url = function () {
         window.location.href="{php echo $this->createWebUrl('member', ['op'=>'send_msg'])}";
     }
@@ -242,6 +244,53 @@
                     <input type="hidden" name="token" value="{$_W['token']}" />
                 </div>
             </div>
+            <div class="form-group"> </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'msg'}
+<style type="text/css">
+    .type1,.type2,.type3{
+        display: none
+    }
+</style>
+<div class="panel panel-info">
+    <div class="panel-heading">发送模板信息</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="member" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">消息内容</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="title" class="form-control"  name="content" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">备注</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="remark" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">跳转链接</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="url" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交" onclick="$(this).unbind("click");">
+                    <span class="help-block">发送消息需要一定时间，请提交后耐心等候</span>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+
             <div class="form-group"> </div>
         </form>
     </div>

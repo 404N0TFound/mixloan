@@ -280,12 +280,12 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_bind.png" /></span>
-			品牌推广<label>(共<b  id="card_num">{php echo count($bind_list);}</b>款)</label>
+			品牌推广<label>(共<b  id="card_num">{php echo count($band_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $bind_list $row}
+			{loop $band_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
 					<div class="line_three">
