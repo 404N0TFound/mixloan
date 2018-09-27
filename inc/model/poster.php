@@ -60,6 +60,7 @@ class Xuan_mixloan_Poster
         imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
+            $params['poster_path'] = $params['poster_path'] . '?v=1';
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
