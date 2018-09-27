@@ -27,6 +27,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND a.phone LIKE '%{$_GPC['phone']}%'";
+    }
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
