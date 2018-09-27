@@ -16,6 +16,8 @@ class Xuan_mixloan_Product
                 if ($k == 'id' && is_array($v)) {
                     $v_string = implode(',', $v);
                     $wheres .= " AND `{$k}` IN ({$v_string})";
+                } else if ($k == 'lk_name') {
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -403,5 +405,29 @@ class Xuan_mixloan_Product
             $ret[$k+1] = $v;
         }
         return $ret;
+    }
+    /**
+     *   获取下架产品的所有id
+     **/
+    public function getRemoveProductIds($type)
+    {
+        $condition = ['is_show' => 0];
+        if ($type != "")
+        {
+            $condition['type'] = $type;
+        }
+        $ids = $this->getList(['id', 'relate_id'], $condition);
+        if ($ids)
+        {
+            $ret = array();
+            foreach ($ids as $id) {
+                $ret[] = $id['relate_id'];
+            }
+            return $ret;
+        }
+        else
+        {
+            return array();
+        }
     }
 }

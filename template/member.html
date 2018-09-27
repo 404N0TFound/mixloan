@@ -36,6 +36,7 @@
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
                     <input type="hidden" name="token" value="{$_W['token']}" />
                     <button type="submit" name="export" value="1" class="btn btn-primary">导出 Excel</button>
+                    <a href="{php echo $this->createWebUrl('member', array('op' => 'export_phone'))}" class="btn btn-primary">导出手机</a>
                     
                 </div>
             </div>

@@ -259,6 +259,10 @@ if ($operation == 'list') {
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'export_phone') {
+    $list = pdo_fetchall('select phone from ' . tablename('xuan_mixloan_member') . "
+        where uniacid=:uniacid and phone<>''", array(':uniacid' => $_W['uniacid']));
+    m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '手机', 'field' => 'phone', 'width' => 12),)));
 }
 include $this->template('member');
 ?>
