@@ -462,8 +462,8 @@
                 <tr>
                     <td>   {$row['id']}</td>
                     <td>   {$row['inviter']['id']}</td>
-                    <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
-                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
+                    <td>  {$row['inviter']['nickname']}</td>
+                    <td>{$row['realname']}</td>
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>
