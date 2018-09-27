@@ -34,7 +34,7 @@ if($operation=='index'){
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
-    $new = m('product')->getRecommends();
+    $new = m('product')->getList([], ['is_show'=>1, 'is_new'=>1], false, 5);
     $new = m('product')->packupItems($new);
     // $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
     // $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
