@@ -533,7 +533,7 @@ if($operation=='buy'){
     }
     unset($row);
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM " . tablename("xuan_mixloan_product_apply") . "
-		WHERE inviter={$member['id']} AND status>0 AND type=2") ? : 0;
+		WHERE inviter={$member['id']} AND status>0") ? : 0;
     $follow_count = count($follow_list) ? : 0;
     include $this->template('vip/followList');
 } else if ($operation == 'app_register') {
