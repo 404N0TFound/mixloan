@@ -1,6 +1,7 @@
 {template 'common/header'}
 <ul class="nav nav-tabs">
-    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member')}">会员列表</a></li>
+    <li {if $operation=='list' && $status == '1'}class="active"{/if}><a href="{php echo $this->createWebUrl('member')}">会员列表</a></li>
+    <li {if $operation=='list' && $status == '0'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'list', 'status' => '0'))}">冻结列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -87,7 +88,11 @@
                                 
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'partner','id' => $row['id']));}" title='设为合伙人' onclick="return confirm('确定要设为合伙人吗？');"><i class='fa fa-list-alt'></i> 设为合伙人</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'update','id' => $row['id']));}" title='编辑会员' ><i class='fa fa-edit'></i> 编辑会员</a></li>
+                                {if $status == 1}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['id']));}" title='解除解冻' ><i class='fa fa-check'></i> 解除解冻</a></li>
+                                {/if}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='删除会员' onclick="return confirm('确定要删除该会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li>
                             </ul>
                         </div>

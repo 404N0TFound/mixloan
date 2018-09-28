@@ -70,7 +70,7 @@ if($operation=='register'){
             'createtime'=>time(),
             'avatar'=>'http://wx.huodong014.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
-            'status'=>-2,
+            'status'=>1,
         );
         pdo_insert('xuan_mixloan_member', $insert);
         $member_id = pdo_insertid();
