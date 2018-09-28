@@ -116,19 +116,19 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
         <p>首页</p>
     </a> -->
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot.png" /></p>
         <p>技术学习</p>
+        <!-- <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span> -->
     </a>
     {if is_weixin()}
     <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
     {/if}
-    <a href="javascript:;"  class="on">
-        <!-- <span class="iconfont icon-card2"></span> -->
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
-        <p>{$config['title']}</p>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}客</p>
     </a>
     <a onclick="return_user()">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
