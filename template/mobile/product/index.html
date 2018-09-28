@@ -722,22 +722,26 @@
             layer.msg("系统正在维护中,请耐心等待!",{time:800})
         }
     }
-    var version = "{$config['version']}";
-    var ios_url = "{$config['ios_url']}";
-    var android_url = "{$config['android_url']}";
-    if (plus.runtime.version != version) {
-        if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-            // alert("iPhone系统");
-            new_version_url = ios_url;
-        } else if (/(Android)/i.test(navigator.userAgent)) {
-            // android系统
-            new_version_url = android_url;
-        }
-        layer.alert('请下载最新APP', function(){
-            openNew(new_version_url);
-        });
-    }
+    
 </script>
+    <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
+    <script type="text/javascript">
+        var version = "{$config['version']}";
+        var ios_url = "{$config['ios_url']}";
+        var android_url = "{$config['android_url']}";
+        if (jsBridge.appVersion != version) {
+            if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                // alert("iPhone系统");
+                new_version_url = ios_url;
+            } else if (/(Android)/i.test(navigator.userAgent)) {
+                // android系统
+                new_version_url = android_url;
+            }
+            layer.alert('请下载最新APP', function(){
+                openNew(new_version_url)
+            });
+        }
+    </script>
 
 </body>
 </html>
