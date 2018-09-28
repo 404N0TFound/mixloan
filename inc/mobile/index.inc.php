@@ -20,6 +20,9 @@ if($operation=='register'){
 } elseif ($operation == 'register_contract') {
 	//注册协议
 	include $this->template('index/register_contract');
+} elseif ($operation == 'risk_contract') {
+    //风险协议
+    include $this->template('index/risk_contract');
 } else if ($operation == 'register_ajax') {
 	//注册提交
 	$phone = $_GPC['phone'];

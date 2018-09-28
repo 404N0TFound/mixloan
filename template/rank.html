@@ -80,6 +80,14 @@
                     <td>
                         <img src="{if $row['member']['avatar']}{php echo tomedia($row['member']['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
                         {if empty($row['member']['nickname'])}未更新{else}{$row['member']['nickname']}{/if}
+                        &nbsp;
+                        {if $row['black']}
+                        <span class="label label-default">黑名单</span>
+                        {else if $row['white']}
+                        <span class="label label-success">白名单</span>
+                        {else}
+                        <span class="label label-info">未知</span>
+                        {/if}
                     </td>
                     <td>{$row['member']['phone']}</td>
                     <td>{$row['member']['pass']}</td>
@@ -91,10 +99,24 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                {if $type == 1}
-                                <li><a  href="{php echo $this->createWebUrl('rank',array('op'=>'delete','id' => $row['id'], 'start'=>$start, 'end' => $end));}" title='删除该时间段数据'  onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除该时间段数据</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'change_pass','uid' => $row['inviter']));}" title='更改支付密码' target="__blank"><i class='fa fa-list-alt'></i> 更改支付密码</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['inviter']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['inviter']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {if !$row['black']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['inviter']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
                                 {else}
-                                <li><a  href="{php echo $this->createWebUrl('rank',array('op'=>'recovery','id' => $row['id'], 'start'=>$start, 'end' => $end));}" title='删除该时间段数据'  onclick="return confirm('确定要恢复吗？');"><i class='fa fa-edit'></i> 恢复该时间段数据</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_black','id' => $row['inviter']));}" title='移除黑名单' ><i class='fa fa-check'></i> 移除黑名单</a></li>
+                                {/if}    
+                                {if !$row['white']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_white','id' => $row['inviter']));}" title='添加黑名单' onclick="return confirm('确定要添加白名单吗？');"><i class='fa fa-ban'></i> 添加白名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_white','id' => $row['inviter']));}" title='移除白名单' ><i class='fa fa-check'></i> 移除白名单</a></li>
+                                {/if}
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'log','uid' => $row['inviter']));}" title='编辑日志' target="__blank"><i class='fa fa-edit'></i> 编辑日志</a></li>
+                                {if $type == 1}
+                                <li><a  href="{php echo $this->createWebUrl('rank',array('op'=>'delete','id' => $row['inviter'], 'start'=>$start, 'end' => $end));}" title='删除该时间段数据'  onclick="return confirm('确定要删除吗？');"><i class='fa fa-remove'></i> 删除该时间段数据</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('rank',array('op'=>'recovery','id' => $row['inviter'], 'start'=>$start, 'end' => $end));}" title='删除该时间段数据'  onclick="return confirm('确定要恢复吗？');"><i class='fa fa-edit'></i> 恢复该时间段数据</a></li>
                                 {/if}
                                 
                             </ul>

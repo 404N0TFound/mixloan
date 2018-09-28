@@ -181,6 +181,14 @@
                     <td>
                         <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
                         {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                        &nbsp;
+                        {if $row['black']}
+                        <span class="label label-default">黑名单</span>
+                        {else if $row['white']}
+                        <span class="label label-success">白名单</span>
+                        {else}
+                        <span class="label label-info">未知</span>
+                        {/if}
                     </td>
                     <td>{$row['realname']}</td>
                     <td>{$row['phone']}</td>
@@ -191,6 +199,18 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'change_pass','uid' => $row['id']));}" title='更改支付密码' target="__blank"><i class='fa fa-list-alt'></i> 更改支付密码</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['id']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                {if !$row['black']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['id']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_black','id' => $row['id']));}" title='移除黑名单' ><i class='fa fa-check'></i> 移除黑名单</a></li>
+                                {/if}    
+                                {if !$row['white']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_white','id' => $row['id']));}" title='添加黑名单' onclick="return confirm('确定要添加白名单吗？');"><i class='fa fa-ban'></i> 添加白名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_white','id' => $row['id']));}" title='移除白名单' ><i class='fa fa-check'></i> 移除白名单</a></li>
+                                {/if}
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'log','uid' => $row['id']));}" title='编辑日志' target="__blank"><i class='fa fa-edit'></i> 编辑日志</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['id']));}" title='解除解冻' ><i class='fa fa-check'></i> 解除解冻</a></li>
                             </ul>
@@ -248,9 +268,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提现人昵称</label>
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提现人支付宝</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="nickname" value="{$_GPC['nickname']}"/>
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">提现人支付宝姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="realname" value="{$_GPC['realname']}"/>
                 </div>
             </div>
             <div class="form-group">
@@ -282,9 +308,12 @@
                 <tr>
                     <th style='width:80px;'>ID</th>
                     <th style='width:180px;'>申请者</th>
+                    <th style='width:100px;'>申请者手机</th>
                     <th style='width:80px;'>申请金额</th>
-                    <th style='width:80px;'>剩余金额</th>
-                    <th style='width:150px;'>申请时间</th>
+                    <th style='width:50px;'>剩余金额</th>
+                    <th style='width:100px;'>申请时间</th>
+                    <th style='width:50px;'>账号重复次数</th>
+                    <th style='width:50px;'>姓名重复次数</th>
                     <th style='width:50px;'>状态</th>
                     <th>操作</th>
                 </tr>
@@ -303,31 +332,27 @@
                         <span class="label label-info">未知</span>
                         {/if}
                     </td>
+                    <td>   {$row['nickphone']}</td>
                     <td>   {$row['bonus']}</td>
                     <td>   {php echo round($row['left_bonus'], 2)}</td>
-                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>{php echo date('m-d H:i',$row['createtime'])}</td>
+                    <td>{$row['account_repeat_times']}</td>
+                    <td>{$row['name_repeat_times']}</td>
                     <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">申请成功</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
                     <td  style="overflow:visible;">
-
+                        {if $row['status'] != 1}
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => 1, 'id' => $row['id']));}" onclick="return confirm('确定要打款吗？');">打款</a>&nbsp;
+                        {/if}
                         <div class="btn-group btn-group-sm" >
-                            {if $row['status'] != 1}
-                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" onclick="return confirm('确定要删除该记录吗？');">删除</a>
-                            &nbsp;
-                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => 1, 'id' => $row['id']));}" onclick="return confirm('确定要打款吗？');">打款</a>
-                            &nbsp;
-                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => -1,'id' => $row['id']));}">失败</a>
-                            &nbsp;
-                            {/if}
-                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update', 'id' => $row['id']));}" target="_blank">查看详情</a>
-                            &nbsp;
-                            <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list', 'uid' => $row['uid']));}" target="_blank">邀请列表</a>
-                            <!-- <div class="btn-group btn-group-sm" >
-                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
-                                <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                    <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update','id' => $row['id']));}" title='处理' target="_blank"><i class='fa fa-edit'></i> 处理</a></li>
-                                    <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除该记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
-                                </ul>
-                            </div> -->
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list', 'uid' => $row['uid']));}" target="_blank">邀请列表</a></li>
+                                <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update', 'id' => $row['id']));}" target="_blank">查看详情</a></li>
+                                {if $row['status'] != 1}
+                                <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => -1,'id' => $row['id']));}">失败</a></li>
+                                <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" onclick="return confirm('确定要删除该记录吗？');">删除</a></li>
+                                {/if}
+                            </ul>
                         </div>
                     </td>
                 </tr>

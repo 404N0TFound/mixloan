@@ -277,7 +277,7 @@
                 <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2_1.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>-->
                 <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode" class="smscode" placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);">获取</a></li>-->
             </ul>
-            <p class="ppdTip"><span>注册即视为同意</span><a href="{$item['ext_info']['contract_url']}">《借款人注册协议》</a></p>
+            <p class="ppdTip"><span>申请即视为同意</span><a href="{php echo $this->createMobileUrl('index', array('op' => 'risk_contract'))}">《风险提示协议》</a></p>
         </div>
     </div>
 </div>

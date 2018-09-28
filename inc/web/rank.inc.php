@@ -67,6 +67,10 @@ if ($operation == 'list')
                 $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_backup') . "
                     where inviter={$row['inviter']} " . $cond) ? : 0;
             }
+            $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+                where uid=:uid', array(':uid' => $row['inviter']));
+            $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $row['inviter']));
         }
         unset($row);
         $total = pdo_fetchcolumn($total_sql, array(':uniacid' => $_W['uniacid']));

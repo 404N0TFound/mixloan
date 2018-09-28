@@ -44,7 +44,15 @@ if ($operation == 'list') {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
     $sql = 'select * from ' . tablename('xuan_mixloan_member') . " where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+            where uid=:uid', array(':uid' => $row['id']));
+        $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $row['id']));
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'apply_list') {
@@ -265,8 +273,11 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres .= " and a.uid={$_GPC['uid']}";
     }
-    if (!empty($_GPC['nickname'])) {
-        $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+    if (!empty($_GPC['realname'])) {
+        $wheres .= " and c.realname like '%{$_GPC['realname']}%'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres .= " and c.phone like '%{$_GPC['phone']}%'";
     }
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
@@ -278,7 +289,9 @@ if ($operation == 'list') {
         $starttime = date('Y-m');
         $endtime = date('Y-m-d H:i:s');
     }
-    $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.id,a.createtime,a.bonus,a.status,a.uid,c.realname,c.phone from ' . tablename('xuan_mixloan_withdraw') . " a
+            left join ".tablename("xuan_mixloan_creditCard")." c ON a.bank_id=c.id
+            where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -292,6 +305,15 @@ if ($operation == 'list') {
             where uid=:uid', array(':uid' => $row['uid']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
             where uid=:uid', array(':uid' => $row['uid']));
+        $man = pdo_fetch('select avatar,nickname,phone from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['uid']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['nickphone'] = $man['phone'];
+        $row['account_repeat_times'] = pdo_fetchcolumn('select count(distinct uid) from ' . tablename('xuan_mixloan_creditCard') . '
+            where phone=:phone', array(':phone' => $row['phone']));
+        $row['name_repeat_times'] = pdo_fetchcolumn('select count(distinct uid)  from ' . tablename('xuan_mixloan_creditCard') . '
+            where realname=:realname', array(':realname' => $row['realname']));
     }
     unset($row);
     if ($_GPC['export'] == 1) {
