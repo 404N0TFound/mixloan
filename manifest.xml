@@ -34,12 +34,43 @@
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="信用查询" do="credit" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
+		<entry title="公告管理" do="announce" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_agent_close`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_agent_close` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `is_close` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_announce_record`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` varchar(50) NOT NULL,
+  `relate_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cid` (`cid`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_announce`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_msg`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg` (
@@ -316,6 +347,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `createtime` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `ext_info` TEXT NOT NULL,
+  `status` tinyint(2) DEFAULT 1 COMMENT '1正常 -1回收站',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `relate_id` (`relate_id`),
