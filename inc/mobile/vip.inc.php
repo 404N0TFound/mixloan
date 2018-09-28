@@ -343,9 +343,6 @@ if($operation=='buy'){
     include $this->template('vip/degreeDetail');
 } else if ($operation == 'alipay') {
 	//支付宝支付
-	if ($member['id'] != 360) {
-		message('维护中', '', 'error');
-	}
 	include $this->template('vip/alipay');
 } else if ($operation == 'alipay_params') {
 	$total = floatval($config['buy_vip_price']);
