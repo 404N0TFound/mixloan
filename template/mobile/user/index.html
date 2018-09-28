@@ -71,20 +71,6 @@
         return false;
     }
 </script>
-<style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #00a2ff}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%}
-    .app_header_back img{position: absolute;left:4%;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px}
-    .list-item{border-top: none !important}
-</style>
-<div class="app_header">
-    <div class="app_header_back">
-        <!-- <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="history.go(-1)"> -->
-        <span>个人中心</span>
-    </div>
-</div>
 {/if}
 <body class="platform_mobile">
 <div class="content bottom mod-user">
@@ -239,22 +225,20 @@
             openNew(_url);
         });
         {/if}
-        if (typeof(plus) != 'undefined') {
-            var version = "{$config['version']}";
-            var ios_url = "{$config['ios_url']}";
-            var android_url = "{$config['android_url']}";
-            if (plus.runtime.version != version) {
-                if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-                    // alert("iPhone系统");
-                    new_version_url = ios_url;
-                } else if (/(Android)/i.test(navigator.userAgent)) {
-                    // android系统
-                    new_version_url = android_url;
-                }
-                layer.alert('请下载最新APP', function(){
-                    window.location.href=new_version_url;
-                });
+        var version = "{$config['version']}";
+        var ios_url = "{$config['ios_url']}";
+        var android_url = "{$config['android_url']}";
+        if (plus.runtime.version != version) {
+            if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+                // alert("iPhone系统");
+                new_version_url = ios_url;
+            } else if (/(Android)/i.test(navigator.userAgent)) {
+                // android系统
+                new_version_url = android_url;
             }
+            layer.alert('请下载最新APP', function(){
+                openNew(new_version_url);
+            });
         }
         function loginout(){
             plus.nativeUI.actionSheet({

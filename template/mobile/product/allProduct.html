@@ -47,9 +47,6 @@
 </script>
 {if !is_weixin()}
 <style type="text/css">
-	.agent-header{height: 3rem;line-height: 4rem}
-</style>
-<style type="text/css">
 	.app_back {
 		position: absolute;
 		display: inline-block;
@@ -68,15 +65,12 @@
 		transform: rotate(180deg);
 	}
 </style>
-<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
 {/if}
 <div class="agent-header">
 	{$config['title']}
 	<!-- <a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}')"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a> -->
 </div>
 {if !is_weixin()}
-<div style="height:3rem;"></div>
-{else}
 <div style="height:2rem;"></div>
 {/if}
 <div class="product_head">

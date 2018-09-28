@@ -41,83 +41,37 @@
                     <input type="button" class="zhifubao" id="zhifubao" value="支付宝支付" style="margin-left: 22.5%" /> 
                 </div> 
          </div> 
-           <script> 
-               var wxChannel = null; // 微信支付  
-            var aliChannel = null; // 支付宝支付  
-            var channel = null;   //支付通道 
-            mui.init({  
-                swipeBack:true //启用右滑关闭功能  
-            });  
+
+        <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+        <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
+        <script> 
              
-             mui.plusReady(function() {    
-            // 获取支付通道  
-                plus.payment.getChannels(function(channels){  
-                for (var i in channels) { 
-                        if (channels[i].id == "wxpay") { 
-                             wxChannel=channels[i];  
-                        }else{ 
-                            aliChannel=channels[i];  
-                        } 
-                    }     
-                },function(e){  
-                 alert("获取支付通道失败："+e.message);  
-                });  
-        })  
   
         document.getElementById('zhifubao').addEventListener('tap',function() {  
             console.log("zhifubao");  
-            pay('alipay');   
+            pay();   
         })  
   
         var ALIPAYSERVER="{php echo $this->createMobileUrl('vip', array('op'=>'alipay_params'))}";  
         
         //发起支付请求  
-        function pay(id){  
-                var user_url = "{php echo $this->createMobileUrl('user')}";
-                var PAYSERVER='';  
-                if(id=='alipay'){  
-                    PAYSERVER=ALIPAYSERVER;  
-                    channel = aliChannel;  
-                }
-                var xhr=new XMLHttpRequest();  
-                xhr.onreadystatechange=function(){  
-                    switch(xhr.readyState){  
-                        case 4:  
-                        if(xhr.status==200){  
-                            plus.payment.request(channel,xhr.responseText,function(result){  
-                                mui.ajax("{php echo $this->createMobileUrl('vip', array('op'=>'alipay_notify'))}",{
-                                    data:{},
-                                    dataType:'json',
-                                    type:'post',
-                                    success:function(data){
-                                        if (data.code == 1) {
-                                            plus.nativeUI.alert("支付成功！",function(){ 
-                                                mui.openWindow({url:user_url, id:'user_index', createNew:true});
-                                            });  
-                                        } else {
-                                            plus.nativeUI.alert(data.msg,function(){ 
-                                                mui.openWindow({url:user_url, id:'user_index', createNew:true});
-                                            });
-                                        }
-                                    }
-                                });
-                            },function(error){  
-                                plus.nativeUI.alert("支付失败：" + error.code, function(){
-                                    mui.openWindow({url:user_url, id:'user_index', createNew:true});
-                                });  
-                            });  
-                        }else{  
-                            alert("获取订单信息失败！");  
-                        }  
-                        break;  
-                    default:  
-                    break;  
-                }  
+        function pay(){  
+                $.post(ALIPAYSERVER,{},
+                    function(res){
+                        jsBridge.aliPay({
+                            orderString: res
+                        }, function (succ, text) {
+                            if (succ) {
+                                alert("支付成功");
+                                window.location.href="{php echo $this->createMobileUrl('user')}";
+                            } else {    
+                                alert("支付失败或取消了支付");
+                            }
+                        });
+                    },'text')
         }  
-        xhr.open('GET',PAYSERVER);  
-        xhr.send();  
             
-    }  
+    
      
     </script>   
     </body> 

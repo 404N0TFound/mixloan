@@ -116,7 +116,7 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
         <p>首页</p>
     </a> -->
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')"   class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
         <p>技术学习</p>
     </a>
@@ -125,9 +125,9 @@
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
     {/if}
-    <a href="javascript:;"  class="on">
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <!-- <span class="iconfont icon-card2"></span> -->
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>{$config['title']}</p>
     </a>
     <a onclick="return_user()">
@@ -171,7 +171,7 @@
     {if !is_weixin()}
     <div style="height: 4rem"></div>
     {/if}
-    <div class="to_search" data-condition="1">
+    <div class="to_search" onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}')">
         <img src="../addons/xuan_mixloan/template/style/picture/search_white_1.png" />
     </div>
 

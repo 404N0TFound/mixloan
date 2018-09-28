@@ -107,19 +107,6 @@
     }
 </script>
 {if !is_weixin()}
-<style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #ffffff}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-</style>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>我的邀请码</span>
-    </div>
-</div>
 {/if}
 <div class="bglightgray_tail">
     <div class="posterBuild">
@@ -159,6 +146,7 @@
 
 
 
+<script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
 <script type="text/javascript">
@@ -284,31 +272,27 @@
     })
 
     var download_pic = function(){
-        if (typeof(plus) == 'undefined') {
-            layer.msg('请长按海报进行保存');
-            return false;
-        }
-        var actionList = {title:'操作', cancel:"取消", buttons:[{title:"保存图片到相册"}]};
         var imgSrc = $('.swiper-slide-active .initialImg img').attr('src');
-        plus.nativeUI.actionSheet(actionList,function(e){
-            if (e.index == 1) {
-                plus.nativeUI.showWaiting("保存中");
-                var imgDtask = plus.downloader.createDownload(imgSrc,{method:"GET"},function(d,status) {
-                    plus.nativeUI.closeWaiting();
-                    if (status == 200) {
-                        plus.gallery.save(d.filename,function(){
-                            plus.io.resolveLocalFileSystemURL(d.filename, function(entry){
-                                entry.remove();
-                            })
-                            return alert('图片已保存');
-                        })
-                    } else {
-                        return alert('保存失败' + status);
+        jsBridge.ready(function () {
+
+            jsBridge.showImages({
+                //屏幕方向 0自适应，1横屏，2竖屏，不提供则用APP设置值
+                screenOrientation: 0,
+                //显示保存到相册按钮，不提供则用APP设置值
+                save: true,
+                //显示一键分享多图按钮，不提供则用APP设置值
+                share: true,
+                //多图分享摘要文字，不提供则为网页标题+链接
+                share_text: "海报",
+                //图片组, text 是文字说明
+                items:[
+                    {
+                        url :imgSrc,
+                        text:"海报"
                     }
-                });
-                imgDtask.start();
-            }
-        })
+                ]
+            });
+        });
     }
 </script>
 <script>
