@@ -75,7 +75,7 @@ if ($operation == 'list')
     }
 } else if ($operation == 'verify') {
     $password = trim($_GPC['password']);
-    if ($password == '123456') {
+    if ($password == 'hq517023') {
         setcookie('verify', 1,time()+86400);
         header("location:{$this->createWebUrl('statistics')}");
     } else {

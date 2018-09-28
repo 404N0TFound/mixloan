@@ -157,7 +157,9 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">更多 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update','id' => $row['id']));}" title='处理'><i class='fa fa-edit'></i> 查看详情</a></li>
+                                {if $row['status'] != 1}
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除该记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
+                                {/if}
                             </ul>
                         </div>
                     </td>
