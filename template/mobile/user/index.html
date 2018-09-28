@@ -246,6 +246,13 @@
                         </a>
                     </li>
                     {/if}
+                    <li class="{if !is_weixin()}new_guide{else}customer{/if}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'set'))}')">
+                            <img src="../addons/xuan_mixloan/template/style/picture/set.png" />
+                            代理设置
+                            <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                        </a>
+                    </li>
                     {if !is_weixin()}
                     <li class="customer">
                         <a onclick="loginout()">
@@ -262,6 +269,17 @@
     </div>
     
 <script>
+var cid = {$member['id']};
+$.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+    function(data){
+        if (data.code == 1) {
+            layer.alert(data.msg, {
+                icon: 1,
+                skin: 'layer-ext-moon',
+                title:'公告'
+            })
+        }
+    },'json')
 $(document).ready(function(){
     //整体页面排版
     var window_height=$(window).height();
