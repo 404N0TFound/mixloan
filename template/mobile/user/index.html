@@ -226,27 +226,7 @@
         });
         {/if}
         function loginout(){
-            plus.nativeUI.actionSheet({
-                cancel: "取消",
-                buttons: [{
-                    title: "注销当前账号"
-                }]
-            }, function(e) {
-                var index = e.index;
-                switch (index) { //case 0: 取消
-                    case 1: //
-                        plus.storage.clear();
-                        mui.openWindow({
-                            url: '{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}',
-                            id: 'loginout',
-                            show: {
-                                aniShow: 'pop-in'
-                            }
-                        });
-                        break;
-                }
-            });
-            // openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
+            openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
         }
     </script>
     <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>

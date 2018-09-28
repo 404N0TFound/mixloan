@@ -352,8 +352,8 @@
             $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
         }
         {else}
-        jsBridge.setClipboardText(daili_short_url);
         layer.msg('复制成功');
+        jsBridge.setClipboardText(daili_short_url);
         {/if}
     })
     $("#copy_long").on("click",function(){
@@ -368,8 +368,8 @@
             $("div.layui-layer-msg").css({"width":'76%',"left":"12%"});
         }
         {else}
-        jsBridge.setClipboardText(daili_long_url);
         layer.msg('复制成功');
+        jsBridge.setClipboardText(daili_long_url);
         {/if}
     })
     $(".layer_close,.floor").click(function(){
