@@ -107,6 +107,10 @@ if($operation=='index'){
         show_json(1, $pro['ext_info']['url']);
     }
     if ($inviter) {
+        $inviter_one = m('member')->getInviterInfo($inviter);
+        if ($inviter_one['status'] != -2) {
+            show_json(-1, [], '用户已被冻结');
+        }
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
             $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
             $insert = array(
