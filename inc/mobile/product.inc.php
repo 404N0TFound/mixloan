@@ -248,7 +248,7 @@ if($operation=='index'){
     $year = (int)$_GPC['year'];
     $params['begin'] = "{$year}-{$month}-01";
     $params['inviter'] = $member['id'];
-    $days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
+    $days_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>1]);
     $weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
     $months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
     $invite_list = m('product')->getInviteList($params);
@@ -259,12 +259,20 @@ if($operation=='index'){
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);
+    $days_succ_list = m('product')->getNums($days_ids, $params, 2);
     $weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
     $months_succ_list = m('product')->getNums($months_ids, $params, 2);
+    $days_bonus_list = m('product')->getNums($days_ids, $params, 3);
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
     foreach ($days_list as &$row) {
         $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $days_succ_list[$row['id']]['count'] ? $days_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $days_succ_list[$row['id']]['relate_money'] ? $days_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $days_bonus_list[$row['id']]['bonus'] ? : 0;
         $row['count_num'] = 0;
     }
     unset($row);

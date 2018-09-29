@@ -128,6 +128,9 @@ if ($operation == 'list') {
         } else if ($row['type'] == 4) {
             $row['realname'] = '系统';
             $row['name'] = '挑战佣金';
+        } else if ($row['type'] == 5) {
+            $row['realname'] = '系统';
+            $row['name'] = '前日佣金';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname,phone from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }

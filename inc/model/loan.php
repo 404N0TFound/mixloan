@@ -79,19 +79,26 @@ class Xuan_mixloan_Loan
         return $list;
     }
 
-    public function getRecommends(){
+    public function getRecommends($condition){
         global $_W;
-        $ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . '
-            where is_show=0 and uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
-        foreach ($ids as $id) {
-            $n_id[] = $id['id'];
+        if (!empty($conditon)) {
+            foreach ($conditon as $k => $v) {
+                if ($k == 'n_id') {
+                    if ($v)
+                    {
+                        $v_string = implode(',', $v);
+                    }
+                    else
+                    {
+                        $v_string = '';
+                    }
+                    $wheres .= " AND `id` NOT IN ({$v_string})";
+                } else {
+                    $wheres .= " AND `{$k}` = '{$v}'";
+                }
+            }
         }
-        if (!empty($n_id)) {
-            $v_string = '(' . implode(',', $n_id) . ')';
-        } else {
-            $v_string = '()';
-        }
-        $sql = "SELECT * FROM ".tablename('xuan_mixloan_loan')." WHERE id NOT IN {$v_string} ORDER BY rand() LIMIT 3";
+        $sql = "SELECT * FROM " . tablename('xuan_mixloan_loan') . " WHERE uniacid=:uniacid " . $wheres . " ORDER BY rand() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {

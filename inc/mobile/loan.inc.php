@@ -26,7 +26,13 @@ if($operation=='index'){
 	include $this->template('loan/loan_select');
 } else if ($operation == 'recommend') {
 	//智能推荐
-	$recommends = m('loan')->getRecommends();
+    $cond = array();
+    $remove_ids = m('product')->getRemoveProductIds(2);
+    if ($remove_ids)
+    {
+        $cond = array('n_id' => $remove_ids);
+    }
+    $recommends = m('loan')->getRecommends($cond);
 	if (empty($recommends)) {
 		show_json(-1);
 	}

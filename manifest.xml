@@ -25,7 +25,8 @@
       <entry title="首页入口" do="index" state="" direct="false" />
   </cover>
 	<menu>
-      <entry title="会员管理" do="member" state="" direct="false" />
+		<entry title="海报管理" do="poster" state="" direct="false" />
+		<entry title="会员管理" do="member" state="" direct="false" />
       <entry title="银行管理" do="bank" state="" direct="false" />
       <entry title="贷款超市" do="loan" state="" direct="false" />
       <entry title="代理产品" do="product" state="" direct="false" />
@@ -33,12 +34,25 @@
       <entry title="口子管理" do="channel" state="" direct="false" />
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
       <entry title="活动管理" do="activity" state="" direct="false" />
+		<entry title="奖励管理" do="bonus" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_bonus`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bonus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_activity`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_activity` (
@@ -97,6 +111,17 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_qrcode` (
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_poster_data`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_poster_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_notice`;
