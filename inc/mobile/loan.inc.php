@@ -108,7 +108,7 @@ if($operation=='index'){
     }
     if ($inviter) {
         $inviter_one = m('member')->getInviterInfo($inviter);
-        if ($inviter_one['status'] != -2) {
+        if ($inviter_one['status'] != 1) {
             show_json(-1, [], '用户已被冻结');
         }
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
