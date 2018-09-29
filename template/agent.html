@@ -308,7 +308,7 @@
                 <tr>
                     <th style='width:80px;'>ID</th>
                     <th style='width:180px;'>申请者</th>
-                    <th style='width:100px;'>申请者手机</th>
+                    <th style='width:100px;'>支付宝账号</th>
                     <th style='width:80px;'>申请金额</th>
                     <th style='width:50px;'>剩余金额</th>
                     <th style='width:100px;'>申请时间</th>
@@ -332,7 +332,7 @@
                         <span class="label label-info">未知</span>
                         {/if}
                     </td>
-                    <td>   {$row['nickphone']}</td>
+                    <td>   {$row['phone']}</td>
                     <td>   {$row['bonus']}</td>
                     <td>   {php echo round($row['left_bonus'], 2)}</td>
                     <td>{php echo date('m-d H:i',$row['createtime'])}</td>
