@@ -118,7 +118,7 @@
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('rank',array('op'=>'recovery','id' => $row['inviter'], 'start'=>$start, 'end' => $end));}" title='删除该时间段数据'  onclick="return confirm('确定要恢复吗？');"><i class='fa fa-edit'></i> 恢复该时间段数据</a></li>
                                 {/if}
-                                
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'below_list','inviter' => $row['inviter']));}" title='编辑日志' target="__blank"><i class='fa fa-list'></i> 查看上下级</a></li>
                             </ul>
                         </div>
                         
