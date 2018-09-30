@@ -125,6 +125,7 @@ if($operation=='index'){
 	}
 } else if ($operation == 'setData') {
 	//上传资料
+    show_json(-1, [], '资料上传已更改地方');
 	if(!trim($_GPC['realname']) || !trim($_GPC['phone']) || !trim($_GPC['idcard']) || !trim($_GPC['wechatnum'])) {
 		show_json(-1, [], '资料不能留空');
 	}
@@ -222,6 +223,11 @@ else if ($operation == 'read_message')
     include $this->template('user/read_message');
 } else if ($operation == 'bind_alipay') {
     //绑支付宝
+    $record = pdo_fetch('select realname,phone from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $member['id']));
+    if (!$record) {
+        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
+    }
     include $this->template('user/bind_alipay');
 } else if ($operation == 'bind_alipay_submit') {
     //验证银行卡
@@ -270,4 +276,36 @@ else if ($operation == 'read_message')
     $follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
     $money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0") ? : 0;
     include $this->template('user/extend_bonus');
+} else if ($operation == 'verify') {
+    // 认证
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $member['id']));
+    if ($record) {
+        header("location:{$this->createMobileUrl('user')}");
+    }
+    include $this->template('user/verify');
+} else if ($operation == 'verify_submit') {
+    // 认证提交
+    $phone = trim($_GPC['phone']);
+    $bankcard = trim($_GPC['bankcard']);
+    $certno = trim($_GPC['certno']);
+    $realname = trim($_GPC['realname']);
+    $params = array();
+    $params['bankcard'] = $bankcard;
+    $params['realName'] = $realname;
+    $params['cardNo'] = $certno;
+    $params['Mobile'] = $phone;
+    $result = m('aliyun')->bank4($params);
+    if ($result['code'] != 1) {
+        show_json(-1, [], $result['msg']);
+    } 
+    $insert = array();
+    $insert['uid'] = $member['id'];
+    $insert['certno'] = $certno;
+    $insert['phone'] = $phone;
+    $insert['realname'] = $realname;
+    $insert['bankcard'] = $bankcard;
+    $insert['createtime'] = time();
+    pdo_insert('xuan_mixloan_verify_data', $insert);
+    show_json(1, [], '认证成功');
 }

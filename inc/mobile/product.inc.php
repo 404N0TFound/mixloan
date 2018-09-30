@@ -59,6 +59,11 @@ if($operation=='index'){
     if ( empty($info['is_show']) ) {
         message('该代理产品已被下架', '', 'info');
     }
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $member['id']));
+    if (!$record) {
+        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
+    }
     if ($info['type'] == 1) {
         $poster_short_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
         $poster_long_url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));

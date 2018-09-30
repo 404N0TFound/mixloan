@@ -64,6 +64,7 @@ class Xuan_mixloanModule extends WeModule {
                     'withdraw_day_limit' => $_GPC['withdraw_day_limit'],
                     'withdraw_money_limit' => $_GPC['withdraw_money_limit'],
                     'feedback_url' => $_GPC['feedback_url'],
+                    'verify_tips'=>$_GPC['verify_tips']
             	);
 
             if ($this->saveSettings($cfg)) {
