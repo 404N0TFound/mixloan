@@ -381,6 +381,11 @@ if($operation=='buy'){
 	include $this->template('vip/salary');
 } else if ($operation == 'withdraw') {
 	//提现
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $member['id']));
+    if (!$record) {
+        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
+    }
     $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
     foreach ($banks as &$row) {
         if ($row['type'] == 1) {
