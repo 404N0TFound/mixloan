@@ -26,7 +26,8 @@ if($operation=='index'){
 	//全部贷款
 	include $this->template('loan/loan_select');
 } else if ($operation == 'recommend') {
-	//智能推荐$cond = array();
+	//智能推荐
+    $cond = array();
     $remove_ids = m('product')->getRemoveProductIds(2);
     if ($remove_ids)
     {
