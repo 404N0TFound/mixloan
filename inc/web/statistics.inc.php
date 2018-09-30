@@ -46,7 +46,7 @@ if ($operation == 'list')
     $withdraw_apply['all']    = pdo_fetchcolumn($sql) ? : 0;
     // 佣金总额
     $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') .  "
-        where uniacid={$_W['uniacid']} and re_bonus>0";
+        where uniacid={$_W['uniacid']} and (re_bonus>0 or done_bonus>0)";
     $reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
     $reward['all']    = pdo_fetchcolumn($sql) ? : 0;
     // 剩余未体现
