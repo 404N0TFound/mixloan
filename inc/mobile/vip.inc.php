@@ -892,22 +892,12 @@ if($operation=='buy'){
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
 		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
     if ($times>0) {
-       // show_json(-1, null, "一天只能提现1次");
+       show_json(-1, null, "一天只能提现1次");
     }
     $week = date("w"); 
     if ($week == 6 || $week == 0) {
-        //show_json(-1, null, "请在工作日提现哦");
+        show_json(-1, null, "请在工作日提现哦");
     }
-    $insert = array(
-        'uniacid'=>$_W['uniacid'],
-        'uid'=>$member['id'],
-        'bank_id'=>$bank_id,
-        'bonus'=>$bonus,
-        'createtime'=>time(),
-        'status'=>0
-    );
-    pdo_insert('xuan_mixloan_withdraw', $insert);
-    show_json(1, null, "提现成功，T+1日到账");
     $now_time = explode(':', date('H:i'));
     if ($now_time[0] >= 9 && $now_time[0] <= 17) {
         $insert = array(
