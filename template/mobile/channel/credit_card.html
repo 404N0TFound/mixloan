@@ -135,7 +135,7 @@
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
         <div class="scroller">
-            <div class="swiper-container pro-swiper">
+            <div class="swiper-container pro-swiper" style="display: none">
                 <div class="swiper-wrapper">
                     {loop $advs $adv}
                     <div class="swiper-slide" style="width:90%;"><a onclick="openNew('{$adv['ext_info']['url']}')"><img src="{php echo tomedia($adv['ext_info']['pic']);}" width="100%" alt=""><h2 class="swiper_title">{$adv['name']}</h2></a></div>
