@@ -54,22 +54,6 @@
         mui.openWindow({url:url});
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-    .app_header{height: 70px;width: 100%}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 5%}
-    .app_header_back img{position: absolute;left:4%;width: 13px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px}
-</style>
-<script type="text/javascript">
-</script>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-    </div>
-</div>
-{/if}
 <body class="bgcolor">
 <div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
@@ -77,6 +61,11 @@
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
+		</li>
+		<li>
+			<label><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></label>
+			<input type="text" name="" id="imgCode" placeholder="请输入图形验证码" style="width: 60%">
+			<a style="width: 30%"><img src="" id="cache_img" style="width: 6rem" ></a>
 		</li>
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/valid_3.png" /></label>
@@ -98,7 +87,20 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/common_3.js></script>
 <script type="text/javascript">
-
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
     $(document).ready(function(){
         $("div.header ul li.head").find("img").load(function(){
             // 头像居中
@@ -195,6 +197,17 @@
     function getCheck(){
         $(".validnum").unbind("click");
         var flagsms = true;
+        var cache = $('#imgCode').val();
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#imgCode', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            $(".validnum").bind("click",function(){
+                getCheck();
+            });
+            return false;
+        }
         //启动计时器，1秒执行一次
         if (flagsms) {
             var phone = $("#phone").val();
@@ -207,7 +220,7 @@
                         getCheck();
                     });
                 }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone},
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone,"img_cache":cache},
                         function(data){
                             if(data.code==0){
                                 layer.msg("已发送，请注意查收");
