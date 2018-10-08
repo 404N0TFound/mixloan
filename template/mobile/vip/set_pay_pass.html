@@ -32,6 +32,10 @@
                 <input type="text" value="{$member['phone']}" readonly="" style="width:60%" id="phone">
             </div>
             <div class="mui-input-row">
+                <label style="width: 40%;padding: 0"><img src="" id="cache_img"></label>
+                <input type="text" placeholder="请输入图形码" id="img_cache" style="width:60%">
+            </div>
+            <div class="mui-input-row">
                 <label style="width: 40%"><span  class="validnum">获取验证码</span></label>
                 <input type="text" placeholder="请输入验证码" id="smscode" style="width:60%">
             </div>
@@ -54,11 +58,26 @@
     }
 </script>
 <script>
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
     $('.validnum').click(function(){
         getCheck();
     })
     //验证码
     function getCheck(){
+        var img_cache = $('#img_cache').val();
         $(".validnum").unbind("click");
         var flagsms = true;
         //启动计时器，1秒执行一次
@@ -73,7 +92,7 @@
                         getCheck();
                     });
                 }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode'))}",{"phone":phone},
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode'))}",{"phone":phone,"img_cache":img_cache},
                         function(data){
                             if(data.code==0){
                                 layer.msg("已发送，请注意查收");
