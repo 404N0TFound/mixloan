@@ -291,6 +291,11 @@ else if ($operation == 'read_message')
     $certno = trim($_GPC['certno']);
     $realname = trim($_GPC['realname']);
     $params = array();
+    $record = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_verify_data') . '
+        where certno=:certno', array(':certno' => $certno));
+    if ($record) {
+        show_json(-1, [], '该信息已被认证');
+    }
     $params['bankcard'] = $bankcard;
     $params['realName'] = $realname;
     $params['cardNo'] = $certno;
