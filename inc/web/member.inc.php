@@ -202,6 +202,65 @@ if ($operation == 'list') {
         message("发送成功，总计发送{$count}条，已转入消息发送队列", "", "success");
 
     }
+} else if ($operation == 'below_list') {
+    //下级列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['inviter'])) {
+        $wheres.= " AND a.qrcid='{$_GPC['inviter']}'";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.openid,a.createtime,b.id,b.avatar,b.nickname from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres . ' GROUP BY a.openid ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['agent'] = m('member')->checkAgent($row['id']);
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(DISTINCT a.openid) from ' . tablename('qrcode_stat') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
+        where a.type=1 "  . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'change_inviter') {
+    $uid = intval($_GPC['uid']);
+    $openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $uid));
+    $inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+            where openid=:openid and type=1', array(':openid' => $openid));
+    if (!$inviter) {
+        $inviter = 0;
+    }
+    if ($_GPC['post']) {
+        $new_inviter = intval($_GPC['inviter']);
+        if (!$new_inviter) {
+            message('邀请人不能为空', '', 'error');
+        }
+        $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_member') . '
+                where id=:id', array(':id' => $new_inviter));
+        if (!$record) {
+            message('邀请人不存在', '', 'error');
+        }
+        pdo_update('qrcode_stat', array('type' => 2), array('openid' => $openid));
+        $insert = array(
+            'uniacid'    => $_W['uniacid'],
+            'acid'       => $_W['uniacid'],
+            'openid'     => $openid,
+            'qrcid'      => $new_inviter,
+            'scene_str'  => $new_inviter,
+            'type'       => 1,
+            'createtime' => time()
+        );
+        pdo_insert('qrcode_stat', $insert);
+        message('更改成功', '', 'success');
+    }
 }
 include $this->template('member');
 ?>

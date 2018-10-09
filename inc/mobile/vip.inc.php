@@ -35,6 +35,7 @@ if($operation=='buy'){
     }
     if (is_weixin())
     {
+        message('请下载app购买代理哦', $this->createMobileUrl('index'), 'error');
         $tid = "10001" . date('YmdHis', time());
         $title = "购买{$config['title']}代理会员";
         $fee = $config['buy_vip_price'];
