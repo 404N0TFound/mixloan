@@ -46,11 +46,11 @@ class Xuan_mixloan_Poster
             $newa = imagecreatetruecolor(imagesx($bgpng)*0.2,imagesx($bgpng)*0.2);
             imagecopyresized($newa,$avatar,0,0,0,0,imagesx($bgpng)*0.2,imagesx($bgpng)*0.2,imagesx($avatar),imagesy($avatar));
             imagecopymerge($bgpng,$newa,imagesx($bgpng)*0.4,imagesy($bgpng)*0.7,0,0,imagesx($bgpng)*0.2,imagesx($bgpng)*0.2,100);
-            //字体
-            $poster_color = hex2rgb($config['poster_color']);
-            $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
-            imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,func_substr_replace($params['member']['nickname']));
         }
+        //字体
+        $poster_color = hex2rgb($config['poster_color']);
+        $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
+        imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,func_substr_replace($params['member']['nickname']));
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.35,imagesx($bgpng)*0.35);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.35,imagesx($bgpng)*0.35,imagesx($QR),imagesy($QR));
         if (!$config['poster_avatar']) {

@@ -312,7 +312,7 @@ if($operation=='buy'){
             $row['name'] = '挑战佣金奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         } else if ($row['type'] == 5){
-            $row['name'] = '前日佣金奖励';
+            $row['name'] = '昨日佣金奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         } else {
 			$row['name'] = $pros[$row['pid']]['name'];
@@ -443,7 +443,7 @@ if($operation=='buy'){
             // );
             // $res = $wx->barCodeCreateDisposable($barcode);
             // $url = $res['url'];
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
+            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'', 'inviter'=>$member['id']));
             if (empty($config['inviter_poster'])) {
                 message("请检查海报是否上传", "", "error");
             }

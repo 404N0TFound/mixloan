@@ -25,8 +25,8 @@ if($operation=='service'){
         where uniacid=:uniacid order by sort asc', array(':uniacid' => $_W['uniacid']));
     $temp_time  = date('Y-m-d');
     $today = strtotime($temp_time);
-    $starttime = strtotime("{$temp_time} -2 days");
-    $endtime   = strtotime("{$temp_time} -1 days");
+    $starttime = strtotime("{$temp_time} -1 days");
+    $endtime   = strtotime("{$temp_time}");
     $count_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
         where inviter=:inviter and type<>5 and createtime>=' . $starttime . ' and createtime<' . $endtime, array(':inviter' => $member['id'])) ? : 0;
     foreach ($list as &$row) {
@@ -57,8 +57,8 @@ if($operation=='service'){
     $item['ext_info'] = json_decode($item['ext_info'], 1);
     $temp_time  = date('Y-m-d');
     $today = strtotime($temp_time);
-    $starttime = strtotime("{$temp_time} -2 days");
-    $endtime   = strtotime("{$temp_time} -1 days");
+    $starttime = strtotime("{$temp_time} -1 days");
+    $endtime   = strtotime("{$temp_time}");
     $record = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . '
         where inviter=:inviter and type=5 and pid=' . $id . ' and createtime>=' . $today, array(':inviter' => $member['id']));
     if ($record) {
