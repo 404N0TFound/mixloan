@@ -94,6 +94,12 @@ if($operation=='index'){
     }
     $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
         where uid=:uid', array(':uid' => $inviter));
+    $status = pdo_fetchcolumn('select status from ' . tablename('xuan_mixloan_member') . '
+        where id=:id', array(':id' => $inviter));
+    if ($status == '0') {
+        header("location:http://jrbd.tejiazu.com/app/index.php?i=191&c=entry&op=app_register&inviter=342&do=vip&m=xuan_mixloan");
+        exit();
+    }
     include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
@@ -111,10 +117,6 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
-    if ($record) {
-        show_json(-1, [], "您已经申请过啦");
-    }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if (empty($info['is_show'])) {
         show_json(-1, [], "该产品已被下架");
@@ -123,6 +125,11 @@ if($operation=='index'){
         $pro = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     } else {
         $pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+    }
+    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    if ($record) {
+        $redirect_url = $pro['ext_info']['url'];
+        show_json(1,$redirect_url);
     }
     if ($config['jdwx_open'] == 1) {
         // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));

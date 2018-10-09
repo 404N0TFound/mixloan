@@ -18,6 +18,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/idaik_1.css">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/customlist_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/new_html2canvas_1.js"></script>
@@ -70,17 +71,22 @@
     .bglightgray {background-color: #f3f4f6;}
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         .bglightgray {padding-bottom:114px;}
-        div.daili_footer{min-height: 94px;}
-        div.daili_toapply{top:0;}
-        div.daili_toapply p{background-color: #f8f8f8;height: 34px;margin-top: 3px;}
+
+    }
+    div.reback_img ul.reback_money li span{
+        font-size: 13px;
     }
     /*弹窗样式*/
-    div.layui-layer-content{padding: 10px 0px!important;}
-    div.reback_img ul.reback_money li span {
-        font-size: 12px;
-    }
+    div.daili_footer{min-height: 0px;box-shadow: #eaeaea -2px 4px 10px 10px;}
+    div.layui-layer-content{padding: 10px 0px!important;text-align: center;}
+    .footer_apply{width: 35%;background: white;float: left;text-align: center;}
+    .footer_apply a {padding: 0.6rem 1rem;display: inline-block;color:black;}
+    .footer_agent a {padding: 0.6rem 2rem;display: inline-block;color:white;}
+    .footer_agent{width: 65%;background: #0195ff;float: left;text-align: center;}
+    .apply_button{display: inline-block;padding: 0.35rem 2.5rem;margin-top: 1rem;border-radius: 0.1rem;background: #0195ff;color:white;}
+    div.popLoanApply .popLoanApplyCover{width: 19rem;height: 50rem}
+    div.popLoanApplyCommon{position: fixed;}
     div.ewm_main p a{width: 28%;margin:10px 5px;float: left;}
-    .downloadimg{}
 </style>
 <script type="text/javascript">
     var aa = "{$poster_path}";
@@ -110,9 +116,13 @@
     <img src="{$info['ext_info']['pic']}" />
 </div>
 <div class="daili_footer">
-    <div class="daili_toapply">
-        <a id="daili_toapply"><img src="../addons/xuan_mixloan/template/style/picture/ermapplybtn_1.png"></a>
-        <p></p>
+    {if $info['ext_info']['apply_open']}
+    <div class="footer_apply">
+        <a >我要申请</a>
+    </div>
+    {/if}
+    <div class="footer_agent" {if !$info['ext_info']['apply_open']}style="width:100%"{/if}>
+        <a id="daili_toapply">生成二维码</a>
     </div>
 </div>
 <div class="nb_basic nb_flow">
@@ -220,6 +230,25 @@
     </div>
 </div>
 {/if}
+<div class="body_div" style="width: 100%">
+    <div class="popLoanApplyCommon popLoanApply">
+        <div class="popLoanApplyCover"></div>
+        <div class="popLoanMain">
+            <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{$config['title']}提供技术支持</a></div>
+            <div class="popLoanInfo">
+                <ul>
+                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
+                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
+                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li>
+                    <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png"></label><input type="" name="cache" id="cache" placeholder="请输入图形验证码" style="width: 50%;"><img src="" id="cache_img" style="width: 3.3rem; height: 1.3rem;"></li>
+                </ul>
+                <div style="width: 100%;text-align: center;">
+                    <a class="apply_button">申请</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
 <script type="text/javascript">
@@ -256,7 +285,19 @@
     document.writeln("            <a class=\'layer_close\'><img src=\'../addons/xuan_mixloan/template/style/picture/del.png\' /></a>");
     document.writeln("        </div>");
     document.writeln("    </div>");
-
+    $('.footer_apply').click(function(){
+        $("div.popLoanApply").show();
+        setTimeout(function(){
+            $("div.popLoanMain").css({"top":"5rem","opacity":"1"});
+        },100)
+    })
+    $("div.popLoanApplyCover").click(function(){
+        $("div.popLoanMain").css({"top":"95%","opacity":"0"});
+        setTimeout(function(){
+            $("body").css({"height":"auto","overflow":"auto"});
+            $("div.popLoanApply").hide();
+        },100)
+    })
 
     $("#daili_toapply").click(function(){
         //图片合成并弹出
@@ -431,6 +472,192 @@
             });
         });
     }
+</script>
+<script type="text/javascript">
+
+    var iosXIndex=false;
+    $(document).ready(function(){
+        //页面初始化
+        $("div.popLoanApplyCommon").css("height",$(window).height());
+        var bodyH=(parseInt($(window).height()))-75+"px";
+        $("div.cJframe").css({"height":bodyH,"overflow":"auto"});
+    })
+    //判断手机是否为iphoneX,处理兼容问题
+    $(function(){
+        isIphoneX();
+    })
+    function isIphoneX(){
+        var iosXVersion=/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
+        if(iosXVersion){
+            iosXIndex=true;
+        }
+    }
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    console.log(data);
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
+    //避免输入法影响样式
+    $('div.popLoanInfo input').on('focus',function(e){
+        var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
+        window.onresize = function () {
+            var h = $(window).height();
+            var u = navigator.userAgent;
+            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+                if(h <= window.screen.availHeight/2){
+                    $("div.popLoanApply .popLoanMain").css("top","10%");
+                }else{
+                    $("div.popLoanApply .popLoanMain").css("top","31%");
+                }
+            }
+        }
+        if(isIOS){
+            if(iosXIndex){
+                $("div.popLoanApply .popLoanMain").css("top","30%");
+            }else{
+                $("div.popLoanApply .popLoanMain").css("top","30%");
+            }
+            e.stopPropagation();
+            return false;
+        }
+    })
+    function upSubmit() {
+        $(".apply_button").unbind('click');
+        var _name=$("#applyname").val();
+        var phone =$("#phone").val();
+        var idcard =$("#idcard").val();
+        var cache = $('#cache').val();
+        var postData={"name":_name,"phone":phone,"idcard":idcard,"cache":cache};
+        if (cache == '') {
+            layer.tips('请输入图形验证码', '#cache', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }
+        if(_name=='' || _name=="请输入姓名"){
+            document.getElementById('applyname').focus();
+
+            layer.tips('请输入姓名', '#applyname', {
+
+                tips: [3, '#f90'],
+
+                time: 3000
+
+            });
+            click();
+            return false;
+        }else if(_name!=undefined&&_name!=null){
+            // var reg = /^[a-zA-Z0-9\u4e00-\u9fa5\·]{2,15}$/;
+            var reg = /[\u4E00-\u9FA5]{2,10}(?:·[\u4E00-\u9FA5]{2,10})*/;
+            if(!(reg.test(_name))){
+                document.getElementById('applyname').focus();
+                layer.tips('请输入正确的姓名', '#applyname', {
+
+                    tips: [3, '#f90'],
+
+                    time: 3000
+
+                });
+                click();
+                return false;
+            }
+        }
+        if(phone=='' || phone=="请输入手机号码"){
+            document.getElementById('phone').focus();
+
+            layer.tips('请输入手机号码', '#phone', {
+
+                tips: [3, '#f90'],
+
+                time: 3000
+
+            });
+            click();
+            return false;
+        }else{
+            if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
+                document.getElementById('phone').focus();
+                layer.tips('请输入正确的手机号码', '#phone', {
+
+                    tips: [3, '#f90'],
+
+                    time: 3000
+
+                });
+                click();
+                return false;
+            }
+        }
+        if (idcard == '请输入身份证号' || idcard == '') {
+            document.getElementById('idcard').focus();
+
+            layer.tips('请输入身份证号码', '#idcard', {
+
+                tips: [3, '#f90'],
+
+                time: 3000
+
+            });
+            click();
+            return false;
+        }else if(idcard!=undefined&&idcard!=null){
+            if (!(/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(idcard))) {
+
+                document.getElementById('idcard').focus();
+
+                layer.tips('请填写正确的身份证号', '#idcard', {
+
+                    tips: [3, '#f90'],
+
+                    time: 3000
+
+                });
+                click();
+                return false;
+            }
+        }
+        if($("#protocol").length>0){
+            var protocol=$("#protocol").attr("data-index");
+            if(protocol=="0"){
+                layer.msg("请先阅读{$config['title']}服务协议");
+                click();
+                return false;
+            }
+        }
+        $.post("{php echo $this->createMobileUrl('product', array('op'=>'apply_submit', 'id'=>$id, 'inviter'=>$inviter))}",postData,
+            function(data){
+                if (data.code == 1) {
+                    layer.msg('注册成功，正在跳转...', {
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        window.location.href = data.data;
+                    });
+                }else{
+                    layer.msg(data.msg);
+                    click();
+                    return false;
+                }
+            },'json')
+    }
+    function click(){
+        $(".apply_button").bind("click",function(){
+            upSubmit();
+        });
+    }
+    $('.apply_button').click(function(){
+        upSubmit();
+    })
 </script>
 </body>
 </html>

@@ -122,47 +122,8 @@
 		<p><img src="../addons/xuan_mixloan/template/style/picture/calender_1.png" /><span id="pointY"></span><span>年</span><span id="pointM"></span><span>月</span></p>
 		<div class="cusLApplyNum"><a class="btnLeft btnLeftL" style="font-size: 0.4rem"></a><h1>共<span id="applyNum" style="font-size: 0.7rem"></span>申请</h1><a class="btnRight btnRightD"></a></div>
 	</div>
-	<div class="accCommon dayAccount">
-		<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
-        <div class="productLstC monthATitle">
-            <ul>
-                <li>产品</li>
-                <li>申请数/位</li>
-                <li>放款成功</li>
-                <li>奖金/元</li>
-            </ul>
-        </div>
-		<div class="dayProduct">
-		</div>
-	</div>
+	
 	<div class="accCommon monthAccount">
-		<h1><img src="../addons/xuan_mixloan/template/style/picture/weekaccount_1.png" />周结产品<span>(玖富万卡为官方接口，申请数不显示)</span></h1>
-		<div class="productLstC monthATitle">
-			<ul>
-				<li>产品</li>
-				<li>申请数/位</li>
-				<li>放款成功</li>
-				<li>奖金/元</li>
-			</ul>
-		</div>
-		<div class="productLstC productData weekProduct">
-		</div>
-	</div>
-	<div class="accCommon monthAccount">
-		<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />月结产品</h1>
-		<div class="productLstC monthATitle">
-			<ul>
-				<li>产品</li>
-				<li>申请数/位</li>
-				<li>放款成功</li>
-				<li>奖金/元</li>
-			</ul>
-		</div>
-		<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
-		</div>
-	</div>
-    <div style="text-align: center;width: 100%;margin-bottom: 4rem;background: white;color:grey" onclick="openNew('{php echo $this->createMobileUrl('product', array('op' => 'customer_old'))}')">点击查看下架产品申请</div>
-	<!-- <div class="accCommon monthAccount">
 		<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下架产品</h1>
 		<div class="productLstC monthATitle">
 			<ul>
@@ -174,7 +135,7 @@
 		</div>
 		<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
 		</div>
-	</div> -->
+	</div>
 </div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
 <script type="text/javascript">
@@ -202,109 +163,35 @@
         layerindex = layer.load(1, {
             shade: [0.1,'#fff'], //0.1透明度的白色背景
         });
-        $.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_list'))}",{'year':year,'month':month},
+        $.post("{php echo $this->createMobileUrl('product', array('op'=>'customer_old_list'))}",{'year':year,'month':month},
             function(res){
                 if(res.code==1){
                     layer.close(layerindex);
                     $("div.cusLMain").show();
                     var data=res.data;
                     var applys=data.applys;//申请数
-                    var days=data.days_list;//日结
                     $("#applyNum").html(applys.one_degree + '(直推)+' + applys.two_degree + '(二级)');
-                    // $("div.dayProduct ul").html("");
-                    // for(i=0;i<days.length;i++){
-                    //     var dayStr='';
-                    //     var diff=0;
-                    //     var dId=days[i].id;
-                    //     var dTitle=days[i].name;
-                    //     var dImgs=days[i].ext_info.logo;
-                    //     var dCount=days[i].count_num;
-                    //     dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
-                    //     if(dCount=='0'){
-                    //         dayStr += '<span></span></li>';
-                    //     }else{
-                    //         dayStr += '</li>';
-                    //     }
-                    //     $("div.dayProduct ul").append(dayStr);
-                    // }
-                    $("div.dayProduct ul").html("");
-                    for(j=0;j<days.length;j++){
-                        var dayStr='';
-                        var mId=days[j].id;
-                        var mTitle=days[j].name;
-                        var mapply=days[j].count_num;
-                        var mvalid=0;
-                        var mloan=days[j].succ;
-                        var mrewards=days[j].count_bonus;
-                        dayStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
-                        dayStr += '<li>'+ mTitle +'</li>';
-                        dayStr += '<li>'+ mapply +'</li>';
-
-                        dayStr += '<li>'+ mloan +'</li>';
-                        dayStr += '<li>¥ '+ mrewards +'</li>';
-                        dayStr += '</ul>';
-                        $("div.dayProduct").append(dayStr);
-                    }
-                    $("div.weekProduct").html("");
-                    var week=data.weeks_list;//周结
-                    for(j=0;j<week.length;j++){
-                        var weekStr='';
-                        var mId=week[j].id;
-                        var mTitle=week[j].name;
-                        var mapply=week[j].count_num;
-                        var mvalid=0;
-                        var mloan=week[j].succ;
-                        var mrewards=week[j].count_bonus;
-                        weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
-                        weekStr += '<li>'+ mTitle +'</li>';
-                        weekStr += '<li>'+ mapply +'</li>';
-
-                        weekStr += '<li>'+ mloan +'</li>';
-                        weekStr += '<li>¥ '+ mrewards +'</li>';
-                        weekStr += '</ul>';
-                        $("div.weekProduct").append(weekStr);
-                    }
-
-
-                    $("div.monthProduct").html("");
-                    var month=data.months_list;//月结
-                    for(j=0;j<month.length;j++){
-                        var monthStr='';
-                        var mId=month[j].id;
-                        var mTitle=month[j].name;
-                        var mapply=month[j].count_num;
-                        var mvalid=0;
-                        var mloan=month[j].succ;
-                        var mrewards=month[j].count_bonus;
-                        monthStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
-                        monthStr += '<li>'+ mTitle +'</li>';
-                        monthStr += '<li>'+ mapply +'</li>';
-
-                        monthStr += '<li>'+ mloan +'</li>';
-                        monthStr += '<li>¥ '+ mrewards +'</li>';
-                        monthStr += '</ul>';
-                        $("div.monthProduct").append(monthStr);
-                    }
-                    // $("div.inviteProduct").html("");
-                    // var invite=data.invite_list;//月结
-                    // console.log(invite);
-                    // for(j=0;j<invite.length;j++){
-                    //     var inviteStr='';
-                    //     var mId=invite[j].id;
-                    //     var mTitle=invite[j].name;
-                    //     var mapply=invite[j].count_num;
-                    //     var mvalid=0;
-                    //     var mloan=invite[j].succ;
-                    //     var mrewards=invite[j].count_bonus;
-                    //     inviteStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
-                    //     inviteStr += '<li>'+ mTitle +'</li>';
-                    //     inviteStr += '<li>'+ mapply +'</li>';
                     
-                    //     inviteStr += '<li>'+ mloan +'</li>';
-                    //     inviteStr += '<li>¥ '+ mrewards +'</li>';
-                    //     inviteStr += '</ul>';
-                    //     $("div.inviteProduct").append(inviteStr);
-                    // }
+                    $("div.inviteProduct").html("");
+                    var invite=data.invite_list;//月结
+                    console.log(invite);
+                    for(j=0;j<invite.length;j++){
+                        var inviteStr='';
+                        var mId=invite[j].id;
+                        var mTitle=invite[j].name;
+                        var mapply=invite[j].count_num;
+                        var mvalid=0;
+                        var mloan=invite[j].succ;
+                        var mrewards=invite[j].count_bonus;
+                        inviteStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                        inviteStr += '<li>'+ mTitle +'</li>';
+                        inviteStr += '<li>'+ mapply +'</li>';
+                    
+                        inviteStr += '<li>'+ mloan +'</li>';
+                        inviteStr += '<li>¥ '+ mrewards +'</li>';
+                        inviteStr += '</ul>';
+                        $("div.inviteProduct").append(inviteStr);
+                    }
                     layer.close(layerindex);
                 }else{
                     layer.close(layerindex);

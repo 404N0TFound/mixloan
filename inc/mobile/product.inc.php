@@ -10,7 +10,7 @@ if($operation=='index'){
     $cates = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_product_category') . "
         where uniacid={$_W['uniacid']} ORDER BY sort DESC");
     foreach ($cates as &$cate) {
-        $list = m('product')->getList([], ['category'=>$cate['id'], 'is_show'=>1], FALSE);
+        $list = m('product')->getList([], ['category'=>$cate['id'], 'is_show'=>1], ' sort desc');
         $cate['list'] = m('product')->packupItems($list);
         $cate['ext_info'] = json_decode($cate['ext_info'], true);
     }
@@ -91,6 +91,20 @@ if($operation=='index'){
         $cate['ext_info'] = json_decode($cate['ext_info'], true);
     }
     unset($cate);
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1, 'n_id'=>$remove['remove_ids']], FALSE);
+    $hot_list = m('product')->packupItems($hot_list);
+    foreach ($hot_list as &$row) {
+        if ($row['type'] == 1) {
+            $row['url'] = $this->createMobileUrl('product', array('op' => 'apply', 'id' => $row['id'], 'inviter'=>$inviter));
+            $info = m('bank')->getCard(['id', 'ext_info'], ['id' => $row['relate_id']])[$row['relate_id']];
+            $row['tag'] = $info['ext_info']['v_name'];
+        } else {
+            $row['url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$inviter, 'pid'=>$row['id']));
+            $info = m('loan')->getList(['id', 'money_high'], ['id' => $row['relate_id']])[$row['relate_id']];
+            $row['tag'] = '最高额度' . $info['money_high'];
+        }
+    }
+    unset($row);
     include $this->template('product/allProduct');
 } else if ($operation == 'apply') {
     //申请产品
@@ -237,24 +251,24 @@ if($operation=='index'){
     $days_list = m('product')->getList(['id', 'name', 'ext_info'], $condition_days);
     $weeks_list = m('product')->getList(['id', 'name', 'type'], $condition_weeks);
     $months_list = m('product')->getList(['id', 'name', 'type'], $condition_months);
-    $invite_list = m('product')->getList(['id', 'name', 'type'], ['is_show' => 0]);
+    // $invite_list = m('product')->getList(['id', 'name', 'type'], ['is_show' => 0]);
     $days_ids = m('product')->getIds($days_list);
     $weeks_ids = m('product')->getIds($weeks_list);
     $months_ids = m('product')->getIds($months_list);
-    $invite_ids = m('product')->getIds($invite_list);
+    // $invite_ids = m('product')->getIds($invite_list);
     $applys = m('product')->getApplys($params);
     $days_count_list = m('product')->getNums($days_ids, $params, 1);
     $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
     $months_count_list = m('product')->getNums($months_ids, $params, 1);
-    $invite_count_list = m('product')->getNums($invite_ids, $params, 1);
+    // $invite_count_list = m('product')->getNums($invite_ids, $params, 1);
     $days_succ_list = m('product')->getNums($days_ids, $params, 2);
     $weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
     $months_succ_list = m('product')->getNums($months_ids, $params, 2);
-    $invite_succ_list = m('product')->getNums($invite_ids, $params, 2);
+    // $invite_succ_list = m('product')->getNums($invite_ids, $params, 2);
     $days_bonus_list = m('product')->getNums($days_ids, $params, 3);
     $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
     $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
-    $invite_bonus_list = m('product')->getNums($invite_ids, $params, 3);
+    // $invite_bonus_list = m('product')->getNums($invite_ids, $params, 3);
     foreach ($days_list as &$row) {
         $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
         if ($row['type'] == 1) {
@@ -285,17 +299,17 @@ if($operation=='index'){
         $row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
     }
     unset($row);
-    foreach ($invite_list as &$row) {
-        $row['count_num'] = $invite_count_list[$row['id']]['count'] ? : 0;
-        if ($row['type'] == 1) {
-            $row['succ'] = $invite_succ_list[$row['id']]['count'] ? $invite_succ_list[$row['id']]['count'].'位' : '0'.'位';
-        } else {
-            $row['succ'] = $invite_succ_list[$row['id']]['relate_money'] ? $invite_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
-        }
-        $row['count_bonus'] = $invite_bonus_list[$row['id']]['bonus'] ? : 0;
-    }
-    unset($row);
-    $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];
+    // foreach ($invite_list as &$row) {
+    //     $row['count_num'] = $invite_count_list[$row['id']]['count'] ? : 0;
+    //     if ($row['type'] == 1) {
+    //         $row['succ'] = $invite_succ_list[$row['id']]['count'] ? $invite_succ_list[$row['id']]['count'].'位' : '0'.'位';
+    //     } else {
+    //         $row['succ'] = $invite_succ_list[$row['id']]['relate_money'] ? $invite_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+    //     }
+    //     $row['count_bonus'] = $invite_bonus_list[$row['id']]['bonus'] ? : 0;
+    // }
+    // unset($row);
+    $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'applys'=>$applys];
     show_json(1, $arr);
 }else if ($operation == 'customer_detail') {
     //详情
@@ -434,4 +448,34 @@ if($operation=='index'){
         pdo_insert('xuan_mixloan_shop', $insert);
     }
     show_json(1, [], 'OK');
+} else if ($operation == 'customer_old') {
+    include $this->template('product/customer_old');
+} else if ($operation == 'customer_old_list') {
+    $month = (int)$_GPC['month'];
+    $year = (int)$_GPC['year'];
+    $params['begin'] = "{$year}-{$month}-01";
+    $params['inviter'] = $member['id'];
+    if ($config['customer_hide_product']) {
+        $remove = pdo_fetch('select id,remove_ids from ' . tablename('xuan_mixloan_product_remove') . '
+            where uniacid=:uniacid and uid=:uid', array(':uniacid' => $_W['uniacid'], ':uid' => $member['id']));
+        $params['remove_ids'] = $remove['remove_ids'];
+    }
+    $applys = m('product')->getApplys($params);
+    $invite_list = m('product')->getList(['id', 'name', 'type'], ['is_show' => 0]);
+    $invite_ids = m('product')->getIds($invite_list);
+    $invite_bonus_list = m('product')->getNums($invite_ids, $params, 3);
+    $invite_succ_list = m('product')->getNums($invite_ids, $params, 2);
+    $invite_count_list = m('product')->getNums($invite_ids, $params, 1);
+    foreach ($invite_list as &$row) {
+        $row['count_num'] = $invite_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $invite_succ_list[$row['id']]['count'] ? $invite_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $invite_succ_list[$row['id']]['relate_money'] ? $invite_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $invite_bonus_list[$row['id']]['bonus'] ? : 0;
+    }
+    unset($row);
+    $arr = ['invite_list'=>array_values($invite_list), 'applys'=>$applys];
+    show_json(1, $arr);
 }
