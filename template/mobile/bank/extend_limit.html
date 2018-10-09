@@ -92,11 +92,25 @@
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
         <p>首页</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>今日口子</p>
-        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    <a onclick="announce()" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/announce.png" /></p>
+        <p>公告</p>
     </a>
+    <script type="text/javascript">
+        function announce(){
+            var cid = 0;
+            $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+                function(data){
+                    if (data.code == 1) {
+                        layer.alert(data.msg, {
+                            icon: 1,
+                            skin: 'layer-ext-moon',
+                            title:'公告'
+                        })
+                    }
+                },'json')
+        }
+    </script>
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
