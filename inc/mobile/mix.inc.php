@@ -48,8 +48,12 @@ if($operation=='service'){
 		$pro_name = trim($_GPC['pro_name']);
 		$get_money_pic = trim($_GPC['get_money_pic']);
 		$sms_pic = trim($_GPC['sms_pic']);
+		$apply_date = trim($_GPC['apply_date']);
+		$agent_phone = trim($_GPC['agent_phone']);
 		$ext_info = array();
 		$ext_info['sms_pic'] = $sms_pic;
+		$ext_info['apply_date'] = $apply_date;
+		$ext_info['agent_phone'] = $agent_phone;
 		$ext_info['get_money_pic'] = $get_money_pic;
 		$insert = array();
 		$insert['uid'] = $member['id'];

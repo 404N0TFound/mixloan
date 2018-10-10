@@ -66,6 +66,16 @@
                     <div class="input-wap"><input type="text" name="pro_name" id="pro_name" placeholder="产品名称"  ></div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
+                <li class="border clearfix">
+                    <div class="list-name">代理手机</div>
+                    <div class="input-wap"><input type="text" name="agent_phone" id="agent_phone" placeholder="代理手机"  ></div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
+                <li class="border clearfix">
+                    <div class="list-name">申请日期</div>
+                    <div class="input-wap"><input type="date" name="apply_date" id="apply_date" placeholder="日期"  ></div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
                 <li class="border first clearfix">
                     <div class="list-name">下款页面截图</div>
                     <div class="input-wap" >
@@ -232,6 +242,8 @@
         var name=$("input[name='name']").val();   //身份证
         var phone=$("input[name='phone']").val();   //身份证
         var pro_name=$("input[name='pro_name']").val();   //身份证
+        var agent_phone=$("input[name='agent_phone']").val();   //身份证
+        var apply_date=$("input[name='apply_date']").val();   //身份证
         if (name == "") {
             layer.msg("请填写名称");
             return false;
@@ -259,7 +271,7 @@
         ajax.url = "{php echo $this->createMobileUrl('mix', array('op'=>'feedback', 'post' => 1))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'name':dataTransform(name),'phone':dataTransform(phone),'pro_name':dataTransform(pro_name),'get_money_pic':dataTransform(get_money_pic),'sms_pic':dataTransform(sms_pic)};
+        ajax.data = {'name':dataTransform(name),'phone':dataTransform(phone),'pro_name':dataTransform(pro_name),'get_money_pic':dataTransform(get_money_pic),'agent_phone':dataTransform(agent_phone),'apply_date':dataTransform(apply_date),'sms_pic':dataTransform(sms_pic)};
         ajax.success = function (data) {
             //alert(data); 
             layer.close(imguploadimg);

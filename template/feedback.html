@@ -121,6 +121,20 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">代理手机</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][apply_date]" value="{$item['ext_info']['agent_phone']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][apply_date]" value="{$item['ext_info']['apply_date']}" />
+                </div>
+            </div>
+            <input type="hidden" name="data[ext_info][get_money_pic]" value="{$item['ext_info']['get_money_pic']}" />
+            <input type="hidden" name="data[ext_info][sms_pic]" value="{$item['ext_info']['sms_pic']}" />
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">下款图片</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <img src="{$item['ext_info']['get_money_pic']}" style="max-width: 350px">
