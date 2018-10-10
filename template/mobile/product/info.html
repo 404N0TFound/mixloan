@@ -641,7 +641,7 @@
                     layer.msg('注册成功，正在跳转...', {
                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
                     }, function(){
-                        window.location.href = data.data;
+                        window.location.href = data.data + '&xapp-target=browser';
                     });
                 }else{
                     layer.msg(data.msg);
