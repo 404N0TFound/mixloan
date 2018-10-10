@@ -306,11 +306,8 @@
             $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
                 function(data){
                     if (data.code == 1) {
-                        layer.alert(data.msg, {
-                            icon: 1,
-                            skin: 'layer-ext-moon',
-                            title:'公告'
-                        })
+                        console.log(data.msg)
+                        alert(data.msg)
                     }
                 },'json')
         }
