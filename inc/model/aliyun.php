@@ -17,7 +17,7 @@ class Xuan_mixloan_Aliyun
     function bank4($params = array(), $method = "GET")
     {
         $url = 'https://aliyun-bankcard4-verify.apistore.cn/bank4';
-        $appCode = '912396a37aba4895b02b204edaf70d67';
+        $appCode = '';
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $method == "POST" ? $url : $url . '?' . http_build_query($params));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
