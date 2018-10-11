@@ -112,4 +112,30 @@ if($operation=='service'){
     } else {
         show_json(-1);
     }
+} else if ($operation == 'feedback') {
+    // 返佣反馈
+    if ($_GPC['post']) {
+        $phone = trim($_GPC['phone']);
+        $name = trim($_GPC['name']);
+        $pro_name = trim($_GPC['pro_name']);
+        $get_money_pic = trim($_GPC['get_money_pic']);
+        $sms_pic = trim($_GPC['sms_pic']);
+        $apply_date = trim($_GPC['apply_date']);
+        $agent_phone = trim($_GPC['agent_phone']);
+        $ext_info = array();
+        $ext_info['sms_pic'] = $sms_pic;
+        $ext_info['apply_date'] = $apply_date;
+        $ext_info['agent_phone'] = $agent_phone;
+        $ext_info['get_money_pic'] = $get_money_pic;
+        $insert = array();
+        $insert['uid'] = $member['id'];
+        $insert['pro_name'] = $pro_name;
+        $insert['name'] = $name;
+        $insert['phone'] = $phone;
+        $insert['ext_info'] = json_encode($ext_info);
+        $insert['createtime'] = time();
+        pdo_insert('xuan_mixloan_feedback', $insert);
+        show_json(1, [], '成功');
+    }
+    include $this->template('mix/feedback');
 }

@@ -37,12 +37,40 @@
       <entry title="帮助中心" do="help" state="" direct="false" />
 		<entry title="奖励管理" do="bonus" state="" direct="false" />
 		<entry title="公告管理" do="announce" state="" direct="false" />
+    <entry title="代理反馈" do="feedback" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_verify_data`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_verify_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(30) NOT NULL,
+  `certno` varchar(50) NOT NULL,
+  `realname` varchar(30) NOT NULL,
+  `bankcard` varchar(30) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `phone` (`phone`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_feedback`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `pro_name` varchar(30) NOT NULL,
+  `ext_info` text NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `phone` (`phone`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_agent_close`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_agent_close` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -237,6 +265,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `bankname` varchar(20) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL default 1,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
