@@ -87,6 +87,15 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce_record` (
   KEY `relate_id` (`relate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_agent_close`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_agent_close` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `is_close` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_announce`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
