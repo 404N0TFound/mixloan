@@ -259,7 +259,7 @@ if ($operation == 'list') {
             'createtime' => time()
         );
         pdo_insert('qrcode_stat', $insert);
-        message('更改成功', '', 'success');
+        message('更改成功', referer(), 'success');
     }
 }
 include $this->template('member');
