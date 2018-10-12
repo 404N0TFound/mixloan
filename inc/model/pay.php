@@ -9,9 +9,9 @@ class Xuan_mixloan_Pay
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     private $publickey_url = "https://fraud.mch.weixin.qq.com/risk/getpublickey";
-    private $publickey_path = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/key/ras.pub";
-    private $apiclient_cert = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
-    private $apiclient_key = "/www/wwwroot/www.86456533.com/addons/xuan_mixloan/data/cert/apiclient_key.pem";
+    private $publickey_path = "/www/wwwroot/wx.wd8818.cn/addons/xuan_mixloan/data/key/ras.pub";
+    private $apiclient_cert = "/www/wwwroot/wx.wd8818.cn/addons/xuan_mixloan/data/cert/apiclient_cert.pem";
+    private $apiclient_key = "/www/wwwroot/wx.wd8818.cn/addons/xuan_mixloan/data/cert/apiclient_key.pem";
     function __construct()
     {
         // if (!file_exists($this->publickey_path)) {
@@ -121,12 +121,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '正多科技充值';
+        $params['body'] = '倾城时代充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "正多科技充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.wd8818.cn","wap_name": "倾城时代充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
