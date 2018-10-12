@@ -1,0 +1,347 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="e-mail=no" name="format-detection" />
+<title>个人中心</title>
+<script type="text/javascript" src="../../style/js/jquery_1.js"></script>
+<script type="text/javascript" src="../../style/js/lmy_1.js"></script>
+<link rel="stylesheet" href="../../style/css/swiper.min_2.css">
+<link rel="stylesheet" href="../../style/css/lmy_2.css">
+<link rel="stylesheet" href="../../style/css/associate2_2.css"><!-- 关联注册 -->
+<link rel="stylesheet" href="../../style/css/index_two_2.css">
+<script type="text/javascript" src="../../style/js/layer_2.js"></script>
+<script  type="text/javascript"  src="../../style/js/swiper.min_2.js"></script> 
+<link rel="stylesheet" href="../../style/css/index_alt_2.css">
+<body>
+<!-- 代理 -->
+<div class="vip_tail dn" data-purchased="">
+	<div class="index_header">
+	  	<p class="clearfix">
+	  		<label  id="wechatname"></label>
+	  		<a href="/Wap/IdaiCenter/verify" id="is_certification">
+	  			<!-- <span></span>
+	  			<img src="../../style/picture/int_san_2.png" class="small"> -->
+	  		</a>
+  		</p>
+	</div>
+	<div class="index_img">
+		<ul class="clearfix">
+	    	<li class="one">
+	    		<a href="/Wap/Salary/mySalary">
+		    		<p>可结算(元)<span><img src="../../style/picture/int_san_2.png"></span></p>
+		    		<h2 id="wage"></h2>
+		    		<p class="on">总收入(元)</p>
+		    		<h3 id="income"></h3>
+	    		</a>
+	    	</li>
+	    	<li class="two">
+	    		<div class="int_pic">
+	    			<a href="/Wap/IdaiCenter/verify">
+	    				<p id="headimgurl"><!-- <img src="../../style/picture/pic_2.png"> --></p>
+	    			</a>
+	    			<div class="pic_icon"><span><img src="../../style/picture/int_xx_1.png"></span>代理</div>
+	    		</div>
+	    		<p>编号：<span id="userId"></span></p>	
+	    	</li>
+	 	</ul>
+	</div>
+	<div class="int_swiper dn">
+		 <div class="swiper-container">
+	        <div class="swiper-wrapper">
+	            <div class="swiper-slide">
+	            	<div class="swp_tail swp_tail_one" ></div>
+	            </div>
+	            <div class="swiper-slide">
+	            	<div class="swp_tail swp_tail_two"></div>
+	            </div>
+	            <div class="swiper-slide">
+	            	<div class="swp_tail swp_tail_tre"></div>
+	            </div>
+	            <div class="swiper-slide">
+	            	<div class="swp_tail swp_tail_four"></div>
+	            </div>
+			</div>
+	        <!-- Add Pagination -->
+	       	<div class="swiper-scrollbar"></div> 
+	    </div>
+	</div>
+	<div class="int_giftTwo clearfix"></div>
+	<div class="int_zx">
+		<ul class="clearfix">
+			<li>
+				<a href="javascript:;"  onClick="Consultation();">
+					<h2><img src="../../style/picture/zx1_2.png"></h2><p>咨询</p>
+				</a>
+			</li>
+			<li id="notice_xx">
+				<a href="/Wap/IdaiCenter/notice">
+					<h2><img src="../../style/picture/zx2_1.png"></h2><p>通知</p>
+				</a>
+			</li>
+			<li>
+				<a href="/App/Idaik/priceList">
+					<h2><img src="../../style/picture/zx5_2.png"></h2><p>价格表</p>
+				</a>
+			</li>
+			<li>
+				<a href="/Wap/Help/question">
+					<h2><img src="../../style/picture/zx6_2.png"></h2><p>帮助</p>
+				</a>	
+			</li>
+			<li>
+				<a href="/Wap/Find/myRelease">
+					<h2><img src="../../style/picture/zx3_2.png"></h2><p>帖子</p>
+				</a>	
+			</li>
+		</ul>
+	</div>
+	<!-- 底部 -->
+</div>
+ <!-- 推荐有奖 -->
+<div class="recToReward" style="display: none;">
+    <div class="recTipBox">
+        <img class="recImg16" src="../../style/picture/rec_16_2.png">
+        <div class="recTipTop">
+            <div class="rttBox">
+                <img class="recImg1" src="../../style/picture/rec_1_1.png">
+                <img class="recImg2" src="../../style/picture/rec_4_2.png"> 
+                <div class="rttBoxM">
+                    <img class="recImg7" src="../../style/picture/rec_8_2.png">
+                    <img class="recImg8" src="../../style/picture/rec_9_2.png">  
+                </div>                             
+                <div class="rttBoxT">
+                    <img class="recImg4" src="../../style/picture/rec_5_2.png">
+                    <p>
+                        <img class="recImg5" src="../../style/picture/rec_6_2.png">
+                        <img class="recImg6" src="../../style/picture/rec_7_2.png">
+                    </p>                    
+                </div>                
+            </div>
+        </div>
+        <div class="recTipBot">
+            <div class="rtbBox">
+                <img class="recImg3" src="../../style/picture/rec_3_2.png">                
+                <div class="rtbBoxM">
+                    <img class="recImg9" src="../../style/picture/rec_10_2.png">
+                    <img class="recImg10" src="../../style/picture/rec_11_2.png">
+                    <img class="recImg11" src="../../style/picture/rec_12_1.png"> 
+                    <img class="recImg14" src="../../style/picture/rec_15_2.png">
+                </div>
+                <p>
+                    <img class="recImg12" src="../../style/picture/rec_13_2.png">
+                    <img class="recImg13" src="../../style/picture/rec_14_2.png">
+                </p>
+            </div>            
+        </div>
+    </div>
+</div>	
+<!-- 底部标签 -->
+<div class="fix_index"></div>
+<div class="pageTab">
+    <ul>
+        <li>	
+        	<a href="/Wap/LoanTwo/index"><p><img class="tabIndex" src="../../style/picture/index_4_2.png"></p><h2>首页</h2></a>
+    	</li>
+        <li>
+        	<a href="/Wap/IdaikNew/index"><p><img class="tabIdaik" src="../../style/picture/index_5_2.png"></p><h2>i代客</h2></a>
+    	</li>
+        <li>
+        	<a href="/Wap/Find/index"><p><img class="tabFind" src="../../style/picture/index_6_2.png"></p><h2>发现</h2></a>
+    	</li>
+       	<li class="on">
+        	<a href="javascript:;"><p><img class="tabPersonal" src="../../style/picture/index_7_1_2.png"></p><h2>个人中心</h2></a>
+    	</li>
+    </ul>
+</div>
+
+<!-- 未实名弹窗 -->
+<div class="NoRealName dn" id="NoRealName">
+	<div class="NameAlert">
+		<h2>身份认证</h2>
+		<p>完成实名认证，避免账户盗用，提现到账更及时。</p>
+		<ul class="clearfix">
+    		<li class="fl"  id="Cancel"><p>取消</p></li>
+    		<li class="fr"><a href="/Wap/IdaiCenter/verify"><p>去认证</p></a></li>
+  		</ul>
+	</div>
+</div>
+
+<script type="text/javascript" src="../../style/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="../../style/js/lib/user.js"></script>
+<script type="text/javascript" src="../../style/js/lib/urls.js"></script>
+<script type="text/javascript" src="../../style/js/md5_2.js"></script><!-- md5加密 -->
+<script type="text/javascript" src="../../style/js/jquery.cookie_2.js"></script>
+<script type="text/javascript">
+	function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+</script>
+
+<script>
+// 代理接口
+$(function() {
+	if (userId == null) {
+		openNew('../index/login.html');
+	}
+	$("#headimgurl").text('');
+	$('div.int_gift').text('');
+	$('#is_certification').text('');
+	$.post(user_index_url, {}, function(data) {
+		if(data.code==0){
+			$('.vip_tail').show();
+			$('div.int_swiper').show();
+			var income=data.data.income; //总收入
+			var headimgurl=data.data.headimgurl;
+			var wage=data.data.wage;
+			var id=data.data.id;
+			var wechatname=data.data.wechatname;
+			var is_certification=data.data.is_certification;
+			var src1=data.data.src1;
+			var src2=data.data.src2;
+			var src3=data.data.src3;
+			var src4=data.data.src4;
+			var teamWage=data.data.teamWage; //当月提成
+			var teamPeople=data.data.teamPeople;
+
+
+			var msg=data.data.msg; ///出现0  出现红点
+			if(msg!="0"){
+				$('#notice_xx').addClass('on');
+			}
+			if(is_certification=="0"){
+				//$("#is_certification").text("未实名");
+				certification();
+				$('#is_certification').append('<span class="active">未实名</span>'
+	  											+'<img src="../../style/picture/int_san3_2.png" class="small">');
+
+			}else{
+				//$("#is_certification").text("已实名");
+				$('#is_certification').append('<span>已实名</span>');
+
+			}
+			//$("#income").text(income);
+			$("#income").append("<a href='javascript:void(0);'>"+income+"</a>");
+
+			$("#wage").text(wage);
+			$("#userId").text(id);
+			$("#wechatname").text(wechatname+" 您好");
+			if(headimgurl!="" && headimgurl!=null && headimgurl!=undefined){
+				$("#headimgurl").append("<img src='"+headimgurl+"' />");
+			}else{
+				$("#headimgurl").append("<img src='../../style/picture/i_1.png' />");
+			}
+
+			//$(".swp_tail_one").append("<a href='/Wap/daili/super'><img src='"+src1+"' /></a>");
+
+			//轮播
+			$(".swp_tail_one").append("<a href='/Wap/IdaiCenter/loanCenter_vip/type/1/userId/"+userId+"/dai/"+dai_li+"'><img src='"+src1+"' /></a>");
+			$(".swp_tail_two").append("<a href='/App/Idaik/card/userId/204559/source/0 '><img src='"+src2+"' /></a>");
+			$(".swp_tail_tre").append("<a href='/App/Purchase/myTeam/userId/"+userId+"'>"
+										+"<img src='"+src4+"' />"
+										+"<div class='TeamPic'>"
+										+"<p class='on'>团队成员: "+teamPeople+"</p>"
+										+"<p>当月提成: "+teamWage+"</p>"
+										+"</div>"
+										+"</a>");
+			$(".swp_tail_four").append("<a href='/App/Idaik/cusCreditReport/userId/204559'><img src='"+src3+"' /></a>");
+			$('div.int_giftTwo').append('<a href="/Wap/SecondRecomm/re_prize_tre?userId='+userId+'&dai='+dai_li+'&source='+source+'">'	
+									+'<img src="../../style/picture/index_re_2.png" style="width:100%;">'
+									+'</a>');
+		}else{
+			layer.msg(data.message);
+			return false;
+		}
+	}, "json");	
+	
+	// end
+    var swiper = new Swiper('.swiper-container', {
+       	direction: 'horizontal',
+        slidesPerView:2.75,
+        enteredSlides:true,
+        spaceBetween: 1,
+       	autoplayDisableOnInteraction : false,
+       	slidesOffsetBefore :15,
+   	  	observer:true,
+    	observeParents:true,
+    	pagination: '.swiper-scrollbar',
+	    // pagination: {
+	    //     el: '.swiper-pagination',
+	    //     clickable: true,
+	    // },
+     
+    });
+ });
+
+function  certification(){
+	if($.cookie("isClose") != 'yes'){
+		var winWid = $(window).width()/2 - $('.NameAlert').width()/2;
+		var winHig = $(window).height()/2 - $('.NameAlert').height()/2;
+		$("#NoRealName").css({"top":-winHig*2});	//自上而下
+		$("#NoRealName").show();
+		$("#NoRealName").animate({"top":0},100);
+		$("#NoRealName #Cancel").click(function(){
+			$('#NoRealName').fadeOut(500);
+			$.cookie("isClose",'yes',{ expires:1});		//一天
+		});
+	}
+}
+////推荐有钱
+$(function() {
+ // 判断并弹出推荐有奖弹窗
+    if($(".vip_tail").attr("data-purchased")!=""){
+        setTimeout(function(){
+            $("div.recToReward").show();
+        },1000)
+    } 
+
+    //进入推荐有奖页面
+	$("div.recToReward").click(function(){
+	    location.href="/Wap/SecondRecomm/re_prize_tre?userId="+userId+"&dai="+dai_li+"&source="+source+"";
+	})
+
+	//关闭推荐有奖弹窗
+	$(".recImg16").click(function(e){
+	    $("div.recToReward").hide();
+	    e.stopPropagation();
+	})
+});
+
+//客服
+function Consultation(){
+	
+}
+
+//避免输入法影响样式
+$('div.associate input').on('focus',function(){
+    window.onresize = function () {        
+        var h = $(window).height();
+        var u = navigator.userAgent;
+        if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
+            if(h <= window.screen.availHeight/2){
+                bodyRollFlag=1;
+                $("div.fill_info").css("margin-top","-30%");
+            }else{
+                bodyRollFlag=1;
+                $("div.fill_info").css("margin-top","8%");
+            }
+        }
+    }
+})
+//监听页面滚动
+document.addEventListener('touchmove', function (event) {
+    if(bodyRollFlag==1){
+        event.preventDefault();
+    } 
+})
+</script>
+
+</body>
+
+</html>
