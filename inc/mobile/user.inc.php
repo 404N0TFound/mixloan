@@ -137,10 +137,15 @@ if($operation=='index'){
     show_json(1);
 } else if ($operation == 'set') {
 	//修改资料
+    $record = pdo_fetch('select realname,phone,certno from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $member['id']));
+    if (!$record) {
+        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
+    }
 	$agent = pdo_fetch('SELECT id FROM '.tablename('xuan_mixloan_payment').' WHERE uid=:uid', array(':uid'=>$member['id']));
 	if ($agent) {
-		$inviter = pdo_fetchcolumn('SELECT b.nickname FROM '.tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member').' b ON a.inviter=b.id WHERE a.uid=:uid ORDER BY a.id ASC', array(':uid'=>$member['id']));
-		$agent['inviter'] = $inviter ? : '平台';
+		$inviter = m('member')->getInviter($member['phone'], $openid);
+		$agent['inviter'] = m('member')->getInviterInfo($inviter);
 	}
 	include $this->template('user/set');
 } else if ($operation == 'uploadImage') {
@@ -155,7 +160,7 @@ if($operation=='index'){
 	}
 } else if ($operation == 'setData') {
 	//上传资料
-	if(!trim($_GPC['realname']) || !trim($_GPC['idcard']) || !trim($_GPC['wechatnum'])) {
+	if(!trim($_GPC['wechatnum'])) {
 		show_json(-1, [], '资料不能留空');
 	}
 	if ($config['jdwx_open'] == 1) {
@@ -168,8 +173,6 @@ if($operation=='index'){
 		'avatar'=>trim($_GPC['headimgurl']),
 		'nickname'=>trim($_GPC['nickname']),
 		'wechat'=>trim($_GPC['wechatnum']),
-		'realname'=>trim($_GPC['realname']),
-		'certno'=>trim($_GPC['idcard']),
 	), array('id'=>$member['id']));
 	show_json(1);
 } else if ($operation == 'send_msg') {

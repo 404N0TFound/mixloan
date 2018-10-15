@@ -83,12 +83,12 @@
             <ul class="clearfix">
                 <li class="border clearfix">
                     <div class="list-name">姓名</div>
-                    <div class="input-wap"><input type="text" name="realname" id="realname" value="{$member['realname']}" placeholder="输入真实姓名" style="color: #666 !important;"></div>
+                    <div class="input-wap"><input type="text" name="realname" id="realname" value="{$record['realname']}" placeholder="输入真实姓名" style="color: #666 !important;" readonly=""></div>
                     <div class="pic pic_one"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
                 <li class="input-list  clearfix">
                     <div class="list-name">身份证号</div>
-                    <div class="input-wap"><input type="text" name="idcard" id="idcard" value="{$member['certno']}" placeholder="输入身份证号码"></div>
+                    <div class="input-wap"><input type="text" name="idcard" id="idcard" value="{$record['certno']}" placeholder="输入身份证号码" readonly=""></div>
                     <div class="pic pic_tre"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
                 <h5 class="file-title"></h5>
@@ -110,7 +110,7 @@
                 <li class="input-list clearfix">
                     <div class="list-name">推荐人</div>
                     <div class="input-wap">
-                        <p>{$agent['inviter']}</p>
+                        <p>{if $agent['inviter']}{$agent['inviter']['nickname']}{else}平台{/if}</p>
                     </div>
                 </li>
                 {/if}
@@ -293,7 +293,7 @@
         ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'setData'))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'phone':dataTransform(phone),'idcard':dataTransform(idcard)};
+        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'idcard':dataTransform(idcard)};
         ajax.success = function (data) {
             //alert(data);
             layer.close(imguploadimg);
