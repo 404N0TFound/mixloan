@@ -315,6 +315,10 @@ if ($operation == 'list') {
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
+        $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
+            where uid=:uid', array(':uid' => $row['id']));
+        $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $row['id']));
         $row['agent'] = m('member')->checkAgent($row['id']);
     }
     unset($row);
