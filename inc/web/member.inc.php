@@ -33,7 +33,11 @@ if ($operation == 'list') {
         unset($row);
     } else {
         $list = pdo_fetchall($sql);
-        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12),)));
+        foreach ($list as &$row) {
+            $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+        }
+        unset($row);
+        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '手机号', 'field' => 'phone', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '注册时间', 'field' => 'createtime', 'width' => 12),)));
     }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
     $pager = pagination($total, $pindex, $psize);
