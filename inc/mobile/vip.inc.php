@@ -698,7 +698,7 @@ if($operation=='buy'){
         $endtime = strtotime(date('Y-m-d'));
         $list = pdo_fetchall("select inviter as uid,SUM(re_bonus+done_bonus+extra_bonus) as count_bonus from " . tablename('xuan_mixloan_bonus') . "
              WHERE createtime>{$strattime} AND createtime<{$endtime}
-             GROUP BY uid HAVING count_bonus<>0
+             GROUP BY inviter HAVING count_bonus<>0
              ORDER BY count_bonus DESC LIMIT 15");
     } else {
         $temp_time = date('Y-m') . '-1';
