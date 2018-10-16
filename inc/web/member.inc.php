@@ -10,27 +10,31 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
-    $wheres = ' AND status<>-1';
+    $wheres = ' AND a.status<>-1';
     if (!empty($_GPC['id'])) {
-        $wheres .= " AND id={$_GPC['id']}";
+        $wheres .= " AND a.id={$_GPC['id']}";
     }
     if (!empty($_GPC['openid'])) {
-        $wheres.= " AND openid='{$_GPC['openid']}'";
+        $wheres.= " AND a.openid='{$_GPC['openid']}'";
     }
     if (!empty($_GPC['id'])) {
-        $wheres.= " AND id='{$_GPC['id']}'";
+        $wheres.= " AND a.id='{$_GPC['id']}'";
     }
     if (!empty($_GPC['nickname'])) {
-        $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
+        $wheres.= " AND a.nickname LIKE '%{$_GPC['nickname']}%'";
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    if ($_GPC['agent']) {
+        $sql = 'select a.*,b.tid from ' . tablename('xuan_mixloan_member') . " a
+                left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+                where a.uniacid={$_W['uniacid']} and b.tid<>''"  . $wheres . ' ORDER BY a.id DESC';
+    } else {
+        $sql = 'select a.*,b.tid from ' . tablename('xuan_mixloan_member') . " a
+                left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+                where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY a.id DESC';
+    }
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
-        foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'])['code'];
-        }
-        unset($row);
     } else {
         $list = pdo_fetchall($sql);
         foreach ($list as &$row) {
@@ -39,7 +43,15 @@ if ($operation == 'list') {
         unset($row);
         m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '手机号', 'field' => 'phone', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '注册时间', 'field' => 'createtime', 'width' => 12),)));
     }
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
+    if ($_GPC['agent']) {
+        $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_member') . " a
+                left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+                where a.uniacid={$_W['uniacid']} and b.tid<>''"  . $wheres . ' ORDER BY a.id DESC' );
+    } else {
+        $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_member') . " a
+                left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+                where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY a.id DESC' );
+    }
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     $member = m('member')->getMember($_GPC['id']);
