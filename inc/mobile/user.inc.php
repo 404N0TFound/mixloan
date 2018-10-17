@@ -8,6 +8,9 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//会员中心
+    if ($_GPC['inviter'] && $member['createtime']+5 > time()) {
+        m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+    }
     if (empty($member['phone'])) {
         message('请先绑定手机', $this->createMobileUrl('index', array('op'=>'register')), 'error');
     }

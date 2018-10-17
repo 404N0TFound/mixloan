@@ -16,10 +16,10 @@ class Xuan_mixloan_Alipay
      * @param $payee_real_name 对方真实姓名
      * @return boolean
      */
-    public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name)
+    public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name, $id)
     {
         $payer_show_name        = '梦泓电子商务';
-        $remark                 = '用户提现';
+        $remark                 = $id;
         $aop                    = new \AopClient();
         $aop->gatewayUrl        = $this->gatewayUrl;
         $aop->appId             = $this->appId;

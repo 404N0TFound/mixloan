@@ -336,6 +336,16 @@ if ($operation == 'list') {
                     'width' => 20
                 ),
                 array(
+                    'title' => '支付宝姓名',
+                    'field' => 'realname',
+                    'width' => 20
+                ),
+                array(
+                    'title' => '支付宝账号',
+                    'field' => 'phone',
+                    'width' => 20
+                ),
+                array(
                     'title' => '申请金额',
                     'field' => 'bonus',
                     'width' => 10
@@ -477,7 +487,7 @@ if ($operation == 'list') {
             {
                 setcookie($cookie, 1, time()+120);
                 $payment_no = date('YmdHis');
-                $result = m('alipay')->transfer($payment_no, $item['money'], $bank['phone'], $bank['realname']);
+                $result = m('alipay')->transfer($payment_no, $item['money'], $bank['phone'], $bank['realname'], $id);
                 if ($result['code'] == -1) {
                     message($result['msg'], '', 'error');
                 } else {
@@ -549,7 +559,7 @@ if ($operation == 'list') {
         {
             setcookie($cookie, 1, time()+120);
             $payment_no = date('YmdHis');
-            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+            $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname'], $id);
             if ($result['code'] == -1) {
                 message($result['msg'], '', 'error');
             } else {
