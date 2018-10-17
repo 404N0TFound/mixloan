@@ -16,22 +16,52 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	if (!$member['phone']) {
-		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+	if ($member['id'] == 5223) {
+		$config['buy_vip_price'] = 0.01;
 	}
-	$tid = "10001" . date('YmdHis', time());
-	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
-	$params = array(
-	    'tid' => $tid, 
-	    'ordersn' => $tid, 
-	    'title' => $title, 
-	    'fee' => $fee, 
-	    'user' => $member['id'], 
-	);
-	//调用pay方法
-	$this->pay($params);
-	exit;
+    if (is_weixin())
+    {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $openid,
+        );
+        //调用pay方法
+        $this->pay($params);
+    }
+    else
+    {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $openid,
+            'module' => 'xuan_mixloan'
+        );
+        $insert = array(
+            'openid' => $openid,
+            'uniacid' => $_W['uniacid'],
+            'acid' => $_W['uniacid'],
+            'tid' => $tid,
+            'fee' => $fee,
+            'status' => 0,
+            'module' => 'xuan_mixloan',
+            'card_fee' => $fee,
+        );
+        pdo_insert('core_paylog', $insert);
+        $url = url('mc/cash/alipay') . "&params=" . base64_encode(json_encode($params));
+        include $this->template('vip/openHref');
+    }
+    exit;
 } else if ($operation == 'createPost') {
 	if ($agent['code'] != 1) {
 	    show_json(-1, [], '您不是会员');
@@ -321,7 +351,7 @@ if($operation=='buy'){
     $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
     $created = true;
     if ($type == 3) {
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'app_register', 'inviter'=>$member['id']));
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'', 'inviter'=>$member['id']));
         $share_url = shortUrl( $url );
         $tips = "HI，朋友，为你介绍一款赚钱神器，推荐他人办卡办贷，日日领工资，邀你一起体验：{$share_url}";
         if (!$posterArr) {
