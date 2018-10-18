@@ -62,6 +62,7 @@ class Xuan_mixloanModule extends WeModule {
                     'ios_url'=>$_GPC['ios_url'],
                     'withdraw_open'=>$_GPC['withdraw_open'],
                     'withdraw_close_tips'=>$_GPC['withdraw_close_tips'],
+                    'agent_fee_limit'=>$_GPC['agent_fee_limit']
             	);
 
             if ($this->saveSettings($cfg)) {

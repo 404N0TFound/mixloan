@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>代理设置中心</title>
+    <title>代理费自行调整</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,6 +15,7 @@
         .mui-input-row{font-size: 15px}
         .mui-input-row input{font-size: 15px}
         .validnum{padding: 2px;background: #007aff;border-radius: 2px;color:white}
+        .tips{margin-top: 20px;font-size: 15px;text-align: center;width: 100%}
     </style>
 </head>
 
@@ -22,35 +23,29 @@
 
 <header class="mui-bar mui-bar-nav" style="padding-top: 30px;height: 80px;">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-    <h1 class="mui-title">支付密码更改</h1>
+    <h1 class="mui-title">代理费自行调整</h1>
 </header>
 <div class="mui-content" style="margin-top: 50px">
     <ul class="mui-table-view">
         <form class="mui-input-group">
             <div class="mui-input-row">
-                <label style="width: 40%">手机号</label>
-                <input type="text" value="{$member['phone']}" readonly="" style="width:60%" id="phone">
+                <label style="width: 40%">平台代理费</label>
+                <input type="text" value="{$config['buy_vip_price']}" readonly="" style="width:60%" id="buy_vip_price">
             </div>
             <div class="mui-input-row">
-                <label style="width: 40%"><img id="cache_img" style="width: 4rem;height: 1.5rem"></label>
-                <input type="text" placeholder="请输入图形码" id="imgCode" style="width:60%">
-            </div>
-            <div class="mui-input-row">
-                <label style="width: 40%"><span  class="validnum">获取验证码</span></label>
-                <input type="text" placeholder="请输入验证码" id="smscode" style="width:60%">
-            </div>
-            <div class="mui-input-row">
-                <label style="width: 40%">支付密码</label>
-                <input type="text" placeholder="请设置支付密码" id="pass" style="width:60%">
+                <label style="width: 40%">返佣代理费</label>
+                <input type="text" value="{if $agent_fee}{$agent_fee}{else}0.01{/if}"  style="width:60%" id="agent_fee" onkeydown="change_s()" onkeyup="change_s()">
             </div>
             <div class="mui-button-row">
                 <button type="button" class="mui-btn mui-btn-primary" onclick="to_submit();">确认</button>
             </div>
         </form>
     </ul>
+    <div class="tips" id="pay_fee">下级购买费用：{$config['buy_vip_price']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
+    <div class="tips" id="get_fee">您将得到返佣：{$config['inviter_fee_one']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js//layer_3.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
 <script src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
@@ -58,85 +53,20 @@
     }
 </script>
 <script>
-    $('.validnum').click(function(){
-        getCheck();
-    })
-    $('#cache_img').click(function(){
-        getImgCache();
-    })
-    getImgCache();
-    function getImgCache(){
-        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
-            function(data){
-                if (data.code == 1) {
-                    $('#cache_img').attr("src", data.data.img)
-                }else{
-                    layer.msg(data.msg);
-                }
-            },'json')
-    }
     //验证码
-    function getCheck(){
-        $(".validnum").unbind("click");
-        var flagsms = true;
-        //启动计时器，1秒执行一次
-        if (flagsms) {
-            var imgCode = $('#imgCode').val();
-            var phone = $("#phone").val();
-            var reg = /^(1)\d{10}$/;
-            console.log(imgCode);
-            if(phone!=""){
-                if (!reg.test(phone)) {
-                    layer.msg("请正确填写手机号");
-                    flagsms = true;
-                    $(".validnum").bind("click",function(){
-                        getCheck();
-                    });
-                }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode'))}",{"phone":phone,"img_cache":imgCode},
-                        function(data){
-                            if(data.code==0){
-                                layer.msg("已发送，请注意查收");
-                                curCount = 60;
-                                InterValObj = window.setInterval(SetRemainTime, 1000);
-                                flagsms = false;
-                            }else{
-                                layer.msg(data.msg);
-                                flagsms = true;
-                                $(".validnum").bind("click",function(){
-                                    getCheck();
-                                });
-                                return false;
-                            }
-                        },'json')
-                }
-            }else{
-                layer.msg("请填写手机号");
-                flagsms = true;
-                return false;
-            }
+    function change_s(){
+        var buy_vip_price = ('{$config['buy_vip_price']}');
+        var inviter_fee_one = ('{$config['inviter_fee_one']}');
+        var agent_fee = $('#agent_fee').val();
+        if (agent_fee == '') {
+            agent_fee = 0;
         }
-    }
-    function SetRemainTime() {
-
-        if (curCount == 0) {
-            window.clearInterval(InterValObj);//停止计时器
-            flagsms = true;
-            curCount = 60;
-            $(".validnum").html("重新发送");
-            $(".validnum").bind("click",function(){
-                getCheck();
-            });
-        }
-        else {
-            curCount--;
-            $(".validnum").html(curCount+"s");
-        }
+        $('#pay_fee').html('下级购买费用：' + buy_vip_price + '+' + agent_fee + '元');
+        $('#get_fee').html('下级购买费用：' + inviter_fee_one + '+' + agent_fee + '元');
     }
     function to_submit(){
-        var smscode = $('#smscode').val();
-        var pass = $('#pass').val();
-        $.post("{php echo $this->createMobileUrl('vip', array('op'=>'set_pay_pass', 'post' => 1))}",{"smscode":smscode, "pass":pass},
+        var agent_fee = $('#agent_fee').val();
+        $.post("{php echo $this->createMobileUrl('vip', array('op'=>'set_agent_fee', 'post' => 1))}",{"agent_fee":agent_fee},
             function(data){
                 if(data.code==1){
                     layer.msg(data.msg, function(){

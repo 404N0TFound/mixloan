@@ -14,6 +14,14 @@ if($operation=='buy'){
 	} else {
 		$verify = 0;
 	}
+	$inviter = m('member')->getInviter($member['phone'], $openid);
+	if ($inviter) {
+		$agent_fee = pdo_fetchcolumn('select fee from ' . tablename('xuan_mixloan_agent_fee') . '
+			where uid=:uid', array(':uid' => $inviter)) ? : 0;
+	} else {
+		$agent_fee = 0;
+	}
+	$config['buy_vip_price'] = floatval($config['buy_vip_price']) + $agent_fee;
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
@@ -22,7 +30,14 @@ if($operation=='buy'){
 	}
 	$tid = "10001" . date('YmdHis', time());
 	$title = "购买{$config['title']}代理会员";
-	$fee = $config['buy_vip_price'];
+	$inviter = m('member')->getInviter($member['phone'], $openid);
+	if ($inviter) {
+		$agent_fee = pdo_fetchcolumn('select fee from ' . tablename('xuan_mixloan_agent_fee') . '
+			where uid=:uid', array(':uid' => $inviter)) ? : 0;
+	} else {
+		$agent_fee = 0;
+	}
+	$fee = floatval($config['buy_vip_price']) + $agent_fee;
 	$params = array(
 	    'tid' => $tid, 
 	    'ordersn' => $tid, 
@@ -345,7 +360,14 @@ if($operation=='buy'){
 	//支付宝支付
 	include $this->template('vip/alipay');
 } else if ($operation == 'alipay_params') {
-	$total = floatval($config['buy_vip_price']);
+	$inviter = m('member')->getInviter($member['phone'], $openid);
+	if ($inviter) {
+		$agent_fee = pdo_fetchcolumn('select fee from ' . tablename('xuan_mixloan_agent_fee') . '
+			where uid=:uid', array(':uid' => $inviter)) ? : 0;
+	} else {
+		$agent_fee = 0;
+	}
+	$total = floatval($config['buy_vip_price']) + $agent_fee;
 	// 商品网址
 	$base_path = urlencode( $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'buy')) );
 	// 异步通知地址
@@ -416,7 +438,7 @@ if($operation=='buy'){
     //一级
     $inviter = m('member')->getInviter($member['phone'], $member['openid']);
     if ($inviter) {
-        $re_bonus = $config['inviter_fee_one'];
+        $re_bonus = $config['inviter_fee_one'] + ($params['fee'] - $config['buy_vip_price']);
         if ($re_bonus) {
             $insert_i = array(
                 'uniacid' => $_W['uniacid'],
@@ -730,7 +752,25 @@ if($operation=='buy'){
     include $this->template('vip/set_pay_pass');
 } else if ($operation == 'set_agent_fee') {
     // 设置支付密码
+    $agent_fee = pdo_fetchcolumn('select fee from ' . tablename('xuan_mixloan_agent_fee') . '
+    	where uid=:uid', array(':uid' => $member['id']));
     if ($_GPC['post']) {
+    	$fee = floatval($_GPC['agent_fee']);
+    	if (empty($fee)) {
+        	show_json(-1, null, "不允许为0");
+    	}
+    	if ($fee > floatval($config['agent_fee_limit'])) {
+        	show_json(-1, null, "不允许超过{$config['agent_fee_limit']}元");
+    	}
+    	if (!$agent_fee) {
+	    	$insert = array();
+	    	$insert['uid'] = $member['id'];
+	    	$insert['fee'] = $fee;
+	    	pdo_insert('xuan_mixloan_agent_fee', $insert);
+    	} else {
+    		pdo_update('xuan_mixloan_agent_fee', array('fee'=>$fee), array('uid'=>$member['id']));
+    	}
+        show_json(1, null, "设置成功");
     }
     include $this->template('vip/set_agent_fee');
 }

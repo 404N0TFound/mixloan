@@ -103,7 +103,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 //一级
                 $inviter = m('member')->getInviter($member['phone'], $member['openid']);
                 if ($inviter) {
-                    $re_bonus = $config['inviter_fee_one'];
+                    $re_bonus = $config['inviter_fee_one'] + ($params['fee'] - $config['buy_vip_price']);
                     if ($re_bonus) {
                         $insert_i = array(
                             'uniacid' => $_W['uniacid'],
