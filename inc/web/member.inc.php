@@ -372,6 +372,22 @@ if ($operation == 'list') {
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'verify') {
+    // 认证资料
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_verify_data') . '
+        where uid=:uid', array(':uid' => $id));
+    if ($_GPC['post']) {
+        $data = $_GPC['data'];
+        if (!$item) {
+            $data['uid'] = $id;
+            $data['createtime'] = time();
+            pdo_insert('xuan_mixloan_verify_data', $data);
+        } else {
+            pdo_update('xuan_mixloan_verify_data', $data, array('uid' => $id));
+        }
+        message('更新成功', referer(), 'sccuess');
+    }
 }
 include $this->template('member');
 ?>
