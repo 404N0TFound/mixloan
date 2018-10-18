@@ -344,6 +344,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `sort` int(11) NOT NULL COMMENT '排序',
   `type` tinyint(2) NOT NULL COMMENT '1信用卡，2贷款',
   `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
+  `loan_type` tinyint(2) NOT NULL default 1 COMMENT '贷款类型',
   `is_show` tinyint(2) NOT NULL COMMENT '是否展示',
   `is_recommend` tinyint(2) NOT NULL COMMENT '是否推荐',
   `count_time` tinyint(2) NOT NULL COMMENT '结算时间',

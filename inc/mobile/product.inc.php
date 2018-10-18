@@ -26,9 +26,11 @@ if($operation=='index'){
     $recommend_list = m('product')->getList([], ['is_recommend'=>1, 'is_show'=>1], " sort desc", 12);
     $recommend_list = m('product')->packupItems($recommend_list);
     $card_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], " sort desc");
-    $loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1], " sort desc");
+    $small_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], " sort desc");
+    $large_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], " sort desc");
     $card_list = m('product')->packupItems($card_list);
-    $loan_list = m('product')->packupItems($loan_list);
+    $small_loan_list = m('product')->packupItems($small_loan_list);
+    $large_loan_list = m('product')->packupItems($large_loan_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
