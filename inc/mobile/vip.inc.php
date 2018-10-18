@@ -728,4 +728,9 @@ if($operation=='buy'){
         show_json(1, null, "设置成功");
     }
     include $this->template('vip/set_pay_pass');
+} else if ($operation == 'set_agent_fee') {
+    // 设置支付密码
+    if ($_GPC['post']) {
+    }
+    include $this->template('vip/set_agent_fee');
 }
