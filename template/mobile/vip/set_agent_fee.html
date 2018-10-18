@@ -42,7 +42,7 @@
         </form>
     </ul>
     <div class="tips" id="pay_fee">下级购买费用：{$config['buy_vip_price']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
-    <div class="tips" id="get_fee">您将得到返佣：{$config['inviter_fee_one']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
+    <div class="tips" id="get_fee">可获得返现金额：{$config['inviter_fee_one']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
@@ -62,7 +62,7 @@
             agent_fee = 0;
         }
         $('#pay_fee').html('下级购买费用：' + buy_vip_price + '+' + agent_fee + '元');
-        $('#get_fee').html('下级购买费用：' + inviter_fee_one + '+' + agent_fee + '元');
+        $('#get_fee').html('可获得返现金额：' + inviter_fee_one + '+' + agent_fee + '元');
     }
     function to_submit(){
         var agent_fee = $('#agent_fee').val();

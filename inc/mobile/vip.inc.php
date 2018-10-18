@@ -381,7 +381,7 @@ if($operation=='buy'){
 		'is_pay' => 0,
 		'uniacid' => $_W['uniacid'],
 		'type' => 1,
-		'fee' => $config['buy_vip_price']
+		'fee' => $total
 	);
 	pdo_insert('xuan_mixloan_paylog', $insert);
 	require_once(IA_ROOT . '/addons/xuan_mixloan/lib/payment/alipay.php');
