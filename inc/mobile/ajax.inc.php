@@ -178,6 +178,40 @@ if($operation == 'getCode'){
 	} else {
 		echo json_encode(['msg'=>'the queue is empty']);
 	}
+} else if ($operation == 'msg_queue') {
+	//队列消耗模板信息
+	$result = pdo_fetch("SELECT * FROM ".tablename("xuan_mixloan_msg_queue")."
+		WHERE status=0 ORDER BY id ASC");
+	if (!empty($result)) {
+		$insert = array();
+		$max_id = $result['relate_id'] + 20000;
+        $members = pdo_fetchall('select id from ' .tablename('xuan_mixloan_member'). "
+        	where uniacid=:uniacid and id>={$result['relate_id']} and id <{$max_id}", array(':uniacid' => $_W['uniacid']));
+        if (!empty($members)) {
+	        foreach ($members as $member) {
+	            $ext_info = json_decode($result['ext_info'], 1);
+	            $temp = array(
+	                'is_read'=>0,
+	                'uid'=>0,
+	                'createtime'=>time(),
+	                'uniacid'=>$_W['uniacid'],
+	                'to_uid'=>$member['id'],
+	                'ext_info'=>"'" . addslashes(json_encode($ext_info)) . "'",
+	            );
+	            $temp_string = '('. implode(',', array_values($temp)) . ')';
+	            $insert[] = $temp_string;
+	        }
+	        if (!empty($insert)) {
+	            $insert_string =  implode(',', $insert);
+	            pdo_run("INSERT " .tablename("xuan_mixloan_msg"). " ( `is_read`, `uid`, `createtime`, `uniacid`, `to_uid`, `ext_info`) VALUES {$insert_string}");
+	            $count = count($insert);
+	        }
+	        pdo_update('xuan_mixloan_msg_queue', array('relate_id'=>$max_id), array('id' => $result['id']));
+        } else {
+        	pdo_update('xuan_mixloan_msg_queue', array('status'=>1), array('id' => $result['id']));
+        }
+		echo 'success';
+	}
 } else if ($operation == 'apply_temp') {
     //常规脚本
     $ids = [];

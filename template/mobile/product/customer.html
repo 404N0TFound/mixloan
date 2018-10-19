@@ -29,7 +29,41 @@
 		div.agent-foot{padding-bottom:20px; }
 		div.agent-main{padding-bottom:20px;}
 	}
-
+	div.agent-foot p>img {
+		width: 1.15rem;
+	}
+	div.dayAccount .dayProduct ul li {
+		text-align: center;
+		height: 1.9rem;
+		line-height: 1.9rem;
+		font-size: 0.6rem;
+		position: relative;
+		float: left;
+		width: 25%;
+		box-sizing: border-box;
+		font-size: 0.62rem;
+	}
+	div.dayAccount .dayProduct ul{padding-top: 0}
+	div.dayAccount .monthATitle ul{
+		padding: 10px 0;
+		box-sizing: border-box;
+		border-top: 1px solid #f5f5f5;
+		border-bottom: 1px solid #f5f5f5;
+		overflow: hidden;
+		width: 98%;
+		margin: 0 auto;
+	}
+	div.dayAccount .monthATitle ul li {
+		padding: 0px 0 2px 0;
+		text-align: center;
+		border-right: 1px solid #f5f5f5;
+		color: #424242;
+		position: relative;
+		float: left;
+		width: 25%;
+		box-sizing: border-box;
+		font-size: 0.62rem;
+	}
 </style>
 <body style="background:#fff;">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
@@ -38,41 +72,13 @@
         mui.openWindow({url:url, createNew:true});
     }
     function return_user(){
-        var _url = "{php echo $this->createMobileUrl('user', array('op'=>''))}";
-        mui.openWindow({url:_url, createNew:true});
+        var user_url = '{php echo $this->createMobileUrl('user')}';
+        mui.openWindow({url:user_url, id:'user_index', createNew:true});
     }
 </script>
-{if !is_weixin()}
-<style type="text/css">
-	.agent-header{height: 3rem;line-height: 4rem}
-</style>
-<style type="text/css">
-	.app_back {
-		position: absolute;
-		display: inline-block;
-		padding: 0 10px 0 10px;
-		z-index: 999;
-		line-height: 0px;
-		top: 1.2rem
-	}
-	.app_back img {
-		display: inline-block;
-		height: 16px;
-		margin: 13px 0;
-		vertical-align: middle;
-		left: 0;
-		top: 0;
-		transform: rotate(180deg);
-	}
-	div.agent-foot p>img {
-		width: 1.15rem;
-	}
-</style>
-<a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a>
-{/if}
 <div class="agent-header">
 	{$config['title']}
-	<a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'questions'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
+	<a class="return" onclick="openNew('{php echo $this->createMobileUrl('mix' ,['op'=>'tutorials'])}')" ><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 </div>
 {if !is_weixin()}
 <div style="height:1rem;"></div>
@@ -81,16 +87,16 @@
 {/if}
 <div class="agent-foot">
 	<a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
-		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-		<p>首页</p>
-	</a>
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
 	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
 		<p>今日口子</p>
 	</a>
-	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
-		<img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
-	</a>
+	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')">
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
+    </a>
 	<a href="javascript:;"  class="on">
 		<!-- <span class="iconfont icon-card2"></span> -->
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_idaike_1.png" /></p>
@@ -114,17 +120,19 @@
 	<div class="cusLtop">
 		<img src="../addons/xuan_mixloan/template/style/picture/cusbg_1.png" />
 		<p><img src="../addons/xuan_mixloan/template/style/picture/calender_1.png" /><span id="pointY"></span><span>年</span><span id="pointM"></span><span>月</span></p>
-		<div class="cusLApplyNum"><a class="btnLeft btnLeftL"></a><h1>共<span id="applyNum"></span>申请</h1><a class="btnRight btnRightD"></a></div>
+		<div class="cusLApplyNum"><a class="btnLeft btnLeftL" style="font-size: 0.4rem"></a><h1>共<span id="applyNum" style="font-size: 0.7rem"></span>申请</h1><a class="btnRight btnRightD"></a></div>
 	</div>
 	<div class="accCommon dayAccount">
 		<h1><img src="../addons/xuan_mixloan/template/style/picture/dayaccount_1.png" />日结产品</h1>
-		<div class="dayProduct">
+		<div class="productLstC monthATitle">
 			<ul>
-				<!-- <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>极速钱包</h2><em>+60</em><a></a></li>
-                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>现金卡</h2><em>+23</em><a></a></li>
-                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>民生信用卡</h2><em>+0</em><a></a></li>
-                <li><img src="../addons/xuan_mixloan/template/style/picture/a1_1.png" /><h2>浦发信用卡</h2><em>+9</em><a></a></li> -->
+				<li>产品</li>
+				<li>申请数/位</li>
+				<li>放款成功</li>
+				<li>奖金/元</li>
 			</ul>
+		</div>
+		<div class="dayProduct">
 		</div>
 	</div>
 	<div class="accCommon monthAccount">
@@ -138,33 +146,6 @@
 			</ul>
 		</div>
 		<div class="productLstC productData weekProduct">
-			<!-- <ul>
-                <li>光大信用卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul>
-            <ul class="productZero">
-                <li>玖富万卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul>
-            <ul class="productXrf">
-                <li>信而富</li>
-                <li>69</li>
-                <li>
-                    <p><span>有效:</span><label>8位</label></p>
-                    <p><span>放款:</span><label>5位</label></p>
-                </li>
-                <li>￥360</li>
-            </ul>
-            <ul>
-                <li>民生信用卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul> -->
 		</div>
 	</div>
 	<div class="accCommon monthAccount">
@@ -178,35 +159,22 @@
 			</ul>
 		</div>
 		<div class="productLstC productData monthProduct" style="padding-bottom: 2.8rem;">
-			<!-- <ul>
-                <li>光大信用卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul>
-            <ul class="productZero">
-                <li>玖富万卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul>
-            <ul class="productXrf">
-                <li>信而富</li>
-                <li>69</li>
-                <li>
-                    <p><span>有效:</span><label>8位</label></p>
-                    <p><span>放款:</span><label>5位</label></p>
-                </li>
-                <li>￥360</li>
-            </ul>
-            <ul>
-                <li>民生信用卡</li>
-                <li>69</li>
-                <li>26元</li>
-                <li>￥360</li>
-            </ul> -->
 		</div>
 	</div>
+
+	<!-- <div class="accCommon monthAccount">
+		<h1><img src="../addons/xuan_mixloan/template/style/picture/monthaccount_1.png" />下架产品</h1>
+		<div class="productLstC monthATitle">
+			<ul>
+                <li>产品</li>
+                <li>申请数/位</li>
+                <li>放款成功</li>
+                <li>奖金/元</li>
+			</ul>
+		</div>
+		<div class="productLstC productData inviteProduct" style="padding-bottom: 2.8rem;">
+		</div>
+	</div> -->
 </div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/custlist_1.js"></script>
 <script type="text/javascript">
@@ -242,24 +210,41 @@
                     var data=res.data;
                     var applys=data.applys;//申请数
                     var days=data.days_list;//日结
-                    $("#applyNum").html(applys.one_degree + '(团队)+' + applys.two_degree + '(连队)');
+                    $("#applyNum").html(applys.one_degree + '(直推)+' + applys.two_degree + '(二级)');
+                    // $("div.dayProduct ul").html("");
+                    // for(i=0;i<days.length;i++){
+                    //     var dayStr='';
+                    //     var diff=0;
+                    //     var dId=days[i].id;
+                    //     var dTitle=days[i].name;
+                    //     var dImgs=days[i].ext_info.logo;
+                    //     var dCount=days[i].count_num;
+                    //     dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
+                    //     if(dCount=='0'){
+                    //         dayStr += '<span></span></li>';
+                    //     }else{
+                    //         dayStr += '</li>';
+                    //     }
+                    //     $("div.dayProduct ul").append(dayStr);
+                    // }
                     $("div.dayProduct ul").html("");
-                    for(i=0;i<days.length;i++){
+                    for(j=0;j<days.length;j++){
                         var dayStr='';
-                        var diff=0;
-                        var dId=days[i].id;
-                        var dTitle=days[i].name;
-                        var dImgs=days[i].ext_info.logo;
-                        var dCount=days[i].count_num;
-                        dayStr += '<li><a data-id='+ dId +' onclick="dayDetail(this);" href="javascript:void(0);"><img src="'+dImgs+'"/><h2>'+ dTitle +'</h2><em>+'+ dCount +'</em></a>';
-                        if(dCount=='0'){
-                            dayStr += '<span></span></li>';
-                        }else{
-                            dayStr += '</li>';
-                        }
-                        $("div.dayProduct ul").append(dayStr);
-                    }
+                        var mId=days[j].id;
+                        var mTitle=days[j].name;
+                        var mapply=days[j].count_num;
+                        var mvalid=0;
+                        var mloan=days[j].succ;
+                        var mrewards=days[j].count_bonus;
+                        dayStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                        dayStr += '<li>'+ mTitle +'</li>';
+                        dayStr += '<li>'+ mapply +'</li>';
 
+                        dayStr += '<li>'+ mloan +'</li>';
+                        dayStr += '<li>¥ '+ mrewards +'</li>';
+                        dayStr += '</ul>';
+                        $("div.dayProduct").append(dayStr);
+                    }
                     $("div.weekProduct").html("");
                     var week=data.weeks_list;//周结
                     for(j=0;j<week.length;j++){
@@ -270,39 +255,6 @@
                         var mvalid=0;
                         var mloan=week[j].succ;
                         var mrewards=week[j].count_bonus;
-                        // var unit=week[j].unit;
-                        // if(mId=="2"||mId=="21"){
-                        // 	if(mId=="21"){
-                        // 		if(gdFlag){
-                        // 			//2018/1/1之前数据
-                        // 			if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                        // 				weekStr += '<ul class="productZero">'
-                        // 			}else{
-                        // 				weekStr += '<ul>'
-                        // 			}
-                        // 		}else{
-                        // 			//2018/1/1之后数据
-                        // 			if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                        // 				weekStr += '<ul class="productXrf productZero">';
-                        // 			}else{
-                        // 				weekStr += '<ul class="productXrf">'
-                        // 			}
-                        // 		}
-                        // 	}else{
-                        // 		//2 信而富;
-                        // 		if(mapply=="0"&&mvalid=="0"&&mloan=="0"&&mrewards=="0"){
-                        // 			weekStr += '<ul class="productXrf productZero">';
-                        // 		}else{
-                        // 			weekStr += '<ul class="productXrf">'
-                        // 		}
-                        // 	}
-                        // }else{
-                        // 	if(mapply=="0"&&mloan=="0"&&mrewards=="0"){
-                        // 		weekStr += '<ul class="productZero">'
-                        // 	}else{
-                        // 		weekStr += '<ul>'
-                        // 	}
-                        // }
                         weekStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
                         weekStr += '<li>'+ mTitle +'</li>';
                         weekStr += '<li>'+ mapply +'</li>';
@@ -312,6 +264,7 @@
                         weekStr += '</ul>';
                         $("div.weekProduct").append(weekStr);
                     }
+
 
                     $("div.monthProduct").html("");
                     var month=data.months_list;//月结
@@ -332,6 +285,27 @@
                         monthStr += '</ul>';
                         $("div.monthProduct").append(monthStr);
                     }
+                    // $("div.inviteProduct").html("");
+                    // var invite=data.invite_list;//月结
+                    // console.log(invite);
+                    // for(j=0;j<invite.length;j++){
+                    //     var inviteStr='';
+                    //     var mId=invite[j].id;
+                    //     var mTitle=invite[j].name;
+                    //     var mapply=invite[j].count_num;
+                    //     var mvalid=0;
+                    //     var mloan=invite[j].succ;
+                    //     var mrewards=invite[j].count_bonus;
+                    //     inviteStr += '<ul onclick="dayDetail(this)" data-id="' + mId + '">'
+                    //     inviteStr += '<li>'+ mTitle +'</li>';
+                    //     inviteStr += '<li>'+ mapply +'</li>';
+
+                    //     inviteStr += '<li>'+ mloan +'</li>';
+                    //     inviteStr += '<li>¥ '+ mrewards +'</li>';
+                    //     inviteStr += '</ul>';
+                    //     $("div.inviteProduct").append(inviteStr);
+                    // }
+                    layer.close(layerindex);
                 }else{
                     layer.close(layerindex);
                     layer.msg("接口数据错误，请重试！");

@@ -281,27 +281,14 @@ if ($operation == 'list') {
 } else if ($operation == 'msg') {
     //群发消息
     if ($_GPC['post']) {
+        $ext_info = array('content' => trim($_GPC['content']), 'remark' => trim($_GPC['remark']), 'url' => trim($_GPC['url']));
         $insert = array();
-        $members = pdo_fetchall('select id from ' .tablename('xuan_mixloan_member'). ' where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
-        foreach ($members as $member) {
-            $ext_info = array('content' => trim($_GPC['content']), 'remark' => trim($_GPC['remark']), 'url' => trim($_GPC['url']));
-            $temp = array(
-                'is_read'=>0,
-                'uid'=>0,
-                'createtime'=>time(),
-                'uniacid'=>$_W['uniacid'],
-                'to_uid'=>$member['id'],
-                'ext_info'=>"'" . addslashes(json_encode($ext_info)) . "'",
-            );
-            $temp_string = '('. implode(',', array_values($temp)) . ')';
-            $insert[] = $temp_string;
-        }
-        if (!empty($insert)) {
-            $insert_string =  implode(',', $insert);
-            pdo_run("INSERT " .tablename("xuan_mixloan_msg"). " ( `is_read`, `uid`, `createtime`, `uniacid`, `to_uid`, `ext_info`) VALUES {$insert_string}");
-            $count = count($insert);
-            message("发送成功，总计发送{$count}条", "", "success");
-        }
+        $insert['status'] = 0;
+        $insert['createtime'] = time();
+        $insert['ext_info'] = json_encode($ext_info);
+        $insert['relate_id'] = 1;
+        pdo_insert('xuan_mixloan_msg_queue', $insert);
+        message("发送成功，已转入消息发送队列", "", "success");
     }
 } else if ($operation == 'set_partner') {
     //取消合伙人资格

@@ -267,51 +267,61 @@ if($operation=='index'){
 	include $this->template('product/customer');
 } else if ($operation == 'customer_list') {
 	//客户列表接口
-	$month = (int)$_GPC['month'];
-	$year = (int)$_GPC['year'];
-	$params['begin'] = "{$year}-{$month}-01";
-	$params['inviter'] = $member['id'];
-	$days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
-	$weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
-	$months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
-	$invite_list = m('product')->getInviteList($params);
-	$days_ids = m('product')->getIds($days_list);
-	$weeks_ids = m('product')->getIds($weeks_list);
-	$months_ids = m('product')->getIds($months_list);
-	$applys = m('product')->getApplys($params);
-	$days_count_list = m('product')->getNums($days_ids, $params, 1);
-	$weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
-	$months_count_list = m('product')->getNums($months_ids, $params, 1);
-	$weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
-	$months_succ_list = m('product')->getNums($months_ids, $params, 2);
-	$weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
-	$months_bonus_list = m('product')->getNums($months_ids, $params, 3);
-	foreach ($days_list as &$row) {
-		$row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
-	}
-	unset($row);
-	foreach ($weeks_list as &$row) {
-		$row['count_num'] = $weeks_count_list[$row['id']]['count'] ? : 0;
-		if ($row['type'] == 1) {
-			$row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
-		} else {
-			$row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
-		}
-		$row['count_bonus'] = $weeks_bonus_list[$row['id']]['bonus'] ? : 0;
-	}
-	unset($row);
-	foreach ($months_list as &$row) {
-		$row['count_num'] = $months_count_list[$row['id']]['count'] ? : 0;
-		if ($row['type'] == 1) {
-			$row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
-		} else {
-			$row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
-		}
-		$row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
-	}
-	unset($row);
-	$arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'invite_list'=>array_values($invite_list), 'applys'=>$applys];
-	show_json(1, $arr);
+    $month = (int)$_GPC['month'];
+    $year = (int)$_GPC['year'];
+    $params['begin'] = "{$year}-{$month}-01";
+    $params['inviter'] = $member['id'];
+    $condition_days = ['count_time'=>1, 'is_show'=>1];
+    $condition_weeks = ['count_time'=>7, 'is_show'=>1];
+    $condition_months = ['count_time'=>30, 'is_show'=>1];
+    $days_list = m('product')->getList(['id', 'name', 'type'], $condition_days);
+    $weeks_list = m('product')->getList(['id', 'name', 'type'], $condition_weeks);
+    $months_list = m('product')->getList(['id', 'name', 'type'], $condition_months);
+    $days_ids = m('product')->getIds($days_list);
+    $weeks_ids = m('product')->getIds($weeks_list);
+    $months_ids = m('product')->getIds($months_list);
+    $applys = m('product')->getApplys($params);
+    $days_count_list = m('product')->getNums($days_ids, $params, 1);
+    $weeks_count_list = m('product')->getNums($weeks_ids, $params, 1);
+    $months_count_list = m('product')->getNums($months_ids, $params, 1);
+    $days_succ_list = m('product')->getNums($days_ids, $params, 2);
+    $weeks_succ_list = m('product')->getNums($weeks_ids, $params, 2);
+    $months_succ_list = m('product')->getNums($months_ids, $params, 2);
+    $days_bonus_list = m('product')->getNums($days_ids, $params, 3);
+    $weeks_bonus_list = m('product')->getNums($weeks_ids, $params, 3);
+    $months_bonus_list = m('product')->getNums($months_ids, $params, 3);
+    foreach ($days_list as &$row) {
+        $row['count_num'] = $days_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $days_succ_list[$row['id']]['count'] ? $days_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $days_succ_list[$row['id']]['relate_money'] ? $days_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $days_bonus_list[$row['id']]['bonus'] ? : 0;
+    }
+    unset($row);
+    foreach ($weeks_list as &$row) {
+        $row['count_num'] = $weeks_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $weeks_succ_list[$row['id']]['count'] ? $weeks_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $weeks_succ_list[$row['id']]['relate_money'] ? $weeks_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $weeks_bonus_list[$row['id']]['bonus'] ? : 0;
+    }
+    unset($row);
+    foreach ($months_list as &$row) {
+        $row['count_num'] = $months_count_list[$row['id']]['count'] ? : 0;
+        if ($row['type'] == 1) {
+            $row['succ'] = $months_succ_list[$row['id']]['count'] ? $months_succ_list[$row['id']]['count'].'位' : '0'.'位';
+        } else {
+            $row['succ'] = $months_succ_list[$row['id']]['relate_money'] ? $months_succ_list[$row['id']]['relate_money'].'元' : '0'.'元';
+        }
+        $row['count_bonus'] = $months_bonus_list[$row['id']]['bonus'] ? : 0;
+    }
+    unset($row);
+    $arr = ['days_list'=>array_values($days_list), 'months_list'=>array_values($months_list), 'weeks_list'=>array_values($weeks_list), 'applys'=>$applys];
+    show_json(1, $arr);
 } else if ($operation == 'customer_detail') {
     //详情
     $pid = intval($_GPC['pid']);

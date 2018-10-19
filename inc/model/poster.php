@@ -94,8 +94,8 @@ class Xuan_mixloan_Poster
         if (empty($poster_id)) {
             return false;
         }
-        $ext_info = pdo_fetchcolumn("SELECT ext_info FROM ".tablename('xuan_mixloan_poster_data').' WHERE id=:id', array(':id'=>$poster_id));
-        $ext_info = json_decode($ext_info, 1);
+        $poster_data = pdo_fetch("SELECT ext_info,prefix_text FROM ".tablename('xuan_mixloan_poster_data').' WHERE id=:id', array(':id'=>$poster_id));
+        $ext_info = json_decode($poster_data['ext_info'], 1);
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
@@ -149,14 +149,7 @@ class Xuan_mixloan_Poster
         @imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
-            if (strstr(tomedia($ext_info['back']), 'daikeba')) {
-                $url = 'http://juxinwangluo.xin/app/index.php?i=4&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
-                $res = file_get_contents($url . '&fileroot=' . $params['out']);
-                $poster = $res;
-                unlink($params['out']);
-            } else {
-                $poster = $params['poster_path'];
-            }
+            $poster = $params['poster_path'];
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
@@ -164,9 +157,10 @@ class Xuan_mixloan_Poster
                 'type'=>$params['type'],
                 'poster'=>$poster,
                 'createtime'=>time(),
+                'prefix_text'=>$poster_data['prefix_text']
             );
             pdo_insert('xuan_mixloan_poster',$insert);
-            return $poster;
+            return array('poster'=>$poster, 'prefix_text'=>$poster_data['prefix_text']);
         } else {
             return false;
         }
