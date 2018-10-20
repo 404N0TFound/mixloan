@@ -335,20 +335,27 @@ if($operation=='buy'){
 	}
 	$pros = m('product')->getList(['id', 'count_time', 'name', 'ext_info'], ['id'=>$ids]);
 	foreach ($percent_list as &$row) {
-		if ($row['pid'] == 0){
+		if ($row['type'] == 2){
 			$row['name'] = '邀请购买代理';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else {
+		} else if ($row['type'] == 6){
+            $row['name'] = '满单奖励';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
 		}
-		if ($row['pid'] == 0 || $pros[$row['pid']]['count_time'] == 1) {
-			$row['type'] = '日结';
-		} else if ($pros[$row['pid']]['count_time'] == 7) {
-			$row['type'] = '周结';
-		} else if ($pros[$row['pid']]['count_time'] == 7) {
-			$row['type'] = '月结';
-		}
+        if ($row['type'] == 1){
+            if ( $pros[$row['pid']]['count_time'] == 1) {
+                $row['type'] = '日结';
+            } else if ($pros[$row['pid']]['count_time'] == 7) {
+                $row['type'] = '周结';
+            } else if ($pros[$row['pid']]['count_time'] == 7) {
+                $row['type'] = '月结';
+            }
+        } else {
+            $row['type'] = '日结';
+        }
 		$row['tid'] = date('YmdHis',$row['createtime']) . $row['id'];
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}
