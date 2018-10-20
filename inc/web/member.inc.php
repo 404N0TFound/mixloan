@@ -304,7 +304,7 @@ if ($operation == 'list') {
         $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
     }
     $inviter_info = m('member')->getInviterInfo($_GPC['inviter']);
-    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['nickname']);
+    $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
     $inviter_two = m('member')->getInviterInfo($second_inviter);
     if (!$inviter_two) {
         $inviter_two['nickname'] = '无';

@@ -348,7 +348,21 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list', 'uid' => $row['uid']));}" target="_blank">邀请列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='剥夺代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 剥夺代理</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['uid']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {if !$row['black']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['uid']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_black','id' => $row['uid']));}" title='移除黑名单' ><i class='fa fa-check'></i> 移除黑名单</a></li>
+                                {/if}    
+                                {if !$row['white']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_white','id' => $row['uid']));}" title='添加黑名单' onclick="return confirm('确定要添加白名单吗？');"><i class='fa fa-ban'></i> 添加白名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_white','id' => $row['uid']));}" title='移除白名单' ><i class='fa fa-check'></i> 移除白名单</a></li>
+                                {/if}
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'log','uid' => $row['uid']));}" title='编辑日志' target="__blank"><i class='fa fa-edit'></i> 编辑日志</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'below_list','inviter' => $row['uid']));}" title='编辑日志' target="__blank"><i class='fa fa-list'></i> 查看上下级</a></li>
                                 <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_update', 'id' => $row['id']));}" target="_blank">查看详情</a></li>
                                 {if $row['status'] != 1}
                                 <li><a href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_operation', 'status' => -1,'id' => $row['id']));}">失败</a></li>
