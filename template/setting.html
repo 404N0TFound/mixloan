@@ -12,7 +12,7 @@
 			<li role="presentation" ><a href="#pics" aria-controls="pics" role="tab" data-toggle="tab">图片设置</a></li>
 			<li role="presentation" ><a href="#extend_bonus" aria-controls="extend_bonus" role="tab" data-toggle="tab">推荐有奖设置</a></li>
 			<li role="presentation" ><a href="#partner" aria-controls="partner" role="tab" data-toggle="tab">合伙人设置</a></li>
-			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
+			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">代理设置</a></li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -354,6 +354,17 @@
 							<div class="col-sm-3 col-xs-4">
 								<input type="text" name="inviter_fee_two" value="{$setting['inviter_fee_two']}" class="form-control" placeholder="单位为元">
 								<span class="help-block">二级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">满单奖励</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_one" value="{$setting['product_apply_count']}" class="form-control" placeholder="一级推荐够多少单">
+								<span class="help-block">单位为单</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_two" value="{$setting['product_apply_bonus']}" class="form-control" placeholder="奖励多少元">
+								<span class="help-block">单位为元</span>
 							</div>
 						</div>
 						<div class="form-group" >
