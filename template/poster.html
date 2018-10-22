@@ -7,7 +7,7 @@
 {if $operation == 'list'}
 <div class="clearfix">
     <div class="panel panel-default" style="font-size:11px;">
-        <div class="panel-heading">
+    <div class="panel-heading">总数：{$total}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{php echo $this->createWebUrl('poster', array('op'=>'clear_poster'))}">清理海报缓存</a></div>
             <div class="panel-body">
                 <table class="table table-hover" style="overflow:visible;">
                     <thead class="navbar-inner">

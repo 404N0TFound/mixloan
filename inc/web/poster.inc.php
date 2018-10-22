@@ -33,6 +33,7 @@ if ($operation == 'list') {
         $insert['ext_info']['poster'] = $poster;
         $insert['ext_info']['back'] = $_GPC['bg'];
         $insert['name'] = $_GPC['name'];
+        $insert['prefix_text'] = $_GPC['prefix_text'];
         $insert['uniacid'] = $_W['uniacid'];
         $insert['createtime'] = time();
         $insert['ext_info'] = json_encode($insert['ext_info']);
@@ -60,11 +61,20 @@ if ($operation == 'list') {
         $update['ext_info']['poster'] = $poster;
         $update['ext_info']['back'] = $_GPC['bg'];
         $update['name'] = $_GPC['name'];
+        $update['prefix_text'] = $_GPC['prefix_text'];
         $update['ext_info'] = json_encode($update['ext_info']);
         pdo_update('xuan_mixloan_poster_data', $update, array('id'=>$id));
         pdo_delete('xuan_mixloan_poster', array('pid'=>0));
         message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
     }
 }
+else if ($operation == 'clear_poster')
+{
+    // 清理海报缓存
+    pdo_delete('xuan_mixloan_poster');
+    pdo_delete('xuan_mixloan_shorturl');
+    message("清除成功", referer(), "success");
+}
+
 include $this->template('poster');
 ?>
