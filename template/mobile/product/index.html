@@ -163,6 +163,17 @@
 
 
 <script type="text/javascript">
+    var cid = {$member['id']};
+    $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+        function(data){
+            if (data.code == 1) {
+                layer.alert(data.msg, {
+                    icon: 1,
+                    skin: 'layer-ext-moon',
+                    title:'公告'
+                })
+            }
+        },'json')
     $(document).ready(function(){
         index_lay = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景

@@ -44,11 +44,6 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_bonus', $data, array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('bonus', array('op' => '')), "sccuess");
     }
-} else if ($operation == 'delete') {
-    //删除
-    $id = intval($_GPC['id']);
-    pdo_delete('xuan_mixloan_bonus', array('id' => $id));
-    message("提交成功", referer(), "sccuess");
 }
 include $this->template('bonus');
 ?>
