@@ -30,6 +30,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
+    if (!empty($_GPC['degree'])) {
+        $wheres.= " AND a.degree='{$_GPC['degree']}'";
+    }
     if (!empty($_GPC['inviter'])) {
         $wheres.= " AND a.inviter='{$_GPC['inviter']}'";
     }
@@ -70,9 +73,12 @@ if ($operation == 'list') {
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if (!$row['pid']) {
+        if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
+        } else if ($row['type'] == 6) {
+            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['name'] = '满单奖励';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -431,6 +437,40 @@ if ($operation == 'list') {
     }
     pdo_update('xuan_mixloan_withdraw', $data, array('id' => $id));
     message('操作成功', referer(), 'sccuess');
+} else if ($operation == 'get_bonus') {
+    // 满单奖励
+    $endtime = strtotime(date('Y-m-d'));
+    $starttime = $endtime - 86400;
+    $sql = "SELECT inviter,count(*) as count FROM `ims_xuan_mixloan_product_apply`
+            WHERE status=1 and type=1 and degree=1
+            and createtime>{$starttime} and createtime<{$endtime}
+            GROUP by inviter HAVING COUNT>{$config['product_apply_count']}";
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['inviter']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['status'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+            where inviter={$row['inviter']} and type=6 and createtime>" . $endtime);
+    }
+    unset($row);
+} else if ($operation == 'get_bonus_user') {
+    // 发放奖励
+    $inviter = intval($_GPC['inviter']);
+    $inviter_info = m('member')->getInviterInfo($inviter);
+    $insert = array(
+        'uniacid' => $_W['uniacid'],
+        'uid' => $inviter,
+        'phone' => $inviter_info['phone'],
+        'inviter' => $inviter,
+        'extra_bonus'=>$config['product_apply_bonus'],
+        'status'=>2,
+        'createtime'=>time(),
+        'type'=>6
+    );
+    pdo_insert('xuan_mixloan_product_apply', $insert);
+    message('已发放', referer(), 'sccuess');
 }
 include $this->template('agent');
 ?>
