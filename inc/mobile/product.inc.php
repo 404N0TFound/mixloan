@@ -56,6 +56,13 @@ if($operation=='index'){
     if ($info['ext_info']['poster_text']) {
         $poster_short_url = $info['ext_info']['poster_text'] . ':' . $poster_short_url;
     }
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter', array(':inviter' => $member['id'])) ? : 0;
+    if ($my_bonus < floatval($info['ext_info']['bonus_condition'])) {
+        $condition = false;
+    } else {
+        $condition = true;
+    }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
     $top_list = m('product')->getTopBonus($id);
     include $this->template('product/info');

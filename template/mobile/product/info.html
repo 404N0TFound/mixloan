@@ -301,16 +301,21 @@
 
     $("#daili_toapply").click(function(){
         //图片合成并弹出
+        var condition_bonus = "{$info['ext_info']['condition_bonus']}";
         {if $verify}
-        $("div.daili_ewm").show();
-        $(".daili_ewm").height($(window).height());
-        setTimeout(function(){
-            ewm_style();
-        },20)
+        {if $condition}
+            $("div.daili_ewm").show();
+            $(".daili_ewm").height($(window).height());
+            setTimeout(function(){
+                ewm_style();
+            },20)
+        {else}
+            layer.msg('所获取佣金未达' + condition_bonus + '元，无法推广该产品，请继续努力赚取佣金');
+        {/if}
         {else}
         $('.pop_art').show();
         {/if}
-        })
+     })
 
 
     // 关闭弹窗
