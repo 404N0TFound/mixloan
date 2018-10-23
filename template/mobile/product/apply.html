@@ -43,13 +43,13 @@
 <div class="daili_footer">
     {if !$is_close}
     <div class="footer_apply">
-        <a class="dummyApply" id="dummyApply">
+        <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
             我要代理
         </a>
     </div>
     {/if}
     <div class="footer_agent" {if $is_close}style="width:100%"{/if}>
-        <a id="daili_toapply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">我要申请</a>
+        <a id="daili_toapply" >我要申请</a>
     </div>
 </div>
 <div class="toApply" style="display: none;">
