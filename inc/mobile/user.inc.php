@@ -42,6 +42,8 @@ if($operation=='index'){
 	$all = number_format($all, 2);
 	$used = number_format($used, 2);
 	$use = number_format($use, 2);
+    $unread = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
+        where to_uid=:to_uid and is_read=0', array(':to_uid' => $member['id'])) ? : 0;
 	include $this->template('user/index');
 } else if ($operation == 'bind_card') {
 	//绑卡
@@ -169,10 +171,6 @@ if($operation=='index'){
 else if ($operation == 'message_type')
 {
     //消息中心
-    $system = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
-    	where to_uid=:to_uid and type=1', array(':to_uid' => $member['id']));
-    $person = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
-    	where to_uid=:to_uid and type=2', array(':to_uid' => $member['id']));
     include $this->template('user/message_type');
 }
 else if ($operation == 'message')
@@ -254,9 +252,11 @@ else if ($operation == 'read_message')
 		$row['ext_info'] = json_decode($row['ext_info'], 1);
 		if ($row['type'] == 1) {
 			$row['ext_info']['title'] = '系统通知';
-		} else {
+		} else if ($row['type'] == 2) {
 			$row['ext_info']['title'] = '个人消息';
-		}
+		} else if ($row['type'] == 3) {
+            $row['ext_info']['title'] = "返佣消息  +{$row['ext_info']['money']}";
+        }
 		$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
 	}
 	unset($row);

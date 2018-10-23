@@ -81,42 +81,16 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
 	//全部产品
 	$inviter = intval($_GPC['inviter']);
-    $credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
-	foreach ($credits as $credit) {
-		$id[] = $credit['relate_id'];
-	}
-	$cards = m('bank')->getCard(['id', 'ext_info'], ['id'=>$id]);
-	foreach ($credits as $key => $credit) {
-		$credits[$key]['v_name'] = $cards[$credit['relate_id']]['ext_info']['v_name'];
-		$credits[$key]['card_pic'] = tomedia($cards[$credit['relate_id']]['ext_info']['pic']);
-		$credits[$key]['tag'] = $cards[$credit['relate_id']]['ext_info']['tag'];
-		$credits[$key]['speed'] = $cards[$credit['relate_id']]['ext_info']['speed'];
-		$credits[$key]['limit'] = $cards[$credit['relate_id']]['ext_info']['limit'];
-		$credits[$key]['intro'] = $cards[$credit['relate_id']]['ext_info']['intro'];
-		$credit_thr[] = $credits[$key];
-		if (count($credit_thr) > 2 || $key == max(array_keys($credits))) {
-			$credit_all[] = $credit_thr;
-			$credit_thr = [];
-		}
-	}
-	$speed_loans = m('product')->getSpecialLoan(9);
-	foreach ($speed_loans as $key => $loan) {
-		$speed_loan_thr[] = $loan;
-		if (count($speed_loan_thr) > 2 || $key == max(array_keys($speed_loans))) {
-			$speed_loan_all[] = $speed_loan_thr;
-			$speed_loan_thr = [];
-		}
-	}
-	$large_loans = m('product')->getSpecialLoan(7);
-	foreach ($large_loans as $key => $loan) {
-		$large_loan_thr[] = $loan;
-		if (count($large_loan_thr) > 2 || $key == max(array_keys($large_loans))) {
-			$large_loan_all[] = $large_loan_thr;
-			$large_loan_thr = [];
-		}
-	}
-	$credits_blow = array_slice($credits, (int)count($credits)/2, ceil(count($credits)/5));
-	$barrage = m('product')->getBarrage($credits, array_merge($speed_loans, $large_loans));
+    $credit_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    $credit_list = m('product')->packupItems($credit_list);
+    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], ' sort desc');
+    $loan_small_list = m('product')->packupItems($loan_small_list);
+    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], ' sort desc');
+    $loan_large_list = m('product')->packupItems($loan_large_list);
+    $loan_channel_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'channel'=>1], ' sort desc');
+    $loan_channel_list = m('product')->packupItems($loan_channel_list);
+    $loan_ready_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'ready'=>1], ' sort desc');
+    $loan_ready_list = m('product')->packupItems($loan_ready_list);
 	include $this->template('product/allProduct');
 } else if ($operation == 'apply') {
 	//申请产品

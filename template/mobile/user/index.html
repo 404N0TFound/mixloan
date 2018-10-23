@@ -77,6 +77,15 @@
     .app_header_back img{position: absolute;left:4%;width: 12px;}
     .app_header_back span{margin-top: 10px;font-size: 17px}
     .list-item{border-top: none !important}
+    .unread{
+        position: absolute;
+        padding: 0.2rem;
+        border-radius: 40%;
+        top: 0;
+        right: 2rem;
+        background: #f9153d;
+        color: white;
+    }
 </style>
 <div class="app_header">
     <div class="app_header_back">
@@ -194,6 +203,7 @@
             <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')" class="weui_grid js_grid">
                 <div class="weui_grid_icon">
                     <img src="../addons/xuan_mixloan/template/style/new_user_index/images/xiaoxi.png" alt="">
+                    <span class="unread">{$unread}</span>
                 </div>
                 <p class="weui_grid_label">我的消息</p>
             </a>

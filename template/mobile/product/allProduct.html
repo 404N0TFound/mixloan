@@ -8,290 +8,313 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
-    <meta content="e-mail=no" name="format-detection"/>
+    <meta content="e-mail=no" name="format-detection" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-
-    <title>贷款中心</title>
-    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_1.css" >
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/loanmkts.css">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
-
+    <title>{$config['title']}</title>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_new_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/lmy_1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/day_1.css">
+    <script src="../addons/xuan_mixloan/template/style/js/swiper.min_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
     <style>
-        #demos{height:0.8rem;margin-top:0.5%;}
-        div.loanindex_inform ul li{height: 2rem;line-height:0.8rem;}
-        div.loanindex_shortcut ul li h2 {
-            text-align: left;
-            font-size: 0.5rem;
-            color: #000;
-            padding-top: 0.2rem;
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:20px;}
         }
+        .swiper-pagination-bullet{background: #ccc;opacity: 1;}
+        .swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
+        .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
+
+        div.agent-foot p>img {
+            width: 1.1rem;
+        }
+        .three_head ul li{width: 25%}
     </style>
 
     {template 'common/wxshare'}
 </head>
-<body class="bglightgray" style="background:#fff;" >
+<body style="background:#fff;">
+
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
         mui.openWindow({url:url});
     }
+    function return_user(){
+        var _url = "{php echo $this->createMobileUrl('user', array('op'=>''))}";
+        mui.openWindow({url:_url, createNew:true});
+    }
 </script>
 {if !is_weixin()}
 <style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #ffffff}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+    .agent-header{height: 3rem;line-height: 4rem}
 </style>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="openNew('{php echo $this->createMobileUrl('product')}')">
-        <span>贷款中心</span>
-    </div>
-</div>
+<style type="text/css">
+    .app_back {
+        position: absolute;
+        display: inline-block;
+        padding: 0 10px 0 10px;
+        z-index: 999;
+        line-height: 0px;
+        top: 1.1rem
+    }
+    .app_back img {
+        display: inline-block;
+        height: 16px;
+        margin: 13px 0;
+        vertical-align: middle;
+        left: 0;
+        top: 0;
+        transform: rotate(180deg);
+    }
+</style>
 {/if}
-<div class="loanindex_main" >
-    <div class="loanindex_inform clearfix">
-        <span><img src="../addons/xuan_mixloan/template/style/picture/gonggao_black.png" /></span>
-        <div id="demos" style="overflow:hidden;">
-            <ul >
-                {loop $barrage $ba}
-                <li><p><b>{$ba['phone']}</b>刚刚成功申请了<b>{$ba['name']}</b></p></li>
+<div class="agent-header">
+    {$config['title']}
+</div>
+{if !is_weixin()}
+<div style="height:3rem;"></div>
+{else}
+<div style="height:2rem;"></div>
+{/if}
+<div class="product_head">
+    <ul class="clearfix">
+        <li class="on" style="width: 50%" id="loan_ca"><a onclick="change_type(1)"><h2><img src="../addons/xuan_mixloan/template/style/images/loan.png" /></h2><p>贷款产品</p></a></li>
+        <li style="width: 50%;margin-left: 0;margin-right: 0" id="card_ca"><a onclick="change_type(2)"><h2><img src="../addons/xuan_mixloan/template/style/images/card.png" /></h2><p>信用卡产品</p></a></li>
+        <!-- <li class="on"><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/product_1.png" /></h2><p>佣金产品</p></a></li>
+        <li><a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'customer'))}')"><h2><img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" /></h2><p>客户列表</p></a></li>
+        <li onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}')"><h2 style="padding-top: 0.2rem;"><img src="../addons/xuan_mixloan/template/style/picture/wages_1.png" /></h2><p>我的工资</p></li> -->
+    </ul>
+</div>
+<div class="fjx"></div>
+<div class="wapper dn">
+    <div class="cet_pic">
+        <!--lunbotu-->
+        <!-- <img src="../addons/xuan_mixloan/template/style/picture/cet_bg_1.png" /> -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper" id="swiper-wrapper">
+                <!--    -->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- lunbotu- -->
+
+    </div>
+    <div class="validRule"><p>有效规则：新用户注册申请</p></div>
+    <!-- fjx -->
+    <!-- <div class="fjx"></div> -->
+    <!-- fjx -->
+    <div id="loan_list">
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
+                小额产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
+            </p>
+        </div>
+        <div class="three_head">
+            <ul class="clearfix">
+                {loop $loan_small_list $row}
+                <li class="clearfix ons2" data-id="1">
+                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
+                        <div class="line_three">
+                            <div class="line_img">
+                                <img src="{$row['imgs']}">
+                                {if $row['hot']}
+                                <div class="day_fire">
+                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                                </div>
+                                {/if}
+                            </div>
+                            <h2>{$row['title']}</h2>
+                            <p>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                            </p>
+                        </div>
+                    </a>
+                </li>
                 {/loop}
             </ul>
         </div>
-    </div>
-    <!-- fix -->
-    <div class="fix"></div>
-    <!-- fix -->
-    <!-- 秒办卡 -->
-    <div class="loanindex_inform2 clearfix">
-        <span id="test3" name="test3"><leabl></leabl>秒办卡</span><ul><li><p>精选额度大,下卡快的优质信用卡</p></li></ul>
-    </div>
-    <div class="swiper-container  swiper_list">
-        <div class="swiper-wrapper">
-            {loop $credit_all $credit_thr}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                    {loop $credit_thr $cre}
-                    <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cre['id'], 'inviter'=>$inviter))}')">
-                            <div class="swiper_div">
-                                <p class="c2" style="background:#8296b2"><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />{$cre['v_name']}</p>
-                                <div class="top_img1"><img src="{$cre['card_pic']}" /></div>
-                                <h2>{$cre['name']}</h2>
-                            </div>
-                        </a>
-                    </li>
-                    {/loop}
-                </ul>
-            </div>
-            {/loop}
+        <div class="fjx"></div>
+        <!-- fjx -->
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
+                大额产品<label>(共<b  id="card_num">{php echo count($loan_large_list);}</b>款)</label>
+            </p>
         </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-    <!-- 轮播 end-->
-    <div class="loanindex_shortcut">
-        {loop $credits_blow $cred}
-        <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$cred['id'], 'inviter'=>$inviter))}')">
+        <div class="three_head">
             <ul class="clearfix">
-                <li class="clearfix">
-                    <div class="f1"><img src="{$cred['ext_info']['logo']}" /></div>
-                    <div class="f2"><h2>{$cred['name']}</h2><p>{$cred['intro']}</p></div>
-                    <div class="f3"><p>批卡速度:<span>{$cred['speed']}</span></p><p>平均额度:<span>{$cred['limit']}</span></p></div>
-                    <div class="f4"><h3>秒批申卡</h3></div>
+                {loop $loan_day_list $row}
+                <li class="clearfix ons2" data-id="1">
+                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
+                        <div class="line_three">
+                            <div class="line_img">
+                                <img src="{$row['imgs']}">
+                                {if $row['hot']}
+                                <div class="day_fire">
+                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                                </div>
+                                {/if}
+                            </div>
+                            <h2>{$row['title']}</h2>
+                            <p>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                            </p>
+                        </div>
+                    </a>
                 </li>
+                {/loop}
             </ul>
-        </a>
-        {/loop}
+        </div>
+        <div class="fjx"></div>
+        <!-- fjx -->
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
+                放水口子<label>(共<b  id="card_num">{php echo count($loan_channel_list);}</b>款)</label>
+            </p>
+        </div>
+        <div class="three_head">
+            <ul class="clearfix">
+                {loop $loan_channel_list $row}
+                <li class="clearfix ons2" data-id="1">
+                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
+                        <div class="line_three">
+                            <div class="line_img">
+                                <img src="{$row['imgs']}">
+                                {if $row['hot']}
+                                <div class="day_fire">
+                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                                </div>
+                                {/if}
+                            </div>
+                            <h2>{$row['title']}</h2>
+                            <p>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div class="fjx"></div>
+        <!-- fjx -->
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
+                下款报备<label>(共<b  id="card_num">{php echo count($loan_ready_list);}</b>款)</label>
+            </p>
+        </div>
+        <div class="three_head">
+            <ul class="clearfix">
+                {loop $loan_ready_list $row}
+                <li class="clearfix ons2" data-id="1">
+                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
+                        <div class="line_three">
+                            <div class="line_img">
+                                <img src="{$row['imgs']}">
+                                {if $row['hot']}
+                                <div class="day_fire">
+                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                                </div>
+                                {/if}
+                            </div>
+                            <h2>{$row['title']}</h2>
+                            <p>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div class="fjx"></div>
+    </div>
+    <!-- fjx -->
+
+    <div id="card_list" style="display: none">
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
+                信用卡产品<label>(共<b  id="card_num">{php echo count($credit_list);}</b>款)</label>
+            </p>
+        </div>
+        <div class="three_head">
+            <ul class="clearfix">
+                {loop $credit_list $row}
+                <li class="clearfix ons2" data-id="1" style="width: 33.33%">
+                    <a href="{php echo $this->createMobileUrl('product', array('op'=>'apply', 'id'=>$row['id'], 'inviter'=>$inviter))}">
+                        <div class="line_three">
+                            <div class="line_img">
+                                <img src="{$row['imgs']}">
+                                {if $row['hot']}
+                                <div class="day_fire">
+                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                                </div>
+                                {/if}
+                            </div>
+                            <h2>{$row['title']}</h2>
+                            <p>
+                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                            </p>
+                        </div>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        <div class="fjx"></div>
     </div>
 
-    <!-- fix -->
-    <div class="fix"></div>
-
-    <div class="loanindex_inform2 loanindex_inform_jindu clearfix">
-        <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'extend_query'))}')">
-            <span style="width:80%"><leabl style="margin-right:2.5%;"></leabl>申卡进度查询</span>
-            <p> <img src="../addons/xuan_mixloan/template/style/picture/icon_arrow.png" /> </p>
-        </a>
-    </div>
-    <!-- fix -->
-    <div class="fix"></div>
-    <!-- fix -->
-    <!-- 秒到账 -->
-    <div class="loanindex_inform2 clearfix">
-        <span id="test2" name="test3"><leabl></leabl>秒到账</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
-    </div>
-    <div class="swiper-container  swiper_list swiper_list2">
-        <div class="swiper-wrapper">
-            {loop $speed_loan_all $speed}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                    {loop $speed $sp}
-                    <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
-                            <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
-                                <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
-                                <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
-                                <h2>{$sp['name']}</h2>
-                            </div>
-                        </a>
-                    </li>
-                    {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-    <div class="loanindex_shortcut2">
-        {loop $speed_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
-            <ul class="clearfix">
-                <li class="clearfix">
-                    <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
-                    <div class="f2">
-                        <h2>
-                            <b>{$loan['name']}</b>
-                            {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
-                        </h2>
-                        <p>
-                            {loop $loan['ext_info']['tag'] $tag}
-                            <span>{$tag}</span>
-                            {/loop}
-                        </p>
-                    </div>
-                    <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
-                    <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
-                </li>
-            </ul>
-        </a>
-        {/loop}
-    </div>
-    <!-- fix -->
-    <div class="fix"></div>
-    <!-- fix -->
-    <!-- 大额度 -->
-    <div class="loanindex_inform2 clearfix">
-        <span id="test1" name="test1"><leabl></leabl>大额贷</span><ul><li><p>点击贷款口子快速申请,极速下款</p></li></ul>
-    </div>
-    <div class="swiper-container  swiper_list swiper_list2">
-        <div class="swiper-wrapper">
-            {loop $large_loan_all $speed}
-            <div class="swiper-slide">
-                <ul class="clearfix">
-                    {loop $speed $sp}
-                    <li>
-                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$sp['relate_id'], 'pid'=>$sp['id'], 'inviter'=>$inviter))}')">
-                            <div class="swiper_div c1" style="border-top:3px solid {$sp['color']};">
-                                <p style="color:{$sp['color']}">{$sp['ext_info']['v_name']}</p>
-                                <div class="top_img1"><img src="{$sp['ext_info']['logo']}" /></div>
-                                <h2>{$sp['name']}</h2>
-                            </div>
-                        </a>
-                    </li>
-                    {/loop}
-                </ul>
-            </div>
-            {/loop}
-        </div>
-        <!-- Add Pagination -->
-        <div class="swiper-pagination"></div>
-    </div>
-    <div class="loanindex_shortcut2">
-        {loop $large_loans $loan}
-        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$loan['relate_id'], 'pid'=>$loan['id'], 'inviter'=>$inviter))}')">
-            <ul class="clearfix">
-                <li class="clearfix">
-                    <div class="f1"><img src="{$loan['ext_info']['logo']}" /></div>
-                    <div class="f2">
-                        <h2>
-                            <b>{$loan['name']}</b>
-                            {if $loan['is_hot']}<span><img src="../addons/xuan_mixloan/template/style/picture/fire.png" />HOT !</span>{/if}
-                        </h2>
-                        <p>
-                            {loop $loan['ext_info']['tag'] $tag}
-                            <span>{$tag}</span>
-                            {/loop}
-                        </p>
-                    </div>
-                    <div class="f3"><h2>{$loan['money_high']}</h2><p>最高额度(元)</p></div>
-                    <div class="f4"><h2>{$loan['rate']}%</h2><p>{if $loan['rate_type']==1}日{else}月{/if}利率</p></div>
-                </li>
-            </ul>
-        </a>
-        {/loop}
+    <div class="three_head">
+        <ul class="clearfix"></ul>
     </div>
 </div>
-
-<!-- 弹窗按钮 -->
-<div class="wrap">
-    <div class="menu"><img class="icon_menu" src="../addons/xuan_mixloan/template/style/picture/bu.png" /><span></span></div>
-    <div class="btn btn1 close" data-num="1"><a href="#test1"><p><img src="../addons/xuan_mixloan/template/style/picture/but2.png" /><br/>大额贷</p></a></div>
-    <div class="btn btn2 close" data-num="2"><a href="#test2"><p><img src="../addons/xuan_mixloan/template/style/picture/but3.png" /><br/>秒到账</p></a></div>
-    <div class="btn btn3 close" data-num="3"><a href="#test3"><p><img src="../addons/xuan_mixloan/template/style/picture/but4.png" /><br/>秒办卡</p></a></div>
-    <!-- -->
-</div>
+<div style="height:3.0rem;" class="agent-main"></div>
 
 
-
-<!-- 弹窗按钮end -->
-
-<script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min.js></script>
 <script type="text/javascript">
-    ///////文字滚动
-    function AutoScroll(obj) {
-        $(obj).find("ul:first").animate({
-                marginTop: "-0.6rem"
-            },500,
-            function() {
-                $(this).css({
-                    marginTop: "0px"
-                }).find("li:first").appendTo(this);
-            });
-    }
-    $(document).ready(function() {
-        setInterval('AutoScroll("#demos")', 3000)
-    })
+    $(document).ready(function(){
+        // index_lay = layer.load(1, {
+        //     shade: [0.1,'#fff'] //0.1透明度的白色背景
+        // });
 
-
-    ///////弹窗按钮
-
-    $(function(){
-        $(".menu").click(function(){
-            var span = $(this).parent().find("div.btn");
-            if(span.hasClass("close")){
-                span.fadeIn(500);
-                $(this).find("img.icon_menu").addClass("roe");
-                span.addClass("open").removeClass("close")
-            }else{
-                span.fadeOut(500);
-                $(this).find("img.icon_menu").removeClass("roe");
-                span.removeClass("open").addClass("close")
-
-            }
+        // layer_loan();
+        $(".wapper").show();
+        /////系统维护弹窗
+        $(".layer_close").click(function(){
+            $(".pop").fadeOut(500);
         });
     });
+    function change_type(type){
+        if (type == 1) {
+            $('#card_ca').removeClass('on');
+            $('#loan_ca').addClass('on');
+            $('#card_list').hide();
+            $('#loan_list').show();
+        } else {
+            $('#loan_ca').removeClass('on');
+            $('#card_ca').addClass('on');
+            $('#loan_list').hide();
+            $('#card_list').show();
+        }
+    }
 
-
-    // 轮播插件
-    var swiper = new Swiper('.swiper-container', {
-        paginationClickable: true,
-        centeredSlides: true,
-        autoplay: 5000,
-        pagination: '.swiper-pagination',
-        autoplayDisableOnInteraction: false
-    });
-
+    function wapper(){
+        $(".wapper").show();
+    };
 
 </script>
+
 </body>
 </html>
