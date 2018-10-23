@@ -301,7 +301,7 @@
 
     $("#daili_toapply").click(function(){
         //图片合成并弹出
-        var condition_bonus = "{$info['ext_info']['condition_bonus']}";
+        var bonus_condition = "{$info['ext_info']['bonus_condition']}";
         {if $verify}
         {if $condition}
             $("div.daili_ewm").show();
@@ -310,7 +310,7 @@
                 ewm_style();
             },20)
         {else}
-            layer.msg('所获取佣金未达' + condition_bonus + '元，无法推广该产品，请继续努力赚取佣金');
+            layer.msg('所获取佣金未达' + bonus_condition + '元，无法推广该产品，请继续努力赚取佣金');
         {/if}
         {else}
         $('.pop_art').show();

@@ -87,10 +87,15 @@ if($operation=='index'){
     $pid = intval($_GPC['pid']);
     $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
-    $info = m('product')->getList(['id','is_show'], ['id'=>$pid])[$pid];
+    $info = m('product')->getList(['id','is_show','ext_info'], ['id'=>$pid])[$pid];
     if (empty($info['is_show'])){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
+    }
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter', array(':inviter' => $member['id'])) ? : 0;
+    if ($my_bonus < floatval($info['ext_info']['bonus_condition'])) {
+        message('该代理没有达到推广该产品条件', '', 'error');
     }
     $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
         where uid=:uid', array(':uid' => $inviter));
