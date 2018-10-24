@@ -115,7 +115,7 @@
         <div class="list_head">
             <p>
                 <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-                小额产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
+                小额产品，审核简单，下款率高<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
             </p>
         </div>
         <div class="three_head">
@@ -147,76 +147,12 @@
         <div class="list_head">
             <p>
                 <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-                大额产品<label>(共<b  id="card_num">{php echo count($loan_large_list);}</b>款)</label>
+                大额产品，额度高，到账快<label>(共<b  id="card_num">{php echo count($loan_large_list);}</b>款)</label>
             </p>
         </div>
         <div class="three_head">
             <ul class="clearfix">
                 {loop $loan_day_list $row}
-                <li class="clearfix ons2" data-id="1">
-                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
-                        <div class="line_three">
-                            <div class="line_img">
-                                <img src="{$row['imgs']}">
-                                {if $row['hot']}
-                                <div class="day_fire">
-                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
-                                </div>
-                                {/if}
-                            </div>
-                            <h2>{$row['title']}</h2>
-                            <p>
-                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
-                            </p>
-                        </div>
-                    </a>
-                </li>
-                {/loop}
-            </ul>
-        </div>
-        <div class="fjx"></div>
-        <!-- fjx -->
-        <div class="list_head">
-            <p>
-                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-                放水口子<label>(共<b  id="card_num">{php echo count($loan_channel_list);}</b>款)</label>
-            </p>
-        </div>
-        <div class="three_head">
-            <ul class="clearfix">
-                {loop $loan_channel_list $row}
-                <li class="clearfix ons2" data-id="1">
-                    <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
-                        <div class="line_three">
-                            <div class="line_img">
-                                <img src="{$row['imgs']}">
-                                {if $row['hot']}
-                                <div class="day_fire">
-                                    <img src="../addons/xuan_mixloan/template/style/images/fire.png">
-                                </div>
-                                {/if}
-                            </div>
-                            <h2>{$row['title']}</h2>
-                            <p>
-                                <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
-                            </p>
-                        </div>
-                    </a>
-                </li>
-                {/loop}
-            </ul>
-        </div>
-        <div class="fjx"></div>
-        <!-- fjx -->
-        <div class="list_head">
-            <p>
-                <span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-                下款报备<label>(共<b  id="card_num">{php echo count($loan_ready_list);}</b>款)</label>
-            </p>
-        </div>
-        <div class="three_head">
-            <ul class="clearfix">
-                {loop $loan_ready_list $row}
                 <li class="clearfix ons2" data-id="1">
                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
                         <div class="line_three">

@@ -83,14 +83,10 @@ if($operation=='index'){
 	$inviter = intval($_GPC['inviter']);
     $credit_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
     $credit_list = m('product')->packupItems($credit_list);
-    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], ' sort desc');
+    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>1], ' sort desc');
     $loan_small_list = m('product')->packupItems($loan_small_list);
-    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], ' sort desc');
+    $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>30], ' sort desc');
     $loan_large_list = m('product')->packupItems($loan_large_list);
-    $loan_channel_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'channel'=>1], ' sort desc');
-    $loan_channel_list = m('product')->packupItems($loan_channel_list);
-    $loan_ready_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'ready'=>1], ' sort desc');
-    $loan_ready_list = m('product')->packupItems($loan_ready_list);
 	include $this->template('product/allProduct');
 } else if ($operation == 'apply') {
 	//申请产品
