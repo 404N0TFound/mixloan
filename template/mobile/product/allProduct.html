@@ -152,7 +152,7 @@
         </div>
         <div class="three_head">
             <ul class="clearfix">
-                {loop $loan_day_list $row}
+                {loop $loan_large_list $row}
                 <li class="clearfix ons2" data-id="1">
                     <a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'pid'=>$row['id'], 'id'=>$row['relate_id'], 'inviter'=>$inviter))}">
                         <div class="line_three">
