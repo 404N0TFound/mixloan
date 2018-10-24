@@ -93,7 +93,7 @@ if($operation=='index'){
         exit();
     }
     $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
-        where inviter=:inviter', array(':inviter' => $member['id'])) ? : 0;
+        where inviter=:inviter', array(':inviter' => $inviter)) ? : 0;
     if ($my_bonus < floatval($info['ext_info']['bonus_condition'])) {
         message('该代理没有达到推广该产品条件', '', 'error');
     }
