@@ -61,12 +61,7 @@ function baoSendSMS($mobile,$content,$config) {
     load()->func('communication');
     $user = $config['smsuser'];
     $pass = md5($config['smspass']);
-    $result = ihttp_get("http://api.smsbao.com/sms?u={$user}&p={$pass}&m=".$mobile."&c=".urlencode($content));
-    if ($result['code'] == 200) {
-        $content = $result['content'];
-    }else{
-        $content = -1;
-    }
+    $result = file_get_contents("http://api.smsbao.com/sms?u={$user}&p={$pass}&m=".$mobile."&c=".urlencode($content));
     return $content;
 }
 
