@@ -355,6 +355,14 @@ if($operation=='buy'){
     $uid = intval($_GPC['uid']);
     $list = pdo_fetchall("SELECT a.degree,b.nickname,b.avatar FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.inviter=b.id WHERE a.uid={$uid} AND a.pid=0 ORDER BY a.degree ASC");
     $brother = pdo_fetch("SELECT nickname,avatar FROM ".tablename("xuan_mixloan_member")." WHERE id={$uid}");
+    $wheres = '';
+    $status = $_GPC['status'];
+    if ($status == '0' || $status == '-1' || $status == '2') {
+    	$wheres .= 'and status='.$status;
+    }
+    $apply = pdo_fetchall('select realname,phone,status from ' . tablename('xuan_mixloan_product_apply') . "
+    	where inviter=:inviter and degree=1 {$wheres} and type=1
+    	order by id desc limit 30", array(':inviter' => $uid));
     include $this->template('vip/degreeDetail');
 } else if ($operation == 'alipay') {
 	//支付宝支付
