@@ -95,10 +95,33 @@
             </ul>
         </div>
 
-
     </div>
     <div class="agent_foot">
         <a href="javascript:;"  id="upSubmit">保存</a>
+    </div>
+    <div class="">
+        <table style="width: 100%;text-align: center;">
+            <tr>
+                <td style="width: 30%">编号</td>
+                <td style="width: 40%">时间</td>
+                <td style="width: 30%">状态</td>
+            </tr>
+            {loop $list $row}
+            <tr>
+                <td>{$row['id']}</td>
+                <td>{php echo date('Y-m-d H:i:s', $row['createtime'])}</td>
+                <td>
+                    {if $row['status'] == -1}
+                    已拒绝
+                    {else if $row['status'] == 1}
+                    已通过
+                    {else if $row['status'] == 0}
+                    审核中
+                    {/if}
+                </td>
+            </tr>
+            {/loop}
+        </table>
     </div>
 </div>
 <!--图片裁剪-->
@@ -257,11 +280,11 @@
             return false;
         }
         if (get_money_pic == "") {
-            layer.msg("请上传微信收款二维码");
+            layer.msg("请上传下款页面截图");
             return false;
         }
         if (sms_pic == "") {
-            layer.msg("请上传微信收款二维码");
+            layer.msg("请上传短信截图");
             return false;
         }
         var imguploadimg=layer.load(1, {
@@ -279,7 +302,7 @@
                 layer.msg('资料提交成功', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
-                    window.location.href = "{php echo $this->createMobileUrl('user', array('op'=>''))}";
+                    window.location.href = "{php echo $this->createMobileUrl('mix', array('op'=>'feedback'))}";
                 });
             }
             else {

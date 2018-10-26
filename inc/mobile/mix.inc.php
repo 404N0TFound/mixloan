@@ -42,6 +42,8 @@ if($operation=='service'){
 	}
 } else if ($operation == 'feedback') {
 	// 返佣反馈
+	$list = pdo_fetchall('select id,createtime,status from ' . tablename('xuan_mixloan_feedback') . '
+		where uid=:uid order by id desc', array(':uid' => $member['id']));
 	if ($_GPC['post']) {
 		$phone = trim($_GPC['phone']);
 		$name = trim($_GPC['name']);
