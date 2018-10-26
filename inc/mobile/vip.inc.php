@@ -360,9 +360,14 @@ if($operation=='buy'){
     if ($status == '0' || $status == '-1' || $status == '2') {
     	$wheres .= 'and status='.$status;
     }
-    $apply = pdo_fetchall('select realname,phone,status from ' . tablename('xuan_mixloan_product_apply') . "
+    $apply = pdo_fetchall('select realname,pid,status from ' . tablename('xuan_mixloan_product_apply') . "
     	where inviter=:inviter and degree=1 {$wheres} and type=1
     	order by id desc limit 30", array(':inviter' => $uid));
+    foreach ($apply as &$row) {
+    	$row['pro_name'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_product') . '
+    		where id=:id', array(':id' => $row['pid']));
+    }
+    unset($row);
     include $this->template('vip/degreeDetail');
 } else if ($operation == 'alipay') {
 	//支付宝支付

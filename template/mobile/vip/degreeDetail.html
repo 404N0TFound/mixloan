@@ -88,13 +88,13 @@
     <tbody>
     {loop $apply $row}
     <tr class="list">
-        <td style="width: 25%">
+        <td style="width: 33.33%">
             {$row['realname']}
         </td>
-        <td style="width: 50%">
-            {$row['phone']}
+        <td style="width: 33.33%">
+            {$row['pro_name']}
         </td>
-        <td style="width: 25%">
+        <td style="width: 33.33%">
             {if $row['status'] == 0}
             申请中
             {else if $row['status'] > 0}
