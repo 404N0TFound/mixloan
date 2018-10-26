@@ -316,16 +316,16 @@ if($operation=='buy'){
         }
     }
     unset($row);
-    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
+    $count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0");
     $count = $count ? : 0;
     $cTime = getTime();
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");
-    $today_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $today_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND createtime>{$star_time} AND createtime<{$end_time}");
     $today_count = $today_count ? : 0;
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-01");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-01 +1 month");
-    $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND createtime>{$star_time} AND createtime<{$end_time}");
     $month_count = $month_count ? : 0;
     $follow_count = count($follow_list) ? : 0;
     $buy_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0") ? : 0;
@@ -336,16 +336,16 @@ if($operation=='buy'){
     $backup_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply_backup")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     $extend_list = array_merge($extend_list, $backup_list);
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
-    $backup_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply_backup")." WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
+    $backup_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply_backup")." WHERE inviter={$member['id']} AND status>0") ? : 0;
     $count = $count + $backup_count;
     $cTime = getTime();
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");
-    $today_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $today_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND createtime>{$star_time} AND createtime<{$end_time}");
     $today_count = $today_count ? : 0;
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-01");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-01 +1 month");
-    $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
+    $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND createtime>{$star_time} AND createtime<{$end_time}");
     $month_count = $month_count ? : 0;
     $follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
     $buy_count = count($extend_list) ? : 0;
