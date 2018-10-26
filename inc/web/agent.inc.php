@@ -368,7 +368,9 @@ if ($operation == 'list') {
             )
         ));
     }
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_withdraw') . " a
+            left join ".tablename("xuan_mixloan_creditCard")." c ON a.bank_id=c.id
+            where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC' );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     pdo_delete('xuan_mixloan_payment', array("id" => $_GPC["id"]));
