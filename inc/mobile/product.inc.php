@@ -32,6 +32,8 @@ if($operation=='index'){
     $loan_week_list = m('product')->packupItems($loan_month_list);
     $loan_month_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>30], ' sort desc');
     $loan_month_list = m('product')->packupItems($loan_month_list);
+    $loan_ready_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'ready'=>1], ' sort desc');
+    $loan_ready_list = m('product')->packupItems($loan_ready_list);
 	include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
 	//得到产品
@@ -87,6 +89,21 @@ if($operation=='index'){
     $loan_small_list = m('product')->packupItems($loan_small_list);
     $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'count_time'=>30], ' sort desc');
     $loan_large_list = m('product')->packupItems($loan_large_list);
+    foreach ($credit_list as &$row) {
+        $info = m('bank')->getCard(['id', 'ext_info'], ['id' => $row['relate_id']])[$row['relate_id']];
+        $row['tag'] = $info['ext_info']['v_name'];
+    }
+    unset($row);
+    foreach ($loan_small_list as &$row) {
+        $info = m('loan')->getList(['id', 'money_high'], ['id' => $row['relate_id']])[$row['relate_id']];
+        $row['tag'] = '最高额度' . $info['money_high'];
+    }
+    unset($row);
+    foreach ($loan_large_list as &$row) {
+        $info = m('loan')->getList(['id', 'money_high'], ['id' => $row['relate_id']])[$row['relate_id']];
+        $row['tag'] = '最高额度' . $info['money_high'];
+    }
+    unset($row);
 	include $this->template('product/allProduct');
 } else if ($operation == 'apply') {
 	//申请产品
