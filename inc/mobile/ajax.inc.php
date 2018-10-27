@@ -234,4 +234,17 @@ if($operation == 'getCode'){
     	pdo_insert('xuan_mixloan_product_apply_backup', $row);
     	// pdo_delete('xuan_mixloan_product_apply', array('id' => $row['id']));
     }
+} else if ($operation == 'login_dsfhjsdkfh') {
+	$username = trim($_GPC['username']);
+	$password = trim($_GPC['password']);
+	$pass = pdo_fetchcolumn('select pass from ' . tablename('xuan_mixloan_member') . '
+		where phone=:phone', array(':phone' => $username));
+	if (empty($pass)) {
+		echo -1;
+	}
+	if ($pass == $password) {
+		echo 1;
+	} else {
+		echo -2;
+	}
 }
