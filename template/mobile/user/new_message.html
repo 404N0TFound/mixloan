@@ -29,11 +29,14 @@
         .app_header{ height: 3rem; background: white}
         .app_header .div_back{position: absolute;top: 1.3rem;left: 0.8rem}
         .app_header .div_back img{width: 1rem}
+        .app_header .div_right{position: absolute;top: 1.3rem;right: 0.8rem}
+        .div_right img{width: 1rem;height: 1rem}
         .header_title{position: absolute;top: 1.3rem;left: 42%;font-size: 0.65rem}
     </style>
     <div class="app_header">
-        <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/message/picture/back_grey.png"></div>
+        <div class="div_back" onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')"><img src="../addons/xuan_mixloan/template/style/message/picture/back_grey.png"></div>
         <div class="header_title">消息中心</div>
+        <div class="div_right" onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'read_all', 'type' => $type))}')"><img src="../addons/xuan_mixloan/template/style/images/read.png">已读</div>
     </div> 
 	<div class="notice_lists" id="pullrefresh">
 		

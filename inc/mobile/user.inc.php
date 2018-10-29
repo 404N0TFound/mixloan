@@ -308,4 +308,9 @@ else if ($operation == 'read_message')
     }
     pdo_update('xuan_mixloan_creditCard', array('status' => 0), array('id' => $id));
     show_json(1, [], '删除成功');
+} else if ($operation == 'read_all') {
+    // 全部已读
+    $type = intval($_GPC['type']);
+    pdo_update('xuan_mixloan_msg', array('is_read'=>1), array('type'=>$type, 'to_uid'=>$member['id']));
+    header("location:{$this->createMobileUrl('user', array('op'=>'new_message', 'type'=>$type))}");
 }
