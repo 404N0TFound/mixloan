@@ -35,6 +35,21 @@ if($operation=='buy'){
     if ($member['id'] == 2) {
         $config['buy_vip_price'] = 0.01;
     }
+    if ($config['buy_vip_price'] == 0) {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $openid,
+        );
+        //调用pay方法
+        $this->pay($params);
+        exit();
+    }
     if ($_GPC['way'] == 'alipay')
     {
         $tid = "10001" . date('YmdHis', time());

@@ -64,14 +64,14 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		$fee = $params['fee'];
 		$config = $this -> module['config'];
 		if ($params['result'] == 'success') {
-            if ($params['from']=='notify') {
-                $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
+			if ($params['from'] == 'notify') {
+	            $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
 					where tid=:tid', array(':tid'=>$params['tid']));
-                $member = m('member')->getMember($openid);
-            } else {
-                $openid = m('user')->getOpenid();
-                $member = m('member')->getMember($openid);
-            }
+	            $member = m('member')->getMember($openid);
+			} else {
+	            $openid = m('user')->getOpenid();
+	            $member = m('member')->getMember($openid);
+			}
             if (empty($member['id'])) {
                 message('请不要重复提交', $this->createMobileUrl('user'), 'error');
             }
