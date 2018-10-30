@@ -79,7 +79,8 @@
                 <li class="border first clearfix">
                     <div class="list-name">下款页面截图</div>
                     <div class="input-wap" >
-                        <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_get_money"/>
+                        <!-- <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_get_money"/> -->
+                        <input type="file" value="" id="btn_get_money" >
                         <input type="hidden" value="" id="get_money_pic"  name="get_money_pic" data-name="">
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
@@ -87,7 +88,8 @@
                 <li class="border first clearfix">
                     <div class="list-name">短信到账截图</div>
                     <div class="input-wap" >
-                        <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_sms"/>
+                        <!-- <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_sms"/> -->
+                        <input type="file" value="" id="btn_sms" >
                         <input type="hidden" value="" id="sms_pic"  name="sms_pic" data-name="">
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
@@ -102,17 +104,17 @@
     <div class="">
         <table style="width: 100%;text-align: center;">
             <tr>
-                <td style="width: 30%">编号</td>
-                <td style="width: 40%">时间</td>
-                <td style="width: 30%">状态</td>
+                <td style="width: 20%">编号</td>
+                <td style="width: 30%">时间</td>
+                <td style="width: 50%">状态</td>
             </tr>
             {loop $list $row}
             <tr>
                 <td>{$row['id']}</td>
-                <td>{php echo date('Y-m-d H:i:s', $row['createtime'])}</td>
+                <td>{php echo date('m-d H:i', $row['createtime'])}</td>
                 <td>
                     {if $row['status'] == -1}
-                    已拒绝
+                    已拒绝{if $row['ext_info']['reason']}：{$row['ext_info']['reason']}{/if}
                     {else if $row['status'] == 1}
                     已通过
                     {else if $row['status'] == 0}
@@ -141,77 +143,307 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.min.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/hammer.min.js" ></script>
+<!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/hammer.min.js" ></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/lrz.all.bundle.js" ></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/iscroll-zoom-min.js" ></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/photoclip.js" ></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/photoclip.js" ></script> -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/exif.js" ></script>
 
 <!-- js -->
 <script type="text/javascript">
     // 图片上传
     var type = ''
-    $("#btn_get_money").click(function(){
+    // $("#btn_get_money").click(function(){
+    //     type = 'get_money_pic';
+    //     // $(".clipbg").fadeIn();
+    // })
+    // $("#btn_sms").click(function(){
+    //     type = 'sms_pic';
+    //     // $(".clipbg").fadeIn();
+    // })
+    // 选择图片上传
+    $("#btn_get_money").change(function(){
         type = 'get_money_pic';
-        $(".clipbg").fadeIn();
-    })
-    $("#btn_sms").click(function(){
-        type = 'sms_pic';
-        $(".clipbg").fadeIn();
-    })
-    var clipArea = new  PhotoClip("#clipArea", {
-        size: [300, 300],//裁剪框大小
-        outputSize:[0,0],//打开图片大小，[0,0]表示原图大小
-        file: "#file",
-        ok: "#clipBtn",
-        loadStart: function() {
-            $(".loading").removeClass("displaynone");
-        },
-        loadComplete: function() {
-            $(".loading").addClass("displaynone");
-        },
-        done: function(dataURL) {
-            //console.log(dataURL); 
-            if (type == 'get_money_pic') {
-                $("#btn_get_money").attr("src",dataURL);
-            } else {
-                $("#btn_sms").attr("src",dataURL);
-            }
-            uploadImage();
-            $(".clipbg").fadeOut();
-        }
-
-    });
-
-    $(".back").click(function(){
-        $(".clipbg").fadeOut();
-    })
-    ////////////////////
-    function uploadImage () {
-        var imguploadimg=layer.load(1, {
-            shade: [0.5,'#000']
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
-        if (type == 'get_money_pic') {
-            var base64=$("#btn_get_money")[0].src;
-        } else {
-            var base64=$("#btn_sms")[0].src;
+        var idFile = $(this).attr("id");
+        var file = document.getElementById(idFile);
+        var fileList = file.files; //获取的图片文件
+        fileList = validateUp(fileList);
+        if(fileList.length>0){
+            var _file=fileList[0];
+            readFile(_file);
         }
-        $.post("{php echo $this->createMobileUrl('user', array('op'=>'uploadImage'))}", {'carousel':base64 },
-            function(data) {
-                if(data.code==1){
-                    var avatar_url=data.data.avatar_url;
-                    if (type == 'get_money_pic') {
-                        $("#get_money_pic").attr("data-name",avatar_url).addClass("uploadindex");
-                    } else {
-                        $("#sms_pic").attr("data-name",avatar_url).addClass("uploadindex");
-                    }
-                    layer.close(imguploadimg);
-                }else{
-                    layer.msg("系统繁忙,请重试!~");
-                    return false;
+    })
+    $("#btn_sms").change(function(){
+        type = 'sms_pic';
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        var idFile = $(this).attr("id");
+        var file = document.getElementById(idFile);
+        var fileList = file.files; //获取的图片文件
+        fileList = validateUp(fileList);
+        if(fileList.length>0){
+            var _file=fileList[0];
+            readFile(_file);
+        }
+    })
+
+    //上传图片(fileReader)
+    var MAX_HEIGHT = 1000;//设置压缩图片的最大高度
+    function readFile(file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            var carousel = this.result;
+            console.log(carousel);
+            render(carousel);
+        }
+    }
+
+    var newImgFlag=true;//旋转处理后返回图片标识(是否旋转 true 旋转 false 原图片)
+    //图片压缩后上传
+    function render(src) {
+        // 创建一个 Image 对象
+        var image = new Image();
+        image.src = src;
+        // 绑定 load 事件处理器，加载完成后执行
+        image.onload = function() {
+            //旋转的图片矫正
+            var newImage = rotateImage(image);
+            console.log(newImage);
+            if(newImgFlag){
+                newImage.onload = function(){
+                    postImg(newImage);
+                }
+            }else{
+                postImg(newImage);
+            }
+            function postImg(){
+                // 获取 canvas DOM 对象
+                var canvas = document.createElement("canvas");
+                // 如果高度超标
+                if (newImage.height > MAX_HEIGHT && newImage.height >= newImage.width) {
+                    // 宽度等比例缩放 *=
+                    newImage.width *= MAX_HEIGHT / newImage.height;
+                    newImage.height = MAX_HEIGHT;
+                }
+               //考虑到用户上传的有可能是横屏图片同样过滤下宽度的图片。
+                if (newImage.width > MAX_HEIGHT && newImage.width > newImage.height) {
+                    // 宽度等比例缩放 *=
+                    newImage.height *= MAX_HEIGHT / newImage.width;
+                    newImage.width = MAX_HEIGHT;
                 }
 
-            },'json');
+                // 获取 canvas的 2d 画布对象,
+                var ctx = canvas.getContext("2d");
+                // canvas清屏，并设置为上面宽高
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // 重置canvas宽高
+                canvas.width = newImage.width;
+                canvas.height = newImage.height;
+                // 将图像绘制到canvas上
+                ctx.drawImage(newImage, 0, 0, newImage.width, newImage.height);
+                // !!! 注意，image 没有加入到 dom之中
+                //document.getElementById('img').src = canvas.toDataURL("image/png");
+                var blob = canvas.toDataURL("image/jpeg");
+                console.log(blob);
+                $.post("{php echo $this->createMobileUrl('user', array('op'=>'uploadImage'))}",{"carousel":blob},
+                    function(res){
+                        layer.closeAll();
+                        console.log(res);
+                        if(res.code==1){
+                            var backImgUrl=res.data.avatar_url;
+                            // if($("div.imgPreview ul li").length==3){
+                            //     $("div.imgPreview ul li.addImg").hide();
+                            // }
+                            //向后追加新上传的图片
+                            if (type == 'get_money_pic') {
+                                $("#get_money_pic").attr("data-name",backImgUrl);
+                            } else {
+                                $("#sms_pic").attr("data-name",backImgUrl);
+                            }
+                        }else{
+                            layer.msg(res.msg);
+                            return false;
+                        }
+                    },'json')
+            }
+        };
+    };
+
+    //旋转图片矫正
+    function rotateImage(image) {
+        console.log('rotateImage');
+
+        var width = image.width;
+        var height = image.height;
+
+        var canvas = document.createElement("canvas")
+        var ctx = canvas.getContext('2d');
+
+        var newImage = new Image();
+
+        //旋转图片操作
+        EXIF.getData(image,function () {
+                var orientation = EXIF.getTag(this,'Orientation');
+                // orientation = 6;//测试数据
+                console.log('orientation:'+orientation);
+                switch (orientation){
+                    //正常状态
+                    case 1:
+                        console.log('旋转0°');
+                        // canvas.height = height;
+                        // canvas.width = width;
+                        newImage = image;
+                        newImgFlag=false;
+                        break;
+                    //旋转90度
+                    case 6:
+                        console.log('旋转90°');
+                        canvas.height = width;
+                        canvas.width = height;
+                        ctx.rotate(Math.PI/2);
+                        ctx.translate(0,-height);
+
+                        ctx.drawImage(image,0,0)
+                        imageDate = canvas.toDataURL('Image/jpeg',1)
+                        newImage.src = imageDate;
+                        newImgFlag=true;
+                        break;
+                    //旋转180°
+                    case 3:
+                        console.log('旋转180°');
+                        canvas.height = height;
+                        canvas.width = width;
+                        ctx.rotate(Math.PI);
+                        ctx.translate(-width,-height);
+
+                        ctx.drawImage(image,0,0)
+                        imageDate = canvas.toDataURL('Image/jpeg',1)
+                        newImage.src = imageDate;
+                        newImgFlag=true;
+                        break;
+                    //旋转270°
+                    case 8:
+                        console.log('旋转270°');
+                        canvas.height = width;
+                        canvas.width = height;
+                        ctx.rotate(-Math.PI/2);
+                        ctx.translate(-height,0);
+
+                        ctx.drawImage(image,0,0)
+                        imageDate = canvas.toDataURL('Image/jpeg',1)
+                        newImage.src = imageDate;
+                        newImgFlag=true;
+                        break;
+                    //undefined时不旋转
+                    case undefined:
+                        console.log('undefined  不旋转');
+                        newImage = image;
+                        newImgFlag=false;
+                        break;
+                }
+            }
+        );
+        return newImage;
     }
+    //验证图片类型大小
+    function validateUp(files){
+        var delParent;
+        var defaults = {
+            fileType         : ["jpg","png","jpeg"],   // 上传文件的类型
+            fileSize         : 1024 * 1024 * 5        // 上传文件的大小 5M
+        };
+        var arrFiles = [];//替换的文件数组
+        for(var i = 0, file; file = files[i]; i++){
+            //获取文件上传的后缀名
+            var newStr = file.name.split("").reverse().join("");
+            if(newStr.split(".")[0] != null){
+                    var type = (newStr.split(".")[0].split("").reverse().join("")).toLowerCase();
+                    console.log(type+"===type===");
+                    if(jQuery.inArray(type, defaults.fileType) > -1){
+                        // 类型符合，可以上传
+                        if (file.size >= defaults.fileSize) {
+                            layer.msg('文件过大',{time:800},function(){
+                                layer.closeAll();
+                            });                            
+                            return false;
+                        } else {
+                            // 在这里需要判断当前所有文件中
+                            arrFiles.push(file);
+                        }
+                    }else{
+                        layer.msg('上传类型不符合',{time:800},function(){
+                            layer.closeAll();
+                        });                        
+                        return false;
+                    }
+                }else{
+                    layer.msg('无法识别的文件',{time:800},function(){
+                        layer.closeAll();
+                    });                    
+                    return false;
+                }
+        }
+        return arrFiles;
+    }
+    // var clipArea = new  PhotoClip("#clipArea", {
+    //     size: [300, 300],//裁剪框大小
+    //     outputSize:[0,0],//打开图片大小，[0,0]表示原图大小
+    //     file: "#file",
+    //     ok: "#clipBtn",
+    //     loadStart: function() {
+    //         $(".loading").removeClass("displaynone");
+    //     },
+    //     loadComplete: function() {
+    //         $(".loading").addClass("displaynone");
+    //     },
+    //     done: function(dataURL) {
+    //         //console.log(dataURL); 
+    //         if (type == 'get_money_pic') {
+    //             $("#btn_get_money").attr("src",dataURL);
+    //         } else {
+    //             $("#btn_sms").attr("src",dataURL);
+    //         }
+    //         uploadImage();
+    //         $(".clipbg").fadeOut();
+    //     }
+
+    // });
+
+    // $(".back").click(function(){
+    //     $(".clipbg").fadeOut();
+    // })
+    // ////////////////////
+    // function uploadImage () {
+    //     var imguploadimg=layer.load(1, {
+    //         shade: [0.5,'#000']
+    //     });
+    //     if (type == 'get_money_pic') {
+    //         var base64=$("#btn_get_money")[0].src;
+    //     } else {
+    //         var base64=$("#btn_sms")[0].src;
+    //     }
+    //     $.post("{php echo $this->createMobileUrl('user', array('op'=>'uploadImage'))}", {'carousel':base64 },
+    //         function(data) {
+    //             if(data.code==1){
+    //                 var avatar_url=data.data.avatar_url;
+    //                 if (type == 'get_money_pic') {
+    //                     $("#get_money_pic").attr("data-name",avatar_url).addClass("uploadindex");
+    //                 } else {
+    //                     $("#sms_pic").attr("data-name",avatar_url).addClass("uploadindex");
+    //                 }
+    //                 layer.close(imguploadimg);
+    //             }else{
+    //                 layer.msg("系统繁忙,请重试!~");
+    //                 return false;
+    //             }
+
+    //         },'json');
+    // }
 
     ///////判段
     $(function(){

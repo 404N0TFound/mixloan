@@ -159,11 +159,17 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <select class="form-control" name="data[status]">
+                    <select class="form-control" name="data[status]" onchange="change_s()" id="status">
                         <option value="0" {if $item['status'] == 0}selected{/if}>审核中</option>
                         <option value="1" {if $item['status'] == 1}selected{/if}>已通过</option>
                         <option value="-1" {if $item['status'] == -1}selected{/if}>已拒绝</option>
                     </select>
+                </div>
+            </div>
+            <div class="form-group" {if $item['status'] != -1}style="display:none" {/if} id="reason">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">原因</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][reason]" value="{$item['ext_info']['reason']}" />
                 </div>
             </div>
             <div class="form-group">
@@ -178,5 +184,15 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+    var change_s = function(){
+        var value = $('#status').val();
+        if (value == -1) {
+            $('#reason').show();
+        } else {
+            $('#reason').hide();
+        }
+    }
+</script>
 {/if}
 {template 'common/footer'}
