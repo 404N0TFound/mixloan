@@ -685,6 +685,7 @@ if($operation=='buy'){
         if (!$row['prefix_text']) {
             $row['prefix_text'] = '';
         }
+        $row['long_text'] = $row['prefix_text'].$url;
         $row['prefix_text'] = $row['prefix_text'].$share_url;
     }
     unset($row);

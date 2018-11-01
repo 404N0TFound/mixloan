@@ -200,9 +200,9 @@
                     $('#mpSmall_post').append(str_two);
                     var str_tre="";
                     if (i == 0) {
-                        str_tre+='<dd class="dn on" style="display:block"><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
+                        str_tre+='<dd class="dn on" style="display:block"><span>'+_data.posterArr[i].long_text+'</span><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
                     } else {
-                        str_tre+='<dd class="dn"><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
+                        str_tre+='<dd class="dn"><span>'+_data.posterArr[i].long_text+'</span><p>'+_data.posterArr[i].prefix_text+'</p></dd>'
                     }
                     $('#mpSmall_dl').append(str_tre);
                     initialSwiper = new Swiper('.posterImg', {
