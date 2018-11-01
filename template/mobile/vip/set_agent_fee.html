@@ -42,7 +42,7 @@
         </form>
     </ul>
     <div class="tips" id="pay_fee">下级购买费用：{$config['buy_vip_price']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
-    <div class="tips" id="get_fee">可获得返现金额：{$config['inviter_fee_one']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} 元</div>
+    <div class="tips" id="get_fee">可获得返现金额：{$config['inviter_fee_one']} + {if $agent_fee}{$agent_fee}{else}0.01{/if} - {if $agent_fee}{php echo $config['agent_charge_fee'] * 0.01 * $agent_fee}{else}0{/if}(手续费) 元</div>
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_3.js"></script>
@@ -57,12 +57,14 @@
     function change_s(){
         var buy_vip_price = ('{$config['buy_vip_price']}');
         var inviter_fee_one = ('{$config['inviter_fee_one']}');
-        var agent_fee = $('#agent_fee').val();
-        if (agent_fee == '') {
+        var agent_charge_fee = '{$config['agent_charge_fee']}';
+        var agent_fee = parseFloat($('#agent_fee').val());
+        if (isNaN(agent_fee)) {
             agent_fee = 0;
         }
+        var charge_fee = agent_charge_fee * 0.01 * agent_fee;
         $('#pay_fee').html('下级购买费用：' + buy_vip_price + '+' + agent_fee + '元');
-        $('#get_fee').html('可获得返现金额：' + inviter_fee_one + '+' + agent_fee + '元');
+        $('#get_fee').html('可获得返现金额：' + inviter_fee_one + '+' + agent_fee.toFixed(2) + ' - ' + charge_fee.toFixed(2) + '(手续费)元');
     }
     function to_submit(){
         var agent_fee = $('#agent_fee').val();

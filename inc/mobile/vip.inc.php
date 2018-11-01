@@ -451,7 +451,13 @@ if($operation=='buy'){
     //一级
     $inviter = m('member')->getInviter($member['phone'], $member['openid']);
     if ($inviter) {
-        $re_bonus = $config['inviter_fee_one'] + ($params['fee'] - $config['buy_vip_price']);
+    	$agent_fee = $params['fee'] - $config['buy_vip_price'];
+    	if ($agent_fee) {
+    		$agent_fee = $agent_fee * (1 - 0.01 * $config['agent_charge_fee']);
+    	} else {
+    		$agent_fee = 0;
+    	}
+        $re_bonus = $config['inviter_fee_one'] + $agent_fee;
         if ($re_bonus) {
             $insert_i = array(
                 'uniacid' => $_W['uniacid'],
