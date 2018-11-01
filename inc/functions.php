@@ -171,10 +171,10 @@ function shortUrl($target) {
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
     if (!$short || $short['createtime'] < time()-86400) {
         $long_url = urlencode($target);
-        $url      = "http://suo.im/api.php?format=json&url=".$long_url;
+        $url      = "https://12i.cn/api.ashx?format=json&userId=2415&key=A7008FC43F40B295EA8EE68DACC09950&url=".$long_url;
         $json     = file_get_contents( $url );
         $arr      = json_decode($json, true);
-        if ($arr['err'] == 0) {
+        if ($arr) {
             pdo_insert('xuan_mixloan_shorturl', ['target_url'=>$target, 'short_url'=>$arr['url'], 'createtime'=>time()]);
             return $arr['url'];
         } else {
