@@ -474,7 +474,7 @@ if ($operation == 'list') {
                         'type'=>3,
                         'createtime'=>time(),
                         'uniacid'=>$_W['uniacid'],
-                        'to_uid'=>$inviter,
+                        'to_uid'=>$item['inviter'],
                         'ext_info'=>json_encode($ext_info),
                     );
                     pdo_insert('xuan_mixloan_msg', $insert);
@@ -526,7 +526,7 @@ if ($operation == 'list') {
                         'type'=>3,
                         'createtime'=>time(),
                         'uniacid'=>$_W['uniacid'],
-                        'to_uid'=>$inviter,
+                        'to_uid'=>$item['inviter'],
                         'ext_info'=>json_encode($ext_info),
                     );
                     pdo_insert('xuan_mixloan_msg', $insert);
