@@ -45,6 +45,9 @@ if ($operation == 'list') {
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
     }
+    if ($_GPC['degree'] != "") {
+        $wheres.= " AND a.degree='{$_GPC['degree']}'";
+    }
     if (!empty($_GPC['time']) || $_GPC['starttime'] || $_GPC['endtime']) {
         $starttime = $_GPC['time']['start'] ? : $_GPC['starttime'];
         $endtime = $_GPC['time']['end'] ? : $_GPC['endtime'];
