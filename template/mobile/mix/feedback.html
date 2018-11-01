@@ -62,8 +62,8 @@
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
                 <li class="border clearfix">
-                    <div class="list-name">产品名称</div>
-                    <div class="input-wap"><input type="text" name="pro_name" id="pro_name" placeholder="产品名称"  ></div>
+                    <div class="list-name">小贷名称</div>
+                    <div class="input-wap"><input type="text" name="pro_name" id="pro_name" placeholder="小贷名称"  ></div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
                 <li class="border clearfix">
@@ -94,6 +94,15 @@
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
+                <li class="border first clearfix">
+                    <div class="list-name">小贷认证</div>
+                    <div class="input-wap" >
+                        <!-- <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_sms"/> -->
+                        <input type="file" value="" id="btn_verify" >
+                        <input type="hidden" value="" id="verify_pic"  name="verify_pic" data-name="">
+                    </div>
+                    <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
+                </li>
             </ul>
         </div>
 
@@ -104,13 +113,15 @@
     <div class="">
         <table style="width: 100%;text-align: center;">
             <tr>
-                <td style="width: 20%">编号</td>
-                <td style="width: 30%">时间</td>
+                <td style="width: 10%">编号</td>
+                <td style="width: 20%">小贷</td>
+                <td style="width: 20%">时间</td>
                 <td style="width: 50%">状态</td>
             </tr>
             {loop $list $row}
             <tr>
                 <td>{$row['id']}</td>
+                <td>{$row['pro_name']}</td>
                 <td>{php echo date('m-d H:i', $row['createtime'])}</td>
                 <td>
                     {if $row['status'] == -1}
@@ -178,6 +189,20 @@
     })
     $("#btn_sms").change(function(){
         type = 'sms_pic';
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        var idFile = $(this).attr("id");
+        var file = document.getElementById(idFile);
+        var fileList = file.files; //获取的图片文件
+        fileList = validateUp(fileList);
+        if(fileList.length>0){
+            var _file=fileList[0];
+            readFile(_file);
+        }
+    })
+    $("#btn_verify").change(function(){
+        type = 'verify_pic';
         index_lay = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
@@ -262,8 +287,10 @@
                             //向后追加新上传的图片
                             if (type == 'get_money_pic') {
                                 $("#get_money_pic").attr("data-name",backImgUrl);
-                            } else {
+                            } else if (type == 'sms_pic'){
                                 $("#sms_pic").attr("data-name",backImgUrl);
+                            } else if (type == 'verify_pic'){
+                                $("#verify_pic").attr("data-name",backImgUrl);
                             }
                         }else{
                             layer.msg(res.msg);
@@ -447,24 +474,6 @@
 
     ///////判段
     $(function(){
-        var realname=$("input[name='realname']").val();  //姓名
-        var phone=$("input[name='phone']").val();   //手机号
-        var idcard=$("input[name='idcard']").val();   //身份证
-        if(realname!=""){
-            $("input[name='realname']").attr("disabled",true);
-        }else{
-            $('.pic_one').show();
-        }
-        if(phone!=""){
-            $("input[name='phone']").attr("disabled",true);
-        }else{
-            $('.pic_two').show();
-        }
-        if(idcard!=""){
-            $("input[name='idcard']").attr("disabled",true);
-        }else{
-            $('.pic_tre').show();
-        }
 
         $('#upSubmit').click(function(){
             upSubmit();
@@ -494,6 +503,7 @@
         $("#upSubmit").unbind('click');
         var get_money_pic=$("#get_money_pic").attr("data-name");  //头像
         var sms_pic=$("#sms_pic").attr("data-name");  //头像
+        var verify_pic=$("#verify_pic").attr("data-name");  //头像
         var name=$("input[name='name']").val();   //身份证
         var phone=$("input[name='phone']").val();   //身份证
         var pro_name=$("input[name='pro_name']").val();   //身份证
@@ -526,7 +536,7 @@
         ajax.url = "{php echo $this->createMobileUrl('mix', array('op'=>'feedback', 'post' => 1))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'name':dataTransform(name),'phone':dataTransform(phone),'pro_name':dataTransform(pro_name),'get_money_pic':dataTransform(get_money_pic),'agent_phone':dataTransform(agent_phone),'apply_date':dataTransform(apply_date),'sms_pic':dataTransform(sms_pic)};
+        ajax.data = {'name':dataTransform(name),'phone':dataTransform(phone),'pro_name':dataTransform(pro_name),'get_money_pic':dataTransform(get_money_pic),'agent_phone':dataTransform(agent_phone),'apply_date':dataTransform(apply_date),'sms_pic':dataTransform(sms_pic),'verify_pic':dataTransform(verify_pic)};
         ajax.success = function (data) {
             //alert(data); 
             layer.close(imguploadimg);

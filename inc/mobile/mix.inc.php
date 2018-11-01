@@ -42,7 +42,7 @@ if($operation=='service'){
 	}
 } else if ($operation == 'feedback') {
 	// 返佣反馈
-	$list = pdo_fetchall('select id,createtime,status,ext_info from ' . tablename('xuan_mixloan_feedback') . '
+	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_feedback') . '
 		where uid=:uid order by id desc', array(':uid' => $member['id']));
 	foreach ($list as &$row) {
 		$row['ext_info'] = json_decode($row['ext_info'], 1);
@@ -53,6 +53,7 @@ if($operation=='service'){
 		$name = trim($_GPC['name']);
 		$pro_name = trim($_GPC['pro_name']);
 		$get_money_pic = trim($_GPC['get_money_pic']);
+		$verify_pic = trim($_GPC['verify_pic']);
 		$sms_pic = trim($_GPC['sms_pic']);
 		$apply_date = trim($_GPC['apply_date']);
 		$agent_phone = trim($_GPC['agent_phone']);
@@ -61,6 +62,7 @@ if($operation=='service'){
 		$ext_info['apply_date'] = $apply_date;
 		$ext_info['agent_phone'] = $agent_phone;
 		$ext_info['get_money_pic'] = $get_money_pic;
+		$ext_info['verify_pic'] = $verify_pic;
 		$insert = array();
 		$insert['uid'] = $member['id'];
 		$insert['pro_name'] = $pro_name;
