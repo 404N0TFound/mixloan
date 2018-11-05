@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5.css" id="layui_layer_skinlayercss">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config.js"></script>
     <script>
@@ -37,6 +37,17 @@
         .swiper-container .swiper-wrapper .swiper-slide-next{margin-right: 11%;margin-left: 5%;}
         .swiper-pagination-bullet{width: 12px;height:2px;border-radius: 25%;background: #bfe1fd;opacity: 1;}
         .swiper-pagination-bullet-active{background:#0084ff;}
+        .deleteFlag{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            background-color: #1c92fe;
+            color: #fff;
+            text-align: center;
+            line-height: 23px;
+            font-size: 22px;
+        }
     </style>
 
     {template 'common/wxshare'}
@@ -71,7 +82,9 @@
                 {loop $banks $row}
                 <div class="swiper-slide" data-id="{$row['id']}">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>{$row['bankname']}</h2><span>储蓄卡</span>
+                    <div class="cardsInfo">
+                        {if $row['type'] == 1}
+                        <h2>{$row['bankname']}</h2><span>储蓄卡</span>
                         <p style="font-family: numFont!important;">
                             {if $row['numbers_type'] == 1}
                             <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}&nbsp;&nbsp;&nbsp;{$row['numbers'][2]}&nbsp;&nbsp;&nbsp;{$row['numbers'][3]}</span>
@@ -79,13 +92,19 @@
                             <span>{$row['numbers'][0]}&nbsp;&nbsp;&nbsp;{$row['numbers'][1]}</span>
                             {/if}
                         </p>
+                        {else if $row['type'] == 2}
+                        <h2>支付宝收款</h2>
+                        <p style="font-family: numFont!important;">
+                            <span>{$row['realname']}&nbsp;&nbsp;&nbsp;{$row['phone']}</span>
+                        </p>
+                        {/if}
                     </div>
                 </div>
                 {/loop}
                 {else}
                 <div class="swiper-slide" data-id="0">
                     <img src="../addons/xuan_mixloan/template/style/picture/bank_qt.png" />
-                    <div class="cardsInfo"><h2>****</h2><span>储蓄卡</span>
+                    <div class="cardsInfo"><h2>****</h2><span>添加提现方式</span>
                         <p style="font-family: numFont!important;">
                             <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
                         </p>
@@ -95,8 +114,11 @@
             </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
+                {if $banks}
+                <a class="deleteFlag" href="javascript:;">-</a>
+                {/if}
             </div>
-            <div class="swiper-pagination"></div>
+            <!--<div class="swiper-pagination"></div>-->
         </div>
     </div>
     <div class="txInfo">
@@ -215,7 +237,7 @@
         ajax.data.card_id=bankId;
         ajax.success = function (data) {
             if (data.code == 1) {
-                layer.msg('提现成功', {
+                layer.msg('提现成功，T+1日到账', {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 }, function(){
                     openNew('{php echo $this->createMobileUrl('vip', array('op'=>'salary'))}');
@@ -261,12 +283,35 @@
     $("div.addCards a.dailiFlag").click(function(){
         var cardNum=$("div.settleCards .swiper-wrapper .swiper-slide").length;
         if(cardNum>=4){
-            layer.msg("最多可添加4张银行卡");
+            layer.msg("最多可添加4种收款方式");
             return false;
         }else{
-            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_card'])}";
+            var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_type'])}";
             openNew(_url);
         }
+    })
+    //删除银行卡
+    $("div.addCards a.deleteFlag").click(function(){
+        var id = $("div.swiper-slide-active").attr("data-id");
+        layer.confirm('确定要删除这个提现方式吗', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var ajax = {};
+            ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'delete_withdraw'))}";
+            ajax.type = "post";
+            ajax.data = {'id':id};
+            ajax.dataType = "json";
+            ajax.success = function (data) {
+                if (data.code == 1) {
+                    layer.msg('删除成功');
+                    history.go(0);
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+            $.ajax(ajax);
+        }, function(){
+        });
     })
     //关闭弹窗
     $(".layer_close").click(function(){
