@@ -11,7 +11,7 @@ foreach ($data as $k => $v){
         $buff .= $k . '=' . $v . '&';
     }
 }
-$stringSignTemp = $buff . 'key=hING5qkgfs2KWSnO0Epl0yEK0c63U3oC';//key为证书密钥
+$stringSignTemp = $buff . 'key=nesg12qoivcit2nryx5hr3fwkq0ookuf';//key为证书密钥
 $sign = strtoupper(md5($stringSignTemp));
 //判断算出的签名和通知信息的签名是否一致
 $json = json_encode($data);
