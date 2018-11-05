@@ -742,7 +742,7 @@
                 // android系统
                 new_version_url = android_url;
             }
-            layer.alert('请下载最新APP', function(){
+            layer.alert('请下载最新APP' + jsBridge.appVersion, function(){
                 openNew(new_version_url)
             });
         }
