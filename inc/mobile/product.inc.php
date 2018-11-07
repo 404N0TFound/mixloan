@@ -23,10 +23,10 @@ if($operation=='index'){
     $advs = m('product')->getAdvs();
     $new_list = m('product')->getRecommends();
     $new_list = m('product')->packupItems($new_list);
-    $recommend_list = m('product')->getList([], ['is_recommend'=>1, 'is_show'=>1], " sort desc", 12);
+    $recommend_list = m('product')->getList([], ['is_recommend'=>1, 'is_show'=>1], " sort desc", 100);
     $recommend_list = m('product')->packupItems($recommend_list);
     $card_list = m('product')->getList([], ['type'=>1, 'is_show'=>1], " sort desc");
-    $small_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], " sort desc");
+    $small_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1, 'is_recommend'=>0], " sort desc");
     $large_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], " sort desc");
     $card_list = m('product')->packupItems($card_list);
     $small_loan_list = m('product')->packupItems($small_loan_list);
