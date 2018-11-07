@@ -100,6 +100,17 @@ if($operation=='buy'){
     }
     $fee = $params['fee'];
     $tid = $params['tid'];
+    $redis = redis();
+    $key = 'tid' . $tid;
+    if (!$redis->get($key))
+    {
+        $redis->set($key, 1);
+    }
+    else
+    {
+        header("location:{$this->createMobileUrl('user')}");
+        exit();
+    }
     if ($params['is_pay'] != 1) {
         message('订单未支付', '', 'error');
     }
