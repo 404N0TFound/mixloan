@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_feedback` (
   `ext_info` text NOT NULL,
   `uid` int(11) NOT NULL,
   `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL default 0,
   PRIMARY KEY (`id`),
   KEY `phone` (`phone`),
   KEY `uid` (`uid`)
