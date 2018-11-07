@@ -82,6 +82,11 @@ if($operation=='index'){
             message('该产品已代理被下架');
         }
     }
+    $status = pdo_fetchcolumn('select status from ' . tablename('xuan_mixloan_member') . '
+        where id=:id', array(':id' => $inviter));
+    if ($status == 0) {
+        message('该代理已被冻结');
+    }
     include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
@@ -99,6 +104,11 @@ if($operation=='index'){
     }
     if(!trim($_GPC['name']) || !trim($_GPC['phone']) || !trim($_GPC['idcard'])) {
         show_json(-1, [], '资料不能为空');
+    }
+    $status = pdo_fetchcolumn('select status from ' . tablename('xuan_mixloan_member') . '
+        where id=:id', array(':id' => $inviter));
+    if ($status == 0) {
+        show_json(-1, [], '该代理已被冻结');
     }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if (empty($info['is_show'])) {
