@@ -19,18 +19,23 @@ class Xuan_mixloan_Poster
         $item = pdo_fetch($sql);
         return $item;
     }
-     /**
-    *   生成海报
-    **/
+    /**
+     *   生成海报
+     **/
     public function createPoster($config, $params) {
         global $_W;
         $tmplogo = XUAN_MIXLOAN_PATH."data/poster/base.jpg";
         require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
-        $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
+        if (strstr(tomedia($config['poster_image']), 'kouziguanwei')) {
+            $tomedia_img = trim(tomedia($config['poster_image']));
+            $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
+        } else {
+            $bgpath = IA_ROOT . '/attachment/' . $config['poster_image'];
+            $bgpng = imagecreatefrompng($bgpath);
+        }
         $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
-        $bgpng = imagecreatefrompng($bgpath);
         if ($config['poster_avatar']) {
             //头像
             if (strstr($params['member']['avatar'], 'mix_loan')) {
@@ -44,7 +49,7 @@ class Xuan_mixloan_Poster
             //字体
             $poster_color = hex2rgb($config['poster_color']);
             $color = imagecolorallocatealpha($bgpng,$poster_color['r'],$poster_color['g'],$poster_color['b'],0);
-            imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,$params['member']['nickname']);
+            imagettftext($bgpng,imagesx($bgpng)*0.03,0,imagesx($bgpng)*0.4,imagesy($bgpng)*0.9,$color,$font,func_substr_replace($params['member']['nickname']));
         }
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.35,imagesx($bgpng)*0.35);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.35,imagesx($bgpng)*0.35,imagesx($QR),imagesy($QR));
@@ -58,24 +63,31 @@ class Xuan_mixloan_Poster
         imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
+            if (strstr(tomedia($config['poster_image']), 'kouziguanwei')) {
+                $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $res = file_get_contents($url . '&fileroot=' . $params['out']);
+                $poster = $res;
+                unlink($params['out']);
+            } else {
+                $poster = $params['poster_path'];
+            }
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
                 'pid'=>$params['pid'],
                 'type'=>$params['type'],
-                'poster'=>$params['poster_path'],
+                'poster'=>$poster,
                 'createtime'=>time(),
             );
             pdo_insert('xuan_mixloan_poster',$insert);
-            return true;
+            return $poster;
         } else {
             return false;
         }
     }
-
-     /**
-    *   新的生成海报方式
-    **/
+    /**
+     *   新的生成海报方式
+     **/
     public function createNewPoster($params) {
         global $_W;
         $poster_id = intval($params['poster_id']);
@@ -87,8 +99,13 @@ class Xuan_mixloan_Poster
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
-        $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
-        $bgpng = imagecreatefrompng($bgpath);
+        if (strstr(tomedia($ext_info['back']), 'kouziguanwei')) {
+            $tomedia_img = trim(tomedia($ext_info['back']));
+            $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
+        } else {
+            $bgpath = IA_ROOT . '/attachment/' . $ext_info['back'];
+            $bgpng = imagecreatefrompng($bgpath);
+        }
         $font = XUAN_MIXLOAN_PATH."data/fonts/msyh.ttf";
         $width_proportion = imagesx($bgpng) / 320;
         if (!empty($ext_info['poster']['qr'])) {
@@ -132,16 +149,24 @@ class Xuan_mixloan_Poster
         @imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
+            if (strstr(tomedia($ext_info['back']), 'kouziguanwei')) {
+                $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
+                $res = file_get_contents($url . '&fileroot=' . $params['out']);
+                $poster = $res;
+                unlink($params['out']);
+            } else {
+                $poster = $params['poster_path'];
+            }
             $insert = array(
                 'uniacid'=>$_W['uniacid'],
                 'uid'=>$params['member']['id'],
                 'pid'=>$params['pid'],
                 'type'=>$params['type'],
-                'poster'=>$params['poster_path'],
+                'poster'=>$poster,
                 'createtime'=>time(),
             );
             pdo_insert('xuan_mixloan_poster',$insert);
-            return true;
+            return $poster;
         } else {
             return false;
         }

@@ -224,7 +224,21 @@ if($operation == 'getCode'){
 	} else {
 		echo 'empty';
 	}
+} else if ($operation == 'upload_file') {
+    $fileroot = $_GPC['fileroot'];
+    $filename = time() . rand(1,99999) . '.png';
+    load()->library('oss');
+    $buckets = attachment_alioss_buctkets($_W['setting']['remote']['alioss']['key'], $_W['setting']['remote']['alioss']['secret']);
+    $endpoint = 'http://' . $buckets[$_W['setting']['remote']['alioss']['bucket']]['location'] . '.aliyuncs.com';
+    try {
+        $ossClient = new \OSS\OssClient($_W['setting']['remote']['alioss']['key'], $_W['setting']['remote']['alioss']['secret'], $endpoint);
+        $ossClient->uploadFile($_W['setting']['remote']['alioss']['bucket'], $filename, $fileroot);
+    } catch (\OSS\Core\OssException $e) {
+        return error(1, $e->getMessage());
+    }
+    echo  'http://kouziguanwei.oss-cn-beijing.aliyuncs.com/' . $filename ;
 }
+
 
 
 ?>
