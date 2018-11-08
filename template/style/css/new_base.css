@@ -501,7 +501,7 @@ div.Jsubmit_btn,div.cJsubmit_btn{text-align: center;background-repeat: no-repeat
   85.2%{background-image:url("../images/frame_13.png");}
 }
 div.Jsubmit_btn .btn,div.cJsubmit_btn .btn{display: inline-block;width:30%; padding: 13px;text-align: center;font-size: 18px;color: #fff;border:1px solid #fff; border-radius: 40px; margin: 2px 0px;padding:10px 12px!important;background-color: transparent;}
-div.new_main{padding:0 10px 10px 10px;background-color: #3487ef;overflow: hidden;margin:0px;}
+div.new_main{padding:0 10px 10px 10px;background-color: #ff0101;overflow: hidden;margin:0px;}
 div.new_main p{overflow: hidden;padding: 8px 0px;height:15px;}
 div.new_main p.sxd_tip{position: relative;height: 30px; top:-2px; color: #fff;padding-left: 3px;padding-top: 0;font-size: 13px;}
 div.new_main p.sxd_tip em{color: #f00;font-style: normal;vertical-align: top;margin-right: 3px;}
@@ -542,7 +542,7 @@ div.credit_basicinfo ul.card_intro li img{width:100%;max-width: 100%;border-radi
 div.credit_basicinfo ul.card_intro li h1{font-size: 0.7rem;line-height: 1.2rem;/*padding-bottom: 3px;*/color: #343434;}
 div.credit_basicinfo ul.card_intro li p{color:#979797;font-size: 0.62rem;padding:0.2rem 0;}
 div.credit_basicinfo ul.card_intro li dl{width:100%;padding-top: 0.25rem;overflow: hidden;}
-div.credit_basicinfo ul.card_intro li dl dd{float: left; padding:0px 5px;color: #3487ef;border:1px solid #3487ef;border-radius: 3px;margin:2px 2px;font-size: 0.5rem;height: 0.65rem;line-height: 0.78rem;}
+div.credit_basicinfo ul.card_intro li dl dd{float: left; padding:0px 5px;color: #ff0101;border:1px solid #ff0101;border-radius: 3px;margin:2px 2px;font-size: 0.5rem;height: 0.65rem;line-height: 0.78rem;}
 div.credit_basicinfo ul.card_edu{display: flex;border-top:1px solid #e9e9e9;border-bottom: 1px solid #e9e9e9;padding-bottom: 10px;}
 div.credit_basicinfo ul.card_edu li{width: 50%;border-right:1px solid #e9e9e9;text-align: center;}
 div.credit_basicinfo ul.card_edu li:last-child{border:none;}
@@ -575,7 +575,7 @@ div.card_basicInfo ul li p.period2 span{width: 30%!important;}
 div.pf_apply{overflow:hidden;border:1px solid #eee;background-color: #fff;height: 50px; box-sizing: border-box;}
 div.pf_apply p{float:left; width:60%;text-align:center;color:#7b7b7b;line-height:50px;}
 div.pf_apply p span{display:inline-block;color:#ff9275;}
-div.pf_apply a{display:inline-block;position: absolute;right: 0;bottom: 0; width:40%;height:50px;text-align:center;color:#fff;background-color:#3487ef;border-top-left-radius:3px;border-bottom-left-radius:3px;line-height:50px;font-size: 16px;}
+div.pf_apply a{display:inline-block;position: absolute;right: 0;bottom: 0; width:40%;height:50px;text-align:center;color:#fff;background-color:#ff0101;border-top-left-radius:3px;border-bottom-left-radius:3px;line-height:50px;font-size: 16px;}
 
 div.pf_pop,div.protocol_pop{width:100%;top:0;left: 0; height:100%;z-index:99;}    
 div.pf_pop .floor,div.protocol_pop .floor{width:100%;height:100%;background-color:rgba(0,0,0,0.6)!important;}
@@ -595,11 +595,11 @@ div.applyMain ul li a{position: absolute;display: inline-block;right: 0;padding:
 div.applyMain p{display:flex;padding: 0px 0 10px 0;}
 div.applyMain p span img{width:16px;}
 div.applyMain p a{display:inline-block;color:#3586ef;font-size: 15px;}
-div.applyMain>a{display:inline-block;width:100%;font-size:16px;color:#fff;text-align:center;padding:15px 0;background-color:#3487ef;border-radius:5px;margin-top:10px;}
+div.applyMain>a{display:inline-block;width:100%;font-size:16px;color:#fff;text-align:center;padding:15px 0;background-color:#ff0101;border-radius:5px;margin-top:10px;}
 
 /*jump*/
 div.Japply_contents{overflow: auto;}
-div.Japply_top{background-color: #3487ef;height:120px;}
+div.Japply_top{background-color: #ff0101;height:120px;}
 div.Japply_top ul{width: 96%;margin:0 auto;overflow: hidden;padding:12px 0px;}
 div.Japply_top ul li{width: 33%; float: left;border-right:1px solid #fff;}
 div.Japply_top ul li:last-child,div.Japply_main ul.main_basicinfo li:last-child{border:none;}
@@ -632,8 +632,8 @@ div.bottom_common h1 a{position: absolute;display: inline-block;left: 70px;botto
 div.attention{padding:10px;}
 div.attention h1{color: #515151;}    
 div.keytip ul{overflow: hidden;padding-top:5px;}
-div.keytip ul li{float: left;margin:0 3px;padding:5px 10px;border:1px solid #3487ef;color: #3487ef;border-radius: 2px;text-align: center;margin-top:6px;font-size: 12px;}
-div.keytip ul li.point{background-color: #3487ef;color: #fff;}
+div.keytip ul li{float: left;margin:0 3px;padding:5px 10px;border:1px solid #ff0101;color: #ff0101;border-radius: 2px;text-align: center;margin-top:6px;font-size: 12px;}
+div.keytip ul li.point{background-color: #ff0101;color: #fff;}
 div.apply_condition ul,div.attention ul{padding-left:20px;padding-top: 10px;}
 div.apply_condition ul li,div.attention ul li{list-style-type:disc;color: #999;margin-bottom:6px;line-height: 18px;font-size: 15px;}
 div.apply_flow{text-align: center;}
@@ -644,10 +644,10 @@ div.strategy_main>a{position: absolute;display: inline-block;width: 18px;height:
 div.strategy_main>a img{width: 100%;max-width: 100%;display: block;}
 div.strategy_main{padding:10px 0;}
 div.contain_basic h1 span{display: inline-block; color: #515151;height:25px;line-height: 25px;vertical-align: middle;font-size: 15px;}
-div.contain_basic h1::before{content: "";display: inline-block; width: 8px;height:20px; background-color: #3487ef;margin-right: 10px;vertical-align: middle;}
+div.contain_basic h1::before{content: "";display: inline-block; width: 8px;height:20px; background-color: #ff0101;margin-right: 10px;vertical-align: middle;}
 div.contain_basic p{padding:5px 10px;text-indent: 20px;text-align: left;color:#979797;font-size: 13px;line-height: 16px;}
 div.ppd_valid{position: relative;}
-div.ppd_valid a{display: inline-block;position: absolute;height:16px;line-height: 16px; top:6px;right:10px;padding:4px 8px;border:1px solid #3487ef;color: #3487ef;border-radius: 3px;}
+div.ppd_valid a{display: inline-block;position: absolute;height:16px;line-height: 16px; top:6px;right:10px;padding:4px 8px;border:1px solid #ff0101;color: #ff0101;border-radius: 3px;}
 
 div.recommend{position: fixed;top:0;left:0;z-index: 99;display: none;}
 div.recommend_main{position: absolute;width: 90%;left: 5%;top:30%; min-height: 50%;max-height: 80%;background-color: #f7f7f7;border-radius: 8px;}
@@ -663,9 +663,9 @@ div.recommend_list ul li:nth-child(3){width:22%;}
 div.recommend_list ul li:nth-child(4){width:22%;}
 div.recommend_list ul li:last-child{width:4%;}
 div.recommend_list ul li img{display: inline-block;width: 90%;max-width: 100%;margin:3px 5%;}
-div.recommend_list ul li h1{color: #3487ef;font-size: 16px;}
+div.recommend_list ul li h1{color: #ff0101;font-size: 16px;}
 div.recommend_list ul li h2{color:#7f7f7f;font-size: 13px;}    
-div.recommend_list ul li p{text-align: left;padding:0;margin:0;font-weight: bold;line-height: 22px;font-size: 14px;color:#3487ef;}
+div.recommend_list ul li p{text-align: left;padding:0;margin:0;font-weight: bold;line-height: 22px;font-size: 14px;color:#ff0101;}
 div.recommend_list ul li>span{display: inline-block; color: #c3c3c3;line-height: 22px;font-size: 10px;}
 
 

@@ -96,7 +96,7 @@ div.cusDetail{margin-top: 5px;background: #fff;}
 div.dtlCommon ul{overflow: hidden;}
 div.dtlCommon ul li{float: left;width: 40%;text-align: center;font-size: 0.62rem;height:1.9rem;line-height: 1.9rem;border-bottom: 1px solid #eee;}
 div.dtlCommon ul li:last-child{width: 20%;}
-div.dtlCommon ul li a{display: inline-block;width: 2rem; height: 1rem;line-height: 1rem; font-size: 0.5rem;padding:0 5px; color: #00a2ff;box-sizing: border-box;border:1px solid #00a2ff;border-radius: 2px;letter-spacing: 0.05rem;}
+div.dtlCommon ul li a{display: inline-block;width: 2rem; height: 1rem;line-height: 1rem; font-size: 0.5rem;padding:0 5px; color: #ff0101;box-sizing: border-box;border:1px solid #ff0101;border-radius: 2px;letter-spacing: 0.05rem;}
 div.dtlCommon ul li a.refused{color: #ff7070;border-color: #ff7070;}
 div.dtlCommon ul li a.checked{color: #00d0c0;border-color: #00d0c0;letter-spacing: 0;}
 /*div.resultList{margin-top: 2.2rem;}*/
@@ -117,7 +117,7 @@ div.checkRCommon ul li:last-child{border:none;}
 div.checkRCommon ul li a{position: absolute;bottom: 0;left: 10%; display: inline-block;border-radius: 5px;padding:0.2rem 0.2rem 0.15rem 0.2rem;overflow: hidden;}
 div.checkRCommon ul li a label{float: left; margin-right: 0.1rem; display: inline-block;width: 0.7rem;height: 0.7rem; /*background: #fff;*/border-radius: 100%;}
 div.checkRCommon ul li a span{float: left;display: inline-block;height:0.8rem;line-height: 0.8rem; color: #fff;font-size: 0.58rem;width: 2.5rem;text-align: center;}
-div.checkRCommon ul li a.passed{background: #0195ff;}
+div.checkRCommon ul li a.passed{background: #ff0101;}
 div.checkRCommon ul li a.applying{background: #ffad67;}
 div.checkRCommon ul li a.refused{background: #ff7070;}
 div.checkRCommon ul li a.checkOut{background:#00d0c0;}
@@ -208,7 +208,7 @@ div.agent-foot p.foot_img{height:30px;margin-top:3px;}
 .agent-foot a.home:active{background-color: none;}
 .agent-foot .iconfont{font-size: 25px;}
 .agent-foot p{font-size: 12px;}
-.agent-foot a.on{color: #87c3f6;}
+.agent-foot a.on{color: #ff0101;}
 .agent-foot a.today-cell{ position: relative;}
 .agent-foot a.today-cell .new2-icon{display: block;height: 16px;position: absolute;top: 1px;left: 55%;}
 .agent-foot a.today-cell .new2-icon img{display: block;height:100%;max-height: 100%;}

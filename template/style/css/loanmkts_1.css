@@ -27,7 +27,7 @@ div.loanindex_inform2{width:100%;background-color: #fff;overflow: hidden;padding
 div.loanindex_inform2 span{display: inline-block;width:21%;text-align:left;float: left;margin-left:3.6%; font-size:0.65rem;color: #7f7f7f;
 font-weight: 500;}
 div.loanindex_inform2 span img{width: .8rem;max-width: 100%;height:auto; }
-div.loanindex_inform2 span leabl{width:0.25rem;height:0.65rem;background: #3487ef;display: inline-block;vertical-align: middle; 
+div.loanindex_inform2 span leabl{width:0.25rem;height:0.65rem;background: #ff0101;display: inline-block;vertical-align: middle; 
  -webkit-transform:translate(0,-5%);  transform: translate(0,-5%);margin-right:11%; }
 div.loanindex_inform2 ul{float: left;width: 70%;overflow: hidden;margin-top:1%;}
 div.loanindex_inform2 ul li p{font-size:0.5rem;text-align:left;color:#a7a7a7;}
@@ -79,12 +79,12 @@ div.loanindex_shortcut ul li div.f3{width:32%;}
 div.loanindex_shortcut ul li div.f4{width:22%;}
 div.loanindex_shortcut ul li p{text-align: left;font-size:0.5rem;color:#7f7f7f;}
 div.loanindex_shortcut ul li h2{text-align: left;font-size:0.65rem;color:#000;padding-top:1%;}
-div.loanindex_shortcut ul li h3{text-align:center;font-size:0.55rem;color:#3487ef;width:95%;margin:18% auto 0;padding:1.0% 0;border:1px solid #3487ef;border-radius: 30px;}
+div.loanindex_shortcut ul li h3{text-align:center;font-size:0.55rem;color:#ff0101;width:95%;margin:18% auto 0;padding:1.0% 0;border:1px solid #ff0101;border-radius: 30px;}
 div.loanindex_shortcut ul li img{width:1.7rem;height:1.7rem;border-radius: 50%;}
 div.loanindex_shortcut ul li div.f2 p{font-size:0.5rem;color:#7f7f7f;}
 div.loanindex_shortcut ul li div.f3 p:first-child{padding-top:4%;}
 div.loanindex_shortcut ul li div.f3 p{padding-top:2%;}
-div.loanindex_shortcut ul li div.f3 p span{color:#3487ef;}
+div.loanindex_shortcut ul li div.f3 p span{color:#ff0101;}
 
 div.loan_channel{width:96%;margin:0 auto;}
 div.loan_channel div.fl{width:64%;text-align: center;border-right: 1px solid #eeeeee;padding-bottom:3%;}
@@ -104,23 +104,23 @@ div.loanindex_shortcut2 ul li div.f3{width:26%;}
 div.loanindex_shortcut2 ul li div.f4{width:18%;float: right;}
 div.loanindex_shortcut2 ul li p{text-align: left;font-size:0.5rem;color:#7f7f7f;}
 div.loanindex_shortcut2 ul li h2{text-align: left;font-size:0.65rem;color:#000;padding-top:0%;}
-div.loanindex_shortcut2 ul li h3{text-align:center;font-size:0.6rem;color:#3487ef;width:95%;margin:18% auto 0;padding:1.5% 0;border:1px solid #3487ef;border-radius: 30px;}
+div.loanindex_shortcut2 ul li h3{text-align:center;font-size:0.6rem;color:#ff0101;width:95%;margin:18% auto 0;padding:1.5% 0;border:1px solid #ff0101;border-radius: 30px;}
 div.loanindex_shortcut2 ul li img{width:1.73rem;height:1.73rem;border-radius: 5px;padding-top:5%;}
 div.loanindex_shortcut2 ul li div.f2 p{font-size:0.45rem;color:#7f7f7f;padding-top:3%;position:relative;left:-4%;}
 div.loanindex_shortcut2 ul li div.f3 p:first-child{padding-top:4%;}
 div.loanindex_shortcut2 ul li div.f3 p{padding-top:3%;}
 div.loanindex_shortcut2 ul li div.f4 p{padding-top:7%;}
-div.loanindex_shortcut2 ul li div.f3 p span{color:#3487ef;}
+div.loanindex_shortcut2 ul li div.f3 p span{color:#ff0101;}
 div.loanindex_shortcut2 ul li div.f3 h2{font-size:0.75rem;font-weight: 500;font-family: 'num';}
 div.loanindex_shortcut2 ul li div.f4 h2{font-size:0.75rem;font-weight: 500;font-family: 'num';}
 div.loanindex_shortcut2 ul li div.f2 h2 b{width:55%;display: inline-block;	}
 div.loanindex_shortcut2 ul li div.f2 h2 span{text-align:center;font-size:0.45rem;color:#fff;width:95%;margin:0% auto 0;
 -webkit-transform:translate(0,12%);  transform: translate(0,-12%);
 padding:1% 1%;border:0px solid #900;border-radius: 30px;display: inline-block;width:32%;
-background: #3487ef;font-style: italic;}
+background: #ff0101;font-style: italic;}
 div.loanindex_shortcut2 ul li div.f2 h2 span img{width:0.35rem;height:auto;margin-right: 3%;padding-top:0%;border-radius: 0px;
 	-webkit-transform:translate(0,12%);  transform: translate(0,-12%);}
-div.loanindex_shortcut2 ul li div.f2 p span{padding:0.1% 1.8%;border:0.5px solid #66a5f3;border-radius: 3px;color:#3487ef;display:inline-block;
+div.loanindex_shortcut2 ul li div.f2 p span{padding:0.1% 1.8%;border:0.5px solid #66a5f3;border-radius: 3px;color:#ff0101;display:inline-block;
 margin-top:2% ;margin-left:5%;}
 div.loanindex_shortcut2 ul li div.f2 p span:first-child{margin-right:0%;}
 
@@ -135,7 +135,7 @@ div.loanindex_shortcut2 ul li div.f2 p span:first-child{margin-right:0%;}
 .wrap .menu img.roe{ -webkit-animation:rotate 150ms 0s 1 ease; transform:rotateZ(45deg); }
 
 .wrap .btn{text-align:center;opacity: 0;}
-.wrap .btn p{font-size:12px;text-align:center;color:#3487ef;line-height: 1.5em;height:50px;}
+.wrap .btn p{font-size:12px;text-align:center;color:#ff0101;line-height: 1.5em;height:50px;}
 .wrap .btn1 img{width:20px;height:auto;margin-top:9px;}
 .wrap .btn2 img{width:18px;height:auto;margin-top:4px;}
 .wrap .btn3 img{width:22px;height:auto;margin-top:11px;margin-bottom:2px;}

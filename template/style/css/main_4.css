@@ -239,7 +239,7 @@ input,select,a,button{
     font-size: 12px;
 }
 .agent-foot a.on{
-    color: #87c3f6;
+    color: #ff0101;
 }
 .agent-foot a.today-cell{
     position: relative;
@@ -275,7 +275,7 @@ div.agent-link ul li a.today-cell .new-icon{display: block;width: 20px;height: 2
     border-top-color: #54b9ff;
 }
 .agent-foot.texttotal a.on p{
-    color: #87c3f6;
+    color: #ff0101;
 }
 .agent-main{
     width: 100%;

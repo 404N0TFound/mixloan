@@ -186,21 +186,21 @@ div.fill_info ul li input:-moz-placeholder{color: #c0c0c0;}
 div.fill_info ul li input::-moz-placeholder{color: #c0c0c0;}
 div.fill_info ul li input:-ms-input-placeholder{color: #c0c0c0;}
 div.fill_info ul li input::-webkit-input-placeholder{color: #c0c0c0;}
-div.fill_info ul li a{position: absolute;bottom:10px; right:0; border-radius:20px; text-align: center;color: #fff;height: 1.2rem;line-height: 1.2rem;padding:0 0.5rem;font-size: 0.5rem; background: #0195ff;min-width: 35px;}
+div.fill_info ul li a{position: absolute;bottom:10px; right:0; border-radius:20px; text-align: center;color: #fff;height: 1.2rem;line-height: 1.2rem;padding:0 0.5rem;font-size: 0.5rem; background: #ff0101;min-width: 35px;}
 div.fill_info ul li em{display: inline-block;position: absolute;right: 0.1rem;bottom: 0.5rem;width: 0.8rem;height: 1.2rem;line-height: 1.2rem;}
 div.fill_info ul li em img{display: inline-block;width: 100%;}
 div.fill_info>p.regbg{position: fixed;width: 90%;bottom: 3%;left: 5%;}
 div.fill_info>p.regbg img{width: 100%;display: block;}
 div.fill_info ul li.re_psw span{width:70px;}
 div.submit_btn{text-align: center;}
-div.fill_info a.to_buy{display: inline-block; width:84%;margin:0px auto; margin-top:1.4rem; height:1.8rem;line-height: 1.9rem;border-radius: 1rem; font-size: 0.65rem; text-align: center;color: #fff;background-color: #0195ff;letter-spacing: 5px;}
+div.fill_info a.to_buy{display: inline-block; width:84%;margin:0px auto; margin-top:1.4rem; height:1.8rem;line-height: 1.9rem;border-radius: 1rem; font-size: 0.65rem; text-align: center;color: #fff;background-color: #ff0101;letter-spacing: 5px;}
 div.fill_info>img{width: 100%;display: block;margin: 0 auto 5% auto;}
 div.regProtocol{text-indent: 7%;padding-top: 10px;}
 div.regProtocol label{display: inline;margin-right: 0.3rem;}
 div.regProtocol label img{width: 0.55rem;height: 0.55rem;display: inline-block;vertical-align: middle;margin-top: -3px;}
 div.regProtocol span{color: #9a989b;font-style: 12px;display: inline;font-size: 0.5rem;}
 div.associate{display: none;}
-div.regProtocol a{display: inline;color: #0194fc;font-style: 12px;font-size: 0.5rem;}
+div.regProtocol a{display: inline;color: #ff0101;font-style: 12px;font-size: 0.5rem;}
 div.associateLogin ul{margin:1.3rem auto 0.5rem auto;}
 div.associateReg p{text-align: center;margin-top: 1rem;}
 div.associateReg p span,div.associateRePwd p span{display: inline;color: #9a9a9a;font-size: 0.5rem;}

@@ -2,9 +2,9 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Pay
 {
-    private $appid = "wxeb603cfa7d123e70";
-    private $mchid = "1484265262";
-    private $secrect_key = "lyet24ceael03aj2vo5wq251nu3lf2kn";
+    private $appid = "";
+    private $mchid = "";
+    private $secrect_key = "";
     private $pay_url= "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
     private $pay_url_bank = "https://api.mch.weixin.qq.com/mmpaysptrans/pay_bank";
     private $H5pay_url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -121,12 +121,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '正多科技充值';
+        $params['body'] = '蜜蜂采金充值';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://www.86456533.com","wap_name": "正多科技充值"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://mfcj.bjhantangyuanlin.com","wap_name": "蜜蜂采金充值"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;

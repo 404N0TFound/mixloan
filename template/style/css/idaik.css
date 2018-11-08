@@ -62,7 +62,7 @@ div.Imphink ul{overflow: hidden;padding-bottom: 15px;}
 div.Imphink ul li{float: left;width: 25%;margin-top:15px;}
 div.Imphink ul li img{display: block;height: 0.85rem;margin:0 auto;}
 div.Imphink ul li h3{text-align: center;color: #666;font-size: 0.54rem;padding-top:5px;}
-div.Imphink ul li.hink h3{color: #0195ff;}
+div.Imphink ul li.hink h3{color: #ff0101;}
 div.applyRule ul{padding:5px 2.5% 0 5%;}
 div.applyRule ul li{color: #666;font-size: 0.6rem;margin:5px 0;line-height: 0.9rem;}
 div.applyFlow img{width: 100%;display: block;margin:8px auto 0 auto;}
@@ -73,7 +73,7 @@ div.applyAttention ul li img{display: inline-block; width: 0.5rem;float: left;ma
 div.applyAttention ul li span{display: inline-block;float: left;color: #666;font-size: 0.6rem;max-width: 94%;}
 
 div.toApply{position: fixed;width: 100%; bottom: 0;left: 0; padding:12px 0;box-sizing: border-box;border:1px solid #ddd;background-color: #fff;z-index: 100;}
-div.toApply a{display: block;width: 90%;margin: 0 auto;background-color: #3487ef;border-radius: 8px;color: #fff;font-size: 0.68rem;padding:15px 0;text-align: center;font-weight: bold;box-shadow:0px 0px 12px rgba(255,255,255,0.4);letter-spacing: 0.2rem;}
+div.toApply a{display: block;width: 90%;margin: 0 auto;background-color: #ff0101;border-radius: 8px;color: #fff;font-size: 0.68rem;padding:15px 0;text-align: center;font-weight: bold;box-shadow:0px 0px 12px rgba(255,255,255,0.4);letter-spacing: 0.2rem;}
 
 div.strategys{position: fixed;top:0;left: 0;width: 100%;z-index: 99;display: none;}
 div.strategys .strgyFloor{width: 100%;height:100%; background: rgba(0,0,0,0.35);}
@@ -161,9 +161,9 @@ div.cardAdv{padding:3px 5% 15px 5%;position: relative;}
 div.cardAdv h1{color: #333!important;font-size: 0.68rem;}
 div.cardAdv p{color: #999;font-size: 0.56rem;margin:10px 0;}
 div.cardAdv ul{overflow: hidden;}
-div.cardAdv ul li{float: left;color: #0195ff;border:1px solid #0195ff;border-radius: 3px;margin-right: 5px;font-size: 0.5rem;padding:0px 5px;height:0.65rem;line-height: 0.7rem;}
+div.cardAdv ul li{float: left;color: #ff0101;border:1px solid #ff0101;border-radius: 3px;margin-right: 5px;font-size: 0.5rem;padding:0px 5px;height:0.65rem;line-height: 0.7rem;}
 div.cardAdv .cardApplyNum{position: absolute;right: 5%;bottom: 10px;}
-div.cardAdv .cardApplyNum h2{color: #0195ff;font-size: 0.65rem;text-align: center;}
+div.cardAdv .cardApplyNum h2{color: #ff0101;font-size: 0.65rem;text-align: center;}
 div.cardAdv .cardApplyNum p{font-size: 0.5rem;color: #999;margin-top:10px;}
 
 /*产品下线*/
@@ -220,7 +220,7 @@ div.cJframe{-webkit-overflow-scrolling: touch;}
 div.popLoanApplyCommon{position: absolute;width: 100%;top:0;left:0;z-index: 99;background-color: rgba(0,0,0,0.3);display: none;}
 div.popLoanApplyCommon .popLoanMain{opacity: 0;transition: all 0.15s ease; position: absolute;width: 90%;left: 5%; margin: 0 auto; top: 95%;padding-bottom: 1rem; border-radius: 0.5rem; background-color: #fff;z-index: 90;}
 div.popLoanApply .popLoanApplyCover{position: relative;width: 100%;top:0;left: 0;height: 100%;background-color: transparent;z-index: 9;}
-div.popLoanMain .popLoanLink{width: 60%;margin: 0 auto;text-align: center;background-color: #0195ff;border-bottom-left-radius: 0.5rem;border-bottom-right-radius: 0.5rem;height: 1.5rem;line-height: 1.4rem;}
+div.popLoanMain .popLoanLink{width: 60%;margin: 0 auto;text-align: center;background-color: #ff0101;border-bottom-left-radius: 0.5rem;border-bottom-right-radius: 0.5rem;height: 1.5rem;line-height: 1.4rem;}
 div.popLoanLink img{display: inline-block;height: 0.8rem;margin-right: 0.2rem;vertical-align: middle;margin-top: -2px;}
 div.popLoanLink a{display: inline-block;color: #fff;font-size: 0.5rem;color: rgba(255,255,255,0.9);}
 div.popLoanInfo{width: 90%;margin: 1.2rem auto 0 auto;}
@@ -232,7 +232,7 @@ div.popLoanInfo ul li input{float: left; display: inline-block;width: 80%; margi
 div.popLoanInfo ul li input::-webkit-input-placeholder{color:#aaa;}
 div.popLoanInfo ul li input:-moz-placeholder{color:#aaa;}
 div.popLoanInfo ul li input:-ms-placeholder{color:#aaa;}
-div.popLoanInfo ul li a{display: inline-block;position: absolute;right: 0;top:0rem;min-width: 2rem; min-height: 1.3rem;text-align: center;line-height: 1.3rem;background-color: #0195ff;border-radius: 0.25rem;color: #fff;}
+div.popLoanInfo ul li a{display: inline-block;position: absolute;right: 0;top:0rem;min-width: 2rem; min-height: 1.3rem;text-align: center;line-height: 1.3rem;background-color: #ff0101;border-radius: 0.25rem;color: #fff;}
 div.popLoanInfo ul li a.sendMess{padding: 0 0.25rem;}
 div.popLoanInfo ul li a img{display: block;width: 3rem; height: 1.3rem;}
 div.popLoanInfo p{color: #aeaeae;font-size: 0.4rem;height:20px;line-height: 18px;padding-top: 12px;}
@@ -240,7 +240,7 @@ div.popLoanInfo p label{position: relative; float: left; display: inline-block;w
 div.popLoanInfo p label.notchoose{background: url('../images/wx_noselect.png') center center;background-size: 13px 13px;background-repeat: no-repeat;}
 div.popLoanInfo p label.choosed{background: url('../images/protocols.png') center center;background-size: 13px 13px;background-repeat: no-repeat;}
 div.popLoanInfo p span{display: inline-block;float: left;margin-left: 0.2rem;font-size: 0.5rem;}
-div.popLoanInfo p a{float: left;display: inline-block; color: #0195ff;font-size: 0.5rem;}
+div.popLoanInfo p a{float: left;display: inline-block; color: #ff0101;font-size: 0.5rem;}
 div.popLoanInfo p.ppdTip{padding-left: 0; }
 div.popLoanInfo p.ppdTip a{color: #67bfff;display: inline;}
 div.popLoanInfo p.sxdTip{padding-left: 5%;padding-right: 3%;}
@@ -267,7 +267,7 @@ div.yrdValidMain .yrdValidCode input{position: absolute;width: 95.5%; top:0.5rem
 div.yrdValidMain .yrdValidCode a{display: inline-block;float: right;min-width: 1.5rem;padding:0.1rem 0.2rem;color: #b3b3b3;font-size: 0.5rem;margin-top: 0.6rem;height: 1rem;line-height: 0.9rem;box-sizing: border-box;}
 div.yrdValidMain .yrdValidCode a span{display: inline-block;width: 1rem;text-align: center;color: #0097ff;font-size: 0.56rem;}
 div.yrdValidMain .yrdValidCode a.reGet{color: #0b9bfe;box-sizing: border-box;border:1px solid #0b9bfe;border-radius: 0.5rem;}
-div.yrdValidMain>a{display: block;margin: 0 auto;height: 1.6rem;line-height: 1.6rem;color: #fff;letter-spacing: 0.2rem;font-size: 0.62rem;text-align: center;background-color: #0195ff;margin:1rem 0;border-radius: 0.8rem;}
+div.yrdValidMain>a{display: block;margin: 0 auto;height: 1.6rem;line-height: 1.6rem;color: #fff;letter-spacing: 0.2rem;font-size: 0.62rem;text-align: center;background-color: #ff0101;margin:1rem 0;border-radius: 0.8rem;}
 /*不同产品提示样式*/
 div.popLoanInfo p.ppdTip{padding-left: 0; }
 div.popLoanInfo p.ppdTip a{color: #67bfff;display: inline;}
