@@ -202,8 +202,9 @@ if($operation=='index'){
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
     if ($second_inviter) {
         $inviter_two = m('member')->getInviterInfo($second_inviter);
-        if ($inviter_two['status'] != -2) {
-            show_json(-1, [], '用户已被删除');
+        
+        if ($inviter_two['status'] == 0) {
+            show_json(-1, [], '该代理已被冻结');
         }
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
@@ -245,8 +246,9 @@ if($operation=='index'){
     $third_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
     if ($third_inviter) {
         $inviter_thr = m('member')->getInviterInfo($third_inviter);
-        if ($inviter_thr['status'] != -2) {
-            show_json(-1, [], '用户已被删除');
+       
+        if ($inviter_thr['status'] == 0) {
+            show_json(-1, [], '该代理已被冻结');
         }
         $insert['inviter'] = $third_inviter;
         $insert['degree'] = 3;
