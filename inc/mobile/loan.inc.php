@@ -132,10 +132,6 @@ if($operation=='index'){
         }
     }
     if ($inviter) {
-        $inviter_one = m('member')->getInviterInfo($inviter);
-        if ($inviter_one['status'] != -2) {
-            show_json(-1, [], '用户已被删除');
-        }
         // $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
         // $datam = array(
         //     "first" => array(
