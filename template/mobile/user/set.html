@@ -293,7 +293,7 @@
         ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'setData'))}";
         ajax.type = "post";
         ajax.dataType="json";
-        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'phone':dataTransform(phone),'idcard':dataTransform(idcard)};
+        ajax.data = {'userid':dataTransform(userid),'headimgurl':dataTransform(headimgurl),'nickname':dataTransform(nickname),'wechatnum':dataTransform(wechatnum),'realname':dataTransform(realname),'idcard':dataTransform(idcard)};
         ajax.success = function (data) {
             //alert(data);
             layer.close(imguploadimg);
