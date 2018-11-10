@@ -766,9 +766,9 @@ if ($operation == 'list') {
 } else if ($operation == 'export_agent') {
     //导出手机号
     $list = pdo_fetchall('select a.uid,b.phone from ' . tablename('xuan_mixloan_payment') . ' a 
-        left join ' . tablename('xuan_mixloan_member') . ' b on a.uid=b.id
+        left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
         where a.uniacid=:uniacid and b.status=1 and b.phone<>''
-        group by a.uid', array(':uniacid' => $_W['uniacid']));
+        group by a.uid", array(':uniacid' => $_W['uniacid']));
     m('excel')->export($list, array(
         "title" => "代理手机号",
         "columns" => array(
