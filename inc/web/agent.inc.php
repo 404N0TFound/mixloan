@@ -763,6 +763,27 @@ if ($operation == 'list') {
         }
         message("上传完毕，成功数{$success}，失败数{$failed}", '', 'success');
     }
+} else if ($operation == 'export_agent') {
+    //导出手机号
+    $list = pdo_fetchall('select a.uid,b.phone from ' . tablename('xuan_mixloan_payment') . ' a 
+        left join ' . tablename('xuan_mixloan_member') . ' b on a.uid=b.id
+        where a.uniacid=:uniacid and b.status=1 and b.phone<>''
+        group by a.uid', array(':uniacid' => $_W['uniacid']));
+    m('excel')->export($list, array(
+        "title" => "代理手机号",
+        "columns" => array(
+            array(
+                'title' => 'id',
+                'field' => 'uid',
+                'width' => 10
+            ),
+            array(
+                'title' => '手机',
+                'field' => 'phone',
+                'width' => 30
+            ),
+        )
+    ));
 }
 include $this->template('agent');
 ?>
