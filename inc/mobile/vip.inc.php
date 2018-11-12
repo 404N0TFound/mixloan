@@ -662,5 +662,87 @@ if($operation=='buy'){
 	    show_json(1, null, "设置成功");
     }
     include $this->template('vip/set_pay_pass');
+} else if ($operation == 'partner_bonus') {
+    // 合伙人奖励
+    include $this->template('vip/partner_bonus');
+} else if ($operation == 'partner_salary') {
+    // 底薪领取
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code'] != 1) {
+        message('抱歉，您还不是合伙人哦', '', 'error');
+    }
+    if (empty($config['partner_salary'])) {
+        message('合伙人工资没有设置', '', 'error');
+    }
+    if ($_COOKIE['get_bonus']) {
+        message('您的操作太快啦', '', 'error');
+    }
+    $date = explode('-', date('Y-m-d'));
+    if ($date[1] != $config['partner_days']) {
+        message('抱歉，每月25号才可以领工资哦', '', 'error');
+    }
+    $starttime = strtotime(date('Y-m'));
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+        where inviter=:inviter and type=4 and createtime>{$starttime}", array(':inviter'=>$member['id']));
+    if ($record) {
+        message('您已经领过工资啦', '', 'error');
+    }
+    setcookie('get_bonus', 1, time() + 60);
+    $insert = array();
+    $insert['uniacid'] = $_W['uniacid'];
+    $insert['uid'] = $member['id'];
+    $insert['phone'] = $member['phone'];
+    $insert['certno'] = $member['certno'];
+    $insert['realname'] = $member['realname'];
+    $insert['inviter'] = $member['id'];
+    $insert['extra_bonus'] = $config['partner_salary'];
+    $insert['status'] = 2;
+    $insert['createtime'] = time();
+    $insert['degree'] = 1;
+    $insert['type'] = 4;
+    pdo_insert('xuan_mixloan_product_apply', $insert);
+} else if ($operation == 'partner_tourism') {
+    // 旅游套票
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter and type=1 and status>0 and degree=1', array(':inviter' => $member['id']));
+    if ($record < $config['tourism_count']) {
+        message("直推满{$config['tourism_count']}单才能领取奖励哦", '', 'error');
+    }
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_tourism') . "
+        where uid=:uid", array(':uid'=>$member['id']));
+    if ($record) {
+        message('您已经填写过啦', '', 'error');
+    }
+    include $this->template('vip/partner_tourism');
+} else if ($operation == 'partner_tourism_submit') {
+    // 旅游套票提交
+    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter and type=1 and status>0 and degree=1', array(':inviter' => $member['id']));
+    if ($record < $config['tourism_count']) {
+        show_json(-1, [], "直推满{$config['tourism_count']}单才能领取奖励哦");
+    }
+    $realname = trim($_GPC['realname']);
+    $phone = trim($_GPC['phone']);
+    $address = trim($_GPC['address']);
+    if (empty($realname)) {
+        show_json(-1, [], '姓名不能为空');
+    }
+    if (empty($phone)) {
+        show_json(-1, [], '手机不能为空');
+    }
+    if (empty($address)) {
+        show_json(-1, [], '地址不能为空');
+    }
+    $insert = array();
+    $ext_info = array();
+    $ext_info['address'] = $address;
+    $insert['uid'] = $member['id'];
+    $insert['phone'] = $phone;
+    $insert['realname'] = $realname;
+    $insert['status'] = 0;
+    $insert['createtime'] = time();
+    $insert['ext_info'] = json_encode($ext_info);
+    pdo_insert('xuan_mixloan_tourism', $insert);
+    show_json(1, [], '提交成功');
 }
 

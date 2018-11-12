@@ -41,6 +41,20 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_tourism`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_tourism` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(30) NOT NULL,
+  `realname` varchar(30) NOT NULL,
+  `ext_info` text NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  KEY `phone` (`phone`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_feedback`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -321,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已下款/发卡',
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
-  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品 2邀请 6满单奖励',
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品 2邀请 4合伙人工资 6满单奖励',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),

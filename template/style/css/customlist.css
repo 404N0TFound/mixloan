@@ -212,7 +212,7 @@ div.agent-foot p.foot_img{height:30px;margin-top:3px;}
 .agent-foot a.today-cell{ position: relative;}
 .agent-foot a.today-cell .new2-icon{display: block;height: 16px;position: absolute;top: 1px;left: 55%;}
 .agent-foot a.today-cell .new2-icon img{display: block;height:100%;max-height: 100%;}
-.agent-foot a.on{border-top:1px solid #62bbff;}
+.agent-foot a.on{border-top:1px solid #d81f07;}
 .agent-foot p>img{height:28px;max-height:100%;}*/
 
 div.noDisplay{width: 5.4rem;margin:0 auto;font-size: 0.58rem;text-align: center;color: #999;padding-top: 30%;}

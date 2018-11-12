@@ -752,7 +752,7 @@ div.no_remind label,div.no_remind span{display: inline-block;color: #fff;vertica
 div.no_remind label{position: relative; width: 10px;height:10px;border:2px solid #fff;margin-right: 5px;}
 div.no_remind label img{position: absolute;left:-4px;bottom: 0px;width:20px !important;max-width: none!important;}
 div.share_sure{position: absolute;width: 100%;text-align: center;left:0;bottom: -100px;}
-div.share_sure a{display: inline-block;width: 110px; height:32px;text-align: center;line-height: 32px;color: #62bbff;font-size: 16px; border-radius: 15px;background: #fff;}
+div.share_sure a{display: inline-block;width: 110px; height:32px;text-align: center;line-height: 32px;color: #d81f07;font-size: 16px; border-radius: 15px;background: #fff;}
 
 div.kzS_alert{display: none;}
 div.kzS_alert .share_contain{color: #f00;}
@@ -801,10 +801,10 @@ div.agent-foot .agent_foot a{display: inline-block;width:45% !important;}
 /*dbsucess*/
 .dbsu-pg p{width:150px; height:150px; line-height:150px; text-align: center; border-radius: 50%; background: #fff; margin: 0 auto;}
 .dbsu-pg p img{vertical-align: middle;}
-.apply-foot a{color:#fff; padding:10px 45px; background: #62bbff; border-radius: 40px; font-size: 18px; cursor: pointer;}
+.apply-foot a{color:#fff; padding:10px 45px; background: #d81f07; border-radius: 40px; font-size: 18px; cursor: pointer;}
 /*loanRate*/
 .loanRate_main{width: 90%;margin:0 auto;padding-top:44px;}
-.loanBasic_info{width:100%;margin-top:15px; padding:50px 0; background: #62bbff;border-radius: 10px;overflow: hidden;}
+.loanBasic_info{width:100%;margin-top:15px; padding:50px 0; background: #d81f07;border-radius: 10px;overflow: hidden;}
 .loanBasic_info ul{overflow: hidden; width:90%; margin:0 auto;}
 .loanBasic_info ul li{float: left; width:32%; height:60px; border-right:1px solid #fff; color: #fff; text-align: center;}
 .loanBasic_info ul li:nth-child(3){border:none;}
@@ -888,7 +888,7 @@ div.msg_content ul li div.alert_content p,div.msg_content ul li div.alert_conten
 div.msg_content ul li div.alert_content h2{font-size: 16px;color:#666666;line-height:20px;}
 div.msg_content ul li div.alert_content p{white-space: nowrap;overflow: hidden;text-overflow: ellipsis;line-height:22px;}
 /*personal_adv*/
-.to_feedback{position: absolute; display: inline; top:6px !important; right:10px !important; padding:0 10px; border-radius: 5px; color:#62bbff;line-height:32px; cursor:pointer;}
+.to_feedback{position: absolute; display: inline; top:6px !important; right:10px !important; padding:0 10px; border-radius: 5px; color:#d81f07;line-height:32px; cursor:pointer;}
 div.feedback_main{padding-top:44px;}
 div.feedback_main h2{text-indent: 10px;line-height: 32px;color:#767676;}
 div.feedback_content{min-height:120px; background: #fff;padding-top:5px;}
@@ -932,7 +932,7 @@ div.choosed{position: fixed; width:100%; bottom: 0;left:0; height:55px;line-heig
 div.choosed label{display: inline-block; width:20px; height:20px;border-radius: 50%;border:none !important; background:url("../images/choose_on.png") no-repeat center center #66bdff;background-size: 12px;vertical-align: middle;margin-left:30px;}
 div.choosed span{display: inline-block;font-size: 16px;color:#969696;}
 div.choosed span em{display: inline-block;color:#f84f48;margin:0 5px;}
-div.choosed a{display: inline-block;position: absolute;top:0;right:0; height:100%; box-sizing: border-box;background: #62bbff;border-left:1px solid #e0e0e0;color:#fff;padding:0 25px;font-size: 16px;}
+div.choosed a{display: inline-block;position: absolute;top:0;right:0; height:100%; box-sizing: border-box;background: #d81f07;border-left:1px solid #e0e0e0;color:#fff;padding:0 25px;font-size: 16px;}
 .advance_face{margin-top:30px !important;}
 .advance_face img{width:100px; max-width: 100%;}
 .advance_tip img{width:80%; max-width: 100%;margin-top:20px;}
