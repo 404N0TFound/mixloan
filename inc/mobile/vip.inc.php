@@ -410,25 +410,26 @@ if($operation=='buy'){
     if (!$record) {
         header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
     }
-    $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
-    foreach ($banks as &$row) {
-        if ($row['type'] == 1) {
-            if (count($row['banknum']) == 16) {
-                $row['numbers_type'] = 1;
-                $row['numbers'][0] = substr($row['banknum'], 0, 4);
-                $row['numbers'][1] = substr($row['banknum'], 4, 4);
-                $row['numbers'][2] = substr($row['banknum'], 8, 4);
-                $row['numbers'][3] = substr($row['banknum'], 12, 4);
-            } else {
-                $row['numbers_type'] = 2;
-                $row['numbers'][0] = substr($row['banknum'], 0, 6);
-                $row['numbers'][1] = substr($row['banknum'], 6);
-            }
-        } else if ($row['type'] == 2) {
-
-        }
-    }
-    unset($row);
+//    $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
+//    foreach ($banks as &$row) {
+//        if ($row['type'] == 1) {
+//            if (count($row['banknum']) == 16) {
+//                $row['numbers_type'] = 1;
+//                $row['numbers'][0] = substr($row['banknum'], 0, 4);
+//                $row['numbers'][1] = substr($row['banknum'], 4, 4);
+//                $row['numbers'][2] = substr($row['banknum'], 8, 4);
+//                $row['numbers'][3] = substr($row['banknum'], 12, 4);
+//            } else {
+//                $row['numbers_type'] = 2;
+//                $row['numbers'][0] = substr($row['banknum'], 0, 6);
+//                $row['numbers'][1] = substr($row['banknum'], 6);
+//            }
+//        } else if ($row['type'] == 2) {
+//
+//        }
+//    }
+//    unset($row);
+    $qrcodes = pdo_fetchall("SELECT id,name,img_url FROM ".tablename('xuan_mixloan_withdraw_qrcode'). " WHERE uid=:uid AND status=1", array(':uid'=>$member['id']));
     $bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
     $can_use = $bonus - m('member')->sumWithdraw($member['id']);
     include $this->template('vip/withdraw');

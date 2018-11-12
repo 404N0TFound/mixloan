@@ -7,6 +7,7 @@
     <li {if $operation=='apply_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'apply_list'));}">申请列表</a></li>
     <li {if $operation=='withdraw_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'withdraw_list'));}">提现列表</a></li>
     <li {if $operation=='get_bonus'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'get_bonus'));}">满单奖励</a></li>
+    <li {if $operation=='tourism_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'tourism_list'));}">旅游列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -68,6 +69,88 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='删除代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 删除代理</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'tourism_list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="agent" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="status">
+                        <option value="" >选择状态</option>
+                        <option value="0" {if  $_GPC['status']!="" && $_GPC['status']==0}selected{/if} >申请中</option>
+                        <option value="-1" {if $_GPC['status']==-1}selected{/if} >失败</option>
+                        <option value="1" {if $_GPC['status']==1}selected{/if} >已发货</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            
+            
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>申请者</th>
+                    <th style='width:100px;'>已做单数</th>
+                    <th style='width:150px;'>申请时间</th>
+                    <th style='width:150px;'>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>   {$row['count']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   {if $row['status'] == 0}<span class="label label-default">申请中</span>{else if $row['status']==1}<span class="label label-success">已发货</span>{else if $row['status']==-1}<span class="label label-warning">申请失败</span>{/if}</td>
+                    <td  style="overflow:visible;">
+                        
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'tourism_update','id' => $row['id']));}" title='处理'><i class='fa fa-edit'></i> 处理</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'tourism_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除该记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
                             </ul>
                         </div>
                     </td>
@@ -723,6 +806,65 @@
         {$pager}
     </div>
 </div>
+</div>
+{else if $operation == 'tourism_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">处理</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1" enctype="multipart/form-data">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="agent" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="post" value="1" />
+            <input type="hidden" name="id" value="{$id}" />
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[status]">
+                        <option value="-1" {if $item['status']==-1}selected{/if}>拒绝</option>
+                        <option value="0" {if $item['status']==0}selected{/if}>申请中</option>
+                        <option value="1" {if $item['status']==1}selected{/if}>已发货</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[realname]" value="{$item['realname']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[phone]" value="{$item['phone']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">地址</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][address]" value="{$item['ext_info']['address']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">快递单号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][express]" value="{$item['ext_info']['express']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
 </div>
 {/if}
 {template 'common/footer'}

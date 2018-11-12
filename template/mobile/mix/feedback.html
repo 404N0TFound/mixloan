@@ -12,7 +12,7 @@
     <meta http - equiv = "Cache-Control" content = "no-cache, no-store, must-revalidate" / >
     <meta http - equiv = "Pragma" content = "no-cache" / >
     <meta http - equiv = "Expires" content = "0" / >
-    <title>返佣反馈</title>
+    <title>奖励领取</title>
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/aui.css"/>
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/intial.css" />
     <!-- pic -->
@@ -42,7 +42,7 @@
 <div class="app_header">
     <div class="app_header_back">
         <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>返佣反馈</span>
+        <span>奖励领取</span>
     </div>
 </div>
 {/if}
@@ -94,15 +94,14 @@
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
                 </li>
-                <li class="border first clearfix">
+                <!-- <li class="border first clearfix">
                     <div class="list-name">小贷认证截图</div>
                     <div class="input-wap" >
-                        <!-- <img src="../addons/xuan_mixloan/template/style/images/upload_img.png" id="btn_sms"/> -->
                         <input type="file" value="" id="btn_verify" >
                         <input type="hidden" value="" id="verify_pic"  name="verify_pic" data-name="">
                     </div>
                     <div class="pic"><img src="../addons/xuan_mixloan/template/style/picture/back.png"/></div>
-                </li>
+                </li> -->
             </ul>
         </div>
 
@@ -529,10 +528,10 @@
             layer.msg("请上传短信截图");
             return false;
         }
-        if (verify_pic == "") {
-            layer.msg("请上传小贷认证截图");
-            return false;
-        }
+        // if (verify_pic == "") {
+        //     layer.msg("请上传小贷认证截图");
+        //     return false;
+        // }
         var imguploadimg=layer.load(1, {
             shade: [0.5,'#000']
         });

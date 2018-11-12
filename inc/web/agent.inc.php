@@ -335,7 +335,7 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    if (false) {
+    if (true) {
         //id 28之后改为微信二维码收款
         $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
     } else {
@@ -471,6 +471,47 @@ if ($operation == 'list') {
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     message('已发放', referer(), 'sccuess');
+} else if ($operation == 'tourism_list') {
+    // 旅游列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (isset($_GPC['status']) && $_GPC['status'] != "") {
+        $wheres .= " and a.status={$_GPC['status']}";
+    }
+    if (!empty($_GPC['phone'])) {
+        $wheres .= " and a.phone like '%{$_GPC['phone']}%'";
+    }
+    $sql = 'select a.*,b.nickname,b.avatar from ' . tablename('xuan_mixloan_tourism') . " a
+            left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id
+            where 1 " . $wheres . ' ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['count'] = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("xuan_mixloan_product_apply")."
+            WHERE inviter={$row['uid']} and type=1 and status>0 and degree=1");
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_tourism') . " a
+            left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id
+            where 1 " . $wheres  );
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'tourism_update') {
+    // 旅游操作
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_tourism"). "
+        where id={$id}");
+    $item['ext_info'] = json_decode($item['ext_info'], 1);
+    if ($_GPC['post'] == 1) {
+        $data = $_GPC['data'];
+        $data['ext_info'] = json_encode($data['ext_info']);
+        pdo_update('xuan_mixloan_tourism', $data, array('id' => $id));
+        message('操作成功', referer(), 'sccuess');
+    }
+} else if ($operation == 'tourism_delete') {
+    // 旅游删除
+    pdo_delete('xuan_mixloan_tourism', array("id" => $_GPC["id"]));
+    message("提交成功", $this->createWebUrl('agent', array('op' => 'tourism_list')), "sccuess");
 }
 include $this->template('agent');
 ?>

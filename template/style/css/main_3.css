@@ -759,7 +759,7 @@ div.informContent{display: flex;align-items: center; padding:15px 10px 15px 7%;b
 div.informContent span{display: inline-block;color: #5c5c5c;}
 div.informContent .ifInform{position: absolute;right: 4%; float: right;}
 div.informContent .ifInform a{display: inline-block;height: 24px;border-radius: 20px;transition: all 0.2s;width: 42px;}
-div.informContent .ifInform a.yesInform{background-color: #3992ff;}
+div.informContent .ifInform a.yesInform{background-color: #d81f07;}
 div.informContent .ifInform a.noInform{background-color: rgba(0,0,0,0.25);}
 div.informContent .ifInform span{position: absolute;top:1px;display: inline-block;width: 22px;height:22px;border-radius: 100%;background-color: #fff;transition: all 0.2s;}
 div.informAlert p{padding:10px 0 10px 7%;color: #989898;font-size: 12px;}

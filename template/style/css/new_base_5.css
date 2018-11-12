@@ -1026,7 +1026,7 @@ div.settleCards .swiper-slide .cardsInfo>span{font-size: 12px;color: #f6f9ff;}
 div.settleCards .swiper-slide .cardsInfo p{margin-top: 5%;letter-spacing:3px;font-size: 19px;}
 div.settleCards .swiper-slide .cardsInfo p span{font-size: 15px;vertical-align: sub;letter-spacing: 4px;}
 div.addCards{position: absolute;width: 100%;bottom: 12%;left: 0; text-align: center;}
-div.addCards a{display: inline-block;width: 25px;height:25px;border-radius: 100%;background-color: #1c92fe;color: #fff;text-align: center;line-height: 23px;font-size: 22px;}
+div.addCards a{display: inline-block;width: 25px;height:25px;border-radius: 100%;background-color: #d81f07;color: #fff;text-align: center;line-height: 23px;font-size: 22px;}
 div.txInfo{margin-top: 2%;padding-bottom: 25px;}
 div.txFrame{background:#fff;}
 div.txFrame h2{width: 96%;margin:0 auto;box-sizing: border-box; border-bottom: 1px solid #f3f2f2;padding:12px 0 12px 3%;color: #575757;}
@@ -1039,8 +1039,8 @@ div.txMoney input::-webkit-input-placeholder{font-size: 15px;}
 div.txMoney a{display: inline-block;position: absolute;top:16px;right: 5%;height: 30px;line-height: 30px;color: #b0afaf;}
 
 div.txFrame p{display: block;margin: 0 auto; padding:10px 7%;color: #bcbcbc;font-size: 13px;}
-div.txFrame p span{color: #73b3fd;}
-div.txInfo a.txSubmit{display: block;width: 72%;margin: 0 auto;background: #0084ff;color: rgba(255,255,255,0.9);font-size: 16px;text-align: center;border-radius: 25px;padding:10px 0;margin-top: 9%;box-shadow: 0 3px 18px #3992ff;}
+div.txFrame p span{color: #d81f07;}
+div.txInfo a.txSubmit{display: block;width: 72%;margin: 0 auto;background: #d81f07;color: rgba(255,255,255,0.9);font-size: 16px;text-align: center;border-radius: 25px;padding:10px 0;margin-top: 9%;box-shadow: 0 3px 18px #d81f07;}
 div.validFrame{background-color: #eff0f2;padding-top: 2%;}
 div.imgValid{position: relative; background-color: #fff;padding:11px 0 11px 7%;}
 div.imgValid input{width: 80%;border: none;outline: none;color: #bcbcbc;height:25px;line-height: 25px;text-indent: 0;font-size: 15px;margin:0;padding:0;}
@@ -1095,7 +1095,7 @@ div.order_detail ul li span label{color: #989898;}
 div.order_detail ul li span.fail_r{color: #a8a8a8;font-size: 0.55rem;/*min-height: 24px;line-height: 14px;*/}
 div.order_detail>a{position: absolute; display: inline-block;width: 16px;text-align: center;color: #fff;/*top:0;left: -2%;*/top: 0px; left: -2%; bottom: 0; right: 0;-webkit-transform-origin-x: 0; -webkit-transform: scale(0.8);border-top-right-radius: 2.5px;border-bottom-right-radius: 2.5px;}
 div.order_detail>a span{display: inline-block;vertical-align: middle;width: 15px;font-size: 12px;-webkit-transform-origin-x: 0; -webkit-transform: scale(0.8);line-height: 18px;}
-div.order_detail>a.t_success,div.order_detail>a.t_daili{background: #0084ff;}
+div.order_detail>a.t_success,div.order_detail>a.t_daili{background: #d81f07;}
 div.order_detail>a.t_fail{background: #ff3838;}
 div.order_detail>a.t_handleing{background-color: #ffae00;}
 div.order_detail>a.t_product{background-color: #ffad00;}
@@ -1109,7 +1109,7 @@ div.order_detail .dIncome{position: absolute;height: 100%;right: 0;top:0; width:
 div.order_detail .dIncome h3{position: absolute;width: 100%;height: 2rem;line-height: 2rem; top:0.5rem;left: 0;font-size: 0.6rem;}
 div.order_detail .dIncome h3 span{display: inline-block;margin-left: 5%; font-size: 1rem;color: #ffbf28;}
 div.order_detail .dIncome h3 span em{font-style: normal;font-weight: normal;font-size: 0.8rem;}
-.to_account{position: fixed;top:50%;right: 0;padding:7% 7px; font-size: 16px;color: #fff;width: 16px;background-color: #2a97ff;border-top-left-radius: 4px;border-bottom-left-radius: 4px;box-shadow: -2px 0 12px #3992ff;line-height: 25px;-webkit-tap-highlight-color: #2a97ff;}
+.to_account{position: fixed;top:50%;right: 0;padding:7% 7px; font-size: 16px;color: #fff;width: 16px;background-color: #2a97ff;border-top-left-radius: 4px;border-bottom-left-radius: 4px;box-shadow: -2px 0 12px #d81f07;line-height: 25px;-webkit-tap-highlight-color: #2a97ff;}
 div.bc_main{padding-bottom: 8%;}
 div.bc_main h2{padding:12px 5.5%;color: #727375;font-size: 0.6rem;}
 div.bc_common ul{background-color: #fff;padding:0 3%;}
@@ -1118,4 +1118,4 @@ div.bc_common ul li:last-child{border:none;}
 div.bc_common ul li span{display: inline-block;vertical-align: middle;color: #ababab;width: 30%;font-size: 0.6rem;}
 div.bc_common ul li input{display: inline-block;vertical-align: middle;color: #494949;width: 65%;font-size: 0.62rem;border:none;outline: none;margin:0;padding:0;height:22px;}
 div.bc_common ul li input::-webkit-input-placeholder{color: #969696;}
-div.bc_main a{display: block;width: 80%;margin: 0 auto;background-color: #0084ff;border-radius: 25px;color: #fff;padding:12px 0;box-shadow: 0 2px 15px #3992ff;text-align: center;font-size: 16px;margin-top: 8%;}
+div.bc_main a{display: block;width: 80%;margin: 0 auto;background-color: #d81f07;border-radius: 25px;color: #fff;padding:12px 0;box-shadow: 0 2px 15px #d81f07;text-align: center;font-size: 16px;margin-top: 8%;}
