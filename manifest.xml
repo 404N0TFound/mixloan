@@ -38,6 +38,7 @@
 		<entry title="奖励管理" do="bonus" state="" direct="false" />
 		<entry title="公告管理" do="announce" state="" direct="false" />
     <entry title="代理反馈" do="feedback" state="" direct="false" />
+    <entry title="征信查询" do="pcredit" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
