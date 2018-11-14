@@ -355,7 +355,7 @@ if($operation=='buy'){
 	include $this->template('vip/salary');
 } else if ($operation == 'withdraw') {
 	//提现
-    $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
+    $banks = pdo_fetchall("SELECT * FROM ".tablename("xuan_mixloan_creditCard")." WHERE uid=:uid and status=1 and type=2", array(':uid'=>$member['id']));
 	foreach ($banks as &$row) {
         if ($row['type'] == 1) {
             if (count($row['banknum']) == 16) {
