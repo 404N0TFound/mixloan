@@ -2,7 +2,7 @@
 defined('IN_IA') or exit('Access Denied');
 class Xuan_mixloan_Loan
 {
-    public function getList($get=[], $conditon=[], $orderBy=FALSE, $limit=FALSE) {
+    public function getList($get=[], $conditon=[], $orderBy='id desc', $limit=FALSE) {
         global $_W;
         $ret = [];
         $wheres = $fields = "";
