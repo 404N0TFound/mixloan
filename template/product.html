@@ -135,6 +135,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                    <span class="help-block">提示：越大越靠前</span>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品logo</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
@@ -216,6 +223,15 @@
                     <select class="form-control" name="data[loan_type]">
                         <option value="1" {if $item['loan_type'] == 1} selected="" {/if}>大额贷款</option>
                         <option value="2" {if $item['loan_type'] == 2} selected="" {/if}>小额贷款</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">推广类型</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[extend_type]">
+                        <option value="1" {if $item['extend_type'] == 1} selected="" {/if}>cps</option>
+                        <option value="2" {if $item['extend_type'] == 2} selected="" {/if}>cpa</option>
                     </select>
                 </div>
             </div>

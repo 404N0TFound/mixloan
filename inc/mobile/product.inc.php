@@ -20,11 +20,13 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
     //首页
+    $cps_list = m('product')->getList([], ['is_show'=>1, 'extend_type'=>1], FALSE, 6);
+    $cps_list = m('product')->packupItems($cps_list);
     $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
     $hot_list = m('product')->packupItems($hot_list);
     $loan_large_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>1], FALSE);
     $loan_large_list = m('product')->packupItems($loan_large_list);
-    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], FALSE);
+    $loan_small_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], 'sort desc');
     $loan_small_list = m('product')->packupItems($loan_small_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
