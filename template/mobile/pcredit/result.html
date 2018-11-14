@@ -1,0 +1,132 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="webkit">
+    <title>征信查询</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/pcredit/css/weui.min.css">  
+    <style>
+        html,body{
+            max-width:500px;
+        }
+        body,html{
+            height:100%
+        }
+        body{
+            background:url(../addons/xuan_mixloan/template/style/pcredit/images/bg.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center bottom;
+        }
+    </style>
+</head>
+<body style="background-color:#fff">
+<header>
+</header>
+<main >
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: #f4fcff}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
+    .app_header_back img{float:left;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png"  onclick="mui.back()">
+        <span>征信查询</span>
+    </div>
+</div>
+{/if}
+    <div class="weui-msg">
+        {if $item}
+        <div class="weui-msg__icon-area">
+            <img style="width:6em;" src="{php echo tomedia($item['ext_info']['logo']);}">
+            {if $item['is_pcredit']}
+            <h2 class="weui-msg__title" style="color:red"><i class="weui-icon-warn"></i>上征信！</h2>   
+            {else}
+            <h2 class="weui-msg__title" style="color:#9ED99D"><i class="weui-icon-success"></i>不上征信~</h2>
+            {/if}    
+        </div>
+        <div class="weui-msg__text-area">
+            <h4 class="weui-msg__title">{$item['name']}</h4>
+            <p class="weui-msg__desc">{$item['ext_info']['tips']}</p>
+        </div>
+        {else}
+        <div class="weui-msg__icon-area">
+            <img style="width:6em;" src="../addons/xuan_mixloan/template/style/pcredit/images/pro.png">
+            <h2 class="weui-msg__title" style="color:"><i class="weui-icon-info-circle"></i>暂未收录</h2>        
+        </div>
+        <div class="weui-msg__text-area">
+            <h4 class="weui-msg__title">{$name}</h4>
+        </div>
+        {/if} 
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                {if $item}
+                <a onclick="openW('{$item['ext_info']['url']}')" class="weui-btn weui-btn_primary">立刻申请</a>
+                {/if} 
+                <a onclick="mui.back()" class="weui-btn weui-btn_default">返回查询</a>
+            </p>
+        </div>   
+    </div>
+</main>
+<footer>
+<div class="weui-msg__extra-area" style="max-width:500px">
+    <!-- <div class="weui-footer">
+        <p class="weui-footer__links">
+            <a href="http://app.zhongxinwanka.com" class="weui-footer__link">众鑫玩卡</a>
+            <a href="http://www.12credit.com/daikuan/0/0/0/0.html" class="weui-footer__link">贷款超市</a>
+        </p>
+        <p class="weui-footer__text">Copyright © 2016-2017 zhongxinwanka.com</p>
+    </div> -->
+</div> 
+<!-- <a href="javascript:;" class="weui-btn weui-btn_default" id="showToast">成功提示</a>    -->
+<!--BEGIN toast-->
+<div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">谢谢反馈</p>
+        </div>
+    </div>
+<!--end toast-->
+</footer>
+<script src="../addons/xuan_mixloan/template/style/pcredit/js/jquery.min.js"></script>  
+<script src="../addons/xuan_mixloan/template/style/pcredit/js/weui.min.js"></script>   
+<script async src="../addons/xuan_mixloan/template/style/pcredit/js/6e9436eb7f7942ba9c2f09a2226802e5.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    function openW(url) {
+        if (typeof(plus) == 'undefined') {
+            openNew(url);
+        } else {
+            plus.runtime.openURL(url);
+        }
+    }
+</script>
+    <script>     
+        setTimeout(function() {
+            TDAPP.onEvent("总查询次数");
+        }, 1000);
+        function feedback (title ) {
+            $("#toast").css({'display':'block'});
+            setTimeout(function() {
+                $("#toast").css({'display':'none'});
+            }, 1000);
+            $.ajax({
+                url:'/utils.php?r=creditquery%2Ffeedback',
+                data:'content='+title,
+                dataType:'json',
+                type:'post'
+            })
+        }
+    </script>
+</body>
+</html>
