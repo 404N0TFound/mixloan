@@ -136,7 +136,7 @@ if($operation=='login') {
         }
     }
     $sql = 'select * from ' . tablename('xuan_mixloan_product_apply') . ' where 
-			inviter=:inviter ' . $where . ' order by id desc';
+			inviter=:inviter and degree=1' . $where . ' order by id desc';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql, $cond);
     foreach ($list as &$row) {
@@ -156,6 +156,7 @@ if($operation=='login') {
             $row['product_logo'] = '../addons/xuan_mixloan/template/style/images/partner.png';
         } 
         $row['bonus'] = $row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'];
+        $row['phone'] = func_substr_replace($row['phone']);
     }
     unset($row);
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . ' where 
