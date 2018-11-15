@@ -144,6 +144,12 @@
                 </div>
                 <p class="weui_grid_label">邀请海报</p>
             </a>
+            <a onclick="copy_pc()" class="weui_grid js_grid">
+                <div class="weui_grid_icon">
+                    <img src="../addons/xuan_mixloan/template/style/partner/images/pc.png" alt="">
+                </div>
+                <p class="weui_grid_label">pc后台</p>
+            </a>
             {/if}
             <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')" class="weui_grid js_grid">
                 <div class="weui_grid_icon">
@@ -227,6 +233,11 @@
         {/if}
         function loginout(){
             openNew('{php echo $this->createMobileUrl('index', array('op' => 'loginout'))}');
+        }
+        function copy_pc(){
+            var pc_url = "{php echo $_W['siteroot'] . 'app/' . $this->createMobileUrl('partner')}";
+            layer.msg('复制成功');
+            jsBridge.setClipboardText(pc_url);
         }
     </script>
     <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
