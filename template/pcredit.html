@@ -2,6 +2,7 @@
 <ul class="nav nav-tabs">
     <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('pcredit')}">列表</a></li>
     <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('pcredit', array('op' => 'add'))}" >添加/编辑</a></li>
+    <li {if $operation=='feedback_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('pcredit', array('op' => 'feedback_list'))}">反馈列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -56,6 +57,44 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('pcredit',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('pcredit',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('删除？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'feedback_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:300px;'>反馈信息</th>
+                    <th style='width:120px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['ext_info']['content']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('pcredit',array('op'=>'feedback_delete','id' => $row['id']));}" title='删除' onclick="return confirm('删除？');"><i class='fa fa-remove'></i> 删除</a></li>
                             </ul>
                         </div>
 

@@ -47,6 +47,24 @@ if ($operation == 'list') {
         pdo_insert('xuan_mixloan_pcredit', $data);
         message("提交成功", $this->createWebUrl('pcredit', array('op' => '')), "sccuess");
     }
+} else if ($operation == 'feedback_list') {
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $sql = 'select * from ' . tablename('xuan_mixloan_pcredit_feedback') . "
+            where 1 " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_pcredit_feedback') . "
+            where 1 " . $wheres . ' ORDER BY ID DESC');
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'feedback_delete') {
+    pdo_delete('xuan_mixloan_pcredit_feedback', array('id'=>$_GPC['id']));
+    message("提交成功", referer(), "sccuess");
 }
 include $this->template('pcredit');
 ?>

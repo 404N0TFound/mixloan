@@ -31,4 +31,20 @@ if($operation=='index'){
         $item['ext_info'] = json_decode($item['ext_info'], 1);
     }
     include $this->template('pcredit/result');
+} else if ($operation == 'feedback') {
+    // 我要反馈
+    if ($_GPC['post']) {
+        $content = trim($_GPC['content']);
+        if (empty($content)) {
+            show_json(-1, [], '请输入内容');
+        }
+        $insert = array();
+        $ext_info = array();
+        $ext_info['content'] = $content;
+        $insert['ext_info'] = json_encode($ext_info);
+        $insert['createtime'] = time();
+        pdo_insert('xuan_mixloan_pcredit_feedback', $insert);
+        show_json(1, [], '反馈成功');
+    }
+    include $this->template('pcredit/feedback');
 }
