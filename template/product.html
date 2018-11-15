@@ -541,6 +541,18 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请条件</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][conditions]', $item[ext_info][conditions]);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">推广说明</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][description]', $item[ext_info][description]);}
+                </div>
+            </div>
 <script type="text/javascript">
     var change_s = function (){
         var value = $("select[name='data[type]']").val();
