@@ -8,7 +8,7 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+	$list = m('loan')->getList([], [], 'id desc');
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -34,7 +34,7 @@ if($operation=='index'){
 	if (isset($_GPC['order']) && !empty($_GPC['order'])) {
 		$orderBy = $_GPC['order'];
 	} else {
-		$orderBy = FALSE;
+		$orderBy = 'id desc';
 	}
 	if (isset($_GPC['begin']) && !empty($_GPC['begin'])) {
 		$condition['begin'] = $_GPC['begin'];
