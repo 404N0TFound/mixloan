@@ -59,7 +59,13 @@ if($operation=='index'){
     $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
         where inviter=:inviter', array(':inviter' => $member['id'])) ? : 0;
     if ($my_bonus < floatval($info['ext_info']['bonus_condition'])) {
-        $condition = false;
+        $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $member['id']));
+        if (!$white) {
+            $condition = false;
+        } else {
+            $condition = true;
+        }
     } else {
         $condition = true;
     }
@@ -121,6 +127,15 @@ if($operation=='index'){
     if ( empty($info['is_show']) ) {
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
+    }
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+        where inviter=:inviter', array(':inviter' => $inviter)) ? : 0;
+    if ($info['ext_info']['bonus_condition'] && $my_bonus < floatval($info['ext_info']['bonus_condition'])) {
+        $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+                where uid=:uid', array(':uid' => $inviter));
+        if (!$white) {
+            message('该代理没有达到推广该产品条件', '', 'error');
+        }
     }
     $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
         where uid=:uid', array(':uid' => $inviter));
