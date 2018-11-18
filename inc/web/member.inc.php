@@ -328,6 +328,31 @@ if ($operation == 'list') {
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'rank_list') {
+    // 排行榜
+    $type = intval($_GPC['type']) ? : 1;
+    if ($type == 1) {
+        $strattime = strtotime(date('Y-m-d') . ' -1 days');
+        $endtime = strtotime(date('Y-m-d'));
+        $list = pdo_fetchall("select inviter as uid,SUM(re_bonus+done_bonus+extra_bonus) as count_bonus from " . tablename('xuan_mixloan_product_apply') . "
+             WHERE createtime>{$strattime} AND createtime<{$endtime}
+             GROUP BY inviter HAVING count_bonus<>0
+             ORDER BY count_bonus DESC LIMIT 15");
+    } else {
+        $temp_time = date('Y-m') . '-1';
+        $start_time = strtotime($temp_time);
+        $end_time = strtotime("+1 month {$temp_time}");
+        $list = pdo_fetchall("SELECT uid,SUM(bonus) as count_bonus FROM " .tablename('xuan_mixloan_withdraw'). "
+            WHERE createtime>{$start_time} AND createtime<{$end_time}
+            GROUP BY uid HAVING count_bonus<>0
+            ORDER BY count_bonus DESC LIMIT 15");
+    }
+    if (!empty($list)) {
+        foreach ($list as &$row) {
+            $row['man'] = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+        }
+        unset($row);
+    }
 }
 include $this->template('member');
 ?>
