@@ -88,6 +88,8 @@ if($operation=='index'){
     $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
     $info = m('product')->getList(['id','is_show','ext_info'], ['id'=>$pid])[$pid];
+    $item['apply_nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+        where pid=:pid', array(':pid' => $pid));
     if (empty($info['is_show'])){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
