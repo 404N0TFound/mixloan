@@ -179,7 +179,7 @@ function RGBToHex($rgb){
 function shortUrl($target) {
     $target_url = urlencode($target);
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
-    if (!$short || $short['createtime'] < time()-86400) {
+    if (!$short || $short['createtime'] < time()-86400*7) {
         $long_url = urlencode($target);
         $url      = "https://12i.cn/api.ashx?format=json&userId=2420&key=9C1064B741249E99A81833BDD89D3C6B&url=".$long_url;
         $json     = file_get_contents( $url );
