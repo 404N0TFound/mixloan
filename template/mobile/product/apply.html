@@ -13,9 +13,9 @@
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/base2.css">
     <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/idaik.css">
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config2.js"></script>    
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config2.js"></script>
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base.css">
-    <style type="text/css">        
+    <style type="text/css">
         html{height:100%;}
         html,body{min-height:100%;background-color: #eee;}
         .pp-bg{position: relative;width: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;}
@@ -38,7 +38,7 @@
 </head>
 <body class="pp-bg" style="background-color: #eaeaea;">
 <div class="cJframe">
-    <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />    
+    <img src="{$info['ext_info']['apply_pic']}" style="display: block;width: 100%;" />
 </div>
 <div class="daili_footer">
     <div class="footer_apply" >
@@ -70,7 +70,7 @@
             <div class="applyTips">
                 <p>1.请务必填写本人真实个人信息。</p>
                 <p>2.银行审核通知将以短信形式直接发送到手机。</p>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -132,7 +132,7 @@ var rollFlag=0;//监听屏幕滚动
                 $("div.popLoanApply .popLoanMain").css("top","42%");
             }else{
                 $("div.popLoanApply .popLoanMain").css("top","30%");
-            }            
+            }
             e.stopPropagation();
             return false;
         }
@@ -142,13 +142,13 @@ var rollFlag=0;//监听屏幕滚动
 document.addEventListener('touchmove', function (event) {
     if(rollFlag==1){
         event.preventDefault();
-    } 
+    }
 })
 
 //提交
 $("#to_apply").click(function(){
     upSubmit();
-})   
+})
 
 function upSubmit() {
     $("#to_apply").unbind('click');
@@ -156,7 +156,7 @@ function upSubmit() {
     var phone =$("#phone").val();
     var idcard =$("#idcard").val();
     var smscode =$("#smscode").val();
-    var postData={"name":_name,"phone":phone,"idcard":idcard,"smscode":smscode};     
+    var postData={"name":_name,"phone":phone,"idcard":idcard,"smscode":smscode};
     if(_name=='' || _name=="请输入姓名"){
         document.getElementById('applyname').focus();
 
@@ -260,7 +260,7 @@ function upSubmit() {
             return false;
         }
     }
-    
+
 
     $.post("{php echo $this->createMobileUrl('product', array('op'=>'apply_submit', 'id'=>$id, 'inviter'=>$inviter))}",postData,
         function(data){
@@ -276,7 +276,7 @@ function upSubmit() {
                 return false;
             }
         },'json')
-    
+
 }
 // 恢复点击事件
 function click(){
