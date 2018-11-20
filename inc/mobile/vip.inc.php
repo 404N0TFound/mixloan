@@ -218,7 +218,7 @@ if($operation=='buy'){
     unset($row);
 	$all =  m('member')->sumBonus($member['id']);
 	$used = m('member')->sumWithdraw($member['id']);
-	$can_use = $all - $used;
+	$can_use = bcsub($all, $used, 2);
     include $this->template('vip/withdraw');
 } else if ($operation == 'withdraw_submit') {
 	//提现提交
@@ -257,8 +257,8 @@ if($operation=='buy'){
 	}
 	$all =  m('member')->sumBonus($member['id']);
 	$used = m('member')->sumWithdraw($member['id']);
-	$use = $all - $used;
-	if ($bonus > $use) {
+	$can_use = bcsub($all, $used, 2);
+	if ($bonus > $can_use) {
 		show_json(-1, null, "可提现余额不足");
 	}
 	if (!$times) {
