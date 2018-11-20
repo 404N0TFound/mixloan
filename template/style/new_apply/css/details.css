@@ -1,0 +1,827 @@
+﻿* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	width: 100% !important;
+	margin: 0 auto !important;
+	font-family: "微软雅黑";
+	background-color: #F1F5F8;
+	font-size: 0.2rem;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.clear {
+	clear: both;
+}
+
+
+/*头*/
+
+.header {
+	background-color: #ffffff;
+	border-bottom: 1px solid #f4f4f4;
+	border-top: 1px solid #f4f4f4;
+	margin-bottom: 0.3rem;
+}
+
+.header ul li {
+	display: inline-block;
+	width: 32.5%;
+	text-align: center;
+	line-height: 1rem;
+	font-size: 0.3rem;
+}
+
+
+/*小赢易贷*/
+
+.easy_loan {
+	padding-left: 0.3rem;
+	background-color: #ffffff;
+	/*margin-top: 0.3rem;*/
+	padding-top: 0.5rem;
+	padding-right: 0.3rem;
+	padding-bottom: 0.2rem;
+}
+
+.big {
+	background-color: #36affe;
+	padding: 0.2rem;
+	padding-bottom: 1rem;
+	border-radius: 5px;
+}
+
+.small {
+	width: 25%;
+	float: left;
+	text-align: center;
+}
+
+.small img {
+	width: 1.3rem;
+	height: 1.3rem;
+	border-radius: 10px;
+}
+
+.small p {
+	font-size: 0.3rem;
+	color: #ffffff;
+}
+
+.small2 {
+	width: 70%;
+	float: left;
+	margin-top: 1.25rem;
+	margin-left: 0.3rem;
+}
+
+.minimum {
+	float: left;
+}
+
+.minimum p:first-child {
+	font-size: 0.45rem;
+	color: #ffffff;
+	border-bottom: 1px solid;
+}
+
+.minimum p:nth-child(2) {
+	font-size: 0.35rem;
+	color: #ffffff;
+	letter-spacing: 0.02rem;
+}
+
+.minimum2 {
+	float: left;
+	padding-left: 0.3rem;
+}
+
+.minimum2 ul li {
+	font-size: 0.25rem;
+	color: #FFFFFF;
+	padding-top: 0.05rem;
+}
+
+.big2 {
+	text-align: center;
+	padding-top: 0.2rem;
+}
+
+.big2 p:first-child {
+	font-size: 0.33rem;
+}
+
+.big2 p:nth-child(2) {
+	font-size: 0.35rem;
+	color: #FF5A60;
+	padding-top: 0.05rem;
+}
+
+.big2 p:nth-child(3) {
+	font-size: 0.28rem;
+	padding-top: 0.05rem;
+}
+
+.big2 p:nth-child(4) {
+	/*width: 1.2rem;*/
+	margin: 0 auto;
+	background-color: #36affe;
+	color: #ffffff;
+	margin-top: 0.1rem;
+	display: inline-block;
+	padding: 0.07rem 0.15rem;
+	border-radius: 10px;
+}
+
+
+/*贷款小助手*/
+
+.assistant {
+	background-color: #FFFFFF;
+	margin-top: 0.3rem;
+	padding-bottom: 0.3rem;
+}
+
+.assistant_word {
+	padding-top: 0.2rem;
+	padding-bottom: 0.5rem;
+	padding-left: 0.2rem;
+	letter-spacing: 0.03rem;
+	font-size: 0.3rem;
+}
+
+.money {
+	position: relative;
+	float: left;
+	padding-left: 0.2rem;
+}
+
+.money p:first-child {
+	font-size: 0.3rem;
+	position: absolute;
+	top: 0.15rem;
+	left: 0.4rem;
+}
+
+.money input:nth-child(2) {
+	font-size: 0.33rem;
+	width: 2.23rem;
+	line-height: 0.7rem;
+	border-radius: 34px;
+	padding-left: 1.1rem;
+	border: 1px solid #98A5A9;
+}
+
+.money p:nth-child(3) {
+	font-size: 0.3rem;
+	position: absolute;
+	top: 0.2rem;
+	left: 3rem;
+	color: #999999;
+}
+
+.date {
+	float: left;
+	position: relative;
+	padding-left: 0.25rem;
+}
+
+.date p:first-child {
+	font-size: 0.3rem;
+	position: absolute;
+	top: 0.2rem;
+	left: 0.5rem;
+
+}
+
+.date select {
+	font-size: 0.33rem;
+	width: 3.4rem;
+	border-radius: 34px;
+	padding-left: 1.3rem;
+	height: 0.8rem;
+	border: 1px solid #98A5A9;
+	/*text-align: center;*/
+	/*color: red;*/
+}
+select, option {
+	-webkit-appearance : none; /* To gain control over the appearance on WebKit */
+	-moz-appearance : none; /* To gain control over the appearance on Gecko */
+
+	/* To gain control over the appearance on Presto (Opera) and Trident (IE)
+       Note that it also work on Gecko and has partial effects on WebKit */
+	background : none;
+}
+
+/*月还款*/
+
+.number {
+	padding-top: 0.3rem;
+	width: 100%;
+	text-align: center;
+}
+
+.month {
+	padding:0 1.5rem;
+	float: left;
+}
+
+.month p:first-child {
+	font-size: 0.35rem;
+	letter-spacing: 0.01rem;
+}
+
+.month p:nth-child(2) span:first-child {
+	padding: 0 0.1rem;
+	background-color: #4991E6;
+}
+
+.month p:nth-child(2) span:nth-child(2) {
+	font-size: 0.25rem;
+	color: #98A5A9;
+	padding-left: 0.07rem;
+}
+
+.total {
+	float: left;
+	padding-left: 0.2rem;
+}
+
+.total p:first-child {
+	font-size: 0.35rem;
+	letter-spacing: 0.01rem;
+}
+
+.total p:nth-child(2) span:first-child {
+	padding: 0 0.1rem;
+	background-color: #FF5F62;
+}
+
+.total p:nth-child(2) span:nth-child(2) {
+	font-size: 0.25rem;
+	color: #98A5A9;
+	padding-left: 0.07rem;
+}
+
+
+/*表格*/
+
+.form {
+
+	width: 80%;
+	margin-right: 0.2rem;
+	text-align: center;
+	padding-top: 0.35rem;
+	padding-left: 10%;
+}
+
+.color {
+	width: 100%;
+	height: 0.3rem;
+}
+
+.red {
+	height: 0.3rem;
+	width: 20%;
+	float: left;
+	background-color: #4991E6;
+}
+
+.blue {
+	height: 0.3rem;
+	width: 80%;
+	float: left;
+	background-color: #FF5F62;
+}
+
+.form p:nth-child(2) {
+	font-size: 0.28rem;
+	margin-top: 0.1rem;
+	color: #98A5A9;
+}
+
+
+/*申请条件*/
+
+.condition {
+	background-color: #ffffff;
+	margin-top: 0.3rem;
+	padding-left: 0.2rem;
+	padding-top: 0.2rem;
+	padding-bottom: 0.3rem;
+}
+
+.condition p:first-child {
+	font-size: 0.3rem;
+}
+
+.condition p:nth-child(2) {
+	font-size: 0.25rem;
+	padding-top: 0.1rem;
+	color: #98A5A9;
+}
+
+.condition p:nth-child(3) {
+	font-size: 0.25rem;
+	color: #98A5A9;
+}
+
+
+/*申请流程*/
+
+.apply {
+	background-color: #ffffff;
+	margin-top: 0.3rem;
+	padding-left: 0.2rem;
+	padding-bottom: 0.4rem;
+}
+
+.apply p:first-child {
+	font-size: 0.3rem;
+	padding-top: 0.3rem;
+}
+/*第一种情况*/
+.a1{
+	
+}
+.a1 ul {
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	padding-top: 0.5rem;
+	text-align: center;
+}
+
+.a1 ul li {
+	
+}
+
+.a1 ul li img {
+	width: 0.6rem;
+    height: 0.6rem;
+    padding: 0.1rem;
+    border: 2px solid #51ABF7;
+    border-radius: 73%;
+}
+
+.a1 ul li p {
+	font-size: 0.28rem;
+	color: #98A5A9;
+}
+/*第二种情况*/
+/*.a2{*/
+	/*display: none;*/
+/*}*/
+.a2 ul {
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	padding-top: 0.5rem;
+}
+
+.a2 ul li {
+	width: 33%;
+	float: left;
+	text-align: center;
+}
+
+.a2 ul li img {
+	width: 0.6rem;
+    height: 0.6rem;
+    padding: 0.1rem;
+    border: 2px solid #51ABF7;
+    border-radius: 73%;
+}
+
+.a2 ul li p {
+	font-size: 0.28rem;
+	color: #98A5A9;
+}
+/*第三种情况*/
+/*.a3{*/
+	/*display: none;*/
+/*}*/
+.a3 ul {
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	padding-top: 0.5rem;
+}
+
+.a3 ul li {
+	width: 20%;
+	float: left;
+	text-align: center;
+}
+
+.a3 ul li img {
+	width: 0.6rem;
+    height: 0.6rem;
+    padding: 0.1rem;
+    border: 2px solid #51ABF7;
+    border-radius: 73%;
+}
+
+.a3 ul li p {
+	font-size: 0.28rem;
+	color: #98A5A9;
+}
+/*第四种情况*/
+/*.a4{*/
+	/*display: none;*/
+/*}*/
+.a4 ul {
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	padding-top: 0.5rem;
+}
+
+.a4 ul li {
+	width: 14%;
+	float: left;
+	text-align: center;
+}
+
+.a4 ul li img {
+	width: 0.6rem;
+    height: 0.6rem;
+    padding: 0.1rem;
+    border: 2px solid #51ABF7;
+    border-radius: 73%;
+}
+
+.a4 ul li p {
+	font-size: 0.28rem;
+	color: #98A5A9;
+}
+/*商品评价*/
+
+.evaluate {
+	background-color: #ffffff;
+	margin-top: 0.3rem;
+}
+
+.evaluate_word {
+	font-size: 0.3rem;
+	padding-left: 0.2rem;
+	padding-top: 0.2rem;
+}
+
+.personal_evaluation {
+	padding-top: 0.3rem;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid #f4f4f4;
+	padding-left: 0.2rem;
+}
+
+.personal_img {
+	float: left;
+}
+
+.personal_img img {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 55%;
+}
+
+.personal_word {
+	float: left;
+	padding-left: 0.2rem;
+}
+
+.personal_word p:first-child {
+	font-size: 0.28rem;
+}
+
+.personal_word p:nth-child(2) {
+	font-size: 0.25rem;
+	padding-top: 0.1rem;
+	color: #98A5A9;
+}
+
+.personal_word p:nth-child(3) {
+	font-size: 0.28rem;
+	padding-top: 0.1rem;
+}
+
+.evaluate_word2 {
+	text-align: center;
+	font-size: 0.28rem;
+	padding-top: 0.15rem;
+	padding-bottom: 0.15rem;
+	color: #4793DF;
+}
+
+
+/*同类推荐*/
+
+.recommend {
+	background-color: #ffffff;
+	margin-top: 0.3rem;
+	margin-bottom: 1.2rem;
+}
+
+.recommend_type {
+	padding-top: 0.3rem;
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid #f4f4f4;
+}
+
+.recommend_type ul {
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	overflow-x: auto;
+}
+
+.recommend_type ul li {
+	width: 30% !important;
+	display: inline-block;
+	text-align: center;
+	padding-top: 0.3rem;
+	padding-bottom: 0.3rem;
+	border: 1px solid #F1F1F1;
+	margin-left: 0.2rem;
+}
+
+.recommend_type ul li img {
+	width: 1rem;
+	height: 1rem;
+}
+
+.recommend_type ul li p:nth-child(2) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: keep-all;
+	padding-top: 0.05rem;
+	padding-bottom: 0.1rem;
+	font-size: 0.27rem;
+}
+
+.recommend_type ul li p:nth-child(3) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: keep-all;
+	width: 32%;
+	margin: 0 auto;
+	background: #4689DC;
+	color: #ffffff;
+	padding: 0.04rem;
+}
+
+.recommend_word {
+	font-size: 0.3rem;
+	padding-left: 0.2rem;
+	padding-top: 0.2rem;
+}
+
+.recommend_word2 {
+	text-align: center;
+	font-size: 0.28rem;
+	padding-top: 0.15rem;
+	padding-bottom: 0.15rem;
+	color: #4793DF;
+}
+
+
+/*底部*/
+
+.customer_service {
+	float: left;
+	height: 0.7rem;
+	width: 30%;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+	background-color: #ffffff;
+}
+
+.customer_service img {
+	width: 0.4rem;
+	height: 0.4rem;
+}
+
+.customer_service p {
+	font-size: 0.3rem;
+	color: black;
+}
+
+.agent {
+	float: left;
+	line-height: 0.7rem;
+	width: 100%;
+	text-align: center;
+	background-color: #36affe;
+	color: #ffffff;
+	padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.agent p {
+	font-size: 0.35rem;
+	letter-spacing: 0.03rem;
+}
+
+.fooder {
+	position: fixed;
+	bottom: -1px;
+	width: 7.5rem;
+}
+
+.agent_s {
+	line-height: 0.7rem;
+	width: 100%;
+	text-align: center;
+	background-color: #5290E7;
+	color: #ffffff;
+	padding-top: 0.1rem;
+	padding-bottom: 0.1rem;
+}
+.agent_s p {
+	font-size: 0.35rem;
+	letter-spacing: 0.03rem;
+}
+
+/*产品介绍*/
+.introduce{
+	
+}
+/*奖金结算*/
+.settlement{
+	margin-bottom:0.3rem;
+}
+.explain{
+	background-color: #ffffff;
+    /*margin-top: 0.3rem;*/
+    border-bottom: 1px solid #f4f4f4;
+    padding-left: 0.3rem;
+    padding-bottom: 0.4rem;
+    border-top: 1px solid #f4f4f4;
+  
+}
+.explain p:first-child{
+	font-size: 0.3rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.4rem;
+}
+.explain p:nth-child(2){
+	font-size: 0.3rem;
+    color: #A9B7C1;
+}
+.explain p:nth-child(3){
+	font-size: 0.28rem;
+    color: #A9B7C1;
+    padding-top: 0.2rem;
+}
+.explain p:nth-child(4){
+	font-size: 0.3rem;
+    color: #A9B7C1;
+    padding-top: 0.3rem;
+}
+.explain p:nth-child(5){
+	font-size: 0.28rem;
+    color: #A9B7C1;
+    padding-top: 0.2rem;
+}
+.heroic_list{
+	background-color: #FFFFFF;
+	margin-top: 0.3rem;
+}
+.heroic_list_word{
+	text-align: center;
+    font-size: 0.3rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #f4f4f4;
+}
+.three{
+	margin-top: 0.3rem;
+}
+.three ul{
+	padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+.three ul li{
+	width: 33%;
+    text-align: center;
+   float: left;
+}
+.three ul li:first-child{
+	padding-top: 0.3rem;
+}
+.three ul li:nth-child(3){
+	padding-top: 0.3rem;
+}
+.three ul li img{
+	    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 80%;
+}
+.three ul li:nth-child(2) img{
+	width: 1.8rem;
+    height: 1.8rem;
+}
+.three ul li p:nth-child(2){
+	font-size: 0.28rem;
+    color: #97A4AF;
+    margin-top: 0.1rem;
+}
+.three ul li p:nth-child(3){
+	font-size: 0.28rem;
+    color: #F0AB5A;
+    width: 68%;
+    margin: 0 auto;
+    line-height: 0.5rem;
+    background-color: #FEF6E9;
+    border-radius: 5px;
+    margin-top: 0.2rem;
+}
+.three ul li p:nth-child(4){
+	font-size: 0.28rem;
+    width: 0.5rem;
+    background-color: #FFD015;
+    border-radius: 70%;
+    color: #ffffff;
+    position: relative;
+    top: -1.7rem;
+    left: 1.4rem;
+    line-height: 0.5rem;
+    text-align: center;
+}
+.three ul li:nth-child(2) p:nth-child(4){
+	background-color: #F82751;
+}
+.three ul li:nth-child(3) p:nth-child(4){
+	background-color: #4F8FE6;
+}
+/*后面的排名*/
+.ranking ul{
+	
+}
+.ranking ul li p:first-child{
+	width: 13%;
+    float: left;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.3rem;
+    color: #99A6AF;
+}
+.ranking ul li p:nth-child(2){
+	width: 20%;
+    float: left;
+    text-align: center;
+    font-size: 0.3rem;
+        line-height: 1rem;
+        color: #99A6AF;
+}
+.ranking ul li p:nth-child(2) img{
+	width: 1rem;
+    height: 1rem;
+    border-radius: 62%;
+}
+.ranking ul li p:nth-child(3){
+	width: 37%;
+    float: left;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.3rem;
+    color: #99A6AF;
+}
+.ranking ul li p:nth-child(4){
+	width: 30%;
+    float: left;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 0.3rem;
+    color: #FDA546;
+}
+.ranking ul li{
+	padding-left: 0.3rem;
+    padding-right: 0.3rem;
+}
+.border{
+	border-top: 1px solid #F1F4F6;
+    padding-top: 0.3rem;
+}
+
+/*产品评价*/
+.pingjia{
+	background-color: #ffffff;
+	/*margin-top: 0.3rem;*/
+	margin-bottom: 1.3rem;
+	display: none;
+}

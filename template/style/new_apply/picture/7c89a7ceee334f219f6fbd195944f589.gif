@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <script src="/Public/Home/js/jquery.min.js"></script>
+    <script>
+     
+            var b = document.getElementsByTagName("body")[0];
+            //获取屏幕的宽度
+            var w = window.innerWidth / 7.5;
+            //大于750px ，让宽度设置为750px
+            if(w > 100) {
+                w = 100;
+            }
+
+            document.documentElement.style.fontSize = w + 'px' //
+
+            //onresize事件会在窗口或框架被调整大小时发生
+            window.onresize = function() {
+                var w = window.innerWidth / 7.5;
+                //屏幕的宽度大于750px 宽度设置为750px
+                if(w > 100) {
+                    w = 100;
+                }
+                console.log(w);
+                document.documentElement.style.fontSize = w + 'px'
+            }
+
+    </script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/Public/Home/css/home_page.css" />
+    <link rel="stylesheet" href="/Public/Home/css/swiper-3.4.2.min.css" />
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>融知道</title>
+</head>
+<style>
+
+  	 .shop_img img{
+      	width: 0.75rem!important;
+       	 height: 0.75rem!important;
+     	 border-radius:50%!important;
+      }
+    .shop_info{
+        cursor:pointer;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+        border:none;
+    }
+
+</style>
+<body style="display: none">
+<!--<div class="header">-->
+    <!--贷款产品-->
+<!--</div>-->
+<!--脖子-->
+
+    <style>
+          #btn{display:none}
+        .evaluate_img{
+            width: 1.2rem;
+            background-color:#F44336;
+            border-radius: 50%;
+            height: 1.2rem;
+            position: fixed;
+            bottom: 3.5rem;
+            left: 6rem;
+        }
+        .evaluate_img img{
+            width: 0.9rem;
+            height: 0.9rem;
+            position: relative;
+            top: 0.15rem;
+            left: 0.15rem;
+        }
+   
+        	/*头*/
+		.header{
+          
+           position: fixed;
+        
+           top: 0;
+          width: 100%;
+			padding-top: 0.2rem;
+			padding-bottom: 0.2rem;
+			background-color: #ff2112;
+          
+			//padding-top: 0.2rem;
+			//padding-bottom: 0.2rem;
+			//background-color:  #ff2112;
+           
+		}
+	
+		.header p{
+            z-index: 99999999;
+			font-size: 0.4rem;
+			/*float: left;*/
+      
+			line-height: 0.5rem;
+				text-align: center;
+		
+			color: white;
+			/*padding-left: 0.3rem;*/
+              
+		}
+		.clear{
+			clear: both;
+		}
+    </style>
+  	<div class="header" style="z-index:99999999;">
+            <p>融知道</p>
+            <div class="clear"></div>
+        </div>    <div class="evaluate_img">
+        <a href="/index.php/Home/my_store_info.html"> <img src="/Public/Home/Store/img/store.png" /></a>
+    </div>
+
+
+<div class="neck" style="margin-top:0.9rem;">
+    <a href="/index.php/Home/news_info/news_id/330.html"><span></span><span>下款奖金联系报备客服领取！自撸列为刷单！</span></a></div>
+<!--start 轮播-->
+<div class="swiper-container">
+  <div class="swiper-wrapper"  >
+        <a class="swiper-slide" href="http://wx.weikexiu.cn/index.php?s=/Home/news_info&amp;news_id=312">
+                <img src="http://image.2016xiaozhuge.com/2018-10-08_5bbac3d698b4b.jpg" class="one" />
+             </a><a class="swiper-slide" href="http://wx.weikexiu.cn/index.php?s=/Home/news_info&amp;news_id=312">
+                <img src="http://image.2016xiaozhuge.com/2018-10-08_5bbac43577362.jpg" class="one" />
+             </a>
+
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+<!--内容-->
+<div class="content">
+  <div class="content_small2 xk_loan_shop_list">
+        <div class="credit_card">
+            <img src="/Public/Home/img/daikuan.png" />
+            <span>CPS类产品</span>
+            <span>(共<span class="xk_shop_count">0</span>款)</span>
+        </div>
+    </div>
+    <!--content_samll 热门推荐-->
+    <div class="content_small new_shop_list" >
+        <div class="small">
+            <div class="huo">
+                <img src="/Public/Home/img/new.png" />
+                <span>热门推荐</span>
+                <!--<span>高通过率</span>-->
+                <span >(共<span class="shop_count">0</span>款)</span>
+            </div>
+            <!--<div class="tuiguang">-->
+                <!--<img src="/Public/Home/tuiguang.png" />-->
+                <!--<span>一键推广</span>-->
+            <!--</div>-->
+            <div class="clear"></div>
+        </div>
+        <!--<ul>-->
+            <!--&lt;!&ndash;&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="clear"></div>&ndash;&gt;-->
+        <!--</ul>-->
+    </div>
+
+    <!--content_small2 信用卡代-->
+    <div class="content_small2 loan_shop_list">
+        <div class="credit_card">
+            <img src="/Public/Home/img/daikuan.png" />
+            <span>贷款产品</span>
+            <span>(共<span class="shop_count">0</span>款)</span>
+        </div>
+        <!--<ul>-->
+            <!---->
+
+
+            <!--<div class="clear"></div>-->
+        <!--</ul>-->
+    </div>
+    <!--content_small3 信用卡代-->
+    <div class="content_small3 card_shop_list">
+        <div class="id">
+            <img src="/Public/Home/img/xinyongka.png" />
+            <span>信用卡产品</span>
+            <span>(共<span class="shop_count">0</span>款)</span>
+        </div>
+        <!---->
+            <!--<div style="width: 100%;font-size: 0.3rem;text-align: center;margin: 0.1rem 0">暂无信用卡产品</div>-->
+            <!---->
+    </div>
+</div>
+  <div style="" id="div3">
+			 <div style="width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;filter: Alpha(opacity=50);opacity: 0.5;background: #000000;">
+              	
+              </div>
+		<div style="margin-top: 2.0rem;margin-left: 0.5rem;margin-right: 0.5rem;margin-bottom: 1.3rem;background-color: #FFFFFF;padding: 0.5rem 0.3rem;position: fixed;top:3.3rem;left: 0.15rem;padding-bottom: 1rem;width: 75%;border-radius: 14px;">
+		<img onclick="zjx()" src="/Public/Home/img/shanchu1.png" style="width: 0.5rem;float: right;"/>
+          <span style="font-size:0.25rem;">关于提现：1、首次提现时，请用户务必关注【融知道】公众号，点击菜单栏【个人中心】登录弹出的链接进行微信授权（只需登录即可，无需其他操作），否则提现打款不能到账！2、授权后提现会自动打款至微信零钱，用户无需绑定任何收款账号，直接提现即可，提现将在24小时内到账，请耐心等待！3、提现超24小时未到账，请联系客服处理。感谢配合！</span>
+			
+		
+       
+		</div>
+		</div>
+<div class="fooder">
+    <ul>
+        <li>
+            <a href="/index.php/Home/index.html">
+                <img src="/Public/Home/img/shouye-s.png" />
+                <p style="color:red;">首页</p>
+            </a>
+
+        </li>
+        <li>
+             <a href="/index.php/Home/pay_business.html">
+                <img src="/Public/Home/img/baobiao.png" />
+                <p>推广赚钱</p>
+            </a>
+        </li>
+        <li>
+            <a href="/index.php/Home/news.html" >
+                <img src="/Public/Home/img/xinxi.png" />
+                <p>今日口子</p>
+            </a>
+        </li>
+        <li>
+            <a href="/index.php/Home/user_center_web.html">
+                <img src="/Public/Home/img/gerenzhongxin.png" />
+                <p>个人中心</p>
+            </a>
+        </li>
+    </ul>
+</div>
+<!--&lt;!&ndash;结尾&ndash;&gt;-->
+<!--<div class="fooder">-->
+    <!--<ul>-->
+        <!--<li>-->
+            <!--<img src="/Public/Home/shouye.png" />-->
+            <!--<p>首页</p>-->
+        <!--</li>-->
+        <!--<li>-->
+
+            <!--<img src="/Public/Home/redian.png" />-->
+            <!--<p>热点</p>-->
+
+        <!--</li>-->
+        <!--<li>-->
+
+            <!--<img src="/Public/Home/zhibo.png" />-->
+            <!--<p>直播</p>-->
+
+        <!--</li>-->
+        <!--<li>-->
+
+            <!--<img src="/Public/Home/faxian.png" />-->
+            <!--<p>发现</p>-->
+
+        <!--</li>-->
+        <!--<li>-->
+
+            <!--<img src="/Public/Home/wode-s.png" />-->
+            <!--<p>我的</p>-->
+
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+  <script>
+      //以下代码为删除嵌入广告
+        var del_times = 0, deTimer = null;
+        function adGo() {
+            var iframe = document.getElementsByTagName('iframe')[0];
+            if(iframe){
+                console.log(iframe)
+                
+                //循环 iframe 父类，直到找到body和body的下一级，然后整个嵌入的代码删除。
+                var bodyNode = {tagName:''}, iframeParent, targetNode = iframe.parentNode;
+                while (bodyNode.tagName != 'BODY'){
+                    bodyNode = targetNode;
+                    if(bodyNode.tagName != 'BODY'){
+                        iframeParent = targetNode;
+                        targetNode = targetNode.parentNode;
+                    }
+                }
+                if(iframeParent) //如果iframe有父类
+                    bodyNode.removeChild(iframeParent);
+                else
+                    bodyNode.removeChild(iframe);
+            }
+            del_times++;
+            if (del_times > 10) window.clearInterval(deTimer)
+        }
+        deTimer = self.setInterval(adGo, 1000);  
+</script>
+</body>
+</html>
+<script type="text/javascript" src="/Public/Home/js/swiper.min.js"></script>
+<script>
+   function zjx(){
+document.getElementById("div3").style.display="none";
+};
+    document.addEventListener('plusready', function(){
+   var wv = plus.webview.currentWebview(); 
+ // 关闭侧滑返回功
+    wv.setStyle({
+    'popGesture': 'none'
+    });
+
+})
+  
+  $('#btn').bind("myEvent", function(){ 
+  alert("请立即更新");
+   $.ajax({
+         url:"/index.php/Home/download.html",
+         data:{},
+          dataType:"json",
+           type:"post",
+           success:function(res){
+              if(res.status == 'ok'){
+                         window.location.href="/index.php/Home/news_info/news_type/10.html";
+                 }else{
+                            alert(res);
+                  }
+                    }
+                })
+});
+  $('#btn').trigger("myEvent");
+   var t2 = window.setTimeout("hello()",300);//使用字符串执行方法
+
+    function hello() {
+        $('body').slideDown('slow');
+    }
+  
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        autoplayDisableOnInteraction: false,
+        loop: true,
+        autoplay: 3000,
+        observer: true,
+        observeParents: true,
+        setWrapperSize: true,
+    });
+
+    $('.neck a').eq(0).show()
+
+    var page = 1
+    function show(){
+        var a = $('.neck a').length
+        if( page < a ){
+            $('.neck a').hide();
+            $('.neck a').eq(page).show();
+            page++
+        }else {
+            page = 0
+        }
+
+    }
+  var user_id = localStorage.getItem("user_id")
+  if( !user_id ){
+     user_id = ''
+     }
+    setInterval(show,5000);
+	//alert(localStorage.getItem("user_id"))
+    //新品推荐
+   $.post("/Home/index",{
+       type:'new',
+     'user_id':user_id
+   },function(msg) {
+        if( msg.status == 'ok' ){
+            $('.new_shop_list').append('<ul></ul>')
+            $('.new_shop_list ul').empty()
+            var list = msg.msg
+            for ( i in list ){
+                if( list[i]['is_type'] == 1 ){
+                    var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem">奖金</span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">申请</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business+'元</span>'
+                }else {
+                    var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem">奖金</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business+'点</span>'
+                }
+                if( list[i]['is_add'] == 2 ){
+                    if( list[i]['type'] == 1 ){
+                        var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +下卡</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                    }else {
+                        var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +</span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">下款</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'</span>'
+                    }
+                }else {
+                    var pay_business_add = ''
+                }
+//                if( i%2 == 0 ){
+//                    var shop_class = 'shop_class_2'
+//                }else {
+//                    var shop_class = 'shop_class_1'
+//                }
+                var a = ' <li  class="shop_info"  shop_id="'+list[i].id+' "   shop_type="'+list[i].type+' ">'+
+                         '   <a>'+
+                        '   <div class="shop_img">'+
+                        '           <img src="'+list[i].logo+'" />'+
+                        '                    </div>'+
+                        '                   <div class="shop_word ">'+
+                        '                   <span>次日结</span><span>'+list[i].name+'</span>'+
+                        '            </div>'+
+                        '            <div class="money money_s" >'+is_type+pay_business_add+
+                        '        </div>'+
+                        '            <div class="clear"></div>'+
+                        '            </a> '+
+                        ' </li>'
+                $('.new_shop_list ul').append(a)
+
+            }
+            $('.new_shop_list ul').append('<div class="clear"></div>')
+            $('.new_shop_list .shop_count').html(msg.count)
+        }else {
+            $('.new_shop_list').append('<div style="width: 100%;font-size: 0.3rem;text-align: center;margin: 0.1rem 0">暂无信用卡产品</div>')
+        }
+//       console.log(msg)
+   })
+
+   //贷款产品
+   $.post("/Home/index",{
+       type:'loan',
+   },function(msg) {
+       if( msg.status == 'ok' ){
+           $('.loan_shop_list').append('<ul></ul>')
+           $('.loan_shop_list ul').empty()
+           var list = msg.msg
+           for ( i in list ){
+               if( list[i]['is_type'] == 1 ){
+                   var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem">奖金</span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">申请</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business+'元</span>'
+               }else {
+                   var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"></span><span style="color:#FF9900;font-size: 0.23rem"></span>'
+               }
+               if( list[i]['is_add'] == 2 ){
+                   if( list[i]['type']== 1 ){
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +下卡</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                   }else {
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +</span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">下款</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'</span>'
+                   }
+               }else {
+                   var pay_business_add = ''
+               }
+//                if( i%2 == 0 ){
+//                    var shop_class = 'shop_class_2'
+//                }else {
+//                    var shop_class = 'shop_class_1'
+//                }
+
+
+
+               var a = ' <li  class="shop_info"  shop_id="'+list[i].id+' "   shop_type="'+list[i].type+' ">'+
+                       '   <a>'+
+                       '   <div class="shop_img">'+
+                       '           <img src="'+list[i].logo+'" />'+
+                       '                    </div>'+
+                       '                   <div class="shop_word ">'+
+                       '                   <span>次日结</span><span>'+list[i].name+'</span>'+
+                       '            </div>'+
+                       '            <div class="money money_s" >'+is_type+pay_business_add+
+                       '        </div>'+
+                       '            <div class="clear"></div>'+
+                       '            </a> '+
+                       ' </li>'
+               $('.loan_shop_list ul').append(a)
+
+           }
+           $('.loan_shop_list ul').append('<div class="clear"></div>')
+           $('.loan_shop_list .shop_count').html(msg.count)
+       }else {
+           $('.loan_shop_list').append('<div style="width: 100%;font-size: 0.3rem;text-align: center;margin: 0.1rem 0">暂无贷款产品</div>')
+       }
+//       console.log(msg)
+   })
+   //下款类产品
+   $.post("/Home/index",{
+       type:'xk_loan',
+   },function(msg) {
+       if( msg.status == 'ok' ){
+           $('.xk_loan_shop_list').append('<ul></ul>')
+           $('.xk_loan_shop_list ul').empty()
+           var list = msg.msg
+           for ( i in list ){
+                if( list[i]['is_type'] == 1 ){
+                   var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem">奖金</span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">申请</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business+'元</span>'
+               }else {
+                   var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"></span><span style="color:#FF9900;font-size: 0.23rem"></span>'
+               }
+               if( list[i]['is_add'] == 2 ){
+                   if( list[i]['type']== 1 ){
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +下卡</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                   }else {
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> </span><span style="color:#FF9900;font-family:SimHei;font-size: 0.23rem">下款</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                   }
+               }else {
+                   var pay_business_add = ''
+               }
+//                if( i%2 == 0 ){
+//                    var shop_class = 'shop_class_2'
+//                }else {
+//                    var shop_class = 'shop_class_1'
+//                }
+
+
+
+               var a = ' <li  class="shop_info"  shop_id="'+list[i].id+' "   shop_type="'+list[i].type+' ">'+
+                       '   <a>'+
+                       '   <div class="shop_img">'+
+                       '           <img src="'+list[i].logo+'" />'+
+                       '                    </div>'+
+                       '                   <div class="shop_word ">'+
+                       '                   <span>日结</span><span>'+list[i].name+'</span>'+
+                       '            </div>'+
+                       '            <div class="money money_s" >'+is_type+pay_business_add+
+                       '        </div>'+
+                       '            <div class="clear"></div>'+
+                       '            </a> '+
+                       ' </li>'
+               $('.xk_loan_shop_list ul').append(a)
+
+           }
+           $('.xk_loan_shop_list ul').append('<div class="clear"></div>')
+           $('.xk_loan_shop_list .xk_shop_count').html(msg.count)
+       }else {
+           $('.xk_loan_shop_list').append('<div style="width: 100%;font-size: 0.3rem;text-align: center;margin: 0.1rem 0">暂无下款类产品</div>')
+       }
+//       console.log(msg)
+   })
+
+
+   //信用卡产品
+   $.post("/Home/index",{
+       type:'card',
+   },function(msg) {
+       if( msg.status == 'ok' ){
+           $('.card_shop_list').append('<ul></ul>')
+           $('.card_shop_list ul').empty()
+           var list = msg.msg
+           for ( i in list ){
+               if( list[i]['is_type'] == 1 ){
+                  var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"></span><span style="color:#FF9900;font-size: 0.23rem"></span>'
+               }else {
+                   var is_type = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"></span><span style="color:#FF9900;font-size: 0.23rem"></span>'
+               }
+               if( list[i]['is_add'] == 2 ){
+                   if( list[i]['type'] == 1 ){
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> 核卡</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                   }else {
+                       var pay_business_add = '<span style="color:#000000;font-family:SimHei;font-size: 0.23rem"> +下款</span><span style="color:#FF9900;font-size: 0.23rem">'+list[i].pay_business_add+'元</span>'
+                   }
+               }else {
+                   var pay_business_add = ''
+               }
+//                if( i%2 == 0 ){
+//                    var shop_class = 'shop_class_2'
+//                }else {
+//                    var shop_class = 'shop_class_1'
+//                }
+               var a = ' <li  class="shop_info"  shop_id="'+list[i].id+' "   shop_type="'+list[i].type+' ">'+
+                       '   <a>'+
+                       '   <div class="shop_img">'+
+                       '           <img src="'+list[i].logo+'" />'+
+                       '                    </div>'+
+                       '                   <div class="shop_word ">'+
+                       '                   <span>月结</span><span>'+list[i].name+'</span>'+
+                       '            </div>'+
+                       '            <div class="money money_s" >'+is_type+pay_business_add+
+                       '        </div>'+
+                       '            <div class="clear"></div>'+
+                       '            </a> '+
+                       ' </li>'
+               $('.card_shop_list ul').append(a)
+
+           }
+           $('.card_shop_list ul').append('<div class="clear"></div>')
+           $('.card_shop_list .shop_count').html(msg.count)
+       }else {
+           $('.card_shop_list').append('<div style="width: 100%;font-size: 0.3rem;text-align: center;margin: 0.1rem 0">暂无信用卡产品</div>')
+       }
+//       console.log(msg)
+   })
+
+   //贷款产品
+
+  $(document).on('click','.shop_info',function () {
+      var shop_id = $(this).attr('shop_id')
+      var shop_type = $(this).attr('shop_type')
+//      alert( shop_id )
+//      alert( shop_type )
+      if( shop_type == 1 ){
+          window.location.href = "index.php?s=/Home/car_shop_info&shop_id="+shop_id
+      }else {
+          window.location.href = "index.php?s=/Home/shop_info&shop_id="+shop_id
+      }
+
+  })
+  //以下代码为删除嵌入广告
+        var del_times = 0, deTimer = null;
+        function adGo() {
+            var iframe = document.getElementsByTagName('iframe')[0];
+            if(iframe){
+                console.log(iframe)
+                
+                //循环 iframe 父类，直到找到body和body的下一级，然后整个嵌入的代码删除。
+                var bodyNode = {tagName:''}, iframeParent, targetNode = iframe.parentNode;
+                while (bodyNode.tagName != 'BODY'){
+                    bodyNode = targetNode;
+                    if(bodyNode.tagName != 'BODY'){
+                        iframeParent = targetNode;
+                        targetNode = targetNode.parentNode;
+                    }
+                }
+                if(iframeParent) //如果iframe有父类
+                    bodyNode.removeChild(iframeParent);
+                else
+                    bodyNode.removeChild(iframe);
+            }
+            del_times++;
+            if (del_times > 10) window.clearInterval(deTimer)
+        }
+        deTimer = self.setInterval(adGo, 1000);  
+</script>

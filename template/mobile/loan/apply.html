@@ -1,318 +1,412 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <title>申请{$item['name']}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="X-UA-Compatible" content="edge">
-    <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/js/lmy_2.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
-    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/base2_1.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
-    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/css/idaik_1.css">
-    <!-- <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/js_config2_1.js"></script> -->
-    <script type="text/javascript">
-        var aa = "/Public/Wap";
-    </script>
-    <style type="text/css">
-        html,body{height:100%;min-height:100%;background-color: #eee;}
-        .credit-bg{background-color: #fff;}
-        div.daili_footer{min-height: 0px;box-shadow: #eaeaea -2px 4px 10px 10px;}
-        .footer_apply{width: 35%;background: white;float: left;text-align: center;}
-        .footer_apply a {padding: 0.6rem 1rem;display: inline-block;color:black;}
-        .footer_agent a {padding: 0.6rem 2rem;display: inline-block;color:white;}
-        .footer_agent{width: 65%;background: #0195ff;float: left;text-align: center;}
-        .pp-bg{position: relative;width: 100%;height: 100%;background-repeat: no-repeat;background-size: cover;background-position: top left;-webkit-overflow-scrolling : touch;}
-        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-            div.cJframe{padding-bottom: 83px;}
-            div.toApply{padding:12px 0 20px 0;}
-            .footer_apply a {padding: 0.9rem 1rem;}
-            .footer_agent a {padding: 0.9rem 2rem;}
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <script src="../addons/xuan_mixloan/template/style/new_apply/js/jquery.min.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/new_apply/js/jweixin-1.2.0.js"></script>
+
+    <script>
+      
+        window.onload = function() {
+            var b = document.getElementsByTagName("body")[0];
+            //获取屏幕的宽度
+            var w = window.innerWidth / 7.5;
+            //大于750px ，让宽度设置为750px
+            if(w > 100) {
+                w = 100;
+            }
+
+            document.documentElement.style.fontSize = w + 'px' //
+
+            //onresize事件会在窗口或框架被调整大小时发生
+            window.onresize = function() {
+                var w = window.innerWidth / 7.5;
+                //屏幕的宽度大于750px 宽度设置为750px
+                if(w > 100) {
+                    w = 100;
+                }
+                console.log(w);
+                document.documentElement.style.fontSize = w + 'px'
+            }
+
         }
-    </style>
+    </script>
+
+
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_apply/css/details.css" />
+    <!--<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_apply/css/swiper-3.4.2.min.css" />-->
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$item['name']}</title>
 </head>
-<body class="pp-bg">
-<div class="Japply_contents">
-    <div class="loanPHeader">
-        <img src="../addons/xuan_mixloan/template/style/picture/productbg_1.png" />
-        <div class="loanPHeaderMain">
-            <div class="productIndex">
-                <img src="{php echo tomedia($item['ext_info']['logo']);}" />
+
+<body  style="display: none">
+<style>
+        .footer_apply{width: 35%;background: white;float: left;text-align: center;}
+        .footer_apply a {padding: 0.25rem 0.5rem;display: inline-block;color:black;}
+        .agent_s{width: 65%;float: left}
+        .agent_s p{font-size: 0.2rem}
+    .special{
+        color: #36AFFE;
+        border-bottom: 2px #36AFFE solid;
+    }
+  	/*头*/
+		.header_s{
+			padding-top: 0.2rem;
+			padding-left: 0.3rem;
+			padding-bottom: 0.2rem;
+			/*border-bottom: 1px solid #36affe;*/
+			background-color:#ff2112;
+         
+		}
+		.header_s img{
+			width: 0.32rem;
+			height: 0.4rem;
+			float: left;
+			vertical-align: middle;
+		}
+		.header_s p{
+			font-size: 0.4rem;
+			/*float: left;*/
+
+			line-height: 0.5rem;
+			vertical-align: middle;
+			/*text-align: center;*/
+			color: white;
+			/*padding-left: 0.3rem;*/
+		}
+		.clear{
+			clear: both;
+		}
+</style>  
+   <!--  -->
+<!--  -->
+
+<!---->
+
+<!--产品详情-->
+<div class="details">
+    <!--产品介绍-->
+    <div class="introduce">
+        <!--小赢易贷-->
+        <div class="easy_loan">
+            <div class="big">
+                <div class="small">
+                    <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-20_5bf3aa31e3bd1.png" />
+                    <p>{$item['name']}</p>
+                </div>
+                <div class="small2">
+                    <div class="minimum">
+                        <p>{$item['money_high']}</p>
+                        <p>最高额度</p>
+                    </div>
+                    <div class="minimum2">
+                        <ul>
+                            <li>. 期限范围：{$item['time_blow']} - {$item['time_high']}</li>
+                            <li>. {$item['rate_type']}利率：{$item['rate']}%</li>
+                            <li>. 通过率：{$item['ext_info']['pass_rate']}%</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="productRate">
-                <div class="productRateInfo">
-                    <h2>
-                        {$item['name']}
-                    </h2>
+            <div class="big2">
+                <p>{$item['name']}</p>
+                <p>{$item['apply_nums']}人</p>
+                <p>已成功放贷</p>
+                <p>秒批</p>
+            </div>
+        </div>
+
+        
+
+
+        <!--申请条件-->
+        <div class="condition">
+            {$item['ext_info']['conditions']}
+        </div>
+        <!--申请流程-->
+        <div class="apply">
+            <p>申请流程</p>
+            <!--第一种情况-->
+                <div class="a4" >
                     <ul>
                         <li>
-                            期限范围:
-                            <!-- 现金卡 -->
-                            <span>
-                                        {$item['time_blow']}-{$item['time_high']}
-                                    </span>
-                            期
-                        </li>
-                        <!-- 现金卡/极速钱包 -->
-                        <li>
-                            {$item['rate_type']}利率
-                            <span id="rate" data-id="{$item['rate']}">
-                                        {$item['rate']}%
-                                    </span>
-                        </li>
-                        <li>
-                            申请人数:
-                            <span>
-                                        {$item['apply_nums']}
-                                    </span>
-                            人
-                        </li>
-                        <li>
-                            通过率:
-                            <span>
-                                        {$item['ext_info']['pass_rate']}%
-                                    </span>
-                        </li>
+
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b0439e686298.png" />
+                                <p>身份证</p>
+                            </li>
+                            <li><p>>>></p></li><li>
+
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a3043521.png" />
+                                <p>人脸识别</p>
+                            </li>
+                            <li><p>>>></p></li><li>
+
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a8b9f2c3.png" />
+                                <p>手机实名</p>
+                            </li>
+                            <li><p>>>></p></li><li>
+
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a617264f.png" />
+                                <p>芝麻信用</p>
+                            </li>
+                            
+                        <div class="clear"></div>
                     </ul>
                 </div>
-            </div>
-            <div class="productMaxEdu">
-                <div class="maxEdu">
-                    <h1 id="edu_limit" data-edu="{$item['money_high']}">
-                        {$item['money_high']}
-                    </h1>
-                    <p>
-                        最高额度
-                    </p>
-                </div>
-            </div>
+
         </div>
-    </div>
-    <div class="loanPDetail">
-        <div class="loanDetailCommon">
-            <div class="loanInterest">
-                <h1>
-                    贷款利息小助手
-                </h1>
-                <div class="loanInterestMain">
-                    <div class="loanInterestData">
-                        <ul class="repayInfo">
-                            <li>
-                                <h2 id="month_repay">
-                                    0
-                                </h2>
-                                <p>
-                                    {$item['rate_type']}还款(元)
-                                </p>
-                            </li>
-                            <li>
-                                <h2 id="total_interest">
-                                    0
-                                </h2>
-                                <p>
-                                    总利息(元)
-                                </p>
-                            </li>
-                        </ul>
-                        <ul class="freeCount">
-                            <li>
-                                <label>
-                                    金额
-                                </label>
-                                <input type="number" name="edu" id="loan_money" value="{$item['money_high']}" />
-                                <span>
-                                            元
-                                        </span>
-                            </li>
-                            <li>
-                                <label>
-                                    期限
-                                </label>
-                                <input type="number" name="edu" id="loan_term" value="{$item['time_high']}" />
-                                <span>
-                                            {$item['rate_type']}
-                                        </span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="loanInterestIco" style="position: relative;">
-                        <canvas id="CalIco" style="margin-left: 5%;">
-                        </canvas>
-                        <div class="totalRepay">
-                            <h2>
-                            </h2>
-                            <p>
-                                总还款金额(元)
-                            </p>
-                        </div>
-                        <div class="IcoTip">
-                            <ul>
-                                <li>
-                                    <label>
-                                    </label>
-                                    <span>
-                                                利息
-                                            </span>
-                                </li>
-                                <li>
-                                    <label>
-                                    </label>
-                                    <span>
-                                                本金
-                                            </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="loanDetailCommon2">
-            <div class="applyInfoCommon Imphink">
-                <h1>
-                    重要提示
-                    <!--<span>-->
-                    <!--(点击查看攻略)-->
-                    <!--</span>-->
-                </h1>
+        <!--商品评价-->
+        <!--<div class="evaluate">-->
+            <!--<p class="evaluate_word">商品评价</p>-->
+            <!--&lt;!&ndash;个人评价&ndash;&gt;-->
+            <!--<ul>-->
+                <!---->
+
+
+            <!--</ul>-->
+            <!--<p class="evaluate_word2">共有0条评论</p>-->
+        <!--</div>-->
+        <!--同类推荐-->
+        <!-- <div class="recommend" style="margin-bottom:0.2rem">
+            <p class="recommend_word">同类推荐</p>
+            <div class="recommend_type">
                 <ul>
                     <li>
-                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192821_1.png" />
-                        <h3>
-                            身份证
-                        </h3>
-                    </li>
-                    <li>
-                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192826_1.png" />
-                        <h3>
-                            银行卡
-                        </h3>
-                    </li>
-                    <li class="hink" data-id="手机号">
-                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192830_1.png" />
-                        <h3>
-                            手机号
-                        </h3>
-                    </li>
-                    <li class="hink" data-id="多认证可加分">
-                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192835_1.png" />
-                        <h3>
-                            多认证可加分
-                        </h3>
-                    </li>
-                    <li class="hink" data-id="客服协助">
-                        <img src="../addons/xuan_mixloan/template/style/picture/20171207192839_1.png" />
-                        <h3>
-                            客服协助
-                        </h3>
-                    </li>
-                    <!-- <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>信用卡</h3></li>
-                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>寿险保单</h3></li>
-                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>公积金</h3></li>
-                    <li><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3 class="hink">淘宝</h3></li>
-                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>手机号</h3></li>
-                    <li class="hink"><img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" /><h3>网购电商认证</h3></li> -->
+                            <a href="/index.php/Home/shop_info/shop_id/1062.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-12_5be957eb206e5.png" />
+                                 <p>有个金窝</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1043.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-11_5be7b41279740.png" />
+                                 <p>汇信财富</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1061.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5becfe17c7b2d.png" />
+                                 <p>财雨宝</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1018.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5becfec9f1e93.png" />
+                                 <p>钞神速</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1065.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5bece8f230297.png" />
+                                 <p>旺旺豆</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1071.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-13_5bea5dcf271be.png" />
+                                 <p>简单贷</p>
+                                <p>秒批</p>
+                            </a>
+                        </li>
                 </ul>
             </div>
-            <div class="applyInfoCommon applyRule">
-                <h1>
-                    申请条件
-                </h1>
-                <ul>
-                    {$item['ext_info']['conditions']}
-                </ul>
-            </div>
-            <div class="applyInfoCommon applyFlow">
-                <h1>
-                    申请流程
-                </h1>
-                <img src="../addons/xuan_mixloan/template/style/picture/20171207192808_1.jpg" />
-            </div>
-            <div class="applyInfoCommon applyAttention">
-                <h1>
-                    注意事项
-                </h1>
-                <ul>
-                    {$item['ext_info']['reminds']}
-                </ul>
-                <div style="clear:both;"></div>
-            </div>
-        </div>
+        </div> -->
     </div>
-</div>
-<div class="daili_footer">
-    {if !$is_close}
-    <div class="footer_apply">
-        <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
-            我要代理
-        </a>
-    </div>
-    {/if}
-    <div class="footer_agent" {if $is_close}style="width:100%"{/if}>
-    <a id="daili_toapply" >我要申请</a>
-</div>
-</div>
-<div class="toApply" style="display: none;">
-    <a class="to_apply" id="to_apply" data-productIndex="0" href="javascript:void(0);" >
-        申请
-    </a>
-</div>
-</body><!-- 申请弹窗 -->
-<div class="popLoanApplyCommon popLoanApply">
-    <div class="popLoanApplyCover"></div>
-    <div class="popLoanMain">
-        <div class="popLoanLink"><a href="{php echo $this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $_GPC['inviter']))}">点击获取更多产品</a></div>
-        <div class="popLoanInfo">
-            <ul>
-                <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
-                <li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>
-                <!-- <li><label><img src="../addons/xuan_mixloan/template/style/picture/idcard2.png"></label><input type="" name="idcard" id="idcard" placeholder="请输入您的身份证号"></li> -->
-                <li><label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png"></label><input type="" name="cache" id="cache" placeholder="请输入图形验证码" style="width: 50%;"><img src="" id="cache_img" style="width: 3.3rem; height: 1.3rem;"></li>
-                <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/phone2_1.png"></label><input type="tel" name="phone" id="phone" maxlength="11" placeholder="请输入您的手机号"></li>-->
-                <!--<li><label><img src="../addons/xuan_mixloan/template/style/picture/valid2_1.png" /></label><input type="tel" name="smscode" id="smscode" class="smscode" placeholder="请输入验证码" style="width: 60%;" /><a class="sendMess" id="sendMess" href="javascript:void(0);">获取</a></li>-->
-            </ul>
-            <p class="ppdTip"><span>申请即视为同意</span><a href="{php echo $this->createMobileUrl('index', array('op' => 'risk_contract'))}">《风险提示协议》</a></p>
-        </div>
-    </div>
-</div>
-<!-- 攻略 -->
-<div class="strategys">
-    <div class="strgyFloor"></div>
-    <div class="strgyMain">
-        <!-- <img src="" /> -->
-        <div class="strgyContent">
-            <img src="../addons/xuan_mixloan/template/style/picture/publish_l_1.png" />
-            <div></div>
-        </div>
-    </div>
-</div>
+  <!--  -->
 
-<script type="text/javascript">
-    var interestIndex;
-    var interestIndex2;
-    var angleIndex;
-    var initialFlag;
-    var yrdStr='';
-    var iosXIndex=false;
-    $(document).ready(function(){
-        //页面初始化
-        $("div.strategys,div.popLoanApplyCommon").css("height",$(window).height());
-        var bodyH=(parseInt($(window).height()))-80+"px";
-        $("div.Japply_contents").css("height",bodyH);
 
-        startAngle = -(0.9* Math.PI); //开始角度
-        tmpAngle = angleIndex = startAngle; //临时角度变量
-        initialFlag=true;
-        // loanM();
-        Icobg();
-        calculate();
-    })
+    <!--奖金结算-->
+
+
+
+
+    <!--产品评价-->
+    <div class="pingjia">
+        <ul>
+
+            <!--<li>-->
+                <!--<div class="personal_evaluation">-->
+                    <!--<div class="personal_img">-->
+                        <!--<img src="../addons/xuan_mixloan/template/style/new_apply/picture/qqtouxiang.png" />-->
+                    <!--</div>-->
+                    <!--<div class="personal_word">-->
+                        <!--<p>唐老板叫小可爱</p>-->
+                        <!--<p>2018-4-10</p>-->
+                        <!--<p>太给力了，大爱这个平台</p>-->
+                    <!--</div>-->
+                    <!--<div class="clear"></div>-->
+                <!--</div>-->
+            <!--</li>-->
+
+        </ul>
+
+    </div>
+    <div class="am-panel-bd"  id="my-scrollspy" style="text-align: center;margin:-1rem 0 1.5rem 0;display: none ">
+        点击加载
+    </div>
+    <div class="am-panel-bd"  id="my-scrollspy_s" style="display: none;text-align: center;font-size: 0.3rem;margin:-1rem 0 1.5rem 0;">
+       没有更多评论
+    </div>
+</div>
+<!--底部-->
+<style>
+    .customer_service p{
+        font-size: 0.35rem;
+    }
+    .customer_service{
+        width: 29%;
+        padding-top: 0.25rem;
+        /*font-weight: 900;*/
+    }
+</style>
+    <div class="fooder">
+        <!--客服-->
+
+        <!--代理-->
+       <!--<a href="/index.php/Home/loan/s_user_id/ODAwNA%3D%3D/shop_id/1146.html">-->
+            {if !$is_close}
+            <div class="footer_apply">
+                <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
+                    我要代理
+                </a>
+            </div>
+            {/if}
+            <div class="agent_s" onclick="show()" style="background: #36affe;"  {if $is_close}style="width:100%"{/if}>
+                <p>马上申请</p>
+            </div>
+       <!-- </a>-->
+
+    </div>
+
+
+
+<!--遮罩层-->
+<style>
+    .mask_body{
+        border: 1px #bbbbbb solid;
+        /*background-color: black;*/
+        background:rgba(0,0,0,0.6);
+        width: 7.5rem;
+        height:15rem;
+        position:fixed;
+        top :0rem;
+        /*opacity:0.5;*/
+
+        display: none;
+
+    }
+
+    .mask_body div{
+        text-align: center;
+    }
+
+    .mask_body img{
+        width: 1rem;
+        padding-right: 0.3rem;
+    }
+    .mask_body p{
+        font-size: 0.3rem;
+        color: black;
+        /*text-align: right;*/
+        /*padding-right: 0.5rem;*/
+    }
+    .element {
+        z-index:105;
+        margin:0.5rem 0 0 0;
+        float: left;
+        border: none;
+        background-color: white;
+        border-radius: 10px;
+        max-height: 10rem;
+        overflow-x:hidden;
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
+    }
+    .element::-webkit-scrollbar { width: 0 !important }
+
+</style>
+<div class="mask_body" >
+    <!--<div>-->
+    <!--<img src="../addons/xuan_mixloan/template/style/new_apply/picture/jiantou.png" />-->
+    <!--</div>-->
+    <!--<div style="margin-top: 0.5rem;border: 1px white solid;background-color: white">-->
+    <!---->
+    <!--</div>-->
+
+    <div  class="element" style="">
+        <div style="padding:0.3rem 0;font-size: 0.3rem">
+            <p style="float: right" id="del">
+                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/del.png" style="width: 0.5rem;margin-top: -0.2rem;margin-right: -0.2rem" />
+            </p>
+            点击右上角分享专属链接给好友
+
+        </div>
+        <!--<img style="width: 3.5rem;padding: 0.5rem 0.5rem 0 0.5rem" src="../addons/xuan_mixloan/template/style/new_apply/picture/car_shop_info.html" />-->
+        <img style="width: 6.5rem;padding:0" src="../addons/xuan_mixloan/template/style/new_apply/picture/7c89a7ceee334f219f6fbd195944f589.gif" />
+
+        <p  style="padding:0.1rem 0">
+            <input id="text_input" class="url_str" style="float: left;margin-top:-0.5rem;opacity: 0" readonly />
+            <!--<p style="margin-top:-0.2rem;margin-bottom: 0.3rem;">长按复制分享链接</p>-->
+            <button  onclick="copy()" id="copy_text" style="border: none;background-color: #00a0e9;color: white;padding: 0.2rem 0.7rem;font-size: 0.3rem;border-radius: 5px;margin: 0.1rem 0">点击复制分享链接</button>
+
+        </p>
+
+        <p style="padding:0.2rem 0 0.4rem 0">
+            <a href="/" download style="border: 1px solid black;background-color: white;color: black     ;padding: 0.2rem 0.7rem;font-size: 0.3rem;border-radius: 5px;margin: 0.1rem 0">点击下载我的专属海报</a>
+        </p>
+        <img id='downImg' src='' style='display: none;' />
+    </div>
+    <div style="clear: both"></div>
+</div>
+<div style="display: none;" id="div3">
+			 <div style="width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;filter: Alpha(opacity=50);opacity: 0.5;background: #000000;">
+              	
+              </div>
+		<div style="margin-top: 0.7rem;margin-left: 0.5rem;margin-right: 0.5rem;margin-bottom: 1.3rem;background-color: #FFFFFF;padding: 0.5rem 0.3rem;position: fixed;top: 1.5rem;left: 0.15rem;padding-bottom: 1rem;width: 75%;border-radius: 14px;">
+		<img onclick="zjx()" src="../addons/xuan_mixloan/template/style/new_apply/picture/shanchu1.png" style="width: 0.5rem;float: right;"/>
+			<div class="account" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 1.2rem;">
+				<img src="../addons/xuan_mixloan/template/style/new_apply/picture/xingming.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+				<input type="text" placeholder="请输入您的姓名" id="name" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
+				<div class="clear"></div>
+			</div>
+			<div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
+				<img src="../addons/xuan_mixloan/template/style/new_apply/picture/shoujihao.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+				<input type="text" placeholder="请输入手机号" id="phone" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
+				<div class="clear"></div>
+			</div>
+            <div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
+                <img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+                <input type="text" placeholder="请输入验证码" id="phone" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;width: 50%"/>
+                <img src="" id="cache_img" style="width: 30%;height: 0.6rem">
+                <div class="clear"></div>
+            </div>
+			<div class="weui_cells weui_cells_checkbox" style="margin-top: 0.5rem">
+            <label class="weui_cell weui_check_label radius" for="s11">
+                <div class="weui_cell_hd" style="width: 10%;float: left">
+                    <input type="radio" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                    <i class="weui_icon_checked"></i>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary" style="width: 90%;float: left">
+                    <p> <span style="font-size: 0.28rem;color: #999999;">阅读知晓并同意</span>
+                    <a href="{php echo $this->createMobileUrl('index', array('op' => 'risk_contract'))}"><span style="font-size: 0.28rem;color: #4E90E6;">《风险提示协议》</span></a>
+                </div>
+            </label>
+            <div class="clear"></div>
+        </div>
+          <input type="hidden" id="s_user_id" name="s_user_id"   value="8004" />
+      
+        <div style="text-align: center;margin-top: 0.5rem;">
+        	<button type="button" onclick="becomes()"  style="color: #ffffff;background: #36affe;width: 99%;padding-top: 0.1rem;padding-bottom: 0.1rem;border: 0px;font-size: 0.4rem;border-radius: 8px;letter-spacing: 4px;outline: none;">申请</button>
+        </div>
+		</div>
+		</div>
+</body>
+ <script>
     $('#cache_img').click(function(){
         getImgCache();
     })
@@ -328,97 +422,41 @@
                 }
             },'json')
     }
-    //判断手机是否为iphoneX,处理兼容问题
-    $(function(){
-        isIphoneX();
-    })
-    function isIphoneX(){
-        var iosXVersion=/iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375)
-        if(iosXVersion){
-            iosXIndex=true;
-        }
-    }
-    //弹出申请填写框
-    $("#daili_toapply").click(function(){
-        $("body").css({"height":$(window).height(),"overflow":"hidden"});
-        rollFlag=1;
-        $("div.popLoanApply").show();
-        setTimeout(function(){
-            if(iosXIndex){
-                //iphoneX
-                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
-            }else{
-                $("div.popLoanMain").css({"top":"30%","opacity":"1"});
-            }
-        },100)
-        $("div.toApply").css({"background-color":"transparent","border":"none"});
-        // $("a.dummyApply").hide();
-        $("div.toApply").show();
-    })
-    // 退出申请框
-    $("div.popLoanApplyCover").click(function(){
-        $("div.popLoanMain").css({"top":"95%","opacity":"0"});
-        setTimeout(function(){
-            $("body").css({"height":"auto","overflow":"auto"});
-            rollFlag=0;
-            $("div.popLoanApply").hide();
-            $("div.toApply").css({"background-color":"#fff","border":"1px solid #ddd"});
-            $("a.dummyApply").show();
-            $("div.toApply").hide();
-        },100)
-    })
-    //防止点击输入时退出申请框
-    $("div.popLoanInfo input").click(function(e){
-        e.stopPropagation();
-        return false;
-    })
+   function becomes() {
+			var name = $('#name').val()
+			var phone = $('#phone').val()
+            var cache = $('#cache').val();
+            var postData={"name":name,"phone":phone, "cache":cache};
 
-    //提交
-    $("#to_apply").click(function(){
-        upSubmit();
-    })
-
-    function upSubmit() {
-        var _name=$("#applyname").val();
-        var phone =$("#phone").val();
-        var cache = $('#cache').val();
-        var postData={"name":_name,"phone":phone, "cache":cache};
-        if (cache == '') {
-            layer.tips('请输入图形验证码', '#cache', {
-                tips: [3, '#f90'],
-                time: 3000
-            });
-            return false;
-        }
-        if(_name=='' || _name=="请输入姓名"){
-            document.getElementById('applyname').focus();
-            layer.tips('请输入姓名', '#applyname', {
-                tips: [3, '#f90'],
-                time: 3000
-            });
-            return false;
-        }else if(_name!=undefined&&_name!=null){
-            // var reg = /^[a-zA-Z0-9\u4e00-\u9fa5\·]{2,15}$/;
-            var reg = /[\u4E00-\u9FA5]{2,10}(?:·[\u4E00-\u9FA5]{2,10})*/;
-            if(!(reg.test(_name))){
-                document.getElementById('applyname').focus();
-                layer.tips('请输入正确的姓名', '#applyname', {
+            if(name=='' || name=="请输入姓名"){
+                document.getElementById('name').focus();
+                layer.tips('请输入姓名', '#name', {
                     tips: [3, '#f90'],
                     time: 3000
                 });
                 return false;
+            }else if(name!=undefined&&name!=null){
+                var reg = /[\u4E00-\u9FA5]{2,10}(?:·[\u4E00-\u9FA5]{2,10})*/;
+                if(!(reg.test(name))){
+                    document.getElementById('name').focus();
+                    layer.tips('请输入正确的姓名', '#name', {
+                        tips: [3, '#f90'],
+                        time: 3000
+                    });
+                    return false;
+                }
             }
-        }
-        if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
-            document.getElementById('phone').focus();
-            layer.tips('请输入正确的手机号码', '#phone', {
-                tips: [3, '#f90'],
-                time: 3000
-            });
-            return false;
-        }
-        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,
-            function(data){
+			if(phone == ''){
+				// alertClick('请输入手机号')
+				alert("请输入手机号");
+				return false;
+			}
+			var fixtele = /^1[34578]\d{9}$/;
+			if( !fixtele.test(phone) ){
+				alert("您的联系方式输入错误");
+				return false;
+			}
+			$.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,function(data) {
                 if (data.code == 1) {
                     layer.msg('正在跳转...', {
                         time: 1000 //2秒关闭（如果不配置，默认是3秒）
@@ -429,215 +467,392 @@
                     layer.msg(data.msg);
                     return false;
                 }
-            },'json')
+
+			}, 'json')
+
+		}
+  
+  var t2 = window.setTimeout("hello()",500);//使用字符串执行方法
+
+    function hello() {
+        $('body').slideDown('slow');
     }
+//    alert(window.location.hostname)
 
-    //arc 动态画圆
-    var c = document.getElementById('CalIco');
-    var ctx = c.getContext('2d');
+//     function download() {
+//         //图片路径
+//         var src =  "/";
+//         //下载保存文件名
+//         var imgname = '111.jpg';
+//
+//         $('#downImg').attr('src', src);
+//         var img = $('#downImg').attr("src");
+//         var alink = document.createElement("a");
+//         alink.href = img;
+//         alink.download = imgname;
+//         alink.click();
+//     }
 
-    var canvasH=$(".loanInterestIco").width()*0.8;
-    $("#CalIco").css("width",canvasH);
-    $("#CalIco").css("height",canvasH);
-    var mW = c.width = canvasH*2;
-    var mH = c.height = canvasH*2;
-    var lineWidth = 38;
-    var r = mW / 2; //中间位置
-    var cR = r - 0.8*lineWidth; //圆半径
-    var startAngle,endAngle,tmpAngle;
-    var startAngle = 1.1*Math.PI; //开始角度
-    var endAngle = Math.PI; //结束角度
-    var xAngle = 1 * (Math.PI / 180); //偏移角度量
-    var fontSize = 35; //字号大小
-    var tmpAngle = startAngle; //临时角度变量
+     function SaveAs5()
 
-    //渲染函数
-    function rander(){
-        //数值变大
-        if(tmpAngle >= endAngle){
-            startAngle = endAngle;
-            return;
-        }else if(tmpAngle + xAngle > endAngle){
-            tmpAngle = endAngle;
-        }else{
-            tmpAngle += xAngle;
-        }
+     {
 
-        //画圈
-        ctx.beginPath();
-        ctx.lineWidth = lineWidth;
-        ctx.strokeStyle = '#30e3f8';
-        ctx.arc(r, r, cR, startAngle, tmpAngle,false);
-        ctx.stroke();
-        ctx.closePath();
+         var imgURL =
 
-        requestAnimationFrame(rander);
-        angleIndex=endAngle;
-        interestIndex=interestIndex2;
-        initialFlag=false;
-    }
-    function rander2(){
-        //数值变小
-        if(tmpAngle <= endAngle){
-            startAngle = endAngle;
-            return;
-        }else if(tmpAngle - xAngle < endAngle){
-            tmpAngle = endAngle;
-        }else{
-            tmpAngle -= xAngle;
-        }
-        // ctx.clearRect(0, 0, mW, mH);
+         alert(imgURL)
+         var oPop = window.open(imgURL,"","width=1, height=1, top=5000, left=5000");
 
-        //画圈
-        ctx.beginPath();
-        ctx.lineWidth = lineWidth;
-        ctx.strokeStyle = '#0097ff';
-        ctx.arc(r, r, cR, startAngle, tmpAngle,true);
-        ctx.stroke();
-        ctx.closePath();
+         for(; oPop.document.readyState != "complete"; )
 
-        requestAnimationFrame(rander2);
-        angleIndex=endAngle;
-        interestIndex=interestIndex2;
-        initialFlag=false;
-    }
+         { if (oPop.document.readyState == "complete")break; }
 
-    function Icobg(){
-        var canvas = document.getElementById("CalIco");
-        if(canvas.getContext){
-            var ctx = canvas.getContext("2d");
-            ctx.beginPath();
-            ctx.lineWidth = 38;
-            ctx.strokeStyle = "#0097ff";
-            var circle = {
-                x : r,    //圆心的x轴坐标值
-                y : r,    //圆心的y轴坐标值
-                r : cR      //圆的半径
-            };
-            ctx.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI, false);
-            ctx.stroke();
-        }
-    }
-    function icoRecal(){
-        interestIndex2=parseFloat($("#total_interest").html());
-        if(initialFlag){
-            interestIndex=interestIndex2;
-        }
-        tmpAngle=angleIndex;
-        loanM();
-    }
-    function loanM(){
-        var total_interest=parseFloat($("#total_interest").html());
-        var total_loan=parseFloat($("#edu_limit").html());
-        var totalPI=((total_interest/total_loan)*2*Math.PI)-(0.9*Math.PI);
-        // alert(totalPI);
-        endAngle = totalPI; //结束角度
-        if(interestIndex2<interestIndex){
-            rander2();
-        }else{
-            rander();
-        }
+         oPop.document.execCommand("SaveAs"); oPop.close();
 
-        // tmpAngle=endAngle;
-    }
-    //数字判断
-    $("#loan_money").keyup(function () {
-        var reg = $(this).val().match(/\d+\.?\d{0,2}/);
-        var txt = '';
-        if (reg != null)
-        {
-            txt = reg[0];
-        }
-        var edu_limit=parseFloat($("#edu_limit").attr("data-edu"));//最高额度
-        if(parseFloat(txt)>edu_limit){
-            layer.msg("最高额度"+edu_limit+"!");
-            txt=txt.substr(0, txt.length - 1);
-        }
-        $(this).val(txt);
-        calculate();
-        // icoRecal();
-    }).change(function () {
-        $(this).keypress();
-        var v = $(this).val();
-        if (/\.$/.test(v))
-        {
-            $(this).val(v.substr(0, v.length - 1));
-            calculate();
-        }
-    });
-    //避免输入法影响样式
-    $('#loan_money').on('focus',function(){
-        window.onresize = function () {
-            var h = $(window).height();
-            var u = navigator.userAgent;
-            if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
-                if(h <= window.screen.availHeight/2){
-                    $('.toApply').hide();
-                }else{
-                    $('.toApply').show();
-                }
-            }
+     }
+
+
+     url = window.location.href+'&?business_info='+"";
+     $('.url_str').val(url)
+
+//     var inputElem = document.getElementById('text_input');
+//     var btnElem = document.getElementById('copy_text');
+//
+//     btnElem.addEventListener('click', function() {
+//         if(!document.execCommand) {
+//             alert('复制失败')
+//             console.error('copy unsupport');
+//             return;
+//         }
+//         inputElem.select();
+//         var result = document.execCommand('copy');
+//         if(result) {
+//             console.log('copy success');
+//             alert('复制成功')
+//         } else {
+//             console.error('copy fail');
+//             alert('复制失败')
+//         }
+//     });
+
+
+
+
+     function copy(message) {
+//         var input = document.createElement("input");
+         var inputElem = document.getElementById('text_input');
+//         input.value = message;
+//         document.body.appendChild(input);
+         inputElem.select();
+         inputElem.setSelectionRange(0, inputElem.value.length),
+         document.execCommand('Copy');
+     // document.body.removeChild(input);
+         alert("复制成功");
+     }
+     var page = -1
+     var len = 10
+
+     $(document).on('click','#my-scrollspy',function () {
+         order_list();
+     })
+
+     function order_list() {
+
+         page ++
+         var pages = page * len
+         $.post("/Home/comment_list",{
+             len:len,
+             page:pages,
+             shop_id:"1146",
+             type:1,
+         },function(msg) {
+             if(page == 0){
+                 $('.pingjia ul').empty();
+             }
+
+             if(msg.status == 'ok'){
+                 var res = msg.msg
+                 for( i in res){
+                     var a =  '<li>'+
+                     '<div class="personal_evaluation">'+
+                     '<div class="personal_img">'+
+                     '<img src="'+res[i].user_id.face+'" />'+
+                     '</div>'+
+                     '<div class="personal_word">'+
+                     '<p>'+res[i].user_id.base64nickname+'</p>'+
+                     '<p>'+res[i].ctime+'</p>'+
+                     '<p>'+res[i].info+'</p>'+
+                     '</div>'+
+                     '<div class="clear"></div>'+
+                     '</div>'+
+                     '</li>'
+                     $('.pingjia ul').append(a);
+                 }
+
+
+                 if(msg.count == 'no'){
+                     $('#my-scrollspy').hide()
+                     $('#my-scrollspy_s').show()
+
+                 }
+             }else{
+                 $('#my-scrollspy').hide()
+                 $('#my-scrollspy_s').show()
+             }
+             
+         })
+
+     }
+     achievement()
+     function achievement() {
+         $.post("/Home/achievement",{
+             shop_id:"1146",
+         },function(msg) {
+             var res = msg.res
+             $('.heroic_list_word span').html(msg.time);
+//             console.log(msg);
+             console.log(msg)
+
+             if( msg.count*1 < 3 ){
+
+                 $('.three ul p').show()
+             }else {
+                 $('.three ul').empty();
+
+                 var a =  '<li>'+
+                         '<img src="'+res[1].s_user_id.face+'" />'+
+                         '<p>'+res[1].s_user_id.name+'</p>'+
+                         '<p>'+res[1].money+'元</p>'+
+                         '<p>2</p>'+
+                        '</li>'
+
+                 $('.three ul').append(a);
+
+
+                 var a =  '<li>'+
+                         '<img src="'+res[0].s_user_id.face+'" />'+
+                         '<p>'+res[0].s_user_id.name+'</p>'+
+                         '<p>'+res[0].money+'元</p>'+
+                         '<p>1</p>'+
+                         '</li>'
+
+                 $('.three ul').append(a);
+
+                 var a =  '<li>'+
+                         '<img src="'+res[2].s_user_id.face+'" />'+
+                         '<p>'+res[2].s_user_id.name+'</p>'+
+                         '<p>'+res[2].money+'元</p>'+
+                         '<p>3</p>'+
+                         '</li>'
+
+                 $('.three ul').append(a);
+             }
+
+//             if(msg.status == 'ok'){
+//                 var res = msg.msg
+//                 for( i in res){
+//                     var a =  '<li>'+
+//                             '<div class="personal_evaluation">'+
+//                             '<div class="personal_img">'+
+//                             '<img src="'+res[i].user_id.face+'" />'+
+//                             '</div>'+
+//                             '<div class="personal_word">'+
+//                             '<p>'+res[i].user_id.base64nickname+'</p>'+
+//                             '<p>'+res[i].user_id.ctime+'</p>'+
+//                             '<p>'+res[i].info+'</p>'+
+//                             '</div>'+
+//                             '<div class="clear"></div>'+
+//                             '</div>'+
+//                             '</li>'
+//                     $('.pingjia ul').append(a);
+//                 }
+//
+//
+//             }else{
+//                 $('#my-scrollspy').hide()
+//                 $('#my-scrollspy_s').show()
+//             }
+
+         })
+     }
+
+
+     
+     function become() {
+
+         $.post("/Home/user_login",{
+
+         },function(msg) {
+             if( msg.status == 'no' ){
+                 window.location.href = "index.php?s=/Home/user_info"
+
+             }else {
+                 $('.mask_body').show();
+             }
+
+         })
+
+     }
+     $('#del').click(function () {
+         $('.mask_body').hide();
+     })
+     
+     var month_rate = "0.03"
+     rate()
+     $('.money input').blur(function () {
+         rate()
+
+     })
+     $('.date select').change(function () {
+         rate()
+     })
+
+     function rate() {
+         var money = $('.money input').val()*1;
+         var date = $('.date select').val()*1;
+          date = date-1;
+         //计算利息
+         var rate = money * month_rate / 100 * date * 1
+
+         //总还款
+         var count_money = money + rate
+         //月还款
+         date = date+1;
+         var month_money = count_money / date
+          month_money = month_money.toFixed(2)
+         $('.month p').eq(0).html(month_money)
+         $('.total p').eq(0).html(rate)
+         $('.form p span').html(count_money)
+
+         //总利息占比
+         var a = Math.round(rate/count_money*100)
+         var b = 100-a
+         $('.red').css('width',a+'%')
+         $('.blue').css('width',b+'%')
+
+     }
+
+    $('.header ul li').click(function () {
+        $('.header ul li').removeClass('special')
+        $(this).addClass('special')
+        var index = $(".header ul li").index(this);
+        if(index == 0){
+            $('.settlement').hide();
+            $('.pingjia').hide();
+            $('.introduce').show();
+            $('#my-scrollspy').hide()
+            $('#my-scrollspy_s').hide()
+        }else if( index == 1 ){
+
+            $('.introduce').hide();
+            $('.pingjia').hide();
+            $('.settlement').show();
+            $('#my-scrollspy').hide()
+            $('#my-scrollspy_s').hide()
+            achievement()
+        }else {
+            $('.settlement').hide();
+            $('.introduce').hide();
+            $('.pingjia ').show();
+            order_list()
+            $('#my-scrollspy').show()
         }
     })
-    // i代平台服务协议勾选
-    $("#protocol").click(function(){
-        var _this=$(this);
-        if(_this.attr("data-index")=="1"){
-            _this.removeClass('choosed').addClass('notchoose');
-            _this.attr("data-index",'0');
-        }else{
-            _this.removeClass('notchoose').addClass('choosed');
-            _this.attr("data-index",'1');
-        }
-    })
-    //计算器
-    function calculate(){
-        var edu=parseFloat($("#edu_limit").html());
-        var loan_money=$("#loan_money").val();//借款金额
-        var term=$("#loan_term").val();//借款期限
-        if (loan_money!=0 && term!=0) {
-            var rate=(parseFloat($("#rate").attr("data-id")))/100;//利率
-            var month_repay=(loan_money*(1+rate)/term).toFixed(2);//月还款
-            var total_interest=parseFloat(((month_repay*term)-loan_money).toFixed(2));
-            console.log(loan_money);
-            console.log(term)
-            $("#month_repay").html(month_repay);
-            $("#total_interest").html(total_interest);
-            if(loan_money==''){
-                loan_money=0;
-            }
-            $("div.totalRepay h2").html((total_interest+parseFloat(loan_money)).toFixed(2));
-            icoRecal();
-        }
-    }
-    // 点击弹出攻略
-    // $("div.Imphink ul li.hink").click(function(){
-    //     var product_id=1;
-    //     var element=$(this).attr("data-id");
-    //     var imgSrc=$(this).find("img").attr("src");
-    //     $.post('/wap/idaiK/hintInfo',{'product_id':product_id,"element":element},
-    //         function(data){
-    //             var tip=data.errmsg;
-    //             $("div.strgyContent").find("img").attr("src",imgSrc);
-    //             $("div.strgyContent").find("div").html("");
-    //             for(i=0;i<tip.length;i++){
-    //                 var tip_content=tip[i];
-    //                 $("div.strgyContent").find("div").append("<p>"+ tip_content +"</p>");
-    //             }
-    //             $(".strategys").show();
-    //             $('div.Japply_contents').css("filter","blur(1.5px)");
-    //     },'json')
-    // })
 
-    $("div.strgyFloor").click(function(){
-        $(".strategys").hide();
-        $('div.Japply_contents').css("filter","blur(0)");
-    })
-    //切换贷款期限
-    $("#loan_term").keyup(function(){
-        calculate();
-    })
+     $('.recommend_word2').click(function () {
+         $('.header ul li').eq(1).click();
+         $("html,body").animate({scrollTop:0}, 500);
+
+     })
+   $('.evaluate_word2').click(function () {
+         $('.header ul li').eq(2).click();
+         $("html,body").animate({scrollTop:0}, 500);
+
+     })
 
 
-</script>
+
+     $.ajax({
+         url: "/index.php/Home/get_wx_config.html",
+         type: 'GET',
+         dataType: 'JSON',
+         data: {
+             url: location.href,
+         },
+         async: false,
+     })
+
+             .done(function(data) {
+
+
+                 appId = data.data.appId;
+                 timestamp = data.data.timestamp;
+                 nonceStr = data.data.noncestr;
+                 signature = data.data.signature;
+             })
+             .fail(function() {
+                 console.log("error");
+             })
+             .always(function() {
+                 console.log("complete");
+             });
+
+     wx.config({
+         debug:false , // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+         appId: appId, // 必填，公众号的唯一标识
+         timestamp: timestamp, // 必填，生成签名的时间戳
+         nonceStr: nonceStr, // 必填，生成签名的随机串
+         signature: signature, // 必填，签名，见附录1
+         jsApiList: ['chooseWXPay', 'openLocation','onMenuShareAppMessage','onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+     });
+
+        url = window.location.href+'&?business_info='+"";
+
+
+         wx.ready(function () {
+             wx.onMenuShareAppMessage({
+                 title: "小米贷",
+                 desc: "融知道",
+                 link: url,
+                 imgUrl:"http://image.2016xiaozhuge.com/2018-11-20_5bf3aa31e3bd1.png",
+                 trigger: function (res) {
+                     // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                     //alert('用户点击发送给朋友');
+                 },
+                 success: function (res) {
+                     //alert('已分享11');
+                 },
+                 cancel: function (res) {
+                     //alert('已取消11');
+                 },
+                 fail: function (res) {
+                     alert(JSON.stringify(res));
+                 }
+             });
+             wx.onMenuShareTimeline({
+                 title:"小米贷",
+                 desc: "融知道",
+                 link:url,
+                 imgUrl:"http://image.2016xiaozhuge.com/2018-11-20_5bf3aa31e3bd1.png",
+                 success: function () {
+                     //alert('已分享11'); // 用户确认分享后执行的回调函数
+                 },
+                 cancel: function () {
+                     //alert('已分享2');// 用户取消分享后执行的回调函数
+                 },
+                 fail: function (res) {
+                     alert(JSON.stringify(res));
+                 }
+             });
+         });
+  function show(){
+document.getElementById("div3").style.display="block";
+};
+  function shows(){
+document.getElementById("div3").style.display="block";
+};
+   function zjx(){
+document.getElementById("div3").style.display="none";
+};
+ </script>
+
 </html>
