@@ -33,6 +33,19 @@
 		div.agent-foot p>img {
 			width: 1.1rem;
 		}
+        .three_head ul li .sign_end {
+    width: 0.65rem;
+    margin: 0 auto;
+    position: absolute;
+    left: 5%;
+    top: 0;
+}
+.three_head ul li .sign_end img {
+    width: 100%;
+    height: auto;
+    border: 0px solid #e2e2e2;
+    border-radius: 0px;
+}
 	</style>
 
 	{template 'common/wxshare'}
@@ -155,35 +168,35 @@
 	<!-- fjx -->
 	<div class="fjx"></div>
 	<!-- fjx -->
-	<div id="list_head_card">
-		<div class="list_head">
-			<p>
-				<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
-				信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
-			</p>
-		</div>
-		<div class="list_line list_line2">
-			<ul class="clearfix ka_one"></ul>
-			<ul class="clearfix ka_one2"></ul>
-			<ul class="clearfix ka_one3"></ul>
-			<ul class="clearfix ka_one4"></ul>
-			<ul class="clearfix new_line5 ew0"></ul>
-			<ul class="clearfix new_line5 ew1"></ul>
-			<ul class="clearfix new_line5 ew2"></ul>
-			<ul class="clearfix new_line5 ew3"></ul>
-			<ul class="clearfix new_line5 ew4"></ul>
-			<ul class="clearfix new_line5 ew5"></ul>
-		</div>
-		<!-- fjx -->
-		<div class="fjx"></div>
-	</div>
-	<!-- fjx -->
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/picture/x3_1.png" /></span>
 			贷款产品<label>(共<b  id="card_num">0</b>款)</label>
 		</p>
 	</div>
+    <!-- fjx -->
+    <div id="list_head_card">
+        <div class="list_head">
+            <p>
+                <span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
+                信用卡产品<label>(共<b id="ka_num">0</b>款)</label>
+            </p>
+        </div>
+        <div class="list_line list_line2">
+            <ul class="clearfix ka_one"></ul>
+            <ul class="clearfix ka_one2"></ul>
+            <ul class="clearfix ka_one3"></ul>
+            <ul class="clearfix ka_one4"></ul>
+            <ul class="clearfix new_line5 ew0"></ul>
+            <ul class="clearfix new_line5 ew1"></ul>
+            <ul class="clearfix new_line5 ew2"></ul>
+            <ul class="clearfix new_line5 ew3"></ul>
+            <ul class="clearfix new_line5 ew4"></ul>
+            <ul class="clearfix new_line5 ew5"></ul>
+        </div>
+        <!-- fjx -->
+        <div class="fjx"></div>
+    </div>
 
 	<div class="three_head">
 		<ul class="clearfix"></ul>
@@ -663,6 +676,7 @@
                         var hot_card=data.data.loan[i].hot;  //热门
                         var id_card=data.data.loan[i].id;  //热门
                         var loan_maintain=data.data.loan[i].maintain; //0维护
+                        var sign_end = data.data.loan[i].sign_end;
                         ///console.log(loan_maintain);
                         if(day_card==1){
                             var day_img_card='../addons/xuan_mixloan/template/style/images/end.png ';
@@ -690,6 +704,7 @@
                             +"<h2>"+ title_card +"</h2>"
                             +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
                             +"</div>"
+                            +"<div class='sign_end'><img src='"+ sign_end+"' /></div>"
                             +"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
                             +"</a>"
                             +"</li>";
@@ -703,6 +718,7 @@
                             +"<h2>"+ title_card +"</h2>"
                             +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png'/></span>奖金<b>"+ intro1_card +"</b></p>"
                             +"</div>"
+                            +"<div class='sign_end'><img src='"+ sign_end+"' /></div>"
                             +"<div class='day_end'><img src='"+ day_img_card+"' /></div>"
                             +"</a>";
                         +"</li>"

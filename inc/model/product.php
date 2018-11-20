@@ -189,6 +189,8 @@ class Xuan_mixloan_Product
                 }
                 $res['intro1'] .= "+申请{$re_per}点";
             }
+            $sign_end = '../addons/xuan_mixloan/template/style/images/sign_end.png';
+            $res['sign_end'] = $item['ext_info']['sign_end'] ? tomedia($item['ext_info']['sign_end']) : $sign_end;
             $res['hot'] = $item['is_hot'];
             $res['maintain'] = 1;
             $return[] = $res;
