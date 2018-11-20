@@ -192,7 +192,7 @@
         if(name=='') {
             layer.alert('姓名不能为空！'); return false;
         }
-        $.post("{php echo $this->createMobileUrl('loan', array('op' => 'apply_submit', 'id' => $id, 'inviter' => $inviter))}", { phone: tel, name: name,idcard:idcard,cache:cache},
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}", { phone: tel, name: name,idcard:idcard,cache:cache},
             function(data){
 
                 if(data.code=='1'){
