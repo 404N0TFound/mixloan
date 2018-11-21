@@ -90,75 +90,75 @@ if ($operation == 'list') {
     $account = WeAccount::create($_W['acid']);
     $account->sendTplNotice($member['openid'], $config['tpl_notice2'], $datam, $url);
     //一级
-    $inviter = m('member')->getInviter($member['phone'], $member['openid']);
-    if ($inviter) {
-        $re_bonus = $config['inviter_fee_one'];
-        if ($re_bonus) {
-            $insert_i = array(
-                'uniacid' => $_W['uniacid'],
-                'uid' => $member['id'],
-                'phone' => $member['phone'],
-                'certno' => $member['certno'],
-                'realname' => $member['realname'],
-                'inviter' => $inviter,
-                'extra_bonus'=>0,
-                'done_bonus'=>0,
-                're_bonus'=>$re_bonus,
-                'status'=>2,
-                'createtime'=>time(),
-                'degree'=>1,
-            );
-            pdo_insert('xuan_mixloan_product_apply', $insert_i);
-            $one_insert_id = pdo_insertid();
-        }
-        //消息提醒
-        $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
-        $insert = array(
-            'is_read'=>0,
-            'uid'=>$member['id'],
-            'type'=>2,
-            'createtime'=>time(),
-            'uniacid'=>$_W['uniacid'],
-            'to_uid'=>$inviter,
-            'ext_info'=>json_encode($ext_info),
-        );
-        pdo_insert('xuan_mixloan_msg', $insert);
-        //二级
-        $man_one = m('member')->getInviterInfo($inviter);
-        $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
-        if ($inviter_two) {
-            $re_bonus = $config['inviter_fee_two'];
-            if ($re_bonus) {
-                $insert_i = array(
-                    'uniacid' => $_W['uniacid'],
-                    'uid' => $member['id'],
-                    'phone' => $member['phone'],
-                    'certno' => $member['certno'],
-                    'realname' => $member['realname'],
-                    'inviter' => $inviter_two,
-                    'extra_bonus'=>0,
-                    'done_bonus'=>0,
-                    're_bonus'=>$re_bonus,
-                    'status'=>2,
-                    'createtime'=>time(),
-                    'degree'=>2
-                );
-                pdo_insert('xuan_mixloan_product_apply', $insert_i);
-            }
-            //消息提醒
-            $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
-            $insert = array(
-                'is_read'=>0,
-                'uid'=>$member['id'],
-                'type'=>2,
-                'createtime'=>time(),
-                'uniacid'=>$_W['uniacid'],
-                'to_uid'=>$inviter_two,
-                'ext_info'=>json_encode($ext_info),
-            );
-            pdo_insert('xuan_mixloan_msg', $insert);
-        }
-    }
+    // $inviter = m('member')->getInviter($member['phone'], $member['openid']);
+    // if ($inviter) {
+    //     $re_bonus = $config['inviter_fee_one'];
+    //     if ($re_bonus) {
+    //         $insert_i = array(
+    //             'uniacid' => $_W['uniacid'],
+    //             'uid' => $member['id'],
+    //             'phone' => $member['phone'],
+    //             'certno' => $member['certno'],
+    //             'realname' => $member['realname'],
+    //             'inviter' => $inviter,
+    //             'extra_bonus'=>0,
+    //             'done_bonus'=>0,
+    //             're_bonus'=>$re_bonus,
+    //             'status'=>2,
+    //             'createtime'=>time(),
+    //             'degree'=>1,
+    //         );
+    //         pdo_insert('xuan_mixloan_product_apply', $insert_i);
+    //         $one_insert_id = pdo_insertid();
+    //     }
+    //     //消息提醒
+    //     $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+    //     $insert = array(
+    //         'is_read'=>0,
+    //         'uid'=>$member['id'],
+    //         'type'=>2,
+    //         'createtime'=>time(),
+    //         'uniacid'=>$_W['uniacid'],
+    //         'to_uid'=>$inviter,
+    //         'ext_info'=>json_encode($ext_info),
+    //     );
+    //     pdo_insert('xuan_mixloan_msg', $insert);
+    //     //二级
+    //     $man_one = m('member')->getInviterInfo($inviter);
+    //     $inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
+    //     if ($inviter_two) {
+    //         $re_bonus = $config['inviter_fee_two'];
+    //         if ($re_bonus) {
+    //             $insert_i = array(
+    //                 'uniacid' => $_W['uniacid'],
+    //                 'uid' => $member['id'],
+    //                 'phone' => $member['phone'],
+    //                 'certno' => $member['certno'],
+    //                 'realname' => $member['realname'],
+    //                 'inviter' => $inviter_two,
+    //                 'extra_bonus'=>0,
+    //                 'done_bonus'=>0,
+    //                 're_bonus'=>$re_bonus,
+    //                 'status'=>2,
+    //                 'createtime'=>time(),
+    //                 'degree'=>2
+    //             );
+    //             pdo_insert('xuan_mixloan_product_apply', $insert_i);
+    //         }
+    //         //消息提醒
+    //         $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+    //         $insert = array(
+    //             'is_read'=>0,
+    //             'uid'=>$member['id'],
+    //             'type'=>2,
+    //             'createtime'=>time(),
+    //             'uniacid'=>$_W['uniacid'],
+    //             'to_uid'=>$inviter_two,
+    //             'ext_info'=>json_encode($ext_info),
+    //         );
+    //         pdo_insert('xuan_mixloan_msg', $insert);
+    //     }
+    // }
     message("设置成功", $this->createWebUrl('member'), "success");
 } else if ($operation == 'update') {
     $id = $_GPC['id'];
