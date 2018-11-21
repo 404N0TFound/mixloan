@@ -7,6 +7,7 @@
     <li {if $operation=='apply_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'apply_list'));}">申请列表</a></li>
     <li {if $operation=='withdraw_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'withdraw_list'));}">提现列表</a></li>
     <li {if $operation=='get_bonus'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'get_bonus'));}">满单奖励</a></li>
+    <li {if $operation=='salary_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'salary_list'));}">基本工资</a></li>
     <li {if $operation=='tourism_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('agent', array('op' => 'tourism_list'));}">旅游列表</a></li>
 </ul>
 {if $operation == 'list'}
@@ -245,6 +246,51 @@
                                 {if $row['status'] != 1}
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'withdraw_delete','id' => $row['id']));}" title='删除记录' onclick="return confirm('确定要删除该记录吗？');"><i class='fa fa-remove'></i> 删除记录</a></li>
                                 {/if}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'salary_list'}
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>申请者</th>
+                    <th style='width:200px;'>申请时间</th>
+                    <th style='width:120px;'>本月实发工资</th>
+                    <th style='width:120px;'>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   {$row['extra_bonus']}</td>
+                    <td>  
+                            {if $row['status']==-1}<span class="label label-warning">申请失败</span>
+                            {else if $row['status']==0}<span class="label label-info">申请中</span>
+                            {else if $row['status']==2}<span class="label label-success">已完成</span>
+                        {/if}</td>
+                    <td  style="overflow:visible;">
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'salary_op', 'status'=>2, 'id' => $row['id']));}" title='发放' onclick="return confirm('确定要驳回吗？');"><i class='fa fa-edit'></i> 发放</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'salary_op', 'status'=>-1, 'id' => $row['id']));}" title='驳回' onclick="return confirm('确定要驳回吗？');"><i class='fa fa-remove'></i> 驳回</a></li>
                             </ul>
                         </div>
                     </td>

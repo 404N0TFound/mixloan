@@ -356,6 +356,9 @@ if($operation=='buy'){
 		} else if ($row['type'] == 6){
             $row['name'] = '满单奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 4){
+            $row['name'] = '合伙人工资';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         } else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
@@ -706,7 +709,7 @@ if($operation=='buy'){
     $insert['degree'] = 1;
     $insert['type'] = 4;
     pdo_insert('xuan_mixloan_product_apply', $insert);
-    message('申请成功', '', 'success');
+    message('申请成功', $this->createMobileUrl('user'), 'success');
 } else if ($operation == 'partner_tourism') {
     // 旅游套票
     $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '

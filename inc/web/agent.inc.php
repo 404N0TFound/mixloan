@@ -67,7 +67,7 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 and type<>4 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -512,6 +512,33 @@ if ($operation == 'list') {
     // 旅游删除
     pdo_delete('xuan_mixloan_tourism', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'tourism_list')), "sccuess");
+} else if ($operation == 'salary_list') {
+    // 旅游列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = ' and type=4';
+    $sql = 'select a.*,b.nickname,b.avatar from ' . tablename('xuan_mixloan_product_apply') . " a
+            left join ".tablename("xuan_mixloan_member")." b ON a.inviter=b.id
+            where 1 " . $wheres . ' ORDER BY a.id DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a
+            left join ".tablename("xuan_mixloan_member")." b ON a.inviter=b.id
+            where 1 " . $wheres   );
+    $pager = pagination($total, $pindex, $psize);
+}  else if ($operation == 'salary_op') {
+    $id = intval($_GPC['id']);
+    $status = trim($_GPC['status']);
+    $update = array();
+    $update['status'] = $status;
+    if ($status == 2) {
+        $update['extra_bonus'] = $config['partner_salary'];
+    }
+    pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
+    message('操作成功', referer(), 'sccuess');
 }
 include $this->template('agent');
 ?>
