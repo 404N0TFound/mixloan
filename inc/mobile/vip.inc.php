@@ -668,9 +668,13 @@ if($operation=='buy'){
     include $this->template('vip/partner_bonus');
 } else if ($operation == 'partner_salary') {
     // 底薪领取
-    $partner = m('member')->checkPartner($member['id']);
-    if ($partner['code'] != 1) {
+    $check = pdo_fetch('SELECT id,createtime FROM ' . tablename("xuan_mixloan_partner") . "
+        WHERE uid=:uid ORDER BY id DESC", array(':uid' => $member['id']));
+    if (empty($check)) {
         message('抱歉，您还不是合伙人哦', '', 'error');
+    }
+    if (time() - $check['createtime'] < 86400 * 20) {
+        message('由于您成为合伙人不足20天，下月25号才可以领工资哦', '', 'error');
     }
     if (empty($config['partner_salary'])) {
         message('合伙人工资没有设置', '', 'error');
@@ -686,7 +690,7 @@ if($operation=='buy'){
     $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
         where inviter=:inviter and type=4 and createtime>{$starttime}", array(':inviter'=>$member['id']));
     if ($record) {
-        message('您已经领过工资啦', '', 'error');
+        message('您已经申请过领取工资啦', '', 'error');
     }
     setcookie('get_bonus', 1, time() + 60);
     $insert = array();
@@ -696,12 +700,13 @@ if($operation=='buy'){
     $insert['certno'] = $member['certno'];
     $insert['realname'] = $member['realname'];
     $insert['inviter'] = $member['id'];
-    $insert['extra_bonus'] = $config['partner_salary'];
-    $insert['status'] = 2;
+    // $insert['extra_bonus'] = $config['partner_salary'];
+    $insert['status'] = 0;
     $insert['createtime'] = time();
     $insert['degree'] = 1;
     $insert['type'] = 4;
     pdo_insert('xuan_mixloan_product_apply', $insert);
+    message('申请成功', '', 'success');
 } else if ($operation == 'partner_tourism') {
     // 旅游套票
     $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
