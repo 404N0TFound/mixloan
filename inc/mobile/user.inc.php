@@ -115,7 +115,7 @@ if($operation=='index'){
     $record = pdo_fetch('select realname,phone from ' . tablename('xuan_mixloan_verify_data') . '
         where uid=:uid', array(':uid' => $member['id']));
     if (!$record) {
-        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
+        // header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
     }
     include $this->template('user/bind_alipay');
 } else if ($operation == 'bind_alipay_submit') {
