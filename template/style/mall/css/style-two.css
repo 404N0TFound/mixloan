@@ -1,0 +1,644 @@
+﻿body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,dl,dt,dd,form {
+    margin: 0px; padding: 0px; font-size:14px;
+}
+ul,ol,li {
+    list-style: none;
+}
+body {
+    font-size:14px;background: #F9F9F9; color: black;
+}
+
+em,small {
+    font-style: normal; font-size: 14px;
+}
+a
+{
+    color: black;
+    text-decoration: none;
+}
+img{
+    border:none;
+}
+.index-menu
+{
+    background-color: white;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.menu-content
+{
+    background-color: white;
+    margin: 0;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.menu-img
+{
+    width: 50%;
+}
+.index-info
+{
+    padding: 10px 0;
+    margin-bottom: 15px;
+    background-color: white;
+}
+.index-credit1
+{
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+.index-join
+{
+    width: 50%;
+    float: right;
+    text-align: center;
+}
+.product-rec
+{
+    padding: 10px;
+    line-height: 20px;
+    background-color: white;
+    font-size: 16px;
+    margin-top: 10px;
+    border-bottom: 1px #E6E6E6 solid;
+    border-top: 1px #E6E6E6 solid;
+}
+.product-content
+{
+    padding: 10px;
+    padding-bottom: 60px;
+
+}
+.product
+{
+    float: left;
+    width: 49%;
+    margin-bottom: 10px;
+    background-color: white;
+    padding-bottom: 5px;
+}
+.product:nth-child(odd)
+{
+    margin-right: 2%;
+}
+.product:nth-child(even)
+{
+    margin-right: 0;
+}
+.product p
+{
+    line-height: 20px;
+    padding: 0 5px;
+    margin-top: 3px;
+    height: 40px;
+    overflow: hidden;
+}
+.product span
+{
+    font-size: 16px;
+    font-weight: bold;
+
+}
+.price
+{
+    color: #F36802;
+}
+.margin-top
+{
+    margin-top: 10px;
+}
+.footer-menu
+{
+    position: fixed;
+    bottom: 0;
+    height: 45px;
+    width: 100%;
+    background-color: white;
+}
+.footer-content
+{
+    text-align: center;
+    padding-top: 2px;
+}
+.info-back
+{
+    border-radius: 17px;
+    position: fixed;
+    top:20px;
+    left: 20px;
+    color: white;
+    background-color: black;
+    height: 34px;
+    width: 34px;
+alpha(opacity=40);  /* ie 有效*/
+    -moz-opacity:0.4; /* Firefox  有效*/
+    opacity: 0.4; /* 通用，其他浏览器  有效*/
+}
+.info-back-img
+{
+    position: fixed;
+    top:25px;
+    left: 20px;
+    height: 24px;
+    width: 34px;
+    text-align: center;
+}
+.info-p-name
+{
+    background-color: white;
+    padding: 10px 10px;
+
+}
+.info-p-name p, .info-p-number p
+{
+    font-size: 12px;
+    color: gray;
+}
+.info-p-name span
+{
+    font-size: 14px;
+    background-color: #CE2421;
+    padding: 2px 4px;
+    color: white;
+}
+.info-p-number
+{
+    background-color: white;
+    padding: 0 10px;
+}
+.info-bottom
+{
+    padding: 5px 0;
+    border-bottom: 1px lightgrey solid;
+}
+.info-price
+{
+    background-color: white;
+    padding: 20px 10px;
+    border-bottom: 1px #E6E6E6 solid;
+}
+.info-price p
+{
+    color: gray;
+    font-size: 13px;
+}
+.info-price span:nth-child(1)
+{
+    color: #CE2421;
+    font-size: 16px;
+}
+.info-price span:nth-child(2)
+{
+    text-decoration: line-through;
+}
+.info-content
+{
+    background-color: white;
+    margin-top: 15px;
+    border-top: 1px #E6E6E6 solid;
+    padding-bottom: 50px;
+}
+.info-img
+{
+    padding: 0 10px;
+
+}
+.info-img img
+{
+    width: 100%;
+    margin-top: 10px;
+}
+.info-join-content
+{
+    padding: 0 10px;
+}
+.info-join-content img
+{
+    border-radius: 20px;
+    border-bottom: 1px #E6E6E6 solid;
+}
+
+.info-join
+{
+    padding: 10px 0;
+    border-bottom: 1px lightgray solid;
+}
+.info-join span
+{
+    line-height: 40px;
+    font-size: 12px;
+}
+.info-recommend
+{
+    margin-top: 10px;
+    border-top: 1px #E6E6E6 solid;
+}
+.recommend-p
+{
+    line-height: 40px;
+    font-size: 16px;
+    padding: 0 10px;
+}
+.recommend-b
+{
+    width: 33.33%;
+    text-align: center;
+    float: left;
+    padding: 0 8px;
+}
+.recommend-b p
+{
+    line-height: 18px;
+    height: 18px;
+    overflow: hidden;
+    font-size: 15px;
+}
+.recommend-b span
+{
+    color: #CE2421;
+}
+.info-exchange
+{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+}
+.exchange-ok
+{
+    color: white;
+    background-color: #CE2421;
+}
+.exchange-no
+{
+    color: gray;
+    background-color: lightgrey;
+}
+/***************************订单详情***************************************/
+.order-info-head
+{
+    background-color: #F7F7F7;
+    text-align: center;
+    height: 40px;
+    line-height:40px;
+    font-size: 13px;
+    padding: 0 10px;
+}
+.order-back
+{
+    float: left;
+}
+.order-index
+{
+    float: right;
+}
+.order-info-price
+{
+    margin-top: 10px;
+    padding: 18px 10px;
+    background-color: #FD9526;
+}
+.order-info-state
+{
+    float: left;
+    color: white;
+}
+.order-info-state p
+{
+    font-size: 12px;
+}
+.order-info-state span
+{
+    font-size: 14px;
+    font-weight: bold;
+}
+.order-info-money
+{
+    float: right;
+    height: 30px;
+    margin-top: 5px;
+    padding: 2px 2px;
+    border-radius: 5px;
+    background-color: white;
+}
+.order-info-p
+{
+    margin-top: 10px;
+    background-color: white;
+    font-size: 13px;
+    border-top: 1px #E6E6E6 solid;
+}
+.order-info-store
+{
+    padding:8px 10px;
+}
+.order-info-product
+{
+    padding: 10px;
+    background-color: #F8F8F8;
+    border-bottom: 1px #E6E6E6 solid;
+}
+.order-info-product img
+{
+    border-radius: 10px;
+}
+.order-info-p-info
+{
+    float: left;
+}
+.order-info-p-number
+{
+    float: right;
+}
+.order-info-p-number p
+{
+    color: #909090;
+    line-height: 18px;
+}
+.order-info-total
+{
+    margin-top: 10px;
+    border-bottom: 1px #E6E6E6 solid;
+    border-top: 1px #E6E6E6 solid;
+
+}
+.grayspan
+{
+    float: right;
+    color: #909090;
+}
+.order-info-total p
+{
+    font-size: 13px;
+    background-color: white;
+    line-height: 30px;
+    padding: 0px 10px;
+
+}
+.order-info-time
+{
+    padding: 0 10px;
+    margin-top: 10px;
+    background-color: white;
+    border-bottom: 1px #E6E6E6 solid;
+    border-top: 1px #E6E6E6 solid;
+}
+.order-info-time p
+{
+    line-height: 25px;
+    font-size: 13px;
+    color: #808080;;
+}
+.order-info-footer
+{
+    padding: 5px 10px;
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    text-align: right;
+}
+.order-info-code
+{
+    display: inline-block;
+    padding: 10px;
+    line-height: 20px;
+    font-size: 16px;
+    background-color: #F7F7F7;
+    border-radius: 4px;
+    border: 1px #E6E6E6 solid;
+}
+/****个人订单***/
+.mine-head
+{
+    background-color: white;
+    border-bottom: 1px lightgray solid;
+}
+.head-menu
+{
+    width: 50%;
+    line-height: 40px;
+    text-align: center;
+}
+.left
+{
+    float: left;
+}
+.right
+{
+    float: right;
+}
+.mine-activity
+{
+    color: red;
+    border-bottom: 1px red solid;
+}
+.mine-order
+{
+    background-color: white;
+    margin-top: 10px;
+}
+.order-head
+{
+    line-height: 40px;
+    font-size: 13px;
+}
+.order-color
+{
+    color: grey;
+}
+.state-color
+{
+    color: orange;
+}
+.state-end
+{
+    color: grey;
+}
+.two-content
+{
+    padding: 10px 0;
+    border-bottom: 1px lightgray solid;
+
+}
+.two-content img
+{
+    border-radius: 5px;
+    height: 40px;
+}
+.two-content label
+{
+    line-height: 40px;
+    margin-left: 10px;
+}
+.two-content span
+{
+    color: white;
+    padding: 2px;
+    background-color: darkturquoise;
+}
+.order-code
+{
+    padding: 5px 10px;
+    text-align: right;
+}
+.order-code a
+{
+    display: inline-block;
+    padding: 5px 10px;
+    line-height: 16px;
+    font-size: 12px;
+    background-color: #F7F7F7;
+    border-radius: 2px;
+    border: 1px #E6E6E6 solid;
+}
+/******************创建订单***************************************/
+.pay-form
+{
+    padding: 0 10px;
+    border-top: 1px #E2E2E2 solid;
+    border-bottom: 1px #E2E2E2 solid;
+    margin-top: 10px;
+    background-color: white;
+}
+.pay-form div
+{
+    line-height: 38px;
+}
+.border-bottom
+{
+    border-bottom: 1px #E2E2E2 solid;
+}
+.form-name
+{
+    width: 30%;
+}
+.form-input input
+{
+    border: none;
+    height: 30px;
+    line-height: 30px;
+}
+.form-input
+{
+    width: 70%;
+}
+.pay-total
+{
+    padding: 0 10px;
+    background-color: white;
+    margin-top: 10px;
+    border-top: 1px #E2E2E2 solid;
+    border-bottom: 1px #E2E2E2 solid;
+}
+.pay-total p
+{
+    line-height: 40px;
+}
+.pay-bottom
+{
+    background-color: white;
+    padding-left: 10px;
+    position: fixed;
+    left: 0;
+    bottom:0;
+    width: 100%;
+}
+.pay-bottom div
+{
+    line-height: 50px;
+}
+.pay-btn
+{
+    background-color: #CE2421;
+    height: 100%;
+    color: white;
+    padding: 0 20px;
+}
+/************code*************/
+.code-content
+{
+    margin-top: 20px;
+    padding: 0 10px;
+}
+.code
+{
+    background-color: white;
+    padding: 20px;
+}
+.code-ti
+{
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    color: blue;
+}
+/*********/
+.search-content
+{
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #DFDFE1;
+    padding: 10px;
+}
+.search{
+
+    background-color: white;
+    border-radius: 5px;
+}
+.search .ipt{
+
+    border: none;
+    display: inline-block;
+    width: 100%;
+    height:34px;
+    vertical-align: top;
+    font-size: 16px;
+    color: gray;
+    line-height: 28px;
+    text-indent: 40px;
+    background: url("../images/search.png") no-repeat;
+    background-size: 25px 25px;
+    background-position: 2%;
+}
+/*********参与记录*****/
+.join-info
+{
+    background-color: white;
+    padding: 10px;
+}
+.join-record
+{
+    padding: 0 10px;
+    background-color: white;
+    border-top: 1px #E6E6E6 solid;
+    border-bottom: 1px #E6E6E6 solid;
+}
+.join-record :last-child
+{
+    border-bottom: none;
+}
+.join-info-product
+{
+    padding: 10px 0;
+    border-bottom: 1px #E6E6E6 solid;
+}
+.join-info-product img
+{
+    width: 50px;
+    height: 50px;
+}
+.join-load
+{
+    text-align: center;
+    line-height: 40px;
+}

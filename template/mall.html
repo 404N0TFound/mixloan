@@ -1,0 +1,495 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $operation=='list'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall')}">商品列表</a></li>
+    <li {if $operation == 'update' || $operation == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op' => 'add'));}">添加/编辑&nbsp;商品</a></li>
+    <li {if $operation=='category_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op' => 'category_list'));}">商品分类</a></li>
+    <li {if $operation == 'category_update' || $operation == 'category_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op' => 'category_add'));}">添加/编辑&nbsp;商品分类</a></li>
+    <li {if $operation=='adv_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op'=>'adv_list'))}">广告列表</a></li>
+    <li {if $operation == 'adv_update' || $operation == 'adv_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op' => 'adv_add'));}">添加/编辑&nbsp;广告</a></li>
+    <li {if $operation=='order_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('mall', array('op'=>'order_list'))}">订单列表</a></li>
+</ul>
+{if $operation == 'list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="title" value="{$_GPC['title']}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>标题</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['title']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'order_list','pid' => $row['id']));}" title='订单列表'><i class='fa fa-list'></i> 订单列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除？');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'category_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>分类名称</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'category_update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'category_delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'adv_list'}
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>广告名称</th>
+                    <th style='width:200px;'>添加时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   {$row['name']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'adv_update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'adv_delete','id' => $row['id']));}" title='删除' onclick="return confirm('确定要删除吗');"><i class='fa fa-remove'></i> 删除</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'order_list'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div><div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading">总数：{$total}</div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>订单商品</th>
+                    <th style='width:120px;'>申请人</th>
+                    <th style='width:120px;'>手机号</th>
+                    <th style='width:200px;'>订单时间</th>
+                    <th style='width:80px;'>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>   <img src="{$row['pro']['ext_info']['logo']}" width="35px"> {$row['pro']['title']}</td>
+                    <td>   <img src="{$row['man']['avatar']}" width="35px"> {$row['man']['nickname']}</td>
+                    <td>   {$row['phone']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>   {if $row['status'] == 1}<span class="label label-info">已发货</span>{else if $row['status'] == 0}<span class="label label-default">未发货</span>{/if}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('mall',array('op'=>'order_update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'add' || $operation == 'update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[title]" value="{$item['title']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">缩略图</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">商品多图</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_multi_image('data[ext_info][pictures]',$item['ext_info']['pictures']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">所属分类</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[category_id]">
+                        {loop $category $cat}
+                        <option value="{$cat['id']}" {if $cat['id'] == $item['category_id']} selected {/if}>{$cat['name']}</option>
+                        {/loop}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否推荐</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[is_recommend]">
+                        <option value="1" {if $item['is_recommend']==1} selected {/if}>是</option>
+                        <option value="0" {if $item['is_recommend']==0} selected {/if}>否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">库存</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][stock]" value="{$item[ext_info]['stock']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">价格</label>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][price]" value="{$item['ext_info']['price']}" />
+                    <span class="help-block">原价</span>
+                </div>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][money]" value="{$item['ext_info']['money']}" />
+                    <span class="help-block">现价</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">返佣</label>
+                <div class="col-sm-4 col-lg-4 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][one_bonus]" value="{$item['ext_info']['one_bonus']}" />
+                    <span class="help-block">一级</span>
+                </div>
+                <div class="col-sm-4 col-lg-3 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][two_bonus]" value="{$item['ext_info']['two_bonus']}" />
+                    <span class="help-block">二级</span>
+                </div>
+                <div class="col-sm-4 col-lg-3 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][thr_bonus]" value="{$item['ext_info']['thr_bonus']}" />
+                    <span class="help-block">三级</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">详情</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_ueditor('data[ext_info][content]', $item['ext_info']['content']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'category_add' || $operation == 'category_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;分类</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图片</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'adv_add' || $operation == 'adv_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;分类</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类名称</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类图片</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][logo]',$item['ext_info']['logo']);}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[sort]" value="{$item['sort']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <input class="btn btn-default" type="submit" value="提交">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+{else if $operation == 'order_update'}
+<div class="panel panel-info">
+    <div class="panel-heading">添加/编辑&nbsp;</div>
+    <div class="panel-body">
+        <form action="./index.php" method="post" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="mall" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <input type="hidden" name="id" value="{$_GPC['id']}" />
+            <input type="hidden" name="post" value="1" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[phone]" value="{$item['phone']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][realname]" value="{$item['ext_info']['realname']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">地址</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][address]" value="{$item['ext_info']['address']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">付款</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="data[ext_info][money]" value="{$item['ext_info']['money']}" />
+                </div>
+            </div>
+            <div class="form-group" {if $item['status'] != 1}style="display:none"{/if} id="express">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">快递号</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <input type="text" class="form-control"  name="data[ext_info][express]" value="{$item['ext_info']['express']}" />
+                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[status]" onchange="open_express()">
+                        <option value="0" {if $item['status'] == 0}selected{/if}>发货中</option>
+                        <option value="1" {if $item['status'] == 1}selected{/if}>已发货</option>
+                    </select>
+                </div>
+            </div>
+    <script type="text/javascript">
+        function open_express(){
+            var value = $("select[name='data[status]']").val();
+            if (value == '0') {
+                $('#express').hide(300);
+            } else {
+                $('#express').show(300);
+            }
+        }
+    </script>
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+        <div class="col-sm-7 col-lg-9 col-xs-12">
+            <input class="btn btn-default" type="submit" value="提交">
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </div>
+    <div class="form-group">
+    </div>
+    </form>
+</div>
+</div>
+{/if}
+{template 'common/footer'}

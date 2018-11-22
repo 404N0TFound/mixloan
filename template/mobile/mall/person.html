@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+   <meta name="format-detection" content="telephone=no">
+<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="apple-mobile-web-app-title" content="">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/bootstrap.min.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/style-two.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.scrollbar.css">
+<script src="../addons/xuan_mixloan/template/style/mall/js/jquery-1.10.1.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/mall/js/bootstrap.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/mall/js/idangerous.swiper-2.0.min.js"></script>
+<style type="text/css">
+	.index_list{
+		width: 100%;
+		height: 50px;
+		border-bottom: 1px solid grey;
+	}
+	.index_list_a{
+		margin-top: 15px;display: inline-block;font-size: 13px;
+	}
+	.join-info-product {
+	    padding: 10px 0;
+	    border-bottom: 1px #E6E6E6 solid;
+	}
+	.order-info-p-info {
+	    float: left;
+	}
+	.join-record :last-child {
+	    border-bottom: none;
+	}
+	.order-info-p-number {
+	    float: right;
+	}
+	.order-info-p-info {
+	    float: left;
+	}
+	.join-info-product img {
+	    width: 50px;
+	    height: 50px;
+	}
+	.join-record :last-child {
+	    border-bottom: none;
+	}
+</style>
+<style type="text/css">
+a:hover{text-decoration: none;color:black;}
+</style>
+</head>
+<body>
+<div>
+    <div class="order-info-head border-bottom">
+        <a class="order-back" onclick="mui.back();"><img height="20px" src="../addons/xuan_mixloan/template/style/mall/picture/order-info-back.png" alt=""></a>
+        我的订单
+       <div class="order-index">
+           &nbsp;
+           &nbsp;
+       </div>
+    </div>
+    <div class="mine-head clearfix">
+        <a ><div class="head-menu left mine-activity">全部记录</div></a>
+        <!-- <a href="./index.php?i=2&c=entry&op=waite&do=mine&m=wxlm_integralmall"><div class="head-menu right ">待兑换</div></a> -->
+    </div>
+    <div style="padding: 0 10px">
+        <div style="text-align: center; margin-bottom: 10px" id="list">
+        	<!-- <div class="join-info-product clearfix">
+	            <div class="order-info-p-info clearfix">
+	                <div class="order-info-p-info"> <img src="http://wx.zlctea.com/attachment/images/2/2018/05/X7jrV1JI413UjJ5u5555i51u0JyiEY.jpg" height="50px" alt=""></div>
+	                <div class="order-info-p-number" style="padding-left: 10px">
+	                    2012年大益巴达高山有机生茶357克<br>
+	                    2018-10-11 00:34:56                
+	                </div>
+	            </div>
+	            <div class="order-info-p-number clearfix">
+	                <p style="color: red">-420</p>
+	                <p style="color: red; float: right">积分</p>
+	            </div>
+	        </div> -->
+        </div>
+    </div>
+    <div class="footer-menu">
+        <div class="container" style="margin:0; padding:0;">
+            <div class="col-xs-6 footer-content">
+                <a onclick="openNew('{php echo $this->createMobileUrl('mall')}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/index.png" height="25px" alt=""><p style="color: #cdcdcd">首页</p></a>
+
+            </div>
+            <div class="col-xs-6 footer-content">
+                <a><img src="../addons/xuan_mixloan/template/style/mall/picture/mine-hot.png" height="25px" alt=""><p style="color: #d81e06">我的</p></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script>
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    function load_data(){
+        $.post(credit_order_record_url, {"userId":userId}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                for (var i = 0; i < data.data.length; i++) {
+                    str += '<div class="join-info-product clearfix">';
+					str += '    <div class="order-info-p-info clearfix">';
+					str += '        <div class="order-info-p-info"> <img src="'+data.data[i].logo+'" height="50px" alt=""></div>';
+					str += '        <div class="order-info-p-number" style="padding-left: 10px">';
+					str += '            '+data.data[i].title+'<br>';
+					str += '            '+data.data[i].createtime+'       ';        
+					str += '        </div>';
+					str += '    </div>';
+					str += '    <div class="order-info-p-number clearfix">';
+					str += '        <p style="color: red">-'+data.data[i].ext_info.credits+'</p>';
+					str += '        <p style="color: red; float: right">积分</p>';
+					str += '    </div>';
+					str += '</div>';
+                }
+                $('#list').html(str);
+            } else {
+                layer.msg(data.msg, {time:200}, function(){
+                    openNew(data.data.url)
+                });
+            }
+        }, "json"); 
+    }
+    load_data();
+
+</script>
+</body>
+</html>

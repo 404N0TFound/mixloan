@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            商品详情
+        </title>
+        <meta name="format-detection" content="telephone=no">
+        <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+        name="viewport">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/style-two.css">
+        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.css">
+        <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.scrollbar.css">
+        <script src="../addons/xuan_mixloan/template/style/mall/js/jquery-1.10.1.min.js">
+        </script>
+        <script src="../addons/xuan_mixloan/template/style/mall/js/bootstrap.min.js">
+        </script>
+        <script src="../addons/xuan_mixloan/template/style/mall/js/idangerous.swiper-2.0.min.js">
+        </script>
+        <style type="text/css">
+        a:hover{text-decoration: none;color:black;}
+        </style>
+    </head>
+    <body>
+        <div>
+            <a href="javascript:history.back()">
+                <div class="info-back" style="z-index: 2">
+                </div>
+            </a>
+            <div class="info-back-img" onclick="mui.back()" style="z-index: 2">
+                <img src="../addons/xuan_mixloan/template/style/mall/picture/info-back.png" height="100%" alt="">
+            </div>
+            <div id="banner" style="z-index: 1">
+                <div class="swiper-container bannerSwiperContainer">
+                    <div class="swiper-wrapper">
+                        <!-- <div class="swiper-slide">
+                            <img src="../addons/xuan_mixloan/template/style/mall/picture/ru8ycgilicmn94mqnzyuyz9vnny899.gif"
+                            width="100%" height="100%">
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="info-p-name">
+                <p>
+                    <span id="category">
+                        ****
+                    </span>
+                    <em id="title">****</em>
+                </p>
+            </div>
+            <div class="info-p-number">
+                <div class="info-bottom">
+                    <p >
+                        仅限: <em id="stock">0</em>份 已参与: <em id="nums">0</em>次
+                    </p>
+                </div>
+            </div>
+            <div class="info-price">
+                <p>
+                    <span id="credits">
+                        0积分
+                    </span>
+                    原价:
+                    <span id="price">
+                        0.00元
+                    </span>
+                </p>
+            </div>
+            <div class="info-content">
+                <ul id="myTab" class="nav nav-tabs">
+                    <li style="width: 50%" class="active">
+                        <a id="one" onclick="changeColor(1)" style="text-align: center;
+                        border: 1px solid white; border-bottom: 2px #CE2421 solid; color:#CE2421;"
+                        href="#info" data-toggle="tab">
+                            商品详情
+                        </a>
+                    </li>
+                    <!-- <li style="width: 50%">
+                        <a id="two" onclick="changeColor(2)" style="text-align: center;
+                        border: 1px solid white;" href="#join" data-toggle="tab">
+                            近期参与记录
+                        </a>
+                    </li> -->
+                </ul>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="info">
+                        
+                    </div>
+                    <div class="tab-pane fade " id="join">
+                        <div class="info-join-content">
+                            暂无参与记录
+                        </div>
+                    </div>
+                </div>
+                <div class="info-recommend">
+                    <p class="recommend-p">
+                        为您推荐
+                    </p>
+                    <div class="clearfix" style="padding: 0 8px" id="recommend_list">
+                        <!-- <a href="./index.php?i=2&c=entry&product_id=2&do=info&m=wxlm_integralmall">
+                            <div class="recommend-b">
+                                <img src="../addons/xuan_mixloan/template/style/mall/picture/f4kqk46kkwaa7fxza2bqqazkb2w4if.gif"
+                                alt="" width="100%" height="90px">
+                                <p style="font-size: 12px">
+                                    感恩杯
+                                </p>
+                                <span>
+                                    68积分
+                                </span>
+                            </div>
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="info-exchange exchange-no" id="submit_button">
+                积分不足
+            </div>
+        </div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+</body>
+<script>
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    function load_recommend() {
+        $.post(credit_recommend_list_url, {"userId":userId, "id":id}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                for (var i = 0; i < data.data.length; i++) {
+                    var _url = '../credit/info.html?id=' + data.data[i].id;
+                    str += '<a onclick="openNew(\'' + _url + '\')">';
+                    str +=      '<div class="recommend-b">';
+                    str +=           '<img src="' + data.data[i].ext_info.logo + '"';
+                    str +=           'alt="" width="100%" height="90px">';
+                    str +=           '<p style="font-size: 12px">';
+                    str +=              data.data[i].title ;
+                    str +=           '</p>';
+                    str +=           '<span>';
+                    str +=               data.data[i].ext_info.credits ;
+                    str +=           '</span>';
+                    str +=       '</div>';
+                    str +=   '</a>';
+                }
+                $('#recommend_list').html(str);
+            }
+        }, "json"); 
+    }
+    function load_data(){
+        $.post(credit_info_url, {"userId":userId, "id":id}, function(data) {
+            if (data.code == 1) {
+                var my_credit = parseInt(data.data.credits) ;
+                var credit = parseInt(data.data.ext_info.credits);
+                if (my_credit > credit) {
+                    $('#submit_button').css('color', 'white').css('background', '#ce2421').text('积分兑换').attr('onclick', "openSubmit()");
+                }
+                var str='';
+                for (var i = 0; i < data.data.ext_info.pictures.length; i++) {
+                    str += '<div class="swiper-slide" style="height:360px">';
+                    str += '<img src="' + data.data.ext_info.pictures[i] + '" width="100%" height="100%">';
+                    str += '</div>';
+                }
+                $('.swiper-wrapper').html(str);
+                $('#info').html(data.data.ext_info.content);
+                $('#title').html(data.data.title);
+                $('#stock').html(data.data.stock);
+                $('#nums').html(data.data.nums);
+                $('#category').html(data.data.category);
+                $('#credits').html(data.data.ext_info.credits);
+                $('#price').html(data.data.ext_info.price);
+                 var bannerSwiper = $(".bannerSwiperContainer").swiper({
+                    loop: false,
+                    grabCursor: true,
+                    paginationClickable: true,
+                    slidesPerView: 1,
+                    autoplay: 5000,
+                    autoplayDisableOnInteraction: false,
+                    onTouchEnd: function() {
+                        bannerSwiper.startAutoplay()
+                    }
+                })
+                bannerHeight();
+            } else {
+                layer.msg(data.msg, {time:200}, function(){
+                    openNew(data.data.url)
+                });
+            }
+        }, "json"); 
+    }
+    function openSubmit(){
+        openNew('../credit/order.html?id=' + id);
+    }
+    load_data();
+    load_recommend();
+
+</script>
+<script>
+
+function changeColor(number) {
+    if (number == 1) {
+        $('#one').css('color', '#CE2421');
+        $('#one').css('border-bottom', '2px #CE2421 solid');
+        $('#two').css('color', 'black');
+        $('#two').css('border-bottom', '1px white solid');
+
+    } else {
+        $('#two').css('color', '#CE2421');
+        $('#two').css('border-bottom', '2px #CE2421 solid');
+        $('#one').css('color', 'black');
+        $('#one').css('border-bottom', '1px white solid');
+    }
+}
+
+function submitInfoForm() {
+
+    $('#info-form').submit();
+
+}
+window.onresize = bannerHeight;
+
+function bannerHeight() {
+    var bannerWidth = $("#banner").width();
+    var bannerHeight = (bannerWidth * 200) / 300;
+    $("#banner").height(bannerHeight);
+    $(".banner-tab").height(bannerHeight);
+    $(".bannerSwiperContainer").height(bannerHeight);
+}
+</script>
+
+</html>

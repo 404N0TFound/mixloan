@@ -34,6 +34,7 @@
       <entry title="朋友圈管理" do="friend" state="" direct="false" />
     <entry title="公告管理" do="announce" state="" direct="false" />
     <entry title="返佣反馈" do="feedback" state="" direct="false" />
+    <entry title="商城管理" do="mall" state="" direct="false" />
 		<entry title="数据统计" do="statistics" state="" direct="false" />
 	</menu>
 	</bindings>
@@ -41,6 +42,61 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_mall_order`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_mall_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `phone` varchar(22) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `pid` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `pid` (`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_mall_adv`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_mall_adv` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_mall_category`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_mall_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_mall`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_mall` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `title` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `is_recommend` tinyint(2) NOT NULL COMMENT '是否推荐',
+  `category_id` tinyint(4) NOT NULL COMMENT '分类id',
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `category_id` (`category_id`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_feedback`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -1,0 +1,136 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>信息填写</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="X-UA-Compatible" content="edge">
+  <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/base.css">
+  <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/bcardwithdraw.css">
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/new_apply/js/jquery.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+  <style type="text/css">
+    /*避免缓存*/
+    div.bindCardBox ul li input{background: transparent;}
+    .bindqrcode{width: 60%;height: 6rem; margin: 0 auto;}
+    .chooseImg{
+      position: absolute;
+      display: inline-block;
+      width: 4rem;
+      height: 4rem;
+      top: 2rem;
+      left: 6rem;
+    }
+  </style>
+</head>
+<body class="bodybg">
+
+<style type="text/css">
+  .app_header{ height: 2rem; background: white}
+  .app_header .div_back{position: absolute;top: 0.4rem;left: 0.8rem}
+  .app_header .div_back img{width: 1rem}
+  .header_title{position: absolute;top: 0.5rem;left: 41%;font-size: 0.65rem}
+</style>
+<div class="app_header">
+  <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/mall/picture/back_grey.png"></div>
+  <div class="header_title">信息填写</div>
+</div>
+<div class="bindCardBox" data-userId="10086" data-cardId="" data-urlIndex="1">
+  <div class="bindCardMain" style="margin-top: 1rem">
+    <ul>
+      <li><span>姓名<em></em></span><input id="realname" type="text" name="realname" placeholder="请认真填写姓名"></li>
+      <li><span>手机号<em></em></span><input id="phone" type="tel" name="phone" placeholder="请认真填写手机号"></li>
+      <li><span>收货地址<em></em></span><input id="address" type="text" name="address" placeholder="请认真填写收货地址"></li>
+    </ul>
+    <div style="margin-left: 1.6rem;font-size: 0.5rem;margin-top: 1rem;margin-bottom: 0.2rem;color:#d0d0d0">如果是虚拟物品，请务必填写账号信息</div>
+    <ul>
+      <li><span>账号信息<em></em></span><input id="account" type="text" name="account" placeholder="请认真填写账号信息"></li>
+    </ul>
+  </div>
+  <a href="javascript:void(0);" id="bind_card" onclick="regSubmit();" style="background: rgb(206, 36, 33)">立即购买</a>
+</div>
+<!-- js&&插件 -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    if (userId == null) {
+        openNew('../index/login.html');
+    }
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    var user_id=$("div.bindCardBox").attr('data-userId');
+
+    //绑卡
+    function regSubmit() {
+        $("#bind_card").css({"color":"rgba(0,0,0,0.4)","background-color":"rgba(0,0,0,0.2)","box-shadow":"0 3px 20px rgba(0,0,0,0.2)"});
+        $("#bind_card").attr("onclick",'javascript:void(0);');
+        var realname=$("input[name='realname']").val();
+        if (realname == '') {
+            document.getElementById('realname').focus();
+            layer.tips('请认真填写姓名', '#realname', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            _click();
+            return false;
+        }
+        var phone=$("input[name='phone']").val();
+        if (phone == '') {
+            document.getElementById('phone').focus();
+            layer.tips('请认真填写手机号', '#phone', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            _click();
+            return false;
+        }
+        var address=$("input[name='address']").val();
+        if (address == '') {
+            document.getElementById('address').focus();
+            layer.tips('请认真填写收货地址', '#address', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            _click();
+            return false;
+        }
+        var account=$("input[name='account']").val();
+        _submit();
+        //恢复点击
+        function _click(){
+            $("#bind_card").css({"color":"#fff","background-color":"rgb(206, 36, 33)"})
+            $("#bind_card").attr("onclick","regSubmit();");
+        }
+        //信息验证正确，前往绑卡接口
+        function _submit(){
+            var ajax = {};
+            ajax.url = credit_order_submit_url;
+            ajax.dataType = "json";
+            ajax.type = "post";
+            ajax.data = {"address":address, "realname":realname, 'phone':phone, 'id':id, 'account':account};
+            ajax.success = function (data) {
+                if (data.code == 1) {
+                    layer.msg('提交成功', {
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        _url = data.data.url;
+                        openNew(_url);
+                    });
+                } else {
+                    layer.msg(data.msg);
+                    _click();
+                    return false;
+                }
+            }
+            $.ajax(ajax);
+        }
+    }
+</script>
+
+</body>
+</html>

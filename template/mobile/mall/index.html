@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>积分商城</title>
+    <meta name="format-detection" content="telephone=no">
+<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+<meta name="apple-mobile-web-app-title" content="">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/bootstrap.min.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/style-two.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.css">
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mall/css/idangerous.swiper.scrollbar.css">
+<script src="../addons/xuan_mixloan/template/style/mall/js/jquery-1.10.1.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/mall/js/bootstrap.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/mall/js/idangerous.swiper-2.0.min.js"></script>
+
+</head>
+<body>
+<style type="text/css">
+  .app_header{ height: 40px; background: white}
+  .app_header .div_back{position: absolute;top: 15px;left: 0.8rem}
+  .app_header .div_back img{width: 20px}
+  .header_title{position: absolute;top: 15px;left: 44%;font-size: 15px}
+  .menu-img{height: 45px}
+  a:hover{text-decoration: none;color:black;}
+</style>
+<div class="app_header">
+  <div class="div_back" onclick="openNew('{php echo $this->createMobileUrl('loan')}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/back_grey.png"></div>
+  <div class="header_title">商城</div>
+</div>
+<div class="wrap">
+        <div id="banner">
+        <div class="swiper-container bannerSwiperContainer">
+            <div class="swiper-wrapper">
+               <!--  <div class="swiper-slide">
+                    <a href="https://wx.zlctea.com/app/index.php?i=2&c=entry&do=index&m=xuan_js"><img src="../addons/xuan_mixloan/template/style/mall/picture/q6h6watkiwhiakr7shh16hsab3961a.jpg" width="100%" height="100%"></a>
+                </div> -->
+            </div>
+        </div>
+    </div>
+        <div class="index-info clearfix">
+        <!-- <div class="index-credit1"><img src="../addons/xuan_mixloan/template/style/mall/picture/index-credit1.png" alt="" width="18px"> 积分<em id="credits">0.00</em></div> -->
+        <div class="index-join"><a onclick="openNew('{php echo $this->createMobileUrl('mall', array('op'=>'person'))}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/index-join.png" alt="" width="18px"> 购买记录</a></div>
+    </div>
+        <div class="index-menu clearfix" id="category_list">
+            <!-- <div class="col-xs-3 menu-content ">
+                <a href="./index.php?i=2&c=entry&product_class=1&do=allProduct&m=wxlm_integralmall">
+                    <img class="menu-img" src="../addons/xuan_mixloan/template/style/mall/picture/fh25xgtox5e7e8094ge7907gg0ex7o.jpg" alt="">
+                    <p>茶叶</p>
+                </a>
+            </div> -->
+        </div>
+        <div class="product-rec"><img src="../addons/xuan_mixloan/template/style/mall/picture/order-info-store.png" width="18px" alt=""> 商品列表</div>
+        <div class="product-content clearfix" id="list">
+                    
+                <!-- <div class="product">
+                    <a style="text-decoration:none" href="./index.php?i=2&c=entry&product_id=11&do=info&m=wxlm_integralmall">
+                    <img src="../addons/xuan_mixloan/template/style/mall/picture/avu2262c2xc2x6co6x7x77xl6l7c76.gif" alt="" width="100%" height="180px">
+                    <p>吉谷电器Tc0102恒温电水壶304不锈钢电热水壶三合一消毒抽水</p>
+                    <p style="height: 20px">兑换积分:<span class="price">2080</span></p>
+                    </a>
+                </div> -->
+            
+        </div>
+    
+    <div class="footer-menu">
+        <div class="container" style="margin:0; padding:0;">
+            <div class="col-xs-6 footer-content">
+                <a ><img src="../addons/xuan_mixloan/template/style/mall/picture/index-hot.png" height="25px" alt=""><p style="color: #d81e06">首页</p></a>
+
+            </div>
+            <div class="col-xs-6 footer-content">
+                <a onclick="openNew('{php echo $this->createMobileUrl('mall', array('op'=>'person'))}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/mine.png" height="25px" alt=""><p style="color: #cdcdcd">我的</p></a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+</body>
+<script>
+    var userId = '';
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    // function load_user(){
+    //     $.post(user_index_url, {"userId":userId}, function(data) {
+    //         if (data.code == 1) {
+    //             $('#credits').text(data.data.credits);
+    //         }
+    //     }, "json"); 
+    // }
+    function load_advs(){
+        $.post('{php echo $this->createMobileUrl('mall', array('op' => 'adv_list'))}', {}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                for (var i = 0; i < data.data.length; i++) {
+                    str += ' <div class="swiper-slide">';
+                    str += '     <a href="'+data.data[i].url+'"><img src="'+data.data[i].ext_info.logo+'" width="100%" height="100%"></a>';
+                    str +=  ' </div>';
+                }
+                $('.swiper-wrapper').html(str);
+                var bannerSwiper=$(".bannerSwiperContainer").swiper({
+                        loop:false,
+                        grabCursor: true,
+                        paginationClickable: true,
+                        slidesPerView: 1,
+                        autoplay:5000,
+                        autoplayDisableOnInteraction:false,
+                        onTouchEnd:function(){bannerSwiper.startAutoplay()}
+                })
+                bannerHeight();
+            }
+        }, "json"); 
+    }
+    function load_category(){
+        $.post('{php echo $this->createMobileUrl('mall', array('op' => 'category_list'))}', {"userId":userId}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                var id = data.data[0].id;
+                for (var i = 0; i < data.data.length; i++) {
+                    str += '<div class="col-xs-3 menu-content ">';
+                    str += '<a onclick="load_data(' + data.data[i].id + ')">';
+                    str += '    <img class="menu-img" src="' + data.data[i].ext_info.logo + '" alt="">';
+                    str += '    <p>' + data.data[i].name + '</p>';
+                    str += ' </a>';
+                    str += '</div>';
+                }
+                $('#category_list').html(str);
+                load_recommend();
+            }
+        }, "json"); 
+    }
+    function load_recommend(){
+        $.post('{php echo $this->createMobileUrl('mall', array('op' => 'get_recommend'))}', {"userId":userId}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                var id = data.data[0].id;
+                var _base_url = "{php echo $this->createMobileUrl('mall', array('op' => 'info'))}";
+                for (var i = 0; i < data.data.length; i++) {
+                    var _url = _base_url + '&id=' + data.data[i].id;
+                    str += '<div class="product">';
+                    str +=   '<a style="text-decoration:none" onclick="openNew(\''+_url+'\')">';
+                    str +=   '<img src="'+data.data[i].ext_info.logo+'" alt="" width="100%" height="180px">';
+                    str +=    '<p>'+data.data[i].title+'</p>';
+                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'</span></p>';
+                    str +=  ' </a>';
+                    str += '</div>';
+                }
+                $('#list').html(str);
+            } else {
+                $('#list').html('');
+            }
+        }, "json"); 
+    }
+    function load_data(category_id){
+        $.post('{php echo $this->createMobileUrl('mall', array('op' => 'list'))}', {"userId":userId, "category_id":category_id}, function(data) {
+            if (data.code == 1) {
+                var str='';
+                var id = data.data[0].id;
+                var _base_url = "{php echo $this->createMobileUrl('mall', array('op' => 'info'))}";
+                for (var i = 0; i < data.data.length; i++) {
+                    var _url = _base_url + '&id=' + data.data[i].id;
+                    str += '<div class="product">';
+                    str +=   '<a style="text-decoration:none" onclick="openNew(\''+_url+'\')">';
+                    str +=   '<img src="'+data.data[i].ext_info.logo+'" alt="" width="100%" height="180px">';
+                    str +=    '<p>'+data.data[i].title+'</p>';
+                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'</span></p>';
+                    str +=  ' </a>';
+                    str += '</div>';
+                }
+                $('#list').html(str);
+            } else {
+                $('#list').html('');
+            }
+        }, "json"); 
+    }
+    $(function(){
+        // load_user();
+        load_advs();
+        load_category();
+    });
+    window.onresize=bannerHeight;
+    function bannerHeight()
+    {
+        var bannerWidth=$("#banner").width();
+        var bannerHeight=(bannerWidth*300)/600;
+        $("#banner").height(bannerHeight);
+        $(".banner-tab").height(bannerHeight);
+        $(".bannerSwiperContainer").height(bannerHeight);
+    }
+
+
+</script>
+</html>
