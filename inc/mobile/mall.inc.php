@@ -103,7 +103,7 @@ else if ($operation == 'get_recommend')
     unset($row);
     show_json(1, array_values($list), '获取成功');
 }
-else if ($operation == 'info')
+else if ($operation == 'get_info')
 {
     // 详情
     if (empty($member['id']))
@@ -115,20 +115,47 @@ else if ($operation == 'info')
     {
         show_json(-1, [], 'error');
     }
-    $item = m('credit')->getList([], ['id' => $id])[$id];
-    $item['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_product_credit_order') . '
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_mall') . "
+        where id={$id}");
+    $item['ext_info'] = json_decode($item['ext_info'], 1);
+    $item['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_mall_order') . '
 		where pid=:pid', array(':pid' => $id)) ? : 0;
-    $item['category'] = pdo_fetchcolumn('select name from ' . tablename('xuan_product_category') . '
+    $item['category'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_mall_category') . '
 		where id=:id', array(':id' => $item['category_id'])) ? : 0;
     $item['stock'] = $item['ext_info']['stock'] - $item['nums'];
     $item['credits'] = $member['credits'];
+    if (!empty($item['ext_info']['pictures']))
+    {
+        foreach ($item['ext_info']['pictures'] as &$pic)
+        {
+            $pic = tomedia($pic);
+        }
+        unset($pic);
+    }
     show_json(1, $item, 'success');
 }
 else if ($operation == 'recommend_list')
 {
     // 推荐列表
-    $list = m('credit')->getRecommendList();
-    show_json(1, array_values($list), 'success');
+    $wheres = '';
+    $condition = array();
+    $sql = 'select * from ' . tablename('xuan_mixloan_mall') . "
+        where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY rand() DESC';
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+        $row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
+        if (!empty($row['ext_info']['pictures']))
+        {
+            foreach ($row['ext_info']['pictures'] as &$pic)
+            {
+                $pic = tomedia($pic);
+            }
+            unset($pic);
+        }
+    }
+    unset($row);
+    show_json(1, array_values($list), '获取成功');
 }
 else if ($operation == 'order_submit')
 {
@@ -164,7 +191,7 @@ else if ($operation == 'order_submit')
         show_json(-1, [], '您的积分不足');
     }
     $left = $member['credits'] - $item['ext_info']['credits'];
-    pdo_update('xuan_product_member', array('credits'=>$left), array('id'=>$member['id']));
+    pdo_update('xuan_mixloan_member', array('credits'=>$left), array('id'=>$member['id']));
     $ext_info = array();
     $ext_info['realname'] = $realname;
     $ext_info['address']  = $address;
@@ -178,7 +205,7 @@ else if ($operation == 'order_submit')
     $insert['status'] = 0;
     $insert['createtime'] = time();
     $insert['uid'] = $member['id'];
-    pdo_insert('xuan_product_credit_order', $insert);
+    pdo_insert('xuan_mixloan_credit_order', $insert);
     show_json(1, ['url'=>'../credit/index.html'], 'success');
 }
 else if ($operation == 'order_record')

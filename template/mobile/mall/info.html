@@ -62,7 +62,7 @@
             <div class="info-price">
                 <p>
                     <span id="credits">
-                        0积分
+                        0元
                     </span>
                     原价:
                     <span id="price">
@@ -117,22 +117,25 @@
                 </div>
             </div>
             <div class="info-exchange exchange-no" id="submit_button">
-                积分不足
+                库存不足
             </div>
         </div>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 </body>
 <script>
+    var userId = '';
+    var id = "{$id}";
     function openNew(url){
         mui.openWindow({url:url,createNew:true});
     }
     function load_recommend() {
-        $.post(credit_recommend_list_url, {"userId":userId, "id":id}, function(data) {
+        $.post("{php echo $this->createMobileUrl('mall', array('op'=>'recommend_list'))}", {"userId":userId, "id":id}, function(data) {
             if (data.code == 1) {
                 var str='';
+                var base_url = "{php echo $this->createMobileUrl('mall', array('op'=>'info'))}";
                 for (var i = 0; i < data.data.length; i++) {
-                    var _url = '../credit/info.html?id=' + data.data[i].id;
+                    var _url = base_url + '&id=' + data.data[i].id;
                     str += '<a onclick="openNew(\'' + _url + '\')">';
                     str +=      '<div class="recommend-b">';
                     str +=           '<img src="' + data.data[i].ext_info.logo + '"';
@@ -141,7 +144,7 @@
                     str +=              data.data[i].title ;
                     str +=           '</p>';
                     str +=           '<span>';
-                    str +=               data.data[i].ext_info.credits ;
+                    str +=               data.data[i].ext_info.money ;
                     str +=           '</span>';
                     str +=       '</div>';
                     str +=   '</a>';
@@ -151,14 +154,14 @@
         }, "json"); 
     }
     function load_data(){
-        $.post(credit_info_url, {"userId":userId, "id":id}, function(data) {
+        $.post("{php echo $this->createMobileUrl('mall', array('op'=>'get_info'))}", {"id":id}, function(data) {
             if (data.code == 1) {
-                var my_credit = parseInt(data.data.credits) ;
-                var credit = parseInt(data.data.ext_info.credits);
-                if (my_credit > credit) {
-                    $('#submit_button').css('color', 'white').css('background', '#ce2421').text('积分兑换').attr('onclick', "openSubmit()");
+                var stock = parseInt(data.data.stock);
+                if (stock>0){
+                    $('#submit_button').css('color', 'white').css('background', '#ce2421').text('立即购买').attr('onclick', "openSubmit()");
                 }
                 var str='';
+                console.log(data.data.ext_info.pictures);
                 for (var i = 0; i < data.data.ext_info.pictures.length; i++) {
                     str += '<div class="swiper-slide" style="height:360px">';
                     str += '<img src="' + data.data.ext_info.pictures[i] + '" width="100%" height="100%">';
@@ -170,7 +173,7 @@
                 $('#stock').html(data.data.stock);
                 $('#nums').html(data.data.nums);
                 $('#category').html(data.data.category);
-                $('#credits').html(data.data.ext_info.credits);
+                $('#money').html(data.data.ext_info.money);
                 $('#price').html(data.data.ext_info.price);
                  var bannerSwiper = $(".bannerSwiperContainer").swiper({
                     loop: false,
@@ -192,7 +195,7 @@
         }, "json"); 
     }
     function openSubmit(){
-        openNew('../credit/order.html?id=' + id);
+        openNew("{php echo $this->createMobileUrl('mall', array('op'=>'order', 'id' => $id))}");
     }
     load_data();
     load_recommend();
