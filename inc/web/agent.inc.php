@@ -67,7 +67,7 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 and type<>4 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 and a.type<>4 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -201,7 +201,7 @@ if ($operation == 'list') {
         ));
         unset($row);
     }
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 and a.type<>4 " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
