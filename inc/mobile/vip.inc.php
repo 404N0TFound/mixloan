@@ -100,17 +100,6 @@ if($operation=='buy'){
     }
     $fee = $params['fee'];
     $tid = $params['tid'];
-    $redis = redis();
-    $key = 'tid' . $tid;
-    if (!$redis->get($key))
-    {
-        $redis->set($key, 1);
-    }
-    else
-    {
-        header("location:{$this->createMobileUrl('user')}");
-        exit();
-    }
     if ($params['is_pay'] != 1) {
         message('订单未支付', '', 'error');
     }
@@ -140,6 +129,17 @@ if($operation=='buy'){
             "fee"=>$fee,
         );
         pdo_insert("xuan_mixloan_payment", $insert);
+        $redis = redis();
+        $key = 'tid' . $tid;
+        if (!$redis->get($key))
+        {
+            $redis->set($key, 1);
+        }
+        else
+        {
+            header("location:{$this->createMobileUrl('user')}");
+            exit();
+        }
         //消息提醒
         $ext_info = array('content'=>"您好，您已成功购买会员", 'remark'=>"推广成功奖励丰富，赶快进行推广吧");
         $insert = array(

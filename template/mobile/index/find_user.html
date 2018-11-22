@@ -72,6 +72,7 @@
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/common_3.js></script>
 <script type="text/javascript">
+
     $(document).ready(function(){
         $("div.header ul li.head").find("img").load(function(){
             // 头像居中
@@ -121,6 +122,28 @@
             return false;
         }
         $.post("{php echo $this->createMobileUrl('index', array('op'=>'find_user_submit'))}",{"phone":phone,"smsCode":validcode},
+            function(data){
+                console.log(data);
+                bind_click();
+                if(data.code==1){
+                    layer.confirm(data.msg, {
+                        btn: ['确认', '取消']
+                    }, function(index, layero){
+                        post_find();
+                    }, function(index){
+                        layer.closeAll();
+                    });
+                }else{
+                    layer.msg(data.msg);
+                    bind_click();
+                    return false;
+                }
+            },'json')
+    }
+    function post_find(){
+        var phone=$("#phone").val();
+        var validcode=$("#validcode").val();
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'post_find'))}",{"phone":phone,"smsCode":validcode},
             function(data){
                 console.log(data);
                 if(data.code==1){
@@ -180,11 +203,13 @@
         }
     }
     function SetRemainTime() {
+
         if (curCount == 0) {
             window.clearInterval(InterValObj);//停止计时器
             flagsms = true;
             curCount = 60;
             $(".validnum").html("重新发送");
+
             code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
             $(".validnum").bind("click",function(){
                 getCheck();

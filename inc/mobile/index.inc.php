@@ -108,12 +108,32 @@ if($operation=='register'){
     if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
         show_json(-1, [], "验证码不符或验证码已失效");
     }
+    $old_man = pdo_fetch('SELECT id,nickname FROM ' .tablename('xuan_mixloan_member'). '
+        WHERE phone=:phone ORDER BY id DESC', array(':phone'=>$phone));
+    if (empty($old_man)) {
+        show_json(-1, [], '该手机号未绑定任何信息');
+    }
+    show_json(1, [], "你要找回的账号昵称为{$old_man['nickname']}");
+} else if ($operation == 'post_find') {
+    //找回账号提交
+    $phone = trim($_GPC['phone']);
+    if (!$config['backup']) {
+        show_json(-1, [], '找回账号暂未开放');
+    }
+    if (!empty($member['phone'])) {
+        show_json(-1, [], '您的手机已绑定，无法使用此功能');
+    }
+    $smsCode = $_GPC['smsCode'];
+    if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
+        show_json(-1, [], "验证码不符或验证码已失效");
+    }
     $old_man = pdo_fetch('SELECT id,openid,uniacid,uid FROM ' .tablename('xuan_mixloan_member'). '
-        WHERE phone=:phone and uniacid<>2 ORDER BY id DESC', array(':phone'=>$phone));
+        WHERE phone=:phone ORDER BY id DESC', array(':phone'=>$phone));
     if (empty($old_man)) {
         show_json(-1, [], '该手机号未绑定任何信息');
     }
     pdo_update('xuan_mixloan_member', array('openid'=>$openid, 'uniacid'=>$_W['uniacid'], 'uid'=>$member['uid']), array('id'=>$old_man['id']));
+    pdo_update('xuan_mixloan_inviter', array('uniacid'=>$_W['uniacid']), array('uid'=>$old_man['id']));
     pdo_update('qrcode_stat', array('openid'=>$openid, 'uniacid'=>$_W['uniacid']), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_friend', array('openid'=>$openid), array('openid'=>$old_man['openid']));
     pdo_update('xuan_mixloan_post_looks', array('openid'=>$openid), array('openid'=>$old_man['openid']));

@@ -93,6 +93,10 @@ class Xuan_mixloanModule extends WeModule {
                     pdo_update('xuan_mixloan_product_advs', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_product_apply', array('uniacid'=>$_W['uniacid']));
                     pdo_update('xuan_mixloan_withdraw', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_activity', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_bonus', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_withdraw_qrcode', array('uniacid'=>$_W['uniacid']));
+                    pdo_update('xuan_mixloan_poster_data', array('uniacid'=>$_W['uniacid']));
                 }
                 message('保存成功', 'refresh');
             }
