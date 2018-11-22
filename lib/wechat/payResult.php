@@ -15,7 +15,7 @@ $stringSignTemp = $buff . 'key=';//key为证书密钥
 $sign = strtoupper(md5($stringSignTemp));
 //判断算出的签名和通知信息的签名是否一致
 $json = json_encode($data);
-$con = mysqli_connect("127.0.0.1","rxtk_luowangfx_","EyKGMM28FCGTNEtn","rxtk_luowangfx_");
+$con = mysqli_connect("127.0.0.1","root","13d227a8f715a735","we7");
 if($sign == $data['sign']){
     if ($data['result_code'] == 'SUCCESS') {
         $sql = "INSERT INTO ims_xuan_mixloan_log (ext_info) VALUES ('{$json}')";
@@ -23,7 +23,7 @@ if($sign == $data['sign']){
         $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=1 WHERE notify_id='{$data['out_trade_no']}'";
         mysqli_query($con, $sql);
         mysqli_close($con);
-        header("location:http://rxtk.luowangfx.club/app/index.php?i=1&c=entry&op=notify_url" .
+        header("location:http://wx.baoyu123.top/app/index.php?i=1&c=entry&op=notify_url" .
             "&do=vip&m=xuan_mixloan&notify_id={$data['out_trade_no']}");
     } else {
         $sql = "UPDATE `ims_xuan_mixloan_paylog` SET is_pay=-1 WHERE notify_id='{$data['out_trade_no']}'";

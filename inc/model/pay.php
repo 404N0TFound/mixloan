@@ -121,12 +121,12 @@ class Xuan_mixloan_Pay
         $params["mch_id"] = $this->mchid;
         $params['out_trade_no'] = $trade_no;
         $params["nonce_str"] = strtoupper(md5($trade_no));
-        $params['body'] = '益友智推';
+        $params['body'] = '聚融宝';
         $params["spbill_create_ip"] = $this->getRealIp();
         $params["total_fee"] = intval($amount*100);
         $params["notify_url"] = $notify_url;
         $params["trade_type"] = "MWEB";
-        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.twoplus.top","wap_name": "益友智推"}}';
+        $params["scene_info"] = '{"h5_info": {"type":"Wap","wap_url": "http://wx.twoplus.top","wap_name": "聚融宝"}}';
         $string = $this->GetHttpQueryString($params);
         $sign = $this->GetSign($string);
         $params["sign"] = $sign;
