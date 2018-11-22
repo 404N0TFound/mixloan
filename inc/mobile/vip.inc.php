@@ -81,7 +81,7 @@ if($operation=='buy'){
             'ordersn' => $tid,
             'title' => $title,
             'fee' => $fee,
-            'user' => $member['id'],
+            'user' => $openid,
         );
         //调用pay方法
         $this->pay($params);
