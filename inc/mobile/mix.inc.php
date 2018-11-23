@@ -11,6 +11,9 @@ if($operation=='service'){
 } else if ($operation == 'tutorials') {
 	//新手指南
 	include $this->template('mix/tutorials');
+} else if ($operation == 'follow') {
+    //公众号
+    include $this->template('mix/follow');
 } else if ($operation == 'apply_cache') {
     require_once('../addons/xuan_mixloan/inc/model/cache.php');
     $cache = new Xuan_mixloan_Cache();

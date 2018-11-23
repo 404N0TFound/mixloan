@@ -239,6 +239,12 @@ function openW(url){
                 </div>
                 <p class="weui_grid_label">我的消息</p>
             </a>
+            <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'follow'))}')" class="weui_grid js_grid">
+                <div class="weui_grid_icon">
+                    <img src="../addons/xuan_mixloan/template/style/new_user_index/images/follow.png" alt="">
+                </div>
+                <p class="weui_grid_label">关注公众号</p>
+            </a>
             {if !is_weixin()}
             <a onclick="loginout()" class="weui_grid js_grid">
                 <div class="weui_grid_icon">
