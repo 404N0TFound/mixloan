@@ -22,7 +22,7 @@
   .app_header{ height: 40px; background: white}
   .app_header .div_back{position: absolute;top: 15px;left: 0.8rem}
   .app_header .div_back img{width: 20px}
-  .header_title{position: absolute;top: 15px;left: 44%;font-size: 15px}
+  .header_title{position: absolute;top: 15px;left: 38%;font-size: 15px}
   .menu-img{height: 45px}
   a:hover{text-decoration: none;color:black;}
 </style>
@@ -40,10 +40,10 @@
             </div>
         </div>
     </div>
-        <div class="index-info clearfix">
-        <!-- <div class="index-credit1"><img src="../addons/xuan_mixloan/template/style/mall/picture/index-credit1.png" alt="" width="18px"> 积分<em id="credits">0.00</em></div> -->
+   <!-- <div class="index-info clearfix">
+        <div class="index-credit1"><img src="../addons/xuan_mixloan/template/style/mall/picture/index-credit1.png" alt="" width="18px"> 积分<em id="credits">0.00</em></div>
         <div class="index-join"><a onclick="openNew('{php echo $this->createMobileUrl('mall', array('op'=>'person'))}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/index-join.png" alt="" width="18px"> 购买记录</a></div>
-    </div>
+    </div> -->
         <div class="index-menu clearfix" id="category_list">
             <!-- <div class="col-xs-3 menu-content ">
                 <a href="./index.php?i=2&c=entry&product_class=1&do=allProduct&m=wxlm_integralmall">
@@ -72,7 +72,7 @@
 
             </div>
             <div class="col-xs-6 footer-content">
-                <a onclick="openNew('{php echo $this->createMobileUrl('mall', array('op'=>'person'))}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/mine.png" height="25px" alt=""><p style="color: #cdcdcd">我的</p></a>
+                <a onclick="openNew('{php echo $this->createMobileUrl('mall', array('op'=>'person'))}')"><img src="../addons/xuan_mixloan/template/style/mall/picture/mine.png" height="25px" alt=""><p style="color: #cdcdcd">购买记录</p></a>
 
             </div>
         </div>
@@ -99,7 +99,7 @@
                 var str='';
                 for (var i = 0; i < data.data.length; i++) {
                     str += ' <div class="swiper-slide">';
-                    str += '     <a href="'+data.data[i].url+'"><img src="'+data.data[i].ext_info.logo+'" width="100%" height="100%"></a>';
+                    str += '     <a href="'+data.data[i].url+'"><img src="'+data.data[i].ext_info.logo+'" width="100%" style="height:200px"></a>';
                     str +=  ' </div>';
                 }
                 $('.swiper-wrapper').html(str);
