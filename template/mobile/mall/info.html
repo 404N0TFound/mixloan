@@ -61,7 +61,7 @@
             </div>
             <div class="info-price">
                 <p>
-                    <span id="credits">
+                    <span id="money">
                         0元
                     </span>
                     原价:
@@ -173,7 +173,7 @@
                 $('#stock').html(data.data.stock);
                 $('#nums').html(data.data.nums);
                 $('#category').html(data.data.category);
-                $('#money').html(data.data.ext_info.money);
+                $('#money').html(data.data.ext_info.money + '元');
                 $('#price').html(data.data.ext_info.price);
                  var bannerSwiper = $(".bannerSwiperContainer").swiper({
                     loop: false,
