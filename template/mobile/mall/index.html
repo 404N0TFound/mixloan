@@ -19,10 +19,10 @@
 </head>
 <body>
 <style type="text/css">
-  .app_header{ height: 40px; background: white}
-  .app_header .div_back{position: absolute;top: 15px;left: 0.8rem}
+  .app_header{ height: 55px; background: white}
+  .app_header .div_back{position: absolute;top: 30px;left: 0.8rem}
   .app_header .div_back img{width: 20px}
-  .header_title{position: absolute;top: 15px;left: 38%;font-size: 15px}
+  .header_title{position: absolute;top: 30px;left: 38%;font-size: 15px}
   .menu-img{height: 45px}
   a:hover{text-decoration: none;color:black;}
 </style>
@@ -146,7 +146,7 @@
                     str +=   '<a style="text-decoration:none" onclick="openNew(\''+_url+'\')">';
                     str +=   '<img src="'+data.data[i].ext_info.logo+'" alt="" width="100%" height="180px">';
                     str +=    '<p>'+data.data[i].title+'</p>';
-                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'</span></p>';
+                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'元</span></p>';
                     str +=  ' </a>';
                     str += '</div>';
                 }
@@ -168,7 +168,7 @@
                     str +=   '<a style="text-decoration:none" onclick="openNew(\''+_url+'\')">';
                     str +=   '<img src="'+data.data[i].ext_info.logo+'" alt="" width="100%" height="180px">';
                     str +=    '<p>'+data.data[i].title+'</p>';
-                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'</span></p>';
+                    str +=   '<p style="height: 20px">价格:<span class="price">'+data.data[i].ext_info.money+'元</span></p>';
                     str +=  ' </a>';
                     str += '</div>';
                 }
