@@ -191,6 +191,75 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
+			} else if ($type == '30001') {
+			    $order = pdo_fetch('select pid from ' . tablename('xuan_mixloan_mall_order') . '
+			        where tid=:tid', array(':tid' => $params['tid']));
+			    $item = pdo_fetch('select id,ext_info from ' . tablename('xuan_mixloan_mall') . '
+			    	where id=:id', array(':id' => $item['id']));
+			    $item['ext_info'] = json_decode($item['ext_info'], 1);
+				pdo_update('xuan_mixloan_mall_order', array('is_pay'=>1), array('tid'=>$params['tid']));
+				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
+				if ($inviter && $item['ext_info']['one_bonus']) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$item['ext_info']['one_bonus'],
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>1,
+						'type'=>5
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+		        //二级
+				$man_one = m('member')->getInviterInfo($inviter);
+				$inviter_two = m('member')->getInviter($man_one['phone'], $man_one['openid']);
+				if ($inviter_two && $item['ext_info']['two_bonus']) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $inviter_two,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$item['ext_info']['two_bonus'],
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>2,
+						'type'=>5
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+		        //三级
+				$man_two = m('member')->getInviterInfo($inviter_two);
+				$inviter_thr = m('member')->getInviter($man_two['phone'], $man_two['openid']);
+				if ($inviter_thr && $item['ext_info']['thr_bonus']) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $inviter_thr,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$item['ext_info']['thr_bonus'],
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>3,
+						'type'=>5
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				message("支付成功", $this->createMobileUrl('mall', array('op' => 'person')), "success");
 			}
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {

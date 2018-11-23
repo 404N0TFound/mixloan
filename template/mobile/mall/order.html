@@ -111,13 +111,13 @@
         //信息验证正确，前往绑卡接口
         function _submit(){
             var ajax = {};
-            ajax.url = credit_order_submit_url;
+            ajax.url = "{php echo $this->createMobileUrl('mall', array('op' => 'order_submit', 'id' => $id))}";
             ajax.dataType = "json";
             ajax.type = "post";
-            ajax.data = {"address":address, "realname":realname, 'phone':phone, 'id':id, 'account':account};
+            ajax.data = {"address":address, "realname":realname, 'phone':phone, 'account':account};
             ajax.success = function (data) {
                 if (data.code == 1) {
-                    layer.msg('提交成功', {
+                    layer.msg(data.msg, {
                         time: 2000 //2秒关闭（如果不配置，默认是3秒）
                     }, function(){
                         _url = data.data.url;

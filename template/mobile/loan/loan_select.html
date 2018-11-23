@@ -141,8 +141,8 @@
                             <div class="loan_info">
                                 <h2>恒易贷</h2>
                                 <div class="rate_info">
-                                    <span>利率:<em>0.75%</em>/月</span>
-                                    <span>期限:<em>3-36</em>/月</span>
+                                    <span>利率:<em>0.75%</em>/日</span>
+                                    <span>期限:<em>3-36</em>/日</span>
                                     <p><em>200000</em>元</p>
                                 </div>
                                 <div class="extra_info">
@@ -176,10 +176,10 @@
         </ul>
         <ul class="filter_layer filter_common term" id="term">
             <li data-no="0" data-from="" data-to="">不限期限</li>
-            <li data-from="0" data-to="6" data-id="37">6月内</li>
-            <li data-from="6" data-to="12" data-id="38">6-12月</li>
-            <li data-from="12" data-to="24" data-id="39">12-24月</li>
-            <li data-from="24" data-to="100" data-id="40">24月以上</li>
+            <li data-from="0" data-to="6" data-id="37">6日内</li>
+            <li data-from="6" data-to="12" data-id="38">6-12日</li>
+            <li data-from="12" data-to="24" data-id="39">12-24日</li>
+            <li data-from="24" data-to="100" data-id="40">24日以上</li>
         </ul>
         <ul class="filter_layer filter_common flex" id="flex">
             <li data-no="0" data-id="">不限类型</li>
@@ -350,8 +350,8 @@
                                 + "<div class=\"loan_info\">"
                                 + "<h2>"+ dataTransform(title) +"</h2>"
                                 + "<div class=\"rate_info\">"
-                                + "<span>利率:<em>"+ dataTransform(percent) +"%</em>/ "+rate_type+" </span>"
-                                + "<span>期限:<em>"+range_l+"-"+ range_h +"</em>/月</span>"
+                                + "<span>利率:<em>"+ dataTransform(percent) +"%</em> "+rate_type+" </span>"
+                                + "<span>期限:<em>"+range_l+"-"+ range_h +"</em>/日</span>"
                                 + "<p><em>"+ dataTransform(edu) +"</em>元</p>"
                                 + "</div>"
                                 + "<div class=\"extra_info\">"

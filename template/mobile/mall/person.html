@@ -103,10 +103,13 @@ a:hover{text-decoration: none;color:black;}
         mui.openWindow({url:url,createNew:true});
     }
     function load_data(){
-        $.post(credit_order_record_url, {"userId":userId}, function(data) {
+        $.post("{php echo $this->createMobileUrl('mall', array('op'=>'order_record'))}", {}, function(data) {
             if (data.code == 1) {
                 var str='';
                 for (var i = 0; i < data.data.length; i++) {
+                	var id = data.data[i].id;
+                	var status = data.data[i].status;
+                	var is_pay = data.data[i].is_pay;
                     str += '<div class="join-info-product clearfix">';
 					str += '    <div class="order-info-p-info clearfix">';
 					str += '        <div class="order-info-p-info"> <img src="'+data.data[i].logo+'" height="50px" alt=""></div>';
@@ -116,8 +119,16 @@ a:hover{text-decoration: none;color:black;}
 					str += '        </div>';
 					str += '    </div>';
 					str += '    <div class="order-info-p-number clearfix">';
-					str += '        <p style="color: red">-'+data.data[i].ext_info.credits+'</p>';
-					str += '        <p style="color: red; float: right">积分</p>';
+					str += '        <p style="color: red">￥'+data.data[i].money+'</p>';
+					if (is_pay == '0') {
+						str += '        <p style="color: red; float: right;background:red;padding:2px;border-radius:2px;color:white" onclick="pay_now(' +id+ ')">未支付</p>';
+					} else {
+						if (status == '0') {
+							str += '        <p style="color: red; float: right">等待发货</p>';
+						} else {
+							str += '        <p style="color: red; float: right">物流号：' + data.data[i].ext_info.express + '</p>';
+						}
+					}
 					str += '    </div>';
 					str += '</div>';
                 }
@@ -130,7 +141,10 @@ a:hover{text-decoration: none;color:black;}
         }, "json"); 
     }
     load_data();
-
+    function pay_now(id) {
+    	var _url = "{php echo $this->createMobileUrl('mall', array('op'=>'pay'))}&id=" + id;
+    	openNew(_url);
+    }
 </script>
 </body>
 </html>

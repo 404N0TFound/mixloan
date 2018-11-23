@@ -185,28 +185,57 @@ else if ($operation == 'order_submit')
     {
         show_json(-1, [], '请填写地址');
     }
-    $item = m('credit')->getList(['id', 'ext_info'], ['id' => $id])[$id];
-    if ($member['credits'] < $item['ext_info']['credits'])
-    {
-        show_json(-1, [], '您的积分不足');
-    }
-    $left = $member['credits'] - $item['ext_info']['credits'];
-    pdo_update('xuan_mixloan_member', array('credits'=>$left), array('id'=>$member['id']));
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_mall') . "
+        where id={$id}");
+    $item['ext_info'] = json_decode($item['ext_info'], 1);
     $ext_info = array();
     $ext_info['realname'] = $realname;
     $ext_info['address']  = $address;
     $ext_info['account']  = $account;
-    $ext_info['credits']  = $item['ext_info']['credits'];
     $insert = array();
     $insert['uniacid'] = $_W['uniacid'];
     $insert['pid'] = $id;
     $insert['phone'] = $phone;
+    $insert['money'] = $item['ext_info']['money'];
     $insert['ext_info'] = json_encode($ext_info);
     $insert['status'] = 0;
     $insert['createtime'] = time();
     $insert['uid'] = $member['id'];
-    pdo_insert('xuan_mixloan_credit_order', $insert);
-    show_json(1, ['url'=>'../credit/index.html'], 'success');
+    pdo_insert('xuan_mixloan_mall_order', $insert);
+    $insert_id = pdo_insertid();
+    show_json(1, ['url'=>$this->createMobileUrl('mall', array('op'=>'pay', 'id'=>$insert_id))], '订单已提交，请支付');
+}
+else if ($operation == 'pay')
+{
+    // 支付
+    $id = intval($_GPC['id']);
+    $order = pdo_fetch('select money from ' . tablename('xuan_mixloan_mall_order') . '
+        where id=:id', array(':id' => $id));
+    $tid = "30001" . date('YmdHis', time());
+    pdo_update('xuan_mixloan_mall_order', array('tid'=>$tid), array('id'=>$id));
+    $title = "购买商品";
+    $fee = $order['money'];
+    $params = array(
+        'tid' => $tid,
+        'ordersn' => $tid,
+        'title' => $title,
+        'fee' => $fee,
+        'user' => $member['id'],
+        'module' => 'xuan_mixloan'
+    );
+    $insert = array(
+        'openid' => $openid,
+        'uniacid' => $_W['uniacid'],
+        'acid' => $_W['uniacid'],
+        'tid' => $tid,
+        'fee' => $fee,
+        'status' => 0,
+        'module' => 'xuan_mixloan',
+        'card_fee' => $fee,
+    );
+    pdo_insert('core_paylog', $insert);
+    $url = url('mc/cash/alipay') . "&params=" . base64_encode(json_encode($params));
+    include $this->template('vip/openHref');
 }
 else if ($operation == 'order_record')
 {
@@ -215,12 +244,15 @@ else if ($operation == 'order_record')
     {
         show_json(-1, ['url' => $this->createMobileUrl('index', array('op'=>'login'))], '请先登陆');
     }
-    $list = m('credit')->getOrderList([], ['uid' => $member['id']]);
+    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_mall_order') . '
+        where uid=:uid', array(':uid' => $member['id']));
     foreach ($list as &$row)
     {
-        $item = m('credit')->getList(['id', 'title', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
+        $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_mall') . '
+                where id=:id', array(':id' => $row['pid']));
+        $item['ext_info'] = json_decode($item['ext_info'], 1);
         $row['title'] = $item['title'];
-        $row['logo']  = $item['ext_info']['logo'];
+        $row['logo']  = tomedia($item['ext_info']['logo']);
         $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
     }
     unset($row);
