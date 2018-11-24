@@ -172,6 +172,18 @@
                         <p class="weui_grid_label">合伙人中心</p>
                     </a>
                     {/if}
+                    <a  onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'rank_list', 'day' => 1))}')" class="weui_grid js_grid">
+                        <div class="weui_grid_icon">
+                            <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" alt="">
+                        </div>
+                        <p class="weui_grid_label">日排行榜</p>
+                    </a>
+                    <a  onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'rank_list'))}')" class="weui_grid js_grid">
+                        <div class="weui_grid_icon">
+                            <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" alt="">
+                        </div>
+                        <p class="weui_grid_label">月排行榜</p>
+                    </a>
                     <!-- <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')" class="weui_grid js_grid">
                         <div class="weui_grid_icon">
                             <img src="../addons/xuan_mixloan/template/style/new_user_index/images/xinyongka.png" alt="">

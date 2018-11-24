@@ -52,7 +52,7 @@
                 </a>
             </div> -->
         </div>
-        <div class="product-rec"><img src="../addons/xuan_mixloan/template/style/mall/picture/order-info-store.png" width="18px" alt=""> 商品列表</div>
+        <div class="product-rec" onclick="load_recommend()"><img src="../addons/xuan_mixloan/template/style/mall/picture/order-info-store.png" width="18px" alt=""> 商品列表</div>
         <div class="product-content clearfix" id="list">
                     
                 <!-- <div class="product">
@@ -98,8 +98,14 @@
             if (data.code == 1) {
                 var str='';
                 for (var i = 0; i < data.data.length; i++) {
+                    console.log(typeof(data.data[i].url))
+                    if (typeof(data.data[i].url) != 'undefined' && data.data[i].url != ''){
+                        var _url = data.data[i].url;
+                    } else {
+                        var _url = '#';
+                    }
                     str += ' <div class="swiper-slide">';
-                    str += '     <a href="'+data.data[i].url+'"><img src="'+data.data[i].ext_info.logo+'" width="100%" style="height:200px"></a>';
+                    str += '     <a href="'+_url+'"><img src="'+data.data[i].ext_info.logo+'" width="100%" style="height:200px"></a>';
                     str +=  ' </div>';
                 }
                 $('.swiper-wrapper').html(str);

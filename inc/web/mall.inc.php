@@ -148,7 +148,7 @@ else if ($operation == 'adv_update')
 else if ($operation == 'adv_delete')
 {
     // 分类删除
-    pdo_delete('xuan_mixloan_adv', array("id" => $_GPC["id"]));
+    pdo_delete('xuan_mixloan_mall_adv', array("id" => $_GPC["id"]));
     message("提交成功", referer(), "success");
 }
 else if ($operation == 'order_list')
