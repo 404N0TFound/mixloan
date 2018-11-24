@@ -344,7 +344,7 @@ if($operation=='buy'){
 	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
 	$bonus = formatMoney($bonus);
 	$can_use = formatMoney($can_use);
-	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0]);
+	$percent_list = m('product')->getApplyList([], ['inviter'=>$member['id'], 'la_status'=>0], ' id desc', 50);
 	foreach ($percent_list as $row) {
 		$ids[] = $row['pid'];
 	}
@@ -378,7 +378,7 @@ if($operation=='buy'){
 		$row['count_money'] = number_format($row['re_bonus'] + $row['done_bonus'] + $row['extra_bonus'], 2);
 	}
 	unset($row);
-	$accounts_list = pdo_fetchall("SELECT a.id,a.bonus,a.createtime,b.banknum,b.bankname,b.phone,b.type FROM ".tablename("xuan_mixloan_withdraw")." a LEFT JOIN ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id WHERE a.uid={$member['id']} ORDER BY id DESC");
+	$accounts_list = pdo_fetchall("SELECT a.id,a.bonus,a.createtime,b.banknum,b.bankname,b.phone,b.type FROM ".tablename("xuan_mixloan_withdraw")." a LEFT JOIN ".tablename("xuan_mixloan_creditCard")." b ON a.bank_id=b.id WHERE a.uid={$member['id']} ORDER BY id DESC LIMIT 50");
 	foreach ($accounts_list as &$row) {
 		$row['tid'] = date('YmdHis', $row['createtime']) . $row['id'];
 		$row['year'] = date('m-d', $row['createtime']);
