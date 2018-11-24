@@ -90,16 +90,20 @@
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-        <p>首页</p>
+        <p>我要贷款</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
         <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')" class="home">
+        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/extend_icon.png" src="../addons/xuan_mixloan/template/style/images/extend_icon.png" width="45px" alt="">
+        <p></p>
+    </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-        <p>{$config['title']}客</p>
+        <p>{$config['title']}</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>

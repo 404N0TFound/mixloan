@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>
+        排行榜
+    </title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/rank_list/css/kashen_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/rank_list/css/layer_1.css">
+    <script src="../addons/xuan_mixloan/template/style/rank_list/js/jquery-1.12.4.min_1.js">
+    </script>
+    <script src="../addons/xuan_mixloan/template/style/rank_list/js/layer_1.js">
+    </script>
+    <script src="../addons/xuan_mixloan/template/style/rank_list/js/function_1.js">
+    </script>
+</head>
+<body>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #9e8a60}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>排行榜</span>
+    </div>
+</div>
+{/if}
+<!--<div class="wdfanhui"><a href="-->
+<!--"></a></div>-->
+<div class="daibei-top1 line-bottom" style="margin-top: 0px;">
+    <img src="{$member['avatar']}" alt="">
+    <span class="daibei-top1-name">
+				{$member['nickname']}
+			</span>
+    <span>
+				，欢迎加入{$config['title']}
+			</span>
+    </p>
+</div>
+<div style="margin-top:1rem">
+    <ul class="xiaolists">
+        {loop $list $key $value}
+        <li class="xiao_list line-bottom">
+            <a href="javascript:;">
+                <span class="number {if $key==0}number1{else if $key==1}number2{else if $key==2}number3{/if}"></span>
+                <img src="{$value['avatar']}" class="imgleft3">
+                <h4>
+                    {$value['nickname']}
+                </h4>
+                <div class="jin-div">
+							<span class="jin-span1">
+								¥{$value['count_bonus']}
+							</span>
+                    <p class="jin-p">
+                        累计奖金总额
+                    </p>
+                </div>
+            </a>
+        </li>
+        {/loop}
+    </ul>
+</div>
+</body>
+
+</html>
