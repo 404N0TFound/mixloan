@@ -56,11 +56,11 @@ if($operation=='index'){
         message('该代理产品已被下架', '', 'info');
     }
     if ($info['type'] == 1) {
-        $poster_short_url = shortUrl('http://wx.wzhh2088.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
-        $poster_long_url = 'http://wx.wzhh2088.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
+        $poster_short_url = shortUrl('http://wc.huodong007.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'])));
+        $poster_long_url = 'http://wc.huodong007.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
     } else {
-        $poster_short_url = shortUrl('http://wx.wzhh2088.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'])));
-        $poster_long_url = 'http://wx.wzhh2088.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id']));
+        $poster_short_url = shortUrl('http://wc.huodong007.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'])));
+        $poster_long_url = 'http://wc.huodong007.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id']));
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?v=01";
     $top_list = m('product')->getTopBonus($id);
