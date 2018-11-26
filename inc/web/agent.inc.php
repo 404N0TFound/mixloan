@@ -471,6 +471,31 @@ if ($operation == 'list') {
     );
     pdo_insert('xuan_mixloan_product_apply', $insert);
     message('已发放', referer(), 'sccuess');
+} else if ($operation == 'apply_operation') {
+    // 申请快捷操作
+    $id = intval($_GPC['id']);
+    $status = intval($_GPC['status']);
+    $update = array();
+    $update['status'] = $status;
+    if ($status == 1) {
+        $item = pdo_fetch('select degree,pid from ' . tablename("xuan_mixloan_product_apply") . "
+            where id={$id}");
+        if ($item['pid']) {
+            $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")."
+                where id=:id", array(':id'=>$item['pid']));
+            $info['ext_info'] = json_decode($info['ext_info'], true);
+            if ($item['degree'] == 1) {
+                $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
+            } else if ($item['degree'] == 2) {
+                $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
+            } else if ($item['degree'] == 3) {
+                $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+            }
+            $update['re_bonus'] = floatval($info['re_reward_money']) ? : 0;
+        }
+    }
+    pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
+    message('更新成功', referer(), 'sccuess');
 }
 include $this->template('agent');
 ?>
