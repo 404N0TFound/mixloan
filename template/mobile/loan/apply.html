@@ -338,6 +338,9 @@
             lastTouchEnd=now;
         },false)
     }
+    function openNew(_url){
+        window.location.href=_url;
+    }
 </script>
 <div class="becomeMemberPopup">
     <div class="mark"></div>
@@ -424,9 +427,9 @@
 
                         </li>
                     </ul>
-                    <h2 style="white-space: normal;">产品详情</h2>
+                    <h2 style="white-space: normal;">申请条件</h2>
                     <ul class="list" style="width: 658.344px; white-space: normal;">
-                        {$item['ext_info']['detail']}
+                        {$item['ext_info']['conditions']}
                     </ul>
                 </div>
 
@@ -526,18 +529,24 @@
     .bottomInputBoxPop{width: 100%; height: 100%; background: rgba(0,0,0,0.8); position: absolute; z-index: 10; display:none;}
     .bottomInputBox>div.inputCont{width: 6.7rem; border-radius: 0.2rem; margin: 0 auto; background: #fff;}
     .bottomInputBox>div.inputCont .title{width: 3.2rem; height: 0.8rem; background: #3377ff; color: #fff; font-size: 0.28rem; text-align: center; line-height: 0.8rem; margin: 0 auto; margin-bottom: 0.1rem; border-radius: 0 0 0.2rem 0.2rem;}
-    .applyBtnA{position: fixed; height: 0.9rem; line-height: 0.9rem; color: #fff; font-size: 0.32rem; text-align: center; border-radius: 0.2rem; z-index: 9; width: 6.7rem; bottom: 0.1rem; left: 50%; margin-left: -3.35rem; background: #3377ff;}
+    .applyBtnA{position: fixed; height: 0.9rem; line-height: 0.9rem; color: #fff; font-size: 0.32rem; text-align: center; border-radius: 0.5rem; z-index: 9; width: 6.7rem; bottom: 0.1rem; left: 50%; margin-left: -3.35rem; background: #3377ff;}
 </style>
 <script src="../addons/xuan_mixloan/template/style/new_apply/js/clipboard.min_1.js"></script>
-<div id="ApplyBtn" class="applyBtnA ccas" data-clipboard-text="不允许复制">立即申请</div>
+<div>
+    {if !$is_close}
+    <div class="applyBtnA ccas" style="width: 3rem; background: white; color: #3377ff;  border: 1px solid #3377ff;" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}');">我要代理</div>
+    {/if}
+    <div id="ApplyBtn" class="applyBtnA ccas" data-clipboard-text="不允许复制" {if $is_close}style="width:4.7rem;left: 80%"{/if}>立即申请</div>
+</div>
 <div id="bottomInputBoxPop" class="bottomInputBoxPop">
     <div class="bottomInputBox">
         <div class="inputCont">
             <div class="title">请准确填写申请信息</div>
             <ul>
                 <li class="clearfix"><p>姓名</p><input type="text" class="name" id="name" placeholder="请输入姓名" value=""/></li>
-                <li class="clearfix"><p>身分正</p><input type="text" class="" id="idcard" placeholder="请输入身分正号码" value=""/>
+                <!-- <li class="clearfix"><p>身分正</p><input type="text" class="" id="idcard" placeholder="请输入身分正号码" value=""/> -->
                 <li class="clearfix"><p>手机号</p><input type="tel" class="phoneNo" id="mobile" placeholder="请输入手机号" value=""/>
+                <li class="clearfix"><p style="width: 30%;margin-right: 5%"><img src="" id="cache_img" style="width: 100%"></p><input type="text" class="phoneNo" id="cache" placeholder="请输入图形码" value="" style="width: 60%" />
                 </li>
             </ul>
         </div>
@@ -586,6 +595,21 @@
     });
 </script>
 <script>
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    console.log(data);
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
     $('#ApplyBtn').on('click',function(){
         if($("#statusWa").val()=="0"){
             mui.alert("该产品已下架！")
@@ -741,6 +765,7 @@
             var idcard=$('#idcard').val();
             var mobile = $("#mobile").val();
             var name = $("#name").val();
+            var cache = $("#cache").val();
             var verificationCode=$('#verificationCode').val()
             if (!GuoleiJsUtil.isDefine(name)) {
                 mui.alert("请输入姓名");
@@ -750,14 +775,10 @@
                 mui.alert("姓名格式错误");
                 return false;
             }
-            if (!GuoleiJsUtil.isDefine(idcard)) {
-                mui.alert("请输入身分正号码");
-                return false;
-            }
-            if(IDCardCheck(idcard)==false){
-                mui.alert("请输入合法的身分正号码");
-                return false;
-            }
+            // if(IDCardCheck(idcard)==false){
+            //     mui.alert("请输入合法的身分正号码");
+            //     return false;
+            // }
 
             if (!GuoleiJsUtil.isDefine(mobile)) {
                 mui.alert("请输入手机号码");
@@ -787,6 +808,7 @@
                         phone: mobile,
                         name: name,
                         idcard: idcard,
+                        cache:cache
                     },
                     type: 'POST',
                     timeout: 60000,
