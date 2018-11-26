@@ -446,8 +446,9 @@ if ($operation == 'list') {
                     where id=:id', array(':id'=>$value[0]));
                 $info = pdo_fetch('select name from ' .tablename("xuan_mixloan_product"). "
                     where id=:id", array(':id'=>$item['pid']));
-                $openid = pdo_fetchcolumn('select openid from ' .tablename('xuan_mixloan_member'). '
-                    where id=:id', array(':id'=>$item['inviter']));
+                $inviter = pdo_fetch('select openid,phone from '.tablename("xuan_mixloan_member")."
+                    where id=:id",array(':id'=>$item['inviter']));
+                $openid = $inviter['openid'];
                 if ($status == 1 && $update['re_bonus']>0) {
                     $datam = array(
                         "first" => array(
