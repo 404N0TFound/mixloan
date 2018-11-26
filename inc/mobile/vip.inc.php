@@ -620,9 +620,9 @@ if($operation=='buy'){
         $cfg['poster_image'] = $config['invite_image'];
         $cfg['poster_color'] = $config['invite_color'];
         $out = XUAN_MIXLOAN_PATH."data/poster/invite_{$member['id']}.png";
-        $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}.png";
+        $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/invite_{$member['id']}.png?v=01";
         $params = array(
-            "url" => $url,
+            "url" => $shortUrl,
             "member" => $member,
             "type" => 3,
             "pid" => 0,
