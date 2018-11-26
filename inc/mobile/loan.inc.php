@@ -86,13 +86,15 @@ if($operation=='index'){
     }
     $inviter_uid = m('member')->getInviter(trim($_GPC['phone']), $openid);
     $inviter = $inviter_uid ? : intval($_GPC['inviter']);
+    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+        show_json(-1, [], "图形验证码不正确");
+    }
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");
     }
     if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id','is_show'],['id'=>$id])[$id];
     if (empty($info['is_show'])) {
         show_json(-1, [], "该产品已被下架");
