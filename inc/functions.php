@@ -238,7 +238,7 @@ function base64_image_content($base64_image_content,$path){
     //匹配出图片的格式
     if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
         $type = $result[2];
-        if ($type != 'jpeg' && $type != 'jeg' && $type != 'png') {
+        if ($type != 'jpeg' && $type != 'jpg' && $type != 'png') {
             return false;
         }
         $new_file = $path."/";
