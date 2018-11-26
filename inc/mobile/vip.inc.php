@@ -291,7 +291,7 @@ if($operation=='buy'){
         where pid=:pid and uid=:uid', array(':pid' => $id, ':uid' => $member['id']));
     if (!$poster) {
         $params = array(
-            "url" => $url,
+            "url" => shortUrl($url),
             "member" => $member,
             "type" => $type,
             "pid" => $id,
