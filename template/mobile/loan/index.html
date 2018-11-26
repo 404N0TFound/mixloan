@@ -76,7 +76,7 @@
     }
     {/if}
         function openNew(url){
-            mui.openWindow({url:url});
+            mui.openWindow({url:url, createNew:true});
         }
         function return_user(){
             var user_url = '{php echo $this->createMobileUrl('user')}';
@@ -263,12 +263,12 @@
                     </a>
                 </div>
                 <div class="channel_common">
-                    <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op'=>'want_subscribe'));}')">
+                    <a onclick="openW('{$config['zx_url']}')">
                         <ul>
                             <li><img src="../addons/xuan_mixloan/template/style/picture/cards_1.png" /></li>
                             <li>
-                                <h2>办信用卡</h2>
-                                <p>下卡快额度高</p>
+                                <h2>征信查询</h2>
+                                <p>查询个人征信</p>
                             </li>
                         </ul>
                     </a>

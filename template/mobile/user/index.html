@@ -213,11 +213,11 @@
             </div>
             {/if}
             <ul class="clearfix">
-                {if !is_weixin()}
+                {if $member['user_type']['code'] != 1}
                 <li>
-                    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/images/message_2.png" />
-                        我的消息
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/images/daili.png" />
+                        购买代理
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
@@ -238,43 +238,9 @@
                     </a>
                 </li>
                 <li>
-                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'set'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/images/set.png" alt="">
-                        代理设置
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                {/if}
-                {if $partner['code'] == 1}
-                <li class="new_guide">
-                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_center'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/new_user_index/images/tixian.png" alt="">
-                        合伙人中心
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                {/if}
-                {if $member['user_type']['code'] != 1}
-                <li>
-                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/images/daili.png" />
-                        购买代理
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                {/if}
-                <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op' => 'customer'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                         客户列表
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                <div style="height:0.4rem;background: #f3f3f3;"></div>
-                <li class="new_guide">
-                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
-                        新手指南
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
@@ -285,6 +251,31 @@
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
+                {/if}
+                {if $member['user_type']['code'] == 1}
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'set'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/images/set.png" alt="">
+                        代理设置
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/if}
+                <div style="height:0.4rem;background: #f3f3f3;"></div>
+                <li class="new_guide">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'tutorials'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
+                        新手指南
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                <li class="new_guide" >
+                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
+                        我的客服
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
                 <li class="new_guide">
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'follow'))}')">
                         <img src="../addons/xuan_mixloan/template/style/images/qrcode.png" />
@@ -292,20 +283,29 @@
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
+                {if $partner['code'] == 1}
                 <li class="new_guide">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'partner_center'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/new_user_index/images/tixian.png" alt="">
+                        合伙人中心
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/if}
+                <li class="{if is_weixin()}customer{else}new_guide{/if}">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op' => 'message_type'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/images/message_2.png" />
+                        我的消息
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                <!-- <li class="new_guide">
                     <a onclick="openW('{$config['zx_url']}')">
                         <img src="../addons/xuan_mixloan/template/style/images/zx_url.png" />
                         征信查询
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
-                </li>
-                <li class="{if is_weixin()}customer{else}new_guide{/if}">
-                    <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
-                        我的客服
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
+                </li> -->
                 {if !is_weixin()}
                 <li class="customer">
                     <a onclick="loginout()">
