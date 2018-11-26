@@ -1,820 +1,863 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <title>申请</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <script src="../addons/xuan_mixloan/template/style/new_apply/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
 
-    <link href="../addons/xuan_mixloan/template/style/new_apply/css/mui.min_1.css" rel="stylesheet"/>
-    <link href="../addons/xuan_mixloan/template/style/new_apply/css/app_1.css" rel="stylesheet"/>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/app_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/mui_1.js"></script>
-    <!--    <script src="--><!--apps/mui/../addons/xuan_mixloan/template/style/new_apply/js/mui.picker.min.js?_t=--><!--"></script>-->
-    <!--    <script src="--><!--apps/mui/../addons/xuan_mixloan/template/style/new_apply/js/mui.poppicker.js?_t=--><!--"></script>-->
+    <script>
 
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/jquery-3.3.1.min_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/guoleijsutil_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/guoleimuiapp_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/template-web_1.js"></script>
-    <script src="../addons/xuan_mixloan/template/style/new_apply/js/template-web-filters_1.js"></script>
+        window.onload = function() {
+            var b = document.getElementsByTagName("body")[0];
+            //获取屏幕的宽度
+            var w = window.innerWidth / 7.5;
+            //大于750px ，让宽度设置为750px
+            if(w > 100) {
+                w = 100;
+            }
+
+            document.documentElement.style.fontSize = w + 'px' //
+
+            //onresize事件会在窗口或框架被调整大小时发生
+            window.onresize = function() {
+                var w = window.innerWidth / 7.5;
+                //屏幕的宽度大于750px 宽度设置为750px
+                if(w > 100) {
+                    w = 100;
+                }
+                console.log(w);
+                document.documentElement.style.fontSize = w + 'px'
+            }
+
+        }
+    </script>
+
+
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_apply/css/details.css" />
+    <!--<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_apply/css/swiper-3.4.2.min.css" />-->
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$item['name']}</title>
 </head>
-<body>
+
+<body  style="display: none">
 <style>
-    body {
-        background: #fff;
+    .footer_apply{width: 35%;background: white;float: left;text-align: center;}
+    .footer_apply a {padding: 0.25rem 0.5rem;display: inline-block;color:black;}
+    .agent_s{width: 65%;float: left}
+    .agent_s p{font-size: 0.2rem}
+    .special{
+        color: #36AFFE;
+        border-bottom: 2px #36AFFE solid;
     }
+    /*头*/
+    .header_s{
+        padding-top: 0.2rem;
+        padding-left: 0.3rem;
+        padding-bottom: 0.2rem;
+        /*border-bottom: 1px solid #36affe;*/
+        background-color:#ff2112;
 
-    * {
-        font-weight: 400;
     }
-
-    .mui-content {
-        background: #fff;
-    }
-
-    .apply .topContent {
-        width: 100%;
-        height: 2.5rem;
-        padding-top: 1.18rem;
-        background: url(../addons/xuan_mixloan/template/style/new_apply/images/applybja_1.png) no-repeat;
-        background-size: 100% 100%;
-    }
-
-    .apply .topContent .title {
-        padding: 0 0.24rem;
-        position: absolute;
-        left: 50%;
-        top: 0;
-        height: 1rem;
-        line-height: 1rem;
-        background: #fff;
-        overflow: hidden;
-        border-radius: 0 0 0.23rem 0.23rem;
-    }
-
-    .apply .topContent .title img {
-        width: 0.59rem;
-        margin-right: 0.2rem;
-        height: 0.59rem;
-        border-radius: 50%;
-        display: inline-block;
+    .header_s img{
+        width: 0.32rem;
+        height: 0.4rem;
+        float: left;
         vertical-align: middle;
     }
+    .header_s p{
+        font-size: 0.4rem;
+        /*float: left;*/
 
-    .apply .topContent .title p {
-        display: inline-block;
-        vertical-align: top;
-        font-size: 0.34rem;
-    }
-
-    .apply .topContent .productDetails {
-        width: 100%;
-    }
-
-    .apply .topContent .productDetails li {
-        float: left;
-        width: 33.33%;
-    }
-
-
-    .apply .topContent .productDetails li p {
-        text-align: center;
-        color: #fff;
-    }
-
-    .apply .topContent .productDetails li p:nth-child(1) {
-        line-height: 0.47rem;
-        height: 0.47rem;
-        font-size: 0.22rem;
-    }
-
-    .apply .topContent .productDetails li p:nth-child(2) {
-        line-height: 0.53rem;
-        height: 0.53rem;
-        font-size: 0.28rem;
-    }
-
-    .apply .contentBox {
-        padding: 0.2rem 0.4rem;
-    }
-
-    .apply .contentBox .interestRate li {
-        width: 3.2rem;
-        height: 1.2rem;
-        background: #95c1fe;
-        border-radius: 0.2rem;
-        padding-top: 0.18rem;
-    }
-
-    .apply .contentBox .interestRate li p {
-        text-align: center;
-        color: #fff;
-    }
-
-    .apply .contentBox .interestRate li p:nth-child(1) {
-        height: 0.44rem;
-        line-height: 0.44rem;
-        font-size: 0.28rem;
-    }
-
-    .apply .contentBox .interestRate li p:nth-child(2) {
-        height: 0.4rem;
-        line-height: 0.4rem;
-        font-size: 0.24rem;
-    }
-
-    .apply .contentBox .inputBox {
-        margin-top: 0.1rem;
-    }
-
-    .apply .contentBox .inputBox li {
-        width: 100%;
-        height: 0.9rem;
-        margin-top: 0.2rem;
-        position: relative;
-        border-radius: 0.2rem;
-    }
-
-    .apply .contentBox .inputBox li p {
-        display: inline-block;
-        font-size: 0.28rem;
-        color: #313131;
-        width: 0.7rem;
-        height: 0.9rem;
-        line-height: 0.9rem;
-        margin-right: -0.06rem;
-    }
-
-    .apply .contentBox .inputBox li:nth-child(1) input {
-        background: none;
-        background: #eee;
-        border-radius: 0.2rem;
-        width: 6rem;
-        height: 100%;
-        padding-left: 0.28rem;
-        color: #313131;
-        border: none;
-    }
-
-    .apply .contentBox .inputBox li:nth-child(1) span {
-        position: absolute;
-        right: 0.6rem;
-        top: 0;
-        height: 0.9rem;
-        line-height: 0.9rem;
-        font-size: 0.28rem;
-        color: #313131;
-    }
-
-    .apply .contentBox .inputBox li:nth-child(2) div {
-        width: 6rem;
-        height: 0.9rem;
-        background: #eee;
-        border-radius: 0.2rem;
-    }
-
-    .apply .contentBox .inputBox li:nth-child(2) i {
-        position: absolute;
-        right: 0.6rem;
-        top: 0.4rem;
-        width: 0.19rem;
-        height: 0.14rem;
-        background: url(../addons/xuan_mixloan/template/style/new_apply/images/bottomj_1.png) no-repeat;
-        background-size: 100% 100%;
-    }
-
-    .apply .contentBox .inputBox li:nth-child(2) span {
-        height: 0.9rem;
-        line-height: 0.9rem;
-        margin-left: 0.28rem;
-        font-size: 0.28rem;
-    }
-
-    .apply .contentBox h2 {
-        height: 0.86rem;
-        line-height: 0.86rem;
-        color: #313131;
-        font-size: 0.28rem;
-    }
-
-    .apply .contentBox .list {
-        width: 100% !important;
-        padding: 0.2rem;
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
-    }
-
-    .apply .contentBox .listB {
-        border-bottom: none;
-    }
-
-    .apply .contentBox .list li {
-        line-height: 0.48rem;
-        font-size: 0.26rem;
-        color: #313131;
-    }
-
-    .becomeMemberPopup {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 999999;
-        display: none;
-    }
-
-    .becomeMemberPopup .mark {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-        opacity: 0.4;
-    }
-
-    .becomeMemberPopup .content {
-        width: 5.6rem;
-        padding-bottom: 0.5rem;
-        background: #fff;
-        border-radius: 0.22rem;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-left: -2.8rem;
-        margin-top: -1.8rem;
-        padding-top: 0.82rem;
-    }
-
-    .becomeMemberPopup .content p {
         line-height: 0.5rem;
-        text-align: center;
-        font-size: 0.26rem;
-        color: #343853;
-        padding: 0 0.6rem;
+        vertical-align: middle;
+        /*text-align: center;*/
+        color: white;
+        /*padding-left: 0.3rem;*/
     }
-
-    .becomeMemberPopup .content p span {
-        color: #cbe0fd;
-    }
-
-    .becomeMemberPopup .content .btnBox {
-        text-align: center;
-        margin-top: 0.54rem;
-    }
-
-    .becomeMemberPopup .content .btnBox div {
-        display: inline-block;
-        width: 2.2rem;
-        height: 0.7rem;
-        border-radius: 0.35rem;
-        text-align: center;
-        line-height: 0.7rem;
-    }
-
-    /*.becomeMemberPopup .content .btnBox div:nth-child(1){background: #e9f0f6; color: #9ab3c7; margin-right: 0.09rem;}*/
-    .becomeMemberPopup .content .btnBox div:nth-child(1) {
-        background: -webkit-linear-gradient(#ffb973, #ff4c21);
-        background: -o-linear-gradient(#ffb973, #ff4c21);
-        background: -moz-linear-gradient(#ffb973, #ff4c21);
-        background: linear-gradient(#ffb973, #ff4c21);
-        color: #fff;
-    }
-
-    input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-        color: #b9c3e7;
-        opacity: 1;
-    }
-
-    input::-moz-placeholder { /* Mozilla Firefox 19+ */
-        color: #b9c3e7;
-        opacity: 1;
-    }
-
-    input:-ms-input-placeholder {
-        color: #b9c3e7;
-        opacity: 1;
-    }
-
-    input::-webkit-input-placeholder {
-        color: #b9c3e7;
-        opacity: 1;
-    }
-    .apply .contentBox .list li p{padding-right: 0.2rem; word-wrap:break-word;
-        word-break:break-all;
-        overflow: hidden;
-    }
-    @media screen and (min-width: 786px) {
-        .mui-scroll-wrapper{overflow: auto !important;}
-        .bottomInputBox{height: 2rem;}
-        .bottomInputBox ul li{height: 0.5rem;}
-        .bottomInputBox ul li p{height: 0.5rem; line-height: 0.5rem;}
-        .bottomInputBox ul li input{height:0.4rem ; margin-top: 0;}
-        .bottomInputBox .applyBtn{height: 0.5rem; line-height: 0.5rem;}
-        .apply .contentBox .inputBox li:nth-child(1) input{width: 5rem;}
-        .apply .contentBox .inputBox li:nth-child(2) div{width: 5.6rem;}
-        .apply .contentBox .list{width: 100% !important;}
-        .apply .contentBox{padding-bottom: 2rem;}
-        .apply .contentBox .list li p{font-size: 0.26rem; }
-
+    .clear{
+        clear: both;
     }
 </style>
-<script>
-    window.onload=function () {
-        document.addEventListener('touchstart',function (event) {
+<!--  -->
+<!--  -->
 
-            if(event.touches.length>1){
-                event.preventDefault();
-            }
-        })
-        var lastTouchEnd=0;
-        document.addEventListener('touchend',function (event) {
-            var now=(new Date()).getTime();
-            if(now-lastTouchEnd<=300){
-                event.preventDefault();
-            }
-            lastTouchEnd=now;
-        },false)
-    }
-</script>
-<div class="becomeMemberPopup">
-    <div class="mark"></div>
-    <div class="content">
-        <p></p>
-        <div class="btnBox">
-            <div class="btn">确定</div>
-        </div>
-    </div>
-</div>
-<style>
-    .loading{ position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5); z-index: 20000000; display: none;}
-    .loading img{
-        position: absolute;
-        width: 1.28rem;
-        height: 1.28rem;
-        left: 50%;
-        top: 50%;
-        margin-left: -0.64rem;
-        margin-top: -0.64rem;
+<!---->
 
-    }
-</style>
-<div class="loading">
-    <img src="../addons/xuan_mixloan/template/style/new_apply/picture/loding_1.gif"/>
-</div>
-<!--<header class="mui-bar mui-bar-nav headTitle">-->
-<!--    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left icon-arrowleft"></a>-->
-<!--    <h1 class="mui-title">申请</h1>-->
-<!--</header>-->
-<div class="mui-scroll-wrapper" style="padding-bottom: 1rem;" >
-    <div class="mui-scroll">
-        <div class="mui-content">
-            <div class="apply">
-                <div class="topContent">
-                    <div class="title">
-                        <img src="{php echo tomedia($item['ext_info']['logo']);}"/>
-                        <p>{$item['name']}</p>
+<!--产品详情-->
+<div class="details">
+    <!--产品介绍-->
+    <div class="introduce">
+        <!--小赢易贷-->
+        <div class="easy_loan">
+            <div class="big">
+                <div class="small">
+                    <img src="{php echo tomedia($item['ext_info']['logo']);}" />
+                    <p>{$item['name']}</p>
+                </div>
+                <div class="small2">
+                    <div class="minimum">
+                        <p>{$item['money_high']}</p>
+                        <p>最高额度</p>
                     </div>
-                    <ul class="productDetails clearfix">
-                        <li>
-                            <p>额度</p>
-                            <p>0-{$item['money_high']}</p>
-                        </li>
-                        <li>
-                            <p>贷款期限</p>
-                            <p>{$item['time_blow']}-{$item['time_high']}个月</p>
-                        </li>
-                        <li>
-                            <p>{if $item['rate_type'] == 1}日{else}月{/if}利率</p>
-                            <p id="monthlyInterestRate" data-id="0.009">{$item['rate']}%</p>
-                        </li>
-                    </ul>
+                    <div class="minimum2">
+                        <ul>
+                            <li>. 期限范围：{$item['time_blow']} - {$item['time_high']}</li>
+                            <li>. {$item['rate_type']}利率：{$item['rate']}%</li>
+                            <li>. 通过率：{$item['ext_info']['pass_rate']}%</li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="contentBox">
-                    <ul class="interestRate clearfix">
-                        <li class="fl">
-                            <p id="monthlyRepayment">0.00</p>
-                            <p>月还款（元）</p>
-                        </li>
-                        <li class="fr">
-                            <p id="totalInterest">0.00</p>
-                            <p>总利息</p>
-                        </li>
-                    </ul>
-                    <ul class="inputBox">
-                        <li class="clearfix">
-                            <p class="fl">金额</p>
-                            <input class="fl" type="tel" id="loanAmount"
-                                   value="{$item['money_high']}"/>
-                            <span>元</span>
-                        </li>
-                        <li class="clearfix" id="showUserPicker">
-                            <p class="fl">期限</p>
-                            <div class="fl">
-                                <span data-id="1">1 个月</span>
-                                <i></i>
-                            </div>
-
-                        </li>
-                    </ul>
-                    <h2 style="white-space: normal;">产品详情</h2>
-                    <ul class="list" style="width: 658.344px; white-space: normal;">
-                        {$item['ext_info']['detail']}
-                    </ul>
-                </div>
-
+                <div class="clear"></div>
+            </div>
+            <div class="big2">
+                <p>{$item['name']}</p>
+                <p>{$item['apply_nums']}人</p>
+                <p>已成功放贷</p>
+                <p>秒批</p>
             </div>
         </div>
-    </div>
-</div>
-<style>
 
-    .bottomInputBox {
-        width: 7.5rem;
-        /*height: 3.5rem;*/
 
-        position: fixed;
-        left: 50%;
-        margin-left: -3.75rem;
-        bottom: 0;
-        z-index: 200;
-        background: #fff;
-    }
 
-    .bottomInputBox {
-        width: 7.5rem;
-        /*height: 3.5rem;*/
-        position: fixed;
-        left: 50%;
-        margin-left: -3.75rem;
-        bottom: 0;
-        z-index: 200;
-        background: none;
-    }
 
-    .bottomInputBox ul {
-        padding: 0 0.3rem;
-        width: 6.7rem;
-        margin: 0 auto;
-        background: #fff;
-        border-radius: 0.2rem;
-    }
-
-    .bottomInputBox ul li {
-        width: 100%;
-        height: 0.9rem;
-        border-bottom: 1px solid #e5e5e5;
-    }
-
-    .bottomInputBox ul li p, .bottomInputBox ul li input, .bottomInputBox ul li div {
-        float: left;
-        font-size: 0.28rem;
-    }
-
-    .bottomInputBox ul li p {
-        width: 1.08rem;
-        height: 0.88rem;
-        line-height: 0.88rem;
-    }
-
-    .bottomInputBox ul li input {
-        width: 5rem;
-        height: 0.58rem;
-
-        padding: 0;
-        margin: 0;
-        border: none;
-        margin-top: 0.15rem;
-    }
-
-    .bottomInputBox ul li:nth-child(4) input {
-        width: 3.12rem;
-        height: 0.58rem;
-    }
-
-    .bottomInputBox ul li:nth-child(4) div {
-        width: 1.9rem;
-        height: 0.5rem;
-        line-height: 0.5rem;
-        margin-top: 0.19rem;
-        border-left: 1px solid #e5e5e5;
-        color: #ff8500;
-        text-align: center;
-    }
-
-    .bottomInputBox .applyBtn {
-        width: 6.7rem;
-        margin: 0 auto;
-        border-radius: 0.2rem;
-        margin-top: 0.3rem;
-        height: 0.9rem;
-        line-height: 0.9rem;
-        background: #3377ff;
-        color: #fff;
-        text-align: center;
-        font-size: 0.32rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .bottomInputBoxPop{width: 100%; height: 100%; background: rgba(0,0,0,0.8); position: absolute; z-index: 10; display:none;}
-    .bottomInputBox>div.inputCont{width: 6.7rem; border-radius: 0.2rem; margin: 0 auto; background: #fff;}
-    .bottomInputBox>div.inputCont .title{width: 3.2rem; height: 0.8rem; background: #3377ff; color: #fff; font-size: 0.28rem; text-align: center; line-height: 0.8rem; margin: 0 auto; margin-bottom: 0.1rem; border-radius: 0 0 0.2rem 0.2rem;}
-    .applyBtnA{position: fixed; height: 0.9rem; line-height: 0.9rem; color: #fff; font-size: 0.32rem; text-align: center; border-radius: 0.2rem; z-index: 9; width: 6.7rem; bottom: 0.1rem; left: 50%; margin-left: -3.35rem; background: #3377ff;}
-</style>
-<script src="../addons/xuan_mixloan/template/style/new_apply/js/clipboard.min_1.js"></script>
-<div id="ApplyBtn" class="applyBtnA ccas" data-clipboard-text="不允许复制">立即申请</div>
-<div id="bottomInputBoxPop" class="bottomInputBoxPop">
-    <div class="bottomInputBox">
-        <div class="inputCont">
-            <div class="title">请准确填写申请信息</div>
-            <ul>
-                <li class="clearfix"><p>姓名</p><input type="text" class="name" id="name" placeholder="请输入姓名" value=""/></li>
-                <li class="clearfix"><p>身分正</p><input type="text" class="" id="idcard" placeholder="请输入身分正号码" value=""/>
-                <li class="clearfix"><p>手机号</p><input type="tel" class="phoneNo" id="mobile" placeholder="请输入手机号" value=""/>
-                </li>
-            </ul>
+        <!--申请条件-->
+        <div class="condition">
+            <p>申请条件</p>
+            <div style="padding: 0.5rem">
+                {$item['ext_info']['conditions']}
+            </div>
         </div>
+        <!--申请流程-->
+        <div class="apply">
+            <p>申请流程</p>
+            <!--第一种情况-->
+            <div class="a4" >
+                <ul>
+                    <li>
 
-        <div id="btnGoToApply" class="applyBtn">确定</div>
+                        <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b0439e686298.png" />
+                        <p>身份证</p>
+                    </li>
+                    <li><p>>>></p></li><li>
+
+                    <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a3043521.png" />
+                    <p>人脸识别</p>
+                </li>
+                    <li><p>>>></p></li><li>
+
+                    <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a8b9f2c3.png" />
+                    <p>手机实名</p>
+                </li>
+                    <li><p>>>></p></li><li>
+
+                    <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-05-22_5b043a617264f.png" />
+                    <p>芝麻信用</p>
+                </li>
+
+                    <div class="clear"></div>
+                </ul>
+            </div>
+
+        </div>
+        <!--商品评价-->
+        <!--<div class="evaluate">-->
+        <!--<p class="evaluate_word">商品评价</p>-->
+        <!--&lt;!&ndash;个人评价&ndash;&gt;-->
+        <!--<ul>-->
+        <!---->
+
+
+        <!--</ul>-->
+        <!--<p class="evaluate_word2">共有0条评论</p>-->
+        <!--</div>-->
+        <!--同类推荐-->
+        <!-- <div class="recommend" style="margin-bottom:0.2rem">
+            <p class="recommend_word">同类推荐</p>
+            <div class="recommend_type">
+                <ul>
+                    <li>
+                            <a href="/index.php/Home/shop_info/shop_id/1062.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-12_5be957eb206e5.png" />
+                                 <p>有个金窝</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1043.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-11_5be7b41279740.png" />
+                                 <p>汇信财富</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1061.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5becfe17c7b2d.png" />
+                                 <p>财雨宝</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1018.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5becfec9f1e93.png" />
+                                 <p>钞神速</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1065.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-15_5bece8f230297.png" />
+                                 <p>旺旺豆</p>
+                                <p>秒批</p>
+                            </a>
+                        </li><li>
+                            <a href="/index.php/Home/shop_info/shop_id/1071.html">
+                                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/2018-11-13_5bea5dcf271be.png" />
+                                 <p>简单贷</p>
+                                <p>秒批</p>
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div> -->
+    </div>
+    <!--  -->
+
+
+    <!--奖金结算-->
+
+
+
+
+    <!--产品评价-->
+    <div class="pingjia">
+        <ul>
+
+            <!--<li>-->
+            <!--<div class="personal_evaluation">-->
+            <!--<div class="personal_img">-->
+            <!--<img src="../addons/xuan_mixloan/template/style/new_apply/picture/qqtouxiang.png" />-->
+            <!--</div>-->
+            <!--<div class="personal_word">-->
+            <!--<p>唐老板叫小可爱</p>-->
+            <!--<p>2018-4-10</p>-->
+            <!--<p>太给力了，大爱这个平台</p>-->
+            <!--</div>-->
+            <!--<div class="clear"></div>-->
+            <!--</div>-->
+            <!--</li>-->
+
+        </ul>
+
+    </div>
+    <div class="am-panel-bd"  id="my-scrollspy" style="text-align: center;margin:-1rem 0 1.5rem 0;display: none ">
+        点击加载
+    </div>
+    <div class="am-panel-bd"  id="my-scrollspy_s" style="display: none;text-align: center;font-size: 0.3rem;margin:-1rem 0 1.5rem 0;">
+        没有更多评论
     </div>
 </div>
+<!--底部-->
+<style>
+    .customer_service p{
+        font-size: 0.35rem;
+    }
+    .customer_service{
+        width: 29%;
+        padding-top: 0.25rem;
+        /*font-weight: 900;*/
+    }
+</style>
+<div class="fooder">
+    <!--客服-->
 
-<!--<input type="hidden" id="scopeOfLoan" value="1">-->
-<input type="hidden" id="scopeOfLoan" value="{$item['time_high']}">
-<input type="hidden" id="minLoanAmount" value="0">
-<input type="hidden" id="maxLoanAmount" value="{$item['money_high']}">
-<input type="hidden" id="productType" value="1">
-<input type="hidden" id="statusWa" value="1">
+    <!--代理-->
+    <!--<a href="/index.php/Home/loan/s_user_id/ODAwNA%3D%3D/shop_id/1146.html">-->
+   
+    <div class="agent_s" onclick="show()" style="background: #36affe;"  style="width:100%">
+    <p>马上申请</p>
+</div>
+<!-- </a>-->
 
-<link href="../addons/xuan_mixloan/template/style/new_apply/css/mui.picker.min_1.css"
-      rel="stylesheet"/>
-<link href="../addons/xuan_mixloan/template/style/new_apply/css/mui.poppicker_1.css"
-      rel="stylesheet"/>
-<script src="../addons/xuan_mixloan/template/style/new_apply/js/mui.picker.min_1.js"></script>
-<script src="../addons/xuan_mixloan/template/style/new_apply/js/mui.poppicker_1.js"></script>
-<script type="text/javascript" src="../addons/xuan_mixloan/template/style/new_apply/js/tool.min_1.js"></script>
-<script>
-    var userCodepId='429';
-    var userCodeuId='BE1AA397-0256-D99A-09D5-340B9AB71B5B';
-</script>
-<script src="../addons/xuan_mixloan/template/style/new_apply/js/yxzc.min_1.js"></script>
-<script type="text/javascript">
-    userCode(0,0);
-    var wm = null;
-    // 初始化SDK，只需初始化一次
-    // auto使用默认值，即自动化模式
-    initWatchman({
-        productNumber: 'YD00236518432416',
-        onload: function (instance) {
-            wm = instance
-        }
-    });
+</div>
 
-</script>
+
+
+<!--遮罩层-->
+<style>
+    .mask_body{
+        border: 1px #bbbbbb solid;
+        /*background-color: black;*/
+        background:rgba(0,0,0,0.6);
+        width: 7.5rem;
+        height:15rem;
+        position:fixed;
+        top :0rem;
+        /*opacity:0.5;*/
+
+        display: none;
+
+    }
+
+    .mask_body div{
+        text-align: center;
+    }
+
+    .mask_body img{
+        width: 1rem;
+        padding-right: 0.3rem;
+    }
+    .mask_body p{
+        font-size: 0.3rem;
+        color: black;
+        /*text-align: right;*/
+        /*padding-right: 0.5rem;*/
+    }
+    .element {
+        z-index:105;
+        margin:0.5rem 0 0 0;
+        float: left;
+        border: none;
+        background-color: white;
+        border-radius: 10px;
+        max-height: 10rem;
+        overflow-x:hidden;
+        -ms-overflow-style: none;
+        overflow: -moz-scrollbars-none;
+    }
+    .element::-webkit-scrollbar { width: 0 !important }
+
+</style>
+<div class="mask_body" >
+    <!--<div>-->
+    <!--<img src="../addons/xuan_mixloan/template/style/new_apply/picture/jiantou.png" />-->
+    <!--</div>-->
+    <!--<div style="margin-top: 0.5rem;border: 1px white solid;background-color: white">-->
+    <!---->
+    <!--</div>-->
+
+    <div  class="element" style="">
+        <div style="padding:0.3rem 0;font-size: 0.3rem">
+            <p style="float: right" id="del">
+                <img src="../addons/xuan_mixloan/template/style/new_apply/picture/del.png" style="width: 0.5rem;margin-top: -0.2rem;margin-right: -0.2rem" />
+            </p>
+            点击右上角分享专属链接给好友
+
+        </div>
+        <!--<img style="width: 3.5rem;padding: 0.5rem 0.5rem 0 0.5rem" src="../addons/xuan_mixloan/template/style/new_apply/picture/car_shop_info.html" />-->
+        <img style="width: 6.5rem;padding:0" src="../addons/xuan_mixloan/template/style/new_apply/picture/7c89a7ceee334f219f6fbd195944f589.gif" />
+
+        <p  style="padding:0.1rem 0">
+            <input id="text_input" class="url_str" style="float: left;margin-top:-0.5rem;opacity: 0" readonly />
+            <!--<p style="margin-top:-0.2rem;margin-bottom: 0.3rem;">长按复制分享链接</p>-->
+            <button  onclick="copy()" id="copy_text" style="border: none;background-color: #00a0e9;color: white;padding: 0.2rem 0.7rem;font-size: 0.3rem;border-radius: 5px;margin: 0.1rem 0">点击复制分享链接</button>
+
+        </p>
+
+        <p style="padding:0.2rem 0 0.4rem 0">
+            <a href="/" download style="border: 1px solid black;background-color: white;color: black     ;padding: 0.2rem 0.7rem;font-size: 0.3rem;border-radius: 5px;margin: 0.1rem 0">点击下载我的专属海报</a>
+        </p>
+        <img id='downImg' src='' style='display: none;' />
+    </div>
+    <div style="clear: both"></div>
+</div>
+<div style="display: none;" id="div3">
+    <div style="width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;filter: Alpha(opacity=50);opacity: 0.5;background: #000000;">
+
+    </div>
+
+    <div style="margin-top: 0.7rem;margin-left: 0.5rem;margin-right: 0.5rem;margin-bottom: 1.3rem;background-color: #FFFFFF;padding: 0.5rem 0.3rem;position: fixed;top: 0.5rem;left: 0.15rem;padding-bottom: 1rem;width: 75%;border-radius: 14px;">
+        <img onclick="zjx()" src="../addons/xuan_mixloan/template/style/new_apply/picture/shanchu1.png" style="width: 0.5rem;float: right;"/>
+        <div class="popLoanLink" style="width: 100%;text-align: center;font-size: 0.3rem"><a href="{php echo $this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $_GPC['inviter']))}">点击获取更多产品</a></div>
+        <div class="account" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 1.2rem;">
+            <img src="../addons/xuan_mixloan/template/style/new_apply/picture/xingming.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+            <input type="text" placeholder="请输入您的姓名" id="name" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
+            <div class="clear"></div>
+        </div>
+        <div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
+            <img src="../addons/xuan_mixloan/template/style/new_apply/picture/shoujihao.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+            <input type="text" placeholder="请输入手机号" id="phone" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
+            <div class="clear"></div>
+        </div>
+        <div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
+            <img src="../addons/xuan_mixloan/template/style/new_apply/picture/shoujihao.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+            <input type="text" placeholder="请输入身份号" id="idcard" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
+            <div class="clear"></div>
+        </div>
+        <<!-- div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
+            <img src="../addons/xuan_mixloan/template/style/new_apply/picture/validcode.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
+            <input type="text" placeholder="请输入验证码" id="cache" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;width: 50%"/>
+            <img src="" id="cache_img" style="width: 30%;height: 0.6rem">
+            <div class="clear"></div>
+        </div> -->
+        <div class="weui_cells weui_cells_checkbox" style="margin-top: 0.5rem">
+            <label class="weui_cell weui_check_label radius" for="s11">
+                <div class="weui_cell_hd" style="width: 10%;float: left">
+                    <input type="radio" class="weui_check" name="checkbox1" id="s11" checked="checked">
+                    <i class="weui_icon_checked"></i>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary" style="width: 90%;float: left">
+                    <p> <span style="font-size: 0.28rem;color: #999999;">阅读知晓并同意</span>
+                        <a href="{php echo $this->createMobileUrl('index', array('op' => 'risk_contract'))}"><span style="font-size: 0.28rem;color: #4E90E6;">《风险提示协议》</span></a>
+                </div>
+            </label>
+            <div class="clear"></div>
+        </div>
+        <input type="hidden" id="s_user_id" name="s_user_id"   value="8004" />
+
+        <div style="text-align: center;margin-top: 0.5rem;">
+            <button type="button" onclick="becomes()"  style="color: #ffffff;background: #36affe;width: 99%;padding-top: 0.1rem;padding-bottom: 0.1rem;border: 0px;font-size: 0.4rem;border-radius: 8px;letter-spacing: 4px;outline: none;">申请</button>
+        </div>
+    </div>
+</div>
+</body>
 <script>
-    new ClipboardJS('.ccas', {
-        target: function(trigger) {
-            return trigger.nextElementSibling;
-        }
-    });
-</script>
-<script>
-    $('#ApplyBtn').on('click',function(){
-        if($("#statusWa").val()=="0"){
-            mui.alert("该产品已下架！")
-            return false;
-        }
-        $('#bottomInputBoxPop').show();
+    $('#cache_img').click(function(){
+        getImgCache();
     })
-    //身分正号码验证
-    function IDCardCheck(num) {
-        num = num.toUpperCase();
-        // 身分正号码为18位，18位前17位为数字，最后一位是校验位，可能为数字或字符X。
-        var len, re;
-        len = num.length;
-        if(len < 18 || len > 18) {
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    console.log(data);
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
+    function becomes() {
+        var name = $('#name').val()
+        var idcard = $('#idcard').val()
+        var phone = $('#phone').val()
+        var cache = $('#cache').val();
+        var postData={"name":name,"phone":phone, "idcard":idcard};
+
+        if(name=='' || name=="请输入姓名"){
+            document.getElementById('name').focus();
+            layer.tips('请输入姓名', '#name', {
+                tips: [3, '#f90'],
+                time: 3000
+            });
+            return false;
+        }else if(name!=undefined&&name!=null){
+            var reg = /[\u4E00-\u9FA5]{2,10}(?:·[\u4E00-\u9FA5]{2,10})*/;
+            if(!(reg.test(name))){
+                document.getElementById('name').focus();
+                layer.tips('请输入正确的姓名', '#name', {
+                    tips: [3, '#f90'],
+                    time: 3000
+                });
+                return false;
+            }
+        }
+        if(phone == ''){
+            // layer.msgClick('请输入手机号')
+            layer.msg("请输入手机号");
             return false;
         }
-        if(len == 18) {
-            re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X|x)$/);
-            var arrSplit = num.match(re);
-            // 检查生日日期是否正确
-            var dtmBirth = new Date(arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]);
-
-            var bGoodDay;
-            bGoodDay = (dtmBirth.getFullYear() == Number(arrSplit[2])) && ((dtmBirth.getMonth() + 1) == Number(arrSplit[3])) && (dtmBirth.getDate() == Number(arrSplit[4]));
-            if(!bGoodDay) {
-                return false;
-            } else {
-                // 检验18位身分正的校验码是否正确。
-                var valnum;
-                var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
-                var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
-                var nTemp = 0,
-                    i;
-                for(i = 0; i < 17; i++) {
-                    nTemp += num.substr(i, 1) * arrInt[i];
-                }
-                valnum = arrCh[nTemp % 11];
-                if(valnum != num.substr(17, 1)) {
-                    return false;
-                }
-                return true;
-            }
+        var fixtele = /^1[34578]\d{9}$/;
+        if( !fixtele.test(phone) ){
+            layer.msg("您的联系方式输入错误");
+            return false;
         }
-        return false;
-    }
-    //  每月还款=借款金额/借款期限+借款金额*月利率
-    //  总利息=借款金额*月利率*借款期限
-    //借款金额
-    //  var loanAmount = '';
-    //  //借款期限
-    //  var termOfLoan = '';
-    //  //  月利率
-    //  var monthlyInterestRate='';
-    //  //  每月还款
-    //  var monthlyRepayment='';
-    //  //  总利息
-    //  var totalInterest ='';
-    //  loanAmount = ;
-    //      termOfLoan = ;
-    //      monthlyInterestRate =
-
-    if($("#statusWa").val()=="0"){
-        mui.alert("该产品已下架！")
-    }
-    var productType=$('#productType').val();
-    if(productType==1){
-        addHtml($('#maxLoanAmount').val(), 1, $('#monthlyInterestRate').attr('data-id'))
-        console.log('a' + $('#monthlyInterestRate').attr('data-id'))
-
-        function addHtml(loanAmount, termOfLoan, monthlyInterestRate) {
-
-            var monthlyRepayment = parseFloat(loanAmount) / parseFloat(termOfLoan) + parseFloat(loanAmount) * parseFloat(monthlyInterestRate);
-            console.log(termOfLoan)
-            console.log(monthlyInterestRate)
-            var totalInterest = parseFloat(loanAmount) * parseFloat(monthlyInterestRate) * parseFloat(termOfLoan)
-            console.log(totalInterest.toFixed(2))
-            $('#monthlyRepayment').html(monthlyRepayment.toFixed(2))
-            $('#totalInterest').html(totalInterest.toFixed(2))
-        }
-        mui.init();
-        var userPicker = new mui.PopPicker();
-        var arr = [];
-        for (var i = 1; i <= parseInt($('#scopeOfLoan').val()); i++) {
-            arr.push({"id": i, "text": i + '个月'});
-        }
-        userPicker.setData(arr);
-        $('#loanAmount').blur(function () {
-            if (parseFloat($('#loanAmount').val()) > parseFloat($('#maxLoanAmount').val()) || parseFloat($('#loanAmount').val()) < parseFloat($('#minLoanAmount').val())) {
-                mui.alert("请输入有效范围金额");
-                return false;
-            }
-            addHtml($('#loanAmount').val(), $('#showUserPicker span').attr('data-id'), $('#monthlyInterestRate').attr('data-id'))
-        })
-        var showUserPickerButton = document.getElementById('showUserPicker');
-        showUserPickerButton.addEventListener('tap', function (event) {
-            $('input').blur();
-            userPicker.show(function (items) {
-                $('#showUserPicker span').html(items[0].id + '个月');
-                $('#showUserPicker span').attr('data-id', items[0].id);
-
-
-                if (parseFloat($('#loanAmount').val()) > parseFloat($('#maxLoanAmount').val()) || parseFloat($('#loanAmount').val()) < parseFloat($('#minLoanAmount').val())) {
-                    mui.alert("请输入有效范围金额");
-                    $('.mui-poppicker').removeClass('mui-active');
-                    $('.mui-backdrop').hide();
-                    return false;
-                }
-                addHtml($('#loanAmount').val(), items[0].id, $('#monthlyInterestRate').attr('data-id'))
-                //返回 false 可以阻止选择框的关闭
-                //return false;
-            });
-        }, false);
-    }
-
-
-    //验证码获取超时时间
-    var verificationCodeTimeout = 90;
-    //是否可以获取验证码
-    var isGetVerificationCode = true;
-    //验证码倒计时事件
-    var verificationCodeIntervalEvent = null;
-    window.addEventListener('DOMContentLoaded', function () {
-        var shuping = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-        var timer = null;
-
-        //设置字体
-        function setFontSize() {
-            var w = document.documentElement.clientWidth || document.body.clientWidth;
-            document.documentElement.style.fontSize = parseInt(100 * w / 750) + 'px';
-        };
-        setFontSize();
-        window.addEventListener(shuping, function () {
-            clearTimeout(timer);
-            timer = setTimeout(setFontSize, 300);
-        }, false);
-    }, false);
-    mui('.mui-scroll-wrapper').scroll({
-        deceleration: 0.0005,//flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-        indicators: false
-    });
-
-    $(function () {
-        $('.apply .topContent .title').css('margin-left', '-' + $('.apply .topContent .title').outerWidth(true) / 2 + 'px')
-
-        var productIdA=''
-        //立即注册点击
-        $("#btnGoToApply").bind('click', function () {
-
-            if($("#statusWa").val()=="0"){
-                mui.alert("该产品已下架！")
-                return false;
-            }
-            var idcard=$('#idcard').val();
-            var mobile = $("#mobile").val();
-            var name = $("#name").val();
-            var verificationCode=$('#verificationCode').val()
-            if (!GuoleiJsUtil.isDefine(name)) {
-                mui.alert("请输入姓名");
-                return false;
-            }
-            if (!/^(([\u4e00-\u9fa5]{2,10}))$/.test(name)) {
-                mui.alert("姓名格式错误");
-                return false;
-            }
-            if (!GuoleiJsUtil.isDefine(idcard)) {
-                mui.alert("请输入身分正号码");
-                return false;
-            }
-            if(IDCardCheck(idcard)==false){
-                mui.alert("请输入合法的身分正号码");
-                return false;
-            }
-
-            if (!GuoleiJsUtil.isDefine(mobile)) {
-                mui.alert("请输入手机号码");
-                return false;
-            }
-            if (!GuoleiJsUtil.isPhoneNo(mobile)) {
-                mui.alert("手机号格式错误");
-                return false;
-            }
-            var isvcode='0'
-            if(isvcode=='1') {
-                if (!GuoleiJsUtil.isDefine(verificationCode)) {
-                    mui.alert("请输入验证码");
-                    return false;
-                }
-            }
-            productIdA='429';
-            $('.loading').show();
-            var usersCode = 0;
-            usersCode = getCookie("usercode");
-            //开始执行注册ajax请求
-            //执行发送验证码
-            wm & wm.getToken('91bcc1e25fba48749a6a87ccdebafb1e', function(token) {
-                $.ajax({
-                    url: "{php echo $this->createMobileUrl('loan', array('op' => 'apply_submit', 'inviter'=>$inviter, 'id'=>$pid))}",
-                    data: {
-                        phone: mobile,
-                        name: name,
-                        idcard: idcard,
-                    },
-                    type: 'POST',
-                    timeout: 60000,
-                    dataType: 'json',
-                    success: function (data, status, xhr) {
-                        console.log(data);
-                        console.log(data.code);
-                        if (data.code == '1') {
-                            //用户注册成功需要跳转
-                            mui.toast("申请成功");
-                            $('.loading').hide();
-                            window.location.href=data.data
-
-                        } else {
-                            $('.loading').hide();
-                            mui.toast(data.msg);
-                        }
-                    },
-                    error: function (xhr, type, error) {
-                        mui.toast('申请失败');
-                    }
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,function(data) {
+            if (data.code == 1) {
+                layer.msg('正在跳转...', {
+                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                }, function(){
+                    window.location.href = data.data;
                 });
-            });
+            }else{
+                layer.msg(data.msg);
+                return false;
+            }
+
+        }, 'json')
+
+    }
+
+    var t2 = window.setTimeout("hello()",500);//使用字符串执行方法
+
+    function hello() {
+        $('body').slideDown('slow');
+    }
+    //    layer.msg(window.location.hostname)
+
+    //     function download() {
+    //         //图片路径
+    //         var src =  "/";
+    //         //下载保存文件名
+    //         var imgname = '111.jpg';
+    //
+    //         $('#downImg').attr('src', src);
+    //         var img = $('#downImg').attr("src");
+    //         var alink = document.createElement("a");
+    //         alink.href = img;
+    //         alink.download = imgname;
+    //         alink.click();
+    //     }
+
+    function SaveAs5()
+
+    {
+
+        var imgURL =
+
+            layer.msg(imgURL)
+        var oPop = window.open(imgURL,"","width=1, height=1, top=5000, left=5000");
+
+        for(; oPop.document.readyState != "complete"; )
+
+        { if (oPop.document.readyState == "complete")break; }
+
+        oPop.document.execCommand("SaveAs"); oPop.close();
+
+    }
+
+
+    url = window.location.href+'&?business_info='+"";
+    $('.url_str').val(url)
+
+    //     var inputElem = document.getElementById('text_input');
+    //     var btnElem = document.getElementById('copy_text');
+    //
+    //     btnElem.addEventListener('click', function() {
+    //         if(!document.execCommand) {
+    //             layer.msg('复制失败')
+    //             console.error('copy unsupport');
+    //             return;
+    //         }
+    //         inputElem.select();
+    //         var result = document.execCommand('copy');
+    //         if(result) {
+    //             console.log('copy success');
+    //             layer.msg('复制成功')
+    //         } else {
+    //             console.error('copy fail');
+    //             layer.msg('复制失败')
+    //         }
+    //     });
+
+
+
+
+    function copy(message) {
+//         var input = document.createElement("input");
+        var inputElem = document.getElementById('text_input');
+//         input.value = message;
+//         document.body.appendChild(input);
+        inputElem.select();
+        inputElem.setSelectionRange(0, inputElem.value.length),
+            document.execCommand('Copy');
+        // document.body.removeChild(input);
+        layer.msg("复制成功");
+    }
+    var page = -1
+    var len = 10
+
+    $(document).on('click','#my-scrollspy',function () {
+        order_list();
+    })
+
+    function order_list() {
+
+        page ++
+        var pages = page * len
+        $.post("/Home/comment_list",{
+            len:len,
+            page:pages,
+            shop_id:"1146",
+            type:1,
+        },function(msg) {
+            if(page == 0){
+                $('.pingjia ul').empty();
+            }
+
+            if(msg.status == 'ok'){
+                var res = msg.msg
+                for( i in res){
+                    var a =  '<li>'+
+                        '<div class="personal_evaluation">'+
+                        '<div class="personal_img">'+
+                        '<img src="'+res[i].user_id.face+'" />'+
+                        '</div>'+
+                        '<div class="personal_word">'+
+                        '<p>'+res[i].user_id.base64nickname+'</p>'+
+                        '<p>'+res[i].ctime+'</p>'+
+                        '<p>'+res[i].info+'</p>'+
+                        '</div>'+
+                        '<div class="clear"></div>'+
+                        '</div>'+
+                        '</li>'
+                    $('.pingjia ul').append(a);
+                }
+
+
+                if(msg.count == 'no'){
+                    $('#my-scrollspy').hide()
+                    $('#my-scrollspy_s').show()
+
+                }
+            }else{
+                $('#my-scrollspy').hide()
+                $('#my-scrollspy_s').show()
+            }
+
+        })
+
+    }
+    achievement()
+    function achievement() {
+        $.post("/Home/achievement",{
+            shop_id:"1146",
+        },function(msg) {
+            var res = msg.res
+            $('.heroic_list_word span').html(msg.time);
+//             console.log(msg);
+            console.log(msg)
+
+            if( msg.count*1 < 3 ){
+
+                $('.three ul p').show()
+            }else {
+                $('.three ul').empty();
+
+                var a =  '<li>'+
+                    '<img src="'+res[1].s_user_id.face+'" />'+
+                    '<p>'+res[1].s_user_id.name+'</p>'+
+                    '<p>'+res[1].money+'元</p>'+
+                    '<p>2</p>'+
+                    '</li>'
+
+                $('.three ul').append(a);
+
+
+                var a =  '<li>'+
+                    '<img src="'+res[0].s_user_id.face+'" />'+
+                    '<p>'+res[0].s_user_id.name+'</p>'+
+                    '<p>'+res[0].money+'元</p>'+
+                    '<p>1</p>'+
+                    '</li>'
+
+                $('.three ul').append(a);
+
+                var a =  '<li>'+
+                    '<img src="'+res[2].s_user_id.face+'" />'+
+                    '<p>'+res[2].s_user_id.name+'</p>'+
+                    '<p>'+res[2].money+'元</p>'+
+                    '<p>3</p>'+
+                    '</li>'
+
+                $('.three ul').append(a);
+            }
+
+//             if(msg.status == 'ok'){
+//                 var res = msg.msg
+//                 for( i in res){
+//                     var a =  '<li>'+
+//                             '<div class="personal_evaluation">'+
+//                             '<div class="personal_img">'+
+//                             '<img src="'+res[i].user_id.face+'" />'+
+//                             '</div>'+
+//                             '<div class="personal_word">'+
+//                             '<p>'+res[i].user_id.base64nickname+'</p>'+
+//                             '<p>'+res[i].user_id.ctime+'</p>'+
+//                             '<p>'+res[i].info+'</p>'+
+//                             '</div>'+
+//                             '<div class="clear"></div>'+
+//                             '</div>'+
+//                             '</li>'
+//                     $('.pingjia ul').append(a);
+//                 }
+//
+//
+//             }else{
+//                 $('#my-scrollspy').hide()
+//                 $('#my-scrollspy_s').show()
+//             }
+
+        })
+    }
+
+
+
+    function become() {
+
+        $.post("/Home/user_login",{
+
+        },function(msg) {
+            if( msg.status == 'no' ){
+                window.location.href = "index.php?s=/Home/user_info"
+
+            }else {
+                $('.mask_body').show();
+            }
+
+        })
+
+    }
+    $('#del').click(function () {
+        $('.mask_body').hide();
+    })
+
+    var month_rate = "0.03"
+    rate()
+    $('.money input').blur(function () {
+        rate()
+
+    })
+    $('.date select').change(function () {
+        rate()
+    })
+
+    function rate() {
+        var money = $('.money input').val()*1;
+        var date = $('.date select').val()*1;
+        date = date-1;
+        //计算利息
+        var rate = money * month_rate / 100 * date * 1
+
+        //总还款
+        var count_money = money + rate
+        //月还款
+        date = date+1;
+        var month_money = count_money / date
+        month_money = month_money.toFixed(2)
+        $('.month p').eq(0).html(month_money)
+        $('.total p').eq(0).html(rate)
+        $('.form p span').html(count_money)
+
+        //总利息占比
+        var a = Math.round(rate/count_money*100)
+        var b = 100-a
+        $('.red').css('width',a+'%')
+        $('.blue').css('width',b+'%')
+
+    }
+
+    $('.header ul li').click(function () {
+        $('.header ul li').removeClass('special')
+        $(this).addClass('special')
+        var index = $(".header ul li").index(this);
+        if(index == 0){
+            $('.settlement').hide();
+            $('.pingjia').hide();
+            $('.introduce').show();
+            $('#my-scrollspy').hide()
+            $('#my-scrollspy_s').hide()
+        }else if( index == 1 ){
+
+            $('.introduce').hide();
+            $('.pingjia').hide();
+            $('.settlement').show();
+            $('#my-scrollspy').hide()
+            $('#my-scrollspy_s').hide()
+            achievement()
+        }else {
+            $('.settlement').hide();
+            $('.introduce').hide();
+            $('.pingjia ').show();
+            order_list()
+            $('#my-scrollspy').show()
+        }
+    })
+
+    $('.recommend_word2').click(function () {
+        $('.header ul li').eq(1).click();
+        $("html,body").animate({scrollTop:0}, 500);
+
+    })
+    $('.evaluate_word2').click(function () {
+        $('.header ul li').eq(2).click();
+        $("html,body").animate({scrollTop:0}, 500);
+
+    })
+
+
+
+    $.ajax({
+        url: "/index.php/Home/get_wx_config.html",
+        type: 'GET',
+        dataType: 'JSON',
+        data: {
+            url: location.href,
+        },
+        async: false,
+    })
+
+        .done(function(data) {
+
+
+            appId = data.data.appId;
+            timestamp = data.data.timestamp;
+            nonceStr = data.data.noncestr;
+            signature = data.data.signature;
+        })
+        .fail(function() {
+            console.log("error");
+        })
+        .always(function() {
+            console.log("complete");
         });
 
+    wx.config({
+        debug:false , // 开启调试模式,调用的所有api的返回值会在客户端layer.msg出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: appId, // 必填，公众号的唯一标识
+        timestamp: timestamp, // 必填，生成签名的时间戳
+        nonceStr: nonceStr, // 必填，生成签名的随机串
+        signature: signature, // 必填，签名，见附录1
+        jsApiList: ['chooseWXPay', 'openLocation','onMenuShareAppMessage','onMenuShareTimeline'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
 
-    })
+    url = window.location.href+'&?business_info='+"";
+
+
+    wx.ready(function () {
+        wx.onMenuShareAppMessage({
+            title: "小米贷",
+            desc: "融知道",
+            link: url,
+            imgUrl:"http://image.2016xiaozhuge.com/2018-11-20_5bf3aa31e3bd1.png",
+            trigger: function (res) {
+                // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+                //layer.msg('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //layer.msg('已分享11');
+            },
+            cancel: function (res) {
+                //layer.msg('已取消11');
+            },
+            fail: function (res) {
+                layer.msg(JSON.stringify(res));
+            }
+        });
+        wx.onMenuShareTimeline({
+            title:"小米贷",
+            desc: "融知道",
+            link:url,
+            imgUrl:"http://image.2016xiaozhuge.com/2018-11-20_5bf3aa31e3bd1.png",
+            success: function () {
+                //layer.msg('已分享11'); // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                //layer.msg('已分享2');// 用户取消分享后执行的回调函数
+            },
+            fail: function (res) {
+                layer.msg(JSON.stringify(res));
+            }
+        });
+    });
+    function show(){
+        document.getElementById("div3").style.display="block";
+    };
+    function shows(){
+        document.getElementById("div3").style.display="block";
+    };
+    function zjx(){
+        document.getElementById("div3").style.display="none";
+    };
 </script>
 
-</body>
 </html>
