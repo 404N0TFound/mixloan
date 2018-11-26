@@ -378,11 +378,6 @@
             <input type="text" placeholder="请输入手机号" id="phone" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
             <div class="clear"></div>
         </div>
-        <div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
-            <img src="../addons/xuan_mixloan/template/style/picture/idcard2.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
-            <input type="text" placeholder="请输入身份号" id="idcard" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;"/>
-            <div class="clear"></div>
-        </div>
         <!-- div class="password" style="border-bottom: 1px solid #dfdfdf;padding-bottom: 0.3rem;padding-top: 0.3rem;margin-top: 0.5rem;">
             <img src="../addons/xuan_mixloan/template/style/new_apply/picture/validcode.png" style="width: 0.5rem;height: 0.5rem;float: left;"/>
             <input type="text" placeholder="请输入验证码" id="cache" style="border: 0px;font-size: 0.31rem;float: left;margin-top: 0.15rem;padding-left: 0.1rem;outline: none;width: 50%"/>
@@ -428,10 +423,9 @@
     }
     function becomes() {
         var name = $('#name').val()
-        var idcard = $('#idcard').val()
         var phone = $('#phone').val()
         var cache = $('#cache').val();
-        var postData={"name":name,"phone":phone, "idcard":idcard};
+        var postData={"name":name,"phone":phone};
 
         if(name=='' || name=="请输入姓名"){
             document.getElementById('name').focus();
