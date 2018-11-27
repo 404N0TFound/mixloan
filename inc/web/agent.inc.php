@@ -205,29 +205,45 @@ if ($operation == 'list') {
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
-    $pindex = max(1, intval($_GPC['page']));
-    $psize = 20;
-    $wheres = '';
-    if (isset($_GPC['status']) && $_GPC['status'] != "") {
-        $wheres .= " and a.status={$_GPC['status']}";
+    if ($_COOKIE['verify'])
+    {
+        $pindex = max(1, intval($_GPC['page']));
+        $psize = 20;
+        $wheres = '';
+        if (isset($_GPC['status']) && $_GPC['status'] != "") {
+            $wheres .= " and a.status={$_GPC['status']}";
+        }
+        if (isset($_GPC['nickname']) && $_GPC['nickname'] != "") {
+            $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+        }
+        $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
+        $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+        $list = pdo_fetchall($sql);
+        foreach ($list as &$row) {
+            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
+            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
+            $row['left_bonus'] = round($row['left_bonus'], 2);
+        }
+        unset($row);
+        $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
+        $pager = pagination($total, $pindex, $psize);
     }
-    if (!empty($_GPC['nickname'])) {
-        $wheres .= " and b.nickname like '%{$_GPC['nickname']}%'";
+    else
+    {
+        if ($_GPC['post'])
+        {
+            $pass = trim($_GPC['pass']);
+            if ($pass == '123456.')
+            {
+                setcookie('verify', 1, time()+86400);
+                header("location:{$this->createWebUrl('agent', array('op' => 'withdraw_list'))}");
+            }
+            else
+            {
+                message('密码不正确', '', 'error');
+            }
+        }
     }
-    if (!empty($_GPC['phone'])) {
-        $wheres .= " and b.phone like '%{$_GPC['phone']}%'";
-    }
-    $sql = 'select a.id,b.nickname,b.avatar,a.createtime,a.bonus,a.status,a.uid from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY a.id DESC';
-    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
-    $list = pdo_fetchall($sql);
-    foreach ($list as &$row) {
-        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-        $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-        $row['left_bonus'] = round($row['left_bonus'], 2);
-    }
-    unset($row);
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_withdraw') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
-    $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     pdo_delete('xuan_mixloan_payment', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => '')), "sccuess");
