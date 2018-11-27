@@ -1,0 +1,346 @@
+﻿.header {
+	background: url(../images/img01.df8545b.png) 0 0/100% 100% no-repeat;
+	width: 100%;
+	height: 2.8rem;
+}
+
+.headerTop {
+	padding-top: .433333333333333rem;
+	height: .9rem;
+}
+
+.headerTop_logo {
+	float: left;
+	width: .466666666666667rem;
+	height: .466666666666667rem;
+	border-radius: .106666666666667rem;
+	margin-left: .58rem;
+	overflow: hidden;
+}
+
+.headerTop_title {
+	float: left;
+	margin-left: .133333333333333rem;
+	font-size: .233333333333333rem;
+	line-height: .466666666666667rem;
+	color: #fff;
+}
+
+.headerTop_count {
+	position: relative;
+	float: right;
+	padding: 0 .133333333333333rem;
+	margin: .1033333333333333rem .533333333333333rem 0 0;
+	line-height: .3rem;
+	color: #fff;
+	text-align: center;
+}
+
+.headerTop_countBg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border: 1px solid hsla(0, 0%, 100%, .5);
+	border-radius: .04rem;
+	-webkit-transform: skew(-21deg);
+	transform: skew(-21deg);
+}
+
+.headerCenter_edu {
+	padding-top: .093333333333333rem;
+	text-align: center;
+	padding-bottom: .3rem;
+}
+
+.headerCenter_Yuan {
+	font-size: .193333333333333rem;
+	line-height: .593333333333333rem;
+	color: #fce3df;
+}
+
+.headerCenter_fanwei {
+	font-size: .403066666666667rem;
+	line-height: .403066666666667rem;
+	color: #fff;
+}
+
+.masklayer {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 5;
+	background-color: rgba(0, 0, 0, .5);
+	display: none;
+}
+
+.list {
+	width: 5.3rem;
+	height: 7.026666666666666rem;
+	background: #fff 0 0/100% 100% no-repeat;
+	border-radius: .206666666666667rem;
+	position: absolute;
+	left: 0.59rem;
+	top: 20%;
+	z-index: 1;
+	overflow: hidden;
+	overflow-x: hidden;
+}
+
+.list-limit {
+	margin-top: .173333333333333rem;
+	font-size: .26rem;
+	line-height: 0.9rem;
+	color: #333;
+	border-bottom: 1px dashed #ececec;
+	text-align: center;
+}
+
+.msg {
+	width: 4.33333333333333rem;
+	border-bottom: 1px solid #eaeaea;
+	margin: 0 auto;
+}
+
+.tip {
+	padding-top: .286666666666667rem;
+	font-size: .237733333333333rem;
+	line-height: .4rem;
+	color: #f0594a;
+}
+
+.name {
+	font-size: .237733333333333rem;
+	line-height: .4rem;
+	color: #b7b7b7;
+	border: none;
+	height: .666666666666667rem;
+	outline: none;
+}
+
+.massage,
+.next {
+	width: 3.5rem;
+	margin: 0 auto;
+}
+
+.next {
+	height: 0.6733966829rem;
+	margin-top: .6rem;
+	background: url(../images/next.3ca08ae.png) 0 0/100% 100% no-repeat;
+}
+
+.massage1 {
+	padding-top: .233333333333333rem;
+}
+
+.massage1,
+.massage2 {
+	font-size: .2rem;
+	color: #f4b73c;
+	position: relative;
+	text-align: center;
+}
+
+.headerCenter_footer {
+	text-align: center;
+	margin-top: .04rem;
+	height: .506666666666667rem;
+	line-height: .506666666666667rem;
+}
+
+.headerCenter_footer div {
+	float: left;
+}
+
+.point {
+	position: relative;
+	top: .186666666666667rem;
+	background: #fff 0 0/100% 100% no-repeat;
+	height: .08rem;
+	width: .08rem;
+	border-radius: 50%;
+	left: .566666666666667rem;
+}
+
+.point1 {
+	position: relative;
+	top: .186666666666667rem;
+	background: #fff 0 0/100% 100% no-repeat;
+	height: .08rem;
+	width: .08rem;
+	border-radius: 50%;
+}
+
+.footerTime {
+	line-height: .453333333333333rem;
+	color: #fff;
+	text-align: left;
+	width: 2.906666666666666rem;
+	margin-left: 0.666666666666667rem;
+}
+
+.footerYuelv {
+	margin-left: .093333333333333rem;
+	line-height: .453333333333333rem;
+	color: #fff;
+	text-align: left;
+}
+
+.person {
+	padding-bottom: .333333333333333rem;
+	background: #fff 0 0/100% 100% no-repeat;
+	height: 1.64rem;
+}
+
+.red {
+	float: left;
+	height: 1.64rem;
+}
+
+.last {
+	float: right;
+	margin-right: .2066666666666667rem;
+}
+
+.red .num {
+	font-size: .4066666666666667rem;
+	line-height: 0.65rem;
+	color: #f1604e;
+	padding-left: .28rem;
+	display: inline-block;
+	margin-top: .24rem;
+}
+
+.red .span {
+	font-size: .233333333333333rem;
+	line-height: .533333333333333rem;
+	color: #f1604e;
+	display: inline-block;
+}
+
+.black {
+	line-height: .433333333333333rem;
+	color: #333;
+	padding-left: .28rem;
+}
+
+.passing {
+	text-align: center;
+	display: inline-block;
+	line-height: .533333333333333rem;
+	color: #333;
+}
+
+.last .lastNeed {
+	height: .386666666666667rem;
+	padding-right: .166666666666667rem;
+	background: #ff8d90 0 0/100% 100% no-repeat;
+	margin-top: .24rem;
+	border-radius: .06666666666667rem;
+	float: left;
+}
+
+.last .lastNeed img {
+	position: relative;
+	left: .166666666666667rem;
+	top: .036666666666667rem;
+	width: .28rem;
+	float: left;
+}
+
+.last .lastNeed .span {
+	font-size: .22rem;
+	line-height: .386666666666667rem;
+	color: #fff;
+	max-width: 3.2rem;
+	padding-left: .2046666666666667rem;
+	float: left;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+	margin-top: .013333333333333rem;
+}
+
+.last .img {
+	width: 1.15rem;
+	height: 0.95833333rem;
+	margin-top: .24rem;
+	float: left;
+	background: url(../images/nedd.6f9133d.png) 0 0/100% 100% no-repeat;
+}
+
+.accept {
+	background: #fff 0 0/100% 100% no-repeat;
+	margin-top: .14rem;
+	padding-bottom: .1rem;
+}
+
+.accept .title {
+	position: relative;
+	left: .253333333333333rem;
+	top: .24rem;
+	font-size: .26rem;
+	line-height: .66666666666667rem;
+	color: #333;
+	font-weight: 700;
+}
+
+.accept .title img {
+	width: .28rem;
+}
+
+.accept .title span {
+	padding-left: .166666666666667rem;
+}
+
+.accept>.condition:last-child {
+	padding-bottom: .426666666666667rem;
+	width: 8.613333333333333rem;
+}
+
+.accept .condition {
+	position: relative;
+	left: 0.93rem;
+	top: .24rem;
+	line-height: .333333333333333rem;
+	color: #333;
+	font-size: 0.2rem;
+}
+
+.accept .titile .two {
+	width: .52rem;
+}
+
+.accept .titile .span1 {
+	padding-left: .306666666666667rem;
+}
+
+.button {
+	position: fixed;
+	bottom: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	width: 100%;
+	text-align: center;
+}
+
+.button .yellow {
+	box-flex: 1;
+	-webkit-box-flex: 1;
+	-webkit-flex: auto;
+	flex: auto;
+	font-size: .243333333333333rem;
+	line-height: 0.8rem;
+	color: #fff;
+}
+
+.button .yellow {
+	width: 24.266666666666666%;
+	background: #f4b73c 0 0/100% 100% no-repeat;
+}
