@@ -28,6 +28,9 @@
             border-radius: 50%;
             vertical-align: middle;
         }
+        .kehu-table tr td {
+            font-size: 0.5rem
+        }
     </style>
 </head>
 
@@ -39,50 +42,71 @@
     }
 </script>
 {if !is_weixin()}
-<style type="text/css">
-    .app_header{height: 80px;width: 100%;background: #ffffff}
-    .app_header_back{text-align: center;color: white}
-    .app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
-    .app_header_back img{float:left;width: 12px;}
-    .app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
-</style>
-<div class="app_header">
-    <div class="app_header_back">
-        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
-        <span>等级明细</span>
-    </div>
-</div>
 {/if}
 <table class="kehu-table">
     <tbody>
     {loop $list $row}
     <tr class="list">
-        <td width="50%">
+        <td width="70%">
             <img src="{php echo tomedia($row['avatar']);}" class="label-img">
             <span>{$row['nickname']}</span>
         </td>
-        <td width="25%">
+        <td>
             <span class="label-info">{if $row['degree']==1}大师兄{else if $row['degree']==2}二师兄{else if $row['degree']==3}三师兄{/if}</span>
-        </td>
-        <td width="25%">
-            {if $row['id'] != $member['id']}<span class="label-info" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_center', 'uid'=>$row['id']))}')" style="background: #e7c751">返佣明细</span>{/if}
         </td>
     </tr>
     {/loop}
     <tr class="list">
-        <td width="50%"><img class="label-img" src="{php echo tomedia($brother['avatar']);}">
+        <td><img class="label-img" src="{php echo tomedia($brother['avatar']);}">
             <span>{$brother['nickname']}</span>
         </td>
-        <td width="25%">
+        <td>
             <span class="label-info">小师弟</span>
-        </td>
-        <td width="25%">
-            {if $row['id'] != $member['id']}<span class="label-info" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_center', 'uid'=>$row['id']))}')" style="background: #e7c751">返佣明细</span>{/if}
         </td>
     </tr>
     </tbody>
 </table>
-
+<table style="width: 100%;text-align: center;font-size: 0.5rem;margin: 10px 0;background: white">
+    <tbody>
+    <tr class="list">
+        <td style="width: 25%" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail', 'uid'=>$uid))}')">
+            所有产品
+        </td>
+        <td style="width: 25%" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail', 'status'=>0, 'uid'=>$uid))}')">
+            申请中
+        </td>
+        <td style="width: 25%" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail', 'status'=>2, 'uid'=>$uid))}')">
+            已通过
+        </td>
+        <td style="width: 25%" onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'degreeDetail', 'status'=>-1, 'uid'=>$uid))}')">
+            未通过
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="width: 100%;text-align: center;font-size: 0.5rem;margin: 10px 0;background: white">
+    <tbody>
+    {loop $apply $row}
+    <tr class="list">
+        <td style="width: 33.33%">
+            {$row['realname']}
+        </td>
+        <td style="width: 33.33%">
+            {$row['pro_name']}
+        </td>
+        <td style="width: 33.33%">
+            {if $row['status'] == 0}
+            申请中
+            {else if $row['status'] > 0}
+            已通过
+            {else if $row['status'] == -1}
+            未通过
+            {/if}
+        </td>
+    </tr>
+    {/loop}
+    </tbody>
+</table>
 </body>
 
 </html>
