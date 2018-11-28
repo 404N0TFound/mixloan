@@ -67,10 +67,10 @@ if($operation=='index'){
     }
     if ($info['type'] == 1) {
         $poster_short_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>1)));
-        $poster_long_url = 'http://wx.yssyr.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>1));
+        $poster_long_url = 'http://wwww.kupengkeji.ltd/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>1));
     } else {
         $poster_short_url = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>1)));
-        $poster_long_url = 'http://wx.yssyr.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>1));
+        $poster_long_url = 'http://wwww.kupengkeji.ltd/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>1));
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?v=01";
     $top_list = m('product')->getTopBonus($id);
