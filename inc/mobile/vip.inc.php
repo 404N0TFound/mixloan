@@ -44,7 +44,7 @@ if($operation=='buy'){
     }
     else
     {
-        $notify_url = 'http://w7.zhongjiatx.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $notify_url = 'http://xz.zhongchuangkm.com/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
         if (empty($record)) {
