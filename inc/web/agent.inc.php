@@ -233,7 +233,7 @@ if ($operation == 'list') {
         if ($_GPC['post'])
         {
             $pass = trim($_GPC['pass']);
-            if ($pass == '123456.')
+            if ($pass == 'jurongbao')
             {
                 setcookie('verify', 1, time()+86400);
                 header("location:{$this->createWebUrl('agent', array('op' => 'withdraw_list'))}");
