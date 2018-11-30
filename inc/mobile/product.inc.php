@@ -7,16 +7,25 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='index'){
     //首页
+    $cates = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_product_category') . "
+        where uniacid={$_W['uniacid']} ORDER BY sort DESC");
+    foreach ($cates as &$cate) {
+        $list = m('product')->getList([], ['category'=>$cate['id'], 'is_show'=>1], FALSE);
+        $cate['list'] = m('product')->packupItems($list);
+        $cate['ext_info'] = json_decode($cate['ext_info'], true);
+    }
+    unset($cate);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
     $new = m('product')->getRecommends();
     $new = m('product')->packupItems($new);
-    $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], ' sort desc');
-    $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], ' sort desc');
-    $card = m('product')->packupItems($card);
-    $loan = m('product')->packupItems($loan);
+    // $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
+    // $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
+    // $card = m('product')->packupItems($card);
+    // $loan = m('product')->packupItems($loan);
+    $card = $loan = array();
     $arr = array(
         'banner'=>$banner,
         'new'=>$new,
