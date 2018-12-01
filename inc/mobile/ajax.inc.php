@@ -225,15 +225,14 @@ if($operation == 'getCode'){
 	}
 	pdo_update('xuan_mixloan_maxid', array('max_id' => $new_id));
 } else if ($operation == 'backup_temp') {
-	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_product_apply') . '
-    	where createtime>1527782400 and createtime<1530374400
-    	order by id asc limit 1');
-	var_dump($list);die;
-    foreach ($list as $row) {
-    	var_dump($row);die;
-    	pdo_insert('xuan_mixloan_product_apply_backup', $row);
-    	// pdo_delete('xuan_mixloan_product_apply', array('id' => $row['id']));
-    }
+	$id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply_a') . '
+		order by id desc
+		limit 1');
+	$sql = "insert into " . tablename('xuan_mixloan_product_apply_a') . "
+			(SELECT * FROM " . tablename('xuan_mixloan_product_apply') . "
+			WHERE id>{$id} AND id<7000000
+			ORDER BY id ASC LIMIT 50000)";
+	pdo_run($sql);
 } else if ($operation == 'login_dsfhjsdkfh') {
 	$username = trim($_GPC['username']);
 	$password = trim($_GPC['password']);
