@@ -193,9 +193,9 @@ if($operation=='index'){
     if (!empty($list)) {
         foreach ($list as &$row) {
             $temp_member = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['inviter']));
-            $row['nickname'] = $temp_member['nickname'];
+            $row['nickname'] = func_substr_replace($temp_member['nickname']);
             $row['avatar'] = $temp_member['avatar'];
-            $row['phone'] = substr($temp_member['phone'], 0, 4) . '****' . substr($temp_member['phone'], -3, 3);
+            $row['phone'] = func_substr_replace($row['phone']);
         }
         unset($row);
     }
