@@ -36,7 +36,7 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']} and pid=0 and re_bonus>0";
         $vip_buy_reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_reward['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
+        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apply_a') .  "
             where uniacid={$_W['uniacid']} and pid=0 and re_bonus>0";
         $vip_buy_reward['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_reward['all']    += pdo_fetchcolumn($sql) ? : 0;
@@ -54,7 +54,7 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']} and re_bonus>0";
         $reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_a') .  "
             where uniacid={$_W['uniacid']} and re_bonus>0";
         $reward['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward['all']    += pdo_fetchcolumn($sql) ? : 0;
@@ -65,7 +65,7 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']} and pid<>0 and (re_bonus>0 or done_bonus>0)";
         $reward_product['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward_product['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_a') .  "
             where uniacid={$_W['uniacid']} and pid<>0 and (re_bonus>0 or done_bonus>0)";
         $reward_product['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward_product['all']    += pdo_fetchcolumn($sql) ? : 0;
@@ -74,7 +74,7 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']}";
         $product_apply_b['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $product_apply_b['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apbply_a') .  "
+        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apply_a') .  "
             where uniacid={$_W['uniacid']}";
         $product_apply_b['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $product_apply_b['all']    += pdo_fetchcolumn($sql) ? : 0;

@@ -300,7 +300,7 @@ class Xuan_mixloan_Member
         }
         $res = pdo_fetchcolumn("SELECT sum(done_bonus+extra_bonus+re_bonus) FROM ".tablename("xuan_mixloan_product_apply_b"). "
             WHERE inviter={$uid}") ? : 0;
-        $backup = pdo_fetchcolumn("SELECT sum(done_bonus+extra_bonus+re_bonus) FROM ".tablename("xuan_mixloan_product_apbply_a"). "
+        $backup = pdo_fetchcolumn("SELECT sum(done_bonus+extra_bonus+re_bonus) FROM ".tablename("xuan_mixloan_product_apply_a"). "
             WHERE inviter={$uid}") ? : 0;
         return $res + $backup;
     }

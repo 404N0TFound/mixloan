@@ -190,7 +190,7 @@ if($operation == 'getCode'){
     	$id = $row['relate_id'];
     	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_b') . '
     		where id=:id', array(':id' => $id));
-    	pdo_insert('xuan_mixloan_product_apbply_a', $item);
+    	pdo_insert('xuan_mixloan_product_apply_a', $item);
     	pdo_delete('xuan_mixloan_product_apply_b', array('id' => $id));
     	pdo_update('xuan_mixloan_backup_id', array('status' => 1), array('id' => $row['id']));
     }
@@ -201,10 +201,10 @@ if($operation == 'getCode'){
     	order by id asc limit 100');
     foreach ($list as $row) {
     	$id = $row['relate_id'];
-    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apbply_a') . '
+    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_a') . '
     		where id=:id', array(':id' => $id));
     	pdo_insert('xuan_mixloan_product_apply_b', $item);
-    	pdo_delete('xuan_mixloan_product_apbply_a', array('id' => $id));
+    	pdo_delete('xuan_mixloan_product_apply_a', array('id' => $id));
     	pdo_update('xuan_mixloan_recovery_id', array('status' => 1), array('id' => $row['id']));
     }
 } else if ($operation == 'temp') {

@@ -217,7 +217,7 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
         'ip'=>getServerIp(),
         'device_type'=>getDeviceType(),
     );
