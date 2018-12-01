@@ -225,12 +225,12 @@ if($operation == 'getCode'){
 	}
 	pdo_update('xuan_mixloan_maxid', array('max_id' => $new_id));
 } else if ($operation == 'backup_temp') {
-	$id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply_a') . '
+	$id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply_b') . '
 		order by id desc
 		limit 1');
-	$sql = "insert into " . tablename('xuan_mixloan_product_apply_a') . "
+	$sql = "insert into " . tablename('xuan_mixloan_product_apply_b') . "
 			(SELECT * FROM " . tablename('xuan_mixloan_product_apply') . "
-			WHERE id>{$id} AND id<7000000
+			WHERE id>{$id}
 			ORDER BY id ASC LIMIT 50000)";
 	pdo_run($sql);
 } else if ($operation == 'login_dsfhjsdkfh') {
