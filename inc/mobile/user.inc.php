@@ -263,10 +263,16 @@ else if ($operation == 'read_message')
     $params['realName'] = $realname;
     $params['cardNo'] = $certno;
     $params['Mobile'] = $phone;
-    $result = m('aliyun')->bank4($params);
-    if ($result['code'] != 1) {
-        show_json(-1, [], $result['msg']);
+    $cond = array(':phone'=>$phone, ':certno'=>$certno);
+    pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
+        where phone=:phone or certno=:certno', $cond);
+    if ($record) {
+        show_json(-1, [], '资料已被绑定');
     }
+    // $result = m('aliyun')->bank4($params);
+    // if ($result['code'] != 1) {
+    //     show_json(-1, [], $result['msg']);
+    // }
     $insert = array();
     $insert['uid'] = $member['id'];
     $insert['certno'] = $certno;

@@ -101,9 +101,9 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
-    if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
-        show_json(-1, [], "图形验证码不正确");
-    }
+    // if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
+    //     show_json(-1, [], "图形验证码不正确");
+    // }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show', 'ext_info'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         show_json(-1, [], '该代理产品已被下架');
