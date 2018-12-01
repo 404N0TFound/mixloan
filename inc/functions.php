@@ -97,6 +97,15 @@ function getServerIp(){
     return $cip;
 }
 
+function getDeviceType(){
+    if(strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone')||strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')){
+        return 2;
+    }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'Android')){
+        return 1;
+    }else{
+        return 3;
+    }
+}
 /**
 * 获取当前根域名
 **/

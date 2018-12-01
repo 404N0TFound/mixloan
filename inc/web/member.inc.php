@@ -164,7 +164,7 @@ if ($operation == 'list') {
             'status'=>2,
             'createtime'=>time()
         );
-        pdo_insert('xuan_mixloan_product_apply', $insert_i);
+        pdo_insert('xuan_mixloan_product_apply_b', $insert_i);
         //模板消息提醒
         $one_openid = m('user')->getOpenid($inviter);
         $datam = array(

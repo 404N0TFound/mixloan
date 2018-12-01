@@ -94,7 +94,7 @@ class Xuan_mixloan_Product
                 }
             }
         }
-        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_product_apply')." WHERE uniacid={$_W['uniacid']} {$wheres} ";
+        $sql = "SELECT {$fields} FROM ".tablename('xuan_mixloan_product_apply_b')." WHERE uniacid={$_W['uniacid']} {$wheres} ";
         if ($orderBy) {
             $sql .= " ORDER BY {$orderBy}";
         } else {
@@ -293,7 +293,7 @@ class Xuan_mixloan_Product
             $fields .= "pid, SUM(re_bonus+done_bonus+extra_bonus) AS bonus";
             $wheres .= " AND status>1";
         }
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$inviter} {$wheres} GROUP BY pid";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE uniacid={$_W['uniacid']} AND inviter={$inviter} {$wheres} GROUP BY pid";
         $list = pdo_fetchall($sql);
         if ($list) {
             foreach ($list as $key => $value) {
@@ -317,7 +317,7 @@ class Xuan_mixloan_Product
         if ($params['remove_ids']) {
             $wheres .= " AND pid NOT IN ({$params['remove_ids']})";
         }
-        $sql = "SELECT {$fields} FROM " . tablename("xuan_mixloan_product_apply") . "
+        $sql = "SELECT {$fields} FROM " . tablename("xuan_mixloan_product_apply_b") . "
                 WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND pid<>0 {$wheres}
                 GROUP BY degree";
         $res = pdo_fetchall($sql);
@@ -348,9 +348,9 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month -1 day");
         $fields = "b.nickname,b.id as uid,a.openid,a.createtime,c.id,d.re_bonus";
-        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
+        // $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply_b")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']} AND a.createtime>={$begin} AND a.createtime<{$end} ORDER BY a.id DESC";
         //取消时间限制
-        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']}  ORDER BY a.id DESC";
+        $sql = "SELECT {$fields} FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("xuan_mixloan_member")." b ON a.openid=b.openid LEFT JOIN ".tablename("xuan_mixloan_payment")." c ON b.id=c.uid LEFT JOIN ".tablename("xuan_mixloan_product_apply_b")." d ON b.id=d.uid WHERE a.qrcid=:qrcid AND a.type=1 AND a.uniacid={$_W['uniacid']}  ORDER BY a.id DESC";
         $list = pdo_fetchall($sql,array(":qrcid"=>$inviter));
         foreach ($list as $value) {
             if ($value['uid']) {
@@ -362,8 +362,8 @@ class Xuan_mixloan_Product
             $uids_string = '(' . implode(',', $uids) . ')';
             $con .= " AND a.uid NOT IN {$uids_string}";
         }
-        // $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.createtime>={$begin} AND a.createtime<{$end} AND a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
-        $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
+        // $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply_b').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.createtime>={$begin} AND a.createtime<{$end} AND a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
+        $new = pdo_fetchall("SELECT b.nickname,b.openid,a.createtime,a.id,a.re_bonus FROM ".tablename('xuan_mixloan_product_apply_b').' a LEFT JOIN '.tablename('xuan_mixloan_member')." b ON a.uid=b.id WHERE a.inviter={$inviter} AND a.pid=0 {$con} ORDER BY a.id DESC ");
         if ($list && $new){
             $list = array_merge($list, $new);
         } else if ($new) {
@@ -401,7 +401,7 @@ class Xuan_mixloan_Product
             return [];
         }
         $ret = [];
-        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply")." WHERE pid={$id} AND status>0 GROUP BY inviter HAVING money<>0 OR count<>0 ORDER BY money,count DESC LIMIT 10");
+        $list = pdo_fetchall("SELECT inviter,SUM(relate_money) AS `money`,COUNT(1) AS count FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE pid={$id} AND status>0 GROUP BY inviter HAVING money<>0 OR count<>0 ORDER BY money,count DESC LIMIT 10");
         foreach ($list as $row) {
             $inviter_ids[] = $row['inviter'];
         }

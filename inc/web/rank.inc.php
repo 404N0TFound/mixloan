@@ -35,19 +35,19 @@ if ($operation == 'list')
             $wheres .= " AND b.inviter = {$_GPC['id']}";
         }
         if ($type == 1) {
-            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apply') . " b 
+            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apply_b') . " b 
                 where b.uniacid=:uniacid  " . $wheres . '
                 group by inviter
                 order by bonus desc';
-            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apply') . " b 
+            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apply_b') . " b 
                 where b.uniacid=:uniacid  " . $wheres . '
                 ';
         } else {
-            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apply_backup') . " b 
+            $sql = "select sum(b.re_bonus+b.done_bonus+b.extra_bonus) as bonus,inviter from " . tablename('xuan_mixloan_product_apbply_a') . " b 
                 where b.uniacid=:uniacid  " . $wheres . '
                 group by inviter
                 order by bonus desc';
-            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apply_backup') . " b 
+            $total_sql = "select  distinct(inviter) from " . tablename('xuan_mixloan_product_apbply_a') . " b 
                 where b.uniacid=:uniacid  " . $wheres . '
                 ';
 
@@ -61,10 +61,10 @@ if ($operation == 'list')
             $used = m('member')->sumWithdraw($member['id']);
             $row['balance'] = $all - $used;
             if ($type == 1) {
-                $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply') . "
+                $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_b') . "
                     where inviter={$row['inviter']} " . $cond) ? : 0;
             } else {
-                $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apply_backup') . "
+                $row['count'] = pdo_fetchcolumn("select count(*) from " . tablename('xuan_mixloan_product_apbply_a') . "
                     where inviter={$row['inviter']} " . $cond) ? : 0;
             }
             $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
@@ -89,7 +89,7 @@ if ($operation == 'list')
     $start = $_GPC['start'];
     $end = $_GPC['end'];
     $cond .= " and createtime > {$start} and createtime<= {$end}";
-    $list = pdo_fetchall("select id from " . tablename('xuan_mixloan_product_apply') . "
+    $list = pdo_fetchall("select id from " . tablename('xuan_mixloan_product_apply_b') . "
         where inviter={$_GPC['id']} " . $cond);
     foreach ($list as $row) {
         $temp = array(
@@ -110,7 +110,7 @@ if ($operation == 'list')
     $start = $_GPC['start'];
     $end = $_GPC['end'];
     $cond .= " and createtime > {$start} and createtime<= {$end}";
-    $list = pdo_fetchall("select id from " . tablename('xuan_mixloan_product_apply_backup') . "
+    $list = pdo_fetchall("select id from " . tablename('xuan_mixloan_product_apbply_a') . "
         where inviter={$_GPC['id']} " . $cond);
     foreach ($list as $row) {
         $temp = array(

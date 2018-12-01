@@ -72,14 +72,14 @@ if($operation=='login') {
     }
     $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
 		where id=:id', array(':id' => $user_id));
-    $count_all = pdo_fetchcolumn('select sum(done_bonus+re_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+    $count_all = pdo_fetchcolumn('select sum(done_bonus+re_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
 		where inviter=:inviter', array(':inviter' => $user_id)) ? : 0;
     $withdraw_all = pdo_fetchcolumn('select sum(bonus) from ' . tablename('xuan_mixloan_withdraw') . '
 		where uid=:uid', array(':uid' => $user_id)) ? : 0;
     $can_withdraw = $count_all - $withdraw_all;
-    $one_degree_apply = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+    $one_degree_apply = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply_b') . '
 		where inviter=:inviter and degree=1 and type=1', array(':inviter' => $user_id)) ? : 0;
-    $all_degree_apply = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+    $all_degree_apply = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply_b') . '
 		where inviter=:inviter and type=1', array(':inviter' => $user_id)) ? : 0;
     include $this->template('partner/default');
 } else if ($operation == 'apply_data') {
@@ -135,7 +135,7 @@ if($operation=='login') {
             $where .= " and pid in ({$pid_string})";
         }
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_product_apply') . ' where 
+    $sql = 'select * from ' . tablename('xuan_mixloan_product_apply_b') . ' where 
 			inviter=:inviter and degree=1' . $where . ' order by id desc';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql, $cond);
@@ -159,7 +159,7 @@ if($operation=='login') {
         $row['phone'] = func_substr_replace($row['phone']);
     }
     unset($row);
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . ' where 
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply_b') . ' where 
 			inviter=:inviter ' . $where, $cond);
     $pager = pagination($total, $pindex, $psize);
     include $this->template('partner/apply_data');

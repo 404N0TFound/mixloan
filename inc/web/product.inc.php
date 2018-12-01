@@ -22,7 +22,7 @@ if ($operation == 'list') {
 } else if ($operation == 'delete') {
     message("删除功能已取消", $this->createWebUrl('product', array('op' => '')), "sccuess");
     pdo_delete('xuan_mixloan_product', array("id" => $_GPC["id"]));
-    pdo_delete('xuan_mixloan_product_apply', array("pid" => $_GPC["id"]));
+    pdo_delete('xuan_mixloan_product_apply_b', array("pid" => $_GPC["id"]));
 } else if ($operation == 'add') {
     //添加
     $cates = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_product_category') . " where uniacid={$_W['uniacid']} ORDER BY sort DESC");

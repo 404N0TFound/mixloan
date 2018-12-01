@@ -94,7 +94,7 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.* from ' . tablename('xuan_mixloan_product_apply') . " a where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.* from ' . tablename('xuan_mixloan_product_apply_b') . " a where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -139,8 +139,8 @@ if ($operation == 'list') {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
             if ($row['inviter']) {
                 $row['inviter_name'] = "({$row['inviter']['id']})" . $row['inviter']['nickname'];
-                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
-                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
+                $row['inviter_sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$row['inviter']['id']} AND status>1 AND pid={$row['pid']}") ? : 0;
             } else {
                 $row['inviter_name'] = '无';
                 $row['inviter_count'] = 0;
@@ -257,7 +257,7 @@ if ($operation == 'list') {
             )
         ));
     }
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply_b') . " a where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
@@ -376,7 +376,7 @@ if ($operation == 'list') {
     pdo_delete('xuan_mixloan_payment', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => '')), "sccuess");
 } else if ($operation == 'apply_delete') {
-    pdo_delete('xuan_mixloan_product_apply', array("id" => $_GPC["id"]));
+    pdo_delete('xuan_mixloan_product_apply_b', array("id" => $_GPC["id"]));
     message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
 } else if ($operation == 'withdraw_delete') {
     if ($_GPC['post']) {
@@ -395,7 +395,7 @@ if ($operation == 'list') {
 } else if ($operation == 'apply_update') {
     //申请编辑
     $id = intval($_GPC['id']);
-    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). " where id={$id}");
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply_b"). " where id={$id}");
     if ($item['pid']) {
         $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")." where id=:id", array(':id'=>$item['pid']));
         $info['ext_info'] = json_decode($info['ext_info'], true);
@@ -414,8 +414,8 @@ if ($operation == 'list') {
         $info['name'] = '邀请购买代理奖励';
     }
     $inviter = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['inviter']));
-    $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
-    $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
+    $inviter['count'] = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
+    $inviter['sum'] = pdo_fetchcolumn("SELECT SUM(relate_money) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$item['inviter']} AND status>1 AND pid={$item['pid']}") ? : 0;
     $apply = pdo_fetch('select avatar,nickname,phone,certno from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     if ($_GPC['post'] == 1) {
         $re_money = $_GPC['data']['re_bonus'];
@@ -466,7 +466,7 @@ if ($operation == 'list') {
             $account->sendTplNotice($one_man['openid'], $config['tpl_notice5'], $datam, $url);
         }
        
-        pdo_update('xuan_mixloan_product_apply', $_GPC['data'], array('id'=>$item['id']));
+        pdo_update('xuan_mixloan_product_apply_b', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'apply_list')), "sccuess");
     }
 } else if ($operation == 'withdraw_update') {
@@ -529,11 +529,11 @@ if ($operation == 'list') {
             //额外奖励
             $update['extra_bonus'] = trim($value[10]) ? : 0;
             if ($status > 0) {
-                $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply') . '
+                $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_b') . '
                     where id=:id', array(':id' => $value[0]));
                 
             }
-            $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
+            $result = pdo_update('xuan_mixloan_product_apply_b', $update, array('id'=>$value[0]));
             if ($result) {
                 $sccuess += 1;
             } else {

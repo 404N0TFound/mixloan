@@ -56,7 +56,7 @@ if($operation=='index'){
     if ($info['ext_info']['poster_text']) {
         $poster_short_url = $info['ext_info']['poster_text'] . ':' . $poster_short_url;
     }
-    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
         where inviter=:inviter', array(':inviter' => $member['id'])) ? : 0;
     if ($my_bonus < floatval($info['ext_info']['bonus_condition'])) {
         $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
@@ -128,7 +128,7 @@ if($operation=='index'){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
-    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
         where inviter=:inviter', array(':inviter' => $inviter)) ? : 0;
     if ($info['ext_info']['bonus_condition'] && $my_bonus < floatval($info['ext_info']['bonus_condition'])) {
         $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
@@ -218,15 +218,18 @@ if($operation=='index'){
         'extra_bonus'=>0,
         'status'=>$status,
         'createtime'=>time()
+        'ip'=>getServerIp(),
+        'device_type'=>getDeviceType(),
     );
-    pdo_insert('xuan_mixloan_product_apply', $insert);
+    $insert['browser_type'] = is_weixin() ? 1 : 2;
+    pdo_insert('xuan_mixloan_product_apply_b', $insert);
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
     if ($second_inviter) {
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
-        pdo_insert('xuan_mixloan_product_apply', $insert);
+        pdo_insert('xuan_mixloan_product_apply_b', $insert);
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
         $datam = array(
             "first" => array(
@@ -351,15 +354,15 @@ if($operation=='index'){
         $condition = ' WHERE inviter=:inviter AND pid=:pid AND status=-1';
     }
     $condition .= " and degree={$degree}";
-    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply_b') . "
         WHERE inviter=:inviter AND pid=:pid and degree={$degree}", $arr) ? : 0;
-    $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+    $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply_b') . "
         WHERE inviter=:inviter AND pid=:pid AND status>0 and degree={$degree}", $arr) ? : 0;
-    $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_product_apply') . "
+    $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_product_apply_b') . "
         WHERE inviter=:inviter AND pid=:pid and degree={$degree}", $arr) ? : 0;
-    $count_ing_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "
+    $count_ing_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply_b') . "
         WHERE inviter=:inviter AND pid=:pid AND status=0 and degree={$degree}", $arr) ? : 0;
-    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply'). $condition;
+    $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,pid,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_product_apply_b'). $condition;
     $list = pdo_fetchall($sql, $arr);
     if (!empty($list)) {
         foreach ($list as &$row) {

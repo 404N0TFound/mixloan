@@ -32,11 +32,11 @@ if ($operation == 'list')
         $vip_buy_fee['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_fee['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 购买代理返佣
-        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apply') .  "
+        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apply_b') .  "
             where uniacid={$_W['uniacid']} and pid=0 and re_bonus>0";
         $vip_buy_reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_reward['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apply_backup') .  "
+        $sql = "select sum(re_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
             where uniacid={$_W['uniacid']} and pid=0 and re_bonus>0";
         $vip_buy_reward['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_reward['all']    += pdo_fetchcolumn($sql) ? : 0;
@@ -50,34 +50,34 @@ if ($operation == 'list')
             where uniacid={$_W['uniacid']} and status=0";
         $withdraw_apply['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 佣金总额
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_b') .  "
             where uniacid={$_W['uniacid']} and re_bonus>0";
         $reward['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
             where uniacid={$_W['uniacid']} and re_bonus>0";
         $reward['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward['all']    += pdo_fetchcolumn($sql) ? : 0;
         // 剩余未体现
         $balance['all']           = $reward['all'] - $withdraw_money['all'] ? : 0;
         // 产品佣金
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_b') .  "
             where uniacid={$_W['uniacid']} and pid<>0 and (re_bonus>0 or done_bonus>0)";
         $reward_product['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward_product['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apply_backup') .  "
+        $sql = "select sum(re_bonus+done_bonus+extra_bonus) from " . tablename('xuan_mixloan_product_apbply_a') .  "
             where uniacid={$_W['uniacid']} and pid<>0 and (re_bonus>0 or done_bonus>0)";
         $reward_product['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
         $reward_product['all']    += pdo_fetchcolumn($sql) ? : 0;
         // 产品申请
-        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apply') .  "
+        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apply_b') .  "
             where uniacid={$_W['uniacid']}";
-        $product_apply['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
-        $product_apply['all']    = pdo_fetchcolumn($sql) ? : 0;
-        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apply_backup') .  "
+        $product_apply_b['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
+        $product_apply_b['all']    = pdo_fetchcolumn($sql) ? : 0;
+        $sql = "select count(*) from " . tablename('xuan_mixloan_product_apbply_a') .  "
             where uniacid={$_W['uniacid']}";
-        $product_apply['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
-        $product_apply['all']    += pdo_fetchcolumn($sql) ? : 0;
+        $product_apply_b['filter'] += pdo_fetchcolumn($sql . $wheres) ? : 0;
+        $product_apply_b['all']    += pdo_fetchcolumn($sql) ? : 0;
         // 代理数
         $sql = "select count(*) from " . tablename('xuan_mixloan_payment') .  "
             where uniacid={$_W['uniacid']}";

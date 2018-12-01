@@ -88,13 +88,13 @@ if($operation=='index'){
     $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
     $info = m('product')->getList(['id','is_show','ext_info'], ['id'=>$pid])[$pid];
-    $item['apply_nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+    $item['apply_nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply_b') . '
         where pid=:pid', array(':pid' => $pid));
     if (empty($info['is_show'])){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
-    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
         where inviter=:inviter', array(':inviter' => $inviter)) ? : 0;
     if ($info['ext_info']['bonus_condition'] && $my_bonus < floatval($info['ext_info']['bonus_condition'])) {
         $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
@@ -190,16 +190,19 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'ip'=>getServerIp(),
+        'device_type'=>getDeviceType(),
     );
-    pdo_insert('xuan_mixloan_product_apply', $insert);
+    $insert['browser_type'] = is_weixin() ? 1 : 2;
+    pdo_insert('xuan_mixloan_product_apply_b', $insert);
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
     if ($second_inviter) {
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
-        pdo_insert('xuan_mixloan_product_apply', $insert);
+        pdo_insert('xuan_mixloan_product_apply_b', $insert);
         $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
         $datam = array(
             "first" => array(
