@@ -67,6 +67,10 @@
 <div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
 	<ul>
+        <li>
+            <label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
+            <input type="text" name="" id="nickname"  placeholder="请输入您的用户名">
+        </li>
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
@@ -143,7 +147,6 @@
     })
     function to_buy(){
         $(".to_buy").unbind("click");
-        // var name=$("#name").val();
         var phone=$("#phone").val();
         var validcode=$("#validcode").val();
         var psw=$("#psw").val();
@@ -215,6 +218,7 @@
     }
     //验证码
     function getCheck(){
+        var nickname=$("#nickname").val();
         $(".validnum").unbind("click");
         var flagsms = true;
         var cache = $('#imgCode').val();
@@ -240,7 +244,7 @@
                         getCheck();
                     });
                 }else{
-                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone,"img_cache":cache},
+                    $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'type'=>'register'))}",{"phone":phone,"img_cache":cache, "nickname":nickname},
                         function(data){
                             if(data.code==0){
                                 layer.msg("已发送，请注意查收");
