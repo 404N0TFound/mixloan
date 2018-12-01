@@ -91,11 +91,11 @@ if($operation=='index'){
         $cate['list'] = m('product')->packupItems($list);
         foreach ($cate['list'] as &$row) {
             if ($row['type'] == 1) {
-                $row['url'] = $this->createMobileUrl('product', array('op' => 'apply', 'id' => $row['id'], 'inviter'=>$inviter));
+                $row['url'] = $this->createMobileUrl('product', array('op' => 'apply', 'id' => $row['id'], 'inviter'=>$inviter, 'rand'=>1));
                 $info = m('bank')->getCard(['id', 'ext_info'], ['id' => $row['relate_id']])[$row['relate_id']];
                 $row['tag'] = $info['ext_info']['v_name'];
             } else {
-                $row['url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$inviter, 'pid'=>$row['id']));
+                $row['url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$inviter, 'pid'=>$row['id'], 'rand'=>1));
                 $info = m('loan')->getList(['id', 'money_high'], ['id' => $row['relate_id']])[$row['relate_id']];
                 $row['tag'] = '最高额度' . $info['money_high'];
             }
