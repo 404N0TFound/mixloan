@@ -79,6 +79,10 @@
                             <label><img src="../addons/xuan_mixloan/template/style/picture/phone1-1.png"></label>
                             <input type="tel" name="phone" maxlength="11" id="phone" placeholder="请输入您的手机号" />
                         </div>
+                        <div class="regBindCommon regBindPhone">
+                            <label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png""></label>
+                            <input type="text" name="nickname" id="nickname" placeholder="请输入您的用户名" />
+                        </div>
                         <!-- <div class="regBindCommon">
                             <label><img src="../addons/xuan_mixloan/template/style/picture/valid1-1.png" style="width: 0.65rem;"></label>
                             <input type="text" name="imgCode" id="imgCode" placeholder="请输入图形验证码" />
@@ -201,6 +205,7 @@
     }
     function submit(){
         $("#to_regist").unbind('click');
+        var nickname=$("#nickname").val();
         var phone=$("#phone").val();
         var smsCode=$.trim($("#smsCode").val());
         var pass=$.trim($("#pass").val());
@@ -241,7 +246,7 @@
             click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter'=>$_GPC['inviter']))}",{"phone":phone,"smsCode":smsCode, "pwd":pass},
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter'=>$_GPC['inviter']))}",{"phone":phone,"smsCode":smsCode, "pwd":pass, "nickname":nickname},
             function(res){
                 if(res.code==1){
                     $("div.regInfoCommon").hide();
@@ -263,6 +268,7 @@
         $("#sendMess").unbind("click");
         var phone = $("#phone").val();
         var cache = $('#imgCode').val();
+        var nickname = $('#nickname').val();
         if (cache == '') {
             layer.tips('请输入图形验证码', '#imgCode', {
                 tips: [3, '#f90'],
@@ -304,7 +310,7 @@
             }
         }
 
-        $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'activity'=>1))}",{"phone":phone,"img_cache":cache},
+        $.post("{php echo $this->createMobileUrl('ajax', array('op'=>'getCode', 'activity'=>1))}",{"phone":phone,"img_cache":cache,"nickname":nickname},
             function(res){
                 if(res.code==102){
                     //已经是代理

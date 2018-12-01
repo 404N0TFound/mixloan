@@ -13,11 +13,15 @@ if($operation=='register'){
 	include $this->template('index/register_contract');
 } else if ($operation == 'register_ajax') {
     //注册提交
+    $nickname = trim($_GPC['nickname']);
     $phone = $_GPC['phone'];
     $pwd = $_GPC['pwd'] ? : '';
     $smsCode = $_GPC['smsCode'];
     if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
         show_json(-1, null, "验证码不符或验证码已失效");
+    }
+    if (empty($nickname)) {
+        show_json(-1, null, "您的用户名为空");
     }
     if (!empty($member['phone'])) {
         show_json(-1, null, "您的手机已绑定");
@@ -29,14 +33,13 @@ if($operation=='register'){
     if (empty($openid)) {
         //没有openid的情况
         $openid = md5($phone);
-        $nickname = "用户" . $phone;
         $insert = array(
             'uniacid'=>$_W['uniacid'],
             'openid'=>$openid,
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://hqph.bjhantangyuanlin.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'avatar'=>'http://tfkjclw.com/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
             'status'=>1,
         );
