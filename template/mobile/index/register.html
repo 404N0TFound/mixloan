@@ -67,14 +67,14 @@
 <div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
 	<ul>
-        <li>
-            <label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
-            <input type="text" name="" id="nickname"  placeholder="请输入您的用户名">
-        </li>
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
 		</li>
+        <li>
+            <label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
+            <input type="text" name="" id="nickname"  placeholder="请输入您的用户名">
+        </li>
 		<!-- <li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></label>
 			<input type="text" name="" id="imgCode" placeholder="请输入图形验证码" style="width: 60%">
@@ -147,6 +147,7 @@
     })
     function to_buy(){
         $(".to_buy").unbind("click");
+        var nickname=$("#nickname").val();
         var phone=$("#phone").val();
         var validcode=$("#validcode").val();
         var psw=$("#psw").val();
@@ -187,7 +188,7 @@
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw,"nickname":nickname},
             function(data){
                 console.log(data);
                 if(data.code==1){
