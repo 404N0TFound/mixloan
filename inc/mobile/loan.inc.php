@@ -94,8 +94,7 @@ if($operation=='index'){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
-    $my_bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
-        where inviter=:inviter', array(':inviter' => $inviter)) ? : 0;
+    $my_bonus = m('member')->sumBonus($inviter) ? : 0;
     if ($info['ext_info']['bonus_condition'] && $my_bonus < floatval($info['ext_info']['bonus_condition'])) {
         $white = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
                 where uid=:uid', array(':uid' => $inviter));

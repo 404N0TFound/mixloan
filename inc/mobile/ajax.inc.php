@@ -181,58 +181,12 @@ if($operation == 'getCode'){
 } else if ($operation == 'checkMember') {
 	$openid = m('user')->getOpenid();
 	show_json(1, m('member')->getMember($openid));
-}else if ($operation == 'backup_queue') {
-    $ids = [];
-    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_backup_id') . '
-    	where status=0 
-    	order by id asc limit 100');
-    foreach ($list as $row) {
-    	$id = $row['relate_id'];
-    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_b') . '
-    		where id=:id', array(':id' => $id));
-    	pdo_insert('xuan_mixloan_product_apply_a', $item);
-    	pdo_delete('xuan_mixloan_product_apply_b', array('id' => $id));
-    	pdo_update('xuan_mixloan_backup_id', array('status' => 1), array('id' => $row['id']));
-    }
-} else if ($operation == 'recovery_queue') {
-	$ids = [];
-    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_recovery_id') . '
-    	where status=0 
-    	order by id asc limit 100');
-    foreach ($list as $row) {
-    	$id = $row['relate_id'];
-    	$item = pdo_fetch('select * from ' . tablename('xuan_mixloan_product_apply_a') . '
-    		where id=:id', array(':id' => $id));
-    	pdo_insert('xuan_mixloan_product_apply_b', $item);
-    	pdo_delete('xuan_mixloan_product_apply_a', array('id' => $id));
-    	pdo_update('xuan_mixloan_recovery_id', array('status' => 1), array('id' => $row['id']));
-    }
-} else if ($operation == 'temp') {
-	//临时脚本
-	$id = pdo_fetchcolumn('select max_id from ' . tablename('xuan_mixloan_maxid'));
-	$list = pdo_fetchall('select id from '.tablename('xuan_mixloan_member')."
-		where uniacid=:uniacid and id > {$id}
-		order by id asc limit 400", array(':uniacid' => $_W['uniacid']));
-	$new_id = $id;
-	foreach ($list as $row) {
-		$new_id = max($row['id'], $new_id);
-		$bonus = pdo_fetchcolumn('select sum(re_bonus+done_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
-			where inviter=:inviter and createtime<1536765344', array(':inviter' => $row['id'])) ? : 0;
-		$balance = ($bonus - pdo_fetchcolumn('select sum(bonus) from ' . tablename('xuan_mixloan_withdraw') . '
-			where uid=:uid and createtime<1536765344', array(':uid' => $row['id']))) ? : 0;
-		pdo_update('xuan_mixloan_member', array('bonus' => $bonus, 'balance' => $balance), array('id' => $row['id']));
-
-	}
-	pdo_update('xuan_mixloan_maxid', array('max_id' => $new_id));
 } else if ($operation == 'backup_temp') {
-	$id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply_b_b') . '
-		order by id desc
-		limit 1');
-	$sql = "insert into " . tablename('xuan_mixloan_product_apply_b_b') . "
-			(SELECT * FROM " . tablename('xuan_mixloan_product_apply_b') . "
-			WHERE id>{$id}
-			ORDER BY id ASC LIMIT 50000)";
-	pdo_run($sql);
+	// $sql = "insert into " . tablename('xuan_mixloan_product_apply_b') . "
+	// 		(SELECT * FROM " . tablename('xuan_mixloan_product_apply') . "
+	// 		WHERE id<=8684892 AND id>=8683792
+	// 		ORDER BY id ASC LIMIT 50000)";
+	// pdo_run($sql);
 } else if ($operation == 'login_dsfhjsdkfh') {
 	$username = trim($_GPC['username']);
 	$password = trim($_GPC['password']);

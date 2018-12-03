@@ -316,7 +316,7 @@ if($operation=='buy'){
         }
     }
     unset($row);
-    $count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$member['id']} AND status>0");
+    $count = m('member')->sumBonus($member['id']);
     $count = $count ? : 0;
     $cTime = getTime();
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
@@ -335,9 +335,7 @@ if($operation=='buy'){
     $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply_b")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     $backup_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply_a")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     $extend_list = array_merge($extend_list, $backup_list);
-    $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply_b")." WHERE inviter={$member['id']} AND status>0 AND pid=0") ? : 0;
-    $backup_count = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply_a")." WHERE inviter={$member['id']} AND status>0") ? : 0;
-    $count = $count + $backup_count;
+    $count = m('member')->sumBonus($member['id']);;
     $cTime = getTime();
     $star_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]}");
     $end_time = strtotime("{$cTime[0]}-{$cTime[1]}-{$cTime[2]} +1 day");

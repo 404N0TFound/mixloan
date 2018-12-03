@@ -72,8 +72,7 @@ if($operation=='login') {
     }
     $member = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . '
 		where id=:id', array(':id' => $user_id));
-    $count_all = pdo_fetchcolumn('select sum(done_bonus+re_bonus+extra_bonus) from ' . tablename('xuan_mixloan_product_apply_b') . '
-		where inviter=:inviter', array(':inviter' => $user_id)) ? : 0;
+    $count_all = m('member')->sumBonus($user_id) ? : 0;
     $withdraw_all = pdo_fetchcolumn('select sum(bonus) from ' . tablename('xuan_mixloan_withdraw') . '
 		where uid=:uid', array(':uid' => $user_id)) ? : 0;
     $can_withdraw = $count_all - $withdraw_all;
