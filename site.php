@@ -29,7 +29,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
             !strexists($_SERVER['REQUEST_URI'], 'notify_url'),
             !strexists($_SERVER['REQUEST_URI'], 'exit'),
             !strexists($_SERVER['REQUEST_URI'], 'do=loan'),
-            !strexists($_SERVER['REQUEST_URI'], 'register'),
             !strexists($_SERVER['REQUEST_URI'], 'announce'),
             !strexists($_SERVER['REQUEST_URI'], 'upload_file'),
 		);
@@ -38,7 +37,11 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$con = false;
 				break;
 			} else {
-                $con = true;
+                if (strexists($_SERVER['REQUEST_URI'], 'register') && !is_weixin()) {
+                    $con = false;
+                } else {
+                    $con = true;
+                }
 			}
 		}
 		if (strexists($_SERVER['REQUEST_URI'], 'weixin.rod3bi.cn')) {

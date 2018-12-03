@@ -310,7 +310,7 @@
                     $("div.regInfoCommon").hide();
                     $("div.regDaili").show();
                     return false;
-                }else if(res.code==1){
+                }else if(res.code==0){
                     // 非i代用户第一次申请
                     layer.msg('短信发送成功');
                     curCount = 60;
