@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_bonus` (
   `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已完成',
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1 COMMENT '邀请者等级',
-  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '类型，1产品，2购买代理会员，3购买文章，4信用查询，5合伙人分佣',
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '类型，1产品，2购买代理会员，3购买文章，4信用查询，5合伙人分佣，6日排行榜，7月排行榜',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),

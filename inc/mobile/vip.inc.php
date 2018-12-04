@@ -490,7 +490,13 @@ if($operation=='buy'){
 		} else if ($row['type'] == 4) {
 			$row['name'] = '信用查询奖励';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/images/chaxun16.png';
-		}
+		} else if ($row['type'] == 6) {
+            $row['name'] = '日排行奖励';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/images/chaxun16.png';
+        } else if ($row['type'] == 7) {
+            $row['name'] = '月排行奖励';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/images/chaxun16.png';
+        }
 		if ($row['type'] != 1) {
 			$row['type'] = '现结';
 		}else if ($pros[$row['relate_id']]['count_time'] == 1) {

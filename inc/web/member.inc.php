@@ -311,6 +311,75 @@ if ($operation == 'list') {
             message("发送成功，总计发送{$count}条", "", "success");
         }
     }
+} else if ($operation == 'rank_list') {
+    // 排行榜
+    $type = intval($_GPC['type']) ? : 1;
+    if ($type == 1) {
+        $strattime = strtotime(date('Y-m-d') . ' -1 days');
+        $endtime = strtotime(date('Y-m-d'));
+        $list = pdo_fetchall("select inviter as uid,SUM(re_bonus+done_bonus+extra_bonus) as count_bonus from " . tablename('xuan_mixloan_bonus') . "
+             WHERE createtime>{$strattime} AND createtime<{$endtime}
+             GROUP BY inviter HAVING count_bonus<>0
+             ORDER BY count_bonus DESC LIMIT 15");
+    } else {
+        $temp_time = date('Y-m') . '-1';
+        $start_time = strtotime($temp_time);
+        $end_time = strtotime("+1 month {$temp_time}");
+        $list = pdo_fetchall("SELECT uid,SUM(bonus) as count_bonus FROM " .tablename('xuan_mixloan_withdraw'). "
+            WHERE createtime>{$start_time} AND createtime<{$end_time}
+            GROUP BY uid HAVING count_bonus<>0
+            ORDER BY count_bonus DESC LIMIT 15");
+    }
+    if (!empty($list)) {
+        foreach ($list as &$row) {
+            $wheres = '';
+            if ($type == 1) {
+                $wheres .= " and type=6 and createtime>" . strtotime(date("Y-m-d"));
+            } else {
+                $wheres .= " and type=7 and createtime>" . strtotime(date("Y-m"));
+            }
+            $sql = "select extra_bonus from " . tablename('xuan_mixloan_bonus') . "
+                where inviter=:inviter" . $wheres;
+            $row['reward'] = pdo_fetchcolumn($sql, array(':inviter' => $row['uid'])) ? : 0;
+            $row['man'] = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+        }
+        unset($row);
+    }
+} else if ($operation == 'rank_bonus') {
+    // 排行榜发放
+    $uid = intval($_GPC['uid']);
+    $bonus = trim($_GPC['bonus']);
+    $type  = intval($_GPC['type']);
+    if ($_GPC['post'])
+    {
+        if (empty($bonus))
+        {
+            message('发放失败，奖励为空', '', 'error');
+        }
+        $insert = array();
+        $ext_info = array();
+        $insert = array(
+            'uniacid' => $_W['uniacid'],
+            'uid' => $uid,
+            'inviter' => $uid,
+            'extra_bonus'=>$bonus,
+            'status'=>2,
+            'createtime'=>time(),
+        );
+        $insert['type'] = $type == 1 ? 6 : 7;
+        pdo_insert('xuan_mixloan_bonus', $insert);
+        $ext_info = array('content' => "尊敬的代理，您在排行榜的位置很靠前，现奖励您{$bonus}元佣金，继续推荐赚取更多佣金", 'url' => $url);
+        $insert = array(
+            'is_read'=>0,
+            'type'=>1,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$uid,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $insert);
+        message('发放成功', $this->createWebUrl('member', array('op' => 'rank_list', 'type' => $type)), 'success');
+    }
 }
 include $this->template('member');
 ?>
