@@ -134,6 +134,10 @@ if ($operation == 'list') {
             $row['name'] = '邀请付费信用查询';
         } else if ($row['type'] == 5) {
             $row['name'] = '合伙人奖励';
+        } else if ($row['type'] == 6) {
+            $row['name'] = '日排行奖励';
+        }  else if ($row['type'] == 7) {
+            $row['name'] = '月排行奖励';
         } else {
             $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_product').' WHERE id=:id', array(':id'=>$row['relate_id']));
         }
