@@ -132,6 +132,17 @@
                     <input type="text" class="form-control"  name="data[name]" value="{$item['name']}" />
                 </div>
             </div>
+            {if $item}
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">开启优化</label>
+                <div class="col-sm-9 col-xs-12">
+                    <select class="form-control" name="data[middleware]" >
+                        <option value="0" {if $item['middleware']==0}selected{/if}>否</option>
+                        <option value="1" {if $item['middleware']==1}selected{/if}>是</option>
+                    </select>
+                </div>
+            </div>
+            {/if}
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品logo</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">

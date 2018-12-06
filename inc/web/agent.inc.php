@@ -36,11 +36,17 @@ if ($operation == 'list') {
     if (!empty($_GPC['inviter'])) {
         $wheres.= " AND a.inviter='{$_GPC['inviter']}'";
     }
-    if (!empty($_GPC['type'])) {
-        $wheres.= " AND c.type='{$_GPC['type']}'";
+    if (!empty($_GPC['ip'])) {
+        $wheres.= " AND a.ip='{$_GPC['ip']}'";
     }
     if (!empty($_GPC['relate_id'])) {
-        $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
+        $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
+    }
+    if (!empty($_GPC['broswer_type'])) {
+        $wheres.= " AND a.broswer_type='{$_GPC['broswer_type']}'";
+    }
+    if (!empty($_GPC['device_type'])) {
+        $wheres.= " AND a.device_type='{$_GPC['device_type']}'";
     }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
@@ -67,12 +73,24 @@ if ($operation == 'list') {
     unset($row);
     $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
     $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
-    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.* from ' . tablename('xuan_mixloan_product_apply') . " a 
+            where a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
+    foreach ($list as $row) {
+        if ($row['pid'] && $row['type'] == 1) {
+            $pids[] = $row['pid'];
+        }
+        if ($row['inviter']) {
+            $inviters[] = $row['inviter'];
+        }
+    }
+    $products = m('product')->getList(['id', 'count_time', 'name'], ['id' => $pids]);
     foreach ($list as &$row) {
+        $row['count_time'] = $products[$row['pid']]['count_time'];
+        $row['name'] = $products[$row['pid']]['name'];
         if ($row['type'] == 2) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
@@ -81,9 +99,24 @@ if ($operation == 'list') {
             $row['name'] = '满单奖励';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        if ($row['device_type'] == 1){
+            $row['identification'] = '安卓';
+        } else if ($row['device_type'] == 2) {
+            $row['identification'] = '苹果';
+        } else if ($row['device_type'] == 3) {
+            $row['identification'] = 'windows';
+        } else {
+            $row['identification'] = '未知';
+        }
+        if ($row['browser_type'] == 1) {
+            $row['identification'] .= '|微信';
+        } else if ($row['browser_type'] == 2) {
+            $row['identification'] .= '|浏览器';
+        } else {
+            $row['identification'] .= '|未知';
+        }
     }
     unset($row);
-
     if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
             $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
@@ -197,11 +230,22 @@ if ($operation == 'list') {
                     'field' => 'inviter_sum',
                     'width' => 30
                 ),
+                array(
+                    'title' => '申请ip',
+                    'field' => 'ip',
+                    'width' => 30
+                ),
+                array(
+                    'title' => '申请标识',
+                    'field' => 'identification',
+                    'width' => 30
+                ),
             )
         ));
         unset($row);
     }
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a 
+            where  a.status<>-2 " . $wheres . "" );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
