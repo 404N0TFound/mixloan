@@ -45,6 +45,20 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+DROP TABLE IF EXISTS `ims_xuan_mixloan_loan_category`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_loan_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1帮助',
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_pcredit_feedback`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_pcredit_feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

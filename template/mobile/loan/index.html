@@ -204,12 +204,21 @@
 
             <div class="loanindex_shortcut">
                 <ul>
+                    {loop $category $cate}
                     <li>
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>$cate['id']));}')">
+                            <p><img src="{php echo tomedia($cate['ext_info']['logo']);}" /></p>
+                            <p> {$cate['name']}</p>
+                        </a>
+                    </li>
+                    {/loop}
+                 <!--    <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}')">
                             <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" /></p>
                             <p> 手机号贷</p>
                         </a>
-                    </li><li>
+                    </li>
+                <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}')">
                         <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" /></p>
                         <p>身份证贷</p>
@@ -244,7 +253,7 @@
                         <p><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" /></p>
                         <p>抵押贷</p>
                     </a>
-                </li>
+                </li> -->
                 </ul>
             </div>
         </div>

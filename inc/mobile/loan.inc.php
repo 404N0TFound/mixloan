@@ -8,12 +8,20 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
+    $category = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_loan_category') . "
+        where uniacid={$_W['uniacid']} ORDER BY sort DESC");
+    foreach ($category as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+    }
+    unset($row);
 	$list = m('loan')->getList([], [], 'apply_nums desc', 10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
 } else if ($operation == 'loan_select') {
 	//全部贷款
+    $category = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_loan_category') . "
+        where uniacid={$_W['uniacid']} ORDER BY sort DESC");
 	include $this->template('loan/loan_select');
 } else if ($operation == 'recommend') {
 	//智能推荐

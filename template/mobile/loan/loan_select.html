@@ -238,14 +238,17 @@
         </ul>
         <ul class="filter_layer filter_common flex" id="flex">
             <li data-no="0" data-id="">不限类型</li>
-            <li data-id="1"> 手机号贷</li>
+            {loop $category $cate}
+            <li data-id="{$cate['id']}"> {$cate['name']}</li>
+            {/loop}
+            <!-- <li data-id="1"> 手机号贷</li>
             <li data-id="2">身份证贷</li>
             <li data-id="3">芝麻分贷</li>
             <li data-id="4">不查征信</li>
             <li data-id="5">信用卡贷</li>
             <li data-id="6">公积金贷</li>
             <li data-id="7">大额贷</li>
-            <li data-id="8">抵押贷</li>
+            <li data-id="8">抵押贷</li> -->
         </ul>
     </div>
 </div>
