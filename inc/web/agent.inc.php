@@ -51,6 +51,16 @@ if ($operation == 'list') {
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
     }
+    if ($_GPC['phone'] != "") {
+        $phone = trim($_GPC['phone']);
+        $uid_arr = pdo_fetchall('select id from ' . tablename('xuan_mixloan_member') . "
+            where phone like '%{$phone}%'");
+        foreach ($uid_arr as $uid_a) {
+            $uids[] = $uid_a['id'];
+        }
+        $uid_string = implode(',', $uids);
+        $wheres.= " AND a.inviter in ($uid_string)";
+    }
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
         $endtime = $_GPC['time']['end'];
