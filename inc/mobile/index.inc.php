@@ -13,45 +13,82 @@ if($operation=='register'){
 	include $this->template('index/register_contract');
 } else if ($operation == 'register_ajax') {
 	//注册提交
-	$phone = $_GPC['phone'];
-	$pwd = $_GPC['pwd'];
-	$smsCode = $_GPC['smsCode'];
+    $phone = $_GPC['phone'];
+    $pwd = $_GPC['pwd'] ? : '';
+    $smsCode = $_GPC['smsCode'];
     if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
-		show_json(-1, null, "验证码不符或验证码已失效");
-	}
-	if (!empty($member['phone'])) {
-		show_json(-1, null, "您的手机已绑定");
-	}
-	$res = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_member")." WHERE phone=:phone AND uniacid=:uniacid", array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
-	if ($res) {
-		show_json(-1, null, "手机已绑定");
-	}
-	//邀请处理
-	$qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM ".tablename("qrcode_stat")." WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
-	if ($qrcid) {
-		$res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_inviter")." WHERE phone=:phone AND uid=:uid ORDER BY id DESC",array(":uid"=>$qrcid,":phone"=>$phone));
-		if (!$res_i && $qrcid!=$member['id']) {
-			$insert_i = array(
-				'uniacid' => $_W['uniacid'],
-				'uid' => $qrcid,
-				'phone' => $phone,
-				'createtime' => time(),
-			);
-			pdo_insert('xuan_mixloan_inviter', $insert_i);
-		}
-	}
-    if ($config['backup']) {
-        //开启备份
-        $record = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename("xuan_mixloan_member")."
-            WHERE phone=:phone", array(':phone'=>$phone));
-        if ($record) {
-            show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'find_user'])], "查找到此手机绑定过用户信息，建议使用找回账号功能");
-        }
+        show_json(-1, null, "验证码不符或验证码已失效");
     }
-	//更新操作
-	$arr = ['phone'=>$phone, 'pass'=>$pwd];
-	pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
-	show_json(1, ['url'=>$this->createMobileUrl('user')], "注册成功");
+    if (!empty($member['phone'])) {
+        show_json(-1, null, "您的手机已绑定");
+    }
+    $res = pdo_fetchcolumn("SELECT COUNT(1) FROM ".tablename("xuan_mixloan_member")." WHERE phone=:phone AND uniacid=:uniacid", array(':phone'=>$phone, ':uniacid'=>$_W['uniacid']));
+    if ($res) {
+        show_json(-1, null, "手机已绑定");
+    }
+    if ($openid) {
+        //邀请处理
+        $qrcid = pdo_fetchcolumn("SELECT `qrcid` FROM " .tablename("qrcode_stat"). "
+            WHERE openid=:openid AND uniacid=:uniacid AND type=1 ORDER BY id DESC",
+            array(":openid"=>$openid,":uniacid"=>$_W["uniacid"]));
+        if ($qrcid) {
+            $res_i = pdo_fetchcolumn("SELECT COUNT(1) FROM " .tablename("xuan_mixloan_inviter"). "
+                WHERE phone=:phone AND uid=:uid ORDER BY id DESC",
+                array(":uid"=>$qrcid,":phone"=>$phone));
+            if (!$res_i && $qrcid!=$member['id']) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $qrcid,
+                    'phone' => $phone,
+                    'createtime' => time(),
+                );
+                pdo_insert('xuan_mixloan_inviter', $insert_i);
+            }
+        } else {
+            if ($_GPC['inviter'] && $_GPC['inviter'] != $member['id']) {
+                $insert_i = array(
+                    'uniacid' => $_W['uniacid'],
+                    'uid' => $_GPC['inviter'],
+                    'phone' => $phone,
+                    'createtime' => time(),
+                );
+                pdo_insert('xuan_mixloan_inviter', $insert_i);
+                $insert_q = array(
+                    'uniacid' => $_W['uniacid'],
+                    'type'=>1,
+                    'qrcid' => $_GPC['inviter'],
+                    'scene_str' => $_GPC['inviter'],
+                    'openid' => $member['openid'],
+                    'createtime' => time(),
+                );
+                pdo_insert('qrcode_stat', $insert_q);
+            }
+        }
+        //更新操作
+        $arr = ['phone'=>$phone, 'pass'=>$pwd];
+        pdo_update('xuan_mixloan_member', $arr, ['id'=>$member['id']]);
+        show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
+    } else {
+        //没有openid的情况
+        $openid = md5($phone);
+        $nickname = "用户" . substr($phone, -6);
+        $insert = array(
+            'uniacid'=>$_W['uniacid'],
+            'openid'=>$openid,
+            'phone'=>$phone,
+            'pass'=>$pwd,
+            'createtime'=>time(),
+            'avatar'=>'http://wx.wdcsy.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'nickname'=>$nickname,
+            'status'=>-2,
+        );
+        pdo_insert('xuan_mixloan_member', $insert);
+        $member_id = pdo_insertid();
+        if ($_GPC['inviter']) {
+            $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+        }
+        show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
+    }
 } else if ($operation == 'find_user') {
     //找回账号
     if (!$config['backup']) {
@@ -181,4 +218,15 @@ if($operation=='register'){
     } else {
         show_json(1, ['url'=>$this->createMobileUrl('index', array('op'=>'login'))], "更改密码成功，请牢记您的密码");
     }
+} else if ($operation == 'exit') {
+    die("<!DOCTYPE html>
+    <html>
+        <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
+            <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+        </head>
+        <body>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在APP客户端打开</h4></div></div></div>
+        </body>
+    </html>");
 }
