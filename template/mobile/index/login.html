@@ -149,7 +149,7 @@
             bind_click();
             return false;
         }else{
-            if (!(/^1[3|4|5|7|8][0-9]\d{8}$/.test(phone))) {
+            if (!(/^1[3-9][0-9]\d{8}$/.test(phone))) {
                 layer.msg('请输入正确的手机号');
                 bind_click();
                 return false;
