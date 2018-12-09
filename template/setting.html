@@ -338,7 +338,7 @@
 						购买代理设置
 					</div>
 					<div class="panel-body">
-						<div class="form-group" >
+						<!-- <div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入代理金额</label>
 							<div class="col-sm-3 col-xs-12">
 								<input type="text" name="buy_vip_price" value="{$setting['buy_vip_price']}" class="form-control" >
@@ -355,7 +355,142 @@
 								<input type="text" name="inviter_fee_two" value="{$setting['inviter_fee_two']}" class="form-control" placeholder="单位为元">
 								<span class="help-block">二级</span>
 							</div>
+						</div> -->
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入城市代理金额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="buy_vip_a_price" value="{$setting['buy_vip_a_price']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
 						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">城市代理给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_one" value="{$setting['inviter_fee_a_one']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">一级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_two" value="{$setting['inviter_fee_a_two']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">二级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_thr" value="{$setting['inviter_fee_a_thr']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">三级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">城市代理给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_four" value="{$setting['inviter_fee_a_four']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">四级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_five" value="{$setting['inviter_fee_a_five']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">五级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_six" value="{$setting['inviter_fee_a_six']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">六级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">城市代理给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_a_sev" value="{$setting['inviter_fee_a_sev']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">七级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入大区总代金额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="buy_vip_b_price" value="{$setting['buy_vip_b_price']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">大区总代给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_one" value="{$setting['inviter_fee_b_one']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">一级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_two" value="{$setting['inviter_fee_b_two']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">二级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_thr" value="{$setting['inviter_fee_b_thr']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">三级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">大区总代给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_four" value="{$setting['inviter_fee_b_four']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">四级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_five" value="{$setting['inviter_fee_b_five']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">五级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_six" value="{$setting['inviter_fee_b_six']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">六级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">大区总代给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_b_sev" value="{$setting['inviter_fee_b_sev']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">七级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">加入终身合伙人金额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="buy_vip_c_price" value="{$setting['buy_vip_c_price']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">终身合伙人给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_one" value="{$setting['inviter_fee_c_one']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">一级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_two" value="{$setting['inviter_fee_c_two']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">二级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_thr" value="{$setting['inviter_fee_c_thr']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">三级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">终身合伙人给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_four" value="{$setting['inviter_fee_c_four']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">四级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_five" value="{$setting['inviter_fee_c_five']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">五级</span>
+							</div>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_six" value="{$setting['inviter_fee_c_six']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">六级</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">终身合伙人给上级返佣多少</label>
+							<div class="col-sm-3 col-xs-4">
+								<input type="text" name="inviter_fee_c_sev" value="{$setting['inviter_fee_c_sev']}" class="form-control" placeholder="单位为元">
+								<span class="help-block">七级</span>
+							</div>
+						</div>
+
+
+						
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">满单奖励</label>
 							<div class="col-sm-3 col-xs-4">

@@ -212,10 +212,14 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">等级</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="degree">
-                        <option value="">筛选状态</option>
+                        <option value="">筛选等级</option>
                         <option value="1" {if $_GPC['degree']=='1'}selected{/if}>一级</option>
                         <option value="2" {if $_GPC['degree']=='2'}selected{/if}>二级</option>
                         <option value="3" {if $_GPC['degree']=='3'}selected{/if}>三级</option>
+                        <option value="3" {if $_GPC['degree']=='4'}selected{/if}>四级</option>
+                        <option value="3" {if $_GPC['degree']=='5'}selected{/if}>五级</option>
+                        <option value="3" {if $_GPC['degree']=='6'}selected{/if}>六级</option>
+                        <option value="3" {if $_GPC['degree']=='7'}selected{/if}>七级</option>
                     </select>
                 </div>
             </div>
@@ -328,6 +332,10 @@
                         {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
                         {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}
                         {if $row['degree'] == 3}<span class="label label-success">三级</span>{/if}
+                        {if $row['degree'] == 4}<span class="label label-success">四级</span>{/if}
+                        {if $row['degree'] == 5}<span class="label label-success">五级</span>{/if}
+                        {if $row['degree'] == 6}<span class="label label-success">六级</span>{/if}
+                        {if $row['degree'] == 7}<span class="label label-success">七级</span>{/if}
                     </td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
                             {else if $row['status']==-1}<span class="label label-warning">注册失败</span>

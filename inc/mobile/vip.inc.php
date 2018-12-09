@@ -35,6 +35,14 @@ if($operation=='buy'){
     if ($member['id'] == 2) {
         $config['buy_vip_price'] = 0.01;
     }
+    $type = intval($_GPC['type']);
+    if ($type == 1) {
+        $config['buy_vip_price'] = $config['buy_vip_a_price'];
+    } else if ($type == 2) {
+        $config['buy_vip_price'] = $config['buy_vip_b_price'];
+    } else if ($type == 3) {
+        $config['buy_vip_price'] = $config['buy_vip_c_price'];
+    }
     if ($config['buy_vip_price'] == 0) {
         $tid = "10001" . date('YmdHis', time());
         $title = "购买{$config['title']}代理会员";

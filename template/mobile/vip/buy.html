@@ -82,7 +82,8 @@
 		div.temp_share p{text-align: center;text-indent: 0;}
 		/*轮播滚动*/
 		/*div.swiper-slide{margin:0 2%!important;}*/
-
+		.layer_notice{display: none}
+		.layer_notice a{margin-top: 1rem;padding: 0.2rem 0.5rem;border:1px solid #0195ff;color:#0195ff;border-radius: 0.2rem;letter-spacing: 0.1rem;font-size: 0.65rem;display: inline-block;}
 	</style>
 
 	{template 'common/wxshare'}
@@ -124,8 +125,8 @@
 
 		</div>
 		<span>
-				<font style="font-size: 0.6rem;margin-right: 1px; color: #fd661d">¥</font>
-				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font>
+				<!-- <font style="font-size: 0.6rem;margin-right: 1px; color: #fd661d">¥</font>
+				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font> -->
 			</span>
 
 		<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>
@@ -301,9 +302,14 @@
 	<a class="close"><img src="../addons/xuan_mixloan/template/style/images/del_3.png" /></a>
 </div>
 
-<div id="layer_notice">
+<!-- <div id="layer_notice" style="display: none">
 	<div>请关注微信公众号{$config['title']}购买会员</div>
 	<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
+</div> -->
+<div class="layer_notice" style="background: white;text-align: center;padding: 2rem;">
+	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>1])}')" >城市代理：￥{$config['buy_vip_a_price']}</a><br/>
+	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>2])}')" >大区代理：￥{$config['buy_vip_b_price']}</a>
+	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>3])}')" >永久合伙人：￥{$config['buy_vip_c_price']}</a>
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
@@ -376,7 +382,13 @@
                     return false;
                 } else {
                     if($(".to_read").hasClass("read")){
-                        openNew("{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type'])}");
+                    	layer.open({
+				            type: 1,
+				            shade: false,
+				            title: false,
+				            content: $('.layer_notice')
+				        });
+                        // openNew("{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type'])}");
                     }else{
                         layer.msg("请先阅读{$config['title']}用户服务协议");
                         rePurchase();

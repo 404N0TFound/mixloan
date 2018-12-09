@@ -82,12 +82,41 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				if ($agent['code'] == 1) {
 					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
 				}
+				if (intval($fee) == intval($config['buy_vip_a_price'])) {
+					$type = 1;
+					$inviter_fee_one = $config['inviter_fee_a_one'];
+					$inviter_fee_two = $config['inviter_fee_a_two'];
+					$inviter_fee_thr = $config['inviter_fee_a_thr'];
+					$inviter_fee_four = $config['inviter_fee_a_four'];
+					$inviter_fee_five = $config['inviter_fee_a_five'];
+					$inviter_fee_six = $config['inviter_fee_a_six'];
+					$inviter_fee_sev = $config['inviter_fee_a_sev'];
+				} else if (intval($fee) == intval($config['buy_vip_b_price'])) {
+					$type = 2;
+					$inviter_fee_one = $config['inviter_fee_b_one'];
+					$inviter_fee_two = $config['inviter_fee_b_two'];
+					$inviter_fee_thr = $config['inviter_fee_b_thr'];
+					$inviter_fee_four = $config['inviter_fee_b_four'];
+					$inviter_fee_five = $config['inviter_fee_b_five'];
+					$inviter_fee_six = $config['inviter_fee_b_six'];
+					$inviter_fee_sev = $config['inviter_fee_b_sev'];
+				} else if (intval($fee) == intval($config['buy_vip_c_price'])) {
+					$type = 3;
+					$inviter_fee_one = $config['inviter_fee_c_one'];
+					$inviter_fee_two = $config['inviter_fee_c_two'];
+					$inviter_fee_thr = $config['inviter_fee_c_thr'];
+					$inviter_fee_four = $config['inviter_fee_c_four'];
+					$inviter_fee_five = $config['inviter_fee_c_five'];
+					$inviter_fee_six = $config['inviter_fee_c_six'];
+					$inviter_fee_sev = $config['inviter_fee_c_sev'];
+				}
 				$insert = array(
 						"uniacid"=>$_W["uniacid"],
 						"uid"=>$member['id'],
 						"createtime"=>time(),
 						"tid"=>$params['tid'],
 						"fee"=>$fee,
+						"msg"=>$type
 				);
 				pdo_insert("xuan_mixloan_payment", $insert);
 				//模板消息提醒
@@ -108,87 +137,158 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 		        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
 		        $account = WeAccount::create($_W['acid']);
 		        $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
-				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
-				if ($inviter && $config['inviter_fee_one']) {
+				$one_inviter = m('member')->getInviter($member['phone'], $member['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $one_inviter));
+				if ($one_inviter && $inviter_fee_one && $record>=5) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
 						'phone' => $member['phone'],
 						'certno' => $member['certno'],
 						'realname' => $member['realname'],
-						'inviter' => $inviter,
+						'inviter' => $one_inviter,
 						'extra_bonus'=>0,
 						'done_bonus'=>0,
-						're_bonus'=>$config['inviter_fee_one'],
+						're_bonus'=>$inviter_fee_one,
 						'status'=>2,
 						'createtime'=>time(),
 						'degree'=>1
 					);
 					pdo_insert('xuan_mixloan_product_apply', $insert_i);
-					//模板消息提醒
-					$one_openid = m('user')->getOpenid($inviter);
-					$datam = array(
-			            "first" => array(
-			                "value" => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
-			                "color" => "#173177"
-			            ) ,
-			            "order" => array(
-			                "value" => $params['tid'],
-			                "color" => "#173177"
-			            ) ,
-			            "money" => array(
-			                "value" => $config['inviter_fee_one'],
-			                "color" => "#173177"
-			            ) ,
-			            "remark" => array(
-			                "value" => '点击查看详情',
-			                "color" => "#4a5077"
-			            ) ,
-			        );
-			        $account = WeAccount::create($_W['acid']);
-			        $account->sendTplNotice($one_openid, $config['tpl_notice5'], $datam, $url);
-			        //二级
-					$man = m('member')->getInviterInfo($inviter);
-					$inviter = m('member')->getInviter($man['phone'], $man['openid']);
-					if ($inviter && $config['inviter_fee_two']) {
-						$insert_i = array(
-							'uniacid' => $_W['uniacid'],
-							'uid' => $member['id'],
-							'phone' => $member['phone'],
-							'certno' => $member['certno'],
-							'realname' => $member['realname'],
-							'inviter' => $inviter,
-							'extra_bonus'=>0,
-							'done_bonus'=>0,
-							're_bonus'=>$config['inviter_fee_two'],
-							'status'=>2,
-							'createtime'=>time(),
-							'degree'=>2
-						);
-						pdo_insert('xuan_mixloan_product_apply', $insert_i);
-						//模板消息提醒
-						$two_openid = m('user')->getOpenid($inviter);
-						$datam = array(
-				            "first" => array(
-				                "value" => "您好，您的徒弟{$man['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
-				                "color" => "#173177"
-				            ) ,
-				            "order" => array(
-				                "value" => $params['tid'],
-				                "color" => "#173177"
-				            ) ,
-				            "money" => array(
-				                "value" => $config['inviter_fee_two'],
-				                "color" => "#173177"
-				            ) ,
-				            "remark" => array(
-				                "value" => '点击查看详情',
-				                "color" => "#4a5077"
-				            ) ,
-				        );
-				        $account = WeAccount::create($_W['acid']);
-				        $account->sendTplNotice($two_openid, $config['tpl_notice5'], $datam, $url);
-					}
+				}
+				$inviter_one = m('member')->getInviterInfo($one_inviter);
+				$two_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $two_inviter));
+				if ($two_inviter && $inviter_fee_two && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $two_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_two,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>2
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				$inviter_two = m('member')->getInviterInfo($two_inviter);
+				$thr_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $thr_inviter));
+				if ($thr_inviter && $inviter_fee_thr && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $thr_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_thr,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>3
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				$inviter_thr = m('member')->getInviterInfo($thr_inviter);
+				$four_inviter = m('member')->getInviter($inviter_thr['phone'], $inviter_thr['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $four_inviter));
+				if ($four_inviter && $inviter_fee_four && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $four_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_four,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>4
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				$inviter_four = m('member')->getInviterInfo($four_inviter);
+				$five_inviter = m('member')->getInviter($inviter_four['phone'], $inviter_four['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $five_inviter));
+				if ($five_inviter && $inviter_fee_five && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $five_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_five,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>5
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				$inviter_five = m('member')->getInviterInfo($five_inviter);
+				$six_inviter = m('member')->getInviter($inviter_five['phone'], $inviter_five['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $six_inviter));
+				if ($six_inviter && $inviter_fee_six && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $six_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_six,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>6
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				$inviter_six = m('member')->getInviterInfo($six_inviter);
+				$sev_inviter = m('member')->getInviter($inviter_six['phone'], $inviter_six['openid']);
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('qrcode_stat') . '
+							where qrcid=:qrcid and type=1 
+							group by openid', array(':qrcid' => $sev_inviter));
+				if ($sev_inviter && $inviter_fee_sev && $record>=5) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $sev_inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$inviter_fee_sev,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>7
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
 			} else if ($type == '30001') {

@@ -242,7 +242,14 @@ class Xuan_mixloan_Member
     function checkAgent($uid) {
         $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
         if ($check) {
-            return ['code'=>'1','name'=>'代理', 'msg'=>$check['msg'], 'id'=>$check['id']];
+            if ($check['msg'] == 1) {
+                $name = '城市代理';
+            } else if ($check['msg'] == 2) {
+                $name = '大区总代';
+            }  else if ($check['msg'] == 3) {
+                $name = '永久合伙人';
+            } 
+            return ['code'=>'1','name'=>$name, 'msg'=>$check['msg'], 'id'=>$check['id']];
         } else {
             return ['code'=>'0','name'=>'用户'];
         }
