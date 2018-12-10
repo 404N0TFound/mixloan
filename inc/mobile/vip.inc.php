@@ -550,35 +550,36 @@ if($operation=='buy'){
     $month_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0 AND createtime>{$star_time} AND createtime<{$end_time}");
     $month_count = $month_count ? : 0;
     $follow_count = count($follow_list) ? : 0;
-    foreach ($follow_list as $row) {
-        $openid_arr[] = $row['openid'];
-    }
-    $openid_string = "'" . implode("','", $openid_arr) . "'" ;
-    $buy_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . ' a
-                left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
-                where b.openid in ({$openid_string})") ? : 0;
+    // foreach ($follow_list as $row) {
+    //     $openid_arr[] = $row['openid'];
+    // }
+    // $openid_string = "'" . implode("','", $openid_arr) . "'" ;
+    // $buy_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . ' a
+    //             left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+    //             where b.openid in ({$openid_string})") ? : 0;
+    $buy_count = pdo_fetchcolumn("SELECT count(*) FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     include $this->template('vip/followList');
 } else if ($operation == 'extendList') {
     //推广成功
-    $follow_list = pdo_fetchall(
-        "SELECT a.openid FROM " .tablename("qrcode_stat"). " a
-        LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
-        WHERE a.qrcid={$member['id']} AND a.type=1
-        GROUP BY a.openid
-        ORDER BY a.id DESC");
-    foreach ($follow_list as $row) {
-        $openid_arr[] = $row['openid'];
-    }
-    $openid_string = "'" . implode("','", $openid_arr) . "'" ;
-    $extend_list = pdo_fetchall('select a.createtime,b.id as uid,b.nickname from ' . tablename('xuan_mixloan_payment') . ' a
-        left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
-        where b.openid in ({$openid_string})");
-    foreach ($extend_list as &$row) {
-        $row['re_bonus'] = pdo_fetchcolumn('select re_bonus from ' . tablename('xuan_mixloan_product_apply') . "
-            where type=2 and inviter={$member['id']} and uid={$row['uid']}") ? : 0;
-    }
-    unset($row);
-    // $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
+    // $follow_list = pdo_fetchall(
+    //     "SELECT a.openid FROM " .tablename("qrcode_stat"). " a
+    //     LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
+    //     WHERE a.qrcid={$member['id']} AND a.type=1
+    //     GROUP BY a.openid
+    //     ORDER BY a.id DESC");
+    // foreach ($follow_list as $row) {
+    //     $openid_arr[] = $row['openid'];
+    // }
+    // $openid_string = "'" . implode("','", $openid_arr) . "'" ;
+    // $extend_list = pdo_fetchall('select a.createtime,b.id as uid,b.nickname from ' . tablename('xuan_mixloan_payment') . ' a
+    //     left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+    //     where b.openid in ({$openid_string})");
+    // foreach ($extend_list as &$row) {
+    //     $row['re_bonus'] = pdo_fetchcolumn('select re_bonus from ' . tablename('xuan_mixloan_product_apply') . "
+    //         where type=2 and inviter={$member['id']} and uid={$row['uid']}") ? : 0;
+    // }
+    // unset($row);
+    $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
     $count = $count ? : 0;
     $cTime = getTime();
