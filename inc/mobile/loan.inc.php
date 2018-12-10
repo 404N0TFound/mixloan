@@ -98,7 +98,7 @@ if($operation=='index'){
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
     $info = m('product')->getList(['id','is_show'], ['id'=>$pid])[$pid];
     if (empty($info['is_show'])){
-        header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
+        message('产品已下架', '', 'error');
         exit();
     }
     include $this->template('loan/apply');

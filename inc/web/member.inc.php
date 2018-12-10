@@ -60,7 +60,6 @@ if ($operation == 'list') {
             "fee"=>0,
     );
     pdo_insert("xuan_mixloan_payment",$insert);
-    $agent = m('member')->checkAgent($member['id']);
     //模板消息提醒
     $datam = array(
         "first" => array(
@@ -93,7 +92,8 @@ if ($operation == 'list') {
             're_bonus'=>$config['inviter_fee_one'],
             'status'=>2,
             'createtime'=>time(),
-            'degree'=>1
+            'degree'=>1,
+            'type'=>2
         );
         pdo_insert('xuan_mixloan_product_apply', $insert_i);
         //模板消息提醒
@@ -134,7 +134,8 @@ if ($operation == 'list') {
                 're_bonus'=>$config['inviter_fee_two'],
                 'status'=>2,
                 'createtime'=>time(),
-                'degree'=>2
+                'degree'=>2,
+                'type'=>2
             );
             pdo_insert('xuan_mixloan_product_apply', $insert_i);
             //模板消息提醒
