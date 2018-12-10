@@ -240,7 +240,8 @@ class Xuan_mixloan_Member
     *   查看是否加入过代理
     */
     function checkAgent($uid) {
-        $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")." WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
+        $check = pdo_fetch('SELECT id,msg FROM '.tablename("xuan_mixloan_payment")."
+                    WHERE uid=:uid ORDER BY id DESC", array(':uid'=>$uid));
         if ($check) {
             if ($check['msg'] == 1) {
                 $name = '城市代理';
@@ -292,7 +293,7 @@ class Xuan_mixloan_Member
      *   口子进来的锁定上级
      *
      */
-    public function checkFirstInviter($openid, $inviter) {
+    public function checkFirstInviter($openid, $inviter, $config) {
         global $_W;
         $openid = trim($openid);
         $inviter = intval($inviter);
@@ -323,6 +324,122 @@ class Xuan_mixloan_Member
                 'createtime' => time() ,
             );
             pdo_insert('qrcode_stat', $insert);
+            if (!empty($config['inviter_bonus_one'])) {
+                $insert = array();
+                $insert['uid'] = $id;
+                $insert['inviter'] = $inviter;
+                $insert['re_bonus'] = $config['inviter_bonus_one'];
+                $insert['type']   = 7;
+                $insert['status'] = 2;
+                $insert['degree'] = 1;
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                pdo_insert('xuan_mixloan_product_apply', $insert);
+            }
+            $one_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $inviter));
+            $two_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $one_openid));
+            if ($two_inviter && !empty($config['inviter_bonus_two'])) {
+                $insert = array();
+                $insert['uid'] = $id;
+                $insert['inviter'] = $two_inviter;
+                $insert['re_bonus'] = $config['inviter_bonus_two'];
+                $insert['type']   = 7;
+                $insert['status'] = 2;
+                $insert['degree'] = 2;
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                pdo_insert('xuan_mixloan_product_apply', $insert);
+            }
+            $two_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $two_inviter));
+            $thr_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $two_openid));
+            if ($thr_inviter && !empty($config['inviter_bonus_thr'])) {
+                $insert = array();
+                $insert['uid'] = $id;
+                $insert['inviter'] = $thr_inviter;
+                $insert['re_bonus'] = $config['inviter_bonus_thr'];
+                $insert['type']   = 7;
+                $insert['status'] = 2;
+                $insert['degree'] = 3;
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                pdo_insert('xuan_mixloan_product_apply', $insert);
+            }
+            $thr_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $thr_inviter));
+            $four_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $thr_openid));
+            if ($four_inviter && !empty($config['inviter_bonus_four'])) {
+                $insert = array();
+                $insert['uid'] = $id;
+                $insert['inviter'] = $four_inviter;
+                $insert['re_bonus'] = $config['inviter_bonus_four'];
+                $insert['type']   = 7;
+                $insert['status'] = 2;
+                $insert['degree'] = 4;
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                pdo_insert('xuan_mixloan_product_apply', $insert);
+            }
+            $four_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $four_inviter));
+            $five_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $four_openid));
+            if ($five_inviter && !empty($config['inviter_bonus_five'])) {
+                $insert = array();
+                $insert['uid'] = $id;
+                $insert['inviter'] = $five_inviter;
+                $insert['re_bonus'] = $config['inviter_bonus_five'];
+                $insert['type']   = 7;
+                $insert['status'] = 2;
+                $insert['degree'] = 5;
+                $insert['createtime'] = time();
+                $insert['uniacid'] = $_W['uniacid'];
+                pdo_insert('xuan_mixloan_product_apply', $insert);
+            }
+            $five_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $five_inviter));
+            $six_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $five_openid));
+            if ($six_inviter && !empty($config['inviter_bonus_six'])) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $six_inviter));
+                if ($msg >= 2) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $six_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_six'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 6;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
+            }
+            $six_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $six_inviter));
+            $sev_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
+                        where openid=:openid and type=1', array(':openid' => $six_openid));
+            if ($sev_inviter && !empty($config['inviter_bonus_sev'])) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $sev_inviter));
+                if ($msg >= 2) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $sev_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_sev'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 7;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
+            }
             return true;
         } else {
             return false;

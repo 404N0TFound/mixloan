@@ -129,7 +129,7 @@
 				<font style="font-size: 0.8rem;color: #fd661d">{$config['buy_vip_price']}</font> -->
 			</span>
 
-		<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>
+		<a class="buy-btn" {if $agent['code']}{if $agent['msg']>=3}已购买{else}id="to_buy"{/if}{else}id="to_buy"{/if}  href="javascript:;">{if $agent['code']}{if $agent['msg']>=3}已购买{else}升级{/if}{else}购买代理{/if}</a>
 	</div>
 </footer>
 
@@ -307,9 +307,15 @@
 	<div style="margin-top: 1rem"><img src="{php echo tomedia($config['wx_qrcode'])}" style="width: 5rem"></div>
 </div> -->
 <div class="layer_notice" style="background: white;text-align: center;padding: 2rem;">
+	{if $agent['msg'] < 1}
 	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>1])}')" >城市代理：￥{$config['buy_vip_a_price']}</a><br/>
+	{/if}
+	{if $agent['msg'] < 2}
 	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>2])}')" >大区代理：￥{$config['buy_vip_b_price']}</a>
+	{/if}
+	{if $agent['msg'] < 3}
 	<a onclick="openNew('{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type', 'type'=>3])}')" >永久合伙人：￥{$config['buy_vip_c_price']}</a>
+	{/if}
 </div>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/jquery_3.js></script>
 <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/lmy_2.js></script>
@@ -404,7 +410,7 @@
     }
     // 产品首页banner
     var mySwiper = new Swiper('.swiper-container', {
-        autoplay: 5000,//可选选项，自动滑动
+        autoplay: 0,//可选选项，自动滑动
         loop : true,
         autoplayDisableOnInteraction : false,
         // slidesOffsetBefore : 20,

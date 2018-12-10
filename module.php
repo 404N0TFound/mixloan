@@ -87,6 +87,13 @@ class Xuan_mixloanModule extends WeModule {
                     'inviter_fee_c_five'=>$_GPC['inviter_fee_c_five'],
                     'inviter_fee_c_six'=>$_GPC['inviter_fee_c_six'],
                     'inviter_fee_c_sev'=>$_GPC['inviter_fee_c_sev'],
+                    'inviter_bonus_one'=>$_GPC['inviter_bonus_one'],
+                    'inviter_bonus_two'=>$_GPC['inviter_bonus_two'],
+                    'inviter_bonus_thr'=>$_GPC['inviter_bonus_thr'],
+                    'inviter_bonus_four'=>$_GPC['inviter_bonus_four'],
+                    'inviter_bonus_five'=>$_GPC['inviter_bonus_five'],
+                    'inviter_bonus_six'=>$_GPC['inviter_bonus_six'],
+                    'inviter_bonus_sev'=>$_GPC['inviter_bonus_sev'],
             	);
 
             if ($this->saveSettings($cfg)) {

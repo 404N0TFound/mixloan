@@ -46,7 +46,7 @@ if($operation=='register'){
         pdo_insert('xuan_mixloan_member', $insert);
         $member_id = pdo_insertid();
         if ($_GPC['inviter']) {
-            $result = m('member')->checkFirstInviter($openid, $_GPC['inviter']);
+            $result = m('member')->checkFirstInviter($openid, $_GPC['inviter'], $config);
         }
         show_json(1, ['url'=>$this->createMobileUrl('index', ['op'=>'login'])], "注册成功");
     } else {

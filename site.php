@@ -78,10 +78,6 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			$type = substr($params['tid'],0,5);
 			if ($type=='10001') {
 				//认证付费
-				$agent = m('member')->checkAgent($member['id']);
-				if ($agent['code'] == 1) {
-					message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
-				}
 				if (intval($fee) == intval($config['buy_vip_a_price'])) {
 					$type = 1;
 					$inviter_fee_one = $config['inviter_fee_a_one'];
@@ -109,6 +105,12 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					$inviter_fee_five = $config['inviter_fee_c_five'];
 					$inviter_fee_six = $config['inviter_fee_c_six'];
 					$inviter_fee_sev = $config['inviter_fee_c_sev'];
+				}
+				$agent = m('member')->checkAgent($member['id']);
+				if ($agent['code'] == 1) {
+					if ($agent['msg'] == $type) {
+						message("您已经是该等级会员了", $this->createMobileUrl('user'), "error");
+					}
 				}
 				$insert = array(
 						"uniacid"=>$_W["uniacid"],

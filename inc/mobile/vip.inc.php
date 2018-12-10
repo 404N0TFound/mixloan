@@ -364,6 +364,9 @@ if($operation=='buy'){
 		} else if ($row['type'] == 6){
             $row['name'] = '满单奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 7){
+            $row['name'] = '邀请注册';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         } else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
