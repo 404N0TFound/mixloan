@@ -69,6 +69,7 @@ class Xuan_mixloanModule extends WeModule {
                     'verify_tips'=>$_GPC['verify_tips'],
                     'pcredit_url1'=>$_GPC['pcredit_url1'],
                     'pcredit_url2'=>$_GPC['pcredit_url2'],
+                    'loan_vip'=>$_GPC['loan_vip'],
             	);
 
             if ($this->saveSettings($cfg)) {

@@ -371,6 +371,15 @@
 							</div>
 						</div>
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放贷款超市</label>
+							<div class="col-sm-3 col-xs-12">
+								<select class="form-control" name="loan_vip">
+									<option value="0" {if $setting['loan_vip']==0}selected{/if}>否</option>
+									<option value="1" {if $setting['loan_vip']==1}selected{/if}>是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">购买后开放今日口子</label>
 							<div class="col-sm-3 col-xs-12">
 								<select class="form-control" name="vip_channel">
