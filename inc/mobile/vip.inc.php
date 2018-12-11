@@ -477,6 +477,10 @@ if($operation=='buy'){
 	if (!$bank_code) {
 		show_json(-1, null, "该银行卡暂时不支持快速提现，请换一张试试");
 	}
+    if ($_COOKIE['withdraw']) {
+        show_json(-1, null, "请稍后再试");
+    }
+    setcookie('withdraw', 1, time()+60);
     $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $bank_code, $bonus, '代理申请结算工资');
     if ($pay['code']>1) {
     	show_json(-1, null, $pay['msg']);
