@@ -40,9 +40,9 @@
     }
 </script>
 <div class="agent-foot">
-    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-        <p>首页</p>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>{$config['title']}</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
@@ -52,9 +52,9 @@
     <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
-        <p>{$config['title']}</p>
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>贷超</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_personal_1.png" /></p>
@@ -150,13 +150,13 @@
                         </a>
                     </li>
                     {if $member['user_type']['code'] == 1}
-                    <li class="new_guide">
+                    <!-- <li class="new_guide">
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'followList'))}')">
                             <img src="../addons/xuan_mixloan/template/style/images/chaxun7.png" />
                             我的徒弟
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="new_guide">
                         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/fc_header.png" />
@@ -175,13 +175,13 @@
                         </a>
                     </li>
                     {/if}
-                    <li>
+                    <!-- <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                             我要办卡
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="new_guide">
                         <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'questions'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/newer_1.png" />
@@ -189,13 +189,13 @@
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op' => ''))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_loan_1.png" />
                             我要贷款
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     {if $config['predict_limit'] && is_weixin()}
                     <!--<li>-->
                         <!--<a onclick="openNew('{$config['predict_limit']}')">-->
@@ -205,13 +205,13 @@
                         <!--</a>-->
                     <!--</li>-->
                     {/if}
-                    <li>
+                    <!-- <li>
                         <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />
                             我要提额
                             <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                         <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                             <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />
