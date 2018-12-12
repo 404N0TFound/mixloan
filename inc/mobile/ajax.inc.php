@@ -298,5 +298,24 @@ if($operation == 'getCode'){
     $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
     list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
     echo  $_W['setting']['remote']['qiniu']['url'] . '/' . $filename ;
+} else if ($operation == 'apply_analysis') {
+    // 分析
+    $endtime = strtotime(date("Y-m-d"));
+    $starttime = $endtime - 86400;
+    $list = pdo_fetchall('select count(*) as count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
+                    where degree=1 and createtime>{$starttime} and createtime<{$endtime}
+                    group by inviter");
+    foreach ($list as $row) {
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_apply_time') . "
+                        where inviter={$row['inviter']} and last_time>8
+                        and createtime>{$starttime} and createtime<{$endtime}") ? : 0;
+        $rate = ($count / $row['count']) * 100;
+        $insert = array();
+        $insert['inviter'] = $row['inviter'];
+        $insert['createtime'] = time();
+        $insert['rate'] = $rate;
+        $insert['count'] = $row['count'];
+        pdo_insert('xuan_mixloan_apply_analysis', $insert);
+    }
 }
 
