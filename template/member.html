@@ -588,6 +588,7 @@
                 <tr>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>会员</th>
+                    <th style='width:80px;'>状态</th>
                     <th style='width:150px;'>刷单概率</th>
                     <th style='width:150px;'>昨日做单总数</th>
                     <th>操作</th>
@@ -601,6 +602,13 @@
                         <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
                         {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
                     </td>
+                    <td>
+                        {if $row['status']==1}
+                        <span class="label label-primary">正常</span>
+                        {else}
+                        <span class="label label-default">冻结</span>
+                        {/if}
+                    </td> 
                     <td>   {$row['rate']}</td>
                     <td>   {$row['count']}</td>
                     <td  style="overflow:visible;">
