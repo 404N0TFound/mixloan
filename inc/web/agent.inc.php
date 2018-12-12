@@ -40,7 +40,9 @@ if ($operation == 'list') {
         $wheres.= " AND a.ip='{$_GPC['ip']}'";
     }
     if (!empty($_GPC['relate_id'])) {
-        $wheres.= " AND a.pid='{$_GPC['relate_id']}'";
+        $pid = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product') . '
+            where relate_id=:relate_id', array(':relate_id' => $_GPC['relate_id']));
+        $wheres.= " AND a.pid='{$pid}'";
     }
     if (!empty($_GPC['broswer_type'])) {
         $wheres.= " AND a.broswer_type='{$_GPC['broswer_type']}'";
