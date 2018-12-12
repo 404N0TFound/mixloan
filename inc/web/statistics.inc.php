@@ -28,7 +28,7 @@ if ($operation == 'list')
         $vip_buy_nums['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 购买代理金额
         $sql = "select sum(fee) from " . tablename('xuan_mixloan_payment') .  "
-            where uniacid={$_W['uniacid']}1";
+            where uniacid={$_W['uniacid']}";
         $vip_buy_fee['filter'] = pdo_fetchcolumn($sql . $wheres) ? : 0;
         $vip_buy_fee['all']    = pdo_fetchcolumn($sql) ? : 0;
         // 购买代理返佣
