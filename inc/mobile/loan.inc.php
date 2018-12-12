@@ -102,10 +102,9 @@ if($operation=='index'){
     if ($record) {
         show_json(1, $pro['ext_info']['url']);
     }
-    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
-        //show_json(-1, [], "短信验证码不符");
-    } else {
-        //setcookie('cache_code', 'outdate', time()+10);
+    $result = m('checkNum')->check($_GPC['phone']);
+    if ($result['code'] != 1) {
+        show_json(-1, [], $result['msg']);
     }
     if ($inviter) {
         $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
