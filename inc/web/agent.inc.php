@@ -41,7 +41,7 @@ if ($operation == 'list') {
     }
     if (!empty($_GPC['relate_id'])) {
         $pid = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product') . '
-            where relate_id=:relate_id', array(':relate_id' => $_GPC['relate_id']));
+            where relate_id=:relate_id and type=:type', array(':relate_id' => $_GPC['relate_id'], ':type' => $_GPC['type']));
         $wheres.= " AND a.pid='{$pid}'";
     }
     if (!empty($_GPC['broswer_type'])) {
@@ -62,6 +62,21 @@ if ($operation == 'list') {
         }
         $uid_string = implode(',', $uids);
         $wheres.= " AND a.inviter in ($uid_string)";
+    }
+    $is_fake = intval($_GPC['is_fake']);
+    $blacks  = pdo_fetchall('select inviter from ' . tablename('xuan_mixloan_apply_analysis') . '
+                        where rate<10 and count>5
+                        group by inviter');
+    if ($blacks) {
+        foreach ($blacks as $black) {
+            $black_arr[] = $black['inviter'];
+        }
+        $black_string = implode(',', $black_arr);
+    }
+    if ($is_fake == 0) {
+        $wheres .= " and a.inviter not in ({$black_string})";
+    } else {
+        $wheres .= " and a.inviter in ({$black_string})";
     }
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
@@ -97,6 +112,17 @@ if ($operation == 'list') {
         }
         if ($row['inviter']) {
             $inviters[] = $row['inviter'];
+        }
+    }
+    if ($is_fake == 0) {
+        foreach ($list as $key => $value) {
+            if ($value['degree'] >= 2) {
+                $one_inviter = pdo_fetchcolumn('select inviter from ' . tablename('xuan_mixloan_product_apply') . " 
+                    where pid={$value['pid']} and type={$value['type']} and degree=1");
+                if (in_array($one_inviter, $black_arr)) {
+                    unset($list[$key]);
+                }
+            }
         }
     }
     $products = m('product')->getList(['id', 'count_time', 'name'], ['id' => $pids]);

@@ -580,7 +580,7 @@
 <div class="clearfix">
     <div class="panel panel-default" style="font-size:11px;">
         <div class="panel-heading" style="height: 50px">
-            <div style="float: left;width: 78%;"> 总数：{$total} </div>
+            <div style="float: left;width: 78%;"> 总数：{$total} <span style="color:red">刷单概率100%单数又多的说明他一定是刷单的，如果是0%，代表他做真实单</span></div>
         </div>
         <div class="panel-body">
             <table class="table table-hover" style="overflow:visible;">
@@ -620,6 +620,8 @@
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['inviter']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
                                 {if $row['status'] == 1}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['inviter']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['inviter']));}" title='解除冻结' onclick="return confirm('确定要解除冻结吗？');"><i class='fa fa-ban'></i> 解除冻结</a></li>
                                 {/if}
                             </ul>
                         </div>

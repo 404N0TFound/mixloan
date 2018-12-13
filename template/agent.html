@@ -283,6 +283,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否刷单</label>
+                <div class="col-sm-9 col-xs-12">
+                    <select class="form-control" name="is_fake" >
+                        <option value="0" {if $is_fake == 0}selected{/if}>否</option>
+                        <option value="1" {if $is_fake == 1}selected{/if}>是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">时间筛选</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     {php echo tpl_form_field_daterange('time', array('starttime'=>$starttime,'endtime'=>$endtime),true);}
