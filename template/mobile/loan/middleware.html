@@ -1,0 +1,28 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{$info['name']}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/mui/css/mui.min.css">
+
+</head>
+<body>
+<script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    var id = "{$id}";
+    var url = "{$url}";
+    var post_url = "{php echo $this->createMobileUrl('loan', array('op'=>'count_time', 'inviter'=>$item['inviter']))}";
+
+    var __encode ='sojson.com', _0xb483=["\x5F\x64\x65\x63\x6F\x64\x65","\x68\x74\x74\x70\x3A\x2F\x2F\x77\x77\x77\x2E\x73\x6F\x6A\x73\x6F\x6E\x2E\x63\x6F\x6D\x2F\x6A\x61\x76\x61\x73\x63\x72\x69\x70\x74\x6F\x62\x66\x75\x73\x63\x61\x74\x6F\x72\x2E\x68\x74\x6D\x6C"];(function(_0xd642x1){_0xd642x1[_0xb483[0]]= _0xb483[1]})(window);var __Ox23f3f=["\x74\x6F\x4C\x6F\x77\x65\x72\x43\x61\x73\x65","\x75\x73\x65\x72\x41\x67\x65\x6E\x74","\x61\x70\x70\x56\x65\x72\x73\x69\x6F\x6E","\x54\x72\x69\x64\x65\x6E\x74","\x69\x6E\x64\x65\x78\x4F\x66","\x50\x72\x65\x73\x74\x6F","\x41\x70\x70\x6C\x65\x57\x65\x62\x4B\x69\x74","\x47\x65\x63\x6B\x6F","\x4B\x48\x54\x4D\x4C","\x6D\x61\x74\x63\x68","\x41\x6E\x64\x72\x6F\x69\x64","\x4C\x69\x6E\x75\x78","\x69\x50\x68\x6F\x6E\x65","\x69\x50\x61\x64","\x53\x61\x66\x61\x72\x69","\x62\x72\x6F\x77\x73\x65\x72\x4C\x61\x6E\x67\x75\x61\x67\x65","\x6C\x61\x6E\x67\x75\x61\x67\x65","\x6D\x6F\x62\x69\x6C\x65","\x76\x65\x72\x73\x69\x6F\x6E\x73","\x68\x72\x65\x66","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x71\x71","\x6D\x71\x71\x62\x72\x6F\x77\x73\x65\x72","\x6D\x69\x63\x72\x6F\x6D\x65\x73\x73\x65\x6E\x67\x65\x72","\x30","\x31\x30\x30\x25","\x69\x6E\x69\x74","\x70\x6F\x70\x73\x74\x61\x74\x65","\x6A\x73\x6F\x6E","\x70\x6F\x73\x74","\x63\x6C\x6F\x73\x65\x57\x69\x6E\x64\x6F\x77","\x63\x61\x6C\x6C","\x63\x6C\x6F\x73\x65","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x74\x69\x74\x6C\x65","\x23","\x70\x75\x73\x68\x53\x74\x61\x74\x65","\x68\x69\x73\x74\x6F\x72\x79"];var time=0;var ua=navigator[__Ox23f3f[0x1]][__Ox23f3f[0x0]]();var browser={versions:function(){var _0x4ab8x4=navigator[__Ox23f3f[0x1]],_0x4ab8x5=navigator[__Ox23f3f[0x2]];return {trident:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0x3])> -1,presto:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0x5])> -1,webKit:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0x6])> -1,gecko:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0x7])> -1&& _0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0x8])== -1,mobile:!!_0x4ab8x4[__Ox23f3f[0x9]](/AppleWebKit.*Mobile.*/),ios:!!_0x4ab8x4[__Ox23f3f[0x9]](/\(i[^;]+;( U;)? CPU.+Mac OS X/),android:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0xa])> -1|| _0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0xb])> -1,iPhone:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0xc])> -1,iPad:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0xd])> -1,webApp:_0x4ab8x4[__Ox23f3f[0x4]](__Ox23f3f[0xe])== -1}}(),language:(navigator[__Ox23f3f[0xf]]|| navigator[__Ox23f3f[0x10]])[__Ox23f3f[0x0]]()};if(!browser[__Ox23f3f[0x12]][__Ox23f3f[0x11]]){window[__Ox23f3f[0x14]][__Ox23f3f[0x13]]= url};if(!(ua[__Ox23f3f[0x4]](__Ox23f3f[0x15])> -1&& ua[__Ox23f3f[0x4]](__Ox23f3f[0x16])< 0)&& ua[__Ox23f3f[0x9]](/MicroMessenger/i)!= __Ox23f3f[0x17]){window[__Ox23f3f[0x14]][__Ox23f3f[0x13]]= url}else {setInterval(function(){time++},1000);mui[__Ox23f3f[0x1a]]({subpages:[{url:url,id:__Ox23f3f[0x14],styles:{top:__Ox23f3f[0x18],width:__Ox23f3f[0x19],height:__Ox23f3f[0x19]}}]});pushHistory();window[__Ox23f3f[0x21]](__Ox23f3f[0x1b],function(_0x4ab8x6){$[__Ox23f3f[0x1d]](post_url,{id:id,time:time},function(_0x4ab8x7){},__Ox23f3f[0x1c]);var ua=navigator[__Ox23f3f[0x1]][__Ox23f3f[0x0]]();if(ua[__Ox23f3f[0x9]](/MicroMessenger/i)== __Ox23f3f[0x17]){WeixinJSBridge[__Ox23f3f[0x1f]](__Ox23f3f[0x1e])}else {window[__Ox23f3f[0x20]]()}},false);function pushHistory(){var _0x4ab8x9={title:__Ox23f3f[0x22],url:__Ox23f3f[0x23]};window[__Ox23f3f[0x25]][__Ox23f3f[0x24]](_0x4ab8x9,__Ox23f3f[0x22],__Ox23f3f[0x23])}};if(ua[__Ox23f3f[0x9]](/MicroMessenger/i)== __Ox23f3f[0x17]){setInterval(function(){$[__Ox23f3f[0x1d]](post_url,{id:id,time:time},function(_0x4ab8x7){},__Ox23f3f[0x1c])},4000)}
+</script>
+
+</body>
+</html>

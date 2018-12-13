@@ -215,8 +215,11 @@ if($operation=='index'){
         'extra_bonus'=>0,
         'status'=>$status,
         'createtime'=>time(),
-        'relate_key'=>$relate_key
+        'relate_key'=>$relate_key,
+        'ip'=>getServerIp(),
+        'device_type'=>getDeviceType(),
     );
+    $insert['browser_type'] = is_weixin() ? 1 : 2;
     pdo_insert('xuan_mixloan_product_apply', $insert);
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);
