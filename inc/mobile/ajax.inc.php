@@ -317,5 +317,20 @@ if($operation == 'getCode'){
         $insert['count'] = $row['count'];
         pdo_insert('xuan_mixloan_apply_analysis', $insert);
     }
+} else if ($operation == 'apply_update') {
+    // 更新
+    $starttime = strtotime(date("Y-m-d"));
+    $last_day = $starttime - 86400;
+    $inviters = pdo_fetchall('select inviter from ' . tablename('xuan_mixloan_apply_analysis') . "
+        where createtime>{$starttime} and rate=0 and count>10");
+    foreach ($inviters as $row) {
+        $update = array('is_fake' => 1);
+        $list = pdo_fetchall('select pid,phone from ' . tablename('xuan_mixloan_product_apply') . "
+            where degree=1 and inviter={$row['inviter']} and type=1 and createtime>{$last_day}");
+        foreach ($list as $value) {
+            $condition = array('pid' => $value['pid'], 'phone' => $value['phone'], 'type' => 1);
+            pdo_update('xuan_mixloan_product_apply', $update, $condition);
+        }
+    }
 }
 
