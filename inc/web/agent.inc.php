@@ -40,8 +40,7 @@ if ($operation == 'list') {
         $wheres.= " AND a.ip='{$_GPC['ip']}'";
     }
     if (!empty($_GPC['relate_id'])) {
-        $pid = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product') . '
-            where relate_id=:relate_id and type=:type', array(':relate_id' => $_GPC['relate_id'], ':type' => $_GPC['type']));
+        $pid = $_GPC['relate_id'];
         $wheres.= " AND a.pid='{$pid}'";
     }
     if (!empty($_GPC['broswer_type'])) {
@@ -75,18 +74,8 @@ if ($operation == 'list') {
         $starttime = "";
         $endtime = "";
     }
-    $c_arr = m('bank')->getCard(['id', 'name']);
-    $s_arr = m('loan')->getList(['id', 'name']);
-    foreach ($c_arr as &$row) {
-        $row['type'] = 1;
-    }
-    unset($row);
-    foreach ($s_arr as &$row) {
-        $row['type'] = 2;
-    }
-    unset($row);
-    $c_json = $c_arr ? json_encode(array_values($c_arr)) : json_encode([]);
-    $s_json = $s_arr ? json_encode(array_values($s_arr)) : json_encode([]);
+    $pro_arr = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_product') . '
+                order by id desc');
     $sql = 'select a.* from ' . tablename('xuan_mixloan_product_apply') . " a 
             where a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
