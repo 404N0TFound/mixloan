@@ -178,6 +178,7 @@ if($operation == 'getCode'){
 } else if ($operation == 'apply_temp11') {
     //常规脚本
     $sql = "delete from ims_xuan_mixloan_poster";
+    $sql = "delete from ims_xuan_mixloan_shorturl";
     pdo_run($sql);
 }
 
