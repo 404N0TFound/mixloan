@@ -60,6 +60,13 @@ if ($operation == 'list') {
         }
     }
     $is_fake = intval($_GPC['is_fake']);
+    if ($is_fake) {
+        if ($is_fake == -1) {
+            $wheres .= " and a.is_fake=0";
+        } else {
+            $wheres .= " and a.is_fake=1";
+        }
+    }
     $wheres .= " and a.is_fake={$is_fake}";
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
