@@ -30,6 +30,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['name'])) {
         $wheres.= " AND a.realname LIKE '%{$_GPC['name']}%'";
     }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND c.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
     if (!empty($_GPC['degree'])) {
         $wheres.= " AND a.degree='{$_GPC['degree']}'";
     }
