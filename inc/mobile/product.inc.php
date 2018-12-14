@@ -299,7 +299,7 @@ if($operation=='index'){
     }
     $arr = array(':relate_id'=>$pid, ':inviter'=>$inviter);
     if ($type == 1) {
-        $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id';
+        $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id AND status<>-3';
     } else if ($type == 2) {
         $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id AND status>0';
     } else if ($type == 3) {

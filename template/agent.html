@@ -303,6 +303,7 @@
                         <option value="1" {if $_GPC['status']=='1'}selected{/if}>已注册</option>
                         <option value="2" {if $_GPC['status']=='2'}selected{/if}>已完成</option>
                         <option value="-1" {if $_GPC['status']=='-1'}selected{/if}>失败</option>
+                        <option value="-3" {if $_GPC['status']=='-3'}selected{/if}>扣量</option>
                     </select>
                 </div>
             </div>
@@ -418,6 +419,7 @@
                     <td>   {if $row['degree']==1}<span class="label label-success">一级</span>{else if $row['degree']==2}<span class="label label-primary">二级</span>{else if $row['degree']==3}<span class="label label-info">三级</span>{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
+                            {else if $row['status']==-3}<span class="label label-warnin">扣量</span>
                             {else if $row['status']==-1}<span class="label label-warnin">注册失败</span>
                             {else if $row['status']==0}<span class="label label-info">邀请中</span>
                             {else if $row['status']==1}<span class="label label-primary">已注册</span>

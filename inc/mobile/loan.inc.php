@@ -106,21 +106,31 @@ if($operation=='index'){
     if ($result['code'] != 1) {
         show_json(-1, [], $result['msg']);
     }
+    $result = m('checkNum')->wcheck($_GPC['phone']);
+    if ($result['code'] != 1) {
+        show_json(-1, [], $result['msg']);
+    }
     if ($inviter) {
-        $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
-        $status = 0;
-        $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
-        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $msg = array(
-            'is_read'=>0,
-            'uid'=>$member['id'],
-            'type'=>2,
-            'createtime'=>time(),
-            'uniacid'=>$_W['uniacid'],
-            'to_uid'=>$inviter,
-            'ext_info'=>json_encode($ext_info),
-        );
-        pdo_insert('xuan_mixloan_msg', $msg);
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_bonus') . ' 
+             where inviter=:inviter and type=1', array(':inviter' => $inviter));
+        if ($count > 0 && ($count + 1) % 4 == 0) {
+            $status = -3;
+        } else {
+            $inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
+            $status = 0;
+            $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
+            $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+            $msg = array(
+                'is_read'=>0,
+                'uid'=>$member['id'],
+                'type'=>2,
+                'createtime'=>time(),
+                'uniacid'=>$_W['uniacid'],
+                'to_uid'=>$inviter,
+                'ext_info'=>json_encode($ext_info),
+            );
+            pdo_insert('xuan_mixloan_msg', $msg);
+        }
     } else {
         $status = -2;
     }
