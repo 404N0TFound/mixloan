@@ -73,7 +73,7 @@
 
                 <!--</li>-->
             </ul>
-            <div class="btn"><a onClick="save(this)">立即申请</a></div>
+            <div class="btn"><a onClick="save(this)" is_useful="1">立即申请</a></div>
 
         </div>
 
@@ -180,6 +180,10 @@
     }
 
     function save(){
+        var is_useful = $('#apply_now').attr('is_useful');
+        if (is_useful == '0') {
+            layer.alert('手速太快了'); return false;
+        }
         var tel = $.trim($("#loan_tel").val());
         var name = $.trim($("#loan_name").val());
         var idcard = $('#idcard').val();
@@ -193,9 +197,10 @@
         if(name=='') {
             layer.alert('姓名不能为空！'); return false;
         }
+        $('#apply_now').attr('is_useful', 0);
         $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}", { phone: tel, name: name,idcard:idcard,sesame:sesame},
             function(data){
-
+                 $('#apply_now').attr('is_useful', 1);
                 if(data.code=='1'){
                     closepop('gdwd-dialog','dialog-bg');
                     // layer.alert('跳转中');
