@@ -303,7 +303,7 @@ if($operation == 'getCode'){
     $endtime = strtotime(date("Y-m-d"));
     $starttime = $endtime - 86400;
     $list = pdo_fetchall('select count(*) as count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
-                    where degree=1 and createtime>{$starttime} and createtime<{$endtime}
+                    where degree=1 and createtime>{$starttime} and createtime<{$endtime} and type=1
                     group by inviter");
     foreach ($list as $row) {
         $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_apply_time') . "
