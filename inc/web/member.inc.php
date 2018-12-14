@@ -274,6 +274,37 @@ if ($operation == 'list') {
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'analysis') {
+    //下级列表
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['phone'])) {
+        $wheres.= " AND b.phone LIKE '%{$_GPC['phone']}%'";
+    }
+    if (!empty($_GPC['count'])) {
+        $wheres.= " AND a.count > {$_GPC['count']}";
+    }
+    $sort = intval($_GPC['sort']) ? : 1;
+    if ($sort == 1) {
+        $orderBy = " order by rate asc,count desc";
+    } else {
+        $orderBy = " order by rate desc,count desc";
+    }
+    $strattime = strtotime(date("Y-m-d"));
+    $sql = 'select a.*,b.nickname,b.avatar,b.status from ' . tablename('xuan_mixloan_apply_analysis') . " a 
+            left join " . tablename('xuan_mixloan_member') . " b on a.inviter=b.id
+            where a.createtime>{$strattime} "  . $wheres . $orderBy;
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['rate'] = 100 - $row['rate'];
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_apply_analysis') . " a 
+            left join " . tablename('xuan_mixloan_member') . " b on a.inviter=b.id
+            where a.createtime>{$strattime} "  . $wheres . $orderBy);
+    $pager = pagination($total, $pindex, $psize);
 }
 include $this->template('member');
 ?>
