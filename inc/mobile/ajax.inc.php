@@ -212,27 +212,14 @@ if($operation == 'getCode'){
     $openid = m('user')->getOpenid();
     show_json(1, m('member')->getMember($openid));
 } else if ($operation == 'apply_temp') {
-    //常规脚本
-    $ids = [];
-    $list = pdo_fetchall('select id,phone from ' . tablename('xuan_mixloan_product_apply') . '
-		where uniacid=:uniacid and relate_key=0 order by id desc limit 1000', array(':uniacid' => $_W['uniacid']));
-    foreach ($list as $row)
-    {
-        $row['relate_key'] = substr($row['phone'], 0, 3) . substr($row['phone'], -3);
-        pdo_update('xuan_mixloan_product_apply', array('relate_key' => $row['relate_key']), array('id' => $row['id']));
-        $ids[] = $row['id'];
-    }
-    if (!empty($ids)) {
-        echo implode(',', $ids);
-    } else {
-        echo 'empty';
-    }
+    sleep(150);
+    echo 11;
 } else if ($operation == 'apply_analysis') {
     // 分析
     $endtime = strtotime(date("Y-m-d"));
     $starttime = $endtime - 86400;
     $list = pdo_fetchall('select count(*) as count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
-                    where degree=1 and createtime>{$starttime} and createtime<{$endtime}
+                    where degree=1 and createtime>{$starttime} and createtime<{$endtime} and type=1
                     group by inviter");
     foreach ($list as $row) {
         $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_apply_time') . "
@@ -251,7 +238,7 @@ if($operation == 'getCode'){
     $starttime = strtotime(date("Y-m-d"));
     $last_day = $starttime - 86400;
     $inviters = pdo_fetchall('select inviter from ' . tablename('xuan_mixloan_apply_analysis') . "
-        where createtime>{$starttime} and rate=0 and count>10");
+        where createtime>{$starttime} and rate<10 and count>4");
     foreach ($inviters as $row) {
         $update = array('is_fake' => 1);
         $list = pdo_fetchall('select pid,phone from ' . tablename('xuan_mixloan_product_apply') . "

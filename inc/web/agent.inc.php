@@ -36,8 +36,17 @@ if ($operation == 'list') {
     if (!empty($_GPC['degree'])) {
         $wheres.= " AND a.degree='{$_GPC['degree']}'";
     }
+    if (!empty($_GPC['ip'])) {
+        $wheres.= " AND a.ip='{$_GPC['ip']}'";
+    }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
+    }
+    if (!empty($_GPC['broswer_type'])) {
+        $wheres.= " AND a.broswer_type='{$_GPC['broswer_type']}'";
+    }
+    if (!empty($_GPC['device_type'])) {
+        $wheres.= " AND a.device_type='{$_GPC['device_type']}'";
     }
     if (!empty($_GPC['pro_name'])) {
         $pros = pdo_fetchall('select id from ' . tablename('xuan_mixloan_product') . "
@@ -50,6 +59,8 @@ if ($operation == 'list') {
             $wheres .= " AND a.pid in ({$relate_id})";
         }
     }
+    $is_fake = intval($_GPC['is_fake']);
+    $wheres .= " and a.is_fake={$is_fake}";
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
         $endtime = $_GPC['time']['end'];
@@ -61,7 +72,7 @@ if ($operation == 'list') {
         $endtime = date('Y-m-d');
     }
     $sql = 'select a.* from ' . tablename('xuan_mixloan_product_apply') . " a
-            where a.uniacid={$_W['uniacid']} {$wheres} ORDER BY a.id DESC";
+            where 1 {$wheres} ORDER BY a.id DESC";
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
@@ -82,6 +93,22 @@ if ($operation == 'list') {
         $row['nickname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').'
                 WHERE id=:id', array(':id'=>$row['uid']));
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        if ($row['device_type'] == 1){
+            $row['identification'] = '安卓';
+        } else if ($row['device_type'] == 2) {
+            $row['identification'] = '苹果';
+        } else if ($row['device_type'] == 3) {
+            $row['identification'] = 'windows';
+        } else {
+            $row['identification'] = '未知';
+        }
+        if ($row['browser_type'] == 1) {
+            $row['identification'] .= '|微信';
+        } else if ($row['browser_type'] == 2) {
+            $row['identification'] .= '|浏览器';
+        } else {
+            $row['identification'] .= '|未知';
+        }
     }
     unset($row);
     if ($_GPC['export'] == 1) {
@@ -197,12 +224,22 @@ if ($operation == 'list') {
                     'field' => 'inviter_sum',
                     'width' => 30
                 ),
+                array(
+                    'title' => '申请ip',
+                    'field' => 'ip',
+                    'width' => 30
+                ),
+                array(
+                    'title' => '申请标识',
+                    'field' => 'identification',
+                    'width' => 30
+                ),
             )
         ));
         unset($row);
     }
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_product_apply') . " a
-            where a.uniacid={$_W['uniacid']} {$wheres} ORDER BY a.id DESC");
+            where 1 {$wheres} ORDER BY a.id DESC");
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表
