@@ -67,7 +67,6 @@ if ($operation == 'list') {
             $wheres .= " and a.is_fake=1";
         }
     }
-    $wheres .= " and a.is_fake={$is_fake}";
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
         $endtime = $_GPC['time']['end'];
