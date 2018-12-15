@@ -168,8 +168,11 @@ else if ($operation == 'order_list')
     $list = pdo_fetchall($sql);
     foreach ($list as &$row)
     {
-        $row['man'] = m('member')->getList(['id', 'nickname', 'avatar'], ['id' => $row['uid']])[$row['uid']];
-        $row['pro'] = m('credit')->getList(['id', 'title', 'ext_info'], ['id' => $row['pid']])[$row['pid']];
+        $row['man'] = pdo_fetch('select id,nickname,avatar from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['uid'])); 
+        $row['pro'] = pdo_fetch('select id,title,ext_info from ' . tablename('xuan_mixloan_mall') . '
+            where id=:id', array(':id' => $row['pid'])); 
+        $row['pro']['ext_info'] = json_decode($row['pro']['ext_info'], 1);
     }
     unset($row);
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_mall_order') . "

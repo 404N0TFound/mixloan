@@ -204,7 +204,7 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>   <img src="{$row['pro']['ext_info']['logo']}" width="35px"> {$row['pro']['title']}</td>
+                    <td>   <img src="{php echo tomedia($row['pro']['ext_info']['logo']);}" width="35px"> {$row['pro']['title']}</td>
                     <td>   <img src="{$row['man']['avatar']}" width="35px"> {$row['man']['nickname']}</td>
                     <td>   {$row['phone']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
