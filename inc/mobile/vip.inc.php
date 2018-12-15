@@ -481,26 +481,36 @@ if($operation=='buy'){
         show_json(-1, null, "请稍后再试");
     }
     setcookie('withdraw', 1, time()+60);
-    $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $bank_code, $bonus, '代理申请结算工资');
-    if ($pay['code']>1) {
-    	show_json(-1, null, $pay['msg']);
-    } else {
-		$insert = array(
-			'uniacid'=>$_W['uniacid'],
-			'uid'=>$member['id'],
-			'bank_id'=>$bank_id,
-			'bonus'=>$bonus,
-			'createtime'=>time(),
-			'status'=>1
-		);
-		$insert['ext_info']['bank_code'] = $bank_code;
-		$insert['ext_info']['reason'] = '代理申请结算工资';
-        $insert['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
-        $insert['ext_info']['payment_no'] = $pay['data']['payment_no'];
-        $insert['ext_info'] = json_encode($insert['ext_info']);
-		pdo_insert('xuan_mixloan_withdraw', $insert);
-		show_json(1, null, "提现成功");
-    }
+  //   $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $bank_code, $bonus, '代理申请结算工资');
+  //   if ($pay['code']>1) {
+  //   	show_json(-1, null, $pay['msg']);
+  //   } else {
+		// $insert = array(
+		// 	'uniacid'=>$_W['uniacid'],
+		// 	'uid'=>$member['id'],
+		// 	'bank_id'=>$bank_id,
+		// 	'bonus'=>$bonus,
+		// 	'createtime'=>time(),
+		// 	'status'=>1
+		// );
+		// $insert['ext_info']['bank_code'] = $bank_code;
+		// $insert['ext_info']['reason'] = '代理申请结算工资';
+  //       $insert['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
+  //       $insert['ext_info']['payment_no'] = $pay['data']['payment_no'];
+  //       $insert['ext_info'] = json_encode($insert['ext_info']);
+		// pdo_insert('xuan_mixloan_withdraw', $insert);
+		// show_json(1, null, "提现成功");
+  //   }
+    $insert = array(
+        'uniacid'=>$_W['uniacid'],
+        'uid'=>$member['id'],
+        'bank_id'=>$bank_id,
+        'bonus'=>$bonus,
+        'createtime'=>time(),
+        'status'=>0
+    );
+    pdo_insert('xuan_mixloan_withdraw', $insert);
+    show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
     //邀请二维码
     if ($agent['code'] != 1) {
