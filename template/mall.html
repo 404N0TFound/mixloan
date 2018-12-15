@@ -208,7 +208,7 @@
                     <td>   <img src="{$row['man']['avatar']}" width="35px"> {$row['man']['nickname']}</td>
                     <td>   {$row['phone']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
-                    <td>   {if $row['status'] == 1}<span class="label label-info">已发货</span>{else if $row['status'] == 0}<span class="label label-default">未发货</span>{/if}</td>
+                    <td>   {if $row['is_pay']}{if $row['status'] == 1}<span class="label label-info">已发货</span>{else if $row['status'] == 0}<span class="label label-default">未发货</span>{/if}{else}<span class="label label-default">未付款</span>{/if}</td>
                     <td  style="overflow:visible;">
 
                         <div class="btn-group btn-group-sm" >

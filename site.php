@@ -297,7 +297,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			    $order = pdo_fetch('select pid from ' . tablename('xuan_mixloan_mall_order') . '
 			        where tid=:tid', array(':tid' => $params['tid']));
 			    $item = pdo_fetch('select id,ext_info from ' . tablename('xuan_mixloan_mall') . '
-			    	where id=:id', array(':id' => $item['id']));
+			    	where id=:id', array(':id' => $order['pid']));
 			    $item['ext_info'] = json_decode($item['ext_info'], 1);
 				pdo_update('xuan_mixloan_mall_order', array('is_pay'=>1), array('tid'=>$params['tid']));
 				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
