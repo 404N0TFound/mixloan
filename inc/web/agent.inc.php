@@ -406,6 +406,17 @@ if ($operation == 'list') {
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
     $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
     if ($_GPC['post'] == 1) {
+        if ($_GPC['data']['status'] == 1) {
+            $bank_code = m('pay')->getBankCode($bank['bankname']);
+            $pay = m('pay')->pay($bank['banknum'], $bank['realname'], $bank_code, $item['bonus'], '代理申请结算工资');
+            if ($pay['code']>1) {
+                message($pay['msg'], '', 'error');
+            }
+            $_GPC['data']['ext_info']['bank_code'] = $bank_code;
+            $_GPC['data']['ext_info']['reason'] = '代理申请结算工资';
+            $_GPC['data']['ext_info']['partner_trade_no'] = $pay['data']['partner_trade_no'];
+            $_GPC['data']['ext_info']['payment_no'] = $pay['data']['payment_no'];
+        }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_withdraw', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('agent', array('op' => 'withdraw_list')), "sccuess");
