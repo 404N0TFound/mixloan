@@ -142,7 +142,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$one_inviter = m('member')->getInviter($member['phone'], $member['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1', array(':qrcid' => $one_inviter));
-				if ($one_inviter && $inviter_fee_one && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $one_inviter));
+				if ($one_inviter && $inviter_fee_one && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -164,7 +166,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$two_inviter = m('member')->getInviter($inviter_one['phone'], $inviter_one['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $two_inviter));
-				if ($two_inviter && $inviter_fee_two && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $two_inviter));
+				if ($two_inviter && $inviter_fee_two && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -186,7 +190,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$thr_inviter = m('member')->getInviter($inviter_two['phone'], $inviter_two['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $thr_inviter));
-				if ($thr_inviter && $inviter_fee_thr && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $thr_inviter));
+				if ($thr_inviter && $inviter_fee_thr && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -208,7 +214,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$four_inviter = m('member')->getInviter($inviter_thr['phone'], $inviter_thr['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $four_inviter));
-				if ($four_inviter && $inviter_fee_four && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $four_inviter));
+				if ($four_inviter && $inviter_fee_four && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -230,7 +238,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$five_inviter = m('member')->getInviter($inviter_four['phone'], $inviter_four['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $five_inviter));
-				if ($five_inviter && $inviter_fee_five && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $five_inviter));
+				if ($five_inviter && $inviter_fee_five && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -252,7 +262,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$six_inviter = m('member')->getInviter($inviter_five['phone'], $inviter_five['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $six_inviter));
-				if ($six_inviter && $inviter_fee_six && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $six_inviter));
+				if ($six_inviter && $inviter_fee_six && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],
@@ -274,7 +286,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				$sev_inviter = m('member')->getInviter($inviter_six['phone'], $inviter_six['openid']);
 				$record = pdo_fetchcolumn('select count(DISTINCT openid) from ' . tablename('qrcode_stat') . '
 							where qrcid=:qrcid and type=1 ', array(':qrcid' => $sev_inviter));
-				if ($sev_inviter && $inviter_fee_sev && $record>=5) {
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $sev_inviter));
+				if ($sev_inviter && $inviter_fee_sev && $record>=5 && $msg>=1) {
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],

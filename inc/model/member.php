@@ -325,80 +325,100 @@ class Xuan_mixloan_Member
             );
             pdo_insert('qrcode_stat', $insert);
             if (!empty($config['inviter_bonus_one'])) {
-                $insert = array();
-                $insert['uid'] = $id;
-                $insert['inviter'] = $inviter;
-                $insert['re_bonus'] = $config['inviter_bonus_one'];
-                $insert['type']   = 7;
-                $insert['status'] = 2;
-                $insert['degree'] = 1;
-                $insert['createtime'] = time();
-                $insert['uniacid'] = $_W['uniacid'];
-                pdo_insert('xuan_mixloan_product_apply', $insert);
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $inviter));
+                if ($msg >= 1) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_one'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 1;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
             }
             $one_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
                         where id=:id', array(':id' => $inviter));
             $two_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
                         where openid=:openid and type=1', array(':openid' => $one_openid));
             if ($two_inviter && !empty($config['inviter_bonus_two'])) {
-                $insert = array();
-                $insert['uid'] = $id;
-                $insert['inviter'] = $two_inviter;
-                $insert['re_bonus'] = $config['inviter_bonus_two'];
-                $insert['type']   = 7;
-                $insert['status'] = 2;
-                $insert['degree'] = 2;
-                $insert['createtime'] = time();
-                $insert['uniacid'] = $_W['uniacid'];
-                pdo_insert('xuan_mixloan_product_apply', $insert);
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $two_inviter));
+                if ($msg >= 1) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $two_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_two'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 2;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
             }
             $two_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
                         where id=:id', array(':id' => $two_inviter));
             $thr_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
                         where openid=:openid and type=1', array(':openid' => $two_openid));
             if ($thr_inviter && !empty($config['inviter_bonus_thr'])) {
-                $insert = array();
-                $insert['uid'] = $id;
-                $insert['inviter'] = $thr_inviter;
-                $insert['re_bonus'] = $config['inviter_bonus_thr'];
-                $insert['type']   = 7;
-                $insert['status'] = 2;
-                $insert['degree'] = 3;
-                $insert['createtime'] = time();
-                $insert['uniacid'] = $_W['uniacid'];
-                pdo_insert('xuan_mixloan_product_apply', $insert);
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $thr_inviter));
+                if ($msg >= 1) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $thr_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_thr'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 3;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
             }
             $thr_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
                         where id=:id', array(':id' => $thr_inviter));
             $four_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
                         where openid=:openid and type=1', array(':openid' => $thr_openid));
             if ($four_inviter && !empty($config['inviter_bonus_four'])) {
-                $insert = array();
-                $insert['uid'] = $id;
-                $insert['inviter'] = $four_inviter;
-                $insert['re_bonus'] = $config['inviter_bonus_four'];
-                $insert['type']   = 7;
-                $insert['status'] = 2;
-                $insert['degree'] = 4;
-                $insert['createtime'] = time();
-                $insert['uniacid'] = $_W['uniacid'];
-                pdo_insert('xuan_mixloan_product_apply', $insert);
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $four_inviter));
+                if ($msg >= 1) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $four_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_four'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 4;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
             }
             $four_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
                         where id=:id', array(':id' => $four_inviter));
             $five_inviter = pdo_fetchcolumn('select qrcid from ' . tablename('qrcode_stat') . '
                         where openid=:openid and type=1', array(':openid' => $four_openid));
             if ($five_inviter && !empty($config['inviter_bonus_five'])) {
-                $insert = array();
-                $insert['uid'] = $id;
-                $insert['inviter'] = $five_inviter;
-                $insert['re_bonus'] = $config['inviter_bonus_five'];
-                $insert['type']   = 7;
-                $insert['status'] = 2;
-                $insert['degree'] = 5;
-                $insert['createtime'] = time();
-                $insert['uniacid'] = $_W['uniacid'];
-                pdo_insert('xuan_mixloan_product_apply', $insert);
+                $msg = pdo_fetchcolumn('select msg from ' . tablename('xuan_mixloan_payment') . '
+                        where uid=:uid', array(':uid' => $five_inviter));
+                if ($msg >= 1) {
+                    $insert = array();
+                    $insert['uid'] = $id;
+                    $insert['inviter'] = $five_inviter;
+                    $insert['re_bonus'] = $config['inviter_bonus_five'];
+                    $insert['type']   = 7;
+                    $insert['status'] = 2;
+                    $insert['degree'] = 5;
+                    $insert['createtime'] = time();
+                    $insert['uniacid'] = $_W['uniacid'];
+                    pdo_insert('xuan_mixloan_product_apply', $insert);  
+                }
             }
             $five_openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
                         where id=:id', array(':id' => $five_inviter));

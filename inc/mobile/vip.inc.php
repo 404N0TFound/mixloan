@@ -486,7 +486,7 @@ if($operation=='buy'){
 } else if ($operation == 'inviteCode') {
 	//邀请二维码
 	if ($agent['code'] != 1) {
-	    message('您不是会员', '', 'error');
+	    //message('您不是会员', '', 'error');
 	}
 	$poster_path = pdo_fetchcolumn('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type', array(':uid'=>$member['id'], ':type'=>3));
     if ($config['wx_invite_code']) {
