@@ -398,16 +398,16 @@ if($operation=='buy'){
 		$cfg['poster_image'] = $product['ext_info']['poster_image'];
 		$cfg['poster_color'] = $product['ext_info']['poster_color'];
 		if ($product['type'] == 1){
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
+            $url =  'http://day009.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
         } else {
-            $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
+            $url = 'http://day009.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
         }
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
 	} else {
 		$id = 0;
 		$cfg = $config;
-		$url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+		$url = 'http://day009.com/app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
@@ -617,7 +617,7 @@ if($operation=='buy'){
         $res = $wx->barCodeCreateDisposable($barcode);
         $url = $res['url'];
     } else {
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register','inviter'=>$member['id']));
+        $url = 'http://day009.com/app/' .$this->createMobileUrl('vip', array('op' => 'app_register','inviter'=>$member['id']));
     }
     $shortUrl = shortUrl($url);
     if (!$poster_path) {
