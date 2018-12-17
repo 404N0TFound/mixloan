@@ -59,7 +59,7 @@ if($operation=='index'){
         $poster_short_url = shortUrl( 'http://day009.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>2)));
         $poster_long_url =  'http://day009.com/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>time()));
     } else {
-        $poster_short_url = 'http://day009.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>2)));
+        $poster_short_url = shortUrl( 'http://day009.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>2)) );
         $poster_long_url =  'http://day009.com/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>time()));
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?v=" . time();
