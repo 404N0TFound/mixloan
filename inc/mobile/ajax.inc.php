@@ -216,32 +216,12 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+        $list = pdo_fetchall('SELECT id,phone,nickname FROM '.tablename('xuan_mixloan_member').'', array(':uniacid'=>$_W['uniacid']));
         foreach ($list as $row) {
-            $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-            $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-            if ($row['left_bonus']<0) {
-                $bonus = pdo_fetch('select id,extra_bonus from '.tablename('xuan_mixloan_product_apply').' where inviter=:inviter and status>1', array(':inviter'=>$row['uid']));
-                if ($bonus) {
-                    pdo_update('xuan_mixloan_product_apply', array('extra_bonus'=>$bonus['extra_bonus']-$row['left_bonus']), array('id'=>$bonus['id']));
-                } else {
-                    $insert = array(
-                        'uniacid'=>$_W['uniacid'],
-                        'uid'=>0,
-                        'pid'=>1,
-                        'phone'=>18678350582,
-                        'certno'=>'371402198803251212',
-                        'realname'=>'李龙',
-                        'inviter'=>$row['uid'],
-                        'extra_bonus'=>-$row['left_bonus'],
-                        'createtime'=>time(),
-                        'status'=>2,
-                        'degree'=>1
-                    );
-                    pdo_insert('xuan_mixloan_product_apply', $insert);
-                }
-                $ids[] = $row['uid'];
-            }
+        	if (strstr($row['nickname'], '用户')) {
+	            $nickname = '用户' . substr($row['phone'], -6);
+	            pdo_update('xuan_mixloan_member', array('nickname' => $nickname), array('id' => $row['id']));
+        	}
         }
     } 
     if (!empty($ids)) {
