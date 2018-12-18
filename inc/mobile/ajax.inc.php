@@ -209,15 +209,13 @@ if($operation == 'getCode'){
 			}
 		}
 	} else if ($_GPC['type'] == 'temp') {
-		$list = pdo_fetchall('SELECT * FROM '.tablename('xuan_mixloan_payment').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-		foreach ($list as $row) {
-	        $all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$row['uid']}");
-	        $row['left_bonus'] = $all - m('member')->sumWithdraw($row['uid']);
-	        if ($row['left_bonus']<0) {
-	        	var_dump($row['left_bonus']);
-	        	$ids[] = $row['uid'];
-	        }
-		}
+		$list = pdo_fetchall('SELECT id,phone,nickname FROM '.tablename('xuan_mixloan_member'));
+        foreach ($list as $row) {
+        	if (strstr($row['nickname'], '用户')) {
+	            $nickname = '用户' . substr($row['phone'], -6);
+	            pdo_update('xuan_mixloan_member', array('nickname' => $nickname), array('id' => $row['id']));
+        	}
+        }
 	}
 	if (!empty($ids)) {
 		echo implode(',', $ids);
