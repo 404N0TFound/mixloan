@@ -20,6 +20,9 @@ if ($operation == 'list') {
     if (!empty($_GPC['pro_name'])) {
         $wheres.= " AND pro_name LIKE '%{$_GPC['pro_name']}%'";
     }
+    if (!empty($_GPC['uid'])) {
+        $wheres.= " AND uid = '{$_GPC['uid']}'";
+    }
     $sql = 'select * from ' . tablename('xuan_mixloan_feedback') . " where  1 " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
