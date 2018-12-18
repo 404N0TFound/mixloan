@@ -149,12 +149,10 @@
 
     $(function() {
         $("#sub_button").click(function(){
-            {if $agent['code'] != 1}
-            $('#prize_art').show();
-            {else}
+           
             openNew('{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode'))}');
             // window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
-            {/if}
+            
             })
         $(".click_view a").click(function(){
             {if $agent['code'] != 1}
