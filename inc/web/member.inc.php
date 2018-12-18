@@ -21,7 +21,7 @@ if ($operation == 'list') {
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql = 'select * from ' . tablename('xuan_mixloan_member') . " where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
         $list = pdo_fetchall($sql);
