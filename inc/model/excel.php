@@ -137,6 +137,7 @@ class Xuan_mixloan_Excel
             $len = count($row);
             for ($i = 0; $i < $len; $i++) {
                 $value = $row[$params['columns'][$i]['field']];
+                if(strpos($value,'=') === 0){ $value = "'".$value; }
                 $sheet->setCellValue($this->column($i, $rownum), $value);
             }
             $rownum++;
