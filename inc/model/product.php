@@ -280,7 +280,7 @@ class Xuan_mixloan_Product
         }
         if ($type == 1) {
             $fields = "relate_id, COUNT(*) AS count";
-            $wheres .= " AND status<>-2 AND degree=1";
+            $wheres .= " AND status<>-2 AND degree=1 AND status<>-3";
         } else if ($type == 2) {
             $fields = "relate_id, COUNT(*) AS count, SUM(relate_money) AS relate_money";
             $wheres .= " AND status>1";
@@ -308,7 +308,7 @@ class Xuan_mixloan_Product
         $begin = strtotime($params['begin']);
         $end = strtotime($params['begin']." +1 month");
         $fields = "COUNT(1) AS count,degree";
-        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND type=1 GROUP BY degree";
+        $sql = "SELECT {$fields} FROM ".tablename("xuan_mixloan_bonus")." WHERE uniacid={$_W['uniacid']} AND createtime>={$begin} AND createtime<{$end} AND inviter={$inviter} AND type=1 AND status<>-3 GROUP BY degree";
         $res = pdo_fetchall($sql);
         if ($res) {
             foreach ($res as $row) {

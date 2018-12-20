@@ -306,7 +306,7 @@ if($operation=='index'){
         $condition = ' WHERE inviter=:inviter AND relate_id=:relate_id AND status=-1';
     }
 
-    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id', $arr) ? : 0;
+    $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id AND status<>-3', $arr) ? : 0;
     $count_succ_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id AND status>0', $arr) ? : 0;
     $count_succ_bonus = pdo_fetchcolumn('SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ' . tablename('xuan_mixloan_bonus') . ' WHERE inviter=:inviter AND relate_id=:relate_id', $arr) ? : 0;
     $sql = 'SELECT id,re_bonus,done_bonus,extra_bonus,relate_id,status,phone,createtime,degree FROM ' . tablename('xuan_mixloan_bonus'). $condition;
