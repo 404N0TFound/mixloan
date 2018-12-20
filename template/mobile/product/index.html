@@ -29,7 +29,7 @@
     	.swiper-pagination-bullet{background: #ccc;opacity: 1;}
 		.swiper-pagination-bullet-active{background: #e9e9e9;opacity: 1;}
 		.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{    bottom:15%;}
-		
+		.list_line ul li:nth-child(2n) div.lisi_li{height: 3rem}
 		</style>
 	
 	{template 'common/wxshare'}
@@ -102,6 +102,7 @@
 					<ul class="clearfix new_line5 ew3"></ul>
 					<ul class="clearfix new_line5 ew4"></ul>
 					<ul class="clearfix new_line5 ew5"></ul>
+					<ul class="clearfix new_line5 ew6"></ul>
 				</div>
 				<!-- fjx -->
 				<div class="fjx"></div>
@@ -572,13 +573,25 @@
                                 if(card_maintain==0){
                                     $("div.list_line2  ul.new_line5.ew3").append(str_tre0);
                                 }else{
-                                    $("div.list_line2  ul.new_line5.ew4").append(str_tre);
+                                    $("div.list_line2  ul.new_line5.ew3").append(str_tre);
                                 }
                             }else if(i>=12 && i <=14){
                                 if(card_maintain==0){
                                     $("div.list_line2  ul.new_line5.ew4").append(str_tre0);
                                 }else{
                                     $("div.list_line2  ul.new_line5.ew4").append(str_tre);
+                                }
+                            }else if(i>=15 && i <=17){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew5").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew5").append(str_tre);
+                                }
+                            }else if(i>=18 && i <=20){
+                                if(card_maintain==0){
+                                    $("div.list_line2  ul.new_line5.ew6").append(str_tre0);
+                                }else{
+                                    $("div.list_line2  ul.new_line5.ew6").append(str_tre);
                                 }
                             }
                         }
