@@ -185,11 +185,11 @@ if($operation == 'getCode'){
         $list = pdo_fetchall('select id,img_url from '.tablename('xuan_mixloan_withdraw_qrcode').' where uniacid=:uniacid', array(':uniacid' => $_W['uniacid']));
         foreach ($list as $row) {
         	if (strstr($row['img_url'], 'wx.52-tao.cn')) {
-        		$temp = str_replace('wx.52-tao.cn', 'dabao.dahanzuyu.com', $row['img_url']);
+        		$temp = str_replace('wx.52-tao.cn', 'wx.wangi.cn', $row['img_url']);
         		pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url' => $temp), array('id' => $row['id']));
         		$ids[] = $row['id'];
-        	} else if (strstr($row['img_url'], 'dabao.dahanzuyu.com')) {
-        		$temp = str_replace('dabao.dahanzuyu.com', 'dabao.dahanzuyu.com', $row['img_url']);
+        	} else if (strstr($row['img_url'], 'wx.wangi.cn')) {
+        		$temp = str_replace('wx.wangi.cn', 'wx.wangi.cn', $row['img_url']);
         		pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url' => $temp), array('id' => $row['id']));
         		$ids[] = $row['id'];
         	}
