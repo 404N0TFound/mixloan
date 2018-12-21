@@ -232,8 +232,9 @@ if($operation == 'getCode'){
     $endpoint = 'http://' . $buckets[$_W['setting']['remote']['alioss']['bucket']]['location'] . '.aliyuncs.com';
     try {
         $ossClient = new \OSS\OssClient($_W['setting']['remote']['alioss']['key'], $_W['setting']['remote']['alioss']['secret'], $endpoint);
-        $ossClient->uploadFile($_W['setting']['remote']['alioss']['bucket'], $filename, $fileroot);
+       $res =  $ossClient->uploadFile($_W['setting']['remote']['alioss']['bucket'], $filename, $fileroot);
     } catch (\OSS\Core\OssException $e) {
+    	var_dump($e);
         return error(1, $e->getMessage());
     }
     echo  'http://kouziguanwei.oss-cn-beijing.aliyuncs.com/' . $filename ;

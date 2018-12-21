@@ -71,16 +71,18 @@ class Xuan_mixloan_Poster
             } else {
                 $poster = $params['poster_path'];
             }
-            $insert = array(
-                'uniacid'=>$_W['uniacid'],
-                'uid'=>$params['member']['id'],
-                'pid'=>$params['pid'],
-                'type'=>$params['type'],
-                'poster'=>$poster,
-                'createtime'=>time(),
-            );
-            pdo_insert('xuan_mixloan_poster',$insert);
-            return $poster;
+            if ($poster) {
+                $insert = array(
+                    'uniacid'=>$_W['uniacid'],
+                    'uid'=>$params['member']['id'],
+                    'pid'=>$params['pid'],
+                    'type'=>$params['type'],
+                    'poster'=>$poster,
+                    'createtime'=>time(),
+                );
+                pdo_insert('xuan_mixloan_poster',$insert);
+                return $poster;
+            }
         } else {
             return false;
         }
