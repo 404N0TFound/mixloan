@@ -248,40 +248,19 @@ if($operation == 'getCode'){
     }
 } else if ($operation == 'temp') {
     //临时脚本
-    $list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
+    $list = pdo_fetchall('SELECT id,ext_info FROM '.tablename('xuan_mixloan_feedback'), array(':uniacid'=>$_W['uniacid']));
     foreach ($list as $row) {
-        if (strstr($row['avatar'], '3dmjg.com')) {
-            $img_url = str_replace('3dmjg.com', 'xi.bjhantangyuanlin.com', $row['avatar']);
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+        if (strstr($row['ext_info']['get_money_pic'], 'hqph.bjhantangyuanlin.com')) {
+            $get_money_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['get_money_pic']);
+            $sms_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['sms_pic']);
+            $verify_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['verify_pic']);
+            $ext_info = $row['ext_info'];
+            $ext_info['get_money_pic'] = $get_money_pic;
+            $ext_info['sms_pic'] = $sms_pic;
+            $ext_info['verify_pic'] = $verify_pic;
             $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_member', array('avatar'=>$img_url), array('id'=>$row['id']));
-        }
-        if (strstr($row['avatar'], 'clpdk.cn')) {
-            $img_url = str_replace('clpdk.cn', 'xi.bjhantangyuanlin.com', $row['avatar']);
-            $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_member', array('avatar'=>$img_url), array('id'=>$row['id']));
-        }
-        if (strstr($row['avatar'], 'weixin.rod3bi.cn')) {
-            $img_url = str_replace('weixin.rod3bi.cn', 'xi.bjhantangyuanlin.com', $row['avatar']);
-            $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_member', array('avatar'=>$img_url), array('id'=>$row['id']));
-        }
-    }
-    $list = pdo_fetchall('SELECT id,img_url FROM '.tablename('xuan_mixloan_withdraw_qrcode').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
-    foreach ($list as $row) {
-        if (strstr($row['img_url'], '3dmjg.com')) {
-            $img_url = str_replace('3dmjg.com', 'xi.bjhantangyuanlin.com', $row['img_url']);
-            $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url'=>$img_url), array('id'=>$row['id']));
-        }
-        if (strstr($row['img_url'], 'clpdk.cn')) {
-            $img_url = str_replace('clpdk.cn', 'xi.bjhantangyuanlin.com', $row['img_url']);
-            $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url'=>$img_url), array('id'=>$row['id']));
-        }
-        if (strstr($row['img_url'], 'weixin.rod3bi.cn')) {
-            $img_url = str_replace('weixin.rod3bi.cn', 'xi.bjhantangyuanlin.com', $row['img_url']);
-            $ids[] = $row['id'];
-            pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url'=>$img_url), array('id'=>$row['id']));
+            pdo_update('xuan_mixloan_feedback', array('ext_info'=>json_encode($ext_info)), array('id'=>$row['id']));
         }
     }
     echo implode(',', $ids);
