@@ -10,6 +10,7 @@ if (empty($_GPC['op'])) {
 if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
+    $all_bonus = trim($_GPC['all_bonus']);
     $status = $_GPC['status'] != '' ? $_GPC['status'] : 1;
     $wheres = ' AND status=' . $status;
     if (!empty($_GPC['id'])) {
@@ -21,6 +22,26 @@ if ($operation == 'list') {
     if (!empty($_GPC['nickname'])) {
         $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
     }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+        $start = strtotime($starttime);
+        $end = strtotime($endtime);
+        $cond .= " and createtime>{$start} and createtime<={$end}";
+    } else {
+        $starttime = "2018-01-01";
+        $endtime = date('Y-m-d');
+    }
+    if (!empty($all_bonus)) {
+        $inviters = pdo_fetchall('select inviter,sum(done_bonus+re_bonus) as sum from ' . tablename('xuan_mixloan_bonus') . "
+                        where 1 {$cond}
+                        group by inviter having sum>={$all_bonus}");
+        foreach ($inviters as $inviter) {
+            $uids[] = $inviter['inviter'];
+        }
+        $uid_string = implode(',', $uids);
+        $wheres.= " AND id in ({$uid_string})";
+    }
     $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
@@ -29,6 +50,8 @@ if ($operation == 'list') {
             $agent = m('member')->checkAgent($row['id']);
             $row['type'] = $agent['code'];
             $row['user_type'] = $agent['name'];
+            $row['all_bonus'] = pdo_fetchcolumn('select sum(done_bonus+re_bonus) from ' . tablename('xuan_mixloan_bonus') . "
+                        where inviter=:inviter {$cond}", array(':inviter' => $row['id'])) ? : 0;
         }
         unset($row);
     } else {

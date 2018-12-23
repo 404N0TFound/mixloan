@@ -26,6 +26,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">总佣金大于</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="all_bonus" value="{$_GPC['all_bonus']}" placeholder="总佣金大于多少钱"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">佣金时间筛选</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_daterange('time', array('starttime'=>$starttime,'endtime'=>$endtime),true);}
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
@@ -57,6 +69,7 @@
                     <th style='width:120px;'>真实姓名</th>
                     <th style='width:150px;'>手机</th>
                     <th style='width:120px;'>类型</th>
+                    <th style='width:80px;'>总佣金</th>
                     <th style='width:150px;'>注册时间</th>
                     <th>操作</th>
                 </tr>
@@ -82,6 +95,7 @@
                         <span class="label label-default">{$row['user_type']}</span>
                         {/if}
                     </td>
+                    <td>{$row['all_bonus']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
                         
