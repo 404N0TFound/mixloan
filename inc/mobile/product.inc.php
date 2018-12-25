@@ -106,7 +106,7 @@ if($operation=='index'){
 	if ($id <= 0) {
 		show_json(-1, [], "id为空");
 	}
-	if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
+	if(!trim($_GPC['phone'])) {
 		show_json(-1, [], '资料不能为空');
 	}
 	$record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
