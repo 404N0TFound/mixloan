@@ -289,7 +289,7 @@
                         <div class="btn-group btn-group-sm" >
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'salary_op', 'status'=>2, 'id' => $row['id']));}" title='发放' onclick="return confirm('确定要驳回吗？');"><i class='fa fa-edit'></i> 发放</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'salary_op', 'status'=>2, 'id' => $row['id']));}" title='发放' onclick="return confirm('确定要发放吗？');"><i class='fa fa-edit'></i> 发放</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'salary_op', 'status'=>-1, 'id' => $row['id']));}" title='驳回' onclick="return confirm('确定要驳回吗？');"><i class='fa fa-remove'></i> 驳回</a></li>
                             </ul>
                         </div>

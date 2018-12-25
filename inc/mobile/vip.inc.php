@@ -686,7 +686,7 @@ if($operation=='buy'){
         message('您的操作太快啦', '', 'error');
     }
     $date = explode('-', date('Y-m-d'));
-    if ($date[1] != $config['partner_days']) {
+    if ($date[2] != $config['partner_days']) {
         message('抱歉，每月25号才可以领工资哦', '', 'error');
     }
     $starttime = strtotime(date('Y-m'));
