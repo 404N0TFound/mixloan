@@ -20,7 +20,20 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
     var url = '{$url}';
-    window.location.href="{$url}";
+    var host = "http://wq.cider.org.cn";
+    mui.init();
+    mui.plusReady(function(){
+    	var self = plus.webview.currentWebview();
+    	var payView = plus.webview.create(url, 'pay-url', {
+    		top: '1000px',
+            additionalHttpHeaders:{'Referer':host}
+    	});
+    	self.append(payView);
+	    setTimeout("checkPay()", 2000);
+    })
+    function checkPay() {
+    	window.location.href= "{php echo $this->createMobileUrl('user')}";
+    }
 </script>
 
 </body>
