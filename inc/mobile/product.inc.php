@@ -17,6 +17,8 @@ if($operation=='index'){
     $loan_high_cps_list = m('product')->packupItems($loan_high_cps_list);
     $loan_large_cps_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>3], FALSE);
     $loan_large_cps_list = m('product')->packupItems($loan_large_cps_list);
+    $vip_loan_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'is_vip'=>1], FALSE);
+    $vip_loan_list = m('product')->packupItems($vip_loan_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
