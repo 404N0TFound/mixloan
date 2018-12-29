@@ -161,45 +161,6 @@
     <!-- fjx -->
     <div class="list_head">
         <p>
-            <span><img src="../addons/xuan_mixloan/template/style/images/vip_loan.png" /></span>
-            会员福利专版<label>(共<b  id="card_num">{php echo count($vip_loan_list);}</b>款)</label>
-        </p>
-    </div>
-    <div class="three_head">
-        <ul class="clearfix">
-            {loop $vip_loan_list $row}
-            <li class="clearfix ons2" data-id="1">
-                <a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
-                    <div class="line_three">
-                        <div class="line_img">
-                            <img src="{$row['imgs']}">
-                            {if $row['hot']}
-                            <div class="day_fire">
-                                <img src="../addons/xuan_mixloan/template/style/images/fire.png">
-                            </div>
-                            {/if}
-                        </div>
-                        <h2>{$row['title']}</h2>
-                        <p>
-                            <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
-                        </p>
-                    </div>
-                    {if $row['day'] == 1}
-                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
-                    {else if $row['day'] == 2}
-                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
-                    {else if $row['day'] == 3}
-                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
-                    {/if}
-                </a>
-            </li>
-            {/loop}
-        </ul>
-    </div>
-    <div class="fjx"></div>
-    <!-- fjx -->
-    <div class="list_head">
-        <p>
             <span><img src="../addons/xuan_mixloan/template/style/images/loan_cpa.png" /></span>
             CPA产品<label>(共<b  id="card_num">{php echo count($loan_cpa_list);}</b>款)</label>
         </p>
@@ -353,6 +314,45 @@
 		</ul>
 	</div>
 	<div class="fjx"></div>
+    <div class="list_head">
+        <p>
+            <span><img src="../addons/xuan_mixloan/template/style/images/vip_loan.png" /></span>
+            会员福利专版<label>(共<b  id="card_num">{php echo count($vip_loan_list);}</b>款)</label>
+        </p>
+    </div>
+    <div class="three_head">
+        <ul class="clearfix">
+            {loop $vip_loan_list $row}
+            <li class="clearfix ons2" data-id="1">
+                <a href="{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}">
+                    <div class="line_three">
+                        <div class="line_img">
+                            <img src="{$row['imgs']}">
+                            {if $row['hot']}
+                            <div class="day_fire">
+                                <img src="../addons/xuan_mixloan/template/style/images/fire.png">
+                            </div>
+                            {/if}
+                        </div>
+                        <h2>{$row['title']}</h2>
+                        <p>
+                            <span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
+                        </p>
+                    </div>
+                    {if $row['day'] == 1}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
+                    {else if $row['day'] == 2}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/week.png "></div>
+                    {else if $row['day'] == 3}
+                    <div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/month.png "></div>
+                    {/if}
+                </a>
+            </li>
+            {/loop}
+        </ul>
+    </div>
+    <div class="fjx"></div>
+    <!-- fjx -->
 
 
 	<div class="three_head">
