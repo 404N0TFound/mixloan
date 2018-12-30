@@ -25,7 +25,7 @@ if($operation=='login') {
         message('密码不能为空', '', 'error');
     }
     $record = pdo_fetch('select id,pass,status from ' . tablename('xuan_mixloan_member') . '
-	 	where phone=:phone', array(':phone' => $phone));
+	 	where phone=:phone and uniacid=:uniacid', array(':phone' => $phone, ':uniacid' => $_W['uniacid']));
     if (empty($record)) {
         message('用户不存在', '', 'error');
     }
@@ -179,4 +179,45 @@ if($operation=='login') {
     }
     $_SESSION['user_id'] = $member['id'];
     header("location:{$this->createMobileUrl('partner', array('op' => 'default'))}");
+} else if ($operation == 'product') {
+    // 首页
+    $psize = 20;
+    $pindex = max(1, intval($_GPC['page']));
+    $where = '';
+    $name = trim($_GPC['name']);
+    $is_show = trim($_GPC['is_show']);
+    $cond = array();
+    $agent = m('member')->checkAgent($_SESSION['user_id']);
+    if ($agent['code'] != 1) {
+        message('您还不是代理', '', 'error');
+    }
+    if ($is_show != '') {
+        $where .= " and is_show=:is_show";
+        $cond[':is_show'] =  $is_show ;
+    }
+    if ($name) {
+        $where .= " and name like :name";
+        $cond[':name'] = '%' . $name . '%';
+    }
+    $sql = 'select * from ' . tablename('xuan_mixloan_product') . ' where 
+            1 ' . $where . ' order by id desc';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql, $cond);
+    foreach ($list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+        $row['logo'] = tomedia($row['ext_info']['logo']);
+        if ($row['type'] == 2) {
+            $loan = pdo_fetch('select ext_info from ' . tablename('xuan_mixloan_loan') . '
+                        where id=:id', array(':id' => $row['relate_id']));
+            $loan['ext_info'] = json_decode($loan['ext_info'], 1);
+            $row['url'] = $loan['ext_info']['url'];
+            $row['long_url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$member['id'], 'pid'=>$row['id'], 'rand' => 1));
+            $row['short_url'] = shortUrl($row['long_url']);
+        }
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product') . ' where 
+            1 ' . $where . ' order by id desc', $cond);
+    $pager = pagination($total, $pindex, $psize);
+    include $this->template('partner/product');
 }

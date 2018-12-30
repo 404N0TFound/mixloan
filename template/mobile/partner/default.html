@@ -45,10 +45,13 @@
             <ul class="nav" id="main-menu">
 
                 <li>
-                    <a class="active-menu waves-effect waves-dark" href="index.html"><i class="fa fa-dashboard"></i> 数据总览</a>
+                    <a class="active-menu waves-effect waves-dark" href="#"><i class="fa fa-dashboard"></i> 数据总览</a>
                 </li>
                 <li>
                     <a href="{php echo $this->createMobileUrl('partner', array('op' => 'apply_data'))}" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 申请数据</a>
+                </li>
+                <li>
+                    <a href="{php echo $this->createMobileUrl('partner', array('op' => 'product'))}" class="waves-effect waves-dark"><i class="fa fa-desktop"></i> 产品推广</a>
                 </li>
             </ul>
         </div>
