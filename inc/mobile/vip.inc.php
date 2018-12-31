@@ -148,7 +148,7 @@ if($operation=='buy'){
         }
         //模板消息提醒
         $account = WeAccount::create($_W['acid']);
-        $url = 'http://banma.woxiangnile.top/app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
+        $url = 'http://ch.tainchang98.top/app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
         $inviter_one = m('member')->getInviter($member['phone'], $openid);
         $man_one = m('member')->getInviterInfo($inviter_one);
         if ($inviter_one && $config['inviter_fee_one']) {
@@ -267,16 +267,16 @@ if($operation=='buy'){
 		$cfg['poster_image'] = $product['ext_info']['poster_image'];
 		$cfg['poster_color'] = $product['ext_info']['poster_color'];
 		if ($product['type'] == 1){
-            $url = 'http://banma.woxiangnile.top/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
+            $url = 'http://ch.tainchang98.top/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
         } else {
-            $url = 'http://banma.woxiangnile.top/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
+            $url = 'http://ch.tainchang98.top/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
         }
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
 	} else {
 		$id = 0;
 		$cfg = $config;
-		$url = 'http://banma.woxiangnile.top/app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+		$url = 'http://ch.tainchang98.top/app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
