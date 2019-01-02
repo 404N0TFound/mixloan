@@ -119,21 +119,21 @@
                 authLogout();
                 return false;
                 mui.ajax({
-                    url: "{php echo $this->createMobileUrl('index',['op'=>'wechat_app'])}",
+                    url: "{php echo $this->createMobileUrl('user',['op'=>'login_oauth'])}",
                     type: "GET",
                     data : jsonObj,
                     dataType: "json",
                     success: function(data){
                         if (data.code == 1) {
-                            mui.openWindow({url:data.data.url, id:'user_index'});
+                            openNew(data.data.url);
                         } else {
-                            alert(data.msg);
+                            layer.alert(data.msg);
                         }
                     }
                 });
                 authLogout();
             }, function(e) {
-                alert("获取用户信息失败：" + e.message + " - " + e.code);
+                layer.alert("获取用户信息失败：" + e.message + " - " + e.code);
             });
         }
     }
