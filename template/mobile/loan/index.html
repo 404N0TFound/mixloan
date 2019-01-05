@@ -347,6 +347,17 @@
     <script type="text/javascript">
         // 页面初始化
         $(document).ready(function(){
+            var cid = {$member['id']};
+            $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+                function(data){
+                    if (data.code == 1) {
+                        layer.alert(data.msg, {
+                            icon: 1,
+                            skin: 'layer-ext-moon',
+                            title:'公告'
+                        })
+                    }
+                },'json')
             var fr_T=($("div.loan_tab").height())+"px";
             $("div.loanindex_frame").css("margin-top",fr_T);
             $("img.ani_model").load(function(){
