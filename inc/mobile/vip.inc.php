@@ -52,7 +52,7 @@ if($operation=='buy'){
     }
     else
     {
-        $notify_url = 'http://wq.huojiaomu.net.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
+        $notify_url = 'http://xxqq.bbhcard.com.cn/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
         if ($member['id'] == '20798') {
@@ -97,7 +97,7 @@ if($operation=='buy'){
         }
         $result = m('pay')->H5pay($trade_no, $config['buy_mid_vip_price'], $notify_url);
         if ($result['code'] == 1) {
-            $redirect_url = urlencode( 'http://wq.huojiaomu.net.cn/app/' .
+            $redirect_url = urlencode( 'http://xxqq.bbhcard.com.cn/app/' .
                 $this->createMobileUrl('vip', array('op'=>'checkPay')));
             $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
         }
@@ -398,16 +398,16 @@ if($operation=='buy'){
 		$cfg['poster_image'] = $product['ext_info']['poster_image'];
 		$cfg['poster_color'] = $product['ext_info']['poster_color'];
 		if ($product['type'] == 1){
-            $url =  'http://wq.huojiaomu.net.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
+            $url =  'http://xxqq.bbhcard.com.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id']));
         } else {
-            $url = 'http://wq.huojiaomu.net.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
+            $url = 'http://xxqq.bbhcard.com.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
         }
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
 	} else {
 		$id = 0;
 		$cfg = $config;
-		$url = 'http://wq.huojiaomu.net.cn/app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+		$url = 'http://xxqq.bbhcard.com.cn/app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
     	$out = XUAN_MIXLOAN_PATH."data/poster/{$member['id']}.png";
     	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
 	}
@@ -617,7 +617,7 @@ if($operation=='buy'){
         $res = $wx->barCodeCreateDisposable($barcode);
         $url = $res['url'];
     } else {
-        $url = 'http://wq.huojiaomu.net.cn/app/' .$this->createMobileUrl('vip', array('op' => 'app_register','inviter'=>$member['id']));
+        $url = 'http://xxqq.bbhcard.com.cn/app/' .$this->createMobileUrl('vip', array('op' => 'app_register','inviter'=>$member['id']));
     }
     $shortUrl = shortUrl($url);
     if (!$poster_path) {

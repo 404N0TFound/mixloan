@@ -68,7 +68,7 @@ if($operation=='register'){
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://wq.huojiaomu.net.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'avatar'=>'http://xxqq.bbhcard.com.cn/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
             'status'=>1,
         );
