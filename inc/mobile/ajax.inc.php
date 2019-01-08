@@ -248,7 +248,7 @@ if($operation == 'getCode'){
     }
 } else if ($operation == 'temp') {
     //临时脚本
-    $list = pdo_fetchall('SELECT id,ext_info FROM '.tablename('xuan_mixloan_feedback'), array(':uniacid'=>$_W['uniacid']));
+    $list = pdo_fetchall('SELECT id,vatar FROM '.tablename('xuan_mixloan_feedback'), array(':uniacid'=>$_W['uniacid']));
     foreach ($list as $row) {
         $row['ext_info'] = json_decode($row['ext_info'], 1);
         if (strstr($row['ext_info']['get_money_pic'], 'hqph.bjhantangyuanlin.com')) {
