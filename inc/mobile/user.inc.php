@@ -47,11 +47,6 @@ if($operation=='index'){
 	include $this->template('user/index');
 } else if ($operation == 'bind_card') {
 	//绑卡
-    $record = pdo_fetch('select * from ' . tablename('xuan_mixloan_verify_data') . '
-        where uid=:uid', array(':uid' => $member['id']));
-    if (!$record) {
-        header("location:{$this->createMobileUrl('user', array('op' => 'verify'))}");
-    }
 	include $this->template('user/bind_card');
 } else if ($operation == 'checkBank') {
 	//查银行卡是哪家的
@@ -68,11 +63,6 @@ if($operation=='index'){
 	}
 } else if ($operation == 'bind_card_submit') {
 	//验证银行卡
-    $record = pdo_fetch('select * from ' . tablename('xuan_mixloan_verify_data') . '
-        where uid=:uid', array(':uid' => $member['id']));
-    if (!$record) {
-        show_json(-1, [], '请先认证');
-    }
 	$user_name = $record['realname'];
 	$id_card = $record['certno'];
 	$bank_num = trim($_GPC['bank_num']);
@@ -263,43 +253,6 @@ else if ($operation == 'read_message')
 	$totalRow = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_msg') . '
 			where to_uid=:to_uid and type=:type order by id desc', $condition);
 	show_json(1, ['list' => $list, 'totalRow' => $totalRow], '获取成功');
-} else if ($operation == 'verify') {
-    // 认证
-    $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
-        where uid=:uid', array(':uid' => $member['id']));
-    if ($record) {
-        header("location:{$this->createMobileUrl('user')}");
-    }
-    include $this->template('user/verify');
-} else if ($operation == 'verify_submit') {
-    // 认证提交
-    $phone = trim($_GPC['phone']);
-    $bankcard = trim($_GPC['bankcard']);
-    $certno = trim($_GPC['certno']);
-    $realname = trim($_GPC['realname']);
-    $params = array();
-    $record = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_verify_data') . '
-        where certno=:certno', array(':certno' => $certno));
-    if ($record) {
-        show_json(-1, [], '该信息已被认证');
-    }
-    $params['bankcard'] = $bankcard;
-    $params['realName'] = $realname;
-    $params['cardNo'] = $certno;
-    $params['Mobile'] = $phone;
-    $result = m('aliyun')->bank4($params);
-    if ($result['code'] != 1) {
-        show_json(-1, [], $result['msg']);
-    }
-    $insert = array();
-    $insert['uid'] = $member['id'];
-    $insert['certno'] = $certno;
-    $insert['phone'] = $phone;
-    $insert['realname'] = $realname;
-    $insert['bankcard'] = $bankcard;
-    $insert['createtime'] = time();
-    pdo_insert('xuan_mixloan_verify_data', $insert);
-    show_json(1, [], '认证成功');
 } else if ($operation == 'delete_qrcode') {
     //删除二维码
     $id = intval($_GPC['id']);

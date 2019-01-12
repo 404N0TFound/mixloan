@@ -150,6 +150,18 @@
     a.more_hotcards, a.no_hotcards{
         bottom: 4rem
     }
+    .search_area{
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+    .search{
+        width: 90%;
+        border: 1px solid gainsboro;
+        padding: 0.5rem;
+        text-align: center;
+        background: white;
+    }
 </style>
 <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
 {/if}
@@ -171,13 +183,13 @@
         <p>今日口子</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')" class="home" >
+    <!-- <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>推广中心</p>
-    </a>
+    </a> -->
     <a onclick="return_user()">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
         <p>个人中心</p>
@@ -185,6 +197,9 @@
 </div>
 {/if}
 <div class="loanindex_frame">
+    <div class="search_area">
+        <input type="text" name="search" placeholder="搜索" class="search">
+    </div>
     <!-- 轮播 -->
     <div class="swiper-container loanindex-swiper">
         <div class="swiper-wrapper">

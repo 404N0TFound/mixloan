@@ -172,7 +172,7 @@ class Xuan_mixloan_Member
 //                </body>
 //            </html>");
 //            return;
-            header("location:http://juxinwangluo.xin/app/index.php?i=4&c=entry&op=login&do=index&m=xuan_mixloan");
+            header("location:http://mmsq.luowangyun.xyz/app/index.php?i=". $_W['uniacid'] ."&c=entry&do=index&m=xuan_mixloan&op=login");
             return false;
         }
         $member   = m('member')->getMember($openid);
