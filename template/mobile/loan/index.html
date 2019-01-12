@@ -198,7 +198,9 @@
 {/if}
 <div class="loanindex_frame">
     <div class="search_area">
-        <input type="text" name="search" placeholder="搜索" class="search">
+        <form action="{php echo $this->createMobileUrl('loan', array('op' => 'search'))}" method="post">
+        <input type="search" name="keyword" placeholder="搜索" class="search">
+        </form>
     </div>
     <!-- 轮播 -->
     <div class="swiper-container loanindex-swiper">
