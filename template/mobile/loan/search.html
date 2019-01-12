@@ -104,14 +104,14 @@
 				<a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['id'], 'type' => 2))}">
 					<div class="line_three">
 						<div class="line_img">
-							<img src="{$row['imgs']}">
+							<img src="{php echo tomedia($row['ext_info']['logo']);}">
 							{if $row['hot']}
 							<div class="day_fire">
 								<img src="../addons/xuan_mixloan/template/style/images/fire.png">
 							</div>
 							{/if}
 						</div>
-						<h2>{$row['title']}</h2>
+						<h2>{$row['name']}</h2>
 						<p>
 							<span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>最高额度<b>{$row['money_high']}</b>
 						</p>
@@ -136,14 +136,14 @@
 				<a href="{php echo $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['id'], 'type' => 1))}">
 					<div class="line_three">
 						<div class="line_img">
-							<img src="{$row['imgs']}">
+							<img src="{php echo tomedia($row['ext_info']['logo']);}">
 							{if $row['hot']}
 							<div class="day_fire">
 								<img src="../addons/xuan_mixloan/template/style/images/fire.png">
 							</div>
 							{/if}
 						</div>
-						<h2>{$row['title']}</h2>
+						<h2>{$row['name']}</h2>
 						<p>
 							<span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>最高额度<b>{$row['ext_info']['limit']}</b>
 						</p>

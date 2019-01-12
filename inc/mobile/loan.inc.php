@@ -81,15 +81,21 @@ if($operation=='index'){
 } else if ($operation == 'apply') {
     //申请详情
     $id = intval($_GPC['id']);
+    $type = intval($_GPC['type']);
     if (empty($id)) {
         message("出错了", "", "error");
     }
-    $pid = intval($_GPC['pid']);
-    $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
-    include $this->template('loan/apply');
+    if ($item['type'] == 1) {
+        $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
+        include $this->template('loan/apply');
+    } else {
+        $item = m('bank')->getList(['*'], ['id'=>$id])[$id];
+        include $this->template('loan/card_apply');
+    }
 } else if ($operation == 'apply_submit') {
     //申请提交
     $id = intval($_GPC['id']);
+    $type = intval($_GPC['type']);
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
     }
@@ -105,124 +111,30 @@ if($operation=='index'){
     if ($record) {
         show_json(1,$pro['ext_info']['url']);
     }
-    // if ($config['jdwx_open'] == 1) {
-    //     $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-    //     if ($res['code'] == -1) {
-    //         show_json($res['code'], [], $res['msg']);
-    //     }
-    // }
-    // if ($inviter) {
-    //     $inviter_openid = pdo_fetchcolumn("SELECT openid FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
-    //     $datam = array(
-    //         "first" => array(
-    //             "value" => "尊敬的用户您好，有一个用户通过您的邀请申请了{$info['name']}，请及时跟进。",
-    //             "color" => "#173177"
-    //         ) ,
-    //         "keyword1" => array(
-    //             'value' => trim($_GPC['name']),
-    //             "color" => "#4a5077"
-    //         ) ,
-    //         "keyword2" => array(
-    //             'value' => date('Y-m-d H:i:s', time()),
-    //             "color" => "#4a5077"
-    //         ) ,
-    //         "remark" => array(
-    //             "value" => '点击查看详情',
-    //             "color" => "#4a5077"
-    //         ) ,
-    //     );
-    //     $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'salary'));
-    //     $account = WeAccount::create($_W['acid']);
-    //     $account->sendTplNotice($inviter_openid, $config['tpl_notice1'], $datam, $url);
-    //     $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-    //     $insert = array(
-    //         'is_read'=>0,
-    //         'uid'=>$member['id'],
-    //         'type'=>2,
-    //         'createtime'=>time(),
-    //         'uniacid'=>$_W['uniacid'],
-    //         'to_uid'=>$inviter,
-    //         'ext_info'=>json_encode($ext_info),
-    //     );
-    //     pdo_insert('xuan_mixloan_msg', $insert);
-    //     if (!$inviter_uid) {
-    //         $check = m('member')->checkIfRelation($inviter, $member['id']);
-    //         if ($check == false) {
-    //             $insert_i = array(
-    //                 'uniacid' => $_W['uniacid'],
-    //                 'uid' => $inviter,
-    //                 'phone' => trim($_GPC['phone']),
-    //                 'createtime' => time()
-    //             );
-    //             pdo_insert('xuan_mixloan_inviter', $insert_i);
-    //         }
-    //     }
-    //     $status = 0;
-    // } else {
-    //     $status = -2;
-    // }
     $insert = array(
         'uniacid' => $_W['uniacid'],
         'uid' => $member['id'],
         'phone' => trim($_GPC['phone']),
         'certno' => trim($_GPC['idcard']),
         'realname' => trim($_GPC['name']),
-        'pid' => $id,
-        'inviter' => $inviter,
-        're_bonus'=>0,
-        'done_bonus'=>0,
-        'extra_bonus'=>0,
-        'status'=>$status,
-        'createtime'=>time()
+        'relate_id' => $id,
+        'status'=>0,
+        'createtime'=>time(),
+        'type'=>$type
     );
-    pdo_insert('xuan_mixloan_product_apply', $insert);
-    //二级
-    // $inviter_info = m('member')->getInviterInfo($inviter);
-    // $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
-    // if ($second_inviter) {
-    //     $insert['inviter'] = $second_inviter;
-    //     $insert['degree'] = 2;
-    //     pdo_insert('xuan_mixloan_product_apply', $insert);
-    //     $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
-    //     $datam = array(
-    //         "first" => array(
-    //             "value" => "尊敬的用户您好，有一个用户通过您下级{$inviter_info['nickname']}的邀请申请了{$info['name']}，请及时跟进。",
-    //             "color" => "#173177"
-    //         ) ,
-    //         "keyword1" => array(
-    //             'value' => trim($_GPC['name']),
-    //             "color" => "#4a5077"
-    //         ) ,
-    //         "keyword2" => array(
-    //             'value' => date('Y-m-d H:i:s', time()),
-    //             "color" => "#4a5077"
-    //         ) ,
-    //         "remark" => array(
-    //             "value" => '点击查看详情',
-    //             "color" => "#4a5077"
-    //         ) ,
-    //     );
-    //     $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
-    //     $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-    //     $insert = array(
-    //         'is_read'=>0,
-    //         'uid'=>$member['id'],
-    //         'type'=>2,
-    //         'createtime'=>time(),
-    //         'uniacid'=>$_W['uniacid'],
-    //         'to_uid'=>$second_inviter,
-    //         'ext_info'=>json_encode($ext_info),
-    //     );
-    //     pdo_insert('xuan_mixloan_msg', $insert);
-    // }
+    pdo_insert('xuan_mixloan_apply', $insert);
     show_json(1,$pro['ext_info']['url']);
 } else if ($operation == 'search') {
     // 搜索
     $keyword = trim($_GPC['keyword']);
     $loan_list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_loan') . "
-                where name like :keyword", array(':keyword' => "'%" . $keyword . "%'"));
+                where name like :keyword", array(':keyword' => "%" . $keyword . "%"));
+    foreach ($loan_list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+    }
+    unset($row);
     $card_list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_bank_card') . "
-                where name like :keyword", array(':keyword' => "'%" . $keyword . "%'"));
+                where name like :keyword", array(':keyword' => "%" . $keyword . "%"));
     foreach ($card_list as &$row) {
         $row['ext_info'] = json_decode($row['ext_info'], 1);
     }
