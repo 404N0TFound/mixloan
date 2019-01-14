@@ -425,7 +425,7 @@
                 return false;
             }
         }
-        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter))}",postData,
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'apply_submit', 'id'=>$pid, 'inviter'=>$inviter, 'type' => $type))}",postData,
             function(data){
                 if (data.code == 1) {
                     layer.msg('正在跳转...', {
