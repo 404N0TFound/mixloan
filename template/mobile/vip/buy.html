@@ -367,7 +367,7 @@
         });
         var userId=341794;
         if($(".to_read").hasClass("read")){
-            window.location.href = "{php echo $this->createMobileUrl('vip', ['op'=>'pay'])}"
+            openNew("{php echo $this->createMobileUrl('vip', ['op'=>'choose_pay_type'])}");
         }else{
             layer.msg("请先阅读{$config['title']}用户服务协议");
             rePurchase();
