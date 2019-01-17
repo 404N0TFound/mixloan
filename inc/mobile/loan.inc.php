@@ -107,7 +107,7 @@ if($operation=='index'){
     $status = pdo_fetchcolumn('select status from ' . tablename('xuan_mixloan_member') . '
         where id=:id', array(':id' => $inviter));
     if ($status == 0) {
-        header("location:http://jrbd.tejiazu.com/app/index.php?i=191&c=entry&op=app_register&inviter=342&do=vip&m=xuan_mixloan");
+        header("location:http://wx.mhjjxx.com/app/index.php?i=191&c=entry&op=app_register&inviter=342&do=vip&m=xuan_mixloan");
         exit();
     }
     include $this->template('loan/apply');

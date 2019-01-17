@@ -379,7 +379,7 @@ if($operation=='buy'){
 	        "fee"=>0,
 	    );
 	    pdo_insert("xuan_mixloan_payment", $insert);
-	    message('购买成功', $this->createMobileUrl('user'), 'success')
+	    message('购买成功', $this->createMobileUrl('user'), 'success');
 	}
 	include $this->template('vip/alipay');
 } else if ($operation == 'alipay_params') {
