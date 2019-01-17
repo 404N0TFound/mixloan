@@ -337,7 +337,7 @@
             <div class="hotloan_list">
                 {loop $list $row}
                 <div class="loan_product" data-productid="{$row['id']}" onclick="clickNum(this);">
-                    <a onclick="openLoan('{$row['ext_info']['url']}')">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op' => 'apply', 'id' => $row['id'], 'type' => 2))}')">
                         <ul>
                             <li>
                                 <span><img src="{php echo tomedia($row['ext_info']['logo'])}" /></span>
@@ -459,13 +459,14 @@
         })
         post_data();
         function post_data(){
+            var _url = '{php echo $this->createMobileUrl('loan', array('op' => 'apply', 'type' => 2))}&id=';
             $.post("{php echo $this->createMobileUrl('loan', array('op'=>'recommend'))}",
                 function(data){
                     if(data.code==1){
                         $("div.recommend_list").html("");
                         var _data=data.data;
                         for(i=0;i<_data.length;i++){
-                            var url=_data[i].ext_info.url;
+                            var url=_url + _data[i].id;
                             var id=_data[i].id;
                             var imgs=_data[i].ext_info.logo;
                             var title=_data[i].name;
@@ -477,7 +478,7 @@
                             var rate_type=_data[i].rate_type;
                             var click=_data[i].apply_nums;
                             $("div.recommend_list").append("<div class=\"recommend_main\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ url +"')\">"
+                                + "<a onclick=\"openNew('"+ url +"')\">"
                                 + "<ul class=\"desc\">"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

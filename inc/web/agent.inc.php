@@ -73,23 +73,19 @@ if ($operation == 'list') {
         $starttime = "";
         $endtime = "";
     }
-    $sql = 'select a.*,b.avatar,c.name,c.count_time from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
+    $sql = 'select a.*,b.avatar from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} and a.status<>-2 " . $wheres . ' ORDER BY a.id DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     }
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
-        if ($row['type'] == 2) {
+        if ($row['type'] == 3) {
             $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
             $row['name'] = '邀请购买代理';
-        } else if ($row['type'] == 3) {
-            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
-            $row['name'] = '邀请信用查询';
-        } else if ($row['type'] == 4) {
-            $row['realname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
-            $row['name'] = '合伙人分红';
-        } else if ($row['type'] == 5) {
-            $row['name'] = '每日佣金奖励';
+        } else if ($row['type'] == 2) {
+            $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_loan').' WHERE id=:id', array(':id'=>$row['pid']));
+        } else if ($row['type'] == 1) {
+            $row['name'] = pdo_fetchcolumn('SELECT name FROM '.tablename('xuan_mixloan_bank_card').' WHERE id=:id', array(':id'=>$row['pid']));
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
     }
@@ -211,7 +207,7 @@ if ($operation == 'list') {
             )
         ));
     }
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id LEFT JOIN ".tablename("xuan_mixloan_product")." c ON a.pid=c.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} and a.status<>-2  " . $wheres );
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'withdraw_list') {
     //提现列表

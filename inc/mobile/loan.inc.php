@@ -85,7 +85,7 @@ if($operation=='index'){
     if (empty($id)) {
         message("出错了", "", "error");
     }
-    if ($item['type'] == 1) {
+    if ($type == 2) {
         $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
         include $this->template('loan/apply');
     } else {
@@ -117,12 +117,12 @@ if($operation=='index'){
         'phone' => trim($_GPC['phone']),
         'certno' => trim($_GPC['idcard']),
         'realname' => trim($_GPC['name']),
-        'relate_id' => $id,
+        'pid' => $id,
         'status'=>0,
         'createtime'=>time(),
         'type'=>$type
     );
-    pdo_insert('xuan_mixloan_apply', $insert);
+    pdo_insert('xuan_mixloan_product_apply', $insert);
     show_json(1,$pro['ext_info']['url']);
 } else if ($operation == 'search') {
     // 搜索

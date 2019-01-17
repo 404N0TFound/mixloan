@@ -373,6 +373,7 @@
             post_data(null, null, null, null, null, null);
         }
         function post_data(order, begin, end, from, to, _id){
+            var _url = '{php echo $this->createMobileUrl('loan', array('op' => 'apply', 'type' => 2))}&id=';
             $.post("{php echo $this->createMobileUrl('loan', array('op'=>'getLoan'))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"type":_id},
                 function(data){
                     if(data.code==1){
@@ -389,7 +390,7 @@
                     }
                     function result(_data){
                         for(i=0;i<_data.length;i++){
-                            var url=_data[i].ext_info.url;
+                            var url= _url+_data[i].id;
                             var id=_data[i].id;
                             var imgs=_data[i].ext_info.logo;
                             var title=_data[i].name;
@@ -401,7 +402,7 @@
                             var click=_data[i].apply_nums;
                             var ele=_data[i].ext_info.tag;//标签
                             $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ dataTransform(url) +"')\">"
+                                + "<a onclick=\"openNew('"+ dataTransform(url) +"')\">"
                                 + "<ul>"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"
