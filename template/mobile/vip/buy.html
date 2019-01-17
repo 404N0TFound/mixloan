@@ -345,7 +345,7 @@
         {if is_weixin()}
         toPurchase();
         {else}
-        openNew("{php echo $this->createMobileUrl('vip', array('op'=>'alipay'))}");
+        toPurchase();
         // toPurchase();
         // layer.open({
         //     type: 1,
