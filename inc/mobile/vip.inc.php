@@ -331,7 +331,7 @@ if($operation=='buy'){
 } else if ($operation == 'posterAll') {
 	//全部海报图片
 	$url = shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id'])) );
-	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png";
+	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$member['id']}.png?v=01";
 	include $this->template('vip/posterAll');
 } else if ($operation == 'salary') {
 	//我的工资
