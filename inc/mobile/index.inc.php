@@ -101,6 +101,13 @@ if($operation=='register'){
                 pdo_insert('xuan_mixloan_msg', $insert);
             }
         }
+        $insert = array();
+        $insert['uniacid'] = $_W['uniacid'];
+        $insert['uid'] = $member_id;
+        $insert['createtime'] = time();
+        $insert['tid'] = "10001" . date('YmdHis', time());
+        $insert['fee'] = 0;
+        pdo_insert("xuan_mixloan_payment", $insert);
         show_json(1, ['url'=>$this->createMobileUrl('vip', ['op'=>'buy'])], "注册成功");
     }
 } else if ($operation == 'login') {

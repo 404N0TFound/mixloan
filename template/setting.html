@@ -241,6 +241,15 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人中心图片</label>
+							<div class="col-sm-4 col-xs-12" >
+								{php echo tpl_form_field_image(user_index_img,$setting['user_index_img']);}
+							</div>
+							<div class="col-sm-4 col-xs-12" >
+                    			<input type="text" value="{$setting['user_index_url']}" name="user_index_url" class="form-control" placeholder="跳转地址"/>
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">新手指南图片</label>
 							<div class="col-sm-9 col-xs-12" >
 								{php echo tpl_form_field_image(tutorials_pic,$setting['tutorials_pic']);}

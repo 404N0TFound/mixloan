@@ -155,7 +155,7 @@
         text-align: center;
         padding: 0.5rem 0;
     }
-    .search{
+    input.search{
         width: 90%;
         border: 1px solid gainsboro;
         padding: 0.5rem;
@@ -197,9 +197,15 @@
 </div>
 {/if}
 <div class="loanindex_frame">
-    <div class="search_area">
+    <div class="search_area" style="width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;">
         <form action="{php echo $this->createMobileUrl('loan', array('op' => 'search'))}" method="post">
-        <input type="search" name="keyword" placeholder="搜索" class="search">
+        <input type="search" name="keyword" placeholder="搜索" class="search" style="width: 90%;
+        border: 1px solid gainsboro;
+        padding: 0.5rem;
+        text-align: center;
+        background: white;">
         </form>
     </div>
     <!-- 轮播 -->
