@@ -364,7 +364,7 @@
         }
         function getImgUrl(val) {
             if (val.indexOf('http://') == -1) {
-                val = "http://daikebaimages.xmqul.top/" + val;
+                val = "{$_W['setting']['remote']['qiniu']['url']}/" + val;
             }
             return val;
         }
