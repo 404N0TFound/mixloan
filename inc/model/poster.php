@@ -28,7 +28,7 @@ class Xuan_mixloan_Poster
         require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
         QRcode::png($params['url'],$tmplogo,'L',15,2);
         $QR = imagecreatefromstring(file_get_contents($tmplogo));
-        if (strstr(tomedia($config['poster_image']), 'shandong')) {
+        if (strstr(tomedia($config['poster_image']), 'images')) {
             $tomedia_img = trim(tomedia($config['poster_image']));
             $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
         } else {
@@ -86,7 +86,7 @@ class Xuan_mixloan_Poster
         imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
-            if (strstr(tomedia($config['poster_image']), 'shandong')) {
+            if (strstr(tomedia($config['poster_image']), 'images')) {
                 $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
                 $res = file_get_contents($url . '&fileroot=' . $params['out']);
                 $poster = $res;
@@ -122,7 +122,7 @@ class Xuan_mixloan_Poster
         if (empty($ext_info) || empty($ext_info['back'])) {
             return false;
         }
-        if (strstr(tomedia($ext_info['back']), 'shandong')) {
+        if (strstr(tomedia($ext_info['back']), 'images')) {
             $tomedia_img = trim(tomedia($ext_info['back']));
             $bgpng = imagecreatefromstring(file_get_contents($tomedia_img));
         } else {
@@ -172,7 +172,7 @@ class Xuan_mixloan_Poster
         @imagedestroy($QR);
         imagedestroy($bgpng);
         if ($res) {
-            if (strstr(tomedia($ext_info['back']), 'shandong')) {
+            if (strstr(tomedia($ext_info['back']), 'images')) {
                 $url =  $_W['siteroot'] . '/app/index.php?i='.$_W['uniacid'].'&c=entry&op=upload_file&do=ajax&m=xuan_mixloan';
                 $res = file_get_contents($url . '&fileroot=' . $params['out']);
                 $poster = $res;
