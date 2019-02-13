@@ -116,6 +116,16 @@ if ($operation == 'list') {
     //恢复
     pdo_update('xuan_mixloan_product', array('status' => 1), array('id' => $_GPC['id']));
     message('操作成功', referer(), 'sccuess');
+} else if ($operation == 'getProductRelate') {
+    //获取关联产品
+    $name = trim($_GPC['name']);
+    $type = intval($_GPC['type']);
+    $items = m('product')->getList(['id', 'name'], ['lk_name' => $name, 'type' => $type]);
+    if ($items) {
+        show_json(1, ['items' => array_values($items)]);
+    } else {
+        show_json(-1);
+    }
 }
 include $this->template('product');
 ?>
