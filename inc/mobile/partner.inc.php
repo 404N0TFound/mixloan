@@ -144,12 +144,12 @@ if($operation=='login') {
             $row['product_name'] = $pro['name'];
             $row['product_logo'] = tomedia($pro['ext_info']['logo']);
         } else if ($row['type'] == 2) {
-            $row['realname'] = pdo_fetchcolumn('select nickanem from ' . tablename('xuan_mixloan_member') . '
+            $row['realname'] = pdo_fetchcolumn('select nickname from ' . tablename('xuan_mixloan_member') . '
                 where id=:id', array(':id' => $row['uid']));
             $row['product_name'] = '邀请代理奖励';
             $row['product_logo'] = '../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png';
         } else if ($row['type'] == 4) {
-            $row['realname'] = pdo_fetchcolumn('select nickanem from ' . tablename('xuan_mixloan_member') . '
+            $row['realname'] = pdo_fetchcolumn('select nickname from ' . tablename('xuan_mixloan_member') . '
                 where id=:id', array(':id' => $row['uid']));
             $row['product_name'] = '合伙人分佣';
             $row['product_logo'] = '../addons/xuan_mixloan/template/style/images/partner.png';
