@@ -247,6 +247,14 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_product_apply') . " a
             where 1 {$wheres} ORDER BY a.id DESC");
     $pager = pagination($total, $pindex, $psize);
+    // 通过率
+    $apply_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a
+                    where 1 and a.status>=1" . $wheres) ? : 0;
+    $apply_rate = round($apply_count / $total * 100, 2);
+    // 下款率
+    $pass_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a
+                    where 1 and a.status=2" . $wheres) ? : 0;
+    $pass_rate = round($pass_count / $total * 100, 2);
 } else if ($operation == 'withdraw_list') {
     //提现列表
     $pindex = max(1, intval($_GPC['page']));
@@ -827,6 +835,38 @@ if ($operation == 'list') {
             ),
         )
     ));
+} else if ($operation == 'check_all') {
+    // 批量操作
+    $values = rtrim($_GPC['values'], ',');
+    $values = explode(',', $values);
+    $type = trim($_GPC['type']);
+    if ($type == 'payall') {
+        foreach ($values as $id) {
+            //支付宝收款接口
+            $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
+            $item['ext_info'] = json_decode($item['ext_info'], true);
+            $bank = pdo_fetch('select realname,phone,type from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
+            $redis = redis();
+            $key = 'withdraw' . $id;
+            if (!$redis->get($key))
+            {
+                $redis->set($key, 1);
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    $redis->set($key, 0);
+                    // message($result['msg'], '', 'error');
+                } else {
+                    $update = array();
+                    $update['status'] = 1;
+                    $item['ext_info']['payment_no'] = $result['order_id'];
+                    $update['ext_info'] = json_encode($item['ext_info']);
+                    pdo_update('xuan_product_withdraw', $update, array('id' => $id));
+                }
+            }
+        }
+    }
+    show_json(1, [], '操作成功');
 }
 include $this->template('agent');
 ?>

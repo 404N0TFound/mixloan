@@ -63,8 +63,10 @@
                     <th style='width:120px;'>昵称</th>
                     <th style='width:120px;'>真实姓名</th>
                     <th style='width:150px;'>手机</th>
-                    <th style='width:120px;'>类型</th>
+                    <th style='width:50px;'>类型</th>
                     <th style='width:150px;'>注册时间</th>
+                    <th style='width:50px;'>注册率</th>
+                    <th style='width:50px;'>下款率</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -80,6 +82,8 @@
                     <td>{$row['phone']}</td>
                     <td>{if $row['type']==1}<span class="label label-info">代理</span>{else}<span class="label label-default">用户</span>{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>{$row['apply_rate']}%</td>
+                    <td>{$row['pass_rate']}%</td>
                     <td  style="overflow:visible;">
                         
                         <div class="btn-group btn-group-sm" >
