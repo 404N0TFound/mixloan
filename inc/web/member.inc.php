@@ -261,6 +261,30 @@ if ($operation == 'list') {
         pdo_insert('qrcode_stat', $insert);
         message('更改成功', referer(), 'success');
     }
+} else if ($operation == 'partner_list') {
+    //合伙人
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    if (!empty($_GPC['uid'])) {
+        $wheres.= " AND a.uid='{$_GPC['uid']}'";
+    }
+    if (!empty($_GPC['nickname'])) {
+        $wheres.= " AND b.nickname LIKE '%{$_GPC['nickname']}%'";
+    }
+    $sql = 'select a.*,b.avatar,b.nickname from ' . tablename('xuan_mixloan_partner') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_partner') . " a 
+        left join " . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+        where a.uniacid={$_W['uniacid']} "  . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'partner_delete') {
+    //合伙人
+    pdo_delete('xuan_mixloan_partner', array("id" => $_GPC['id']));
+    message("删除成功", referer());
 }
 include $this->template('member');
 ?>

@@ -12,10 +12,10 @@ if ($member['status'] == '0') {
     <html>
         <head>
             <meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'>
-            <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
+            <title>抱歉,出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
         </head>
         <body>
-        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结，联系客服处理</h4></div></div></div>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结,联系客服处理</h4></div></div></div>
         </body>
     </html>");
 }
@@ -108,7 +108,7 @@ if($operation=='buy'){
         }
         $agent = m('member')->checkAgent($member['id']);;
         if ($agent['code'] == 1) {
-            message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
+            message("您已经是会员,请不要重复提交", $this->createMobileUrl('user'), "error");
         }
         pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
         $insert = array(
@@ -120,7 +120,7 @@ if($operation=='buy'){
         );
         pdo_insert("xuan_mixloan_payment", $insert);
         //消息提醒
-        $ext_info = array('content'=>"您好，您已成功购买会员", 'remark'=>"推广成功奖励丰富，赶快进行推广吧");
+        $ext_info = array('content'=>"您好,您已成功购买会员", 'remark'=>"推广成功奖励丰富,赶快进行推广吧");
         $insert = array(
             'is_read'=>0,
             'uid'=>0,
@@ -154,7 +154,7 @@ if($operation=='buy'){
                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
             }
             //消息提醒
-            $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+            $ext_info = array('content' => "您好,您的徒弟{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
             $insert = array(
                 'is_read'=>0,
                 'uid'=>$member['id'],
@@ -189,7 +189,7 @@ if($operation=='buy'){
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                 }
                 //消息提醒
-                $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+                $ext_info = array('content' => "您好,您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
                 $insert = array(
                     'is_read'=>0,
                     'uid'=>$member['id'],
@@ -218,13 +218,13 @@ if($operation=='buy'){
                             're_bonus'=>$re_bonus,
                             'status'=>2,
                             'createtime'=>time(),
-                            'degree'=>3，
+                            'degree'=>3,
                             'type'=>2,
                         );
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     }
                     //消息提醒
-                    $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+                    $ext_info = array('content' => "您好,您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
                     $insert = array(
                         'is_read'=>0,
                         'uid'=>$member['id'],
@@ -282,7 +282,7 @@ if($operation=='buy'){
         if ($res) {
             show_json(1, ['post_url'=>$res, 'agent_url'=>$url]);
         } else {
-            show_json(-1, [], '生成海报失败，请检查海报背景图上传是否正确');
+            show_json(-1, [], '生成海报失败,请检查海报背景图上传是否正确');
         }
     } else {
         show_json(2, ['post_url'=>$poster['poster'], 'agent_url'=>$url]);
@@ -332,7 +332,7 @@ if($operation=='buy'){
 		if ($row['type'] == 2) {
 			$row['name'] = '邀请购买代理';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else if ($row['pid'] == 3){
+		} else if ($row['type'] == 3){
 			$row['name'] = '合伙人奖励';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
 		} else if ($row['type'] == 1) {
@@ -525,7 +525,7 @@ if($operation=='buy'){
                 );
                 $invite_res = m('poster')->createNewPoster($params);
                 if (!$invite_res) {
-                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                    message('生成海报失败,请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
                     $temp['poster'] = $invite_res;
@@ -556,7 +556,7 @@ if($operation=='buy'){
                 );
                 $invite_res = m('poster')->createNewPoster($params);
                 if (!$invite_res) {
-                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                    message('生成海报失败,请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
                     $temp['poster'] = $invite_res;
@@ -589,7 +589,7 @@ if($operation=='buy'){
                 );
                 $invite_res = m('poster')->createNewPoster($params);
                 if (!$invite_res) {
-                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                    message('生成海报失败,请检查海报背景图上传是否正确', '', 'error');
                 } else {
                     $temp = [];
                     $temp['poster'] = $invite_res;

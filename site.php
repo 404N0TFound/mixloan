@@ -68,7 +68,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 }
                 $agent = m('member')->checkAgent($member['id']);;
                 if ($agent['code'] == 1) {
-                    message("您已经是会员，请不要重复提交", $this->createMobileUrl('user'), "error");
+                    message("您已经是会员,请不要重复提交", $this->createMobileUrl('user'), "error");
                 }
                 pdo_update("xuan_mixloan_member", array('level'=>$_SESSION['buy_level']), array('id'=>$member['id']));
                 $insert = array(
@@ -80,7 +80,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 );
                 pdo_insert("xuan_mixloan_payment", $insert);
                 //消息提醒
-                $ext_info = array('content'=>"您好，您已成功购买会员", 'remark'=>"推广成功奖励丰富，赶快进行推广吧");
+                $ext_info = array('content'=>"您好,您已成功购买会员", 'remark'=>"推广成功奖励丰富,赶快进行推广吧");
                 $insert = array(
                     'is_read'=>0,
                     'uid'=>0,
@@ -114,7 +114,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     }
                     //消息提醒
-                    $ext_info = array('content' => "您好，您的徒弟{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+                    $ext_info = array('content' => "您好,您的徒弟{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
                     $insert = array(
                         'is_read'=>0,
                         'uid'=>$member['id'],
@@ -149,7 +149,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             pdo_insert('xuan_mixloan_product_apply', $insert_i);
                         }
                         //消息提醒
-                        $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+                        $ext_info = array('content' => "您好,您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
                         $insert = array(
                             'is_read'=>0,
                             'uid'=>$member['id'],
@@ -184,7 +184,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                                 pdo_insert('xuan_mixloan_product_apply', $insert_i);
                             }
                             //消息提醒
-                            $ext_info = array('content' => "您好，您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员，奖励您推广佣金" . $re_bonus . "元，继续推荐代理，即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
+                            $ext_info = array('content' => "您好,您的徒弟{$man_one['nickname']}邀请了{$member['nickname']}成功购买了代理会员,奖励您推广佣金" . $re_bonus . "元,继续推荐代理,即可获得更多佣金奖励", 'remark' => "点击查看详情", "url" => $salary_url);
                             $insert = array(
                                 'is_read'=>0,
                                 'uid'=>$member['id'],
@@ -215,7 +215,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'report_list'));
                 $datam = array(
                     "first" => array(
-                        "value" => "您好，您已付费成功",
+                        "value" => "您好,您已付费成功",
                         "color" => "#173177"
                     ) ,
                     "name" => array(
@@ -250,7 +250,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                     pdo_insert('xuan_mixloan_product_apply', $insert_i);
                     $datam = array(
                         "first" => array(
-                            "value" => "您好，您的一级徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                            "value" => "您好,您的一级徒弟{$member['nickname']}成功付费了信用查询,奖励您推广佣金,继续推荐代理,即可获得更多佣金奖励",
                             "color" => "#173177"
                         ) ,
                         "order" => array(
@@ -289,7 +289,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                         pdo_insert('xuan_mixloan_product_apply', $insert_i);
                         $datam = array(
                             "first" => array(
-                                "value" => "您好，您的二级徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                                "value" => "您好,您的二级徒弟{$member['nickname']}成功付费了信用查询,奖励您推广佣金,继续推荐代理,即可获得更多佣金奖励",
                                 "color" => "#173177"
                             ) ,
                             "order" => array(
@@ -328,7 +328,7 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                             pdo_insert('xuan_mixloan_product_apply', $insert_i);
                             $datam = array(
                                 "first" => array(
-                                    "value" => "您好，您的徒弟{$member['nickname']}成功付费了信用查询，奖励您推广佣金，继续推荐代理，即可获得更多佣金奖励",
+                                    "value" => "您好,您的徒弟{$member['nickname']}成功付费了信用查询,奖励您推广佣金,继续推荐代理,即可获得更多佣金奖励",
                                     "color" => "#173177"
                                 ) ,
                                 "order" => array(
