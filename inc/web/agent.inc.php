@@ -861,7 +861,7 @@ if ($operation == 'list') {
                     $update['status'] = 1;
                     $item['ext_info']['payment_no'] = $result['order_id'];
                     $update['ext_info'] = json_encode($item['ext_info']);
-                    pdo_update('xuan_product_withdraw', $update, array('id' => $id));
+                    pdo_update('xuan_mixloan_withdraw', $update, array('id' => $id));
                 }
             }
         }
