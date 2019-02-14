@@ -13,6 +13,7 @@
 			<li role="presentation" ><a href="#buy_vip" aria-controls="buy_vip" role="tab" data-toggle="tab">购买代理设置</a></li>
 			<!-- <li role="presentation" ><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">信用查询设置</a></li> -->
 			<li role="presentation" ><a href="#extend_bonus" aria-controls="extend_bonus" role="tab" data-toggle="tab">推荐有奖设置</a></li>
+			<li role="presentation" ><a href="#partner" aria-controls="partner" role="tab" data-toggle="tab">合伙人设置</a></li>
 		</ul>
 		<!-- Tab panes -->
 		<div class="tab-content">
@@ -519,6 +520,30 @@
 						</div>
 					</div>
 				</div>
+				<div role="tabpanel" class="tab-pane" id="partner">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							合伙人设置
+						</div>
+						<div class="panel-body">
+							<div class="form-group" >
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">升级条件</label>
+								<div class="col-sm-4 col-xs-12">
+									<input type="text" name="partner_vip_nums" value="{$setting['partner_vip_nums']}" class="form-control" >
+									<span class="help-block">条件1：直推几个代理</span>
+								</div>
+							</div>
+							<div class="form-group" >
+								<label class="col-xs-12 col-sm-3 col-md-2 control-label">总返佣多少</label>
+								<div class="col-sm-4 col-xs-12">
+									<input type="text" name="partner_bonus" value="{$setting['partner_bonus']}" class="form-control" >
+									<span class="help-block">单位为%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 		<div class="form-group col-sm-12">
