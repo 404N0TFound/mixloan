@@ -1,4 +1,32 @@
 {template 'common/header'}
+<script type="text/javascript">
+    var check_all_fun = function(){
+        var checked = $('.check_all').is(':checked');
+        if (checked == true) {
+            $('input:checkbox[name=check_fill]').prop('checked', true);
+        } else {
+            $('input:checkbox[name=check_fill]').prop('checked', false);
+        }
+    }
+    var frozen_all = function(){
+        var arr = $('input:checkbox[name=check_fill]:checked');
+        if (arr.length <= 0) {
+            alert('请先勾选数据');
+        }
+        values = '';
+        $(arr).each(function(){
+            values += this.value + ',';
+        });
+        $.post("{php echo $this->createWebUrl('agent', array('op'=>'check_all'))}", {'values':values, 'type':'payall'},
+            function(data) {
+                if(data.code==1){
+                    alert(data.msg);
+                    history.go(0);
+                    return false;
+                }
+            },'json');
+    }
+</script>
 <style type="text/css">
     .search_result{
         width: 100%;
@@ -147,11 +175,12 @@
     </div>
 </div><div class="clearfix">
 <div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-heading">总数：{$total}&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="frozen_all()"> 勾选打款</button></div>
     <div class="panel-body">
         <table class="table table-hover" style="overflow:visible;">
             <thead class="navbar-inner">
                 <tr>
+                    <th style='width:60px;'><input type="checkbox" class="check_all" onchange="check_all_fun()">全选</td>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>申请者</th>
                     <th style='width:100px;'>申请金额</th>
@@ -164,6 +193,7 @@
             <tbody>
                 {loop $list $row}
                 <tr>
+                    <td>   <input type="checkbox" value="{$row['id']}" name="check_fill"></td>
                     <td>   {$row['id']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
                     <td>   {$row['bonus']}</td>
@@ -346,6 +376,12 @@
             <div class="form-group">
             </div>
         </form>
+        <table style="width: 100%;text-align: center;">
+            <tr>
+                <td style="width: 50%">下款率：{$pass_rate}%</td>
+                <td style="width: 50%">通过率：{$apply_rate}%</td>
+            </tr>
+        </table>
     </div>
 </div><div class="clearfix">
 <div class="panel panel-default" style="font-size:11px;">

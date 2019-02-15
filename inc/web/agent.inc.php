@@ -256,6 +256,14 @@ if ($operation == 'list') {
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a 
             where  a.status<>-2 " . $wheres . "" );
     $pager = pagination($total, $pindex, $psize);
+    // 通过率
+    $apply_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a
+                    where 1 and a.status>=1" . $wheres) ? : 0;
+    $apply_rate = round($apply_count / $total * 100, 2);
+    // 下款率
+    $pass_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . " a
+                    where 1 and a.status=2" . $wheres) ? : 0;
+    $pass_rate = round($pass_count / $total * 100, 2);
 } else if ($operation == 'withdraw_list') {
     //提现列表
     $pindex = max(1, intval($_GPC['page']));
