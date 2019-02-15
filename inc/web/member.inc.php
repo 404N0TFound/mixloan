@@ -66,8 +66,15 @@ if ($operation == 'list') {
     // pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
     // pdo_delete('qrcode_stat', array("openid" => $member['openid']));
     // pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
-    pdo_update('xuan_mixloan_member', array('status' => 0), array('id' => $_GPC['id']));
-    message("冻结成功", referer(), 'sccuess');
+    if ($_GPC['post'] == 1) {
+        $insert = array();
+        $insert['uid'] = $id;
+        $insert['reason'] = $_GPC['reason'];
+        $insert['createtime'] = time();
+        pdo_insert('xuan_mixloan_delete_reason', $insert);
+        pdo_update('xuan_mixloan_member', array('status' => 0), array('id' => $_GPC['id']));
+        message("冻结成功", referer(), 'sccuess');
+    }
 } else if ($operation == 'recovery') {
     // 解冻
     pdo_update('xuan_mixloan_member', array('status' => 1), array('id' => $_GPC['id']));

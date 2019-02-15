@@ -8,6 +8,8 @@ $member = m('member')->getMember($openid);
 $agent = m('member')->checkAgent($member['id']);
 if ($member['status'] == '0') {
     // 冻结
+    $reason = pdo_fetchcolumn('select reason from ' . tablename('xuan_mixloan_delete_reason') . '
+                where uid=:uid', array(':uid' => $member['id'])) ? : '账号已被冻结';
     die("<!DOCTYPE html>
     <html>
         <head>
@@ -15,7 +17,7 @@ if ($member['status'] == '0') {
             <title>抱歉，出错了</title><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1, user-scalable=0'><link rel='stylesheet' type='text/css' href='https://res.wx.qq.com/connect/zh_CN/htmledition/style/wap_err1a9853.css'>
         </head>
         <body>
-        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>账号已冻结，联系客服处理</h4></div></div></div>
+        <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>{$reason}</h4></div></div></div>
         </body>
     </html>");
 }
