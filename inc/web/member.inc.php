@@ -229,6 +229,24 @@ if ($operation == 'list') {
         left join " . tablename('xuan_mixloan_member') . " b on a.openid=b.openid
         where a.type=1 "  . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'set_partner') {
+    //设置合伙人资格
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        message('id为空', '', 'error');
+    }
+    $partner = m('member')->checkPartner($id);
+    if ($partner['code'] != 1) {
+        $insert = array(
+            'uniacid' => $_W['uniacid'],
+            'uid' => $id,
+            'createtime' => time(),
+            'tid' => "20002" . date('YmdHis', time()),
+            'fee' => 0,
+        );
+        pdo_insert('xuan_mixloan_partner', $insert);
+    }
+    message("操作成功", $this->createWebUrl('member',array('op'=>'partner_list')), "success");
 } else if ($operation == 'change_inviter') {
     $uid = intval($_GPC['uid']);
     $openid = pdo_fetchcolumn('select openid from ' . tablename('xuan_mixloan_member') . '
