@@ -549,7 +549,7 @@ if ($operation == 'list') {
                 setcookie($key, 1, time()+60);
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
-                if ($result['code'] == -1) {
+                if ($result['code'] == -1 || empty($result['order_id'])) {
                     // message($result['msg'], '', 'error');
                 } else {
                     $update = array();
