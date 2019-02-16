@@ -853,7 +853,7 @@ if ($operation == 'list') {
                 $redis->set($key, 1);
                 $payment_no = date('YmdHis');
                 $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
-                if ($result['code'] == -1) {
+                if ($result['code'] == -1 || empty($result['order_id'])) {
                     $redis->set($key, 0);
                     // message($result['msg'], '', 'error');
                 } else {
