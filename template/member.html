@@ -3,6 +3,7 @@
     <li {if $operation=='list' && $status == '1'}class="active"{/if}><a href="{php echo $this->createWebUrl('member')}">会员列表</a></li>
     <li {if $operation=='list' && $status == '0'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'list', 'status' => '0'))}">冻结列表</a></li>
     <li {if $operation=='partner_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'partner_list'))}">合伙人列表</a></li>
+    <li {if $operation=='analysis'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'analysis'))}">刷单检测</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -419,6 +420,107 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
 
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['id']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
+                            </ul>
+                        </div>
+
+                    </td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+            {$pager}
+        </div>
+    </div>
+</div>
+{else if $operation == 'analysis'}
+<div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+        <form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+            <input type="hidden" name="c" value="site" />
+            <input type="hidden" name="a" value="entry" />
+            <input type="hidden" name="m" value="xuan_mixloan" />
+            <input type="hidden" name="do" value="member" />
+            <input type="hidden" name="op" value="{$operation}" />
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">会员手机号</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="phone" value="{$_GPC['phone']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">昨日做单总数</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="count" value="{$_GPC['count']}"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">排序</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="sort">
+                        <option value="1">刷单概率从大到小</option>
+                        <option value="2">刷单概率从小到大</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
+                <div class="col-sm-7 col-lg-9 col-xs-12">
+                    <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+            <div class="form-group">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="clearfix">
+    <div class="panel panel-default" style="font-size:11px;">
+        <div class="panel-heading" style="height: 50px">
+            <div style="float: left;width: 78%;"> 总数：{$total} &nbsp;<span style="color:red">刷单概率100%单数又多的说明他一定是刷单的，概率越小说明他做单越真实</span></div>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover" style="overflow:visible;">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:80px;'>状态</th>
+                    <th style='width:150px;'>刷单概率</th>
+                    <th style='width:150px;'>昨日做单总数</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>
+                        <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+                        {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                    </td>
+                    <td>
+                        {if $row['status']==1}
+                        <span class="label label-primary">正常</span>
+                        {else}
+                        <span class="label label-default">冻结</span>
+                        {/if}
+                    </td>
+                    <td>   {$row['rate']}%</td>
+                    <td>   {$row['count']}</td>
+                    <td  style="overflow:visible;">
+
+                        <div class="btn-group btn-group-sm" >
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
+
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['inviter']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
+                                {if $row['status'] == 1}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['inviter']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['inviter']));}" title='解除冻结' onclick="return confirm('确定要解除冻结吗？');"><i class='fa fa-ban'></i> 解除冻结</a></li>
+                                {/if}
                             </ul>
                         </div>
 

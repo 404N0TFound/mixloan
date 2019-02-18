@@ -98,6 +98,15 @@ function getServerIp(){
     return $cip;
 }
 
+function getDeviceType(){
+    if(strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone')||strpos($_SERVER['HTTP_USER_AGENT'], 'iPad')){
+        return 2;
+    }else if(strpos($_SERVER['HTTP_USER_AGENT'], 'Android')){
+        return 1;
+    }else{
+        return 3;
+    }
+}
 /**
 * 获取当前根域名
 **/
@@ -235,6 +244,13 @@ function sendCustomNotice($openid, $msg, $url = '', $account = null)
     m('wechat')->sendtxtmsg($openid,$content);
 }
 
+function is_qq()
+{
+    if (empty($_SERVER['HTTP_USER_AGENT']) || strpos($_SERVER['HTTP_USER_AGENT'], 'QQ') === false) {
+        return false;
+    }
+    return true;
+}
 /**
  * [将Base64图片转换为本地图片并保存]
  * @param  [Base64] $base64_image_content [要保存的Base64]

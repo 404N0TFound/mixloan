@@ -208,6 +208,13 @@
                     </a>
                 </li>
                 {/if}
+                <li>
+                    <a  onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'feedback'))}')" >
+                        <img src="../addons/xuan_mixloan/template/style/images/feedback.png" />
+                        返佣反馈
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
                 <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />

@@ -35,6 +35,7 @@
 		<entry title="海报管理" do="poster" state="" direct="false" />
 		<entry title="数据统计" do="statistics" state="" direct="false" />
 		<entry title="公告管理" do="announce" state="" direct="false" />
+		<entry title="返佣反馈" do="feedback" state="" direct="false" />
 		<!-- <entry title="信用查询" do="credit" state="" direct="false" /> -->
 	</menu>
 	</bindings>
@@ -42,6 +43,43 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_analysis`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_analysis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inviter` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `rate` decimal(5,2) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inviter` (`inviter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_time`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_time` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inviter` int(11) NOT NULL,
+  `relate_id` int(11) NOT NULL,
+  `last_time` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_feedback`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `phone` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `pro_name` varchar(30) NOT NULL,
+  `ext_info` text NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL default 0,
+  PRIMARY KEY (`id`),
+  KEY `phone` (`phone`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (
@@ -304,6 +342,10 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
   `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品 2邀请 3合伙人',
+  `ip` varchar(30) NOT NULL,
+  `device_type` tinyint(2) NOT NULL COMMENT '设备标识，1安卓，2苹果，3windows',
+  `browser_type` tinyint(2) NOT NULL COMMENT '浏览器标识，1微信，2浏览器',
+  `is_fake` tinyint(2) NOT NULL COMMENT '是否刷单',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),
