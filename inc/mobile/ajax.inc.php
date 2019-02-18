@@ -252,9 +252,9 @@ if($operation == 'getCode'){
     foreach ($list as $row) {
         $row['ext_info'] = json_decode($row['ext_info'], 1);
         if (strstr($row['ext_info']['get_money_pic'], 'hqph.bjhantangyuanlin.com')) {
-            $get_money_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['get_money_pic']);
-            $sms_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['sms_pic']);
-            $verify_pic = str_replace('hqph.bjhantangyuanlin.com', 'xx.bjhantangyuanlin.com', $row['ext_info']['verify_pic']);
+            $get_money_pic = str_replace('hqph.bjhantangyuanlin.com', 'hqpu.zdkjlm.com', $row['ext_info']['get_money_pic']);
+            $sms_pic = str_replace('hqph.bjhantangyuanlin.com', 'hqpu.zdkjlm.com', $row['ext_info']['sms_pic']);
+            $verify_pic = str_replace('hqph.bjhantangyuanlin.com', 'hqpu.zdkjlm.com', $row['ext_info']['verify_pic']);
             $ext_info = $row['ext_info'];
             $ext_info['get_money_pic'] = $get_money_pic;
             $ext_info['sms_pic'] = $sms_pic;
