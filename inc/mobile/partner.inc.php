@@ -211,7 +211,7 @@ if($operation=='login') {
                         where id=:id', array(':id' => $row['relate_id']));
             $loan['ext_info'] = json_decode($loan['ext_info'], 1);
             $row['url'] = $loan['ext_info']['url'];
-            $row['long_url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$member['id'], 'pid'=>$row['id'], 'rand' => 1));
+            $row['long_url'] = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['relate_id'], 'inviter'=>$_SESSION['user_id'], 'pid'=>$row['id'], 'rand' => 1));
             $row['short_url'] = shortUrl($row['long_url']);
         }
     }
