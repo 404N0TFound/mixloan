@@ -74,6 +74,15 @@ else if ($operation == 'clear_poster')
     pdo_delete('xuan_mixloan_poster');
     pdo_delete('xuan_mixloan_shorturl');
     message("清除成功", referer(), "success");
+} else if ($operation == 'delete_all') {
+    // 批量操作
+    $values = rtrim($_GPC['values'], ',');
+    $values = explode(',', $values);
+    foreach ($values as $id) {
+        //支付宝收款接口
+        pdo_delete('xuan_mixloan_poster_data', array('id' => $id));
+    }
+    show_json(1, [], '操作成功');
 }
 
 include $this->template('poster');
