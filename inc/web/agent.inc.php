@@ -472,7 +472,7 @@ if ($operation == 'list') {
                 if ($inviter_two) {
                     //给合伙人增加佣金
                     $partner = m('member')->checkPartner($inviter_two);
-                    if ($partner['code'] == 1) {
+                    if ($partner['code'] == 1 && $update['re_bonus']>0) {
                         $insert = array(
                             'uniacid' => $_W['uniacid'],
                             'uid' => $item['inviter'],
@@ -553,7 +553,7 @@ if ($operation == 'list') {
         if ($inviter_two) {
             //给合伙人增加佣金
             $partner = m('member')->checkPartner($inviter_two);
-            if ($partner['code'] == 1) {
+            if ($partner['code'] == 1 && $update['re_bonus']>0) {
                 $insert = array(
                     'uniacid' => $_W['uniacid'],
                     'uid' => $item['inviter'],
