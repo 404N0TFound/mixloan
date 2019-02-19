@@ -80,7 +80,8 @@ if($operation=='buy'){
         // $this->pay($params);
     }
     else if ($_GPC['way'] == 'wechat')
-    {
+    
+        message('维护中', $this->createMobileUrl('user'), 'error');        
         $notify_url = 'http://mfcj.hongsheng.biz/addons/xuan_mixloan/lib/wechat/payResult.php';
         $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
 		    where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
