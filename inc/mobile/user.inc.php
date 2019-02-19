@@ -24,6 +24,10 @@ if($operation=='index'){
     if ($_GPC['inviter'] && $member['createtime']+5 > time()) {
         m('member')->checkFirstInviter($openid, $_GPC['inviter']);
     }
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code'] == 1) {
+        $member['user_type']['name'] = '合伙人';
+    }
     $inviter = m('member')->getInviter($member['phone'], $openid);
     $inviterInfo = m('member')->getInviterInfo($inviter);
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");

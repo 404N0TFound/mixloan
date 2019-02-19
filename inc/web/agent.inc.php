@@ -465,7 +465,7 @@ if ($operation == 'list') {
             $update['extra_bonus'] = trim($value[10]) ? : 0;
             $result = pdo_update('xuan_mixloan_product_apply', $update, array('id'=>$value[0]));
             if ($result) {
-                $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). "
+                $item = pdo_fetch('select * from '.tablename("xuan_mixloan_product_apply"). "
                     where id={$value[0]}");
                 $one_man = m('member')->getInviterInfo($item['inviter']);
                 $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
@@ -533,7 +533,7 @@ if ($operation == 'list') {
     $update = array();
     $update['status'] = $status;
     if ($status == 1) {
-        $item = pdo_fetch('select degree,pid from ' . tablename("xuan_mixloan_product_apply") . "
+        $item = pdo_fetch('select id,degree,pid,inviter from ' . tablename("xuan_mixloan_product_apply") . "
             where id={$id}");
         if ($item['pid']) {
             $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")."
