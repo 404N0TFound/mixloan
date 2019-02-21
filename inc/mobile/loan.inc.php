@@ -216,7 +216,7 @@ if($operation=='index'){
         );
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg_insert = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -225,7 +225,46 @@ if($operation=='index'){
             'to_uid'=>$second_inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
+        pdo_insert('xuan_mixloan_msg', $msg_insert);
+    }
+    //三级
+    $inviter_info = m('member')->getInviterInfo($second_inviter);
+    $thr_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    if ($thr_inviter) {
+        $insert['inviter'] = $thr_inviter;
+        $insert['degree'] = 3;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
+        $inviter_thr = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$thr_inviter));
+        $datam = array(
+            "first" => array(
+                "value" => "尊敬的用户您好，有一个用户通过您团队的邀请申请了{$info['name']}，请及时跟进。",
+                "color" => "#173177"
+            ) ,
+            "keyword1" => array(
+                'value' => trim($_GPC['name']),
+                "color" => "#4a5077"
+            ) ,
+            "keyword2" => array(
+                'value' => date('Y-m-d H:i:s', time()),
+                "color" => "#4a5077"
+            ) ,
+            "remark" => array(
+                "value" => '点击查看详情',
+                "color" => "#4a5077"
+            ) ,
+        );
+        $account->sendTplNotice($inviter_thr['openid'], $config['tpl_notice1'], $datam, $url);
+        $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您团队的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
+        $msg_insert = array(
+            'is_read'=>0,
+            'uid'=>$member['id'],
+            'type'=>2,
+            'createtime'=>time(),
+            'uniacid'=>$_W['uniacid'],
+            'to_uid'=>$thr_inviter,
+            'ext_info'=>json_encode($ext_info),
+        );
+        pdo_insert('xuan_mixloan_msg', $msg_insert);
     }
     show_json(1,$pro['ext_info']['url']);
 }
