@@ -502,4 +502,23 @@ if($operation=='index'){
     unset($row);
     $arr = ['invite_list'=>array_values($invite_list), 'applys'=>$applys];
     show_json(1, $arr);
+} else if ($operation == 'copy_short') {
+    // 复制链接
+    if (empty($member['id'])) {
+        show_json(-1, [], '请先登陆');
+    }
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code'] != 1) {
+        show_json(-1, [], '您还不是代理哦');
+    }
+    $values = rtrim($_GPC['values'], ',');
+    $values = explode(',', $values);
+    if (empty($values)) {
+        show_json(-1, [], '请选择产品');
+    }
+    $urls = array();
+    foreach ($values as $value) {
+        $urls[] = shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$value, 'inviter'=>$member['id'], 'rand' => 1)));
+    }
+    show_json(1, ['urls' => $urls], '获取成功');
 }
