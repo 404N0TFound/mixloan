@@ -34,7 +34,7 @@ class Xuan_mixloan_Alipay
         $record = pdo_fetch('select id,createtime from ' . tablename('xuan_mixloan_alipay_log') . ' where 
             account=:account order by id desc', array(':account' => $account));
         if (!empty($record)) {
-            if ($record['createtime'] + 86400 > time()) {
+            if ($record['createtime'] + 60 > time()) {
                 return array('code' => -1, 'msg' => '不允许重复打款');
             }
         } else {
