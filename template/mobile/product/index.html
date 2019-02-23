@@ -801,6 +801,7 @@
                 layer.close(index_lay);
                 if (data.code == 1) {
                     var str = '';
+                    short_url = '';
                     var urls = data.data.urls;
                     for(var i = 0; i<urls.length; i++) {
                         str += "<span>"+urls[i]+"</span>";
@@ -821,8 +822,8 @@
 
     }
     function copy_short (){
-        jsBridge.setClipboardText(short_url);
         layer.msg('复制成功');
+        jsBridge.setClipboardText(short_url);
     }
     function close_copy (){
         $('.copy_area').hide();
