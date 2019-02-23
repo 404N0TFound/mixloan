@@ -33,6 +33,22 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否代理</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="agent">
+                        <option value="">请选择</option>
+                        <option value="-1">否</option>
+                        <option value="1">是</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">时间筛选</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_daterange('time', array('starttime'=>$starttime,'endtime'=>$endtime),true);}
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
                     <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
@@ -61,7 +77,7 @@
                 <tr>
                     <th style='width:80px;'>会员ID</th>
                     <th style='width:120px;'>昵称</th>
-                    <th style='width:120px;'>真实姓名</th>
+                    <th style='width:80px;'>标签</th>
                     <th style='width:150px;'>手机</th>
                     <th style='width:50px;'>类型</th>
                     <th style='width:150px;'>注册时间</th>
@@ -78,7 +94,7 @@
                         <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
                         {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
                     </td>
-                    <td>{$row['realname']}</td>
+                    <td>{if $row['tag'] == 0}未知{else if $row['tag'] == 1}疑似刷单{else if $row['tag'] == 2}操作手{else if $row['tag'] == 3}高下款{/if}</td>
                     <td>{$row['phone']}</td>
                     <td>{if $row['type']==1}<span class="label label-info">代理</span>{else}<span class="label label-default">用户</span>{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
@@ -160,6 +176,17 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">密码</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[pass]" value="{$member['pass']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标签</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select name="data[tag]" class="form-control">
+                        <option value="0" {if $member['tag'] == 0}selected{/if}>未知</option>
+                        <option value="1" {if $member['tag'] == 1}selected{/if}>疑似刷单</option>
+                        <option value="2" {if $member['tag'] == 2}selected{/if}>操作手</option>
+                        <option value="3" {if $member['tag'] == 3}selected{/if}>高下款</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">

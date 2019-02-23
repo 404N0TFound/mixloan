@@ -593,6 +593,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_member` (
   `uniacid` int(5) NOT NULL,
   `certno` varchar(50) NOT NULL,
   `status` tinyint(10) DEFAULT '2' COMMENT '是否开启',
+  `tag` tinyint(2) DEFAULT '0' COMMENT '1疑似刷单 2操作手 3高下款',
   `nickname` varchar(50) NOT NULL,
   `openid` varchar(50) NOT NULL,
   `realname` varchar(50) NOT NULL,

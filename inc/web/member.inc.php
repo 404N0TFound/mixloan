@@ -11,9 +11,9 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $status = $_GPC['status'] != '' ? $_GPC['status'] : 1;
-    $wheres = ' AND status=' . $status;
+    $wheres = ' AND a.status=' . $status;
     if (!empty($_GPC['phone'])) {
-        $wheres.= " AND phone='{$_GPC['phone']}'";
+        $wheres.= " AND a.phone='{$_GPC['phone']}'";
     }
     if (!empty($_GPC['id'])) {
         if (strstr($_GPC['id'], '1000')) {
@@ -21,37 +21,73 @@ if ($operation == 'list') {
         } else {
             $id = $_GPC['id'];
         }
-        $wheres.= " AND id='{$id}'";
+        $wheres.= " AND a.id='{$id}'";
     }
     if (!empty($_GPC['nickname'])) {
-        $wheres.= " AND nickname LIKE '%{$_GPC['nickname']}%'";
+        $wheres.= " AND a.nickname LIKE '%{$_GPC['nickname']}%'";
     }
-    $sql = 'select * from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC';
+    if ($_GPC['agent'] == -1) {
+        $wheres .= " AND b.id is null";
+    } else if ($_GPC['agent'] == 1) {
+        $wheres .= " AND b.id is not null";
+    }
+    if (!empty($_GPC['time'])) {
+        $starttime = $_GPC['time']['start'];
+        $endtime = $_GPC['time']['end'];
+    } else {
+        $starttime = date('Y-m');
+        $endtime =  date('Y-m-d H:i:s');
+    }
+    $start = strtotime($starttime);
+    $end = strtotime($endtime);
+    $wheres .= " and a.createtime>{$start} and a.createtime<={$end}";
+    $sql = 'select a.* from ' . tablename('xuan_mixloan_member') . " a
+            left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+            where a.uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY a.ID DESC';
     if ($_GPC['export'] != 1) {
         $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
-        $list = pdo_fetchall($sql);
+    } 
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['type'] = m('member')->checkAgent($row['id'])['code'];
+        $invite_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+                         where inviter={$row['id']}") ? : 0;
+        if (!empty($invite_count)) {
+            $apply_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+                             where inviter={$row['id']} and status>=1") ? : 0;
+            $row['apply_rate'] = round($apply_count / $invite_count * 100, 2);
+            $pass_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+                             where inviter={$row['id']} and status=2") ? : 0;
+            $row['pass_rate'] = round($pass_count / $invite_count * 100, 2);
+        } else {
+            $row['apply_rate'] = 0;
+            $row['pass_rate'] = 0;
+        }
+    }
+    unset($row);
+    if ($_GPC['export'] == 1) {
         foreach ($list as &$row) {
-            $row['type'] = m('member')->checkAgent($row['id'])['code'];
-            $invite_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                             where inviter={$row['id']}") ? : 0;
-            if (!empty($invite_count)) {
-                $apply_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                                 where inviter={$row['id']} and status>=1") ? : 0;
-                $row['apply_rate'] = round($apply_count / $invite_count * 100, 2);
-                $pass_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                                 where inviter={$row['id']} and status=2") ? : 0;
-                $row['pass_rate'] = round($pass_count / $invite_count * 100, 2);
+            if ($row['type'] == 1) {
+                $row['identify'] = '代理';
             } else {
-                $row['apply_rate'] = 0;
-                $row['pass_rate'] = 0;
+                $row['identify'] = '会员';
+            }
+            if ($row['tag'] == 1) {
+                $row['tag'] = '疑似刷单';
+            } else if ($row['tag'] == 2) {
+                $row['tag'] = '操作手';
+            } else if ($row['tag'] == 3) {
+                $row['tag'] = '高下款';
+            } else {
+                $row['tag'] = '未知';
             }
         }
         unset($row);
-    } else {
-        $list = pdo_fetchall($sql);
-        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12),)));
+        m('excel')->export($list, array("title" => "会员数据-" . date('Y-m-d-H-i', time()), "columns" => array(array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '姓名', 'field' => 'realname', 'width' => 12), array('title' => '昵称', 'field' => 'nickname', 'width' => 12), array('title' => '身份', 'field' => 'identify', 'width' => 12), array('title' => '标签', 'field' => 'tag', 'width' => 12), array('title' => '申请率', 'field' => 'apply_rate', 'width' => 12), array('title' => '下款率', 'field' => 'pass_rate', 'width' => 12),)));
     }
-    $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_member') . " a
+            left join " . tablename('xuan_mixloan_payment') . " b on a.id=b.uid
+            where a.uniacid={$_W['uniacid']} "  . $wheres . '');
     $pager = pagination($total, $pindex, $psize);
 } else if ($operation == 'delete') {
     // $member = m('member')->getMember($_GPC['id']);
