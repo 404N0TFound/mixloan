@@ -335,5 +335,63 @@ if ($operation == 'list') {
             where a.createtime>{$strattime} "  . $wheres . $orderBy);
     $pager = pagination($total, $pindex, $psize);
 }
+else if ($operation == 'bonus')
+{
+    // 满单奖励
+    $starttime = strtotime('-1 day ' . date('Y-m-d'));
+    $sql = "SELECT inviter,count(*) as count FROM ims_xuan_mixloan_product_apply
+            WHERE type=1 AND createtime>{$starttime} AND status>0 AND degree=1
+            GROUP by inviter HAVING COUNT>={$config['give_bonus_count_a']}";
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $man = pdo_fetch('select avatar,nickname from ' . tablename('xuan_mixloan_member') . '
+            where id=:id', array(':id' => $row['inviter']));
+        $row['avatar'] = $man['avatar'];
+        $row['nickname'] = $man['nickname'];
+        $row['status'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
+            where inviter={$row['inviter']} and type=4 and createtime>" . strtotime(date('Y-m-d')));
+    }
+    unset($row);
+}
+else if ($operation == 'give_bonus')
+{
+    // 发放满单奖励
+    $inviter = intval($_GPC['inviter']);
+    $starttime = strtotime('-1 day ' . date('Y-m-d'));
+    $sql = "SELECT count(*) FROM ims_xuan_mixloan_product_apply
+            WHERE type=1 AND createtime>{$starttime} AND status>0
+            AND degree=1 AND inviter={$inviter}";
+    $count = pdo_fetchcolumn($sql);
+    if ($config['give_bonus_count_c'] && $count >= $config['give_bonus_count_c'])
+    {
+        $bonus = $config['give_bonus_money_c'];
+    }
+    else if ($config['give_bonus_count_b'] && $count >= $config['give_bonus_count_b'])
+    {
+        $bonus = $config['give_bonus_money_b'];
+    }
+    else if ($config['give_bonus_count_a'] && $count >= $config['give_bonus_count_a'])
+    {
+        $bonus = $config['give_bonus_money_a'];
+    }
+    if (empty($bonus))
+    {
+        message('发放失败，奖励为空', '', 'error');
+    }
+    $insert = array(
+        'uniacid' => $_W['uniacid'],
+        'uid' => $inviter,
+        'inviter' => $inviter,
+        're_bonus'=>0,
+        'done_bonus'=>0,
+        'extra_bonus'=>$bonus,
+        'status'=>2,
+        'degree'=>1,
+        'createtime'=>time(),
+        'type'=>4
+    );
+    pdo_insert('xuan_mixloan_product_apply', $insert);
+    message('发放成功', referer(), 'success');
+}
 include $this->template('member');
 ?>

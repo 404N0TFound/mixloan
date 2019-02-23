@@ -4,6 +4,7 @@
     <li {if $operation=='list' && $status == '0'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'list', 'status' => '0'))}">冻结列表</a></li>
     <li {if $operation=='partner_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'partner_list'))}">合伙人列表</a></li>
     <li {if $operation=='analysis'}class="active"{/if}><a href="{php echo $this->createWebUrl('member', array('op' => 'analysis'))}">刷单检测</a></li>
+    <li {if $operation=='bonus'}class="active"{/if}><a href="{php echo $this->createWebUrl('memebr', array('op' => 'bonus'));}">满单奖励</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -532,6 +533,43 @@
             {$pager}
         </div>
     </div>
+</div>
+{else if $operation == 'bonus'}
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">每日满单奖励</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>奖励人ID</th>
+                    <th style='width:120px;'>奖励人</th>
+                    <th style='width:150px;'>推荐单数</th>
+                    <th style='width:150px;'>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['uid']}</td>
+                    <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['nickname']}</td>
+                    <td>   {$row['count']}</td>
+                    <td>   {if $row['status']}<span class="label label-info">已发放</span>{else}<span class="label label-default">未发放</span>{/if}</td>
+                    <td  style="overflow:visible;">
+                        {if !$row['status']}
+                        <a href="{php echo $this->createWebUrl('member',array('op'=>'give_bonus', 'inviter' => $row['uid']));}" onclick="return confirm('确定要发放奖励吗？');">发放奖励</a>
+                        &nbsp;
+                        {/if}
+                        <a href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list', 'inviter' => $row['uid']));}">邀请明细</a>
+                    </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
 </div>
 {/if}
 {template 'common/footer'}

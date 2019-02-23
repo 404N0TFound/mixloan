@@ -335,7 +335,10 @@ if($operation=='buy'){
 		} else if ($row['type'] == 3){
 			$row['name'] = '合伙人奖励';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
-		} else if ($row['type'] == 1) {
+		} else if ($row['type'] == 4){
+            $row['name'] = '满单奖励';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 1) {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
 		}
