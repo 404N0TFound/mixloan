@@ -163,6 +163,8 @@
     }
     .copy_span{
         padding: 1rem;
+        max-height: 17rem;
+        overflow: hidden;
     }
     .copy_span span{
         display: inline-block;
@@ -817,7 +819,11 @@
                         $('.copy_area').css('top', '30%');
                     } else if (urls.length < 10) {
                         $('.copy_area').css('top', '20%');
-                    }  
+                    } else if (urls.length < 15) {
+                        $('.copy_area').css('top', '10%');
+                    }  else if (urls.length < 30) {
+                        $('.copy_area').css('top', '5%');
+                    }   
                     $('.copy_area').show();
                 }else{
                     layer.msg(data.msg);
