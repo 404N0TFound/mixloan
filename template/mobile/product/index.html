@@ -39,6 +39,9 @@
             height: 2rem;
             border-radius: 50%;
         }
+        .layui-layer{
+            z-index: 9999999999999 !important;
+        }
 	</style>
 
 	{template 'common/wxshare'}
@@ -164,6 +167,7 @@
     .copy_span span{
         display: inline-block;
         width: 100%;
+        font-size: 0.6rem;
     }
 </style>
 <div class="copy_area">
@@ -787,7 +791,8 @@
     function copy_btn (){
         var arr = $('.yes');
         if (arr.length <= 0) {
-            alert('请先勾选数据');
+            layer.alert('请先勾选数据');
+            return false;
         }
         var values = '';
         $(arr).each(function(){

@@ -520,7 +520,7 @@ if($operation=='index'){
     foreach ($values as $value) {
         $item = pdo_fetch('select name from ' . tablename('xuan_mixloan_product') . '
                         where id=:id', array(':id' => $value));
-        $urls[] = $item['name'] . ':' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$value, 'inviter'=>$member['id'], 'rand' => 1)));
+        $urls[] = $item['name'] . ':' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$value, 'inviter'=>$member['id'], 'rand' => 1)));
     }
     show_json(1, ['urls' => $urls], '获取成功');
 }
