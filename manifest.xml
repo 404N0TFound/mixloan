@@ -115,6 +115,24 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_maxid` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_yellowlist`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_yellowlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_redlist`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_redlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_whitelist`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_whitelist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

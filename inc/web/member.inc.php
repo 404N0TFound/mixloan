@@ -38,6 +38,10 @@ if ($operation == 'list') {
                 where uid=:uid', array(':uid' => $row['id']));
             $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
                 where uid=:uid', array(':uid' => $row['id']));
+            $row['red'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_redlist') . '
+                where uid=:uid', array(':uid' => $row['id']));
+            $row['yellow'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_yellowlist') . '
+                where uid=:uid', array(':uid' => $row['id']));
         }
         unset($row);
     } else {
@@ -275,6 +279,32 @@ if ($operation == 'list') {
     // 移除黑名单
     $id = intval($_GPC['id']);
     pdo_delete('xuan_mixloan_blacklist', array('uid' => $id));
+    message('移除成功', referer(), 'success');
+} else if ($operation == 'join_yellow') {
+    // 添加黄名单
+    $id = intval($_GPC['id']);
+    $insert = array();
+    $insert['createtime'] = time();
+    $insert['uid'] = $id;
+    pdo_insert('xuan_mixloan_yellowlist', $insert);
+    message('添加成功', referer(), 'success');
+} else if ($operation == 'remove_yellow') {
+    // 移除黄名单
+    $id = intval($_GPC['id']);
+    pdo_delete('xuan_mixloan_yellowlist', array('uid' => $id));
+    message('移除成功', referer(), 'success');
+} else if ($operation == 'join_red') {
+    // 添加红名单
+    $id = intval($_GPC['id']);
+    $insert = array();
+    $insert['createtime'] = time();
+    $insert['uid'] = $id;
+    pdo_insert('xuan_mixloan_redlist', $insert);
+    message('添加成功', referer(), 'success');
+} else if ($operation == 'remove_red') {
+    // 移除红名单
+    $id = intval($_GPC['id']);
+    pdo_delete('xuan_mixloan_redlist', array('uid' => $id));
     message('移除成功', referer(), 'success');
 } else if ($operation == 'join_white') {
     // 添加黑名单

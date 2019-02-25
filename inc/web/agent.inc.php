@@ -28,6 +28,11 @@ if ($operation == 'list') {
             where uid=:uid', array(':uid' => $row['uid']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
             where uid=:uid', array(':uid' => $row['uid']));
+        $row['red'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_redlist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        $row['yellow'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_yellowlist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        
     }
     unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_payment') . " a left join ".tablename("xuan_mixloan_member")." b ON a.uid=b.id where a.uniacid={$_W['uniacid']} " . $wheres );
@@ -51,6 +56,10 @@ if ($operation == 'list') {
             where uid=:uid', array(':uid' => $row['id']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
                 where uid=:uid', array(':uid' => $row['id']));
+        $row['red'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_redlist') . '
+            where uid=:uid', array(':uid' => $row['id']));
+        $row['yellow'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_yellowlist') . '
+            where uid=:uid', array(':uid' => $row['id']));
     }
     unset($row);
     $total = pdo_fetchcolumn( 'select count(1) from ' . tablename('xuan_mixloan_member') . "where uniacid={$_W['uniacid']} "  . $wheres . ' ORDER BY ID DESC' );
@@ -116,8 +125,8 @@ if ($operation == 'list') {
             $inviters[] = $row['inviter'];
         }
     }
-    $blacks = m('member')->getBlackList(['uid'], ['uid'=>$inviters]);
-    $whites = m('member')->getWhiteList(['uid'], ['uid'=>$inviters]);
+    // $blacks = m('member')->getBlackList(['uid'], ['uid'=>$inviters]);
+    // $whites = m('member')->getWhiteList(['uid'], ['uid'=>$inviters]);
     $products = m('product')->getList(['id', 'count_time', 'name'], ['id' => $pids]);
     foreach ($list as &$row) {
         $row['count_time'] = $products[$row['pid']]['count_time'];
@@ -130,16 +139,24 @@ if ($operation == 'list') {
             $row['name'] = '昨日佣金奖励';
         }
         $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
-            where uid=:uid', array(':uid' => $row['uid']));
+            where uid=:uid', array(':uid' => $row['inviter']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
-            where uid=:uid', array(':uid' => $row['uid']));
-        if ($blacks[$row['inviter']]) {
-            $row['identify'] = 1;
-        } else if ($whites[$row['inviter']]) {
-            $row['identify'] = 2;
-        } else {
-            $row['identify'] = 3;
-        }
+            where uid=:uid', array(':uid' => $row['inviter']));
+        $row['red'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_redlist') . '
+            where uid=:uid', array(':uid' => $row['inviter']));
+        $row['yellow'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_yellowlist') . '
+            where uid=:uid', array(':uid' => $row['inviter']));
+        // if ($blacks[$row['inviter']]) {
+        //     $row['identify'] = 1;
+        // } else if ($whites[$row['inviter']]) {
+        //     $row['identify'] = 2;
+        // } else if ($reds[$row['inviter']]) {
+        //     $row['identify'] = 4;
+        // } else if ($yellows[$row['inviter']]) {
+        //     $row['identify'] = 5;
+        // } else {
+        //     $row['identify'] = 3;
+        // }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
         if ($row['device_type'] == 1){
             $row['identification'] = '安卓';
@@ -187,11 +204,15 @@ if ($operation == 'list') {
             } else {
                 $row['count_time'] = '现结';
             }
-            if ($row['identify'] == 1) {
+            if ($row['black']) {
                 $row['identify'] = '黑名单';
-            } else if ($row['identify'] == 2) {
+            } else if ($row['white']) {
                 $row['identify'] = '白名单';
-            } else if ($row['identify'] == 3) {
+            } else if ($row['red']) {
+                $row['identify'] = '红名单';
+            } else if ($row['yellow']) {
+                $row['identify'] = '黄名单';
+            } else {
                 $row['identify'] = '未知';
             }
         }
@@ -339,6 +360,10 @@ if ($operation == 'list') {
         $row['black'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_blacklist') . '
             where uid=:uid', array(':uid' => $row['uid']));
         $row['white'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_whitelist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        $row['red'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_redlist') . '
+            where uid=:uid', array(':uid' => $row['uid']));
+        $row['yellow'] = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_yellowlist') . '
             where uid=:uid', array(':uid' => $row['uid']));
         $man = pdo_fetch('select avatar,nickname,phone from ' . tablename('xuan_mixloan_member') . '
             where id=:id', array(':id' => $row['uid']));

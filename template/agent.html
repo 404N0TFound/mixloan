@@ -96,13 +96,23 @@
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='剥夺代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 剥夺代理</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['uid']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {if !$row['yellow']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_yellow','id' => $row['uid']));}" title='添加黄名单' onclick="return confirm('确定要添加黄名单吗？');"><i class='fa fa-ban'></i> 添加黄名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_yellow','id' => $row['uid']));}" title='移除黄名单' ><i class='fa fa-check'></i> 移除黄名单</a></li>
+                                {/if}
+                                {if !$row['red']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_red','id' => $row['uid']));}" title='添加红名单' onclick="return confirm('确定要添加红名单吗？');"><i class='fa fa-ban'></i> 添加红名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_red','id' => $row['uid']));}" title='移除红名单' ><i class='fa fa-check'></i> 移除红名单</a></li>
+                                {/if}
                                 {if !$row['black']}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['uid']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_black','id' => $row['uid']));}" title='移除黑名单' ><i class='fa fa-check'></i> 移除黑名单</a></li>
                                 {/if}    
                                 {if !$row['white']}
-                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_white','id' => $row['uid']));}" title='添加黑名单' onclick="return confirm('确定要添加白名单吗？');"><i class='fa fa-ban'></i> 添加白名单</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_white','id' => $row['uid']));}" title='添加白名单' onclick="return confirm('确定要添加白名单吗？');"><i class='fa fa-ban'></i> 添加白名单</a></li>
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_white','id' => $row['uid']));}" title='移除白名单' ><i class='fa fa-check'></i> 移除白名单</a></li>
                                 {/if}
@@ -187,6 +197,10 @@
                         <span class="label label-default">黑名单</span>
                         {else if $row['white']}
                         <span class="label label-success">白名单</span>
+                        {else if $row['red']}
+                        <span class="label label-danger">红名单</span>
+                        {else if $row['yellow']}
+                        <span class="label label-info">黄名单</span>
                         {else}
                         <span class="label label-info">未知</span>
                         {/if}
@@ -202,6 +216,16 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'change_pass','uid' => $row['id']));}" title='更改支付密码' target="__blank"><i class='fa fa-list-alt'></i> 更改支付密码</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['id']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
+                                {if !$row['yellow']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_yellow','id' => $row['id']));}" title='添加黄名单' onclick="return confirm('确定要添加黄名单吗？');"><i class='fa fa-ban'></i> 添加黄名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_yellow','id' => $row['id']));}" title='移除黄名单' ><i class='fa fa-check'></i> 移除黄名单</a></li>
+                                {/if}
+                                {if !$row['red']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_red','id' => $row['id']));}" title='添加红名单' onclick="return confirm('确定要添加红名单吗？');"><i class='fa fa-ban'></i> 添加红名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_red','id' => $row['id']));}" title='移除红名单' ><i class='fa fa-check'></i> 移除红名单</a></li>
+                                {/if}
                                 {if !$row['black']}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['id']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
                                 {else}
@@ -330,6 +354,10 @@
                         <span class="label label-default">黑名单</span>
                         {else if $row['white']}
                         <span class="label label-success">白名单</span>
+                        {else if $row['red']}
+                        <span class="label label-danger">红名单</span>
+                        {else if $row['yellow']}
+                        <span class="label label-info">黄名单</span>
                         {else}
                         <span class="label label-info">未知</span>
                         {/if}
@@ -353,6 +381,16 @@
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['uid']));}" title='邀请列表'><i class='fa fa-list-alt'></i> 邀请列表</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'delete','id' => $row['id']));}" title='剥夺代理' onclick="return confirm('确定要剥夺该代理资格吗？');"><i class='fa fa-remove'></i> 剥夺代理</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['uid']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
+                                {if !$row['yellow']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_yellow','id' => $row['uid']));}" title='添加黄名单' onclick="return confirm('确定要添加黄名单吗？');"><i class='fa fa-ban'></i> 添加黄名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_yellow','id' => $row['uid']));}" title='移除黄名单' ><i class='fa fa-check'></i> 移除黄名单</a></li>
+                                {/if}
+                                {if !$row['red']}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_red','id' => $row['uid']));}" title='添加红名单' onclick="return confirm('确定要添加红名单吗？');"><i class='fa fa-ban'></i> 添加红名单</a></li>
+                                {else}
+                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'remove_red','id' => $row['uid']));}" title='移除红名单' ><i class='fa fa-check'></i> 移除红名单</a></li>
+                                {/if}
                                 {if !$row['black']}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'join_black','id' => $row['uid']));}" title='添加黑名单' onclick="return confirm('确定要添加黑名单吗？');"><i class='fa fa-ban'></i> 添加黑名单</a></li>
                                 {else}
@@ -553,10 +591,14 @@
                         {/if}
                     </td>
                     <td>
-                        {if $row['identify'] == 1}
+                        {if $row['black']}
                         <span class="label label-default">黑名单</span>
-                        {else if $row['identify'] == 2}
+                        {else if $row['white']}
                         <span class="label label-success">白名单</span>
+                        {else if $row['red']}
+                        <span class="label label-danger">红名单</span>
+                        {else if $row['yellow']}
+                        <span class="label label-info">黄名单</span>
                         {else}
                         <span class="label label-info">未知</span>
                         {/if}
