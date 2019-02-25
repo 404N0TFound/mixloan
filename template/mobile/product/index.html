@@ -33,6 +33,19 @@
 		div.agent-foot p>img {
 			width: 1.1rem;
 		}
+		.list_line .sign_end, .three_head ul li .sign_end {
+			width: 0.65rem;
+			margin: 0 auto;
+			position: absolute;
+			left: 5%;
+			top: 0;
+		}
+		.list_line .sign_end img, .three_head ul li .sign_end img {
+			width: 100%;
+			height: auto;
+			border: 0px solid #e2e2e2;
+			border-radius: 0px;
+		}
 	</style>
 
 	{template 'common/wxshare'}
@@ -173,6 +186,7 @@
 							<span><img src="../addons/xuan_mixloan/template/style/picture/pin_1.png"></span>奖金<b>{$row['intro1']}</b>
 						</p>
 					</div>
+					<div class='sign_end'><img src="{$row['sign_end']}"/></div>
 					{if $row['day'] == 1}
 					<div class="day_end"><img src="../addons/xuan_mixloan/template/style/images/end.png "></div>
 					{else if $row['day'] == 2}
@@ -360,6 +374,7 @@
                             var hot=data.data.new[i].hot;  //热门
                             var id_new=data.data.new[i].id; //链接id
                             var new_maintain=data.data.new[i].maintain; //0维护
+                            var sign_end=data.data.new[i].sign_end; //0维护
 
                             if(day==1){
                                 var day_img='../addons/xuan_mixloan/template/style/images/end.png ';
@@ -387,6 +402,7 @@
                                 +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
                                 +"</div>"
                                 +"</div>"
+                                +"<div class='sign_end'><img src='"+ sign_end+"' /></div>"
                                 +"<div class='day_end'><img src='"+ day_img +"' /></div>"
                                 +"</a>"
                                 +"</li>";
@@ -402,6 +418,7 @@
                                 +"<p><span><img src='../addons/xuan_mixloan/template/style/picture/pin_1.png' /></span>奖金<b>"+ intro1 +"</b></p>"
                                 +"</div>"
                                 +"</div>"
+                                +"<div class='sign_end'><img src='"+ sign_end+"' /></div>"
                                 +"<div class='day_end'><img src='"+ day_img +"' /></div>"
                                 +"</a>"
                                 +"</li>";

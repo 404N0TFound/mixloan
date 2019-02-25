@@ -98,7 +98,7 @@ if ($operation == 'list') {
         }
         $row['nickname'] = pdo_fetchcolumn('SELECT nickname FROM '.tablename('xuan_mixloan_member').'
                 WHERE id=:id', array(':id'=>$row['uid']));
-        $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        $row['inviter'] = pdo_fetch("select id,avatar,nickname,tag from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
         if ($row['device_type'] == 1){
             $row['identification'] = '安卓';
         } else if ($row['device_type'] == 2) {
@@ -144,6 +144,13 @@ if ($operation == 'list') {
                 $row['count_time'] = '月结';
             } else {
                 $row['count_time'] = '现结';
+            }
+            if ($row['inviter']['tag'] == 1) {
+                $row['tag'] = '疑似刷单';
+            } else if ($row['inviter']['tag'] == 2) {
+                $row['tag'] = '操作手';
+            } else if ($row['inviter']['tag'] == 3) {
+                $row['tag'] = '高下款';
             }
         }
         unset($row);
@@ -209,6 +216,11 @@ if ($operation == 'list') {
                     'title' => '状态（0邀请中，1已注册，2已完成，-1失败）',
                     'field' => 'status',
                     'width' => 35
+                ),
+                array(
+                    'title' => '标识',
+                    'field' => 'tag',
+                    'width' => 30
                 ),
                 array(
                     'title' => '等级',
