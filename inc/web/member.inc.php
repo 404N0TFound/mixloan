@@ -51,13 +51,13 @@ if ($operation == 'list') {
     foreach ($list as &$row) {
         $row['type'] = m('member')->checkAgent($row['id'])['code'];
         $invite_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                         where inviter={$row['id']}") ? : 0;
+                         where inviter={$row['id']} and type=1") ? : 0;
         if (!empty($invite_count)) {
             $apply_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                             where inviter={$row['id']} and status>=1") ? : 0;
+                             where inviter={$row['id']} and status>=1 and type=1") ? : 0;
             $row['apply_rate'] = round($apply_count / $invite_count * 100, 2);
             $pass_count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . "
-                             where inviter={$row['id']} and status=2") ? : 0;
+                             where inviter={$row['id']} and status=2 and type=1") ? : 0;
             $row['pass_rate'] = round($pass_count / $invite_count * 100, 2);
         } else {
             $row['apply_rate'] = 0;
