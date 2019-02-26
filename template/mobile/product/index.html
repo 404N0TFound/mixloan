@@ -132,12 +132,12 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_loan.png" /></span>
-			cps产品<label>(共<b  id="card_num">{php echo count($cps_list);}</b>款)</label>
+			小额贷产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $cps_list $row}
+			{loop $loan_small_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a >
 					<div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 1.2rem;height: 1.2rem;position: absolute;top: 0.8rem;left: 0">
@@ -170,8 +170,6 @@
 			{/loop}
 		</ul>
 	</div>
-
-	<!-- fjx -->
 	<div class="fjx"></div>
 	<!-- fjx -->
 	<div class="list_head">
@@ -263,12 +261,12 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_loan.png" /></span>
-			小额贷产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
+			cps产品<label>(共<b  id="card_num">{php echo count($cps_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $loan_small_list $row}
+			{loop $cps_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a >
 					<div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 1.2rem;height: 1.2rem;position: absolute;top: 0.8rem;left: 0">
@@ -301,6 +299,8 @@
 			{/loop}
 		</ul>
 	</div>
+
+	<!-- fjx -->
 	<div class="fjx"></div>
 	<!-- fjx -->
     <textarea style="opacity: 0" id="pc_url"></textarea>
