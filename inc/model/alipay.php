@@ -16,7 +16,7 @@ class Xuan_mixloan_Alipay
      * @param $payee_real_name 对方真实姓名
      * @return boolean
      */
-    public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name)
+    public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name, $id)
     {
         $payer_show_name        = '蜜蜂采金';
         $remark                 = '用户提现';
@@ -32,9 +32,9 @@ class Xuan_mixloan_Alipay
         $request                = new AlipayFundTransToaccountTransferRequest();
         $account = md5($payee_account . floatval($amount));
         $record = pdo_fetch('select id,createtime from ' . tablename('xuan_mixloan_alipay_log') . ' where 
-            account=:account order by id desc', array(':account' => $account));
+            account=:account order by id desc', array(':account' => $id));
         if (!empty($record)) {
-            if ($record['createtime'] + 60 > time()) {
+            if ($record['createtime'] + 86400 > time()) {
                 return array('code' => -1, 'msg' => '不允许重复打款');
             }
         } else {
