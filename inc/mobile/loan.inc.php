@@ -86,6 +86,11 @@ if($operation=='index'){
     if (empty($info['is_show'])){
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
     }
+    $inviter_info = pdo_fetch('select status from ' . tablename('xuan_mixloan_member') . '
+                    where id=:id', array(':id' => $inviter));
+    if ($inviter_info['status'] != 1) {
+        message('代理已被冻结', '', 'error');
+    }
     include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请产品
