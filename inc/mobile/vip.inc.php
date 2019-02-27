@@ -668,6 +668,19 @@ if($operation=='buy'){
     include $this->template('vip/openNew');
 } else if ($operation == 'app_register') {
     //邀请注册
+    
+    $advs_list = pdo_fetchall('select nickname from ' . tablename('xuan_mixloan_member') . '
+        order by rand()
+        limit 10');
+    foreach ($advs_list as &$row) {
+        $row['pro_name'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_product') . '
+            where is_show=1
+            order by rand()');
+        $row['name'] = func_substr_replace($row['nickname']);
+        $row['pro_name'] = func_substr_replace($row['pro_name']);
+        $row['money'] = rand(100000, 9999999) / 100;
+    }
+    unset($row);
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);
     include $this->template('vip/register');
 } else if ($operation == 'choose_pay_type') {
