@@ -16,8 +16,8 @@
 
 <body>
     <h1>成为代理</h1>
-    <img src="../addons/xuan_mixloan/template/style/new_register/images/1.png">
-    <img src="../addons/xuan_mixloan/template/style/new_register/images/2.png">
+    <img src="{if $config['register_pic_a']}{php echo tomedia($config['register_pic_a']);}{else}../addons/xuan_mixloan/template/style/new_register/images/1.png{/if}">
+    <img src="{if $config['register_pic_b']}{php echo tomedia($config['register_pic_b']);}{else}../addons/xuan_mixloan/template/style/new_register/images/2.png{/if}">
     <div class="swiper-container">
         <div class="swiper-wrapper">
             {loop $advs_list $row}
@@ -35,8 +35,8 @@
             {/loop}
         </div>
     </div>
-    <img src="../addons/xuan_mixloan/template/style/new_register/images/4.png">
-    <img src="../addons/xuan_mixloan/template/style/new_register/images/5.png">
+    <img src="{if $config['register_pic_c']}{php echo tomedia($config['register_pic_c']);}{else}../addons/xuan_mixloan/template/style/new_register/images/4.png{/if}">
+    <img src="{if $config['register_pic_d']}{php echo tomedia($config['register_pic_d']);}{else}../addons/xuan_mixloan/template/style/new_register/images/5.png{/if}">
     <button class="join">加入我们</button>
     <div class="shade"></div>
     <form onsubmit="false">
