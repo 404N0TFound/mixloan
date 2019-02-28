@@ -135,7 +135,7 @@ if($operation == 'getCode'){
 		if (!empty($_W['setting']['remote']['type'])) {
 			$remotestatus = file_remote_upload($pathname);
 			if (is_error($remotestatus)) {
-				$result['message'] = '远程附件上传失败，请检查配置并重新上传';
+				$result['message'] = '元程附件上传失败，请检查配置并重新上传';
 				file_delete($pathname);
 				die(json_encode($result));
 			} else {
