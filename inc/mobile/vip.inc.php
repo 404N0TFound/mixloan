@@ -746,6 +746,18 @@ if($operation=='buy'){
     message($ret, '', 'success');
 } else if ($operation == 'register') {
     //邀请注册
+    $advs_list = pdo_fetchall('select nickname from ' . tablename('xuan_mixloan_member') . '
+        order by rand()
+        limit 10');
+    foreach ($advs_list as &$row) {
+        $row['pro_name'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_product') . '
+            where is_show=1
+            order by rand()');
+        $row['name'] = func_substr_replace($row['nickname']);
+        $row['pro_name'] = func_substr_replace($row['pro_name']);
+        $row['money'] = rand(100000, 9999999) / 100;
+    }
+    unset($row);
     $inviter = m('member')->getInviterInfo($_GPC['inviter']);
     include $this->template('vip/register');
 } else if ($operation == 'checkPay') {
@@ -912,9 +924,9 @@ if($operation=='buy'){
 } else if ($operation == 'rank_list') {
     //排行榜
     
-    $temp_time = date('Y-m') . '-1';
-    $start_time = strtotime($temp_time);
-    $end_time = strtotime("+1 month {$temp_time}");
+    $temp_time = date('Y-m-d H:i:s');
+    $end_time = strtotime($temp_time);
+    $start_time = strtotime("-3 month {$temp_time}");
     // $list = pdo_fetchall("SELECT inviter,SUM(re_bonus+done_bonus+extra_bonus) AS bonus FROM ".tablename('xuan_mixloan_bonus')." WHERE relate_id=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter HAVING bonus<>0 ORDER BY bonus DESC LIMIT 15");
     $list = pdo_fetchall("SELECT uid,SUM(bonus) as count_bonus FROM " .tablename('xuan_mixloan_withdraw'). "
         WHERE createtime>{$start_time} AND createtime<{$end_time}
