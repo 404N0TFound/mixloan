@@ -66,9 +66,10 @@ if ($operation == 'list') {
     // pdo_delete('qrcode_stat', array("qrcid" => $_GPC["id"]));
     // pdo_delete('qrcode_stat', array("openid" => $member['openid']));
     // pdo_delete('xuan_mixloan_payment', array("uid" => $_GPC["id"]));
+    $id = intval($_GPC['id']);
     if ($_GPC['post'] == 1) {
         $insert = array();
-        $insert['uid'] = $id;
+        $insert['uid'] = $_GPC['id'];
         $insert['reason'] = $_GPC['reason'];
         $insert['createtime'] = time();
         pdo_insert('xuan_mixloan_delete_reason', $insert);
