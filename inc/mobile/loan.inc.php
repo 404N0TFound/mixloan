@@ -8,6 +8,8 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
+    header("location:{$this->createMobileUrl('product', array('op' => ''))}");
+    exit();
     if ($config['loan_vip']) {
         if (empty($openid)) {
             header("location:{$this->createMobileUrl('index', array('op' => 'login'))}");
