@@ -74,6 +74,7 @@ class Xuan_mixloanModule extends WeModule {
                     'register_pic_b'=>$_GPC['register_pic_b'],
                     'register_pic_c'=>$_GPC['register_pic_c'],
                     'register_pic_d'=>$_GPC['register_pic_d'],
+                    'loan_open'=>$_GPC['loan_open'],
             	);
 
             if ($this->saveSettings($cfg)) {

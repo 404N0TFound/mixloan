@@ -184,7 +184,7 @@ if($operation == 'getCode'){
 		WHERE status=0 ORDER BY id ASC");
 	if (!empty($result)) {
 		$insert = array();
-		$max_id = $result['relate_id'] + 20000;
+		$max_id = $result['relate_id'] + 10000;
         $members = pdo_fetchall('select id from ' .tablename('xuan_mixloan_member'). "
         	where uniacid=:uniacid and id>={$result['relate_id']} and id <{$max_id}", array(':uniacid' => $_W['uniacid']));
         if (!empty($members)) {
