@@ -149,7 +149,14 @@ if($operation=='index'){
         $insert['inviter'] = $second_inviter;
         $insert['degree'] = 2;
         pdo_insert('xuan_mixloan_product_apply', $insert);
-        $inviter_two = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$second_inviter));
+    }
+    //三级
+    $inviter_info = m('member')->getInviterInfo($second_inviter);
+    $third_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
+    if ($third_inviter) {
+        $insert['inviter'] = $third_inviter;
+        $insert['degree'] = 3;
+        pdo_insert('xuan_mixloan_product_apply', $insert);
     }
     show_json(1, $pro['ext_info']['url']);
 }

@@ -340,6 +340,7 @@
                     <td>   
                         {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
                         {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}
+                        {if $row['degree'] == 3}<span class="label label-success">三级</span>{/if}
                     </td>
                     <td>   {if $row['status']==-2}<span class="label label-warning">邀请用户已注册过，不产生佣金</span>
                             {else if $row['status']==-1}<span class="label label-warning">注册失败</span>
@@ -383,6 +384,7 @@
                         {$inviter['nickname']}  
                             {if $itme['degree']==1}<span class="label label-info">一级{$agent['name']}</span
                             {else if $item['degree']==2}<span class="label label-primary">二级{$agent['name']}</span>
+                            {else if $item['degree']==3}<span class="label label-primary">三级{$agent['name']}</span>
                             {/if}
                     </p>
                 </div>
