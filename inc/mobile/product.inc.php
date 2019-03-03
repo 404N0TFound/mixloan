@@ -316,9 +316,9 @@ if($operation=='index'){
     $year = (int)$_GPC['year'];
     $params['begin'] = "{$year}-{$month}-01";
     $params['inviter'] = $member['id'];
-    $days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1]);
-    $weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7]);
-    $months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30]);
+    $days_list = m('product')->getList(['id', 'name', 'ext_info'],['count_time'=>1, 'is_show'=>1]);
+    $weeks_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>7, 'is_show'=>1]);
+    $months_list = m('product')->getList(['id', 'name', 'type'],['count_time'=>30, 'is_show'=>1]);
     $days_ids = m('product')->getIds($days_list);
     $weeks_ids = m('product')->getIds($weeks_list);
     $months_ids = m('product')->getIds($months_list);

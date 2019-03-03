@@ -8,7 +8,13 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList([],[], ' apply_nums desc', '10');
+    $cond = array();
+    $remove_ids = m('product')->getRemoveProductIds(2);
+    if ($remove_ids)
+    {
+        $cond = array('n_id' => $remove_ids);
+    }
+	$list = m('loan')->getList([], $cond, ' apply_nums desc', '10');
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -17,7 +23,13 @@ if($operation=='index'){
 	include $this->template('loan/loan_select');
 } else if ($operation == 'recommend') {
 	//智能推荐
-	$recommends = m('loan')->getRecommends();
+    $cond = array();
+    $remove_ids = m('product')->getRemoveProductIds(2);
+    if ($remove_ids)
+    {
+        $cond = array('n_id' => $remove_ids);
+    }
+    $recommends = m('loan')->getRecommends($cond);
 	if (empty($recommends)) {
 		show_json(-1);
 	}
@@ -51,6 +63,11 @@ if($operation=='index'){
 	if (isset($_GPC['type']) && !empty($_GPC['type'])) {
 		$condition['type'] = $_GPC['type'];
 	}
+    $remove_ids = m('product')->getRemoveProductIds(2);
+    if ($remove_ids)
+    {
+        $condition['n_id'] = $remove_ids;
+    }
 	$list = m('loan')->getList([], $condition, $orderBy);
 	if (empty($list)) {
 		show_json(-1);

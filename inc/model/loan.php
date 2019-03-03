@@ -23,6 +23,18 @@ class Xuan_mixloan_Loan
                     $wheres .= " AND `time_blow` >= {$v}";
                 } else if ($k == 'high') {
                     $wheres .= " AND `time_high` <= {$v}";
+                } else if ($k == 'n_id') {
+                    if ($v)
+                    {
+                        $v_string = implode(',', $v);
+                    }
+                    else
+                    {
+                        $v_string = '';
+                    }
+                    $wheres .= " AND `id` NOT IN ({$v_string})";
+                } else if ($k == 'name') {
+                    $wheres .= " AND `{$k}` LIKE '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }
@@ -72,12 +84,26 @@ class Xuan_mixloan_Loan
         return $list;
     }
 
-    public function getRecommends(){
+    public function getRecommends($conditon){
         global $_W;
-        $sql = "SELECT * 
-            FROM ".tablename('xuan_mixloan_loan')." AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM ".tablename('xuan_mixloan_loan').")) AS id) AS t2 
-            WHERE t1.id >= t2.id AND t1.uniacid=:uniacid
-            ORDER BY t1.id ASC LIMIT 3";
+        if (!empty($conditon)) {
+            foreach ($conditon as $k => $v) {
+                if ($k == 'n_id') {
+                    if ($v)
+                    {
+                        $v_string = implode(',', $v);
+                    }
+                    else
+                    {
+                        $v_string = '';
+                    }
+                    $wheres .= " AND `id` NOT IN ({$v_string})";
+                } else {
+                    $wheres .= " AND `{$k}` = '{$v}'";
+                }
+            }
+        }
+        $sql = "SELECT * FROM " . tablename('xuan_mixloan_loan') . " WHERE uniacid=:uniacid " . $wheres . " ORDER BY rand() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
