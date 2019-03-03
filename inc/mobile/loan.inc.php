@@ -67,6 +67,11 @@ if($operation=='index'){
 	if (isset($_GPC['type']) && !empty($_GPC['type'])) {
 		$condition['type'] = $_GPC['type'];
 	}
+    $remove_ids = m('product')->getRemoveProductIds(2);
+    if ($remove_ids)
+    {
+        $condition['n_id'] = $remove_ids;
+    }
 	$list = m('loan')->getList([], $condition, $orderBy);
 	if (empty($list)) {
 		show_json(-1);
