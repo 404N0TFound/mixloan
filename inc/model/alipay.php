@@ -37,7 +37,7 @@ class Xuan_mixloan_Alipay
             return array('code' => -1, 'msg' => '不允许重复打款');
         } else {
             $insert = array();
-            $insert['account'] = $account;
+            $insert['account'] = $id;
             $insert['createtime'] = time();
             pdo_insert('xuan_mixloan_alipay_log', $insert);
         }
