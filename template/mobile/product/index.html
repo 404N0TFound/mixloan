@@ -853,7 +853,7 @@
                 new_version_url = android_url;
             }
             layer.alert('请下载最新APP' + jsBridge.appVersion, function(){
-                openNew(new_version_url)
+                window.location.href= new_version_url + '?xapp-target=browser';
             });
         }
     </script>
