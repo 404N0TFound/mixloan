@@ -178,7 +178,7 @@
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}三级：{$info['ext_info']['done_thr_init_reward_money']}元
                 </li>
-                {else}
+                {else if $info['re_reward_type']==2}
                 <li>
                     {if $info['type']==1}下卡{else}下款{/if}直推：{$info['ext_info']['done_one_init_reward_per']}点
                 </li>
