@@ -111,7 +111,7 @@
 				<li class="clearfix ons2" data-id="1">
 					<a >
                         <div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 1.2rem;height: 1.2rem;position: absolute;top: 0.8rem;left: 0">
-                            <img src="../addons/xuan_mixloan/template/style/picture/check.png" class="check" style="width: 1.2rem;height: 1.2rem;">
+                            <img src="../addons/xuan_mixloan/template/style/picture/check.png" class="check" style="width: 1.2rem;height: 1.2rem;display: none">
                             <img src="../addons/xuan_mixloan/template/style/picture/checked.png" class="checked" style="width: 1.2rem;height: 1.2rem;display: none">
                         </div>
 						<div class="line_three">
@@ -145,7 +145,7 @@
 		<ul class="clearfix"></ul>
 	</div>
 	<!--代呗店star  -->
-    <div class="finndy" style="left: 3%;bottom:16%;z-index: 9999999"><a onclick="copy_btn()"><img src="../addons/xuan_mixloan/template/style/images/copy_btn.png" /></a></div>
+    <div class="finndy" style="left: 3%;bottom:16%;z-index: 9999999"><a onclick="copy_btn()" id="copy_btn" bind-type="0"><img src="../addons/xuan_mixloan/template/style/images/copy_btn.png" /></a></div>
 	<div class="finndy" style="left: 3%;bottom:7%;z-index: 9999999"><a href="{php echo $this->createMobileUrl('product', array('op'=>'choose_show_up'))}"><img src="{php echo tomedia($config['product_logo']);}" /></a></div>
 	<!--代呗店END -->
 </div>
@@ -791,6 +791,12 @@
         }
     }
     function copy_btn (){
+        var bind_type = $('#copy_btn').attr('bind-type');
+        if (bind_type == 0) {
+            $('#copy_btn').attr('bind-type', 1);
+            $('.check').show();
+            return false;
+        }
         var arr = $('.yes');
         if (arr.length <= 0) {
             layer.alert('请先勾选数据');
