@@ -41,6 +41,21 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_product_category`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1信用卡 2现金 3大额',
+  `is_hot` tinyint(2) NOT NULL COMMENT '是否热门',
+  `name` varchar(50) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_delete_reason`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_delete_reason` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -419,6 +434,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `re_reward_per` decimal(5,2) NOT NULL COMMENT '填写资料奖励多少点',
   `middleware` tinyint(2) DEFAULT 1 COMMENT '是否开启中间件',
   `createtime` int(11) NOT NULL,
+  `category` int(5) NOT NULL COMMENT '小分类',
+  `loan_type` tinyint(2) NOT NULL COMMENT '贷款类型，1现金贷，2月结',
   `name` varchar(50) NOT NULL,
   `ext_info` TEXT NOT NULL,
   PRIMARY KEY (`id`),

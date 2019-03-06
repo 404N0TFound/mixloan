@@ -22,18 +22,54 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
     //首页
-    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
-    $hot_list = m('product')->packupItems($hot_list);
-    $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
-    $card_list = m('product')->packupItems($card_list);
-    $loan_large_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>1], FALSE);
-    $loan_large_list = m('product')->packupItems($loan_large_list);
-    $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
-    $loan_small_list = m('product')->packupItems($loan_small_list);
-    $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
-    $band_list = m('product')->packupItems($band_list);
+    // $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
+    // $hot_list = m('product')->packupItems($hot_list);
+    // $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
+    // $card_list = m('product')->packupItems($card_list);
+    // $loan_large_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>1], FALSE);
+    // $loan_large_list = m('product')->packupItems($loan_large_list);
+    // $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
+    // $loan_small_list = m('product')->packupItems($loan_small_list);
+    // $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
+    // $band_list = m('product')->packupItems($band_list);
+    $banner = m('product')->getAdvs();
+    $cash_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+                                    where type=2
+                                    order by sort desc');
+    $credit_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+                                    where type=1
+                                    order by sort desc');
+    $month_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+                                    where type=3
+                                    order by sort desc');
+    foreach ($cash_list as &$row) {
+        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+                                where category=:category', array(':category' => $row['id'])) ? : 0;
+        $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    }
+    unset($row);
+    foreach ($credit_list as &$row) {
+        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+                                where category=:category', array(':category' => $row['id'])) ? : 0;
+        $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    }
+    unset($row);
+    foreach ($month_list as &$row) {
+        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+                                where category=:category', array(':category' => $row['id'])) ? : 0;
+        $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    }
+    unset($row);
     include $this->template('product/index');
-}  else if ($operation == 'getProduct') {
+} else if ($operation == 'category') {
+    // 分类
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select id,name from ' . tablename('xuan_mixloan_product_category') . '
+                                    where id=:id', array(':id' => $id));
+    $list = m('product')->getList([], ['is_show'=>1, 'category'=>$id], FALSE);
+    $list = m('product')->packupItems($list);
+    include $this->template('product/category');
+} else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
     $new = m('product')->getList([], ['is_show'=>1, 'is_new'=>1], false, 5);
@@ -386,4 +422,25 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
+} else if ($operation == 'copy_short') {
+    // 复制链接
+    if (empty($member['id'])) {
+        show_json(-1, [], '请先登陆');
+    }
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code'] != 1) {
+        show_json(-1, [], '您还不是代理哦');
+    }
+    $values = rtrim($_GPC['values'], ',');
+    $values = explode(',', $values);
+    if (empty($values)) {
+        show_json(-1, [], '请选择产品');
+    }
+    $urls = array();
+    foreach ($values as $value) {
+        $item = pdo_fetch('select name,relate_id from ' . tablename('xuan_mixloan_product') . '
+                        where id=:id', array(':id' => $value));
+        $urls[] = $item['name'] . '：' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$item['relate_id'], 'inviter'=>$member['id'], 'pid'=>$value, 'rand' => 1)));
+    }
+    show_json(1, ['urls' => $urls], '获取成功');
 }

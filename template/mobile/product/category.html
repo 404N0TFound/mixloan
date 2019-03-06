@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$item['name']}</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_product_index/swiper/swiper.min.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_product_index/1.css">
+    <style type="text/css">
+        .layui-layer{
+            z-index: 9999999999999 !important;
+        }
+        .finndy{position: absolute;right: 5%;bottom: 10%}
+        .finndy img{width: 50px;height: 50px}
+        a{font-size: 14px}
+    </style>
+</head>
+
+<body>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
+    <header>
+        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/new_product_index/images/back.png"></a>
+        <h3>{$item['name']}</h3>
+    </header>
+    <ul class="list2">
+    	{loop $list $row}
+        <li style="position: relative;">
+            <img src="{$row['imgs']}" onclick="openNew('{php echo $this->createMobileUrl('product', array('op' => 'info', 'id' => $row['id']))}');">
+            <div style="white-space: nowrap; width: 70%; overflow: hidden;">
+                <p>{$row['title']}</p>
+                {if $row['day'] == 1}
+                <p style="color:red;margin-top: 3px;">日结</p>
+                {else if $row['day'] == 2}
+                <p style="color:orange;margin-top: 3px;">周结</p>
+                {else if $row['day'] == 3}
+                <p style="color:grey;margin-top: 3px;">月结</p>
+                {/if}
+                <p style="color:#2186fb;margin-top: 3px;">{$row['intro1']}</p>
+            </div>
+            <div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 22px;height: 22px;position: absolute;top: 8%;right: 5%">
+                <img src="../addons/xuan_mixloan/template/style/new_product_index/images/check.png" class="check" style="width: 22px;height: 22px;">
+                <img src="../addons/xuan_mixloan/template/style/new_product_index/images/checked.png" class="checked" style="width: 22px;height: 22px;display: none">
+            </div>
+        </li>
+        {/loop}
+    </ul>
+
+    <div class="finndy" style="z-index: 9999999"><a onclick="copy_btn()" id="copy_btn" bind-type="0"><img src="../addons/xuan_mixloan/template/style/images/copy_btn.png" /></a></div>
+    <style type="text/css">
+	    .copy_area{
+	        display: none;
+	        position: fixed;
+	        top: 1rem;
+	        background: white;
+	        width: 90%;
+	        left: 5%;
+	        z-index: 999999999;
+	        border:2px solid #eae6e6;
+	        border-radius: 0.5rem;
+	    }
+	    .copy_span{
+	        padding: 1rem;
+	        max-height: 17rem;
+	        overflow: hidden;
+	    }
+	    .copy_span span{
+	        display: inline-block;
+	        width: 100%;
+	        font-size: 14px;
+	        margin-top: 2px
+	    }
+	</style>
+	<div class="copy_area">
+	    <div class="copy_span">
+	        <span>3424324</span>
+	    </div>
+	    <div style="padding:0.5rem 0;text-align: center;">
+	        <a style="display:inline-block;width: 45%;color:black !important" onclick="copy_short()">复制链接</a>
+	        <a style="display:inline-block;width: 45%;color:black !important" onclick="close_copy()">关闭</a>
+	    </div>
+	</div>
+	<textarea style="opacity: 0" id="pc_url"></textarea>
+
+    <script type="text/javascript">
+    	
+    var short_url = '';
+    $('.check_btn').click(function(){
+        var id = $(this).attr('bind-id');
+        var check = $(this).attr('bind-check');
+        if (check == 0) {
+            $(this).addClass('yes');
+            $(this).attr('bind-check', 1);
+            $(this).find('.check').hide();
+            $(this).find('.checked').show();
+        } else {
+            $(this).removeClass('yes');
+            $(this).attr('bind-check', 0);
+            $(this).find('.checked').hide();
+            $(this).find('.check').show();
+        }
+    })
+    function copy_btn (){
+        var arr = $('.yes');
+        if (arr.length <= 0) {
+            layer.alert('请先勾选数据');
+            return false;
+        }
+        var values = '';
+        $(arr).each(function(){
+            values += $(this).attr('bind-id') + ',';
+        });
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post("{php echo $this->createMobileUrl('product', array('op'=>'copy_short'))}",{values:values},
+            function(data){
+                layer.close(index_lay);
+                if (data.code == 1) {
+                    var str = '';
+                    short_url = '';
+                    var urls = data.data.urls;
+                    for(var i = 0; i<urls.length; i++) {
+                        str += "<span>"+urls[i]+"</span>";
+                        short_url += urls[i] + '          ';
+                    }
+                    $('#pc_url').val(short_url)
+                    $('.copy_span').html(str);
+                    if (urls.length < 5) {
+                        $('.copy_area').css('top', '30%');
+                    } else if (urls.length < 10) {
+                        $('.copy_area').css('top', '20%');
+                    } else if (urls.length < 15) {
+                        $('.copy_area').css('top', '10%');
+                    }  else if (urls.length < 30) {
+                        $('.copy_area').css('top', '5%');
+                    }   
+                    $('.copy_area').show();
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },'json')
+
+    }
+    function copy_short (){
+        copy_pc();
+    }
+    function close_copy (){
+        $('.copy_area').hide();
+    }
+    function copy_pc(){
+        copyToClipboard(document.getElementById("pc_url"));
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+        }
+    }
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
+
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
+
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
+        }
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+        // copy the selection
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
+    }
+    </script>
+</body>
+
+</html>
