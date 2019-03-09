@@ -559,7 +559,8 @@ if($operation=='buy'){
 		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
 		WHERE a.qrcid={$member['id']} AND a.type=1
 		GROUP BY a.openid
-		ORDER BY a.id DESC");
+		ORDER BY a.id DESC
+        LIMIT 50");
     foreach ($follow_list as &$row) {
         if (empty($row['uid'])) {
             $temp = pdo_fetch('select nickname from ' .tablename('mc_mapping_fans'). '

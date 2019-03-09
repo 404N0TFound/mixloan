@@ -44,19 +44,19 @@ if($operation=='index'){
                                     order by sort desc');
     foreach ($cash_list as &$row) {
         $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category', array(':category' => $row['id'])) ? : 0;
+                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
         $row['ext_info'] = json_decode($row['ext_info'], 1);         
     }
     unset($row);
     foreach ($credit_list as &$row) {
         $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category', array(':category' => $row['id'])) ? : 0;
+                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
         $row['ext_info'] = json_decode($row['ext_info'], 1);         
     }
     unset($row);
     foreach ($month_list as &$row) {
         $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category', array(':category' => $row['id'])) ? : 0;
+                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
         $row['ext_info'] = json_decode($row['ext_info'], 1);         
     }
     unset($row);

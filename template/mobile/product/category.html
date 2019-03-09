@@ -15,6 +15,11 @@
         .finndy{position: absolute;right: 5%;bottom: 10%}
         .finndy img{width: 50px;height: 50px}
         a{font-size: 14px}
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            header a:nth-child(1) img{margin-top: 35px; height: 20px}
+            header h3 {line-height: 80px;font-size: 17px}
+            .list2{padding-top: 80px;}
+        }
     </style>
 </head>
 
@@ -28,15 +33,15 @@
     }
 </script>
     <header>
-        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/new_product_index/images/back.png"></a>
-        <h3>{$item['name']}</h3>
+        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/new_product_index/images/back.png" ></a>
+        <h3 >{$item['name']}</h3>
     </header>
     <ul class="list2">
     	{loop $list $row}
         <li style="position: relative;">
             <img src="{$row['imgs']}" onclick="openNew('{php echo $this->createMobileUrl('product', array('op' => 'info', 'id' => $row['id']))}');">
             <div style="white-space: nowrap; width: 70%; overflow: hidden;">
-                <p>{$row['title']}</p>
+                <p style="font-size: 12px">{$row['title']}</p>
                 {if $row['day'] == 1}
                 <p style="color:red;margin-top: 3px;">日结</p>
                 {else if $row['day'] == 2}
