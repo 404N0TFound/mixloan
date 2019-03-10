@@ -410,6 +410,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `re_reward_type` int(11) NOT NULL COMMENT '填写资料奖励方式，0不奖励，1奖励现金，2奖励点数',
   `re_reward_money` int(11) NOT NULL COMMENT '填写资料奖励多少元',
   `re_reward_per` decimal(5,2) NOT NULL COMMENT '填写资料奖励多少点',
+  `middleware` tinyint(2) DEFAULT 1 COMMENT '是否开启中间件',
   `createtime` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `ext_info` TEXT NOT NULL,
