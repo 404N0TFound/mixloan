@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索结果</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/swiper/swiper.min.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/1.css">
+    <script src="../addons/xuan_mixloan/template/style/new_loan/jquery-1.11.3.js"></script>
+    <style type="text/css">
+        .layui-layer{
+            z-index: 9999999999999 !important;
+        }
+        .finndy{position: absolute;right: 5%;bottom: 10%}
+        .finndy img{width: 50px;height: 50px}
+        a{font-size: 14px}
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            header a:nth-child(1) img{margin-top: 35px; height: 20px}
+            header h3 {line-height: 80px;font-size: 17px}
+            .list2{padding-top: 80px;}
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/new_loan/images/back.png" ></a>
+        <h3 >搜索结果</h3>
+    </header>
+    <ul class="list2">
+    </ul>
+
+    <style type="text/css">
+	    .copy_area{
+	        display: none;
+	        position: fixed;
+	        top: 35%;
+	        background: white;
+	        width: 90%;
+	        left: 5%;
+	        z-index: 999999999;
+	        border:2px solid #eae6e6;
+	        border-radius: 0.5rem;
+	    }
+	    .copy_span{
+	        padding: 1rem;
+	        max-height: 17rem;
+	        overflow: hidden;
+            text-align: center;
+	    }
+	    .copy_span span{
+	        display: inline-block;
+	        width: 100%;
+	        font-size: 14px;
+	        margin-top: 2px;
+	    }
+	</style>
+	<div class="copy_area">
+	    <div class="copy_span">
+	        <img src="" style="width: 5rem;height: 5rem;" id="code">
+	    </div>
+	    <div style="padding:0.5rem 0;text-align: center;">
+	        <a style="display:inline-block;width: 45%;color:black !important" onclick="copy_short()">复制链接</a>
+	        <a style="display:inline-block;width: 45%;color:black !important" onclick="close_copy()">关闭</a>
+	    </div>
+	</div>
+	<textarea style="opacity: 0" id="pc_url"></textarea>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript">
+    var id = "{$_GPC['id']}";
+    var keyword = "{$_GPC['keyword']}";
+    $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_category'))}", {id:id, keyword:keyword}, function(data) {
+        if(data.code==1){
+            var list=data.data.list;
+            //列表
+            var str = '';
+            for (var i = 0; i<list.length; i++) {
+                str += '<li style="position: relative;" onclick="copy('+list[i].id+');">\
+                            <img src="'+list[i].ext_info.logo+'" >\
+                            <div style="white-space: nowrap; width: 70%; overflow: hidden;">\
+                                <p style="font-size: 12px">'+list[i].name+'</p>\
+                                <p style="color:#2186fb;margin-top: 3px;">'+list[i].ext_info.intro+'</p>\
+                            </div>\
+                        </li>';
+            }
+            $('.list2').html(str);
+        }else{
+            layer.msg(data.msg, function(){
+                if (data.data.url) {
+                    openNew(data.data.url);
+                }
+            });
+            return false;
+         }
+    }, "json"); 	
+    var short_url = '';
+    function copy (id){
+        
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        $.post(loan_get_code_url,{id:id},
+            function(data){
+                layer.close(index_lay);
+                if (data.code == 1) {
+                    $('#code').attr('src', data.data.code);
+                    var str = '';
+                    short_url = data.data.url;
+                    $('#pc_url').val(short_url)
+                    $('.copy_area').show();
+                }else{
+                    layer.msg(data.msg);
+                    return false;
+                }
+            },'json')
+
+    }
+    function copy_short (){
+        copy_pc();
+    }
+    function close_copy (){
+        $('.copy_area').hide();
+    }
+    function copy_pc(){
+        copyToClipboard(document.getElementById("pc_url"));
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
+        }
+    }
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
+
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
+
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
+        }
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+        // copy the selection
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
+        }
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
+    }
+    </script>
+</body>
+
+</html>

@@ -36,6 +36,7 @@
 		<entry title="数据统计" do="statistics" state="" direct="false" />
 		<entry title="公告管理" do="announce" state="" direct="false" />
 		<entry title="返佣反馈" do="feedback" state="" direct="false" />
+    <entry title="口子大全" do="smallloan" state="" direct="false" />
 		<!-- <entry title="信用查询" do="credit" state="" direct="false" /> -->
 	</menu>
 	</bindings>
@@ -43,6 +44,48 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_smallloan_advs`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_smallloan_advs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  `sort` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_smallloan`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_smallloan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `one_category` int(6) NOT NULL,
+  `two_category` int(6) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_category`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `sort` int(11) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1帮助 2积分商城 3贷款大全',
+  `ext_info` text NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_analysis`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_analysis` (

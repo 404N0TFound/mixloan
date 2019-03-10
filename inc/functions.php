@@ -263,8 +263,8 @@ function base64_image_content($base64_image_content,$path){
         if ($type != 'jpeg' && $type != 'jpg' && $type != 'png') {
             return false;
         }
-        $new_file = $path."/";
-        $file_name = time() . ".{$type}";
+        $new_file = $path . "/";
+        $file_name = time() . rand(1111, 9999) . ".{$type}";
         $new_file = $new_file . $file_name;
         if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
             return $file_name;

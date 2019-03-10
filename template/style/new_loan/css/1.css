@@ -1,0 +1,122 @@
+
+body>*{
+    font-size: 0;
+}
+html{
+    background: #f0eff5;
+}
+h1{
+    text-align: center;
+    font-size: .42rem;
+    line-height: 1.2rem;
+    background: #fff;
+}
+.banner{
+    width: 100%;
+}
+form{
+    margin: .5rem .3rem;
+    background: #fff;
+}
+.line{
+    padding: .3rem;
+    border-bottom: 1px solid #f2f2f2;
+}
+.line label{
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+    font-size: .42rem;
+    line-height: .6rem;
+}
+.line input{
+    width: 75%;
+    font-size: .42rem;
+    line-height: .6rem;
+    border: 0;
+}
+.code input{
+    width: 50%;
+}
+.code span{
+    float: right;
+    width: 25%;
+    text-align: center;
+    font-size: .37rem;
+    line-height: .6rem;
+}
+.acquire{
+    color: #fff;
+    border-radius: .15rem;
+    background: #ee9c50;
+}
+form button{
+    width: 100%;
+    margin-top: .3rem;
+    font-size: .42rem;
+    color: #fff;
+    line-height: 1.2rem;
+    border: 0;
+    border-radius: .2rem;
+    background: #ee9c50;
+}
+.btm{
+    text-align: right;
+    font-size: .32rem;
+    color: #777;
+}
+.btm span{
+    display: inline-block;
+    margin-right: .3rem;
+}
+/* 添加平台 */
+.add{
+    padding: .3rem;
+    background: #fff;
+}
+.add img{
+    height: .6rem;
+    margin-right: .3rem;
+    vertical-align: top;
+}
+.add span{
+    display: inline-block;
+    font-size: .37rem;
+    line-height: .6rem;
+}
+.platform{
+    padding: .3rem;
+    background: #fff;
+}
+.platform li{
+    padding: .2rem 0;
+    border-top: 1px solid #e6e6e6;
+}
+.platform li span{
+    display: inline-block;
+    width: 25%;
+    margin: 0 5%;
+    text-align: center;
+    font-size: .37rem;
+    line-height: .8rem;
+    border: 1px solid #e6e6e6;
+    border-radius: .15rem;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.platform li span:nth-child(1){
+    color: #8594d7;
+}
+.platform li span:nth-child(2){
+    color: #c93615;
+}
+.platform button{
+    float: right;
+    width: 25%;
+    font-size: .37rem;
+    color: #fff;
+    line-height: .8rem;
+    border: 0;
+    border-radius: .5rem;
+    background: #c93615;
+}
