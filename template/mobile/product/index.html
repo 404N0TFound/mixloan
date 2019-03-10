@@ -42,6 +42,12 @@
         .layui-layer{
             z-index: 9999999999999 !important;
         }
+        .cate_intro{
+            font-size: 0.34rem;
+            color: red;
+            font-weight: 800;
+            margin-left: 0.2rem;
+        }
 	</style>
 
 	{template 'common/wxshare'}
@@ -102,7 +108,7 @@
 		<div class="list_head">
 			<p>
 				<span><img src="{php echo tomedia($cate['ext_info']['logo'])}" /></span>
-				{$cate['name']}<label>(共<b  id="card_num">{php echo count($cate['list']);}</b>款)</label>
+				{$cate['name']}<label>(共<b  id="card_num">{php echo count($cate['list']);}</b>款)<em class="cate_intro" bind-text="{$cate['ext_info']['intro']}">奖励说明</em></label>
 			</p>
 		</div>
 		<div class="three_head">
@@ -187,9 +193,9 @@
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
 		<p>首页</p>
 	</a> -->
-	<a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+	<a onclick="openNew('http://m.ss-k.cn/')" class="today-cell">
 		<p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-		<p>技术学习</p>
+		<p>服务大厅</p>
 	</a>
     {if is_weixin()}
 	<a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
@@ -211,6 +217,10 @@
 <script src="//gate.myapp.ltd/cdn/jsbridge-mini.js"></script>
 <script type="text/javascript">
     var short_url = '';
+    $('.cate_intro').click(function(){
+        var intro = $(this).attr('bind-text');
+        layer.alert(intro);
+    })
     $('.check_btn').click(function(){
         var id = $(this).attr('bind-id');
         var check = $(this).attr('bind-check');
