@@ -116,23 +116,14 @@ if($operation=='index'){
     if(!trim($_GPC['name']) || !trim($_GPC['phone'])) {
         show_json(-1, [], '资料不能为空');
     }
-    $record = m('product')->getApplyList(['id'], ['pid'=>$id, 'phone'=>$_GPC['phone']]);
+    $record = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply') . '
+             where phone=:phone and pid=:pid and degree=1', array(':phone' => trim($_GPC['phone']), ':pid' => $id));
     if ($record) {
-        show_json(-1, [], "您已经申请过啦");
+        $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $record));
+        show_json(1, $location);
     }
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
         show_json(-1, [], "图形验证码不正确");
-    }
-    if (md5($_GPC['phone'] . $_GPC['smscode']) != $_COOKIE['cache_code']) {
-        //show_json(-1, [], "短信验证码不符");
-    } else {
-        //setcookie('cache_code', 'outdate', time()+10);
-    }
-    if ($config['jdwx_open'] == 1) {
-        // $res = m('jdwx')->jd_credit_three($config['jdwx_key'], trim($_GPC['name']), trim($_GPC['phone']), trim($_GPC['idcard']));
-        // if ($res['code'] == -1) {
-        // 	show_json($res['code'], [], $res['msg']);
-        // }
     }
     $info = m('product')->getList(['id', 'name', 'type', 'relate_id', 'is_show'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
@@ -206,9 +197,13 @@ if($operation=='index'){
         'done_bonus'=>0,
         'extra_bonus'=>0,
         'status'=>$status,
-        'createtime'=>time()
+        'createtime'=>time(),
+        'ip'=>getServerIp(),
+        'device_type'=>getDeviceType(),
     );
+    $insert['browser_type'] = is_weixin() ? 1 : 2;
     pdo_insert('xuan_mixloan_product_apply', $insert);
+    $insert_id = pdo_insertid();
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
@@ -238,7 +233,7 @@ if($operation=='index'){
         $account->sendTplNotice($inviter_two['openid'], $config['tpl_notice1'], $datam, $url);
         $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl('vip', array('op' => 'salary'));
         $ext_info = array('content' => "尊敬的用户您好，" . $_GPC['name'] . "通过您下级 " . $inviter_info['nickname'] . " 的邀请申请了" . $info['name'] . "，请及时跟进。", 'remark' => "点击查看详情", 'url' => $url);
-        $insert = array(
+        $msg = array(
             'is_read'=>0,
             'uid'=>$member['id'],
             'type'=>2,
@@ -247,9 +242,10 @@ if($operation=='index'){
             'to_uid'=>$second_inviter,
             'ext_info'=>json_encode($ext_info),
         );
-        pdo_insert('xuan_mixloan_msg', $insert);
+        pdo_insert('xuan_mixloan_msg', $msg);
     }
-    show_json(1, $pro['ext_info']['url']);
+    $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $insert_id));
+    show_json(1, $location);
 } else if ($operation == 'display') {
     //贷款展示页
     $id = intval($_GPC['id']);
@@ -265,4 +261,40 @@ if($operation=='index'){
         exit();
     }
     include $this->template('loan/display');
+} else if ($operation == 'middleware') {
+    // 跳转中间组件
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select id,inviter,pid from ' . tablename('xuan_mixloan_product_apply') . '
+        where id=:id', array(':id' => $id));
+    $info = m('product')->getList(['id', 'name', 'middleware', 'relate_id'], ['id' => $item['pid']])[$item['pid']];
+    if ($info['type'] == 1) {
+        $product = m('bank')->getCard(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+    } else {
+        $product = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
+    }
+    $url = $product['ext_info']['url'];
+    if ((!is_weixin() && !is_qq()) || !$info['middleware'])
+    {
+        header("location:{$url}");
+        exit();
+    }
+    include $this->template('loan/middleware');
+} else if ($operation == 'count_time') {
+    // 统计时间
+    $id      = intval($_GPC['id']);
+    $time    = intval($_GPC['time']);
+    $inviter = intval($_GPC['inviter']);
+    $update  = array('last_time' => $time);
+    $result  = pdo_update('xuan_mixloan_apply_time', $update, array('relate_id'=>$id));
+    if (!$result)
+    {
+        $record = pdo_fetchcolumn('select count(1) from ' . tablename('xuan_mixloan_apply_time') . '
+			    		where relate_id=:relate_id
+			    		limit 1', array(':relate_id' => $id));
+        if (empty($record))
+        {
+            $insert = array('last_time' => $time, 'relate_id' => $id, 'inviter' => $inviter, 'createtime' => time());
+            pdo_insert('xuan_mixloan_apply_time', $insert);
+        }
+    }
 }

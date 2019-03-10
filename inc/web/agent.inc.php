@@ -46,14 +46,41 @@ if ($operation == 'list') {
     if (!empty($_GPC['uid'])) {
         $wheres.= " AND a.inviter='{$_GPC['uid']}'";
     }
+    if (!empty($_GPC['ip'])) {
+        $wheres.= " AND a.ip='{$_GPC['ip']}'";
+    }
     if (!empty($_GPC['type'])) {
         $wheres.= " AND c.type='{$_GPC['type']}'";
     }
     if (!empty($_GPC['relate_id'])) {
         $wheres.= " AND c.relate_id='{$_GPC['relate_id']}'";
     }
+    if (!empty($_GPC['broswer_type'])) {
+        $wheres.= " AND a.broswer_type='{$_GPC['broswer_type']}'";
+    }
+    if (!empty($_GPC['device_type'])) {
+        $wheres.= " AND a.device_type='{$_GPC['device_type']}'";
+    }
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
+    }
+    if ($_GPC['phone'] != "") {
+        $phone = trim($_GPC['phone']);
+        $uid_arr = pdo_fetchall('select id from ' . tablename('xuan_mixloan_member') . "
+            where phone like '%{$phone}%'");
+        foreach ($uid_arr as $uid_a) {
+            $uids[] = $uid_a['id'];
+        }
+        $uid_string = implode(',', $uids);
+        $wheres.= " AND a.inviter in ($uid_string)";
+    }
+    $is_fake = intval($_GPC['is_fake']);
+    if ($is_fake) {
+        if ($is_fake == -1) {
+            $wheres .= " and a.is_fake=0";
+        } else {
+            $wheres .= " and a.is_fake=1";
+        }
     }
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
@@ -90,6 +117,22 @@ if ($operation == 'list') {
             $row['name'] = '合伙人分红';
         }
         $row['inviter'] = pdo_fetch("select id,avatar,nickname from ".tablename("xuan_mixloan_member")." where id = {$row['inviter']}");
+        if ($row['device_type'] == 1){
+            $row['identification'] = '安卓';
+        } else if ($row['device_type'] == 2) {
+            $row['identification'] = '苹果';
+        } else if ($row['device_type'] == 3) {
+            $row['identification'] = 'windows';
+        } else {
+            $row['identification'] = '未知';
+        }
+        if ($row['browser_type'] == 1) {
+            $row['identification'] .= '|微信';
+        } else if ($row['browser_type'] == 2) {
+            $row['identification'] .= '|浏览器';
+        } else {
+            $row['identification'] .= '|未知';
+        }
     }
     unset($row);
     if ($_GPC['export'] == 1) {
@@ -203,6 +246,16 @@ if ($operation == 'list') {
                 array(
                     'title' => '该产品已邀请下款总额',
                     'field' => 'inviter_sum',
+                    'width' => 30
+                ),
+                array(
+                    'title' => '申请ip',
+                    'field' => 'ip',
+                    'width' => 30
+                ),
+                array(
+                    'title' => '申请标识',
+                    'field' => 'identification',
                     'width' => 30
                 ),
             )

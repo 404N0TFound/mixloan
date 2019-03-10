@@ -200,6 +200,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请ip</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <input type="text" class="form-control"  name="ip" value="{$_GPC['ip']}"/>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">产品类型</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="type" onchange="change_s()">
@@ -226,6 +232,37 @@
                         <option value="1" {if $_GPC['status']=='1'}selected{/if}>已注册</option>
                         <option value="2" {if $_GPC['status']=='2'}selected{/if}>已完成</option>
                         <option value="-1" {if $_GPC['status']=='-1'}selected{/if}>失败</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请设备</label>
+                <div class="col-sm-9 col-xs-12">
+                    <select class="form-control" name="device_type" >
+                        <option value="">选择</option>
+                        <option value="1" {if $_GPC['device_type'] == 1}selected{/if}>安卓</option>
+                        <option value="2" {if $_GPC['device_type'] == '2'}selected{/if}>苹果</option>
+                        <option value="3" {if $_GPC['device_type'] == 3}selected{/if}>windows</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">申请浏览器</label>
+                <div class="col-sm-9 col-xs-12">
+                    <select class="form-control" name="browser_type" >
+                        <option value="">选择</option>
+                        <option value="1" {if $_GPC['browser_type'] == 1}selected{/if}>微信内置</option>
+                        <option value="2" {if $_GPC['browser_type'] == '2'}selected{/if}>普通浏览器</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否刷单</label>
+                <div class="col-sm-9 col-xs-12">
+                    <select class="form-control" name="is_fake" >
+                        <option value="" >选择</option>
+                        <option value="-1" {if $is_fake == -1}selected{/if}>否</option>
+                        <option value="1" {if $is_fake == 1}selected{/if}>是</option>
                     </select>
                 </div>
             </div>
@@ -309,7 +346,7 @@
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
                     <th style='width:120px;'>关联产品</th>
-                    <th style='width:200px;'>邀请时间</th>
+                    <th style='width:260px;'>邀请时间</th>
                     <th style='width:80px;'>邀请等级</th>
                     <th style='width:120px;'>状态</th>
                     <th>操作</th>
@@ -322,7 +359,11 @@
                     <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>
                     <td>   {$row['name']}</td>
-                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>
+                        {php echo date('Y-m-d H:i',$row['createtime'])}
+                        <br/><span style="border: 1px solid grey">{$row['ip']}</span>
+                        <br/><span style="border: 1px solid grey">{$row['identification']}</span>
+                    </td>
                     <td>
                         {if $row['degree'] == 1}<span class="label label-info">一级</span>{/if}
                         {if $row['degree'] == 2}<span class="label label-primary">二级</span>{/if}

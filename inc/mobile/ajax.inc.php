@@ -210,7 +210,26 @@ if($operation == 'getCode'){
     } else {
         echo 'empty';
     }
-} 
+} else if ($operation == 'apply_analysis') {
+    // 分析
+    $endtime = strtotime(date("Y-m-d"));
+    $starttime = $endtime - 86400;
+    $list = pdo_fetchall('select count(*) as count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
+                    where degree=1 and createtime>{$starttime} and createtime<{$endtime} and type=1
+                    group by inviter");
+    foreach ($list as $row) {
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_apply_time') . "
+                        where inviter={$row['inviter']} and last_time>8
+                        and createtime>{$starttime} and createtime<{$endtime}") ? : 0;
+        $rate = ($count / $row['count']) * 100;
+        $insert = array();
+        $insert['inviter'] = $row['inviter'];
+        $insert['createtime'] = time();
+        $insert['rate'] = $rate;
+        $insert['count'] = $row['count'];
+        pdo_insert('xuan_mixloan_apply_analysis', $insert);
+    }
+}
 
 
 ?>

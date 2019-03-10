@@ -41,6 +41,29 @@
 	</permissions>
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_analysis`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_analysis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inviter` int(11) NOT NULL,
+  `count` int(11) NOT NULL,
+  `rate` decimal(5,2) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inviter` (`inviter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_time`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_time` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inviter` int(11) NOT NULL,
+  `relate_id` int(11) NOT NULL,
+  `last_time` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_agent_close`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_agent_close` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -327,6 +350,9 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
   `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品，2会员，3合伙人分佣',
+  `ip` varchar(30) NOT NULL,
+  `device_type` tinyint(2) NOT NULL COMMENT '设备标识，1安卓，2苹果，3windows',
+  `browser_type` tinyint(2) NOT NULL COMMENT '浏览器标识，1微信，2浏览器',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),
