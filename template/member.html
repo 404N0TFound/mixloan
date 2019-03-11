@@ -541,7 +541,7 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
 
-                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','inviter' => $row['inviter']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('agent',array('op'=>'apply_list','uid' => $row['inviter']));}" title='返佣列表'><i class='fa fa-edit'></i> 返佣列表</a></li>
                                 {if $row['status'] == 1}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['inviter']));}" title='冻结会员' onclick="return confirm('确定要冻结会员吗？');"><i class='fa fa-ban'></i> 冻结会员</a></li>
                                 {else}
