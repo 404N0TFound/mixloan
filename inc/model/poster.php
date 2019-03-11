@@ -173,4 +173,17 @@ class Xuan_mixloan_Poster
             return false;
         }
     }
+
+    function createQRcode($url)
+    {
+        //二维码
+        global $_W;
+        $name = md5($url) . '.png';
+        $tmplogo = XUAN_MIXLOAN_PATH."data/poster/base.jpg";
+        require_once(IA_ROOT.'/framework/library/qrcode/phpqrcode.php');
+        QRcode::png($url,$tmplogo,'L',15,2);
+        $QR = imagecreatefromstring(file_get_contents($tmplogo));
+        imagepng($QR, XUAN_MIXLOAN_PATH . "data/poster/{$name}");
+        return $_W['siteroot'] . '/addons/xuan_mixloan/data/poster/' . $name;
+    }
 }

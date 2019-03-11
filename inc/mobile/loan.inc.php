@@ -8,6 +8,7 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
+    header("location:{$this->createMobileUrl('product', array('op' => ''))}");
 	$list = m('loan')->getList([], [], ' apply_nums desc', 10);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);

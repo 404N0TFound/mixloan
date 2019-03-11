@@ -173,8 +173,8 @@ else if ($operation == 'get_code')
 	$item = pdo_fetch('select id,ext_info from ' . tablename('xuan_mixloan_smallloan') . ' 
 						where id=:id', array(':id' => $id));
 	$item['ext_info'] = json_decode($item['ext_info'], 1);
-	$url = shortUrl($item['ext_info']['url'], $config);
-	$code = m('poster')->createQRcode($url);
+    $url = shortUrl($item['ext_info']['url'], $config);
+    $code = m('poster')->createQRcode($url);
 	show_json(1, ['url' => $url, 'code' => $code], '成功');
 }
 else if ($operation == 'get_advs')
