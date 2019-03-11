@@ -137,7 +137,7 @@ else if ($operation == 'del_my_loan')
 	}
 	if ($item['status'] == 1 || $item['status'] == -2) 
 	{
-		show_json(-1, [], '小贷已无法删除');
+		show_json(-1, [], '审核通过，已无法删除');
 	}
 	pdo_delete('xuan_mixloan_smallloan', array('id' => $id));
 	show_json(1, [], '删除成功');

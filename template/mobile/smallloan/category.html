@@ -26,7 +26,7 @@
 
 <body>
     <header>
-        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/new_loan/images/back.png" ></a>
+        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/images/back_icon.png" ></a>
         <h3 >搜索结果</h3>
     </header>
     <ul class="list2">
@@ -102,7 +102,7 @@
         index_lay = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
-        $.post(loan_get_code_url,{id:id},
+        $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_code'))}",{id:id},
             function(data){
                 layer.close(index_lay);
                 if (data.code == 1) {
