@@ -249,6 +249,17 @@
             var commis=_ispay.substr(0,5);
             $(".commis").html(commis);
         }
+        var cid = "{$member['id']}";
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+            function(data){
+                if (data.code == 1) {
+                    layer.alert(data.msg, {
+                        icon: 1,
+                        skin: 'layer-ext-moon',
+                        title:'公告'
+                    })
+                }
+            },'json')
     })
     //领取工资
     $("#get_paid").click(function(){

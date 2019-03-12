@@ -56,10 +56,17 @@
 	        font-size: 14px;
 	        margin-top: 2px;
 	    }
+        #intro{
+            margin-top: 5px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+        }
 	</style>
 	<div class="copy_area">
 	    <div class="copy_span">
 	        <img src="" style="width: 5rem;height: 5rem;" id="code">
+            <div id="intro"></div>
 	    </div>
 	    <div style="padding:0.5rem 0;text-align: center;">
 	        <a style="display:inline-block;width: 45%;color:black !important" onclick="copy_short()">复制链接</a>
@@ -82,7 +89,6 @@
                             <img src="'+list[i].ext_info.logo+'" >\
                             <div style="white-space: nowrap; width: 70%; overflow: hidden;">\
                                 <p style="font-size: 12px">'+list[i].name+'</p>\
-                                <p style="color:#2186fb;margin-top: 3px;">'+list[i].ext_info.intro+'</p>\
                             </div>\
                         </li>';
             }
@@ -110,6 +116,7 @@
                     var str = '';
                     short_url = data.data.url;
                     $('#pc_url').val(short_url)
+                    $('#intro').text(data.data.intro)
                     $('.copy_area').show();
                 }else{
                     layer.msg(data.msg);

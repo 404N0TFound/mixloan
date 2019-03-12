@@ -174,8 +174,9 @@ else if ($operation == 'get_code')
 						where id=:id', array(':id' => $id));
 	$item['ext_info'] = json_decode($item['ext_info'], 1);
     $url = shortUrl($item['ext_info']['url'], $config);
+	$intro = $item['ext_info']['intro'];
     $code = m('poster')->createQRcode($url);
-	show_json(1, ['url' => $url, 'code' => $code], '成功');
+	show_json(1, ['url' => $url, 'code' => $code, 'intro' => $intro], '成功');
 }
 else if ($operation == 'get_advs')
 {
