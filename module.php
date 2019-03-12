@@ -68,7 +68,11 @@ class Xuan_mixloanModule extends WeModule {
                     'buy_partner_price'=>$_GPC['buy_partner_price'],
                     'partner_bonus'=>$_GPC['partner_bonus'],
                     'backup'=>$_GPC['backup'],
-                    'wx_qrcode'=>$_GPC['wx_qrcode']
+                    'wx_qrcode'=>$_GPC['wx_qrcode'],
+                    'register_pic_a'=>$_GPC['register_pic_a'],
+                    'register_pic_b'=>$_GPC['register_pic_b'],
+                    'register_pic_c'=>$_GPC['register_pic_c'],
+                    'register_pic_d'=>$_GPC['register_pic_d'],
                 );
             if ($this->saveSettings($cfg)) {
                 pdo_delete("xuan_mixloan_poster", array("pid"=>0));
