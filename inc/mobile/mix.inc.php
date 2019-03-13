@@ -114,6 +114,12 @@ if($operation=='service'){
     }
 } else if ($operation == 'feedback') {
     // 返佣反馈
+    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_feedback') . '
+		where uid=:uid order by id desc', array(':uid' => $member['id']));
+    foreach ($list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+    }
+    unset($row);
     if ($_GPC['post']) {
         $phone = trim($_GPC['phone']);
         $name = trim($_GPC['name']);

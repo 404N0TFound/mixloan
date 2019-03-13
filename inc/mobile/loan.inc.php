@@ -72,6 +72,9 @@ if($operation=='index'){
 	if (isset($_GPC['type']) && !empty($_GPC['type'])) {
 		$condition['type'] = $_GPC['type'];
 	}
+    if (isset($_GPC['keyword']) && !empty($_GPC['keyword'])) {
+        $condition['lk_name'] = $_GPC['keyword'];
+    }
 	$list = m('loan')->getList([], $condition, $orderBy);
 	if (empty($list)) {
 		show_json(-1);
@@ -240,5 +243,12 @@ if($operation=='index'){
         pdo_insert('xuan_mixloan_msg', $insert);
     }
     show_json(1,$pro['ext_info']['url']);
+} else if ($operation == 'get_code') {
+    // 获取二维码
+    $url = trim($_GPC['url']);
+    if (empty($url)) {
+        show_json(-1, [], '链接不能为空');
+    }
+    $img = m('poster')->createQRcode($url);
+    show_json(1, ['img' => $img], '获取成功');
 }
-?>

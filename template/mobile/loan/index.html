@@ -205,7 +205,22 @@
                     {/loop}
                 </ul>
             </div>
-
+            <style type="text/css">
+                .search{
+                    margin-top: 0.5rem;text-align: center;
+                }
+                .search input {
+                    width: 80%;
+                    padding: 0.4rem;
+                    border: 1px #e0e0e0 solid;
+                    width: 80%;
+                    background: white
+                }
+            </style>
+            <div class="search">
+                <input type="text" name=""placeholder="请输入小贷名字" id="searchInput">
+                <a onclick="searchBtn()">搜索</a>
+            </div>
             <div class="loanindex_shortcut">
                 <ul>
                     {loop $category $cate}
@@ -414,6 +429,10 @@
                 }
             });
         })
+        function searchBtn() {
+            var value = $('#searchInput').val();
+            window.location.href="{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'));}&keyword=" + value;
+        }
         $(function(){
             // img_load();
         })

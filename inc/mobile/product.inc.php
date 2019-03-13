@@ -325,6 +325,8 @@ if($operation=='index'){
         $condition = ' WHERE inviter=:inviter AND pid=:pid AND status>0';
     } else if ($type == 3) {
         $condition = ' WHERE inviter=:inviter AND pid=:pid AND status=-1';
+    } else if ($type == 4) {
+        $condition = ' WHERE inviter=:inviter AND pid=:pid AND status=0';
     }
     $condition .= " and degree={$degree}";
     $count_num = pdo_fetchcolumn('SELECT count(*) FROM ' . tablename('xuan_mixloan_product_apply') . "

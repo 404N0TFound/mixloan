@@ -73,6 +73,8 @@
 
         <a {if $type==1}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>1, 'degree'=>$degree])}')" >所有订单<span></span></a>
 
+        <a {if $type==4}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>4, 'degree'=>$degree])}')" >申请中<span></span></a>
+
         <a {if $type==2}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>2, 'degree'=>$degree])}')" >有效订单<span></span></a>
 
         <a {if $type==3}class="active"{/if} onclick="openNew('{php echo $this->createMobileUrl('product',['op'=>'customer_detail','pid'=>$pid,'inviter'=>$inviter,'type'=>3, 'degree'=>$degree])}')" >失效订单<span></span></a>

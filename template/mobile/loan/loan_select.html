@@ -25,54 +25,80 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    {if !is_weixin()}
-    var ws=null;
-    var webview = null;
-    function plusReady(){
-        ws=plus.webview.currentWebview();
+    function openLoan(url){
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'get_code'))}",{url:url},
+            function(data){
+                if (data.code == 1) {
+                    $('.copy_span img').attr('src', data.data.img);
+                    $('#pc_url').val(url);
+                    $('.copy_area').show();
+                }
+            },'json')
     }
-    if(window.plus){
-        plusReady();
-    }else{
-        document.addEventListener('plusready', plusReady, false);
+    function copy_short (){
+        copy_pc();
     }
-    function clickButton(){
-        var url = "{php echo $this->createMobileUrl('loan')}";
-        webview = plus.webview.create(url)
-        webview.onloading = function(){
-            plus.nativeUI.showWaiting("返回首页");
+    function close_copy (){
+        $('.copy_area').hide();
+    }
+    function copy_pc(){
+        copyToClipboard(document.getElementById("pc_url"));
+        document.activeElement.blur();
+        if(succeed){
+            layer.msg("复制成功！");
+        }else{
+            layer.msg("您的手机版本较低，请升级版本后重试！");
         }
-        webview.onloaded = function(){
-            plus.nativeUI.closeWaiting();
-        }
-        webview.addEventListener('close', function(){
-            webview=null;
-        });
-        webview.addEventListener('titleUpdate', function(){
-            webview.show();
-        });
+    }
+    function copyToClipboard(elem) {
+        // create hidden text element, if it doesn't already exist
+        var targetId = "_hiddenCopyText_";
 
-    }
-    function openLoan(url){
-        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#00a2ff','titleText':'贷款超市','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton}] }});
-        webview.onloading = function(){
-            plus.nativeUI.showWaiting("跳转中");
+        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+
+        var origSelectionStart, origSelectionEnd;
+        if (isInput) {
+            // can just use the original source element for the selection and copy
+            target = elem;
+            origSelectionStart = elem.selectionStart;
+            origSelectionEnd = elem.selectionEnd;
+        } else {
+            // must use a temporary form element for the selection and copy
+            target = document.getElementById(targetId);
+
+            if (!target) {
+                var target = document.createElement("textarea");
+                target.style.position = "absolute";
+                target.style.left = "-9999px";
+                target.style.top = "0";
+                target.id = targetId;
+                document.body.appendChild(target);
+            }
+            target.textContent = elem.textContent;
         }
-        webview.onloaded = function(){
-            plus.nativeUI.closeWaiting();
+        // select the content
+        var currentFocus = document.activeElement;
+        target.focus();
+        target.setSelectionRange(0, target.value.length);
+        // copy the selection
+        try {
+            succeed = document.execCommand("copy");
+        } catch(e) {
+            succeed = false;
         }
-        webview.addEventListener('close', function(){
-            webview=null;
-        });
-        webview.addEventListener('titleUpdate', function(){
-            webview.show();
-        });
+        // restore original focus
+        if (currentFocus && typeof currentFocus.focus === "function") {
+            currentFocus.focus();
+        }
+
+        if (isInput) {
+            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+        } else {
+            // clear temporary content
+            target.textContent = "";
+        }
+        return succeed;
     }
-    {else}
-    function openLoan(url){
-        mui.openWindow({url:url});
-    }
-    {/if}
     function openNew(url){
         mui.openWindow({url:url});
     }
@@ -256,7 +282,39 @@
         </ul>
     </div>
 </div>
-
+<style type="text/css">
+    .copy_area{
+        display: none;
+        position: fixed;
+        top: 25%;
+        background: white;
+        width: 90%;
+        left: 5%;
+        z-index: 999999999;
+        border:2px solid #eae6e6;
+        border-radius: 0.5rem;
+    }
+    .copy_span{
+        padding: 1rem;
+        max-height: 17rem;
+        overflow: hidden;
+    }
+    .copy_span span{
+        display: inline-block;
+        width: 100%;
+        font-size: 0.6rem;
+    }
+</style>
+<div class="copy_area">
+    <div class="copy_span" style="text-align: center;">
+        <img src="" style="width: 7rem; height: 7rem">
+    </div>
+    <div style="padding:0.5rem 0;text-align: center;">
+        <a style="display:inline-block;width: 45%" onclick="copy_short()">复制链接</a>
+        <a style="display:inline-block;width: 45%" onclick="close_copy()">关闭</a>
+    </div>
+</div>
+<textarea style="opacity: 0" id="pc_url"></textarea>
 {if !is_weixin()}
 <div style="height: 4rem"></div>
 {/if}
@@ -377,7 +435,7 @@
             post_data(null, null, null, null, null, null);
         }
         function post_data(order, begin, end, from, to, _id){
-            $.post("{php echo $this->createMobileUrl('loan', array('op'=>'getLoan'))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"type":_id},
+            $.post("{php echo $this->createMobileUrl('loan', array('op'=>'getLoan', 'keyword'=>$_GPC['keyword']))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"type":_id},
                 function(data){
                     if(data.code==1){
                         $("div.result_list").html("");
