@@ -58,6 +58,7 @@ else if ($operation == 'add_smallloan_submit')
 	$one_category = intval($_GPC['one_category']);
 	$two_category = intval($_GPC['two_category']);
 	$logo = trim($_GPC['logo_pic']);
+	$qrcode = trim($_GPC['qrcode_pic']);
 	$url = trim($_GPC['url']);
 	if (empty($name))
 	{
@@ -84,6 +85,7 @@ else if ($operation == 'add_smallloan_submit')
 	$insert = array();
 	$ext_info = array();
 	$ext_info['logo'] = $logo;
+	$ext_info['qrcode'] = $qrcode;
 	$ext_info['url'] = $url;
 	$insert['uid'] = $member['id'];
 	$insert['name'] = $name;

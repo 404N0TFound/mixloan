@@ -62,11 +62,15 @@
                 <input type="file" value="" id="logo" >
                 <input type="hidden" value="" id="logo_pic"  name="logo_pic" data-name="">
             </li>
+            <li><span style="height: 2rem">收款二维码<em></em></span>
+                <input type="file" value="" id="qrcode" >
+                <input type="hidden" value="" id="qrcode_pic"  name="qrcode_pic" data-name="">
+            </li>
         </ul>
     </div>
-    <!-- <div class="tips" style="text-align: center;font-size: 0.6rem;margin-top: 1rem">
+    <div class="tips" style="text-align: center;font-size: 0.6rem;margin-top: 1rem">
         提示：通过审核后能得到现金奖励哦
-    </div> -->
+    </div>
     <a href="javascript:void(0);" id="bind_card" onclick="regSubmit();">提交</a>
 </div>
 <!-- js&&插件 -->
@@ -74,6 +78,7 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/exif.js" ></script>
 <script type="text/javascript">
+    var type = '';
     function openNew(url){
         mui.openWindow({url:url,createNew:true});
     }
@@ -112,6 +117,20 @@
     })
     $("#logo").change(function(){
         type = 'logo_pic';
+        index_lay = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+        var idFile = $(this).attr("id");
+        var file = document.getElementById(idFile);
+        var fileList = file.files; //获取的图片文件
+        fileList = validateUp(fileList);
+        if(fileList.length>0){
+            var _file=fileList[0];
+            readFile(_file);
+        }
+    })
+    $("#qrcode").change(function(){
+        type = 'qrcode_pic';
         index_lay = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
@@ -195,6 +214,8 @@
                             //向后追加新上传的图片
                             if (type == 'logo_pic') {
                                 $("#logo_pic").attr("data-name",backImgUrl);
+                            } else if (type == 'qrcode_pic') {
+                                $("#qrcode_pic").attr("data-name",backImgUrl);
                             }
                         }else{
                             layer.msg(res.msg);
@@ -325,6 +346,7 @@
         $("#bind_card").css({"color":"rgba(0,0,0,0.4)","background-color":"rgba(0,0,0,0.2)","box-shadow":"0 3px 20px rgba(0,0,0,0.2)"});
         $("#bind_card").attr("onclick",'javascript:void(0);');
         var logo_pic=$("#logo_pic").attr("data-name");  //头像
+        var qrcode_pic=$("#qrcode_pic").attr("data-name");  //头像
         var name=$("input[name='name']").val();  
         var url=$("input[name='url']").val();  
         var one_category=$("#one_category").val();  
@@ -380,7 +402,7 @@
             ajax.url = "{php echo $this->createMobileUrl('smallloan', array('op' => 'add_smallloan_submit'))}";
             ajax.dataType = "json";
             ajax.type = "post";
-            ajax.data = {'name':dataTransform(name),'one_category':dataTransform(one_category),'two_category':dataTransform(two_category),'logo_pic':dataTransform(logo_pic),'url':dataTransform(url)};
+            ajax.data = {'name':dataTransform(name),'one_category':dataTransform(one_category),'two_category':dataTransform(two_category),'logo_pic':dataTransform(logo_pic),'qrcode_pic':dataTransform(qrcode_pic),'url':dataTransform(url)};
             ajax.success = function (data) {
                 layer.closeAll();
                 if (data.code == 1) {

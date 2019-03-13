@@ -21,10 +21,14 @@ if ($operation == 'list')
     if ($_GPC['status'] != '') {
         $wheres .= " and status = '{$_GPC['status']}'";
     }
-    $sql = 'select id,name,status,createtime from ' . tablename('xuan_mixloan_smallloan') . "
+    $sql = 'select id,name,status,createtime,ext_info from ' . tablename('xuan_mixloan_smallloan') . "
         where 1 " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $row['ext_info'] = json_decode($row['ext_info'], 1);
+    }
+    unset($row);
     $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_smallloan') . "
         where 1 " . $wheres);
     $pager = pagination($total, $pindex, $psize);

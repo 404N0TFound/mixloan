@@ -59,6 +59,7 @@
                     <th style='width:120px;'>标题</th>
                     <th style='width:200px;'>添加时间</th>
                     <th style='width:120px;'>状态</th>
+                    <th style='width:120px;'>奖励</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -69,6 +70,7 @@
                     <td>   {$row['name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td>   {if $row['status'] == 0}审核中{else if $row['status'] == 1}上架{else if $row['status'] == -1}驳回{else if $row['status'] == -2}下架{/if}</td>
+                    <td>   {$row['ext_info']['bonus']}</td>
                     <td  style="overflow:visible;">
                         
                         <div class="btn-group btn-group-sm" >
@@ -177,8 +179,8 @@
                     <select class="form-control" name="data[status]" >
                         <option value="0" {if $item['status'] == 0} selected {/if}>审核中</option>
                         <option value="1" {if $item['status'] == 1} selected {/if}>审核通过</option>
-                        <option value="-1" {if $item['status'] == -1} selected {/if}>下架</option>
-                        <option value="-2" {if $item['status'] == -2} selected {/if}>驳回</option>
+                        <option value="-1" {if $item['status'] == -1} selected {/if}>驳回</option>
+                        <option value="-2" {if $item['status'] == -2} selected {/if}>下架</option>
                     </select>
                 </div>
             </div>
@@ -218,12 +220,19 @@
                     <input type="text" class="form-control"  name="data[ext_info][intro]" value="{$item['ext_info']['intro']}" />
                 </div>
             </div>
-            <!-- <div class="form-group">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">收款二维码</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    {php echo tpl_form_field_image('data[ext_info][qrcode]',$item['ext_info']['qrcode']);}
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label">奖励金额</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[ext_info][bonus]" value="{$item['ext_info']['bonus']}" />
+                    <span class="help-block">打完款后填在这就行</span>
                 </div>
-            </div> -->
+            </div>
             <div class="form-group">
                 <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
                 <div class="col-sm-7 col-lg-9 col-xs-12">
@@ -357,8 +366,8 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
-                                <li><a  href="{php echo $this->createWebUrl('smallloan',array('op'=>'update','id' => $row['id']));}" title='编辑广告'><i class='fa fa-edit'></i> 编辑广告</a></li>
-                                <li><a  href="{php echo $this->createWebUrl('smallloan',array('op'=>'delete','id' => $row['id']));}" title='删除广告' onclick="return confirm('确定要删除该广告吗？');"><i class='fa fa-remove'></i> 删除广告</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('smallloan',array('op'=>'advs_update','id' => $row['id']));}" title='编辑广告'><i class='fa fa-edit'></i> 编辑广告</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('smallloan',array('op'=>'advs_delete','id' => $row['id']));}" title='删除广告' onclick="return confirm('确定要删除该广告吗？');"><i class='fa fa-remove'></i> 删除广告</a></li>
                             </ul>
                         </div>
                         
