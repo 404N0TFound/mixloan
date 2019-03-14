@@ -25,13 +25,14 @@
 <body class="bglightgray">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
-    function openLoan(url){
-        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'get_code'))}",{url:url},
+    function openLoan(id){
+        $.post("{php echo $this->createMobileUrl('loan', array('op'=>'get_code'))}",{id:id},
             function(data){
                 if (data.code == 1) {
                     $('.copy_span img').attr('src', data.data.img);
-                    $('#pc_url').val(url);
+                    $('#pc_url').val(data.data.url);
                     $('.copy_area').show();
+                    $('.intro').html(data.data.intro);
                 }
             },'json')
     }
@@ -119,6 +120,9 @@
 </style>
 
 <style type="text/css">
+    .layui-layer{
+        z-index: 9999999999999 !important;
+    }
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         div.agent-foot{padding-bottom:20px; }
         div.agent-main{padding-bottom:0px;}
@@ -308,6 +312,7 @@
 <div class="copy_area">
     <div class="copy_span" style="text-align: center;">
         <img src="" style="width: 7rem; height: 7rem">
+        <div class="intro"></div>
     </div>
     <div style="padding:0.5rem 0;text-align: center;">
         <a style="display:inline-block;width: 45%" onclick="copy_short()">复制链接</a>
@@ -463,7 +468,7 @@
                             var click=_data[i].apply_nums;
                             var ele=_data[i].ext_info.tag;//标签
                             $("div.result_list").append("<div class=\"loan_product\" data-productid="+ id +" onclick=\'clickNum(this);\'>"
-                                + "<a onclick=\"openLoan('"+ dataTransform(url) +"')\">"
+                                + "<a onclick=\"openLoan('"+ dataTransform(id) +"')\">"
                                 + "<ul>"
                                 + "<li>"
                                 + "<span><img src="+ imgs +" /></span>"

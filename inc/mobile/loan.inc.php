@@ -245,10 +245,12 @@ if($operation=='index'){
     show_json(1,$pro['ext_info']['url']);
 } else if ($operation == 'get_code') {
     // 获取二维码
-    $url = trim($_GPC['url']);
-    if (empty($url)) {
-        show_json(-1, [], '链接不能为空');
+    $id = trim($_GPC['id']);
+    if (empty($id)) {
+        show_json(-1, [], 'id不能为空');
     }
+    $item = m('loan')->getList([], ['id' => $id])[$id];
+    $url = $item['ext_info']['url'];
     $img = m('poster')->createQRcode($url);
-    show_json(1, ['img' => $img], '获取成功');
+    show_json(1, ['img' => $img, 'url' => $url, 'intro' => $item['ext_info']['conditions']], '获取成功');
 }

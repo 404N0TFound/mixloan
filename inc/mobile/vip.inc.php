@@ -856,8 +856,8 @@ if($operation=='buy'){
         message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
     }
     $list = pdo_fetchall('select b.id as uid from ' . tablename('qrcode_stat'). ' a 
-		left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
-		where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
+        left join ' . tablename('xuan_mixloan_member') . ' b on a.openid=b.openid
+        where a.qrcid=:qrcid and a.type=1 group by a.openid', array(':qrcid' => $member['id']));
     $uids = array();
     foreach ($list as $row) {
         if ($row['uid']) {
@@ -867,7 +867,11 @@ if($operation=='buy'){
     if ($uids) {
         $uid_string = '(' . implode(',', $uids) . ')';
         $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . "
-			where uid in {$uid_string}");
+            where uid in {$uid_string}") ? : 0;
+    } else {
+        $count = 0;
+    }
+    if ($_GPC['post']) {
         if ($count >= $config['partner_vip_nums']) {
             $tid = "30002" . date('YmdHis', time());
             $insert['uid'] = $member['id'];
@@ -876,13 +880,12 @@ if($operation=='buy'){
             $insert['tid'] = $tid;
             $insert['fee'] = 0;
             pdo_insert('xuan_mixloan_partner', $insert);
-            message('升级合伙人成功', $this->createMobileUrl('user'), 'sccuess');
+            show_json(1, ['url' => $this->createMobileUrl('user')], 'success');
         } else {
-            message('您还没达到升级条件呢~', $this->createMobileUrl('user'), 'error');
+            show_json(-1, [], '您还没达到升级条件呢');
         }
-    } else {
-        message('您还没有邀请小伙伴呢~', $this->createMobileUrl('user'), 'error');
     }
+    include $this->template('vip/partner_upgrade');
 } else if ($operation == 'partner_center') {
     //合伙人中心
     $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '

@@ -46,6 +46,13 @@
 			border: 0px solid #e2e2e2;
 			border-radius: 0px;
 		}
+		.cate_intro{
+			font-size: 0.34rem;
+			color: #3300ff;
+			font-weight: 800;
+			margin-left: 0.2rem;
+			text-decoration:underline;
+		}
 	</style>
 
 	{template 'common/wxshare'}
@@ -128,7 +135,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/picture/x1_1.png" /></span>
-			新品推荐<label>(共<b  id="card_num">{php echo count($new_list);}</b>款)</label>
+			新品推荐<label>(共<b  id="card_num">{php echo count($new_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_new_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -171,7 +178,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-			每日推荐<label>(共<b  id="card_num">{php echo count($hot_list);}</b>款)</label>
+			每日推荐<label>(共<b  id="card_num">{php echo count($hot_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_recom_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -211,7 +218,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-			下款报备产品<label>(共<b  id="card_num">{php echo count($loan_ready_list);}</b>款)</label>
+			下款报备产品<label>(共<b  id="card_num">{php echo count($loan_ready_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_cps_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -251,7 +258,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/picture/x2_1.png" /></span>
-			信用卡产品<label>(共<b  id="card_num">{php echo count($credit_list);}</b>款)</label>
+			信用卡产品<label>(共<b  id="card_num">{php echo count($credit_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_credit_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -291,7 +298,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-			日结产品<label>(共<b  id="card_num">{php echo count($loan_day_list);}</b>款)</label>
+			日结产品<label>(共<b  id="card_num">{php echo count($loan_day_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_day_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -331,7 +338,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-			周结产品<label>(共<b  id="card_num">{php echo count($loan_week_list);}</b>款)</label>
+			周结产品<label>(共<b  id="card_num">{php echo count($loan_week_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_week_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -371,7 +378,7 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_day.png" /></span>
-			月结产品<label>(共<b  id="card_num">{php echo count($loan_month_list);}</b>款)</label>
+			月结产品<label>(共<b  id="card_num">{php echo count($loan_month_list);}</b>款)<em class="cate_intro" bind-text="{$config['loan_month_intro']}">奖励说明</em></label>
 		</p>
 	</div>
 	<div class="three_head">
@@ -446,6 +453,10 @@
 
 
 <script type="text/javascript">
+    $('.cate_intro').click(function(){
+        var intro = $(this).attr('bind-text');
+        layer.alert(intro);
+    })
     $(document).ready(function(){
         index_lay = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景

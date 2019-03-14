@@ -75,6 +75,13 @@ class Xuan_mixloanModule extends WeModule {
                     'register_pic_c'=>$_GPC['register_pic_c'],
                     'register_pic_d'=>$_GPC['register_pic_d'],
                     'loan_open'=>$_GPC['loan_open'],
+                    'loan_new_intro'=>$_GPC['loan_new_intro'],
+                    'loan_recom_intro'=>$_GPC['loan_recom_intro'],
+                    'loan_cps_intro'=>$_GPC['loan_cps_intro'],
+                    'loan_credit_intro'=>$_GPC['loan_credit_intro'],
+                    'loan_day_intro'=>$_GPC['loan_day_intro'],
+                    'loan_week_intro'=>$_GPC['loan_week_intro'],
+                    'loan_month_intro'=>$_GPC['loan_month_intro'],
             	);
 
             if ($this->saveSettings($cfg)) {

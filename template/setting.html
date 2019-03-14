@@ -14,6 +14,7 @@
 			<li role="presentation" ><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">信用查询设置</a></li>
 			<li role="presentation" ><a href="#extend_bonus" aria-controls="extend_bonus" role="tab" data-toggle="tab">推荐有奖设置</a></li>
 			<li role="presentation" ><a href="#partner" aria-controls="partner" role="tab" data-toggle="tab">合伙人设置</a></li>
+			<li role="presentation" ><a href="#product" aria-controls="product" role="tab" data-toggle="tab">产品设置</a></li>
 			<li role="presentation" ><a href="#backup" aria-controls="backup" role="tab" data-toggle="tab">资料备份设置</a></li>
 
 		</ul>
@@ -609,6 +610,57 @@
 							<div class="col-sm-4 col-xs-12">
 								<input type="text" name="partner_bonus" value="{$setting['partner_bonus']}" class="form-control" >
 								<span class="help-block">单位为%</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane" id="credit">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						产品设置
+					</div>
+					<div class="panel-body">
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">新品设置奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_new_intro" value="{$setting['loan_new_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">每日推荐奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_recom_intro" value="{$setting['loan_recom_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">下款报备奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_cps_intro" value="{$setting['loan_cps_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">信用卡奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_credit_intro" value="{$setting['loan_credit_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">日结奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_day_intro" value="{$setting['loan_day_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">周结奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_week_intro" value="{$setting['loan_week_intro']}" class="form-control" >
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">月结奖励说明</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="loan_month_intro" value="{$setting['loan_month_intro']}" class="form-control" >
 							</div>
 						</div>
 					</div>
