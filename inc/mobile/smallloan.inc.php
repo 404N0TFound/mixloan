@@ -160,8 +160,19 @@ else if ($operation == 'get_category')
 	}
 	if (!empty($keyword))
 	{
-		$wheres .= " and name like :name";
-		$cond[":name"] = "%{$keyword}%";
+		$cates = pdo_fetchall('select id from ' . tablename('xuan_mixloan_category') . '
+			where name like :name and parent_id<>0 and type=3', array(':name' => "%{$keyword}%"));
+		if ($cates) {
+			$ids = array();
+			foreach ($cates as $cate) {
+				$ids[] = $cate['id'];
+			}
+			$id_string = implode(',', $ids);
+			$wheres .= " and two_category in {$id_string}";
+		} else {
+			$wheres .= " and name like :name";
+			$cond[":name"] = "%{$keyword}%";
+		}
 	}
 	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_smallloan') . "
 				where 1 {$wheres}", $cond);
