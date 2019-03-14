@@ -16,6 +16,10 @@ else if ($operation == 'category')
 }
 else if ($operation == 'add_loan')
 {
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		message('您还不是代理哦', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+	}
     include $this->template('smallloan/add_loan');
 }
 else if ($operation == 'my_loan')
@@ -172,10 +176,6 @@ else if ($operation == 'get_category')
 else if ($operation == 'get_code')
 {
 	$id = intval($_GPC['id']);
-	$agent = m('member')->checkAgent($member['id']);
-	if ($agent['code'] != 1) {
-		show_json(-1, [], '您还不是代理哦');
-	}
 	$item = pdo_fetch('select id,ext_info from ' . tablename('xuan_mixloan_smallloan') . ' 
 						where id=:id', array(':id' => $id));
 	$item['ext_info'] = json_decode($item['ext_info'], 1);
