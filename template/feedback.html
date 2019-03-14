@@ -58,6 +58,7 @@
                     <th style='width:120px;'>手机号</th>
                     <th style='width:120px;'>产品名称</th>
                     <th style='width:200px;'>时间</th>
+                    <th style='width:80px;'>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -70,6 +71,15 @@
                     <td>   {$row['phone']}</td>
                     <td>   {$row['pro_name']}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    <td>
+                        {if $row['status'] == 0}
+                        <span class="label label-default">审核中</span>
+                        {else if $row['status'] == -1}
+                        <span class="label label-danger">已拒绝</span>
+                        {else if $row['status'] == 1}
+                        <span class="label label-info">已通过</span>
+                        {/if}
+                    </td>
                     <td  style="overflow:visible;">
 
                         <div class="btn-group btn-group-sm" >
@@ -144,6 +154,16 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">短信图片</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <img src="{$item['ext_info']['sms_pic']}" style="max-width: 350px">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[status]" onchange="change_s()" id="status">
+                        <option value="0" {if $item['status'] == 0}selected{/if}>审核中</option>
+                        <option value="1" {if $item['status'] == 1}selected{/if}>已通过</option>
+                        <option value="-1" {if $item['status'] == -1}selected{/if}>已拒绝</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
