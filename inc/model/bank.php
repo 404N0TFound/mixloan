@@ -4,7 +4,7 @@ class Xuan_mixloan_Bank
 {
     public function getList() {
         global $_W;
-        $banks = pdo_fetchall('SELECT * FROM '.tablename("xuan_mixloan_bank")." WHERE uniacid=:uniacid", array(':uniacid'=>$_W['uniacid']));
+        $banks = pdo_fetchall('SELECT * FROM '.tablename("xuan_mixloan_bank")." WHERE uniacid=:uniacid order by id desc limit 8", array(':uniacid'=>$_W['uniacid']));
         if (empty($banks)) {
             return [];
         }

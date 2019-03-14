@@ -15,17 +15,19 @@ if($operation=='index'){
         $cate['ext_info'] = json_decode($cate['ext_info'], true);
     }
     unset($cate);
+    $new_list = m('product')->getList([], ['is_show'=>1], 'id desc', '9');
+    $new_list = m('product')->packupItems($new_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
     $banner = m('product')->getAdvs();
-    $new = m('product')->getRecommends();
-    $new = m('product')->packupItems($new);
+    // $new = m('product')->getRecommends();
+    // $new = m('product')->packupItems($new);
     // $card = m('product')->getList([], ['type'=>1, 'is_show'=>1], FALSE);
     // $loan = m('product')->getList([], ['type'=>2, 'is_show'=>1], FALSE);
     // $card = m('product')->packupItems($card);
     // $loan = m('product')->packupItems($loan);
-    $card = $loan = array();
+    $card = $loan = $new = array();
     $arr = array(
         'banner'=>$banner,
         'new'=>$new,
