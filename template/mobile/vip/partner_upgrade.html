@@ -38,11 +38,11 @@
     </div> 
     <div class="withdrawBox" data-userId="10086">
         <div class="withdrawHandle">
-            <p>升级合伙人条件<span style="font-size: 0.7rem;float: right">直推<em id="system_con">{$count}</em>个代理</span></p>
-            <p>我已达到的条件<span style="font-size: 0.7rem;float: right">直推<em id="my_con">{$config['partner_vip_nums']}</em>个代理</span></p>
+            <p>升级合伙人条件<span style="font-size: 0.7rem;float: right">直推<em id="system_con">{$config['partner_vip_nums']}</em>个代理</span></p>
+            <p>我已达到的条件<span style="font-size: 0.7rem;float: right">直推<em id="my_con">{$count}</em>个代理</span></p>
         </div>
         <div class="withdrawCard">
-            <a class="toWithdraw" id="toWithdraw" href="javascript:void(0);" {if $count < $config['partner_vip_nums']} style="background: rgba(0,0,0,0.2)"{/if}>立即升级</a>
+            <a class="toWithdraw" id="toWithdraw" href="javascript:void(0);" onclick="tiSubmit()" {if $count < $config['partner_vip_nums']} style="background: rgba(0,0,0,0.2)"{/if}>立即升级</a>
         </div>
     </div>
 <!-- js&&插件 -->
@@ -53,15 +53,14 @@
         mui.openWindow({url:url,createNew:true});
     }
     function tiSubmit(){
-        $.post("{php echo $this->createMobileUrl('vip', array('op' => 'partner_upgrade', 'post' => 1))}",{'userId':userId},
+        $.post("{php echo $this->createMobileUrl('vip', array('op' => 'partner_upgrade', 'post' => 1))}",{},
             function(res){
                 if(res.code==1){
                     layer.msg('升级成功',{time:800},function(){
-                        openNew(data.data.url)
+                        openNew(res.data.url)
                     })
                 } else{
                     layer.msg(res.msg);
-                    _click();
                     return false;
                 }
         },'json')
