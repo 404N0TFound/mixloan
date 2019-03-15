@@ -576,6 +576,90 @@ if ($operation == 'list') {
     }
     pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
     message('更新成功', referer(), 'sccuess');
+} else if ($operation == 'apply_check_all') {
+    // 批量操作
+    $values = array();
+    foreach ($_COOKIE as $key => $val) {
+        if (strstr($key, 'check')) {
+            $values[] = substr($key, 5);
+        }
+    }
+    if (empty($values)) {
+        show_json(-1, [], '请先勾选数据');
+    }
+    if (count($values) > 100) {
+        show_json(-1, [], '请一次不要勾选超过100条数据');
+    }
+    $status = trim($_GPC['status']);
+    $failed = $success = 0;
+    foreach ($values as $id)
+    {
+        $update = array();
+        $update['status'] = $status;
+        if ($status >= 1) {
+            $item = pdo_fetch('select id,degree,pid,inviter from ' . tablename("xuan_mixloan_product_apply") . "
+                where id={$id}");
+            if ($item['pid']) {
+                $info = pdo_fetch('select * from '.tablename("xuan_mixloan_product")."
+                    where id=:id", array(':id'=>$item['pid']));
+                $info['ext_info'] = json_decode($info['ext_info'], true);
+                if ($item['degree'] == 1) {
+                    $info['re_reward_money'] = $info['ext_info']['re_one_init_reward_money'];
+                } else if ($item['degree'] == 2) {
+                    $info['re_reward_money'] = $info['ext_info']['re_two_init_reward_money'];
+                } else if ($item['degree'] == 3) {
+                    $info['re_reward_money'] = $info['ext_info']['re_thr_init_reward_money'];
+                }
+                $update['re_bonus'] = floatval($info['re_reward_money']) ? : 0;
+                if ($status == 2) {
+                    if ($item['degree'] == 1) {
+                        $info['done_reward_money'] = $info['ext_info']['done_one_init_reward_money'];
+                    } else if ($item['degree'] == 2) {
+                        $info['done_reward_money'] = $info['ext_info']['done_two_init_reward_money'];
+                    } else if ($ite['degree'] == 3) {
+                        $info['done_reward_money'] = $info['ext_info']['done_thr_init_reward_money'];
+                    }
+                    $update['done_reward_money'] = floatval($info['done_reward_money']) ? : 0;
+                }
+            }
+            $one_man = m('member')->getInviterInfo($item['inviter']);
+            $inviter_two = m('member')->getInviter($one_man['phone'], $one_man['openid']);
+            if ($inviter_two) {
+                //给合伙人增加佣金
+                $update_money = $update['done_reward_money'] + $update['re_reward_money'];
+                $partner = m('member')->checkPartner($inviter_two);
+                if ($partner['code'] == 1 && $update_money>0) {
+                    $insert = array(
+                        'uniacid' => $_W['uniacid'],
+                        'uid' => $item['inviter'],
+                        'phone' => $one_man['phone'],
+                        'pid' => $item['id'],
+                        'inviter' => $inviter_two,
+                        're_bonus'=>0,
+                        'done_bonus'=>0,
+                        'extra_bonus'=>$update_money*$config['partner_bonus']*0.01,
+                        'status'=>2,
+                        'createtime'=>time(),
+                        'type'=>3
+                    );
+                    pdo_insert('xuan_mixloan_product_apply', $insert);
+                }
+            }
+        }
+        pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
+    }
+    show_json(1, [], "操作成功，成功数{$success}，失败数{$failed}");
+} else if ($operation == 'check_btn') {
+    // 检查按钮
+    $id = intval($_GPC['id']);
+    $status = $_GPC['status'];
+    if ($status == 'true') {
+        setcookie('check' . $id, 1, time() + 86400);
+        show_json(1, [], "操作成功");
+    } else {
+        setcookie('check' . $id, 0, time() - 100);
+        show_json(1, [], "取消成功");
+    }
 }
 include $this->template('agent');
 ?>

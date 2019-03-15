@@ -1,4 +1,4 @@
-{template 'common/header'}
+w{template 'common/header'}
 <style type="text/css">
     .search_result{
         width: 100%;
@@ -218,6 +218,35 @@
 </div>
 {/if}
 {else if $operation == 'apply_list'}
+<script type="text/javascript">
+    var check_all_fun = function(){
+        var checked = $('.check_all').is(':checked');
+        if (checked == true) {
+            $('input:checkbox[name=check_fill]').prop('checked', true);
+        } else {
+            $('input:checkbox[name=check_fill]').prop('checked', false);
+        }
+    }
+    function checkboxOnclick(checkbox) {
+        console.log(checkbox);
+        var id = $(checkbox).val();
+        $.post("{php echo $this->createWebUrl('agent', array('op'=>'check_btn'))}", {'id':id, status:checkbox.checked},
+            function(data) {
+            },'json');
+    }
+    var frozen_all = function(status){
+        $.post("{php echo $this->createWebUrl('agent', array('op'=>'apply_check_all'))}", {'status':status},
+            function(data) {
+                if(data.code==1){
+                    alert(data.msg);
+                    history.go(0);
+                    return false;
+                } else {
+                    alert(data.msg);
+                }
+            },'json');
+    }
+</script>
 <div class="panel panel-info">
     <div class="panel-heading">筛选</div>
     <div class="panel-body">
@@ -376,11 +405,17 @@
     </div>
 </div><div class="clearfix">
 <div class="panel panel-default" style="font-size:11px;">
-    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-heading">总数：{$total}
+        &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="frozen_all(1)"> 勾选注册</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="frozen_all(2)"> 勾选完成</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-default" onclick="frozen_all(-1)"> 勾选失败</button>
+    </div>
     <div class="panel-body">
         <table class="table table-hover" style="overflow:visible;">
             <thead class="navbar-inner">
                 <tr>
+                    <!-- <th style='width:60px;'><input type="checkbox" class="check_all" onchange="check_all_fun()">全选</td> -->
+                    <th style='width:60px;'></td>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
@@ -394,6 +429,7 @@
             <tbody>
                 {loop $list $row}
                 <tr>
+                    <td>   <input type="checkbox" value="{$row['id']}" onclick="checkboxOnclick(this)" name="check_fill" {if $_COOKIE['check' . $row['id']]}checked{/if}></td>
                     <td>   {$row['id']}</td>
                     <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>

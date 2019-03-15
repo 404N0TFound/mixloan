@@ -119,7 +119,11 @@
                     $('#intro').text(data.data.intro)
                     $('.copy_area').show();
                 }else{
-                    layer.msg(data.msg);
+                    layer.msg(data.msg, function(){
+                        if (data.data.url) {
+                            window.location.href=data.data.url;
+                        }
+                    });
                     return false;
                 }
             },'json')
