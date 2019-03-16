@@ -594,6 +594,7 @@ if ($operation == 'list') {
     $failed = $success = 0;
     foreach ($values as $id)
     {
+        setcookie('check' . $id, 0, time() - 100);
         $update = array();
         $update['status'] = $status;
         if ($status >= 1) {
@@ -646,7 +647,12 @@ if ($operation == 'list') {
                 }
             }
         }
-        pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
+        $result = pdo_update('xuan_mixloan_product_apply', $update, array('id' => $id));
+        if ($result) {
+            $success ++ ;
+        } else {
+            $failed ++ ;
+        }
     }
     show_json(1, [], "操作成功，成功数{$success}，失败数{$failed}");
 } else if ($operation == 'check_btn') {
