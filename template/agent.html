@@ -1,4 +1,4 @@
-w{template 'common/header'}
+{template 'common/header'}
 <style type="text/css">
     .search_result{
         width: 100%;
@@ -222,9 +222,15 @@ w{template 'common/header'}
     var check_all_fun = function(){
         var checked = $('.check_all').is(':checked');
         if (checked == true) {
-            $('input:checkbox[name=check_fill]').prop('checked', true);
+            var check = $(".check_fill").not(":checked");
+            $.each(check, function(i, val){
+                $(val).click();
+            })
         } else {
-            $('input:checkbox[name=check_fill]').prop('checked', false);
+            var check = $(".check_fill:checked");
+            $.each(check, function(i, val){
+                $(val).click();
+            })
         }
     }
     function checkboxOnclick(checkbox) {
@@ -414,8 +420,7 @@ w{template 'common/header'}
         <table class="table table-hover" style="overflow:visible;">
             <thead class="navbar-inner">
                 <tr>
-                    <!-- <th style='width:60px;'><input type="checkbox" class="check_all" onchange="check_all_fun()">全选</td> -->
-                    <th style='width:60px;'></td>
+                    <th style='width:60px;'><input type="checkbox" class="check_all" onchange="check_all_fun()">全选</td>
                     <th style='width:80px;'>ID</th>
                     <th style='width:120px;'>邀请者</th>
                     <th style='width:120px;'>被邀请者</th>
@@ -429,7 +434,7 @@ w{template 'common/header'}
             <tbody>
                 {loop $list $row}
                 <tr>
-                    <td>   <input type="checkbox" value="{$row['id']}" onclick="checkboxOnclick(this)" name="check_fill" {if $_COOKIE['check' . $row['id']]}checked{/if}></td>
+                    <td>   <input type="checkbox" value="{$row['id']}" onclick="checkboxOnclick(this)" name="check_fill" class="check_fill" {if $_COOKIE['check' . $row['id']]}checked{/if}></td>
                     <td>   {$row['id']}</td>
                     <td>   <img src="{$row['inviter']['avatar']}" width="35px">&nbsp;{$row['inviter']['nickname']}</td>
                     <td>   <img src="{$row['avatar']}" width="35px">&nbsp;{$row['realname']}</td>

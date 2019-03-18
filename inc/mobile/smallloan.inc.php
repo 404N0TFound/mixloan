@@ -12,6 +12,10 @@ if ($operation == 'default')
 }
 else if ($operation == 'category')
 {
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		message('您还不是代理哦', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+	}
     include $this->template('smallloan/category');
 }
 else if ($operation == 'add_loan')
