@@ -587,8 +587,8 @@ if ($operation == 'list') {
     if (empty($values)) {
         show_json(-1, [], '请先勾选数据');
     }
-    if (count($values) > 100) {
-        show_json(-1, [], '请一次不要勾选超过100条数据');
+    if (count($values) > 1000) {
+        show_json(-1, [], '请一次不要勾选超过1000条数据');
     }
     $status = trim($_GPC['status']);
     $failed = $success = 0;
