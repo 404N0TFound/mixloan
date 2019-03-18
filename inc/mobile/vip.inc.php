@@ -19,45 +19,65 @@ if($operation=='buy'){
 	include $this->template('vip/buy');
 } else if ($operation == 'pay') {
 	//付钱
-	if ($member['id'] == 11) {
-		$config['buy_vip_price'] = 0.01;
-	}
-	if (is_weixin()) {
-		header("location:{$this->createMobileUrl('vip', ['op'=>'pay_by_card'])}");
-		// $tid = "10001" . date('YmdHis', time());
-		// $title = "购买{$config['title']}代理会员";
-		// $fee = $config['buy_vip_price'];
-		// $params = array(
-		//     'tid' => $tid, 
-		//     'ordersn' => $tid, 
-		//     'title' => $title, 
-		//     'fee' => $fee, 
-		//     'user' => $member['id'], 
-		// );
-		// //调用pay方法
-		// $this->pay($params);
-	} else {
-        $notify_url = 'http://www.edcfw.com/addons/xuan_mixloan/lib/wechat/payResult.php';
-        $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
-		            where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
-        if (empty($record)) {
+    if (!$member['phone'])
+    {
+        message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
+    }
+    if ($member['id'] == 3)
+    {
+        $config['buy_vip_price'] = 0.01;
+    }
+    if (is_weixin())
+    {
+        $tid = "10001" . date('YmdHis', time());
+        $title = "购买{$config['title']}代理会员";
+        $fee = $config['buy_vip_price'];
+        $params = array(
+            'tid' => $tid,
+            'ordersn' => $tid,
+            'title' => $title,
+            'fee' => $fee,
+            'user' => $openid,
+        );
+        //调用pay方法
+        $this->pay($params);
+    }
+    else
+    {
+        if ($_GPC['way'] == 'alipay')
+        {
             $tid = "10001" . date('YmdHis', time());
-            $trade_no = "ZML".date("YmdHis");
-            $insert = array(
-                'notify_id'=>$trade_no,
-                'tid'=>$tid,
-                'createtime'=>time(),
-                'uid'=>$member['id'],
-                'uniacid'=>$_W['uniacid'],
-                'fee'=>$config['buy_vip_price'],
-                'is_pay'=>0,
-                'type'=>1
+            $title = "购买{$config['title']}代理会员";
+            $fee = $config['buy_vip_price'];
+            $params = array(
+                'tid' => $tid,
+                'ordersn' => $tid,
+                'title' => $title,
+                'fee' => $fee,
+                'user' => $openid,
+                'module' => 'xuan_mixloan'
             );
-            pdo_insert('xuan_mixloan_paylog', $insert);
-        } else {
-            if ($record['createtime']+60 < time())
-            {
-                //超过1分钟重新发起订单
+            $insert = array(
+                'openid' => $openid,
+                'uniacid' => $_W['uniacid'],
+                'acid' => $_W['uniacid'],
+                'tid' => $tid,
+                'fee' => $fee,
+                'status' => 0,
+                'module' => 'xuan_mixloan',
+                'card_fee' => $fee,
+            );
+            pdo_insert('core_paylog', $insert);
+            $url = url('mc/cash/alipay') . "&params=" . base64_encode(json_encode($params));
+            include $this->template('vip/openHref');
+        }
+        else if ($_GPC['way'] == 'wechat')
+        {
+            message('sorry！微信支付维护中', '', 'error');
+            $notify_url = 'http://crmj168.com/addons/xuan_mixloan/lib/wechat/payResult.php';
+            $record = pdo_fetch('select * from ' .tablename('xuan_mixloan_paylog'). '
+		            where type=1 and is_pay=0 and uid=:uid order by id desc', array(':uid'=>$member['id']));
+            if (empty($record)) {
                 $tid = "10001" . date('YmdHis', time());
                 $trade_no = "ZML".date("YmdHis");
                 $insert = array(
@@ -71,50 +91,41 @@ if($operation=='buy'){
                     'type'=>1
                 );
                 pdo_insert('xuan_mixloan_paylog', $insert);
+            } else {
+                if ($record['createtime']+60 < time())
+                {
+                    //超过1分钟重新发起订单
+                    $tid = "10001" . date('YmdHis', time());
+                    $trade_no = "ZML".date("YmdHis");
+                    $insert = array(
+                        'notify_id'=>$trade_no,
+                        'tid'=>$tid,
+                        'createtime'=>time(),
+                        'uid'=>$member['id'],
+                        'uniacid'=>$_W['uniacid'],
+                        'fee'=>$config['buy_vip_price'],
+                        'is_pay'=>0,
+                        'type'=>1
+                    );
+                    pdo_insert('xuan_mixloan_paylog', $insert);
+                }
+                else
+                {
+                    $trade_no = $record['notify_id'];
+                }
             }
-            else
-            {
-                $trade_no = $record['notify_id'];
+            $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
+            if ($result['code'] == 1) {
+                $redirect_url = urlencode($_W['siteroot'] . 'app/' .
+                    $this->createMobileUrl('vip', array('op'=>'checkPay')));
+                $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
+            } else {
+                message('请稍后再试', $this->createMobileUrl('user'), 'error');
             }
+            include $this->template('vip/openHref');
         }
-        $result = m('pay')->H5pay($trade_no, $config['buy_vip_price'], $notify_url);
-        if ($result['code'] == 1) {
-            $redirect_url = urlencode($_W['siteroot'] . 'app/' .
-                $this->createMobileUrl('vip', array('op'=>'checkPay')));
-            $url = "{$result['data']['url']}&redirect_url={$redirect_url}";
-        } else {
-            message('请稍后再试', $this->createMobileUrl('user'), 'error');
-        }
-        include $this->template('vip/openHref');
-//		header("location:{$this->createMobileUrl('vip', ['op'=>'pay_by_card'])}");
-	}
-	exit();
-} else if ($operation == 'pay_by_card') {
-	if ($_GPC['post'] == 1) {
-		$phone = trim($_GPC['phone']);
-		$certno = trim($_GPC['idcard']);
-		$realname = trim($_GPC['realname']);
-		$bankcard = trim($_GPC['bankcard']);
-		if (empty($phone) || empty($certno) ||empty($realname) ||empty($bankcard)) {
-			message('参数不齐','','error');
-		}
-		if ($member['id'] == 1747) {
-			$config['buy_vip_price'] = 1;
-		}
-		$merchOrderId = "10001" . date('YmdHis', time());
-		$insert = array(
-			'uniacid' => $_W['uniacid'],
-			'uid' => $member['id'], 
-			'notify_id' => $merchOrderId,
-			'tid' => $merchOrderId,
-			'type' => 1,
-			'fee' => $config['buy_vip_price'],
-			'createtime' => time()
-		);
-		pdo_insert('xuan_mixloan_paylog', $insert);
-		require_once(IA_ROOT . '/addons/xuan_mixloan/lib/yilian/OrderH5.php');
-	}
-	include $this->template('vip/pay_by_card');
+    }
+    exit;
 } else if ($operation == 'notify_url') {
     $notify_id = $_GPC['notify_id'];
     if (empty($notify_id)) {

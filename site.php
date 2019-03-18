@@ -50,13 +50,19 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
         global $_W, $_GPC;
         $uniacid=$_W['uniacid'];
         $fee = $params['fee'];
-        $openid = m('user')->getOpenid();
-        $member = m('member')->getMember($openid);
         $config = $this -> module['config'];
-        if (empty($member['id'])) {
-            header("location:{$this->createMobileUrl('user')}");
-        }
-        if ($params['result'] == 'success' && $params['from'] == 'return') {
+        if ($params['result'] == 'success') {
+            if ($params['from']=='notify') {
+                $openid = pdo_fetchcolumn('select openid from '.tablename('core_paylog').'
+					where tid=:tid', array(':tid'=>$params['tid']));
+                $member = m('member')->getMember($openid);
+            } else {
+                $openid = m('user')->getOpenid();
+                $member = m('member')->getMember($openid);
+            }
+            if (empty($openid)) {
+                message('请不要重复提交', $this->createMobileUrl('user'), 'error');
+            }
             $type = substr($params['tid'],0,5);
             if ($type=='10001') {
                 //认证付费
@@ -91,6 +97,10 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
                 $account = WeAccount::create($_W['acid']);
                 $account->sendTplNotice($openid, $config['tpl_notice2'], $datam, $url);
                 $inviter = m('member')->getInviter($member['phone'], $member['openid']);
+                $check = m('member')->checkAgent($inviter);
+                if ($check['code'] != 1) {
+                    message("支付成功", $this->createMobileUrl('user'), "success");
+                }
                 if ($inviter && $config['inviter_fee_one']) {
                     $insert_i = array(
                         'uniacid' => $_W['uniacid'],

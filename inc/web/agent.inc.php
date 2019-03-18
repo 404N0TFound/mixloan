@@ -306,29 +306,28 @@ if ($operation == 'list') {
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
-    $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    $bank = pdo_fetch('select realname,bankname,banknum,phone from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
+    $member = pdo_fetch('select avatar,nickname,openid from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
+    if (false) {
+        //id 28之后改为微信二维码收款
+        $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
+    } else {
+        $bank = pdo_fetch('select * from '.tablename("xuan_mixloan_creditCard")." where id=:id",array(':id'=>$item['bank_id']));
+    }
     if ($_GPC['post'] == 1) {
-        if ($_GPC['data']['status'] == 1 && !empty($item['ext_info']['SN'])) {
-            $ACC_NO = $bank['banknum'];
-            $ACC_NAME = $bank['realname'];
-            $AMOUNT = $item['bonus'];
-            $BANK_NAME = $bank['bankname'];
-            $SN = 'SN' . time();
-            $MER_ORDER_NO = 'ON' . time();
-            $BATCH_NO = 'RHB' . date('Ymd') . $SN;
-            require_once('../addons/xuan_mixloan/lib/yilian_pay/pay.php');
-            if ($res['TRANS_STATE'] != "0000") {
-                message('打款失败', $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
-            }
-            if ($res['PAY_STATE'] == '0000' || $res['PAY_STATE'] == '004A' || $res['PAY_STATE'] == '00A4') {
-                $SN = $res['TRANS_DETAILS'][0]['SN'];
-                $MER_ORDER_NO = $res['TRANS_DETAILS'][0]['MER_ORDER_NO'];
-                $_GPC['data']['ext_info']['SN'] = $SN;
-                $_GPC['data']['ext_info']['batchNo'] = $BATCH_NO;
-                $_GPC['data']['ext_info']['MER_ORDER_NO'] = $MER_ORDER_NO;
-            } else {
-                message($res['TRANS_DETAILS'][0]['REMARK'], $this->createWebUrl('agent', array('op' => 'withdraw_list')), 'error');
+        if ($bank['type'] == 2 && empty($item['ext_info']['payment_no']) && $_GPC['data']['status'] == 1) {
+            //支付宝收款接口
+            $cookie = 'withdraw' . $id;
+            if (!$_COOKIE[$cookie])
+            {
+                setcookie($cookie, 1, time()+120);
+                $payment_no = date('YmdHis');
+                $result = m('alipay')->transfer($payment_no, $item['bonus'], $bank['phone'], $bank['realname']);
+                if ($result['code'] == -1) {
+                    setcookie($cookie, 0, time()+120);
+                    message($result['msg'], '', 'error');
+                } else {
+                    $_GPC['data']['ext_info']['payment_no'] = $result['order_id'];
+                }
             }
         }
         if ($_GPC['data']['ext_info']) $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
