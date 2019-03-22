@@ -168,7 +168,7 @@ function RGBToHex($rgb){
  *   缩短地址
  **/
 function shortUrl($target) {
-    $target = str_replace('wwxx.huodong007.cn', 'wq.evwang.com.cn', $target);
+    $target = str_replace('wwxx.huodong007.cn', 'wx.71trm.cn', $target);
     $target_url = urlencode($target);
     $short = pdo_fetch("SELECT short_url,createtime FROM ".tablename("xuan_mixloan_shorturl")." WHERE target_url=:target_url ORDER BY id DESC", array(':target_url'=>$target));
     if (!$short || $short['createtime'] < time()-86400*10) {
