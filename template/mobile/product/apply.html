@@ -42,13 +42,13 @@
 </div>
 <div class="daili_footer">
     {if !$is_close}
-    <div class="footer_apply">
+    <!-- <div class="footer_apply">
         <a class="dummyApply" id="dummyApply" href="{php echo $this->createMobileUrl('vip', array('op' => 'app_register', 'inviter' => $_GPC['inviter']))}">
             我要代理
         </a>
-    </div>
+    </div> -->
     {/if}
-    <div class="footer_agent" {if $is_close}style="width:100%"{/if}>
+    <div class="footer_agent" <!-- {if $is_close}style="width:100%"{/if} -->>
         <a id="daili_toapply">我要申请</a>
     </div>
 </div>
@@ -61,7 +61,7 @@
 <div class="popLoanApplyCommon popLoanApply">
     <div class="popLoanApplyCover"></div>
     <div class="popLoanMain">
-        <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{$config['title']}提供技术支持</a></div>
+        <!-- <div class="popLoanLink"><img src="{php echo tomedia($config['logo']);}"><a href="javascript:void(0);">{$config['title']}提供技术支持</a></div> -->
         <div class="popLoanInfo">
             <ul>
                 <li><label><img src="../addons/xuan_mixloan/template/style/picture/name2.png"></label><input type="" name="name" id="applyname" placeholder="请输入您的姓名"></li>
