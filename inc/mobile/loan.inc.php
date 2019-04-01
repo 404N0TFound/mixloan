@@ -119,7 +119,7 @@ if($operation=='index'){
     }
     $inviter = intval($_GPC['inviter']);
     if (sha1(md5(strtolower($_GPC['cache']))) != $_COOKIE['authcode']) {
-        show_json(-1, [], "图形验证码不正确");
+        // show_json(-1, [], "图形验证码不正确");
     }
     if ($inviter == $member['id']) {
         show_json(-1, [], "您不能自己邀请自己");
