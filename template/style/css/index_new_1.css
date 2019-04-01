@@ -137,7 +137,7 @@ div.agent-link ul li a.today-cell .new-icon{display: block;width: 20px;height: 2
 .flexbox .item-cell {-webkit-box-flex:1;-moz-box-flex:1;-webkit-flex:1;-ms-flex:1    flex:1;}
 
 /*代理中心首页样式*/
-div.agent-secmes {width:100%;color:#fff;position:relative;background: #00a2ff;}
+div.agent-secmes {width:100%;color:#fff;position:relative;background: #5386d2;}
 div.agent-secmes .agent-secmes_next{width:95%;margin:0 auto;padding:6.7% 0;}
 div.agent-secmes .logo {display:block;width:20%;text-align:left;float: left;}
 div.agent-secmes .logo a {display:inline-block;text-align: left;}

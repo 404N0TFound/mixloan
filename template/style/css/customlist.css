@@ -96,7 +96,7 @@ div.cusDetail{margin-top: 5px;background: #fff;}
 div.dtlCommon ul{overflow: hidden;}
 div.dtlCommon ul li{float: left;width: 40%;text-align: center;font-size: 0.62rem;height:1.9rem;line-height: 1.9rem;border-bottom: 1px solid #eee;}
 div.dtlCommon ul li:last-child{width: 20%;}
-div.dtlCommon ul li a{display: inline-block;width: 2rem; height: 1rem;line-height: 1rem; font-size: 0.5rem;padding:0 5px; color: #00a2ff;box-sizing: border-box;border:1px solid #00a2ff;border-radius: 2px;letter-spacing: 0.05rem;}
+div.dtlCommon ul li a{display: inline-block;width: 2rem; height: 1rem;line-height: 1rem; font-size: 0.5rem;padding:0 5px; color: #5386d2;box-sizing: border-box;border:1px solid #5386d2;border-radius: 2px;letter-spacing: 0.05rem;}
 div.dtlCommon ul li a.refused{color: #ff7070;border-color: #ff7070;}
 div.dtlCommon ul li a.checked{color: #00d0c0;border-color: #00d0c0;letter-spacing: 0;}
 /*div.resultList{margin-top: 2.2rem;}*/
