@@ -34,6 +34,8 @@
     div.agent-foot p>img {
         width:1.1rem;
     }
+    div.ACmain_top{background: linear-gradient(to right, #5386d2, #56bdf7);}
+    div.account_tab ul li.on a{color:#5386d2;}
 </style>
 <body style="background: #f0f0f0;">
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
@@ -52,16 +54,16 @@
     <a class="return" href="{php echo $this->createMobileUrl('mix', array('op'=>'tutorials'))}"><img src="../addons/xuan_mixloan/template/style/picture/problem_1.png" /></a>
 </div>
 <div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>首页</p>
+    </a>
     {if $config['loan_open']}
     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
         <p>贷款大全</p>
     </a>
     {/if}
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>今日口子</p>
-    </a>
     {if $config['loan_open']}
     <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">

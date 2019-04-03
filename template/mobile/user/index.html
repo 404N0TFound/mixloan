@@ -50,6 +50,7 @@
     </style>
 </head>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.liMarquee.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
         mui.openWindow({url:url,createNew:true});
@@ -86,6 +87,8 @@
         background: #f9153d;
         color: white;
     }
+    .nowarp{white-space: nowrap;}
+    .str_origin{position: absolute;cursor:move;}
 </style>
 <div class="app_header">
     <div class="app_header_back">
@@ -95,6 +98,24 @@
 </div>
 {/if}
 <body class="platform_mobile">
+<div  class="ng-scope" style="">
+    <div style="background: #fdfbec;color:#ffb05a;padding: 0 10px">
+        <div class="dispflex" style="display: flex;align-items: center;">
+            <div class="fl nowarp" style="line-height: 30px;">
+                通知：
+            </div>
+            <div class="dowebok fr str_wrap nowarp"  style="height: 20px;overflow: hidden;font-size: 12px;flex: 1;position: relative;">
+                <div class="str_move str_origin" style="">
+                    {$config['notice']}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script >
+        $('.dowebok').liMarquee('destroy');
+        $('.dowebok').liMarquee();
+    </script>
+</div>
 <div class="content bottom mod-user">
     <div class="mod-user-header">
         <div class="qsc-list-group">
@@ -267,17 +288,17 @@
     </div>
     <div class="" style="height:80px;display:black"></div>
     <div class="agent-foot">
-    {if $config['loan_open']}
+        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
+            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+            <p>首页</p>
+            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+        </a>
+        {if $config['loan_open']}
         <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
             <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
             <p>贷款大全</p>
         </a>
         {/if}
-        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
-            <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-            <p>发现</p>
-            <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
-        </a>
         {if $config['loan_open']}
         <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')" class="home" >
             <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">

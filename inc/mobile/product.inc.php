@@ -252,6 +252,48 @@ if($operation=='index'){
 } else if ($operation == 'customer') {
 	//客户列表
 	include $this->template('product/customer');
+} else if ($operation == 'get_list') {
+    // 获取产品
+    $list = m('product')->getList(['id', 'name', 'type'], ['is_show' => 1]);
+    show_json(1, ['list' => array_values($list)], '获取成功');
+} else if ($operation == 'get_customer') {
+    // 获取客户
+    $ids       = trim($_GPC['ids']);
+    $status    = intval($_GPC['status']);
+    $degree    = intval($_GPC['degree']);
+    $page      = intval($_GPC['page']) ? : 1;
+    $pageSize  = intval($_GPC['pageSize']) ? : 10;
+    if (empty($member['id'])) {
+        show_json(-1, [], '还没登陆呢');
+    }
+    $wheres    = '';
+    if (!empty($ids)) {
+        $ids = rtrim($ids, ',');
+        $wheres .= " and pid in ({$ids})";
+    }
+    if ($status == 1) {
+        $wheres .= " and status >= 1";
+    } else {
+        $wheres .= " and status = {$status}";
+    }
+    $wheres .= " and degree = {$degree}";
+    $sql = 'select * from ' . tablename('xuan_mixloan_product_apply') . " 
+                    where inviter={$member['id']} " . $wheres . ' ORDER BY id DESC';
+    $sql.= " limit " . ($page - 1) * $pageSize . ',' . $pageSize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row)
+    {
+        $product = pdo_fetch('select name,ext_info from ' . tablename('xuan_mixloan_product') . '
+                        where id=:id', array(':id' => $row['pid']));
+        $product['ext_info'] = json_decode($product['ext_info'], 1);
+        $row['pro_logo'] = tomedia($product['ext_info']['logo']);
+        $row['pro_name'] = $product['name'];
+        $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+    }
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " 
+                            where inviter={$member['id']} " . $wheres . ' ORDER BY id DESC');
+    $totalPage = ceil($total / $pageSize);
+    show_json(1, ['list' => $list, 'totalPage' => $totalPage], '获取成功');
 } else if ($operation == 'customer_list') {
 	//客户列表接口
     $month = (int)$_GPC['month'];

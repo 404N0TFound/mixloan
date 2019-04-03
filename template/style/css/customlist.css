@@ -117,7 +117,7 @@ div.checkRCommon ul li:last-child{border:none;}
 div.checkRCommon ul li a{position: absolute;bottom: 0;left: 10%; display: inline-block;border-radius: 5px;padding:0.2rem 0.2rem 0.15rem 0.2rem;overflow: hidden;}
 div.checkRCommon ul li a label{float: left; margin-right: 0.1rem; display: inline-block;width: 0.7rem;height: 0.7rem; /*background: #fff;*/border-radius: 100%;}
 div.checkRCommon ul li a span{float: left;display: inline-block;height:0.8rem;line-height: 0.8rem; color: #fff;font-size: 0.58rem;width: 2.5rem;text-align: center;}
-div.checkRCommon ul li a.passed{background: #0195ff;}
+div.checkRCommon ul li a.passed{background: #5386d2;}
 div.checkRCommon ul li a.applying{background: #ffad67;}
 div.checkRCommon ul li a.refused{background: #ff7070;}
 div.checkRCommon ul li a.checkOut{background:#00d0c0;}

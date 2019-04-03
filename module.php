@@ -82,6 +82,7 @@ class Xuan_mixloanModule extends WeModule {
                     'loan_day_intro'=>$_GPC['loan_day_intro'],
                     'loan_week_intro'=>$_GPC['loan_week_intro'],
                     'loan_month_intro'=>$_GPC['loan_month_intro'],
+                    'notice'=>$_GPC['notice'],
             	);
 
             if ($this->saveSettings($cfg)) {
@@ -137,6 +138,14 @@ class Xuan_mixloanModule extends WeModule {
         $credit = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('credit', array('op'=>'')) );
         $extend_bonus = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'extend_bonus')) );
         $find_user = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('index', array('op'=>'find_user')) );
+
+        $my_message = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'message_type')) );
+        $partner_join = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op'=>'partner_join_type')) );
+        $help = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('help', array('op'=>'')) );
+        $message_type_a = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'new_message', 'type'=>1)) );
+        $message_type_b = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'new_message', 'type'=>2)) );
+        $message_type_c = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('user', array('op'=>'new_message', 'type'=>3)) );
+        $credit_card = $this->shortUrl( $_W['siteroot'] . 'app/' .$this->createMobileUrl('channel', array('op'=>'credit_card')) );
         include $this->template('setting');
 	}
     public function shortUrl($target) {

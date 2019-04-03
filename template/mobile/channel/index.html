@@ -27,6 +27,7 @@
 
     <!-- <script src="../addons/xuan_mixloan/template/style/js/bridge_1.js"></script> -->
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/pop_1_back.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.liMarquee.min.js"></script>
     <style>
         .bglightgray{background-color: #eee;}
         .fl{float: right;}
@@ -53,11 +54,12 @@
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         div.agent-foot{padding-bottom:20px; }
         div.agent-main{padding-bottom:0px;}
+        .search_area{padding-top: 3rem}
     }
     .agent-foot.texttotal{align-items:normal;}
-    div.agent-footer{height: 70px}
+    div.agent-footer{height: 50px;position: relative;padding-bottom: 0}
     div.agent-foot.texttotal p{
-        line-height: 90px;
+        line-height: 45px;
     }
     div.scroller{padding-top: 80px}
     div.to_search{bottom:10%;}
@@ -102,27 +104,89 @@
         vertical-align: middle;
         line-height: 1.5em;
     }
+    div.scroller{padding-top: 0}
+    .nowarp{white-space: nowrap;}
+    .str_origin{position: absolute;cursor:move;}
+    .search_area{
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+    input.search{
+        width: 90%;
+        border: 1px solid gainsboro;
+        padding: 0.5rem;
+        text-align: center;
+        background: white;
+    }
 </style>
 <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
 {/if}
+<div class="search_area" style="width: 100%;text-align: center; padding: 0.5rem 0;background: #5386d2;">
+    <form action="{php echo $this->createMobileUrl('channel', array('op' => 'search', 'type'=>1))}" method="post">
+    <input type="search" name="keyword" placeholder="搜索" class="search" style="width: 90%;
+        border: none;
+        padding: 0.5rem;
+        text-align: center;
+        background: white;
+        border-radius: 0.1rem;">
+    </form>
+</div>
+<div class="swiper-container pro-swiper" style="background: white" id="category">
+    <div class="swiper-wrapper">
+        {loop $subjects $cat}
+        <div class="swiper-slide" style="width:100%;">
+            <ul style="overflow: hidden; padding: 5px 10px;">
+                {loop $cat $row}
+                <li style="width: 25%; padding: 8px 0; float: left;">
+                    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'subject', 'id'=>$row['id']));}')">
+                        <p style="text-align: center;height: 40px; overflow: hidden;"><img src="{php echo tomedia($row['ext_info']['pic']);}" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                        <p style="text-align: center;height: 20px; overflow: hidden;"> {$row['name']}</p>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        {/loop}
+    </div>
+    <div class="swiper-pagination pro-pagination"></div>
+</div>
+<div  class="ng-scope" style="">
+    <div style="background: #fdfbec;color:#ffb05a;padding: 0 10px">
+        <div class="dispflex" style="display: flex;align-items: center;">
+            <div class="fl nowarp" style="line-height: 30px;">
+                通知：
+            </div>
+            <div class="dowebok fr str_wrap nowarp"  style="height: 20px;overflow: hidden;font-size: 12px;flex: 1;position: relative;">
+                <div class="str_move str_origin" style="">
+                    {$config['notice']}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script >
+        $('.dowebok').liMarquee('destroy');
+        $('.dowebok').liMarquee();
+    </script>
+</div>
 <div class="agent-foot texttotal agent-footer">
     <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png"  style="width: 18px" /><span>口子</span></p></a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png"  style="width: 18px" /><span>信用卡</span></p></a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png"  style="width: 18px" /><span>推广素材</span></p></a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png" style="width: 18px"  /><span>新手教程</span></p></a>
 </div>
 {if !is_weixin()}
 <div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot.png" /></p>
+        <p>首页</p>
+        <!-- <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span> -->
+    </a>
     {if $config['loan_open']}
     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
         <p>贷款大全</p>
     </a>
     {/if}
-    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="on">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot.png" /></p>
-        <p>今日口子</p>
-        <!-- <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span> -->
-    </a>
     {if $config['loan_open']}
     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" style="width: 3.5rem;height: 3.5rem">
@@ -173,9 +237,9 @@
     {if !is_weixin()}
     <div style="height: 4rem"></div>
     {/if}
-    <div class="to_search" data-condition="1">
+    <!-- <div class="to_search" data-condition="1">
         <img src="../addons/xuan_mixloan/template/style/picture/search_white_1.png" />
-    </div>
+    </div> -->
 
 </body>
 <script>

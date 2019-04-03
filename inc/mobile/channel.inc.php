@@ -21,7 +21,22 @@ if ($member['status'] == '0') {
 if($operation=='index'){
 	//首页
 	$advs = m('channel')->getAdvs();
-	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>1]);
+	$subjects = array();
+	$subjects_list = m('channel')->getSubjectList(['id', 'name', 'ext_info']);
+    $count = 0;
+    foreach ($subjects_list as $key => $value) {
+        $count++;
+        $subject[] = $value;
+        if ($count==8) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        } else if ((count($subjects_list) - 1) == $key) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        }
+    }
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);
     $channel_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'id DESC', 6);
 	$credit_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'sort DESC', 3);
@@ -31,7 +46,22 @@ if($operation=='index'){
 } elseif ($operation == 'credit_card') {
 	//信用卡
 	$advs = m('channel')->getAdvs();
-	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>2]);
+	$subjects_list = m('channel')->getSubjectList(['id', 'name', 'ext_info']);
+    $count = 0;
+    foreach ($subjects_list as $key => $value) {
+        $count++;
+        $subject[] = $value;
+        if ($count==8) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        }
+        if ((count($subjects_list) - 1) == $key) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        }
+    }
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);
     $credit_low_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'id DESC', 6);
 	$credit_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>2], 'sort DESC', 3);
@@ -40,6 +70,22 @@ if($operation=='index'){
 	include $this->template('channel/credit_card');
 } elseif ($operation == 'course') {
 	//新手教程
+	$subjects_list = m('channel')->getSubjectList(['id', 'name', 'ext_info']);
+    $count = 0;
+    foreach ($subjects_list as $key => $value) {
+        $count++;
+        $subject[] = $value;
+        if ($count==8) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        }
+        if ((count($subjects_list) - 1) == $key) {
+            $subjects[] = $subject;
+            $subject = array();
+            $count = 0;
+        }
+    }
 	$course_list = m('channel')->getList(['id', 'title'], ['type'=>3], 'sort DESC');
 	include $this->template('channel/course');
 } else if ($operation == 'getNew') {
@@ -142,7 +188,7 @@ if($operation=='index'){
 	include $this->template('channel/hot');
 } else if ($operation == 'subject') {
 	//专题
-	$subject = m('channel')->getSubjectList(['id','ext_info'], ['id'=>$_GPC['id']]);
+	$subject = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['id'=>$_GPC['id']]);
 	if (empty($subject)) {
 		message("专题已被删除啦");
 	} else {

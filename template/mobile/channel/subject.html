@@ -41,17 +41,32 @@
 </head>
 <body class="bglightgray">
 
+{if !is_weixin()}
+<style type="text/css">
+    .app_header{height: 80px;width: 100%;background: white}
+    .app_header_back{text-align: center;color: white}
+    .app_header_back{padding-top: 48px;padding-left: 4%}
+    .app_header_back img{position: absolute;left:4%;width: 12px;}
+    .app_header_back span{margin-top: 10px;font-size: 17px;color: #ffa648}
+</style>
+<div class="app_header">
+    <div class="app_header_back">
+        <img src="../addons/xuan_mixloan/template/style/images/left_1.png" onclick="mui.back()">
+        <span>{$subjectRes['name']}</span>
+    </div>
+</div>
+{/if}
 
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
         <div class="scroller">
             <!-- 口子文章循环 -->
             <div class="loan-lists loan-main-lists">
-                <img  src="{php echo tomedia($subjectRes['ext_info']['pic']);}"  width="100%" />
+                <!-- <img  src="{php echo tomedia($subjectRes['ext_info']['pic']);}"  width="100%" /> -->
                 {loop $list $low}
                 <div class="loan-list">                
                     <div class="loan-main"> 
-                        <a href="{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'artical', 'id'=>$low['id']))}')">
                             <span class="fl"><img class="lazy" data-attr="{$low['ext_info']['pic']}" src="{$low['ext_info']['pic']}" height="88px" width="120px" alt=""></span>
                             <h3>{$low['title']}</h3>
                             <!-- <p class="sub-content"></p> -->
@@ -68,5 +83,11 @@
     </div>
 </div>
 
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url});
+    }
+</script>
 </body>
 </html>
