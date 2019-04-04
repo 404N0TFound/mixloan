@@ -76,7 +76,7 @@
     }
     {/if}
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url, createNew:true});
     }
     function return_user(){
         var user_url = '{php echo $this->createMobileUrl('user')}';
