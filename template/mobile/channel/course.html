@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
     <script src="../addons/xuan_mixloan/template/style/js/jquery_2.js"></script>
+    <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js Date().getTime></script>
     <script src="../addons/xuan_mixloan/template/style/js/jquery.lazyload_1.js"></script>
     <script src="../addons/xuan_mixloan/template/style/js/agent_1.js"></script>
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
@@ -46,7 +48,7 @@
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         div.agent-foot{padding-bottom:20px; }
         div.agent-main{padding-bottom:0px;}
-        .search_area{padding-top: 3rem}
+        .search_area{padding-top: 4rem !important}
     }
     .agent-foot.texttotal{align-items:normal;}
     div.agent-footer{height: 50px;position: relative;padding-bottom: 0}
@@ -135,7 +137,7 @@
             <ul style="overflow: hidden; padding: 5px 10px;">
                 {loop $cat $row}
                 <li style="width: 25%; padding: 8px 0; float: left;">
-                    <a onclick="openNew('{$row['ext_info']['url']]}')">
+                    <a onclick="openNew('{$row['ext_info']['url']}')">
                         <p style="text-align: center;height: 40px; overflow: hidden;"><img src="{php echo tomedia($row['ext_info']['pic']);}" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
                         <p style="text-align: center;height: 20px; overflow: hidden;"> {$row['name']}</p>
                     </a>
@@ -219,6 +221,22 @@
 </div> -->
 </body>
 <script>
+    var swiper_gap=($(window).width())*0.02;
+    var mySwiper = new Swiper('.pro-swiper', {
+        // width:swiper_w,
+        autoplay: 5000,//可选选项，自动滑动
+        loop:true,
+        autoplayDisableOnInteraction : false,
+        spaceBetween: swiper_gap,
+        initialSlide:0,
+        slidesPerView: "auto",
+        // loopedSlides :12,
+        centeredSlides: true,
+        // slidesOffsetBefore : swiper_gap,
+        // slidesOffsetAfter : swiper_gap,
+        pagination: '.pro-pagination',
+
+    });
     var kouziFlag="newcomer";
     $(document).ready(function(){
         var li_length=$("#head-scroll ul li").length;

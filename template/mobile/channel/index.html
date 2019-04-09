@@ -54,7 +54,7 @@
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         div.agent-foot{padding-bottom:20px; }
         div.agent-main{padding-bottom:0px;}
-        .search_area{padding-top: 3rem}
+        .search_area{padding-top: 4rem !important}
     }
     .agent-foot.texttotal{align-items:normal;}
     div.agent-footer{height: 50px;position: relative;padding-bottom: 0}
@@ -139,7 +139,7 @@
             <ul style="overflow: hidden; padding: 5px 10px;">
                 {loop $cat $row}
                 <li style="width: 25%; padding: 8px 0; float: left;">
-                    <a onclick="openNew('{$row['ext_info']['url']]}')">
+                    <a onclick="openNew('{$row['ext_info']['url']}')">
                         <p style="text-align: center;height: 40px; overflow: hidden;"><img src="{php echo tomedia($row['ext_info']['pic']);}" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
                         <p style="text-align: center;height: 20px; overflow: hidden;"> {$row['name']}</p>
                     </a>
@@ -257,7 +257,7 @@
         centeredSlides: true,
         // slidesOffsetBefore : swiper_gap,
         // slidesOffsetAfter : swiper_gap,
-        // pagination: '.pro-pagination',
+        pagination: '.pro-pagination',
 
     });
     var mySwiper = new Swiper('.topic-swiper', {
@@ -295,7 +295,7 @@
         }
     })
     var kouziFlag="kouzi";
-    var rollcount={$low['id']};
+    var rollcount="{$low['id']}";
     $(document).ready(function(){
         //定位margin-top
         var li_length=$("#head-scroll ul li").length;
