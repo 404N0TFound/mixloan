@@ -131,13 +131,13 @@
 	<!-- fjx -->
 	<div class="list_head">
 		<p>
-			<span><img src="../addons/xuan_mixloan/template/style/images/product_loan.png" /></span>
-			小额贷产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
+			<span><img src="../addons/xuan_mixloan/template/style/images/product_hot.png" /></span>
+			热门推荐<label>(共<b  id="card_num">{php echo count($hot_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $loan_small_list $row}
+			{loop $hot_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a >
 					<div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 1.2rem;height: 1.2rem;position: absolute;top: 0.8rem;left: 0">
@@ -174,13 +174,13 @@
 	<!-- fjx -->
 	<div class="list_head">
 		<p>
-			<span><img src="../addons/xuan_mixloan/template/style/images/product_hot.png" /></span>
-			热门推荐<label>(共<b  id="card_num">{php echo count($hot_list);}</b>款)</label>
+			<span><img src="../addons/xuan_mixloan/template/style/images/product_loan.png" /></span>
+			小额贷产品<label>(共<b  id="card_num">{php echo count($loan_small_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $hot_list $row}
+			{loop $loan_small_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a >
 					<div class="check_btn" bind-id="{$row['id']}" bind-check="0" style="width: 1.2rem;height: 1.2rem;position: absolute;top: 0.8rem;left: 0">
@@ -368,6 +368,17 @@
 
 
 <script type="text/javascript">
+    var cid = "{$member['id']}";
+    $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+        function(data){
+            if (data.code == 1) {
+                layer.alert(data.msg, {
+                    icon: 1,
+                    skin: 'layer-ext-moon',
+                    title:'公告'
+                })
+            }
+        },'json')
     var short_url = '';
     $('.check_btn').click(function(){
         var id = $(this).attr('bind-id');
