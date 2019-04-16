@@ -278,7 +278,7 @@ if($operation=='index'){
     }
     $wheres .= " and degree = {$degree}";
     $sql = 'select * from ' . tablename('xuan_mixloan_product_apply') . " 
-                    where inviter={$member['id']} " . $wheres . ' ORDER BY id DESC';
+                    where inviter={$member['id']} and type=1 " . $wheres . ' ORDER BY id DESC';
     $sql.= " limit " . ($page - 1) * $pageSize . ',' . $pageSize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row)
@@ -290,8 +290,9 @@ if($operation=='index'){
         $row['pro_name'] = $product['name'];
         $row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
     }
+    unset($row);
     $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_product_apply') . " 
-                            where inviter={$member['id']} " . $wheres . ' ORDER BY id DESC');
+                            where inviter={$member['id']} and type=1 " . $wheres . ' ORDER BY id DESC');
     $totalPage = ceil($total / $pageSize);
     show_json(1, ['list' => $list, 'totalPage' => $totalPage], '获取成功');
 } else if ($operation == 'customer_list') {
