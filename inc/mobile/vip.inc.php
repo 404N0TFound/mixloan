@@ -394,6 +394,9 @@ if($operation=='buy'){
 		} else if ($row['type'] == 3){
 			$row['name'] = '合伙人分红';
 			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+		} else if ($row['type'] == 4){
+			$row['name'] = '今日奖励';
+			$row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
 		} else {
 			$row['name'] = $pros[$row['pid']]['name'];
 			$row['logo'] = $pros[$row['pid']]['ext_info']['logo'];
