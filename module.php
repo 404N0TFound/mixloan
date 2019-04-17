@@ -73,6 +73,7 @@ class Xuan_mixloanModule extends WeModule {
                     'register_pic_b'=>$_GPC['register_pic_b'],
                     'register_pic_c'=>$_GPC['register_pic_c'],
                     'register_pic_d'=>$_GPC['register_pic_d'],
+                    'notice'=>$_GPC['notice']
                 );
             if ($this->saveSettings($cfg)) {
                 pdo_delete("xuan_mixloan_poster", array("pid"=>0));
