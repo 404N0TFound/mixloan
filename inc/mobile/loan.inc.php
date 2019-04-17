@@ -15,10 +15,12 @@ if($operation=='index'){
     if ($config['loan_vip']) {
         if (empty($openid)) {
             header("location:{$this->createMobileUrl('index', array('op' => 'login'))}");
+            exit();
         }
         $agent = m('member')->checkAgent($member['id']);
         if ($agent['code'] != 1) {
             header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
+            exit();
         }
     }
     $category = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_loan_category') . "
