@@ -39,6 +39,7 @@
 <body class="bglightgray">
 
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.liMarquee.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
         mui.openWindow({url:url});
@@ -49,63 +50,164 @@
     }
 </script>
 {if !is_weixin()}
-<style type="text/css">
-    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-        div.agent-foot{padding-bottom:20px; }
-        div.agent-main{padding-bottom:0px;}
-    }
-    .agent-foot.texttotal{align-items:normal;}
-    div.agent-footer{height: 70px}
-    div.agent-foot.texttotal p{
-        line-height: 90px;
-    }
-    div.scroller{padding-top: 80px}
-     div.to_search{bottom:10%;}
-</style>
-<style type="text/css">
-    div.loan_tab ul li a{
-        height: 70px;
-        line-height: 95px
-    }
-    .app_back {
-        position: absolute;
-        display: inline-block;
-        padding: 0 10px 0 8px;
-        z-index: 999;
-        line-height: 0px;
-        top: 2rem
-    }
-    .app_back img {
-        display: inline-block;
-        height: 16px;
-        margin: 13px 0;
-        vertical-align: middle;
-        left: 0;
-        top: 0;
-        transform: rotate(180deg);
-    }
-    .agent-foot{
-        height: 4rem
-    }
-    div.agent-foot p.foot_img {
-        height: 2.22rem;
-        margin-top: 0.1rem;
-    }
-    div.agent-foot p>img {
-        height: 2.22rem;
-        width: 2.1rem;
-        max-height: 100%;
-    }
-    .agent-foot p {
-        font-size: 0.85rem;
-        font-family: Helvetica !important;
-        vertical-align: middle;
-        line-height: 1.5em;
-    }
-</style>
+    <style type="text/css">
+        .agent-foot.texttotal{align-items:normal;}
+        div.agent-footer{height: 50px;position: relative;padding-bottom: 0}
+        div.agent-foot.texttotal p{
+            line-height: 45px;
+        }
+        div.scroller{padding-top: 80px}
+        div.to_search{bottom:10%;}
+    </style>
+    <style type="text/css">
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            div.agent-foot{padding-bottom:20px; }
+            div.agent-main{padding-bottom:0px;}
+            .search_area{padding-top: 4rem !important}
+        }
+        div.loan_tab ul li a{
+            height: 70px;
+            line-height: 95px
+        }
+        .app_back {
+            position: absolute;
+            display: inline-block;
+            padding: 0 10px 0 8px;
+            z-index: 999;
+            line-height: 0px;
+            top: 2rem
+        }
+        .app_back img {
+            display: inline-block;
+            height: 16px;
+            margin: 13px 0;
+            vertical-align: middle;
+            left: 0;
+            top: 0;
+            transform: rotate(180deg);
+        }
+        .agent-foot{
+            height: 4rem
+        }
+        div.agent-foot p.foot_img {
+            height: 2.22rem;
+            margin-top: 0.1rem;
+        }
+        div.agent-foot p>img {
+            height: 2.22rem;
+            width: 2.1rem;
+            max-height: 100%;
+        }
+        .agent-foot p {
+            font-size: 0.8rem;
+            font-family: Helvetica !important;
+            vertical-align: middle;
+            line-height: 1.5em;
+        }
+        div.scroller{padding-top: 0}
+        .nowarp{white-space: nowrap;}
+        .str_origin{position: absolute;cursor:move;}
+        .search_area{
+            width: 100%;
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+        input.search{
+            width: 90%;
+            border: 1px solid gainsboro;
+            padding: 0.5rem;
+            text-align: center;
+            background: white;
+        }
+    </style>
 <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
 {/if}
-<div class="agent-foot texttotal agent-footer">
+    <div class="search_area" style="width: 100%;text-align: center; padding: 0.5rem 0;background: #5386d2;">
+        <form action="{php echo $this->createMobileUrl('channel', array('op' => 'search', 'type'=>3))}" method="post">
+            <input type="search" name="keyword" placeholder="搜索" class="search" style="width: 90%;
+        border: none;
+        padding: 0.5rem;
+        text-align: center;
+        background: white;
+        border-radius: 0.1rem;">
+        </form>
+    </div>
+    <div class="swiper-container pro-swiper" style="background: white" id="category">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" style="width:100%;">
+                <ul style="overflow: hidden; padding: 5px 10px;">
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>1));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c5d751f9_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 手机号贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>2));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c6a0e0f8_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 身份证贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>3));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c7621d46_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 芝麻分贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>4));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c81da5b1_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 不查征信</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>5));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c8e7d761_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 信用卡贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>6));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1c9cd78d1_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 公积金贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>7));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1ca9c5e36_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 大额贷</p>
+                        </a>
+                    </li>
+                    <li style="width: 25%; padding: 8px 0; float: left;">
+                        <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select', 'type'=>8));}')">
+                            <p style="text-align: center;height: 40px; overflow: hidden;"><img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c_1.png" style="height: 40px;border-radius: 5px;margin: 0 auto" /></p>
+                            <p style="text-align: center;height: 20px; overflow: hidden;"> 抵押贷</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="swiper-pagination pro-pagination"></div>
+    </div>
+    <div  class="ng-scope" style="">
+        <div style="background: #fdfbec;color:#ffb05a;padding: 0 10px">
+            <div class="dispflex" style="display: flex;align-items: center;">
+                <div class="fl nowarp" style="line-height: 30px;">
+                    通知：
+                </div>
+                <div class="dowebok fr str_wrap nowarp"  style="height: 20px;overflow: hidden;font-size: 12px;flex: 1;position: relative;">
+                    <div class="str_move str_origin" style="">
+                        {$config['notice']}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script >
+            $('.dowebok').liMarquee('destroy');
+            $('.dowebok').liMarquee();
+        </script>
+    </div>
+<div class="agent-foot texttotal agent-footer" style="padding-bottom: 0 !important">
     <a class="on" href="javascript:;"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" style="width: 18px" /><span>口子</span></p></a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'credit_card'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" style="width: 18px"  /><span>直播间</span></p></a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png"  style="width: 18px" /><span>视频学习</span></p></a>
@@ -121,9 +223,9 @@
         <p>发现</p>
         <!-- <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span> -->
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
+    <!-- <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" style="width: 3.6rem;height: 3.6rem" alt="">
-    </a>
+    </a> -->
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>指点客</p>
@@ -263,9 +365,9 @@
 {if !is_weixin()}
 <div style="height: 4rem"></div>
 {/if}
-<div class="to_search" data-condition="1">
+<!-- <div class="to_search" data-condition="1">
     <img src="../addons/xuan_mixloan/template/style/picture/search_white_1.png" />
-</div>
+</div> -->
 
 </body>
 <script>
