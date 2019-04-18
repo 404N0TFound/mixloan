@@ -8,6 +8,22 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if ($operation == 'default')
 {
+    $list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_category') . '
+                            where type=3
+                            order by sort desc');
+    foreach ($list as &$row)
+    {
+        $loan_list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_smallloan') . '
+                        where one_category=:one_category and status=1
+                        order by id desc limit 3', array(':one_category' => $row['id']));
+        foreach ($loan_list as &$value) 
+        {
+            $value['ext_info'] = json_decode($value['ext_info'], 1);
+        }
+        unset($value);
+        $row['list'] = $loan_list;
+    }
+    unset($row);
     include $this->template('smallloan/index');
 }
 else if ($operation == 'category')
@@ -50,7 +66,7 @@ else if ($operation == 'index_list')
     {
         $row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
         $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_smallloan') . '
-						where two_category=:two_category and status=1', array(':two_category' => $row['id'])) ? : 0;
+						where one_category=:one_category and status=1', array(':one_category' => $row['id'])) ? : 0;
     }
     unset($row);
     show_json(1, ['list' => array_values($list)], '成功');
@@ -64,7 +80,7 @@ else if ($operation == 'add_smallloan_submit')
     }
     $name = trim($_GPC['name']);
     $one_category = intval($_GPC['one_category']);
-    $two_category = intval($_GPC['two_category']);
+    $one_category = intval($_GPC['one_category']);
     $logo = trim($_GPC['logo_pic']);
     $qrcode = trim($_GPC['qrcode_pic']);
     $url = trim($_GPC['url']);
@@ -76,7 +92,7 @@ else if ($operation == 'add_smallloan_submit')
     {
         show_json(-1, [], '一级分类不能为空');
     }
-    if (empty($two_category))
+    if (empty($one_category))
     {
         show_json(-1, [], '二级分类不能为空');
     }
@@ -98,7 +114,7 @@ else if ($operation == 'add_smallloan_submit')
     $insert['uid'] = $member['id'];
     $insert['name'] = $name;
     $insert['one_category'] = $one_category;
-    $insert['two_category'] = $two_category;
+    $insert['one_category'] = $one_category;
     $insert['createtime'] = time();
     $insert['ext_info'] = json_encode($ext_info);
     pdo_insert('xuan_mixloan_smallloan', $insert);
@@ -160,7 +176,7 @@ else if ($operation == 'get_category')
     $cond = array();
     if (!empty($id))
     {
-        $wheres .= " and two_category={$id}";
+        $wheres .= " and one_category={$id}";
     }
     if (!empty($keyword))
     {
@@ -172,7 +188,7 @@ else if ($operation == 'get_category')
                 $ids[] = $cate['id'];
             }
             $id_string = implode(',', $ids);
-            $wheres .= " and two_category in {$id_string}";
+            $wheres .= " and one_category in {$id_string}";
         } else {
             $wheres .= " and name like :name";
             $cond[":name"] = "%{$keyword}%";

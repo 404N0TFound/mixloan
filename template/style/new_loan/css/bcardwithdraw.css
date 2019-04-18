@@ -1,0 +1,54 @@
+﻿@font-face {font-family:'newFont'; src: url("/Public/Wap/idai/css/Idaik/font/din_light.otf");}
+html,body{height: 100%;}
+div.bindCardBox{min-height: 100%;background-color: #fff;}
+div.withdrawBox{min-height: 100%;background-color: #fff;}
+/*绑定银行卡*/
+div.bindCardBox .cardImg{padding-top: 2.2rem;}
+div.cardImg img{display: block;width: 30%;margin: 0rem auto 0 auto;}
+div.bindCardBox ul{padding:0rem 8% 0 8%;}
+div.bindCardBox ul li{overflow: hidden;padding:0.6rem 0 0.4rem 3%;box-sizing: border-box;border-bottom: 1px solid #f5f5f5;}
+div.bindCardBox ul li span{display: inline-block; width: 22%;margin-right: 10%; float: left;height: 1.2rem;line-height: 1.2rem;text-align: justify;color: #666666;font-size: 0.65rem;}
+div.bindCardBox ul li span em{display: inline-block;width: 100%;}
+div.bindCardBox ul li input{display: inline-block;width: 65%;float: left;height: 1.2rem;font-size: 0.64rem;background: transparent;}
+div.bindCardBox a{display: block;width: 86%;margin: 0 auto;height: 1.8rem;line-height: 1.8rem;text-align: center;color: #fff;border-radius: 1rem;
+	margin-top: 2rem;background-color: #FF2B70;letter-spacing: 0.1rem;}
+
+/*工资提现*/
+div.withdrawHandle{background-color: #fff;}
+div.withdrawHandle p{color: #333333;font-size: 0.62rem;padding:1rem 6% 0.3rem 6%;}
+div.withdrawHandle p span{display: inline-block;font-size: 0.6rem;color: #ff3557;margin-left: 0.2rem;}
+div.withdrawHandle p span em{display: inline-block;font-size: 0.9rem;font-family: "newFont";}
+div.withdrawHandle .withdrawMain ul li{position: relative;overflow: hidden;box-sizing: border-box;border-bottom: 1px solid #f5f5f5;padding:0.5rem 6%;}
+div.withdrawMain ul li:last-child{border:none;}
+div.withdrawMain ul li label{display: inline-block;float: left;width: 26%; height: 1.2rem;line-height: 1.2rem;color: #333333;font-size: 0.62rem;}
+div.withdrawMain ul li input{height: 1.2rem;font-size: 0.62rem;}
+div.withdrawMain ul li span,div.withdrawMain ul li img{position: absolute;right: 6%;top:0.5rem;height: 1.2rem;line-height: 1.2rem;
+	font-size: 0.56rem; color: #FF2B70;}
+div.withdrawMain ul li img{height: 1.6rem;top:0.3rem;width: 3.2rem;}
+
+div.withdrawCard{background-color: #fff;padding-bottom: 2rem;}
+div.withdrawCard:before{content: "";display: inline-block;width: 100%;height: 0.35rem;background-color: #f3f3f3;}
+div.withdrawCard ul{padding:0.5rem 6% 0 10%;}
+div.withdrawCard ul li{position: relative; padding:0.8rem 5%;height: 4.6rem; box-sizing: border-box;border:1px solid #f5f5f5;
+	border-radius: 0.25rem;margin: 0.4rem 0;background: url('../images/dummy_withdraw1.png') center center;background-size: 100%;background-repeat: no-repeat;}
+div.withdrawCard ul li span{float: left; display: inline-block;height: 3rem;padding-left: 0.3rem;}
+div.withdrawCard ul li span img{display: block;height: 1rem;}
+div.withdrawCard ul li span b{display: block;font-weight: normal;height: 1rem;line-height: 1rem;color: #333333;font-size: 0.65rem;}
+div.withdrawCard ul li span u{display: block;font-size: 0.6rem;color: #333333;text-decoration: none;height: 1rem;line-height: 1rem;}
+div.withdrawCard ul li span i{display: block;color: #003333;font-size: 0.65rem;height: 1.5rem;line-height: 1.5rem;}
+div.withdrawCard ul li a{position: absolute;display: inline-block;height: 4.6rem;line-height: 4.2rem;width: 0.7rem;left:-8%;top:0;}
+div.withdrawCard ul li a img{display: inline-block;width: 100%;}
+div.withdrawCard ul li em{display: inline-block; position: absolute;height: 4.6rem;line-height: 4.2rem; right: 4%;top:0;}
+div.withdrawCard ul li em img{display: inline-block;height: 0.6rem;}
+div.withdrawCard>a.addBankCard{display: block;width: 100%;text-align: center;padding-bottom:0.5rem;}
+div.withdrawCard>a.addBankCard span{display: inline-block;height: 1.2rem;line-height: 1.2rem;color: #999999;font-size: 0.62rem;}
+div.withdrawCard>a.addBankCard span img{position: relative;top:-0.05rem; height: 0.6rem;margin-right: 0.25rem;}
+div.withdrawCard>a.toWithdraw{display: block;width: 86%;margin: 0 auto;height: 1.8rem;line-height: 1.8rem;text-align: center;color: #fff;
+	background-color:#FF2B70;letter-spacing: 0.1rem;border-radius: 1rem; margin-top: 1rem;}
+
+div.withdrawlprotocol{text-align: center;margin-top: 0.5rem;}
+div.withdrawlprotocol span{display: inline-block;overflow: hidden;}
+div.withdrawlprotocol span label{display: inline-block;float: left;height: 0.62rem;line-height: 0.62rem; margin-right: 0.2rem;}
+div.withdrawlprotocol span label img{display: block;height: 0.52rem;}
+div.withdrawlprotocol span em{display: inline-block;float: left;color: #333;font-size: 0.52rem;height: 0.62rem;line-height: 0.62rem;}
+div.withdrawlprotocol span em a{display: inline-block;color: #FF2B70;}

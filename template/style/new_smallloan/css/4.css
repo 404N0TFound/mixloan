@@ -1,0 +1,38 @@
+
+.box{
+    margin: 10px;
+    font-size: 0;
+    background: #fff;
+    box-shadow: 0 0 6px #ddd;
+}
+.top{
+    padding: 5px 10px 5px 30px;
+    border-bottom: 1px solid #ddd;
+    background: url(../images/arrow.png) no-repeat 5px center;
+    background-size: 8px;
+}
+.top span{
+    display: inline-block;
+    vertical-align: top;
+    font-size: 12px;
+    line-height: 29px;
+}
+.top button{
+    float: right;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 15px;
+    border-radius: .2rem;
+    border: 1px solid #ddd;
+    background: none;
+}
+li{
+    display: inline-block;
+    width: 33.33%;
+    padding: 10px 0;
+    text-align: center;
+    font-size: 12px;
+}
+li img{
+    width: 50%;
+}
