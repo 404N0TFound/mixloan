@@ -244,4 +244,12 @@ if($operation=='index'){
     $follow_count = pdo_fetchcolumn("SELECT count(1) FROM ".tablename("qrcode_stat")." a LEFT JOIN ".tablename("mc_mapping_fans"). " b ON a.openid=b.openid WHERE a.qrcid={$member['id']} AND a.type=1 ORDER BY id DESC") ? : 0;
     $money_count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND pid=0") ? : 0;
     include $this->template('user/extend_bonus');
+} else if ($operation == 'delete_qrcode') {
+    //删除二维码
+    $id = intval($_GPC['id']);
+    if (empty($id)) {
+        show_json(-1, [], '出错了');
+    }
+    pdo_update('xuan_mixloan_withdraw_qrcode', array('status' => 0), array('id' => $id));
+    show_json(1, [], '删除成功');
 }

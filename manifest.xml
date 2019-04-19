@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_withdraw_qrcode` (
   `name` varchar(50) NOT NULL,
   `img_url` varchar(255) NOT NULL COMMENT '图片地址',
   `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)
