@@ -43,7 +43,7 @@
     <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/jquery.liMarquee.min.js"></script>
 <script type="text/javascript">
     function openNew(url){
-        mui.openWindow({url:url});
+        mui.openWindow({url:url,createNew:true});
     }
     function return_user(){
         var user_url = '{php echo $this->createMobileUrl('user')}';
