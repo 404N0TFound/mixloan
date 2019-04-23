@@ -215,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_creditCard` (
   `bankname` varchar(20) NOT NULL,
   `phone` varchar(30) NOT NULL,
   `createtime` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`)

@@ -37,6 +37,17 @@
         .swiper-container .swiper-wrapper .swiper-slide-next{margin-right: 11%;margin-left: 5%;}
         .swiper-pagination-bullet{width: 12px;height:2px;border-radius: 25%;background: #bfe1fd;opacity: 1;}
         .swiper-pagination-bullet-active{background:#0084ff;}
+        .deleteFlag{
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            border-radius: 100%;
+            background-color: #1c92fe;
+            color: #fff;
+            text-align: center;
+            line-height: 23px;
+            font-size: 22px;
+        }
     </style>
 
     {template 'common/wxshare'}
@@ -116,6 +127,9 @@
             </div>
             <div class="addCards">
                 <a class="dailiFlag" href="javascript:;">+</a>
+                {if $qrcodes}
+                <a class="deleteFlag" href="javascript:;">-</a>
+                {/if}
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -288,6 +302,29 @@
             var _url="{php echo $this->createMobileUrl('user', ['op' => 'bind_qrcode'])}";
             openNew(_url);
         }
+    })
+    //删除银行卡
+    $("div.addCards a.deleteFlag").click(function(){
+        var id = $("div.swiper-slide-active").attr("data-id");
+        layer.confirm('确定要删除这个提现方式吗', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            var ajax = {};
+            ajax.url = "{php echo $this->createMobileUrl('user', array('op'=>'delete_qrcode'))}";
+            ajax.type = "post";
+            ajax.data = {'id':id};
+            ajax.dataType = "json";
+            ajax.success = function (data) {
+                if (data.code == 1) {
+                    layer.msg('删除成功');
+                    history.go(0);
+                } else {
+                    layer.msg(data.msg);
+                }
+            }
+            $.ajax(ajax);
+        }, function(){
+        });
     })
     //关闭弹窗
     $(".layer_close").click(function(){

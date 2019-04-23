@@ -210,7 +210,7 @@ if($operation=='buy'){
 	// 	}
 	// }
 	// unset($row);
-	$qrcodes = pdo_fetchall("SELECT id,name,img_url FROM ".tablename('xuan_mixloan_withdraw_qrcode'). " WHERE uid=:uid", array(':uid'=>$member['id']));
+	$qrcodes = pdo_fetchall("SELECT id,name,img_url FROM ".tablename('xuan_mixloan_withdraw_qrcode'). " WHERE uid=:uid and status=1", array(':uid'=>$member['id']));
 	$bonus = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$can_use = $bonus - m('member')->sumWithdraw($member['id']);
 	include $this->template('vip/withdraw');
