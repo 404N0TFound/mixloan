@@ -15,6 +15,8 @@ if($operation=='index'){
     $loan_cpa_list = m('product')->packupItems($loan_cpa_list);
     $loan_cps_list = m('product')->getList([], ['type'=>2, 'is_show'=>1, 'loan_type'=>2], FALSE);
     $loan_cps_list = m('product')->packupItems($loan_cps_list);
+    $loan_receipt_list = m('product')->getList([], ['type'=>3, 'is_show'=>1, 'loan_type'=>2], FALSE);
+    $loan_receipt_list = m('product')->packupItems($loan_receipt_list);
     include $this->template('product/index');
 }  else if ($operation == 'getProduct') {
     //得到产品
