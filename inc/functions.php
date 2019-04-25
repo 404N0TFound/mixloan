@@ -248,8 +248,8 @@ function base64_image_content($base64_image_content,$path){
         }
         $rand = rand(111111, 999999);
         $new_file = $path."/";
-        $file_name = time() . ".{$type}";
-        $new_file = $new_file . $rand . $file_name;
+        $file_name = time() . $rand  . ".{$type}";
+        $new_file = $new_file. $file_name;
         if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
             return $file_name;
         }else{
