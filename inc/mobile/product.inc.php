@@ -22,44 +22,44 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
     //首页
-    // $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
-    // $hot_list = m('product')->packupItems($hot_list);
-    // $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
-    // $card_list = m('product')->packupItems($card_list);
-    // $loan_large_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>1], FALSE);
-    // $loan_large_list = m('product')->packupItems($loan_large_list);
-    // $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
-    // $loan_small_list = m('product')->packupItems($loan_small_list);
-    // $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
-    // $band_list = m('product')->packupItems($band_list);
-    $banner = m('product')->getAdvs();
-    $cash_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
-                                    where type=2
-                                    order by sort desc');
-    $credit_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
-                                    where type=1
-                                    order by sort desc');
-    $month_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
-                                    where type=3
-                                    order by sort desc');
-    foreach ($cash_list as &$row) {
-        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
-        $row['ext_info'] = json_decode($row['ext_info'], 1);         
-    }
-    unset($row);
-    foreach ($credit_list as &$row) {
-        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
-        $row['ext_info'] = json_decode($row['ext_info'], 1);         
-    }
-    unset($row);
-    foreach ($month_list as &$row) {
-        $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
-                                where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
-        $row['ext_info'] = json_decode($row['ext_info'], 1);         
-    }
-    unset($row);
+    $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 9);
+    $hot_list = m('product')->packupItems($hot_list);
+    $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
+    $card_list = m('product')->packupItems($card_list);
+    $loan_large_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>1], FALSE);
+    $loan_large_list = m('product')->packupItems($loan_large_list);
+    $loan_small_list = m('product')->getList([], ['is_show'=>1, 'type'=>2, 'count_time'=>30], FALSE);
+    $loan_small_list = m('product')->packupItems($loan_small_list);
+    $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
+    $band_list = m('product')->packupItems($band_list);
+    // $banner = m('product')->getAdvs();
+    // $cash_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+    //                                 where type=2
+    //                                 order by sort desc');
+    // $credit_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+    //                                 where type=1
+    //                                 order by sort desc');
+    // $month_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
+    //                                 where type=3
+    //                                 order by sort desc');
+    // foreach ($cash_list as &$row) {
+    //     $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+    //                             where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
+    //     $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    // }
+    // unset($row);
+    // foreach ($credit_list as &$row) {
+    //     $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+    //                             where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
+    //     $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    // }
+    // unset($row);
+    // foreach ($month_list as &$row) {
+    //     $row['nums'] = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product') . '
+    //                             where category=:category and is_show=1', array(':category' => $row['id'])) ? : 0;
+    //     $row['ext_info'] = json_decode($row['ext_info'], 1);         
+    // }
+    // unset($row);
     include $this->template('product/index');
 } else if ($operation == 'category') {
     // 分类
