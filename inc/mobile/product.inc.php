@@ -56,11 +56,11 @@ if($operation=='index'){
         message('该代理产品已被下架', '', 'info');
     }
     if ($info['type'] == 1) {
-        $poster_short_url = shortUrl( 'http://wqwq.psjg.net.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>2)));
-        $poster_long_url =  'http://wqwq.psjg.net.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>time()));
+        $poster_short_url = shortUrl( 'http://wx.zyo61.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>2)));
+        $poster_long_url =  'http://wx.zyo61.cn/app/' .$this->createMobileUrl('product', array('op'=>'apply', 'id'=>$id, 'inviter'=>$member['id'], 'rand'=>time()));
     } else {
-        $poster_short_url = shortUrl( 'http://wqwq.psjg.net.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>2)) );
-        $poster_long_url =  'http://wqwq.psjg.net.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>time()));
+        $poster_short_url = shortUrl( 'http://wx.zyo61.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>2)) );
+        $poster_long_url =  'http://wx.zyo61.cn/app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$info['relate_id'], 'inviter'=>$member['id'], 'pid'=>$info['id'], 'rand'=>time()));
     }
     $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?v=" . time();
     $top_list = m('product')->getTopBonus($id);
