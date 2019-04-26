@@ -320,7 +320,7 @@ if ($operation == 'list') {
         if ($_GPC['post'])
         {
             $pass = trim($_GPC['pass']);
-            if ($pass == 'wy58100511')
+            if ($pass == 'lxs581005@')
             {
                 setcookie('verify', 1, time()+86400);
                 header("location:{$this->createWebUrl('agent', array('op' => 'withdraw_list'))}");
