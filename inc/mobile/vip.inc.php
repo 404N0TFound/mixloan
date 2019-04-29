@@ -35,7 +35,7 @@ if($operation=='buy'){
     if (!$member['phone']) {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
-    if ($config['buy_vip_price'] == 0) {
+    if ($config['buy_init_vip_price'] == 0 && $config['buy_mid_vip_price'] == 0) {
         $out_trade_no = "10001" . date('YmdHis', time());
         $insert = array(
             "uniacid"=>$_W["uniacid"],
