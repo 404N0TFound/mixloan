@@ -162,18 +162,20 @@
 </div>
 {if !is_weixin()}
 <div class="agent-foot">
-    <!-- <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>''))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/hl_cwd_1.png" /></p>
         <p>首页</p>
-    </a> -->
-    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')" class="today-cell">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>借钱</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')" >
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category.png" /></p>
+        <p>系列</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
-    <!-- <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
-        <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
-    </a> -->
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')" >
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>教程</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
         <p>推广赚钱</p>

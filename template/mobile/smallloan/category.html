@@ -1,199 +1,129 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>搜索结果</title>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/swiper/swiper.min.css">
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/1.css">
-    <script src="../addons/xuan_mixloan/template/style/new_loan/jquery-1.11.3.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>贷款中心</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/swiper.min_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/loanmkt_2.css">
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/agent_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/myslideup_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/layer_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/clipboard.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/common.js"></script>
     <style type="text/css">
-        .layui-layer{
-            z-index: 9999999999999 !important;
+        .swiper-slide{max-height: 145px;overflow: hidden;}
+        .toplist li img{ width: 60px !important; height: 60px !important;}
+        .toplist li p{ height: auto !important; line-height: 150%;}
+        .agent-foot a{width: 20%}
+        {if !is_weixin()}
+        div.loan_tab ul li a {
+            height: 78px;
+            line-height: 112px;
         }
-        .finndy{position: absolute;right: 5%;bottom: 10%}
-        .finndy img{width: 50px;height: 50px}
-        a{font-size: 14px}
-        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-            header a:nth-child(1) img{margin-top: 35px; height: 20px}
-            header h3 {line-height: 80px;font-size: 17px}
-            .list2{padding-top: 80px;}
-        }
+        {/if}
+        .loanindex_frame{margin-top: 87px}
     </style>
-</head>
 
-<body>
-    <header>
-        <a onclick="mui.back();"><img src="../addons/xuan_mixloan/template/style/images/back_icon.png" ></a>
-        <h3 >搜索结果</h3>
-    </header>
-    <ul class="list2">
+	</head>
+<body class="bglightgray">
+<div class="loan_tab">
+    <ul>
+        <li {if $type==1} class="on" {/if} style="width: 50%;"><a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'category', 'type' => 1))}')">贷吧</a></li>
+        <li {if $type==2} class="on" {/if} style="width: 50%;"><a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'category', 'type' => 2))}')">借吧</a></li>
     </ul>
+</div>
 
-    <style type="text/css">
-	    .copy_area{
-	        display: none;
-	        position: fixed;
-	        top: 35%;
-	        background: white;
-	        width: 90%;
-	        left: 5%;
-	        z-index: 999999999;
-	        border:2px solid #eae6e6;
-	        border-radius: 0.5rem;
-	    }
-	    .copy_span{
-	        padding: 1rem;
-	        max-height: 17rem;
-	        overflow: hidden;
-            text-align: center;
-	    }
-	    .copy_span span{
-	        display: inline-block;
-	        width: 100%;
-	        font-size: 14px;
-	        margin-top: 2px;
-	    }
-        #intro{
-            margin-top: 5px;
-            width: 100%;
-            text-align: center;
-            font-size: 14px;
-        }
-	</style>
-	<div class="copy_area">
-	    <div class="copy_span">
-	        <img src="" style="width: 5rem;height: 5rem;" id="code">
-            <div id="intro"></div>
-	    </div>
-	    <div style="padding:0.5rem 0;text-align: center;">
-	        <a style="display:inline-block;width: 45%;color:black !important" onclick="copy_short()">复制链接</a>
-	        <a style="display:inline-block;width: 45%;color:black !important" onclick="close_copy()">关闭</a>
-	    </div>
-	</div>
-	<textarea style="opacity: 0" id="pc_url"></textarea>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
-    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
-    <script type="text/javascript">
-    var id = "{$_GPC['id']}";
-    var keyword = "{$_GPC['keyword']}";
-    $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_category'))}", {id:id, keyword:keyword}, function(data) {
-        if(data.code==1){
-            var list=data.data.list;
-            //列表
-            var str = '';
-            for (var i = 0; i<list.length; i++) {
-                str += '<li style="position: relative;" onclick="copy('+list[i].id+');">\
-                            <img src="'+list[i].ext_info.logo+'" >\
-                            <div style="white-space: nowrap; width: 70%; overflow: hidden;">\
-                                <p style="font-size: 12px">'+list[i].name+'</p>\
-                            </div>\
-                        </li>';
-            }
-            $('.list2').html(str);
-        }else{
-            layer.msg(data.msg, function(){
-                if (data.data.url) {
-                    openNew(data.data.url);
-                }
-            });
-            return false;
-         }
-    }, "json"); 	
-    var short_url = '';
-    function copy (id){
-        
-        index_lay = layer.load(1, {
-            shade: [0.1,'#fff'] //0.1透明度的白色背景
-        });
-        $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_code'))}",{id:id},
-            function(data){
-                layer.close(index_lay);
-                if (data.code == 1) {
-                    $('#code').attr('src', data.data.code);
-                    var str = '';
-                    short_url = data.data.url;
-                    $('#pc_url').val(short_url)
-                    $('#intro').text(data.data.intro)
-                    $('.copy_area').show();
-                }else{
-                    layer.msg(data.msg, function(){
-                        if (data.data.url) {
-                            window.location.href=data.data.url;
-                        }
-                    });
-                    return false;
-                }
-            },'json')
+    <div class="loanindex_frame">
+        <!--<div style="height: 45px;"></div>-->
+        <!--<div class="toptitle">-->
+            <!--未来融-->
+        <!--</div>-->
 
+        <div class="loanindex_main">
+
+
+            <div class="f_search">
+                <form action="/app/index.php" method="get" id="form_post">
+                    <div class="input-group">
+
+                        <input type="hidden" name="i" value="1">
+                        <input type="hidden" name="c" value="entry">
+                        <input type="hidden" name="op" value="list">
+                        <input type="hidden" name="do" value="smallloan">
+                        <input type="hidden" name="m" value="xuan_mixloan">
+                        <input type="text" name="word" value="" placeholder="输入关键词搜索贷款平台" class="form-control"/>
+                        <button type="submit">搜索</button>
+                    </div>
+                </form>
+            </div>
+             <div class="hot_loan">
+                <h1><span>系列分类</span></h1>
+                <div class="loanindex_shortcut" style="margin-top: 0;">
+                    <ul>
+                        {loop $list $row}
+                        <li>
+                            <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'list', 'category' => $row['id']))}')">
+                                <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
+                                <p>{$row['name']}</p>
+                            </a>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="loan_channel" style="height: 100px;">
+
+        </div> -->
+
+    </div>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/index_new_1.css">
+<script src="../addons/xuan_mixloan/template/style/smallloan//js/lmy_2.js"></script>
+    
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')"  class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category_on.png" /></p>
+        <p>系列</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')" >
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>教程</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>推广赚钱</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+    <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/smallloan//picture/loading_1.png" />加载中</a>
+    <a class="no_hotcards"></a>
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/swiper.min_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url, craeteNew:true});
     }
-    function copy_short (){
-        copy_pc();
-    }
-    function close_copy (){
-        $('.copy_area').hide();
-    }
-    function copy_pc(){
-        copyToClipboard(document.getElementById("pc_url"));
-        document.activeElement.blur();
-        if(succeed){
-            layer.msg("复制成功！");
-        }else{
-            layer.msg("您的手机版本较低，请升级版本后重试！");
-        }
-    }
-    function copyToClipboard(elem) {
-        // create hidden text element, if it doesn't already exist
-        var targetId = "_hiddenCopyText_";
-
-        var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-
-        var origSelectionStart, origSelectionEnd;
-        if (isInput) {
-            // can just use the original source element for the selection and copy
-            target = elem;
-            origSelectionStart = elem.selectionStart;
-            origSelectionEnd = elem.selectionEnd;
-        } else {
-            // must use a temporary form element for the selection and copy
-            target = document.getElementById(targetId);
-
-            if (!target) {
-                var target = document.createElement("textarea");
-                target.style.position = "absolute";
-                target.style.left = "-9999px";
-                target.style.top = "0";
-                target.id = targetId;
-                document.body.appendChild(target);
-            }
-            target.textContent = elem.textContent;
-        }
-        // select the content
-        var currentFocus = document.activeElement;
-        target.focus();
-        target.setSelectionRange(0, target.value.length);
-        // copy the selection
-        try {
-            succeed = document.execCommand("copy");
-        } catch(e) {
-            succeed = false;
-        }
-        // restore original focus
-        if (currentFocus && typeof currentFocus.focus === "function") {
-            currentFocus.focus();
-        }
-
-        if (isInput) {
-            elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-        } else {
-            // clear temporary content
-            target.textContent = "";
-        }
-        return succeed;
-    }
-    </script>
+</script>
 </body>
-
 </html>

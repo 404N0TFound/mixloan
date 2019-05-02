@@ -7,6 +7,16 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if($operation=='register'){
 	//注册
+    $inviter = intval($_GPC['inviter']);
+    if ($inviter) {
+        setcookie('inviter', $inviter, time() + 360);
+    } else {
+        $inviter = $_COOKIE['inviter'];
+    }
+    if ($inviter) {
+        $inviter_info = pdo_fetch('select id,nickname from ' . tablename('xuan_mixloan_member') . '
+                                    where id=:id', array(':id' => $inviter));
+    }
 	include $this->template('index/register');
 } elseif ($operation == 'register_contract') {
 	//注册协议
@@ -78,7 +88,7 @@ if($operation=='register'){
             'phone'=>$phone,
             'pass'=>$pwd,
             'createtime'=>time(),
-            'avatar'=>'http://wp158.top/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
+            'avatar'=>'http://xx.88883988.shop/addons/xuan_mixloan/template/style/picture/2018011801.jpg',
             'nickname'=>$nickname,
             'status'=>1,
         );
@@ -156,7 +166,7 @@ if($operation=='register'){
 } else if ($operation == 'login') {
     //登陆
     if (isset($_COOKIE['user_id'])) {
-        header("location:{$this->createMobileUrl('loan')}");
+        header("location:{$this->createMobileUrl('product')}");
     }
     include $this->template('index/login');
 } else if ($operation == 'login_ajax') {

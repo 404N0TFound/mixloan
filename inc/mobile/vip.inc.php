@@ -506,7 +506,7 @@ if($operation=='buy'){
     $posterArr = pdo_fetchall('SELECT poster FROM '.tablename('xuan_mixloan_poster').' WHERE uid=:uid AND type=:type AND pid=:pid', array(':uid'=>$member['id'], ':type'=>$type, ':pid'=>$pid));
     $created = true;
     if ($type == 3) {
-        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('vip', array('op' => 'app_register', 'inviter'=>$member['id']));
+        $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('index', array('op' => 'register', 'inviter'=>$member['id']));
         $share_url = shortUrl( $url );
         $tips = "{$config['title']}—我的随身银行：{$share_url}";
         if (!$posterArr) {
@@ -665,4 +665,33 @@ if($operation=='buy'){
     }
     unset($row);
     include $this->template('vip/partner_center');
+} else if ($operation == 'rank_list') {
+    //排行榜
+    if ($_GPC['day'] == 1) {
+        $strattime = strtotime(date('Y-m-d') . ' -1 days');
+        $endtime = strtotime(date('Y-m-d'));
+        $list = pdo_fetchall("select inviter as uid,SUM(re_bonus+done_bonus+extra_bonus) as count_bonus from " . tablename('xuan_mixloan_product_apply') . "
+             WHERE createtime>{$strattime} AND createtime<{$endtime}
+             GROUP BY inviter HAVING count_bonus<>0
+             ORDER BY count_bonus DESC LIMIT 15");
+    } else {
+        $temp_time = date('Y-m') . '-1';
+        $start_time = strtotime($temp_time);
+        $end_time = strtotime("+1 month {$temp_time}");
+        // $list = pdo_fetchall("SELECT inviter,SUM(re_bonus+done_bonus+extra_bonus) AS bonus FROM ".tablename('xuan_mixloan_bonus')." WHERE relate_id=0 AND createtime>{$start_time} AND createtime<{$end_time} GROUP BY inviter HAVING bonus<>0 ORDER BY bonus DESC LIMIT 15");
+        $list = pdo_fetchall("SELECT uid,SUM(bonus) as count_bonus FROM " .tablename('xuan_mixloan_withdraw'). "
+            WHERE createtime>{$start_time} AND createtime<{$end_time}
+            GROUP BY uid HAVING count_bonus<>0
+            ORDER BY count_bonus DESC LIMIT 15");
+    }
+    if (!empty($list)) {
+        foreach ($list as &$row) {
+            $temp_member = pdo_fetch("SELECT nickname,avatar,phone FROM ".tablename('xuan_mixloan_member').' WHERE id=:id', array(':id'=>$row['uid']));
+            $row['nickname'] = $temp_member['nickname'];
+            $row['avatar'] = $temp_member['avatar'];
+            $row['phone'] = substr($temp_member['phone'], 0, 4) . '****' . substr($temp_member['phone'], -3, 3);
+        }
+        unset($row);
+    }
+    include $this->template('vip/rank_list');
 }

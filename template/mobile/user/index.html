@@ -78,12 +78,16 @@
 {/if}
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'default'))}')">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-        <p>口子大全</p>
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" style="width: 1.2rem;" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category.png" style="width: 1.2rem;" /></p>
+        <p>系列</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>今日口子</p>
+        <p>教程</p>
         <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <!-- <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
@@ -156,6 +160,38 @@
             </div>
             {/if}
             <ul class="clearfix">
+                {if is_weixin()}
+                <li>
+                    <a onclick="openNew('')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/download.png" />
+                        app下载
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/if}
+                {if $member['user_type']['code'] == 1}
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'createPostAllProduct'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/download.png" />
+                        我的店铺
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/if}
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_join_type'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                        合伙人中心
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'rank_list'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
+                        排行榜
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
                 <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
@@ -163,7 +199,7 @@
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a  onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'want_subscribe'))}')" >
                         <img src="../addons/xuan_mixloan/template/style/picture/to_bindcard_1.png" />
                         我要办卡
@@ -176,7 +212,7 @@
                         我要贷款
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
-                </li>
+                </li> -->
                 <li style="border-bottom:none;">
                     <a onclick="openNew('{php echo $this->createMobileUrl('bank', array('op' => 'extend_limit'))}')" >
                         <img src="../addons/xuan_mixloan/template/style/picture/to_tier_1.png" />
@@ -208,13 +244,13 @@
                     </a>
                 </li>
                 {/if}
-                <li>
+                <!-- <li>
                     <a  onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'feedback'))}')" >
                         <img src="../addons/xuan_mixloan/template/style/images/feedback.png" />
                         返佣反馈
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
-                </li>
+                </li> -->
                 <li class="{if !is_weixin()}new_guide{else}customer{/if}">
                     <a onclick="openNew('{php echo $this->createMobileUrl('mix', array('op' => 'service'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/customer_1.png" />

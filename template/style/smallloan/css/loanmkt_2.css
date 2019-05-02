@@ -1,0 +1,443 @@
+﻿/*共用部分*/
+@font-face {font-family:'newFont'; src: url("../fonts/sourcehansanscn-light_1.ttf");}
+@font-face {font-family:'NumFont'; src: url("/Public/Wap/idai/new_font/DINPro-Regular.otf");}
+@font-face {font-family:'PingFang'; src: url("/Public/Wap/idai/new_font/PingFang Medium.ttf");}
+@font-face {font-family:'Helvetica'; src: url("../fonts/helvetica_1.ttf");}
+*{font-family: "Helvetica"!important;}
+/**{font-family: newFont!important;}*/
+div.recommend_main a ul.rate_data li h1{font-family: NumFont!important;}
+div.rate_info p em{font-family: NumFont!important;}
+body.forbid{overflow: hidden;}
+div.swiper-wrapper,div.swiper-slide,div.swiper-slide a{-webkit-tap-highlight-color: rgba(255,255,255,0);}
+/*切换标签*/
+div.loan_tab{position: fixed;width: 100%;top:0;left: 0; background-color: #fff; z-index: 99;}
+div.loan_tab ul{width:60%;margin:0 auto;overflow: hidden;}
+div.loan_tab ul li{width: 33.3%;text-align: center;float: left;box-sizing: border-box;font-size: 16px;}
+div.loan_tab ul li a{display: inline-block;color: #3f3f3f;font-weight: 400;width: 100%;height: 41px;line-height: 41px;}
+div.loan_tab ul li.on{border-bottom: 1px solid #3487ef;}
+div.loan_tab ul li.on a{color: #3487ef;}
+/*筛选*/
+div.filter_frame{margin-top:6px;}
+div.filter_tab{background-color: #f8f8f8;z-index: 99;position: fixed;top:42px;left: 0;width: 100%;}
+div.filter_tab ul{display: flex;align-items: center;background-color: #fff;margin-top:3px;border-bottom: 1px solid #f8f8f8;}
+div.filter_tab ul li{position: relative; float: left;width: 25%;text-align: center;padding:10px 0;color: #3f3f3f;-webkit-tap-highlight-color: rgba(255,255,255,0);}
+div.filter_tab ul li span{display: inline-block;max-width: 80%;height:20px;line-height: 20px; overflow: hidden;vertical-align: middle;}
+div.filter_tab ul li.tab::after{position: relative;top:-2px;display: inline-block;content: "";width: 0;height:0;border-left: 5px solid transparent;border-right: 5px solid transparent;border-top: 6px solid #3f3f3f;margin-left: 3px;}
+/*div.filter_tab ul li:last-child{width:18%;}*/
+div.filter_tab ul li.tab_on{color: #52a3ff;}
+div.filter_tab ul li.tab_onchoose,div.filter_tab ul li.tab_on{ color: #3487ef;}
+div.filter_tab ul li.tab_onchoose::after{position: relative;top:-2px;display: inline-block;content: "";width: 0;height:0;border-left: 5px solid transparent;border-right: 5px solid transparent;border-bottom: 6px solid #3487ef;margin-left: 3px;}
+div.filter_tab ul li.tab_on::after{position: relative;top:-2px;display: inline-block;content: "";width: 0;height:0;border-left: 5px solid transparent;border-right: 5px solid transparent;border-top: 6px solid #3487ef;margin-left: 3px;color: #3487ef;}
+div.cards_tab{top:0;background-color: #f3f3f3;}
+div.cards_tab ul{margin-top: 44px;}
+div.cards_tab ul li{width: 33.3%;}
+div.cards_tab ul li#banks{position: absolute;top:0;left: 0;width: 100%;background-color: #fff;}
+div.cards_tab>a{position: absolute;display: inline-block;padding: 0 10px 0 20px;z-index: 99;line-height: 0px;}
+div.cards_tab>a img{display: inline-block;height: 16px;margin:13px 0; vertical-align: middle;left: 0;top:0;transform:rotate(180deg);}
+/*筛选结果*/
+div.hotloan_list{overflow: hidden;}
+div.filter_result{margin-top:90px;background-color: #fff;}
+div.no_result{display: flex;align-items: center; padding:10px 2% 10px 5%;color: #a5a5a5;border-bottom: 1px solid #eee;display: none;font-size: 13px;}
+div.no_result>img{width: 16px;vertical-align: middle;margin-top: -4px;}
+div.loan_product{padding:10px;border-bottom: 1px solid #eee;}
+div.loan_product ul li{display: flex;align-items: center;}
+div.loan_product ul li>span{display: inline-block; width: 22%;}
+div.loan_product ul li>span img{width: 90%;max-width: 100%;border-radius: 5px;}
+div.rate_info,div.extra_info{overflow: hidden;}
+div.loan_info{width: 78%;}
+div.loan_info h2{font-size: 18px;color: #333333;}
+div.rate_info{position: relative;padding-top:4px;}
+div.rate_info span{display: inline-block;float: left;margin:0 2px;color: #c1c1c1;font-size: 13px;} 
+div.rate_info span em{display: inline-block;color: #333333;}
+div.rate_info p{position: absolute;right:0;bottom: 0;}
+div.rate_info p em{display: inline-block;font-size: 20px;color: #3487ef;vertical-align: bottom;}
+div.extra_info{padding-top:4px;}
+div.extra_info dl{float: left;overflow: hidden;}
+div.extra_info dl dd{float: left;border: 1px solid #ddd;border-radius: 5px;margin:0px 2px;font-size:12px; -webkit-transform-origin-x: 0; -webkit-transform: scale(0.82);}
+div.extra_info span{display: inline-block;float: right;color: #333333;line-height: 22px;}
+/*筛选弹窗*/
+div.pop_filter{position: fixed;width: 100%; bottom: 0;left: 0;width: 100%;display: none;z-index: 99;}
+div.filter_floor{width: 100%;height:100%;background-color: rgba(0,0,0,0.3)}
+div.filter_list{position: absolute;top:0;left: 0;width: 100%;}
+div.filter_list ul.filter_common{position: relative;left: 0; width: 100%;background-color: #fff;display: none;max-height: 460px;overflow: scroll;}
+div.filter_list ul.filter_common li{text-indent: 4%; padding:10px 0;border-bottom: 1px solid #eee;color: #3f3f3f;}
+div.Cfilter_list ul.filter_common li{text-indent: 7.2%;}
+div.Cfilter_list ul li{display: flex;align-items: center;}
+div.Cfilter_list ul li em{display: inline-block;color: #b2b2b2!important;max-width: 58%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+div.Cfilter_list ul.cardType{padding:5px 3.5% 10px 3.5%;}
+div.Cfilter_list ul.cardType li{width: 28%;margin:3px 1.5%;border-radius: 18px;box-sizing: border-box; border:1px solid #eee!important;padding:5px 0;text-align: center;float: left;text-indent: 0;}
+div.Cfilter_list ul.cardType li.filter_on{background-color: #3487ef;}
+div.Cfilter_list ul.cardType li.filter_on span{color: #fff;}
+div.Cfilter_list ul.cardType li span{display: inline-block;width: 100%;text-align: center;}
+div.filter_list ul.filter_common li:last-child{border: none;}
+div.filter_list ul.filter_common li.filter_on{color: #52a3ff;}
+/*div.filter_list ul.multiple{left: 0;max-height: 260px;overflow: auto;}
+div.filter_list ul.amount{left: 26%;max-height: 260px;overflow: scroll;}
+div.filter_list ul.term{left: 52%;}*/
+div.flex{width: 100%;background-color: #fff;display: none;}
+div.special_common{padding:0 12px;}
+div.special_common h1{text-indent:4%; color: #999;padding-top:10px;padding-bottom: 5px;font-weight: normal;}
+div.special_common ul{overflow: hidden;}
+div.special_common ul li{float: left;width: 28.5%;margin:3px 2%;box-sizing: border-box;padding:6px 0;text-align: center;border:1px solid #eee;border-radius: 40px;}
+div.special_common ul li.special_on{background-color: #3487ef;color: #fff;border: 1px solid #3487ef;}
+div.filter_confirm{overflow: hidden;border-top:1px solid #eee;margin-top:10px;}
+div.filter_list a{display: inline-block;width: 50%;padding:10px 0;text-align: center;box-sizing: border-box;color: #3f3f3f;float: left;font-size: 15px;font-weight: 600;}
+div.filter_list a.sure{background-color: #3487ef;color: #fff;}
+/*列表样式共用*/
+div.cards_frame{background-color: #f6f6f6;}
+div.common_frame{background-color: #fff;margin-top:5px;}
+div.common_frame>h1{padding:10px 15px;border-bottom: 1px solid #eee;}
+div.common_frame h1 span{display: inline-block;color: #7f7f7f;line-height:20px;font-size: 15px;vertical-align: middle;font-weight: normal;}
+div.common_frame>h1::before{display: inline-block;content: "";width: 8px;height:20px;background-color: #3487ef;margin-right: 8px;margin-top:-2px; vertical-align: middle;}
+div.common_frame h1 a{display: inline-block;float: right; color: #b2b2b2;font-weight: normal;}
+div.common_frame h1 a img{position: relative; top:-2px;margin-left: 5px; width: 8px;max-width: 100%;vertical-align: middle;}
+
+/***************************************贷款中心 首页*********************************************/
+/*轮播*/
+div.swiper-slide img{display: block;}
+/*通知*/
+div.loanindex_inform{padding:5px 0;height:20px; background-color: #fff;overflow: hidden;}
+div.loanindex_inform span{display: inline-block;width: 10%;text-align: center;float: left;}
+div.loanindex_inform span img{display: block; width: 50%;margin:0 auto;}
+div.loanindex_inform ul{float: left;width: 80%;height:20px;overflow: hidden;}
+div.loanindex_inform ul li{height:20px;line-height: 20px;}
+div.loanindex_inform ul li em{color: #428ff0;font-weight: normal;}
+/*贷款内容*/
+div.loanindex_frame{position: relative;padding-bottom: 42px;}
+div.loanindex_shortcut{background-color: #fff;margin-top:10px;}
+div.loanindex_shortcut ul{overflow: hidden;overflow: hidden;padding:5px 10px;}
+div.loanindex_shortcut ul li{width:25%;padding:8px 0;float: left;}
+div.loanindex_shortcut ul li p{text-align: center;height:20px;overflow: hidden;}
+div.loanindex_shortcut ul li p:first-child{height:36px;}
+div.loanindex_shortcut ul li p img{height:32px;max-width: 100%;border-radius: 10px;}
+
+div.loan_channel{overflow: hidden;background-color: #fff;margin-top: 10px;}
+div.idai_credit,div.channels{float: left;}
+div.idai_credit{width: 60%;padding:10px 0;}
+
+div.idai_credit{border-right:1px solid #eeeeee;box-sizing: border-box; }
+div.idai_credit a{display: inline-block;width: 100%;}
+div.idai_credit ul{width:90%;margin:0 auto;}
+div.idai_credit ul li{text-align: center;}
+div.idai_credit ul li h2{font-weight: 600;font-size: 16px;}
+div.idai_credit ul li p{color: #b4b4b4;}
+div.idai_credit ul li img{width:100%;max-width: 100%;display: block;margin-top:5px;margin-bottom: 10px;}
+
+/*div.channels{width: 40%;}
+div.channel{height:100%;}
+div.channel_common{height:50%;}
+div.channel_common:first-child{border-bottom: 1px solid #eee;}
+div.channel_common a{display: inline-block;width: 100%;}
+div.channel_common ul{display: flex;align-items: center;padding:0px 3% 0 6%;}
+div.channel_common ul li:first-child{width: 30%;}
+div.channel_common ul li:nth-child(2){width: 70%;}
+div.channel_common ul li h2{font-size: 15px;}
+div.channel_common ul li p{text-align: left;color: #b4b4b4;font-size: 12px;}
+div.channel_common ul li img{width: 80%;max-width: 100%;}*/
+
+/*i代信用上线前 临时*/
+div.channels{width: 100%;overflow: hidden;}
+div.channel{height:100%;}
+div.channel_common{width: 50%; height:50%;float: left;}
+div.channel_common:first-child{box-sizing: border-box; border-right: 1px solid #eee;}
+div.channel_common a{display: inline-block;width: 100%;}
+div.channel_common ul{display: flex;align-items: center;padding:6% 3% 6% 6%;}
+div.channel_common ul li:first-child{width: 35%;text-align: center;}
+div.channel_common ul li:nth-child(2){width: 65%;}
+div.channel_common ul li h2{font-size: 15px;}
+div.channel_common ul li p{text-align: left;color: #b4b4b4;font-size: 12px;}
+div.channel_common ul li img{width: 50%;max-width: 100%;}
+div.channel_common:nth-child(2) ul li:first-child img{width: 70%;margin-top: 5%;}
+
+/*推荐*/
+div.loan_recommend,div.hot_loan{margin-top:10px;}
+div.loan_recommend>h1,div.hot_loan>h1,div.auto_recommend h1{border-bottom: 1px solid #eee;overflow: hidden;padding:10px 10px;background-color: #fff;}
+div.loan_recommend h1 span,div.hot_loan h1 span,div.auto_recommend h1 span{display: inline-block;font-weight: 500;line-height: 20px;font-size: 15px;vertical-align: middle;}
+div.loan_recommend>h1::before,div.hot_loan>h1::before{content: "";display: inline-block; width:6px;height:20px;background-color: #3487ef;vertical-align: middle;margin-right:5px; }
+div.loan_recommend h1 a{display: inline-block;float: right;font-weight: normal;}
+div.loan_recommend h1 a img,div.auto_recommend h1 a img{display: inline-block; width: 15px;max-width: 100%;margin-left: 5px;vertical-align: middle;}
+div.recommend_main{border-bottom: 1px solid #eee;background-color: #fff;}
+div.recommend_main a{display: inline-block;width:100%;height:100%;padding:8px 0;}
+/*div.recommend_main a ul{padding:0 10px;}*/
+div.recommend_main a ul.desc li{display: flex;align-items: center;}
+div.recommend_main a ul.desc li>span{display: inline-block;width: 14%;margin-right:4%;text-align: center;border:1px solid #eee;border-radius: 5px;background-color: #f6f4f4;}
+div.recommend_main a ul.desc li span img{width: 100%;max-width: 100%;border-radius: 5px;display: inherit;}
+div.recommend_main a ul.desc li div{width: 84%;overflow: hidden;}
+div.recommend_main a ul.desc li div h2{font-size: 16px;font-weight: normal;}
+div.recommend_main a ul.desc li div p{overflow: hidden;margin-top:3px;}
+div.recommend_main a ul.desc li div span{display: inline-block;float: left;color: #666666;font-size: 12px;max-width: 67%;}
+div.recommend_main a ul.desc li div b{display: inline-block;float: right;color: #999999;font-weight: normal;font-size: 13px;}
+div.recommend_main a ul.desc li div b em{display: inline-block; color: #ff7171;font-weight: normal;}
+div.recommend_main a ul.rate_data{overflow: hidden;}
+div.recommend_main a ul.rate_data li{width: 33.333%;float: left;text-align: center;margin-top:8px;}
+div.recommend_main a ul.rate_data li h1{font-family: NumFont!important; font-size: 18px;height:20px;line-height: 20px; color: #3487ef;font-weight: normal;}
+div.recommend_main a ul.rate_data li p{color: #c1c1c1;}
+/*热门贷款*/
+div.hot_loan{position: relative;}
+div.hot_loan h1 a{display: inline-block;float: right;font-weight: normal;}
+div.hot_loan h1 a img{position: relative; top:-2px;margin-left: 5px; width: 8px;max-width: 100%;vertical-align: middle;}
+
+div.loan_product{padding:10px 3%;border-bottom: 1px solid #eee;background-color: #fff;}
+div.loan_product ul li{display: flex;align-items: center;padding:0 2%;}
+div.loan_product ul li>span{display: inline-block; width: 18%; background-color: #f6f4f4;border-radius: 5px;margin-right: 5%;border:1px solid #eee;}
+div.card_core ul li>span{width: 108px;}
+div.bank_index ul li>span{width: 22%;border-radius: 100%;}
+div.loan_product ul li>span img{width: 100%;height:60px; border-radius: 5px;display: block;}
+div.bank_index ul li>span img{border-radius: 100%;}
+div.rate_info,div.extra_info{overflow: hidden;}
+div.loan_info{width: 78%;}
+div.loan_info h2{font-size: 16px;color: #333333;font-weight: normal;}
+/*div.card_core ul li>span{width: 32%;}
+div.card_core .loan_info{width: 68%;}*/
+div.rate_info{position: relative;padding:2px 0 2px 0;}
+div.rate_info span{display: inline-block;float: left;margin:0 2px;color: #727272;font-size: 13px;} 
+div.rate_info span em{display: inline-block;color: #333333;font-weight: normal;}
+div.rate_info p{position: absolute;right:0;bottom: 0;font-size: 13px;}
+div.rate_info p em{display: inline-block;font-size: 18px;color: #3487ef;vertical-align: bottom;font-weight: normal;}
+div.extra_info{position: relative; padding-top:0px;}
+div.extra_info dl{width:60%; float: left;overflow: hidden;padding:0 3px;}
+div.card_core div.extra_info dl{width: 100%;}
+div.extra_info dl dd{float: left;border: 1px solid #ddd;border-radius: 3px;margin:2px -2px 0 -2px;padding:0;padding:0 4px;}
+div.extra_info dl dd em{display: table-cell;height:18px; vertical-align: middle;font-weight: normal;}
+div.card_core div.extra_info dl dd{padding:0 10px;}
+div.bank_index .extra_info dl dd{border:none;color: #9e9e9e;padding:0;margin-right: 10px;}
+div.bank_index .extra_info dl dd span{display: inline-block;line-height: normal;color: #3487ef;}
+div.extra_info span{position: absolute;right: 0;bottom: 0; display: inline-block;float: right;color: #333333;height:22px; line-height: 25px;font-size: 12px;}
+div.bank_index .extra_info dl{width: 100%;}
+div.bank_index .extra_info span{position: relative; display: inline-block;float: right;color: #333333;line-height: 28px;}
+div.card_index_extra dl dd{-webkit-transform:inherit;line-height: normal;}
+/*查看更多*/
+div.hotloan_list a.loan_more{display: inline-block;width: 100%;text-align: center;color: #8c8c8c;padding:10px 0;font-size: 15px;}
+div.hotloan_list a.loan_more img{position: relative; top:-1px; width: 8px;max-width: 100%;margin-left:5px;vertical-align: middle;}
+
+/***************************************************************信用卡 中心**************************************************************/
+/*热门银行*/
+div.hot_bank ul{overflow: hidden;padding:5px 0;}
+div.hot_bank ul li{float: left;width: 25%;margin:5px 0;}
+div.hot_bank ul li a{display: inline-block;width: 100%;}
+div.hot_bank ul li p{text-align: center;}
+div.hot_bank ul li p:first-child{width: 55%;background-color: #f6f4f4;margin:5px auto;border-radius: 100%;}
+div.hot_bank ul li p img{display: block; width: 100%;max-width: 100%; border-radius: 100%;}
+/*快捷筛选*/
+div.shutcut_recommend ul{overflow: hidden;}
+div.shutcut_recommend ul li{float: left;width: 50%;box-sizing: border-box;border-bottom: 1px solid #eee;}
+div.shutcut_recommend ul li:first-child,div.shutcut_recommend ul li:nth-child(3){border-right: 1px solid #eee;}
+div.shutcut_recommend ul li:nth-child(3),div.shutcut_recommend ul li:nth-child(4){border-bottom: none;}
+div.shutcut_recommend ul li a{display: inline-block;width: 76%;display: flex;align-items: center;padding:15px 12%;}
+div.shutcut_recommend ul li .shortcut_title{width: 70%;}
+div.shortcut_title h2{font-size: 16px;/*font-weight: 600;*/color: #444;}
+div.shortcut_title p{color: #999;font-size: 13px;}
+div.shutcut_recommend ul li span{display: inline-block;width: 30%;text-align: center;}
+div.shutcut_recommend ul li span img{display: inline-block;height:50px;}
+/*扩展查询*/
+div.extend_main ul{overflow: hidden;padding:10px 5%;display: flex;align-items: center;}
+div.extend_main ul li{float: left;width: 33.3%;}
+div.extend_main ul li a{display: inline-block;width: 100%;}
+div.extend_main ul li p{text-align: center;}
+div.extend_main ul li p:first-child{height: 50px; min-height: 50px;}
+div.extend_main ul li p:first-child::after{display: inline-block;content: "";height:100%;vertical-align: middle;}
+div.extend_main ul li p img{display: inline-block; width: 35%;vertical-align: middle;}
+/*智能推荐*/
+div.recommend_main{padding:10px 5%;border-bottom: 1px solid #eee;}
+div.recommend_main:last-child{border: none;}
+div.recommend_main a{display: inline-block;width: 100%;}
+div.recommend_main h2{font-size: 16px;color: #222;font-weight: normal;}
+div.cards_recommend h2{padding:5px 0;font-weight: normal;}
+div.recommend_detail{display:flex;align-items:center;padding:6px 0;}
+div.recommend_detail .card_img{display: block; width:20%;margin-right: 4%;}
+div.card_desc{width:50%;color: #7b7b7b;}
+div.card_desc p:first-child{color: #3487ef;}
+div.apply_no{width:25%;color: #7b7b7b;}
+div.recommend_detail .ph{width:10%;}
+div.recommend_detail .card_img img,div.recommend_detail .ph img{display: block;width:100%;max-width:100%;border-radius: 5px;}
+div.apply_no p{text-align:center;font-size: 13px;}
+div.apply_no p:first-child{height:17px;overflow: hidden;}
+div.apply_no p span{displlay:inline-block;color:#ff4d4d;}
+/*热门卡种*/
+div.hot_cards{position: relative;padding-bottom: 42px;}
+div.hotC_list{overflow: hidden;}
+div.hot_main{border-bottom: 1px solid #eee;}
+/*div.hot_cards div.hot_main:last-child{border: none;}*/
+div.hot_main>a{display: block;display:flex;align-items:center;padding:15px 6%;}
+
+div.hot_main>a>span{display:inline-block;width:108px;margin-right: 5%;}
+div.hot_main>a>span img{display: block; width:100%;height:60px; max-width: 100%;border-radius: 5px;}
+div.hot_main div.hot_detail{width:68%;}
+div.hot_detail h2{color: #222;font-size: 16px;font-weight: normal;}
+div.hot_detail p{color: #727272;padding:1px 0;font-size: 13px;}
+div.hot_detail ul{overflow:hidden;padding:2px 0 0 3px;}
+div.hot_detail ul li{float:left;padding:0 10px;border:1px solid #eee;border-radius:3px;margin:0 -2px;font-size: 12px;font-size:12px; -webkit-transform-origin-x: 0; -webkit-transform: scale(0.82);}
+div.hot_detail ul li em{display: table-cell;height: 18px;vertical-align: middle;font-weight: normal;}
+/*点击查看更多*/
+div.hot_cards a.more_cards{display: inline-block; width: 100%; text-align: center;padding:10px 0;font-size: 15px;color: #727272;}
+div.hot_cards a.more_cards img{display: inline-block;margin-left: 5px;width: 8px;max-width: 100%;}
+
+a.more_hotcards,a.no_hotcards{position: absolute;left: 0;bottom: 0; display: inline-block; width: 100%; text-align: center;height:42px;line-height:42px;font-size: 15px;color: #727272;display: none;}
+a.no_hotcards{display: none;}
+a.more_hotcards img{display: inline-block;width: 20px;max-width: 100%;vertical-align: middle;margin-right: 5px;}
+a.more_hotcards img{
+  -webkit-transform: rotate(0deg) translateZ(0);
+  -webkit-transition-duration: 0;
+  -webkit-animation-name: loading;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg) translateZ(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg) translateZ(0);
+  }
+}
+
+/***********************************************************进度查询 在线提额 提额干货***************************************************************/
+div.rate_main{margin-top: 15px;padding-top:30px;}
+div.rate_common{background-color: #fff;margin-top:5px;}
+div.rate_common>h2{padding:10px 0;display: flex;align-items: center;padding-left: 20px;}
+div.rate_common>h2 span{display: inline-block;color: #7f7f7f;font-weight: 600;font-size: 15px;}
+div.rate_common>h2::before{display: inline-block;content:"";width: 6px;height:16px;background-color: #3487ef;vertical-align: middle;margin-right: 8px;}
+div.rate_common>h2 a{display: inline-block; position: absolute;right: 15px;color: #bcbcbc;}
+div.rate_common>h2 a img{position: relative;top:-1px; width: 14px;max-width: 100%;vertical-align: middle;margin-left: 3px;}
+div.rate_common ul{overflow: hidden;width: 100%;}
+div.hot_skill ul{max-height: 220px;}
+div.rate_check ul{border-top:1px solid #eee;}
+div.rate_check ul li{width: 33.3%;float: left; text-align: center;border-right:1px solid #eee;border-bottom:1px solid #eee;box-sizing: border-box;}
+div.rate_check ul li a{display: inline-block; text-align: center;padding:10px 0;}
+div.rate_check ul li p{display: inline-block; width:30%;border-radius: 100%;vertical-align: middle;background-color: #f6f4f4;}
+div.rate_check ul li p img{width: 100%;display: block;border-radius: 100%;}
+div.rate_check ul li span{display: inline-block;width: 50%; color: #7f7f7f;vertical-align: middle;}
+div.rate_check ul li span em{display: block;font-size: 12px;}
+div.rate_recommend ul{border-bottom: 1px solid #eee;}
+div.rate_recommend ul li{text-align: center; width: 33.3%;float: left; padding:15px 0;border-top:1px solid #eee;border-right:1px solid #eee;box-sizing: border-box;}
+div.rate_recommend ul li h1{text-align: center;font-size: 15px;padding:0 3px;height:20px;overflow: hidden;}
+div.rate_recommend ul li p{text-align: center;color: #727272;font-size: 12px;padding:0 3px;height:15px; overflow: hidden;}
+div.rate_recommend ul li span{display: inline-block;/*width: 45%;*/max-width: 100%;border-radius: 100%;margin:5px 0 2px 0; /*background-color: #f6f4f4;*/}
+div.rate_recommend ul li span img{display: block;height:52px; border-radius: 100%;}
+div.rate_recommend ul li a{display: inline-block;width: 60%; margin-top: 8px;padding:0;color:#3487ef;text-align: center;border:1px solid #3487ef;border-radius: 20px;font-size: 13px;line-height: 20px;}
+/*在线提额弹窗*/
+div.tier_tel{position: fixed;top:0;left: 0;height:100%;width: 100%;z-index: 99;display: none;}
+div.tier_tel .floor{width: 100%;height:100%;background-color: rgba(0,0,0,0.3);}
+div.tier_tel .service_main{position: absolute;width: 80%;left: 10%;top:30%; background-color: #fff;border-radius: 10px;padding:10px 0 20px 0;}
+div.service_main h1{display: flex;align-items: center;border-radius: 10px;margin-bottom: 12px;}
+div.service_main h1 span{display: inline-block;vertical-align: middle;text-align: left;margin-top: 0!important;}
+div.service_main h1::before{display: inline-block;content: "";width: 8px;height:18px;margin-right: 8px;background-color: #3487ef;}
+div.service_main h1 a{position: absolute;display: inline-block; right: 15px;}
+div.service_main h1 a img{width: 16px;max-width: 100%;}
+div.service_main p{color: #7f7f7f;padding: 5px 6%;text-indent: 20px;line-height: 22px;}
+div.service_main h2{padding-top:6px;text-align: center;color: #3487ef;font-size: 22px;}
+div.service_main span{display: inline-block;width: 100%;text-align: center;margin-top: 10px;}
+div.service_main span a{display: inline-block;width: 50%;padding:8px 0;background-color: #3487ef;color: #fff;border-radius: 30px;}
+div.service_main span a img{display: inline-block;margin-right: 10px;width: 16px;max-width: 100%;vertical-align: middle;}
+/*提额干货*/
+div.tier_raw{margin-top:0;}
+div.tier_raw h2{position: relative;overflow: hidden;}
+div.tier_raw h2 a{display: inline-block; float: right;}
+div.tier_raw h2 a img{width: 20px;}
+div.hot_skill ul li a{display: flex;align-items: center; padding:10px 15px;border-top:1px solid #eee;color: #727272;}
+div.hot_skill ul li a span{display: inline-block;width: 25px;max-width: 100%;border-radius: 100%;margin-right: 10px;background-color: #f6f4f4;vertical-align: middle;}
+div.hot_skill ul li a img{display: block;width: 100%;border-radius: 100%;}
+div.hot_skill>a{display: block;padding:10px 0; text-align: center;color: #a5a5a5;border-top:1px solid #eee;}
+div.hot_skill>a.down_arrow::after{display: inline-block; content: "";width:10px;height:10px;border-top: 1px solid #a5a5a5;border-right: 1px solid #a5a5a5;transform: rotate(135deg);-webkit-transform: rotate(135deg);vertical-align: middle;margin-left: 8px;margin-top: -8px;}
+div.hot_skill>a.top_arrow::after{display: inline-block; content: "";width:10px;height:10px;border-top: 1px solid #a5a5a5;border-right: 1px solid #a5a5a5;transform: rotate(-45deg);-webkit-transform: rotate(-45deg);vertical-align: middle;margin-left: 8px;margin-top: 3px;}
+/*提额干货 顶部滑动*/
+div.swiper-nav{position: relative;padding-top: 8px;}
+div.swiper-nav .swiper-slide{ width:80px;text-align:center;padding-bottom: 15px;border-bottom: 1px solid #eee;box-sizing: border-box;}
+div.opt p:first-child{display: inline-block;width: 65%;margin:0 auto;background-color: #f6f4f4;border-radius: 100%;}
+div.opt p img{display: block;width: 100%;border-radius: 100%;}
+div.opt a{position: absolute;display: inline-block;width:18%;left:41%;bottom: -4px;z-index: 99;}
+div.opt a img{width: 100%;}
+
+div.bank_ghD,div.bank_ghH{border-top: 1px solid #eee;}
+div.bank_ghD ul{overflow: hidden;}
+div.bank_ghD ul li{width: 17.9%;margin:10px 1%;float: left;}
+div.bank_ghD ul li p{text-align: center;}
+div.bank_ghD ul li p:first-child{display: inline-block; width: 70%;margin:0 15%; border-radius: 100%;/*background-color: #f6f4f4;*/}
+div.bank_ghD ul li p img{width: 100%;border-radius: 100%;}
+div.bankgh_content ul{overflow: hidden;background-color: #fff;}
+div.bankgh_content ul li{display: flex;align-items: center; float: left;width: 50%;box-sizing: border-box;background-color: #fcfcfc!important;padding:12px 0 12px 20px;font-size: 14px;border-right: 1px solid #eee;border-bottom: 1px solid #eee;}
+div.bankgh_content ul li a{display: inline-block;width: 85%;height: 20px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+div.bankgh_content ul li::before{display: inline-block;content: "";width: 6px;height:6px;border-radius: 100%;background-color: #7f7f7f;margin-right: 8px;}
+.fix_right{position:absolute;right:0;top:0;width: 18%;height:100%;background-color: #fff;background: linear-gradient(to right, rgba(255,255,255,0) , rgba(255,255,255,1));z-index: 1;pointer-events: none;}
+/*人生首卡*/
+div.fstC,div.hotR{width:90%;margin: 0 auto;margin-top: 40%;border-radius: 10px;padding-bottom: 10px;margin-bottom: 25px;}
+div.fstC>h1{width: 96%;margin:0 auto; padding:15px 0; border-bottom: 1px solid #eee;text-align: center;font-size: 16px;color: #666666;font-weight: 600;}
+div.fstC>h1:before,div.fstC>h1:after{display: inline-block;content: "";width:7px;height:7px; border-radius: 100%;background-color: #666666;vertical-align: middle;}
+div.fstC>h1:before{margin-right: 10px;}
+div.fstC>h1:after{margin-left: 10px;}
+div.fstC_lists,div.hotR_lists{width: 96%;margin:0 auto;}
+div.fstC_list{border-bottom: 1px solid #eee!important;}
+div.fstC_list h2{position: relative;display: flex;align-items: center; padding:5px 0;}
+div.fstC_list h2 a{position: absolute;right: 0; background-color: #fe5a59;border-radius: 32px;color: #fff;width: 65px;height:20px;text-align: center;line-height: 20px;padding:2px 5px;font-size: 13px;}
+div.fstC_dtl .card_desc,div.hotR_dtl .card_desc{width: 50%;font-size: 13px;}
+div.fstC_dtl .card_img,div.hotR_dtl .card_img{margin-right: 5%;}
+div.fstC_dtl .apply_no p span{color: #222222;}
+div.fstC .fstC_more,div.hotR .hotR_more{text-align: center;margin-top:25px;}
+div.fstC .fstC_more a{background-color: #fe5a59;padding:8px 10%;border-radius: 36px;color: #fff;font-size: 16px;}
+/*极速下卡*/
+div.fastC{width:92%;margin:0 auto;margin-top: 40%;background-color: transparent;padding-bottom: 30px;}
+div.fastC_lists ul{overflow: hidden;}
+div.fastC_lists ul li{float: left; width: 46%;margin:6px 2%;background-color: #fff;padding:10px 0;}
+div.fastC_M{width: 86%;margin:0 auto;}
+div.fastCM_T{border-bottom: 1px solid #eee;}
+div.fastCM_T h2{text-align: center;color: #333333;font-size: 15px;font-weight: 600;height:20px;overflow: hidden;}
+div.fastCM_T img{display: block;width: 70%;height:60px;margin:12px auto;border-radius: 5px;}
+div.fastC_M dl{padding: 6px 3%;}
+div.fastC_M dl dd{color: #8e8e8e;padding:3px 0;height:15px; overflow: hidden;}
+div.fastC_M dl dd:first-child{color: #3487ef;}
+div.fastC_M dl dd:before{display: inline-block;content: "";width: 2px;height:2px;background-color: #727272;border-radius: 100%;vertical-align: middle;margin-right: 5px;}
+div.fastC_M>a{display:block;padding:2px 5px;margin:5px auto;width: 60%;text-align: center;background-color: #3487ef;border-radius: 5px;color: #fff;}
+div.fstC_more{text-align: center;margin:20px 0;}
+div.fstC_more>a{display: inline-block;background-color: #ea215f;border-radius: 5px;color: #fff;padding: 10px 10%;text-align: center;font-size: 16px;}
+div.hotR{width: 96%;margin: 25px auto;padding:35px 0 45px 0; background: url('../images/0b1f3cba86c248b5a8f0a8854a8afe73.gif');background-size: 100% 100%;background-repeat: no-repeat;background-position: center center;}
+div.hotR_lists{width: 90%; }
+div.hotR_list{border:none;border:1px solid #eee!important;border-radius: 5px;box-sizing: border-box;margin:10px 0;box-shadow: 0 0 5px #eee;}
+div.hotR_list a{display: block;}
+div.hotR_dtl .apply_no p:first-child{color: #444444;}
+div.hotR .hotR_more a{border-radius: 5px;color: #fff;font-size: 16px;background-color: #fe5a59;padding:8px 10%;}
+/*热门推荐*/
+div.hotR_phb{width: 90%;margin: 0 auto;box-sizing: border-box;/*border:1px solid #eee;*/border-radius: 10px;}
+div.hotRNav{padding: 0;}
+div.swiper-wrapper .hot-nav{float: left;width:33.3%;border:none;padding:0;}
+div.swiper-wrapper .hot-nav:nth-child(2){position: relative;top:-10px;}
+div.swiper-wrapper .hot-nav a{display: inline-block;width: 100%;}
+div.hotR_opt{padding:10px 0;}
+div.hotR_opt>span{display: inline-block;color: #fff;text-indent: 20px;background-color: #f00;border-radius: 30px;font-size: 12px;padding:2px 3px;}
+div.hotR_opt>img{display: block;width: 70%;margin: 10px auto;border-radius: 5px;}
+div.swiper-wrapper .hot-nav:nth-child(2) .hotR_opt>img{width:86%; }
+div.hotR_opt h1{text-align: center;color: #222222;font-size: 13px;height:16px;overflow: hidden;}
+div.hotR_opt p{color: #858585;text-align: center;font-size: 12px;padding:3px 0;}
+div.hotR_opt p span{color: #ff7171;}
+
+/*div.phb_roll ul{overflow: hidden;padding: 25px 0 16px 0;background: url('../images/phb_bg2_1.png');background-size: 100% 100%;background-repeat: no-repeat;background-position: center center;}
+div.phb_roll li{width: 33.3%;float: left;text-align: center;}
+div.phb_roll li a{display: block;text-align: center;}
+div.phb_roll li span{display: inline-block;background-color: #01b2e6;border-radius: 15px;padding:0px 8px 3px 8px;}
+div.phb_roll li span.colorbg_1{background-color: #01b2e6;}
+div.phb_roll li span.colorbg_2{background-color: #f48f2a;}
+div.phb_roll li span.colorbg_3{background-color: #e85652;}
+div.phb_roll li span img{display: inline-block;width: 12px;vertical-align: middle;margin-right: 3px;}
+div.phb_roll li span em{display: inline-block;vertical-align: middle;color: #fff;font-style: italic;font-size: 12px;}
+div.phb_roll li a>img{width: 65%;border-radius: 5px;display: block;margin:10px auto;}
+div.phb_roll li:nth-child(2){position: relative;top:-10px;}
+div.phb_roll li:nth-child(2) a>img{width: 80%;}
+div.phb_roll li h2,div.phb_roll li p{text-align: center;font-size: 12.5px;padding-left: 4px;padding-right:4px;height: 16px;overflow: hidden;}
+div.phb_roll li p{color: #727272;font-size: 12px;}
+div.phb_roll li p em{color: #ff4d4d;}*/
+div.phb_roll>p img{display: block;width: 80%;margin: 0 auto;margin-bottom: 10px;}
+div.phb_roll>img{position: relative; top:-7px; display: block;width: 90%;margin:0 auto;z-index: 1;}
+
+div.hotR_rollimg a{display: block;text-align: center;}
+div.hotR_rollimg a span{display: inline-block;background-color: rgba(0,0,0,0.6);color: #fff;border-radius:15px;padding:2px 6px;overflow: hidden;-webkit-transform-origin-x: 0; -webkit-transform: scale(0.82);margin-left: 10%;}
+div.hotR_rollimg a span.colorbg_1{background-color: #01b2e6;}
+div.hotR_rollimg a span.colorbg_2{background-color: #f48f2a;}
+div.hotR_rollimg a span.colorbg_3{background-color: #e85652;}
+div.hotR_rollimg a span img{float: left; display: inline-block;vertical-align: middle;margin-right: 5px;width: 12px;}
+div.hotR_rollimg a span b{float: left;display: inline;vertical-align: middle;font-weight: normal;font-size: 12px;}
+div.hotR_rollimg a span::after{display:table;content:"";line-height:0;clear: both;}
+div.hotR_rollimg a>img{display: block;width: 65%;margin:5px auto 10px auto;border-radius: 5px;}
+div.hotR_rollimg a h2,div.hotR_rollimg a p{text-align: center;font-size: 12.5px;padding-left: 4px;padding-right:4px;height: 16px;overflow: hidden;}
+div.hotR_rollimg a p{color: #727272;font-size: 12px;}
+div.hotR_rollimg a p em{color: #ff4d4d;font-weight: normal;}

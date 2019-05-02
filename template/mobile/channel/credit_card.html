@@ -34,6 +34,14 @@
         .fl{float: right;}
         div.agent-footer a.on p{border-bottom: 1px solid #62bbff;}
         .dropload-down{text-align: center;padding:1% 0;color:#949494;font-size:12px;}
+        .fl {
+            float: left;
+        }
+        div.evdayhotlist .loan-main p.readerNo {
+            position: absolute;
+            bottom: 10px;
+            right: 0;
+        }
     </style>
 
     {template 'common/wxshare'}
@@ -111,12 +119,16 @@
 {if !is_weixin()}
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'default'))}')">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-        <p>口子大全</p>
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" style="width: 2.2rem;" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category.png" style="width: 2.2rem;" /></p>
+        <p>系列</p>
     </a>
     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot.png" /></p>
-        <p>借钱</p>
+        <p>口子</p>
         <!-- <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span> -->
     </a>
     <!-- <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >

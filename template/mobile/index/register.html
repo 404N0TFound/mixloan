@@ -67,6 +67,9 @@
 <div class="fill_info" data-id="341794">
 	<img src="{php echo tomedia($config['logo']);}" />
 	<ul>
+        {if $inviter}
+        <li>推荐人：{$inviter_info['nickname']}</li>
+        {/if}
 		<li>
 			<label><img src="../addons/xuan_mixloan/template/style/picture/phone_3.png" style="width: 16px;" /></label>
 			<input type="tel" name="" id="phone" maxlength="11" placeholder="请输入您的手机号">
@@ -168,33 +171,23 @@
             bind_click();
             return false;
         }
-        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax'))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
+        $.post("{php echo $this->createMobileUrl('index', array('op'=>'register_ajax', 'inviter' => $inviter))}",{"phone":phone,"smsCode":validcode,"pwd":psw},
             function(data){
                 console.log(data);
                 if(data.code==1){
-                    if (typeof(plus) == "undefined") {
-                        {if !is_weixin()}
-                        layer.msg('注册成功，请在app内登陆');
-                        {else}
-                        {if $_GPC['layer']}
-                        parent.layer.closeAll();
-                        {else}
-                        layer.msg(data.msg,{time:2000},function(){
-                            openNew(data.data.url);
-                        });
-                        {/if}
-                            {/if}
-                            } else {
-                            layer.msg(data.msg,{time:2000},function(){
-                                openNew(data.data.url);
-                            });
-                        }
-                        }else{
-                            layer.msg(data.msg);
-                            bind_click();
-                            return false;
-                        }
-                    },'json')
+                    {if $_GPC['layer']}
+                    parent.layer.closeAll();
+                    {else}
+                    layer.msg(data.msg,{time:2000},function(){
+                        openNew(data.data.url);
+                    });
+                    {/if}
+                }else{
+                    layer.msg(data.msg);
+                    bind_click();
+                    return false;
+                }
+            },'json')
     }
     function bind_click(){
         $(".to_buy").bind("click",function(){

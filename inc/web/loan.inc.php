@@ -24,6 +24,9 @@ if ($operation == 'list') {
     message("提交成功", $this->createWebUrl('loan', array('op' => '')), "sccuess");
 } else if ($operation == 'add') {
     //添加
+    $category = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_loan_category') . "
+                 where uniacid={$_W['uniacid']} 
+                 ORDER BY ID DESC");
     if ($_GPC['post'] == 1) {
         $data = $_GPC['data'];
         $data['uniacid'] = $_W['uniacid'];
@@ -41,6 +44,9 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_loan"). " where id={$id}");
     $item['type'] = array_values(explode(',', $item['type']));
     $item['ext_info'] = json_decode($item['ext_info'], true);
+    $category = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_loan_category') . "
+                 where uniacid={$_W['uniacid']} 
+                 ORDER BY ID DESC");
     if ($_GPC['post'] == 1) {
         $_GPC['data']['type'] = implode(',', $_GPC['data']['type']);
         $_GPC['data']['ext_info']['conditions'] = htmlspecialchars_decode($_GPC['data']['ext_info']['conditions']);
@@ -80,6 +86,38 @@ if ($operation == 'list') {
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_loan_advs', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('loan', array('op' => 'advs_list')), "sccuess");
+    }
+} else if ($operation == 'category_list') {
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $sql = 'select * from ' . tablename('xuan_mixloan_loan_category') . " where uniacid={$_W['uniacid']} " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    $total = pdo_fetchcolumn( 'select COUNT(1) from ' . tablename('xuan_mixloan_loan_category') . " where uniacid={$_W['uniacid']} " . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'category_delete') {
+    pdo_delete('xuan_mixloan_loan_category', array("id" => $_GPC["id"]));
+    message("提交成功", $this->createWebUrl('loan', array('op' => 'category_list')), "sccuess");
+} else if ($operation == 'category_add') {
+    //添加
+    if ($_GPC['post'] == 1) {
+        $data = $_GPC['data'];
+        $data['uniacid'] = $_W['uniacid'];
+        $data['createtime'] = time();
+        $data['ext_info'] = json_encode($data['ext_info']);
+        pdo_insert('xuan_mixloan_loan_category', $data);
+        message("提交成功", $this->createWebUrl('loan', array('op' => 'category_list')), "sccuess");
+    }
+} else if ($operation == 'category_update') {
+    //编辑
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_loan_category"). " where id={$id}");
+    $item['ext_info'] = json_decode($item['ext_info'], true);
+    if ($_GPC['post'] == 1) {
+        $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
+        pdo_update('xuan_mixloan_loan_category', $_GPC['data'], array('id'=>$item['id']));
+        message("提交成功", $this->createWebUrl('loan', array('op' => 'category_list')), "sccuess");
     }
 }
 include $this->template('loan');

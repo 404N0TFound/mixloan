@@ -60,12 +60,17 @@
 </div>
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'default'))}')">
-        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
-        <p>口子大全</p>
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" style="width: 1.2rem;" /></p>
+        <p>首页</p>
     </a>
-    <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')" class="today-cell">
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category.png"  style="width: 1.2rem;"/></p>
+        <p>系列</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>''))}')" class="today-cell">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
-        <p>借钱</p>
+        <p>教程</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
     </a>
     <!-- <a class="home" onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')">
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">

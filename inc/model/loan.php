@@ -23,6 +23,8 @@ class Xuan_mixloan_Loan
                     $wheres .= " AND `time_blow` >= {$v}";
                 } else if ($k == 'high') {
                     $wheres .= " AND `time_high` <= {$v}";
+                } else if ($k == 'like_name') {
+                    $wheres .= " AND `name` like '%{$v}%'";
                 } else {
                     $wheres .= " AND `{$k}` = '{$v}'";
                 }

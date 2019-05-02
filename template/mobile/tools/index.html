@@ -1,0 +1,106 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>工具大全</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/swiper.min_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/loanmkt_2.css">
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/agent_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/myslideup_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/layer_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/clipboard.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/common.js"></script>
+    <style type="text/css">
+        .swiper-slide{max-height: 145px;overflow: hidden;}
+        .toplist li img{ width: 60px !important; height: 60px !important;}
+        .toplist li p{ height: auto !important; line-height: 150%;}
+        .agent-foot a{width: 20%}
+        div.loan_tab ul li a {
+            height: 78px;
+            line-height: 112px;
+        }
+        .toptitle{font-size: 16px;height: 80px;line-height: 110px;}
+    </style>
+
+	</head>
+<body class="bglightgray">
+
+    <div class="loanindex_frame">
+        <div class="toptitle" style="position: static">
+            工具大全
+        </div>
+
+        <div class="loanindex_main">
+
+
+             <div class="hot_loan">
+                <h1><span>工具大全</span></h1>
+                <div class="loanindex_shortcut" style="margin-top: 0;">
+                    <ul>
+                        {loop $list $row}
+                        <li>
+                            <a onclick="toOutside('{$row['ext_info']['url']}')">
+                                <p><img src="{php echo tomedia($row['ext_info']['logo']);}" /></p>
+                                <p>{$row['name']}</p>
+                            </a>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- <div class="loan_channel" style="height: 100px;">
+
+        </div> -->
+
+    </div>
+	<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/index_new_1.css">
+<script src="../addons/xuan_mixloan/template/style/smallloan//js/lmy_2.js"></script>
+    
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category.png" /></p>
+        <p>系列</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')" >
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>教程</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>推广赚钱</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+    <a class="more_hotcards"><img src="../addons/xuan_mixloan/template/style/smallloan//picture/loading_1.png" />加载中</a>
+    <a class="no_hotcards"></a>
+
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/swiper.min_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url, craeteNew:true});
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta  content="e-mail=no" name="format-detection"/>
+    <title>贷款中心</title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/swiper.min_2.css">
+
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/loanmkt_2.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/main_4.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/layer5_1.css" id="layui_layer_skinlayercss">
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery_2.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/smallloan//js/jquery.lazyload_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/agent_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/layer_2.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/clipboard.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/common.js"></script>
+	    <style>
+        .loan_product>a{ display: block !important; width: 100%;}
+        .result_list{ padding-bottom: 100px !important;}
+        .rate_info p,.rate_info em{ line-height: 16px !important}
+
+        .agent-foot a{width: 20%}
+        .toptitle{font-size: 16px;height: 80px;line-height: 110px;}
+        div.filter_frame{margin-top: 0}
+        div.filter_tab {
+            top: 90px;
+            position: absolute;
+        }
+        div.pop_filter{top: 130px}
+    </style>
+</head>
+<body class="bglightgray">
+
+    <div class="filter_frame">
+        <div class="toptitle" style="position: static">
+            {$config['title']}
+        </div>
+        <div class="filter_tab">
+            <ul>
+                <li class="tab" data-filter="multiple" data-classify="0"><span>综合排序</span></li>
+                <li class="tab" data-filter="amount" data-classify="2"><span>不限金额</span></li>
+                <li class="tab" style="display: none" data-filter="term" data-classify="3"><span>不限期限</span></li>
+                <li class="tab" data-filter="flex" data-classify="1"><span>不限分类</span></li>
+            </ul>
+        </div>
+        <div class="filter_result">
+            <div class="f_search">
+             <form action="/app/index.php" method="get" id="form_post">
+                    <div class="input-group">
+
+                        <input type="hidden" name="i" value="1">
+                        <input type="hidden" name="c" value="entry">
+                        <input type="hidden" name="op" value="list">
+                        <input type="hidden" name="do" value="smallloan">
+                        <input type="hidden" name="m" value="xuan_mixloan">
+                        <input type="text" name="word" value="{$_GPC['word']}" placeholder="输入关键词搜索贷款平台" class="form-control"/>
+                        <button type="submit">搜索</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- <div style="padding: 0 10px 0 10px; margin: 0 10px; line-height: 26px; text-align: center; border: 1px dashed #CCC;color: #FF5300;" id="group_intro">
+                点击查看当前系列相关介绍
+            </div> -->
+            <input type="hidden" id="group_id" value="0">
+            <div id="group_show" data-id="" style="display: none;"></div>
+            <!-- <div class="hot_loan">
+                <h1><span>贷款分类</span></h1>
+                <div class="loanindex_shortcut" style="margin-top: 0;">
+                    <ul>
+                        li>
+                            <a href="./index.php?i=1&c=entry&op=loan_select&type=208&do=loan&m=xuan_mixloan">
+                                <p><img src="../addons/xuan_mixloan/template/style/smallloan//picture/jkqjiuiqjhutkzenqhjqz1sqjpjjpt.png" /></p>
+                                <p>马上有米系列</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+            <div class="hot_loan">
+                <h1><span>贷款平台</span></h1>
+                <div class="result_list" style="margin-top: 0;">
+                    
+                </div>
+            </div>
+            <!-- div class="no_result">
+                <img src="../addons/xuan_mixloan/template/style/smallloan//picture/no_result_1.png">
+                没有找到符合条件的贷款平台
+            </div> -->
+        </div>
+    </div>
+    <div class="pop_filter">
+        <div class="filter_floor"></div>
+
+        <div class="filter_list">
+            <ul class="filter_layer filter_common multiple" id="multiple">
+                <li data-no="0" data-flag="">综合排序</li>
+                <li data-flag="1">额度最高</li>
+                <li data-flag="2">利率最低</li>
+                <li data-flag="3">通过率高</li>
+            </ul>
+            <ul class="filter_layer filter_common amount" id="amount">
+                <li data-no="0" data-min="" data-max="">不限金额</li>
+                <li data-min="0" data-max="10000" data-id="33">1万以内</li>
+                <li data-min="10001" data-max="50000" data-id="34">1-5万</li>
+                <li data-min="50001" data-max="100000" data-id="35">5-10万</li>
+                <li data-min="100000" data-max="15000000" data-id="36">10万以上</li>            
+            </ul>
+            <ul class="filter_layer filter_common term" id="term" style="display: none">
+                <li data-no="0" data-from="" data-to="">不限期限</li>
+                <li data-from="0" data-to="6" data-id="37">6月内</li>
+                <li data-from="6" data-to="12" data-id="38">6-12月</li>
+                <li data-from="12" data-to="24" data-id="39">12-24月</li>
+                <li data-from="24" data-to="100" data-id="40">24月以上</li>
+            </ul>
+            <ul class="filter_layer filter_common flex" id="flex">
+                <li data-no="0" data-id="">不限分类</li>
+                {loop $category $row}
+                <li data-id="{$row['id']}" >{$row['name']}</li>
+                {/loop}
+            </ul>
+        </div>
+       <div style="height: 100px;"></div>
+    </div>
+<link rel="stylesheet" href="../addons/xuan_mixloan/template/style/smallloan//css/index_new_1.css">
+<script src="../addons/xuan_mixloan/template/style/smallloan//js/lmy_2.js"></script>
+    
+<div class="agent-foot">
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" /></p>
+        <p>首页</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'category'))}')"  class="on">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/category_on.png" /></p>
+        <p>系列</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')" >
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot_1.png" /></p>
+        <p>教程</p>
+        <span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/i_daike_1.png" /></p>
+        <p>推广赚钱</p>
+    </a>
+    <a onclick="openNew('{php echo $this->createMobileUrl('user', array('op'=>''))}')">
+        <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/personal_1.png" /></p>
+        <p>个人中心</p>
+    </a>
+</div>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/swiper.min_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url, craeteNew:true});
+    }
+</script>
+<script type="text/javascript">
+var rollFlag=0;//监听页面滚动
+// 页面初始化
+$(document).ready(function(){
+    var fr_T=($("div.loan_tab").height())+($("div.filter_tab").height())+5+"px";
+    $("div.filter_result").css("margin-top",fr_T);
+})
+
+
+
+// 外部筛选
+$("div.filter_tab ul li").click(function(){
+    var _this=$(this);
+    var _id=$(this).attr("data-filter");
+
+    // 移除所有class添加指定class
+    if($("#"+_id).css("display")!="none"){
+        //已展开
+        if($("#"+_id).find("li.filter_on").length>0){
+            _this.removeAttr("class").addClass("tab_on");
+        }else{
+            _this.removeAttr("class").addClass("tab");
+        }            
+        $("#"+_id).css("display","none");
+        layer_cancel();       
+    }else{
+        //未展开
+        //判断当前有无打开的弹层
+        if($("div.filter_tab ul li.tab_onchoose").length>0){
+            // 当前展开的id
+            var current_id=$("div.filter_tab ul li.tab_onchoose").attr("data-filter");
+            if($("#"+current_id).find("li.filter_on").length>0){
+                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab_on");
+            }else{
+                $("div.filter_tab ul li.tab_onchoose").removeAttr("class").addClass("tab");
+            }
+            _this.removeAttr("class").addClass("tab_onchoose");
+            $(".filter_layer").css("display","none");
+            $("div.pop_filter").show();
+            $("body").addClass("forbid");
+            $("#"+_id).css("display","block");            
+        }else{
+            _this.removeAttr("class").addClass("tab_onchoose");
+            $(".filter_layer").css("display","none");
+            $("div.pop_filter").show();
+            $("body").addClass("forbid");
+            $("#"+_id).css("display","block");
+        } 
+        rollFlag = 1;            
+    }   
+})
+// 内部筛选
+$("div.filter_list .filter_common li").click(function(){
+    var _this=$(this);
+    _this.parent().find("li").removeClass("filter_on");
+    _this.addClass("filter_on");
+    var _id=_this.parent().attr("id");
+    var no=_this.attr("data-no");//判断是否为不限制
+    var val=_this.html();
+    if(no=="0"){
+        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab").find("span").html(val);
+        _this.removeClass("filter_on");
+    }else{
+        $("div.filter_tab ul li[data-filter="+ _id +"]").removeAttr("class").addClass("tab_on").find("span").html(val);
+    }
+    $("#"+_id).css("display","none");   
+    layer_cancel();
+    //接口
+    filter();
+})
+// 弹层取消
+function layer_cancel(){
+    $("div.pop_filter").hide();
+    $("body").removeClass("forbid");
+    rollFlag = 0;
+}
+pop_filter();
+function pop_filter(){
+    var window_height=$(window).height();
+    var window_width=$(window).width();
+    var loan_tabH=$("div.loan_tab").outerHeight();
+    var filter_tabH=$("div.filter_tab").outerHeight();
+    var pop_filterH=window_height-loan_tabH-filter_tabH+"px";
+    $(".pop_filter").width(window_width);
+    $(".pop_filter").height(pop_filterH);
+}
+$("div.filter_floor").click(function(){
+    $("div.filter_tab ul li.tab_onchoose").click();
+})
+
+function filter(){
+    var order=dataTransform($("#multiple li.filter_on").attr("data-flag"));
+    var begin=dataTransform($("#amount li.filter_on").attr("data-min"));
+    var end=dataTransform($("#amount li.filter_on").attr("data-max"));
+    var from=dataTransform($("#term li.filter_on").attr("data-from"));
+    var to=dataTransform($("#term li.filter_on").attr("data-to"));
+    var _id=dataTransform($("#flex li.filter_on").attr("data-id"));
+    post_data(order, begin, end, from, to, _id);
+}
+var classify_id='{$_GPC['category']}';
+if(classify_id!=''){
+    $("#flex").find("li[data-id="+ classify_id +"]").click();
+} else {
+
+var word = "{$_GPC['word']}";
+post_data(null, null, null, null, null, null,word);}
+
+function post_data(order, begin, end, from, to, _id,word){
+    var type="{$_GPC['type']}";
+    $("#group_id").val(_id);
+    if(_id=="" || _id==0){
+        $("#group_intro").hide();
+    }else{
+        $("#group_intro").show();
+     }
+    $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'getLoan'))}",{"order":order,"begin":begin,"end":end,"least":from,"high":to,"category":_id,"word":word,type:type},
+        function(data){
+            if(data.code==1){
+                $("div.result_list").html("");
+                $("div.no_result").hide();
+                var _data=data.data;
+                //console.log(_data);
+                result(_data);
+            }
+            function result(_data){
+                for(i=0;i<_data.length;i++){
+                    var url=_data[i].ext_info.url;
+                    var id=_data[i].id;
+                    var imgs=_data[i].ext_info.logo;
+                    var v_name=_data[i].ext_info.v_name;
+                    var title=_data[i].name;
+                    var percent=_data[i].rate;
+                    var vdate=_data[i].createtime;
+                    var rate_type=_data[i].rate_type;
+                    var range_l=_data[i].time_blow;
+                    var range_h=_data[i].time_high;
+                    var edu=_data[i].money_high;
+                    var click=_data[i].apply_nums;
+                    //var ele=_data[i].ext_info.tag;//标签
+
+                    var ele= [];
+                    ele.unshift(vdate);
+                    ele.unshift(dataTransform(click)+"人申请");
+                    if(_data[i].status==1){
+                        ele.unshift('存活');
+                      }
+                    if(_data[i].is_hot==1){
+                        ele.unshift('热门');
+                    }
+
+                    $("div.result_list").append("<div id='pro"+id+"' class=\"loan_product\" data-view='0' data-productid="+ id +" onclick=\'clickNum(this);\'>"
+                        + "<input type='hidden' name='group_id' value='"+_data[i].group_id+"'>"
+                        + "<input type='hidden' name='title' value='"+title+"'>"
+                        + "<input type='hidden' name='group_name' value='"+_data[i].group_name+"'>"
+                                                        + "<ul>"
+                                                            + "<li>"
+                                                                + "<span><a ><img src='"+ dataTransform(_data[i].ext_info.logo) +"' /></a></span>"
+                                                                + "<div class=\"loan_info\">"
+                                                                    + "<h2><a _href='"+url+"'>"+ dataTransform(title) +"</a></h2>"
+
+                                                                    + "<div class=\"rate_info\">"
+                                                                        + "<span>"+v_name+"&nbsp;</span>\n"
+                                                                    + "</div>"
+                                                                    + "<div class=\"extra_info\">"
+                                                                        + "<dl>"
+                                                                        + "</dl>"
+
+                                                                    + "</div>"
+                        + "<a onclick='toOutside(\""+url+"\")' class=\"mui-btn to-apply\">立即申请</a>"
+                        + "<a href='javascript:void(0);' data-id='"+id+"' class=\"mui-btn view-info \">获取链接</a>"
+                                                                + "</div>"
+                                                            + "</li>"
+                                                        + "</ul>"
+                                                + "</div>")
+                    for(j=0;j<ele.length;j++){
+                        var tab=ele[j];
+                        var tab_style=ele[j][1];
+                        $("div.loan_product").eq(i).find("div.extra_info dl").append("<dd style=\"color: "+ tab_style +";border:1px solid "+ tab_style +"\"><em style=\'font-family:'微软雅黑'!important;\'>"+ dataTransform(tab) +"</em></dd>");
+                    }
+                }
+            }
+        },'json')
+}
+//监听页面滚动
+document.addEventListener('touchmove', function (event) {
+    if(rollFlag==1){
+        event.preventDefault();
+    } 
+})
+// 记录点击数
+function clickNum(index){
+    var channel=2;
+    var productId=$(index).attr("data-productid");
+    var view=$(index).attr("data-view");
+    if(view=='0'){
+    $.post("./index.php?i=1&c=entry&op=loanView&do=loan&m=xuan_mixloan",{"id":productId},
+        function(data){
+            console.log(data);
+        },'json');
+        $(index).attr("data-view",'1');
+    }
+}
+    $(function () {
+        $("body").on("click",".view-info",function(){
+            var domid = '#pro'+$(this).data("id");
+            var title = $(domid).find("input[name='title']").val();
+            var url = $(domid).find("h2 a").attr("_href");
+            var group_name = $(domid).find("input[name='group_name']").val();
+            var group_id = $(domid).find("input[name='group_id']").val();
+            
+            $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_code'))}",{"url":url},
+                function(data){
+                    var _url = data.data.img;
+                    if (data.code == 1) {
+                        layer.open({
+                            type: 1,
+                            title:"查看详情",
+                            skin: 'layui-layer-rim',
+                            area: ["94%", '410px'],
+                            content: '<div class="show-info"><ul><li>平台名称：'+title+'</li><li>所属系列：<a onclick="openNew(\'{php echo $this->createMobileUrl('smallloan', array('op' => 'list'))}&category='+group_id+'\')" style="color: #0aa1fa">['+group_name+']</a></li><li>平台网址：<a onclick="toOutside(\''+url+'\')" class="apply_url">立即申请</a> &nbsp;&nbsp; <a href="javascript:void(0)" class="copybtn" data-clipboard-text="'+url+'" style="color: #FF5300">[复制网址]</a> </li><li><div style="display: inline-block;width: 70px;">二维码：</div> <div class="qrbox"><img src="'+_url+'" width="180" height="180"></div></li></ul></div>',
+                            shadeClose: true,
+                        });
+                    }
+                },'json')
+            // console.log($(domid).find("h2").text());
+        });
+
+        function qrCode(url) {
+        }
+        function showIntro() {
+            layer.open({
+                type: 1,
+                shade: 0.3,
+                title: "系列介绍",
+                content: $('#group_show'),
+                anim: 2,
+                shadeClose: true,
+                closeBtn: 1,
+                area: ['96%', '80%'],
+                cancel: function(){
+
+                }
+            });
+        }
+
+        $("#group_intro").click(function () {
+            var group_id = $("#group_id").val();
+            if(group_id==0 || group_id==''){
+            }else{
+                if(group_id==$("#group_show").data("id")){
+                    showIntro();
+
+                }else{
+                    var index = layer.msg('加载中...');
+                    $.post("./index.php?i=1&c=entry&op=groupView&do=loan&m=xuan_mixloan",{"id":group_id},
+                        function(data){
+                            layer.closeAll(index);
+                            if(data.data.content){
+                                $("#group_show").data("id",group_id);
+                                $("#group_show").html(data.data.content);
+                                showIntro();
+                            }
+                        },'json');
+                }
+
+            }
+        });
+
+        var clipboard = new ClipboardJS('.copybtn');
+        clipboard.on('success', function(e) {
+            layer.msg("复制成功！");
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            layer.msg("复制失败！请手动选择复制");
+        });
+    });
+</script>
+</body>
+</html>

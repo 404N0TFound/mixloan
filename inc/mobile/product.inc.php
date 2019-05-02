@@ -20,6 +20,8 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
     //首页
+    $card_list = m('product')->getList([], ['is_show'=>1, 'type'=>1], FALSE);
+    $card_list = m('product')->packupItems($card_list);
     $cps_list = m('product')->getList([], ['is_show'=>1, 'extend_type'=>1], FALSE);
     $cps_list = m('product')->packupItems($cps_list);
     $hot_list = m('product')->getList([], ['is_show'=>1, 'is_hot'=>1], FALSE, 6);
