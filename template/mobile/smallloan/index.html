@@ -35,8 +35,51 @@
         .toplist li p.gname{ color: #FFCC66; font-size: 12px;}
         .toptitle{font-size: 16px;height: 80px;line-height: 110px;}
         .agent-foot a{width: 20%}
-        .toplist li p.categoryimg{width: 40px !important; height: 40px !important;}
-        .toplist li p.categoryimg img{width: 40px !important; height: 40px !important;}
+        .toplist li p.categoryimg{width: 35px !important; height: 35px !important;}
+        .toplist li p.categoryimg img{width: 35px !important; height: 35px !important;}
+        div.channels {
+            background: white;
+            width: 100%;
+            overflow: hidden;
+        }
+        div.channel_common {
+            width: 50%;
+            height: 50%;
+            float: left;
+        }
+        div.channel_common:first-child {
+            box-sizing: border-box;
+            border-right: 1px solid #eee;
+        }
+        div.channel_common a {
+            display: inline-block;
+            width: 100%;
+        }
+        div.channel_common ul {
+            display: flex;
+            align-items: center;
+            padding: 6% 3% 6% 6%;
+        }
+        div.channel_common ul li:first-child {
+            width: 35%;
+            text-align: center;
+        }
+        div.channel_common ul li img {
+            width: 50%;
+            max-width: 100%;
+        }
+
+        div.channel_common ul li:nth-child(2) {
+            width: 65%;
+        }
+        div.channel_common ul li h2 {
+            font-size: 15px;
+        }
+        div.channel_common ul li p {
+            text-align: left;
+            color: #b4b4b4;
+            font-size: 12px;
+        }
     </style>
 
 	</head>
@@ -96,20 +139,30 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="toplist">
-                       <li style="width: 50%">
-                            <a data-url="#no" onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'list', 'type' => 4))}')" >
-                                <p class="pimg categoryimg"><img src="../addons/xuan_mixloan/template/style/smallloan/picture/category.png" /></p>
-                                <p class="pname">分类筛选</p>
+                    <div class="channels">
+                        <div class="channel_common">
+                            <a onclick="openNew('openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'list', 'type' => 4))}')">
+                                <ul>
+                                    <li><img src="../addons/xuan_mixloan/template/style/picture/loans_1.png"></li>
+                                    <li>
+                                        <h2>分类筛选</h2>
+                                        <p>汇集各类网贷</p>
+                                    </li>
+                                </ul>
                             </a>
-                        </li>
-                       <li style="width: 50%">
-                            <a data-url="#no" onclick="openNew('{php echo $this->createMobileUrl('tools')}')" >
-                                <p class="pimg categoryimg"><img src="../addons/xuan_mixloan/template/style/smallloan/picture/tools.png" /></p>
-                                <p class="pname">实用工具</p>
+                        </div>
+                        <div class="channel_common">
+                            <a onclick="openNew('{php echo $this->createMobileUrl('tools')}')">
+                                <ul>
+                                    <li><img src="../addons/xuan_mixloan/template/style/picture/cards_1.png"></li>
+                                    <li>
+                                        <h2>实用工具</h2>
+                                        <p>多功能任你选</p>
+                                    </li>
+                                </ul>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
