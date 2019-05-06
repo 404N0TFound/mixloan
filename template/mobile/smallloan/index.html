@@ -80,6 +80,9 @@
             color: #b4b4b4;
             font-size: 12px;
         }
+        div.idai_credit, div.channels {
+            float: none;
+        }
     </style>
 
 	</head>
@@ -139,30 +142,30 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="channels">
-                        <div class="channel_common">
-                            <a onclick="openNew('openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'list', 'type' => 4))}')">
-                                <ul>
-                                    <li><img src="../addons/xuan_mixloan/template/style/picture/loans_1.png"></li>
-                                    <li>
-                                        <h2>分类筛选</h2>
-                                        <p>汇集各类网贷</p>
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-                        <div class="channel_common">
-                            <a onclick="openNew('{php echo $this->createMobileUrl('tools')}')">
-                                <ul>
-                                    <li><img src="../addons/xuan_mixloan/template/style/picture/cards_1.png"></li>
-                                    <li>
-                                        <h2>实用工具</h2>
-                                        <p>多功能任你选</p>
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-                    </div>
+                </div>
+            </div>
+            <div class="channels">
+                <div class="channel_common" onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op' => 'list', 'type' => 4))}')">
+                    <a >
+                        <ul>
+                            <li><img src="../addons/xuan_mixloan/template/style/picture/loans_1.png"></li>
+                            <li>
+                                <h2>分类筛选</h2>
+                                <p>汇集各类网贷</p>
+                            </li>
+                        </ul>
+                    </a>
+                </div>
+                <div class="channel_common" onclick="openNew('{php echo $this->createMobileUrl('tools')}')">
+                    <a >
+                        <ul>
+                            <li><img src="../addons/xuan_mixloan/template/style/picture/cards_1.png"></li>
+                            <li>
+                                <h2>实用工具</h2>
+                                <p>多功能任你选</p>
+                            </li>
+                        </ul>
+                    </a>
                 </div>
             </div>
 

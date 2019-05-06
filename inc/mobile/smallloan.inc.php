@@ -8,7 +8,10 @@ $openid = m('user')->getOpenid();
 $member = m('member')->getMember($openid);
 if ($operation == 'default')
 {
-	
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		message('您还不是代理', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+	}
 	$advs = m('loan')->getAdvs();
 	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_loan') . '
 							where uniacid=:uniacid and status=1
@@ -24,6 +27,10 @@ if ($operation == 'default')
 }
 else if ($operation == 'category')
 {
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		message('您还不是代理', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+	}
 	$type = intval($_GPC['type']) ? : 1;
 	$list = pdo_fetchall('select * from ' . tablename('xuan_mixloan_loan_category') . "
 							where uniacid=:uniacid and type={$type}

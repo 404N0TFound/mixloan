@@ -20,6 +20,10 @@ if ($member['status'] == '0') {
 }
 if($operation=='index'){
 	//首页
+	$agent = m('member')->checkAgent($member['id']);
+	if ($agent['code'] != 1) {
+		message('您还不是代理', $this->createMobileUrl('vip', array('op' => 'buy')), 'error');
+	}
 	$advs = m('channel')->getAdvs();
 	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>1]);
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);

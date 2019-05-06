@@ -36,7 +36,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 			if ($value == false) {
 				$con = false;
 				break;
-			}
+			} else {
+                $con = true;
+            }
 		}
 		if ($con) {
 			m('member')->checkMember();
