@@ -41,6 +41,21 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_channel_permission`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_channel_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `endtime` int(11) NOT NULL,
+  `tid` varchar(50) NOT NULL,
+  `fee` decimal(10,2) NOT NULL,
+  `type` tinyint(2) NOT NULL COMMENT '1季度 2年度 3终身',
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_product_category`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -368,7 +383,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `status` tinyint(2) NOT NULL COMMENT '-2邀请用户已注册 -1失败 0已邀请 1已注册 2已下款/发卡',
   `createtime` int(11) NOT NULL,
   `degree` tinyint(2) NOT NULL DEFAULT 1,
-  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品 2邀请 6满单奖励',
+  `type` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1产品 2邀请 6满单奖励 7借条专区奖励',
   `ip` varchar(30) NOT NULL,
   `device_type` tinyint(2) NOT NULL COMMENT '设备标识，1安卓，2苹果，3windows',
   `browser_type` tinyint(2) NOT NULL COMMENT '浏览器标识，1微信，2浏览器',

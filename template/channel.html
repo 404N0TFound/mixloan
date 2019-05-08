@@ -55,7 +55,7 @@
                 <tr>
                     <td>   {$row['id']}</td>
                     <td>   {$row['title']}</td>
-                    <td>   {if $row['type']==1}口子{else if $row['type']==2}信用卡{else if $row['type']==3}新手教程{/if}</td>
+                    <td>   {if $row['type']==1}口子{else if $row['type']==2}借条专区{else if $row['type']==3}新手教程{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
                         
@@ -137,7 +137,7 @@
                 <tr>
                     <td>   {$row['id']}</td>
                     <td>   {$row['name']}</td>
-                    <td>   {if $row['type']==1}口子{else if $row['type']==2}信用卡{/if}</td>
+                    <td>   {if $row['type']==1}口子{else if $row['type']==2}借条专区{/if}</td>
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
                         
@@ -204,7 +204,7 @@
                     <select class="form-control" name="data[type]" onchange="subject_s();">
                         <option value="0" >选择分类</option>
                         <option value="1" {if $item['type']==1}selected{/if}>口子</option>
-                        <option value="2" {if $item['type']==2}selected{/if}>信用卡</option>
+                        <option value="2" {if $item['type']==2}selected{/if}>借条专区</option>
                         <option value="3" {if $item['type']==3}selected{/if}>新手教程</option>
                     </select>
                 </div>
@@ -252,7 +252,7 @@
             if (isEmptyObject(s_json)) {
                 $("select[name='data[subject_id]']").html("");
             $("select[name='data[subject_id]']").parent().parent().hide(500);
-                alert('请先添加信用卡分类的专题');
+                alert('请先添加借条专区分类的专题');
                 return false;
             }
             change_s(s_json)
@@ -354,7 +354,7 @@
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[type]">
                         <option value="1" {if $item['type']==1}selected{/if}>口子</option>
-                        <option value="2" {if $item['type']==2}selected{/if}>信用卡</option>
+                        <option value="2" {if $item['type']==2}selected{/if}>借条专区</option>
                     </select>
                 </div>
             </div>

@@ -193,6 +193,54 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 					}
 				}
 				message("支付成功", $this->createMobileUrl('user'), "success");
+			} else if ($type == '20001') {
+				$record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_channel_permission') . '
+					where tid=:tid', array(':tid' => $params['tid']));
+				if ($record) {
+					message("请不要重复提交", $this->createMobileUrl('user'), "error");
+				}
+				if ($fee == $config['buy_read_price_a']) {
+					$read_type = 1;
+					$endtime = time() + 30 * 86400;
+					$bonus = $config['invite_read_bonus_a'];
+				} else if ($fee == $config['buy_read_price_b']) {
+					$read_type = 2;
+					$endtime = time() + 365 * 86400;
+					$bonus = $config['invite_read_bonus_b'];
+				} else if ($fee == $config['buy_read_price_c']) {
+					$read_type = 3;
+					$endtime = time() + 36500 * 86400;
+					$bonus = $config['invite_read_bonus_c'];
+				}
+				$insert = array();
+				$insert['uid'] = $member['id'];
+				$insert['uniacid'] = $_W['uniacid'];
+				$insert['createtime'] = time();
+				$insert['endtime'] = $endtime;
+				$insert['type'] = $read_type;
+				$insert['fee'] = $fee;
+				$insert['tid'] = $params['tid'];
+				pdo_insert('xuan_mixloan_channel_permission', $insert);
+				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
+				if ($inviter && $bonus) {
+					$insert_i = array(
+						'uniacid' => $_W['uniacid'],
+						'uid' => $member['id'],
+						'phone' => $member['phone'],
+						'certno' => $member['certno'],
+						'realname' => $member['realname'],
+						'inviter' => $inviter,
+						'extra_bonus'=>0,
+						'done_bonus'=>0,
+						're_bonus'=>$bonus,
+						'status'=>2,
+						'createtime'=>time(),
+						'degree'=>1,
+						'type'=>7
+					);
+					pdo_insert('xuan_mixloan_product_apply', $insert_i);
+				}
+				message("支付成功", $this->createMobileUrl('user'), "success");
 			}
 		}
 		if (empty($params['result']) || $params['result'] != 'success') {

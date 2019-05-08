@@ -63,6 +63,12 @@ class Xuan_mixloanModule extends WeModule {
                     'verify_tips'=>$_GPC['verify_tips'],
                     'product_apply_bonus'=>$_GPC['product_apply_bonus'],
                     'product_apply_count'=>$_GPC['product_apply_count'],
+                    'invite_read_bonus_c'=>$_GPC['invite_read_bonus_c'],
+                    'invite_read_bonus_b'=>$_GPC['invite_read_bonus_b'],
+                    'invite_read_bonus_a'=>$_GPC['invite_read_bonus_a'],
+                    'buy_read_price_a'=>$_GPC['buy_read_price_a'],
+                    'buy_read_price_b'=>$_GPC['buy_read_price_b'],
+                    'buy_read_price_c'=>$_GPC['buy_read_price_c'],
             	);
 
             if ($this->saveSettings($cfg)) {
