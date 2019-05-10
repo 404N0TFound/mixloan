@@ -26,6 +26,7 @@ if ($operation == 'list') {
     //添加
     if ($_GPC['post'] == 1) {
         $data = $_GPC['data'];
+        $data['apply_nums'] = 500;
         $data['uniacid'] = $_W['uniacid'];
         $data['type'] = implode(',', $data['type']); 
         $data['createtime'] = time();
