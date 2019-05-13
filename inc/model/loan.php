@@ -13,9 +13,7 @@ class Xuan_mixloan_Loan
         }
         if (!empty($conditon)) {
             foreach ($conditon as $k => $v) {
-                if ($k == 'type') {
-                    $wheres .= " AND find_in_set('{$v}', `{$k}`)";
-                } else if ($k == 'begin') {
+                 if ($k == 'begin') {
                     $wheres .= " AND `money_high` >= {$v}";
                 } else if ($k == 'end') {
                     $wheres .= " AND `money_high` <= {$v}";

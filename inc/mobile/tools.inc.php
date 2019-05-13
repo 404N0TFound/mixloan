@@ -14,5 +14,6 @@ if ($operation == 'default')
 	foreach ($list as &$row) {
 		$row['ext_info'] = json_decode($row['ext_info'], 1);
 	}
+	unset($row);
     include $this->template('tools/index');
 }

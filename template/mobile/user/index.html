@@ -122,9 +122,9 @@
                             <dd class="xian"></dd>
                             <dd>职务：{$member['user_type']['name']}</dd>
                         </dl>
-                        <dl style="margin-top: 0.3rem">
+                        <!-- <dl style="margin-top: 0.3rem">
                             <dd style="float: left">绑定手机号：{if $member['phone']}{$member['phone']}{else}未绑定{/if}</dd>
-                        </dl>
+                        </dl> -->
                         <dl style="margin-top: 0.3rem">
                             <dd style="float: left">邀请人：{if $inviterInfo}{$inviterInfo['nickname']}({php echo func_substr_replace($inviterInfo['phone']);}){else}平台{/if}</dd>
                         </dl>
@@ -147,7 +147,7 @@
         </div>
         <div class="agent_contain" style="position: relative;top:-0.4rem;">
             {if $member['user_type']['code'] == 1}
-            <div class="informAlert">
+            <!-- <div class="informAlert">
                 <div class="informContent clearfix">
                     <span>是否开启消息提醒</span>
                     <div class="ifInform">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="ifInform_txt"><p>若关闭此开关，您将不再收到该公众号的消息提醒。</p></div>
-            </div>
+            </div> -->
             {/if}
             <ul class="clearfix">
                 {if is_weixin()}
@@ -165,6 +165,22 @@
                     <a onclick="openNew('')">
                         <img src="../addons/xuan_mixloan/template/style/picture/download.png" />
                         app下载
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {/if}
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'rank_list'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
+                        排行榜
+                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
+                    </a>
+                </li>
+                {if $member['user_type']['code'] != 1}
+                <li>
+                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
+                        <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                        购买代理
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>
@@ -178,24 +194,10 @@
                     </a>
                 </li>
                 {/if}
-                <li>
+                <li style="border-bottom:none;">
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_join_type'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
                         合伙人中心
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                <li>
-                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'rank_list'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
-                        排行榜
-                        <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
-                    </a>
-                </li>
-                <li style="border-bottom:none;">
-                    <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
-                        购买代理
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
                 </li>

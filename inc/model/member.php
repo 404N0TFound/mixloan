@@ -6,7 +6,6 @@ class Xuan_mixloan_Member
     {
         global $_W;
         $uid = intval($openid);
-        var_dump($openid);die;
         if ($uid == 0 || strlen($openid) == 32) {
             $info = pdo_fetch('select * from ' . tablename('xuan_mixloan_member') . ' where openid=:openid and uniacid=:uniacid limit 1', array(
                 ':uniacid' => $_W['uniacid'],
@@ -162,7 +161,7 @@ class Xuan_mixloan_Member
             $openid = m('user')->getOpenid();
         }
         if (empty($openid)) {
-            header("location:http://xx.88883988.shop/app/index.php?i=1&c=entry&op=login&do=index&m=xuan_mixloan");
+            header("location:http://rongxingdai.com/app/index.php?i=1&c=entry&op=login&do=index&m=xuan_mixloan");
             // die("<!DOCTYPE html>
             // <html>
             //     <head>
@@ -173,8 +172,8 @@ class Xuan_mixloan_Member
             //     <div class='page_msg'><div class='inner'><span class='msg_icon_wrp'><i class='icon80_smile'></i></span><div class='msg_content'><h4>请在微信客户端打开链接</h4></div></div></div>
             //     </body>
             // </html>");
-            return;
         }
+        return;
         $member   = m('member')->getMember($openid);
         $userinfo = m('user')->getInfo();
         $followed = m('user')->followed($openid);

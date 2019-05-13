@@ -1,7 +1,7 @@
 <?php
 defined('IN_IA') or exit('Access Denied');
-require_once('/www/wwwroot/xx.88883988.shop/addons/xuan_mixloan/lib/alipay/aop/AopClient.php');
-require_once('/www/wwwroot/xx.88883988.shop/addons/xuan_mixloan/lib/alipay/aop/request/AlipayFundTransToaccountTransferRequest.php');
+require_once('/www/wwwroot/rongxingdai.com/addons/xuan_mixloan/lib/alipay/aop/AopClient.php');
+require_once('/www/wwwroot/rongxingdai.com/addons/xuan_mixloan/lib/alipay/aop/request/AlipayFundTransToaccountTransferRequest.php');
 class Xuan_mixloan_Alipay
 {
     private $gatewayUrl = 'https://openapi.alipay.com/gateway.do';
@@ -18,7 +18,7 @@ class Xuan_mixloan_Alipay
      */
     public function transfer($out_biz_no, $amount, $payee_account, $payee_real_name)
     {
-        $payer_show_name        = '融新易贷';
+        $payer_show_name        = '钱镜';
         $remark                 = '用户提现';
         $aop                    = new \AopClient();
         $aop->gatewayUrl        = $this->gatewayUrl;

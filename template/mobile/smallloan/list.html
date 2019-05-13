@@ -319,7 +319,7 @@ function post_data(order, begin, end, from, to, _id,word){
                         + "<input type='hidden' name='group_name' value='"+_data[i].group_name+"'>"
                                                         + "<ul>"
                                                             + "<li>"
-                                                                + "<span><a ><img src='"+ dataTransform(_data[i].ext_info.logo) +"' /></a></span>"
+                                                                + "<span><a data-id='"+id+"' class=\"img_logo\"><img src='"+ dataTransform(_data[i].ext_info.logo) +"' /></a></span>"
                                                                 + "<div class=\"loan_info\">"
                                                                     + "<h2><a _href='"+url+"'>"+ dataTransform(title) +"</a></h2>"
 
@@ -366,6 +366,29 @@ function clickNum(index){
     }
 }
     $(function () {
+        $("body").on("click",".img_logo",function(){
+            var domid = '#pro'+$(this).data("id");
+            var title = $(domid).find("input[name='title']").val();
+            var url = $(domid).find("h2 a").attr("_href");
+            var group_name = $(domid).find("input[name='group_name']").val();
+            var group_id = $(domid).find("input[name='group_id']").val();
+            
+            $.post("{php echo $this->createMobileUrl('smallloan', array('op' => 'get_code'))}",{"url":url},
+                function(data){
+                    var _url = data.data.img;
+                    if (data.code == 1) {
+                        layer.open({
+                            type: 1,
+                            title:"查看详情",
+                            skin: 'layui-layer-rim',
+                            area: ["94%", '410px'],
+                            content: '<div class="show-info"><ul><li>平台名称：'+title+'</li><li>所属系列：<a onclick="openNew(\'{php echo $this->createMobileUrl('smallloan', array('op' => 'list'))}&category='+group_id+'\')" style="color: #0aa1fa">['+group_name+']</a></li><li>平台网址：<a onclick="toOutside(\''+url+'\')" class="apply_url">立即申请</a> &nbsp;&nbsp; <a href="javascript:void(0)" class="copybtn" data-clipboard-text="'+url+'" style="color: #FF5300">[复制网址]</a> </li><li><div style="display: inline-block;width: 70px;">二维码：</div> <div class="qrbox"><img src="'+_url+'" width="180" height="180"></div></li></ul></div>',
+                            shadeClose: true,
+                        });
+                    }
+                },'json')
+            // console.log($(domid).find("h2").text());
+        });
         $("body").on("click",".view-info",function(){
             var domid = '#pro'+$(this).data("id");
             var title = $(domid).find("input[name='title']").val();

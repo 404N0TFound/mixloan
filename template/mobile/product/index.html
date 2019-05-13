@@ -291,12 +291,12 @@
 	<div class="list_head">
 		<p>
 			<span><img src="../addons/xuan_mixloan/template/style/images/product_loan.png" /></span>
-			cps产品<label>(共<b  id="card_num">{php echo count($cps_list);}</b>款)</label>
+			信用卡产品<label>(共<b  id="card_num">{php echo count($card_list);}</b>款)</label>
 		</p>
 	</div>
 	<div class="three_head">
 		<ul class="clearfix">
-			{loop $cps_list $row}
+			{loop $card_list $row}
 			<li class="clearfix ons2" data-id="1">
 				<a   onclick="openNew('{php echo $this->createMobileUrl('product', array('op'=>'info', 'id'=>$row['id']))}')">
 					<div class="line_three">

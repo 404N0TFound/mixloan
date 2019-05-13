@@ -30,7 +30,6 @@ if ($operation == 'list') {
     if ($_GPC['post'] == 1) {
         $data = $_GPC['data'];
         $data['uniacid'] = $_W['uniacid'];
-        $data['type'] = implode(',', $data['type']); 
         $data['createtime'] = time();
         $data['ext_info']['conditions'] = htmlspecialchars_decode($data['ext_info']['conditions']);
         $data['ext_info']['reminds'] = htmlspecialchars_decode($data['ext_info']['reminds']);
@@ -42,13 +41,11 @@ if ($operation == 'list') {
     //编辑
     $id = intval($_GPC['id']);
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_loan"). " where id={$id}");
-    $item['type'] = array_values(explode(',', $item['type']));
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $category = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_loan_category') . "
                  where uniacid={$_W['uniacid']} 
                  ORDER BY ID DESC");
     if ($_GPC['post'] == 1) {
-        $_GPC['data']['type'] = implode(',', $_GPC['data']['type']);
         $_GPC['data']['ext_info']['conditions'] = htmlspecialchars_decode($_GPC['data']['ext_info']['conditions']);
         $_GPC['data']['ext_info']['reminds'] = htmlspecialchars_decode($_GPC['data']['ext_info']['reminds']);
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
