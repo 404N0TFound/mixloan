@@ -8,7 +8,7 @@ $member = m('member')->getMember($openid);
 $member['user_type'] = m('member')->checkAgent($member['id']);
 if($operation=='index'){
 	//贷款中心首页
-	$list = m('loan')->getList();
+	$list = m('loan')->getList([], ['status' => 1]);
 	$advs = m('loan')->getAdvs();
 	$barrages = m('loan')->getBarrage($list);
 	include $this->template('loan/index');
@@ -56,6 +56,7 @@ if($operation=='index'){
 	if (isset($_GPC['type']) && !empty($_GPC['type'])) {
 		$condition['type'] = $_GPC['type'];
 	}
+	$condition['status'] = 1;
 	$list = m('loan')->getList([], $condition, $orderBy);
 	if (empty($list)) {
 		show_json(-1);
@@ -76,6 +77,9 @@ if($operation=='index'){
     $pid = intval($_GPC['pid']);
     $inviter = intval($_GPC['inviter']);
     $item = m('loan')->getList(['*'], ['id'=>$id])[$id];
+    if ($item['status'] != 1) {
+        message("该产品已下架", "", "error");
+    }
 	include $this->template('loan/apply');
 } else if ($operation == 'apply_submit') {
     //申请提交
@@ -104,4 +108,3 @@ if($operation=='index'){
     pdo_insert('xuan_mixloan_apply', $insert);
     show_json(1,$info['ext_info']['url']);
 }
-?>

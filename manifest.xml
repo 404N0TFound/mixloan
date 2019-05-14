@@ -85,6 +85,8 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_loan` (
   `name` varchar(20) NOT NULL,
   `type` varchar(30) NOT NULL,
   `sort` int(11) NOT NULL,
+  `status` tinyint(2) NOT NULL,
+  `merchant_id` int(11) NOT NULL,
   `money_high` int(11) NOT NULL,
   `rate` decimal(5,2) NOT NULL,
   `rate_type` int(2) NOT NULL COMMENT '1是天息，30是月息',
