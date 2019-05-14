@@ -32,6 +32,8 @@ if($operation=='index'){
     $loan_small_list = m('product')->packupItems($loan_small_list);
     $band_list = m('product')->getList([], ['is_show'=>1, 'is_band'=>1], FALSE);
     $band_list = m('product')->packupItems($band_list);
+    $receipt_list = m('product')->getList([], ['is_show'=>1, 'receipt_list'=>1], FALSE);
+    $receipt_list = m('product')->packupItems($receipt_list);
     // $banner = m('product')->getAdvs();
     // $cash_list = pdo_fetchall('select id,name,is_hot,ext_info from ' . tablename('xuan_mixloan_product_category') . '
     //                                 where type=2
