@@ -199,15 +199,18 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				if ($record) {
 					message("请不要重复提交", $this->createMobileUrl('user'), "error");
 				}
-				if ($fee == $config['buy_read_price_a']) {
+                $sum = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_channel_permission') . '
+                    where uid=:uid', array(':uid' => $member['id']));
+                $count = $fee + $sum;
+				if ($count == $config['buy_read_price_a']) {
 					$read_type = 1;
 					$endtime = time() + 30 * 86400;
 					$bonus = $config['invite_read_bonus_a'];
-				} else if ($fee == $config['buy_read_price_b']) {
+				} else if ($count == $config['buy_read_price_b']) {
 					$read_type = 2;
 					$endtime = time() + 365 * 86400;
 					$bonus = $config['invite_read_bonus_b'];
-				} else if ($fee == $config['buy_read_price_c']) {
+				} else if ($count == $config['buy_read_price_c']) {
 					$read_type = 3;
 					$endtime = time() + 36500 * 86400;
 					$bonus = $config['invite_read_bonus_c'];
@@ -223,6 +226,9 @@ class Xuan_mixloanModuleSite extends WeModuleSite {
 				pdo_insert('xuan_mixloan_channel_permission', $insert);
 				$inviter = m('member')->getInviter($member['phone'], $member['openid']);
 				if ($inviter && $bonus) {
+                    $sum = pdo_fetchcolumn('select sum(re_bonus) from ' . tablename('xuan_mixloan_product_apply') . '
+                        where type=7 and inviter=:inviter', array(':inviter' => $inviter));
+                    $bonus = $bonus - $sum;
 					$insert_i = array(
 						'uniacid' => $_W['uniacid'],
 						'uid' => $member['id'],

@@ -30,12 +30,6 @@ if($operation=='index'){
 	include $this->template('channel/index');
 } elseif ($operation == 'credit_card') {
 	//信用卡
-	$permission = pdo_fetch('select endtime from ' . tablename('xuan_mixloan_channel_permission') . '
-						where uid=:uid 
-						order by id desc', array(':uid' => $member['id']));
-	if ($permission['endtime'] < time()) {
-		message('请先购买阅读权限', $this->createMobileUrl('channel', array('op' => 'pay')), 'error');
-	}
 	$advs = m('channel')->getAdvs();
 	$subjects = m('channel')->getSubjectList(['id', 'name', 'ext_info'], ['type'=>2]);
 	$channel_list = m('channel')->getList(['id', 'title', 'createtime', 'ext_info', 'apply_nums'], ['type'=>1], 'sort DESC', 3);
@@ -85,6 +79,19 @@ if($operation=='index'){
 		message('抱歉，文章已不存在', '', 'error');
 	}
 	$item = $res[$id];
+	$permission = pdo_fetch('select type from ' . tablename('xuan_mixloan_channel_permission') . '
+						where uid=:uid 
+						order by id desc', array(':uid' => $member['id']));
+	if ($permission['type'] < $item['degree']) {
+		if ($item['degree'] == 1) {
+			$degree = '初级';
+		} else if ($item['degree'] == 2) {
+			$degree = '中级';
+		} else if ($item['degree'] == 3) {
+			$degree = '高级';
+		}
+		message('请先升级{$degree}阅读权限', $this->createMobileUrl('channel', array('op' => 'pay')), 'error');
+	}
 	pdo_update('xuan_mixloan_channel', array('apply_nums'=>$item['apply_nums']+1), array('id'=>$item['id']));
 	if (preg_match('/src=[\'\"]?([^\'\"]*)[\'\"]?/i', $item['ext_info']['content'], $result)) {
 		$share_image = $result[1];
@@ -132,6 +139,10 @@ if($operation=='index'){
 	}
 } else if ($operation == 'pay') {
 	//支付
+    $sum = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_channel_permission') . '
+        where uid=:uid', array(':uid' => $member['id'])) ? : 0;
+    $config['buy_read_price_b'] -= $sum;
+    $config['buy_read_price_c'] -= $sum;
 	include $this->template('channel/pay');
 } else if ($operation == 'choose_pay_type') {
 	//选择支付
@@ -143,16 +154,19 @@ if($operation=='index'){
 	if (!$member['phone']) {
 		message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
 	}
+    $sum = pdo_fetchcolumn('select sum(fee) from ' . tablename('xuan_mixloan_channel_permission') . '
+        where uid=:uid', array(':uid' => $member['id'])) ? : 0;
     if ($type == 1) {
     	$fee = $config['buy_read_price_a'];
 		$endtime = time() + 30 * 86400;
     } else if ($type == 2) {
-    	$fee = $config['buy_read_price_b'];
+    	$fee = $config['buy_read_price_b'] - $sum;
 		$endtime = time() + 365 * 86400;
     } else if ($type == 3) {
-    	$fee = $config['buy_read_price_c'];
+    	$fee = $config['buy_read_price_c'] - $sum;
 		$endtime = time() + 36500 * 86400;
     }
+
     if ($fee == 0) {
         $tid = "20002" . date('YmdHis', time());
 		$insert = array();

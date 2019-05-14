@@ -190,6 +190,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">查看权限</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="data[degree]" >
+                        <option value="0" {if $item['degree']==0}selected{/if}>用户</option>
+                        <option value="1" {if $item['degree']==1}selected{/if}>初级</option>
+                        <option value="2" {if $item['degree']==2}selected{/if}>中级</option>
+                        <option value="3" {if $item['degree']==3}selected{/if}>高级</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否热门</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <select class="form-control" name="data[is_hot]" >
