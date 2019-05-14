@@ -6,6 +6,7 @@
     <li {if $operation == 'subject_update' || $operation == 'subject_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'subject_add'));}">添加/编辑&nbsp;专题</a></li>
     <li {if $operation=='advs_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'advs_list'));}">幻灯片列表</a></li>
     <li {if $operation == 'advs_update' || $operation == 'advs_add'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'advs_add'));}">添加/编辑&nbsp;幻灯片</a></li>
+    <li {if $operation=='pay_list'}class="active"{/if}><a href="{php echo $this->createWebUrl('channel', array('op' => 'pay_list'));}">权限购买列表</a></li>
 </ul>
 {if $operation == 'list'}
 <div class="panel panel-info">
@@ -69,6 +70,41 @@
                         </div>
                         
                     </td>
+                </tr>
+                {/loop}
+            </tbody>
+        </table>
+        {$pager}
+    </div>
+</div>
+</div>
+{else if $operation == 'pay_list'}
+<div class="clearfix">
+<div class="panel panel-default" style="font-size:11px;">
+    <div class="panel-heading">总数：{$total}</div>
+    <div class="panel-body">
+        <table class="table table-hover" style="overflow:visible;">
+            <thead class="navbar-inner">
+                <tr>
+                    <th style='width:80px;'>ID</th>
+                    <th style='width:120px;'>会员</th>
+                    <th style='width:120px;'>购买等级</th>
+                    <th style='width:120px;'>付费</th>
+                    <th style='width:200px;'>购买时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {loop $list $row}
+                <tr>
+                    <td>   {$row['id']}</td>
+                    <td>
+                        <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
+                        {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
+                    </td>
+                    <td>   {if $row['type'] == 1}初级{/if}{if $row['type'] == 2}中级{/if}{if $row['type'] == 3}高级{/if}</td>
+                    <td>   {$row['fee']}</td>
+                    <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
+                    
                 </tr>
                 {/loop}
             </tbody>

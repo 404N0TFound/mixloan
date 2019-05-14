@@ -166,7 +166,6 @@ if($operation=='index'){
     	$fee = $config['buy_read_price_c'] - $sum;
 		$endtime = time() + 36500 * 86400;
     }
-
     if ($fee == 0) {
         $tid = "20002" . date('YmdHis', time());
 		$insert = array();

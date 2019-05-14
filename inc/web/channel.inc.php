@@ -127,6 +127,22 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_channel_subject', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('channel', array('op' => 'subject_list')), "sccuess");
     }
-}
+} else if ($operation == 'pay_list') {
+    $pindex = max(1, intval($_GPC['page']));
+    $psize = 20;
+    $wheres = '';
+    $sql = 'select * from ' . tablename('xuan_mixloan_channel') . " where 1 " . $wheres . ' ORDER BY ID DESC';
+    $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
+    $list = pdo_fetchall($sql);
+    foreach ($list as &$row) {
+        $man = pdo_fetch('select nickname,avatar from ' . tablename('xuan_mixloan_member') . '
+                        where id=:id', array(':id' => $row['uid']));
+        $row['nickname'] = $man['nickname'];
+        $row['avatar'] = $man['avatar'];
+    }
+    unset($row);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_channel') . " where 1 " . $wheres . ' ORDER BY ID DESC' . $wheres);
+    $pager = pagination($total, $pindex, $psize);
+} 
 include $this->template('channel');
 ?>
