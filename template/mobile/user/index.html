@@ -169,17 +169,17 @@
                     </a>
                 </li>
                 {/if}
-                <li>
+                <!-- <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'rank_list'))}')">
                         <img src="../addons/xuan_mixloan/template/style/picture/wen_1.png" />
                         排行榜
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
-                </li>
+                </li> -->
                 {if $member['user_type']['code'] != 1}
                 <li>
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'buy'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                        <img src="../addons/xuan_mixloan/template/style/picture/user_buy_pic.png" />
                         购买代理
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>
@@ -196,7 +196,7 @@
                 {/if}
                 <li style="border-bottom:none;">
                     <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner_join_type'))}')">
-                        <img src="../addons/xuan_mixloan/template/style/picture/5a4f1cb45746c.png" />
+                        <img src="../addons/xuan_mixloan/template/style/picture/user_parnet_center.png" />
                         合伙人中心
                         <em><img src="../addons/xuan_mixloan/template/style/picture/back_1.png" /></em>
                     </a>

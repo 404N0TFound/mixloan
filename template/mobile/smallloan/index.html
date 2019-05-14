@@ -89,9 +89,11 @@
 <body class="bglightgray">
 
     <div class="loanindex_frame">
-        <div class="toptitle" style="position: static">
+        {if !is_weixin()}
+        <div class="toptitle" style="position: static;border: none;background: white;text-shadow:none">
             {$config['title']}
         </div>
+        {/if}
         <div class="swiper-container loanindex-swiper">
             <div class="swiper-wrapper">
                 {loop $advs $adv}
