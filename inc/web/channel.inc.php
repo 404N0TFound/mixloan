@@ -131,7 +131,7 @@ if ($operation == 'list') {
     $pindex = max(1, intval($_GPC['page']));
     $psize = 20;
     $wheres = '';
-    $sql = 'select * from ' . tablename('xuan_mixloan_channel') . " where 1 " . $wheres . ' ORDER BY ID DESC';
+    $sql = 'select * from ' . tablename('xuan_mixloan_channel_permission') . " where 1 " . $wheres . ' ORDER BY ID DESC';
     $sql.= " limit " . ($pindex - 1) * $psize . ',' . $psize;
     $list = pdo_fetchall($sql);
     foreach ($list as &$row) {
@@ -141,8 +141,16 @@ if ($operation == 'list') {
         $row['avatar'] = $man['avatar'];
     }
     unset($row);
-    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_channel') . " where 1 " . $wheres . ' ORDER BY ID DESC' . $wheres);
+    $total = pdo_fetchcolumn( 'select count(*) from ' . tablename('xuan_mixloan_channel_permission') . " where 1 " . $wheres . ' ORDER BY ID DESC' . $wheres);
     $pager = pagination($total, $pindex, $psize);
+} else if ($operation == 'pay_update') {
+    //编辑
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select * from '.tablename("xuan_mixloan_channel_permission"). " where id={$id}");
+    if ($_GPC['post'] == 1) {
+        pdo_update('xuan_mixloan_channel_permission', $_GPC['data'], array('id'=>$item['id']));
+        message("提交成功", $this->createWebUrl('channel', array('op' => 'pay_list')), "sccuess");
+    }
 } 
 include $this->template('channel');
 ?>
