@@ -281,7 +281,7 @@ if ($operation == 'list') {
         if ($_GPC['post'])
         {
             $pass = trim($_GPC['pass']);
-            if ($pass == 'my942013146..')
+            if ($pass == '123456')
             {
                 setcookie('verify', 1, time()+86400);
                 header("location:{$this->createWebUrl('agent', array('op' => 'withdraw_list'))}");
@@ -410,7 +410,7 @@ if ($operation == 'list') {
     $item = pdo_fetch('select * from '.tablename("xuan_mixloan_withdraw"). " where id={$id}");
     $item['ext_info'] = json_decode($item['ext_info'], true);
     $member = pdo_fetch('select avatar,nickname from '.tablename("xuan_mixloan_member")." where id=:id",array(':id'=>$item['uid']));
-    if ($id<4513) {
+    if (false) {
         //id 28之后改为微信二维码收款
         $bank = pdo_fetch('select img_url from '.tablename("xuan_mixloan_withdraw_qrcode")." where id=:id",array(':id'=>$item['bank_id']));
     } else {
