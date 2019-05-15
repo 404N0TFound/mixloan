@@ -112,6 +112,7 @@
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
                                 <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'pay_update','id' => $row['id']));}" title='编辑'><i class='fa fa-edit'></i> 编辑</a></li>
+                                <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'pay_delete','id' => $row['id']));}" title='删除权限' onclick="return confirm('确定要删除该权限吗？');"><i class='fa fa-remove'></i> 删除权限</a></li>
                             </ul>
                         </div>
                         

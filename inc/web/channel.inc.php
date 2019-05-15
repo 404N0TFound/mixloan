@@ -151,6 +151,9 @@ if ($operation == 'list') {
         pdo_update('xuan_mixloan_channel_permission', $_GPC['data'], array('id'=>$item['id']));
         message("提交成功", $this->createWebUrl('channel', array('op' => 'pay_list')), "sccuess");
     }
+} else if ($operation == 'pay_delete') {
+    pdo_delete('xuan_mixloan_channel_permission', array("id" => $_GPC["id"]));
+    message("提交成功", referer(), "sccuess");
 } 
 include $this->template('channel');
 ?>
