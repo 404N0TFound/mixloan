@@ -420,15 +420,15 @@ if($operation=='buy'){
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
-	if ($bonus < 10) {
-		show_json(-1, null, "提现必须大于10");
+	if ($bonus < $config['withdraw_limit']) {
+		show_json(-1, null, "提现必须大于{$config['withdraw_limit']}");
 	}
     $date = date('Y-m-d');
     $today = strtotime("{$date}");
     $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
 		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
-    if ($times>4) {
-        show_json(-1, null, "一天只能提现5次");
+    if ($times>$config['withdraw_times']) {
+        show_json(-1, null, "一天只能提现{$config['withdraw_times']}次");
     }
 	$insert = array(
 		'uniacid'=>$_W['uniacid'],

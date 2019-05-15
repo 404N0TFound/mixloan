@@ -73,7 +73,16 @@ else if ($operation == 'getLoan')
 		$condition['category'] = $_GPC['category'];
 	}
 	if (isset($_GPC['type']) && !empty($_GPC['type'])) {
-		$condition['type'] = $_GPC['type'];
+		if ($_GPC['type'] == 4) {
+			$ids = pdo_fetchall('select id from ' . tablename('xuan_mixloan_loan_category') . '
+						where type=3');
+			foreach ($ids as $value) {
+				$id_arr[] = $value['id'];
+			}
+			$condition['category'] = $id_arr;
+		} else {
+			$condition['type'] = $_GPC['type'];
+		}
 	}
 	$list = m('loan')->getList([], $condition, $orderBy);
 	if (empty($list)) {

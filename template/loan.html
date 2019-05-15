@@ -211,7 +211,6 @@
                         <option value="1" {if 1 == $item['type']} selected {/if}>小额极速贷</option>
                         <option value="2" {if 2 == $item['type']} selected {/if}>工薪贷</option>
                         <option value="3" {if 3 == $item['type']} selected {/if}>大额借贷</option>
-                        <option value="4" {if 4 == $item['type']} selected {/if}>贷款分类</option>
                     </select>
                 </div>
             </div>
@@ -423,6 +422,7 @@
                     <select name="data[type]" class="form-control">
                         <option value="1" {if $item['type'] == 1}selected{/if}>贷吧</option>
                         <option value="2" {if $item['type'] == 2}selected{/if}>借吧</option>
+                        <option value="3" {if $item['type'] == 3}selected{/if}>贷款分类</option>
                     </select>
                 </div>
             </div>

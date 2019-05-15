@@ -24,7 +24,12 @@ class Xuan_mixloan_Loan
                 } else if ($k == 'like_name') {
                     $wheres .= " AND `name` like '%{$v}%'";
                 } else {
-                    $wheres .= " AND `{$k}` = '{$v}'";
+                    if (is_array($v)) {
+                        $v_string = implode(',', $v);
+                        $wheres .= " AND `{$k}` IN ({$v_string})";
+                    } else {
+                        $wheres .= " AND `{$k}` = '{$v}'";
+                    }
                 }
             }
         }

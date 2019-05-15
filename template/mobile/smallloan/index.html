@@ -225,6 +225,17 @@
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/smallloan//js/swiper.min_2.js"></script>
 <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
 <script type="text/javascript">
+    var cid = "{$member['id']}";
+    $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+        function(data){
+            if (data.code == 1) {
+                layer.alert(data.msg, {
+                    icon: 1,
+                    skin: 'layer-ext-moon',
+                    title:'公告'
+                })
+            }
+        },'json')
     function openNew(url){
         mui.openWindow({url:url, craeteNew:true});
     }
