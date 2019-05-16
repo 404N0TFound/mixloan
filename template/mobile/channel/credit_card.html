@@ -55,7 +55,6 @@
         mui.openWindow({url:url, createNew:true});
     }
 </script>
-{if !is_weixin()}
 <style type="text/css">
     @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
         div.agent-foot{padding-bottom:20px; }
@@ -111,13 +110,11 @@
     }
 </style>
 <!-- <a class="app_back" href="javascript:void(0);" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/icon_arrow_1.png" /></a> -->
-{/if}
 <div class="agent-foot texttotal agent-footer">
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'index'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdaynew_1.png" style="width: 18px"  /><span>口子</span></p></a>
     <a class="on"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-evdayhot_1.png" /><span>信用卡</span></p></a>
     <a onclick="openNew('{php echo $this->createMobileUrl('channel', array('op'=>'course'))}')"><p><img src="../addons/xuan_mixloan/template/style/picture/icon-newcourse_1.png"  style="width: 18px" /><span>新手教程</span></p></a>
 </div>
-{if !is_weixin()}
 <div class="agent-foot">
     <a onclick="openNew('{php echo $this->createMobileUrl('smallloan', array('op'=>'default'))}')">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/cwd_1.png" style="width: 2.2rem;" /></p>
@@ -130,7 +127,6 @@
     <a onclick="openNew('{php echo $this->createMobileUrl('loan', array('op'=>'loan_select'))}')" class="on">
         <p class="foot_img"><img src="../addons/xuan_mixloan/template/style/picture/evdayhot.png" /></p>
         <p>口子</p>
-        <!-- <!--<span class="new-icon"><img src="../addons/xuan_mixloan/template/style/picture/icon_new_1.png"/></span>--> -->
     </a>
     <!-- <a onclick="openNew('{php echo $this->createMobileUrl('friend', array('op'=>''))}')" class="home" >
         <img class="lazy" data-data-original="../addons/xuan_mixloan/template/style/images/friendcircle_1.png" src="../addons/xuan_mixloan/template/style/images/friendcircle.png" width="45px" alt="">
@@ -144,7 +140,6 @@
         <p>个人中心</p>
     </a>
 </div>
-{/if}
 <div class="agent-main pd70 pt44" style="padding-top:0!important;padding-bottom: 0!important;">
     <div class="evdayhotlist" id="wrapper" style='padding-top:0!important;-webkit-overflow-scrolling: touch;'>
         <div class="scroller">
