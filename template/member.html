@@ -100,6 +100,7 @@
                                 {else}
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'recovery','id' => $row['id']));}" title='解除解冻' ><i class='fa fa-check'></i> 解除解冻</a></li>
                                 {/if}
+                                <li><a  href="{php echo $this->createWebUrl('channel',array('op'=>'set_permission','id' => $row['id']));}" title='阅读权限' ><i class='fa fa-edit'></i> 阅读权限</a></li>
                             </ul>
                         </div>
                         

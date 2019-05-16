@@ -154,6 +154,31 @@ if ($operation == 'list') {
 } else if ($operation == 'pay_delete') {
     pdo_delete('xuan_mixloan_channel_permission', array("id" => $_GPC["id"]));
     message("提交成功", referer(), "sccuess");
-} 
+} else if ($operation == 'set_permission') {
+    $id = intval($_GPC['id']);
+    $item = pdo_fetch('select * from ' . tablename('xuan_mixloan_channel_permission') . '
+                where uid=:uid
+                order by id desc', array(':uid' => $id));
+    if ($_GPC['post'] == 1) {
+        $data = $_GPC['data'];
+        if ($data['type'] == 0) {
+            pdo_delete('xuan_mixloan_channel_permission', array('uid'=>$id));
+            message("提交成功", referer(), "sccuess");
+        }
+        if ($item) {
+            pdo_update('xuan_mixloan_channel_permission', $data, array('id'=>$item['id']));
+        } else {
+            $insert = array();
+            $insert['uid'] = $id;
+            $insert['uniacid'] = $_W['uniacid'];
+            $insert['createtime'] = time();
+            $insert['endtime'] = time() + 86400 * 36500;
+            $insert['type'] = $data['type'];
+            $insert['tid'] = "20002" . date('YmdHis', time());
+            pdo_insert('xuan_mixloan_channel_permission', $insert);
+        }
+        message("提交成功", referer(), "sccuess");
+    }
+}
 include $this->template('channel');
 ?>
