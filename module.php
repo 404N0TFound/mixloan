@@ -73,6 +73,7 @@ class Xuan_mixloanModule extends WeModule {
                     'give_bonus_money_b'=>$_GPC['give_bonus_money_b'],
                     'give_bonus_count_c'=>$_GPC['give_bonus_count_c'],
                     'give_bonus_money_c'=>$_GPC['give_bonus_money_c'],
+                    'apply_shade'=>$_GPC['apply_shade'],
             	);
 
             if ($this->saveSettings($cfg)) {

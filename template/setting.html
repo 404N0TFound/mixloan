@@ -62,6 +62,15 @@
 						</div>
 
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">申请遮罩</label>
+							<div class="col-sm-6 col-xs-12">
+								<select class="form-control" name="apply_shade">
+									<option value="0" {if $setting['apply_shade'] == 0}selected{/if}>否</option>
+									<option value="1" {if $setting['apply_shade'] == 1}selected{/if}>是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">监控链接</label>
 							<div class="col-sm-6 col-xs-12">
 								<input type="text"  value="{$queue_url}" class="form-control" readonly>
