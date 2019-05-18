@@ -203,10 +203,11 @@ class Xuan_mixloan_Product
     **/
     public function getSpecialLoan($type) {
         global $_W;
-        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND find_in_set('{$type}',b.type) AND a.type=2 AND a.is_show=1 ORDER BY b.id";
+        $sql = "SELECT a.id,a.relate_id,b.name,b.money_high,b.rate,b.rate_type,b.ext_info FROM ".tablename('xuan_mixloan_product')." a LEFT JOIN ".tablename("xuan_mixloan_loan")." b ON a.relate_id=b.id WHERE a.uniacid={$_W['uniacid']} AND a.type=2 AND a.is_show=1 ORDER BY b.id";
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
+            var_dump($list);die;
             foreach ($list as $value) {
                 if ($value['ext_info']) {
                     $value['ext_info'] = json_decode($value['ext_info'], true);
