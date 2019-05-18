@@ -63,7 +63,7 @@
             <td class="line-bottom">
                 <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}')">关注成功({$follow_count})</a></td>
             <td class="line-bottom">
-                <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}')" class="tab-active2">购买成功({$buy_count})</a>
+                <a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op'=>'extendList'))}')" class="tab-active2">购买成功({php echo count($extend_list);})</a>
             </td>
         </tr>
         </tbody>
