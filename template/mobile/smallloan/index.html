@@ -247,7 +247,7 @@
         loop : true,
         autoplayDisableOnInteraction : false,
     });
-    $("body").on("click",".short_click",function(){
+    $(".short_click").on("click", function(){
         var title = $(this).find(".pname").text();
         var url = $(this).attr("data-url");
         var group_name = $(this).find(".gname").text();
