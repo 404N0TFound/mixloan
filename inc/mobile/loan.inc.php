@@ -204,6 +204,10 @@ if($operation=='index'){
         'status'=>$status,
         'createtime'=>time()
     );
+    $agent = m('member')->checkAgent($inviter);
+    if ($agent['code'] != 1) {
+        $insert['agent'] = 0;
+    }
     pdo_insert('xuan_mixloan_product_apply', $insert);
     //二级
     $inviter_info = m('member')->getInviterInfo($inviter);

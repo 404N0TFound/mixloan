@@ -320,9 +320,6 @@ if($operation=='buy'){
         message("支付成功", $this->createMobileUrl('user'), "success");
     }
 } else if ($operation == 'createPost') {
-    if ($agent['code'] != 1) {
-        show_json(-1, [], '您不是会员');
-    }
     $type = intval($_GPC['type']);//1是关联产品,2是直接全部代理
     if ($type == 1) {
         $id = intval($_GPC['id']);
@@ -539,9 +536,9 @@ if($operation=='buy'){
     show_json(1, null, "提现成功");
 } else if ($operation == 'inviteCode') {
     //邀请二维码
-    if ($agent['code'] != 1) {
-        message('您不是会员', '', 'error');
-    }
+    // if ($agent['code'] != 1) {
+    //     message('您不是会员', '', 'error');
+    // }
     $type = intval($_GPC['type']);
     if ($type == 1) {
 

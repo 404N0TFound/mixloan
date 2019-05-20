@@ -54,12 +54,13 @@ if($operation=='index'){
 	show_json(1, $arr);
 } else if ($operation == 'info') {
 	//产品详情
-	$agent = m('member')->checkAgent($member['id']);
-	if ($agent['code']==1) {
-		$verify = 1;
-	} else {
-		$verify = 0;
-	}
+	// $agent = m('member')->checkAgent($member['id']);
+	// if ($agent['code']==1) {
+	// 	$verify = 1;
+	// } else {
+	// 	$verify = 0;
+	// }
+    $verify = 1;
 	$id = intval($_GPC['id']);
 	$info = m('product')->getList([],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
@@ -208,6 +209,10 @@ if($operation=='index'){
 		'status'=>$status,
 		'createtime'=>time()
 	);
+    $agent = m('member')->checkAgent($inviter);
+    if ($agent['code'] != 1) {
+        $insert['agent'] = 0;
+    }
 	pdo_insert('xuan_mixloan_product_apply', $insert);
 	//二级
 	$inviter_info = m('member')->getInviterInfo($inviter);
