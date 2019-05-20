@@ -107,6 +107,15 @@
 	.app_header_back{padding-top: 48px;padding-left: 4%;padding-right: 4%}
 	.app_header_back img{float:left;width: 12px;}
 	.app_header_back span{margin-top: 10px;font-size: 17px;color: #7e8181}
+	.upgrade_free{
+		padding: 0.5rem;
+	    background: #5386d2;
+	    color: white;
+	    border-radius: 50%;
+	    width: 1.6rem;
+	    display: inline-block;
+	    text-align: center;
+	}
 </style>
 <div class="app_header">
 	<div class="app_header_back">
@@ -133,6 +142,9 @@
 			</span>
 
 		<a class="buy-btn" {if !$verify}id="to_buy"{/if} href="javascript:;">{if $verify}已购买{else}购买代理{/if}</a>
+	</div>
+	<div style="position: absolute;bottom: 5rem;right: 2%">
+		<a onclick="openNew('{php echo $this->createMobileUrl('vip', array('op' => 'upgrade_free'))}')" class="upgrade_free">免费升级</a>
 	</div>
 </footer>
 

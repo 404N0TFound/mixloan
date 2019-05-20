@@ -942,4 +942,56 @@ if($operation=='buy'){
         unset($row);
     }
     include $this->template('vip/rank_list');
+} else if ($operation == 'upgrade_free') {
+    if ($agent['code'] == 1) {
+        header("location:{$this->createMobileUrl('user')}");
+        exit();
+    }
+    $upgrade_free_a = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
+                    where inviter=:inviter and degree=1 and type=1 and status>0', array(':inviter' => $member['id'])) ? : 0;
+    $list = pdo_fetchall('select openid from ' . tablename('qrcode_stat') . ' 
+                    where qrcid=:qrcid 
+                    group by openid', array(':qrcid' => $member['id']));
+    foreach ($list as $row) {
+        $openid_arr[] = $row['openid'];
+    }
+    $openid_string = "'" . implode("','", $openid_arr) . "'";
+    $upgrade_free_b = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . ' a 
+                                left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+                                where b.openid in ({$openid_string})") ? : 0;
+    if ($_GPC['submit'] == 1) {
+        if ($_GPC['type'] == 1) {
+            if ($upgrade_free_a >= $config['upgrade_free_a']) {
+                $tid = "20001" . date('YmdHis', time());
+                $insert = array(
+                        "uniacid"=>$_W["uniacid"],
+                        "uid"=>$member['id'],
+                        "createtime"=>time(),
+                        "tid"=>$tid,
+                        "fee"=>0,
+                );
+                pdo_insert("xuan_mixloan_payment",$insert);
+                message('升级完毕', $this->createMobileUrl('user'), 'success');
+            } else {
+                message('您还没达到升级条件呢', '', 'error');
+            }
+        } else {
+            if ($upgrade_free_b >= $config['upgrade_free_b']) {
+                $tid = "20001" . date('YmdHis', time());
+                $insert = array(
+                        "uniacid"=>$_W["uniacid"],
+                        "uid"=>$member['id'],
+                        "createtime"=>time(),
+                        "tid"=>$tid,
+                        "fee"=>0,
+                );
+                pdo_insert("xuan_mixloan_payment",$insert);
+                message('升级完毕', $this->createMobileUrl('user'), 'success');
+            } else {
+                message('您还没达到升级条件呢', '', 'error');
+            }
+        }
+    }
+
+    include $this->template('vip/upgrade_free');
 }

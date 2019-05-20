@@ -277,6 +277,16 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否代理邀请</label>
+                <div class="col-sm-8 col-lg-9 col-xs-12">
+                    <select class="form-control" name="agent">
+                        <option value="">筛选状态</option>
+                        <option value="0" {if $_GPC['agent']=='0'}selected{/if}>用户</option>
+                        <option value="1" {if $_GPC['agent']=='1'}selected{/if}>代理</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">时间筛选</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     {php echo tpl_form_field_daterange('time', array('starttime'=>$starttime,'endtime'=>$endtime),true);}

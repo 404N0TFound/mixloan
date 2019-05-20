@@ -83,6 +83,8 @@ class Xuan_mixloanModule extends WeModule {
                     'loan_week_intro'=>$_GPC['loan_week_intro'],
                     'loan_month_intro'=>$_GPC['loan_month_intro'],
                     'notice'=>$_GPC['notice'],
+                    'upgrade_free_a'=>$_GPC['upgrade_free_a'],
+                    'upgrade_free_b'=>$_GPC['upgrade_free_b'],
             	);
 
             if ($this->saveSettings($cfg)) {

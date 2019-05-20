@@ -87,10 +87,13 @@
         <img src="{php echo tomedia($config['extend_bonus_pic2']);}" />
         <div class="gift_btns">
             <a href="javascript:void(0);" id="sub_button">
-                <img src="../addons/xuan_mixloan/template/style/picture/btns.png"  style="width: 5rem;margin-right: 1.2rem"/>
+                <img src="../addons/xuan_mixloan/template/style/picture/btns.png"  style="width: 4rem;margin-right: .2rem"/>
+            </a>
+            <a href="javascript:void(0);" id="sub_buyer">
+                <img src="../addons/xuan_mixloan/template/style/picture/btns_buyer.png"  style="width: 4rem;margin-right: .2rem"/>
             </a>
             <a href="javascript:void(0);" id="sub_partner">
-                <img src="../addons/xuan_mixloan/template/style/picture/btns_partner.png"  style="width: 5rem;margin-left: 1.2rem"/>
+                <img src="../addons/xuan_mixloan/template/style/picture/btns_partner.png"  style="width: 4rem;margin-left: .2rem"/>
             </a>
         </div>
     </div>
@@ -149,20 +152,13 @@
 
     $(function() {
         $("#sub_button").click(function(){
-            {if $agent['code'] != 1}
-            $('#prize_art').show();
-            {else}
             window.location.href="{php echo $this->createMobileUrl('vip', array('op' => 'inviteCode', 'type'=>3))}"
             // window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'register', 'inviter'=>$member['id']))}"
-            {/if}
-            })
+        })
         $(".click_view a").click(function(){
-            {if $agent['code'] != 1}
-            $('#prize_art').show();
-            {else}
+           
             window.location.href="{php echo $this->createMobileUrl('vip', array('op'=>'followList'))}"
-            {/if}
-            })
+        })
         $('#close_shan').click(function() {
             $('#prize_art').hide();
         });
@@ -174,7 +170,9 @@
             // openNew('{php echo $this->createMobileUrl('vip', array('op'=>'partner'))}');
         })
 
-
+        $('#sub_buyer').click(function(){
+            openNew('{php echo $this->createMobileUrl('vip', array('op'=>'upgrade_free'))}');
+        })
     })
     function showRules(){
         layer.open({

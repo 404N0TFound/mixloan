@@ -63,6 +63,9 @@ if ($operation == 'list') {
     if ($_GPC['status'] != "") {
         $wheres.= " AND a.status='{$_GPC['status']}'";
     }
+    if ($_GPC['agent'] != "") {
+        $wheres.= " AND a.agent='{$_GPC['agent']}'";
+    }
     if (!empty($_GPC['time'])) {
         $starttime = $_GPC['time']['start'];
         $endtime = $_GPC['time']['end'];
