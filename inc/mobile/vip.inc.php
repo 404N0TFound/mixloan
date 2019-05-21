@@ -952,13 +952,17 @@ if($operation=='buy'){
     $list = pdo_fetchall('select openid from ' . tablename('qrcode_stat') . ' 
                     where qrcid=:qrcid 
                     group by openid', array(':qrcid' => $member['id']));
-    foreach ($list as $row) {
-        $openid_arr[] = $row['openid'];
+    if ($list) {
+        foreach ($list as $row) {
+            $openid_arr[] = $row['openid'];
+        }
+        $openid_string = "'" . implode("','", $openid_arr) . "'";
+        $upgrade_free_b = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . ' a 
+                                    left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
+                                    where b.openid in ({$openid_string})") ? : 0;
+    } else {
+        $upgrade_free_b = 0;
     }
-    $openid_string = "'" . implode("','", $openid_arr) . "'";
-    $upgrade_free_b = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_payment') . ' a 
-                                left join ' . tablename('xuan_mixloan_member') . " b on a.uid=b.id
-                                where b.openid in ({$openid_string})") ? : 0;
     if ($_GPC['submit'] == 1) {
         if ($_GPC['type'] == 1) {
             if ($upgrade_free_a >= $config['upgrade_free_a']) {
