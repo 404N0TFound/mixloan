@@ -15,7 +15,6 @@ define('XUAN_MIXLOAN_DEBUG', false);
 require_once XUAN_MIXLOAN_INC.'functions.php'; 
 class Xuan_mixloanModuleSite extends WeModuleSite {
 	public function __construct(){
-		
 	}
 	//付款结果返回
 	public function payResult($params){
