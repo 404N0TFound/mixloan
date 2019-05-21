@@ -12,17 +12,6 @@ if($operation=='index'){
         header("location:{$this->createMobileUrl('product', array('op' => ''))}");
         exit();
     }
-    if ($config['loan_vip']) {
-        if (empty($openid)) {
-            header("location:{$this->createMobileUrl('index', array('op' => 'login'))}");
-            exit();
-        }
-        $agent = m('member')->checkAgent($member['id']);
-        if ($agent['code'] != 1) {
-            header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
-            exit();
-        }
-    }
     $category = pdo_fetchall('select id,name,ext_info from ' . tablename('xuan_mixloan_loan_category') . "
         where uniacid={$_W['uniacid']} ORDER BY sort DESC");
     foreach ($category as &$row) {
@@ -35,6 +24,17 @@ if($operation=='index'){
 	include $this->template('loan/index');
 } else if ($operation == 'loan_select') {
 	//全部贷款
+    if ($config['loan_vip']) {
+        if (empty($openid)) {
+            header("location:{$this->createMobileUrl('index', array('op' => 'login'))}");
+            exit();
+        }
+        $agent = m('member')->checkAgent($member['id']);
+        if ($agent['code'] != 1) {
+            header("location:{$this->createMobileUrl('vip', array('op' => 'buy'))}");
+            exit();
+        }
+    }
     $category = pdo_fetchall('select id,name from ' . tablename('xuan_mixloan_loan_category') . "
         where uniacid={$_W['uniacid']} ORDER BY sort DESC");
 	include $this->template('loan/loan_select');
