@@ -366,11 +366,12 @@ if($operation=='buy'){
 	
 } else if ($operation == 'createPostAllProduct') {
 	//我的代理店
-	if ($agent['code']==1) {
-		$verify = 1;
-	} else {
-		$verify = 0;
-	}
+	// if ($agent['code']==1) {
+	// 	$verify = 1;
+	// } else {
+	// 	$verify = 0;
+	// }
+    $verify = 1;
 	$pids = pdo_fetchall("SELECT pid FROM ".tablename("xuan_mixloan_poster")." WHERE uid=:uid", array(":uid"=>$member['id']));
 	if ($pids) {
 		foreach ($pids as $value) {
