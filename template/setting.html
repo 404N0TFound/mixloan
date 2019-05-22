@@ -49,6 +49,12 @@
 							</div>
 						</div>
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">注册页图片</label>
+							<div class="col-sm-3 col-xs-4">
+								{php echo tpl_form_field_image(register_back,$setting['register_back']);}
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号二维码</label>
 							<div class="col-sm-3 col-xs-4">
 								{php echo tpl_form_field_image(wx_qrcode,$setting['wx_qrcode']);}

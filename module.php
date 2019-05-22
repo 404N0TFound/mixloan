@@ -24,6 +24,7 @@ class Xuan_mixloanModule extends WeModule {
                     'tpl_notice7'=>$_GPC['tpl_notice7'],
                     'smsuser'=>$_GPC['smsuser'],
                     'smspass'=>$_GPC['smspass'],
+                    'register_back'=>$_GPC['register_back']
                 );
             if ($this->saveSettings($cfg)) {
                 message('保存成功', 'refresh');

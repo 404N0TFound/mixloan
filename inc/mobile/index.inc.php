@@ -3,8 +3,8 @@ defined('IN_IA') or exit('Access Denied');
 global $_GPC,$_W;
 $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='login';
-$openid = m('user')->getOpenid();
-$member = m('member')->getMember($openid);
+// $openid = m('user')->getOpenid();
+// $member = m('member')->getMember($openid);
 if($operation=='register'){
 	//注册
 	include $this->template('index/register');
