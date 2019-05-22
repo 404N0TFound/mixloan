@@ -93,7 +93,7 @@ else if ($operation == 'getLoan')
 			$row['group_id'] = $row['category'];
 			$row['group_name'] = pdo_fetchcolumn('select name from ' . tablename('xuan_mixloan_loan_category') . '
 										where id=:id ', array(':id' => $row['category']));
-			$row['createtime'] = date('Y-m-d H:i:s', $row['createtime']);
+			$row['createtime'] = date('Y-m-d H:i', $row['createtime']);
 		}
 		unset($row);
 		show_json(1, array_values($list));
