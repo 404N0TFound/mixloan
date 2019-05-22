@@ -275,6 +275,8 @@ if($operation=='index'){
         $product = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
     }
     $url = $product['ext_info']['url'];
+    header("location:{$url}");
+    exit();
     if ((!is_weixin() && !is_qq()) || !$info['middleware'])
     {
         header("location:{$url}");
