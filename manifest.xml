@@ -29,6 +29,7 @@
       <entry title="贷款超市" do="loan" state="" direct="false" />
       <entry title="银行列表" do="bank" state="" direct="false" />
       <entry title="申请记录" do="apply" state="" direct="false" />
+      <entry title="乙方管理" do="partner" state="" direct="false" />
 	</menu>
 	</bindings>
 	<permissions>
@@ -36,7 +37,29 @@
 	<install><![CDATA[
 ALTER TABLE `ims_uni_account_modules` CHANGE settings settings MediumText NOT NULL;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_cache`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_cache` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cache` varchar(10) NOT NULL,
+  `token` varchar(50) NOT NULL,
+  `updatetime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `token` (`token`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_partner`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_partner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `status` int(2) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  `ext_info` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 DROP TABLE IF EXISTS `ims_xuan_mixloan_apply`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply` (

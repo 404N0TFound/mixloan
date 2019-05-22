@@ -42,18 +42,18 @@
 <div class="panel panel-default" style="font-size:11px;">
     <div class="panel-heading" style="height: 50px">
         <div style="float: left;width: 70%;"> 总数：{$total} </div>
-        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_text_url()">发送文本信息</button>
-        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_notice_url()">发送模板信息</button>
+        <!-- <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_text_url()">发送文本信息</button>
+        <button class="btn btn-default btn-sm" style="float: left;margin-bottom: 10px" onclick="return_notice_url()">发送模板信息</button> -->
     </div>
     <div class="panel-body">
         <table class="table table-hover" style="overflow:visible;">
             <thead class="navbar-inner">
                 <tr>
                     <th style='width:80px;'>会员ID</th>
-                    <th style='width:120px;'>昵称</th>
+                    <!-- <th style='width:120px;'>昵称</th> -->
                     <th style='width:120px;'>真实姓名</th>
                     <th style='width:150px;'>手机</th>
-                    <th style='width:120px;'>类型</th>
+                    <!-- <th style='width:120px;'>类型</th> -->
                     <th style='width:150px;'>注册时间</th>
                     <th>操作</th>
                 </tr>
@@ -62,13 +62,13 @@
                 {loop $list $row}
                 <tr>
                     <td>   {$row['id']}</td>
-                    <td>
+                    <!-- <td>
                         <img src="{if $row['avatar']}{php echo tomedia($row['avatar'])}{else}{IMG_PATH}avatar.png{/if}" style='width:30px;height:30px;padding1px;border:1px solid #ccc' />
                         {if empty($row['nickname'])}未更新{else}{$row['nickname']}{/if}
-                    </td>
+                    </td> -->
                     <td>{$row['realname']}</td>
                     <td>{$row['phone']}</td>
-                    <td>{if $row['type']==1}<span class="label label-info">代理</span>{else}<span class="label label-default">用户</span>{/if}</td>
+                    <!-- <td>{if $row['type']==1}<span class="label label-info">代理</span>{else}<span class="label label-default">用户</span>{/if}</td> -->
                     <td>{php echo date('Y-m-d H:i',$row['createtime'])}</td>
                     <td  style="overflow:visible;">
                         
@@ -76,7 +76,7 @@
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="javascript:;">操作 <span class="caret"></span></a>
                             <ul class="dropdown-menu dropdown-menu-left" role="menu" style='z-index: 9999;min-width: 50px'>
                                 
-                                <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li>
+                                <!-- <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'agent','id' => $row['id']));}" title='设为代理' onclick="return confirm('确定要设置该会员为代理吗？');"><i class='fa fa-list-alt'></i> 设为代理</a></li> -->
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'update','id' => $row['id']));}" title='编辑会员' ><i class='fa fa-edit'></i> 编辑会员</a></li>
                                 <li><a  href="{php echo $this->createWebUrl('member',array('op'=>'delete','id' => $row['id']));}" title='删除会员' onclick="return confirm('确定要删除该会员吗？');"><i class='fa fa-remove'></i> 删除会员</a></li>
                             </ul>
@@ -121,18 +121,6 @@
                 <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">真实姓名</label>
                 <div class="col-sm-8 col-lg-9 col-xs-12">
                     <input type="text" class="form-control"  name="data[realname]" value="{$member['realname']}" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">微信号</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[wechat]" value="{$member['wechat']}" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">身份证</label>
-                <div class="col-sm-8 col-lg-9 col-xs-12">
-                    <input type="text" class="form-control"  name="data[certno]" value="{$member['certno']}" />
                 </div>
             </div>
             <div class="form-group">

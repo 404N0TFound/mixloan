@@ -75,7 +75,7 @@ class Xuan_mixloan_Loan
     public function getRecommends(){
         global $_W;
         $sql = "SELECT * FROM " .tablename('xuan_mixloan_loan'). "
-            WHERE uniacid=:uniacid ORDER BY RAND() LIMIT 3";
+            WHERE uniacid=:uniacid and status=1 ORDER BY RAND() LIMIT 3";
         $list = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
         if ($list) {
             foreach ($list as &$row) {
@@ -126,6 +126,20 @@ class Xuan_mixloan_Loan
         return $ret;
     }
 
+    public function getBarrageB() {
+        //获得弹幕信息 0是虚假，1是真实
+        $min = 1000;
+        $max = 20000;
+        $name = "赵 钱 孙 李 周 吴 郑 王 冯 陈 褚 卫 蒋 沈 韩 杨 朱 秦 尤 许 何 吕 施 张 孔 曹 严 华 金 魏 陶 姜 戚 谢 邹 喻 刘 黄";
+        $name = explode(" ", $name);
+        for ($i = 0; $i < 10; $i++) {
+            $ar = rand(0, count($name) - 1);
+            $res[$i]['realname'] = $name[$ar] . '**';
+            $res[$i]['createtime'] = date('Y-m-d H:i:s', time() - rand(0, 9999));
+            $res[$i]['money'] = substr(rand($min, $max) , 2) * 100;
+        }
+        return $res;
+    }
     public function checkRecord($type, $relate_id, $phone)
     {
         global $_W;

@@ -13,8 +13,10 @@ if($operation=='register'){
 	include $this->template('index/register_contract');
 } else if ($operation == 'register_ajax') {
 	//注册提交
-	$phone = $_GPC['phone'];
-	$pwd = $_GPC['pwd'] ? : '';
+    $phone = $_GPC['phone'];
+	$realname = $_GPC['realname'];
+    $pwd = $_GPC['pwd'] ? : '';
+	$inviter = $_GPC['inviter'] ? : '';
 	$smsCode = $_GPC['smsCode'];
 	if (md5($phone.$smsCode) != $_COOKIE['cache_code']) {
 		show_json(-1, null, "验证码不符或验证码已失效");
@@ -27,9 +29,11 @@ if($operation=='register'){
 		show_json(-1, null, "手机已绑定");
 	}
 	$insert = array(
+        'realname'=>$realname,
         'uniacid' => $_W['uniacid'],
         'phone' => $phone,
         'pass' => $pwd,
+        'inviter' => $inviter,
         'createtime' => time(),
     );
     pdo_insert('xuan_mixloan_member', $insert);

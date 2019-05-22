@@ -22,7 +22,6 @@ if($operation=='index'){
 		show_json(-1);
 	} else {
         foreach ($recommends as &$row) {
-            $row['ext_info']['url'] = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['id']));
         }
         unset($row);
     }
@@ -63,7 +62,7 @@ if($operation=='index'){
 	} else {
 		foreach ($list as &$row) {
 			$row['ext_info']['logo'] = tomedia($row['ext_info']['logo']);
-            $row['ext_info']['url'] = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['id']));
+            // $row['ext_info']['url'] = $this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$row['id']));
 		}
 		unset($row);
 		show_json(1, array_values($list));
@@ -107,4 +106,10 @@ if($operation=='index'){
     );
     pdo_insert('xuan_mixloan_apply', $insert);
     show_json(1,$info['ext_info']['url']);
+} else if ($operation == 'get_index') {
+	// 获取首页信息
+	$ret = array();
+	$barrage = m('loan')->getBarrageB();
+	$ret['barrage'] = $barrage;
+	show_json(1, $ret, 'success');
 }

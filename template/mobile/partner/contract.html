@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+    <title>注册协议</title>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/partner_mobile/static/css/common_1.css"/>
+</head>
+<body>
+    <div style="padding: 10px">
+        {$config['user_contract']}
+    </div>
+    <div class="content" style="position: initial;padding: 20px 0px;">
+        <div class="btn" onclick="toback();">我已阅读并同意</div>
+    </div>
+    <script type="text/javascript">
+        function toback(){
+            window.location.href="{php echo $this->createMobileUrl('partner', array('op' => 'invite', 'utook' => $_GPC['utook']))}"
+        }
+    </script>
+</body>
+</html>

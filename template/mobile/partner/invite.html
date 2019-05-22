@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" />
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/partner_mobile/static/css/swiper-3.3.1.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../addons/xuan_mixloan/template/style/partner_mobile/static/css/common.css"/>
+    <script src="../addons/xuan_mixloan/template/style/partner_mobile/static/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+</head>
+<body style="background: #f5f5f5">
+<div class="content1">
+    <img src="{php echo tomedia($config['register_back']);}" class="applyimg">
+    <div class="swiper-container newhot">
+        <ul class="news-list swiper-wrapper">
+            
+        </ul>
+    </div>
+    <img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/stype.jpg" class="stype">
+
+    <!--<img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/apply.png" class="applyimg">-->
+    <form id="mobileForm" method="post"  onsubmit="return submit_data()">
+        <div class="item">
+                <label><img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/myzoe.png"></label>
+                <input type="text" id="name" name="name" placeholder="请输入您的真实姓名">
+            </div>
+                <div class="item">
+            <label><img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/mobile.png" style="width: .3rem"></label>
+            <input type="text" id="username" name="username" placeholder="请输入手机号码">
+        </div>
+        <div class="item item_yzm">
+            <div class="item_l">
+                <label><img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/code.png"></label>
+                <input type="text"  required pattern="^\S{3,}$" id="verify" name="verify" maxlength="4" value="" placeholder="请输入图形验证码">
+            </div>
+            <span class="reloadverify">
+                <img src="" alt="验证码" style="width: 116px;height: 50px;" class="verifyimg"  id="cache_img">
+            </span>
+        </div>
+        <div class="item item_yzm">
+            <div class="item_l">
+                <label><img src="../addons/xuan_mixloan/template/style/partner_mobile/static/picture/key.png"></label>
+                <input type="text" maxlength="6" id="mobile_code" placeholder="请输入短信验证码" name="verify_code" style="width: 2.6rem">
+            </div>
+            <div class="yzmBtn" onClick="sendcode(this)">获取验证码</div>
+        </div>
+    </form>
+    <div class="checkbox">
+        <input type="checkbox" checked class="ui-checkbox" id="shopTime_term" />
+        <label>我已阅读并同意 <a href="{php echo $this->createMobileUrl('partner', array('op' => 'contract', 'utook' => $_GPC['utook']))}">《用户协议》</a></label>
+    </div>
+    <div class="btn" id="register">去申请</div>
+</div>
+<script src="../addons/xuan_mixloan/template/style/partner_mobile/static/js/swiper-3.3.1.jquery.min.js" type="text/javascript"></script>
+<script>
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('ajax', array('op' => 'get_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    $('#cache_img').attr("src", data.data.img);
+                    window.localStorage.setItem('token', data.data.token);
+                }
+            },'json')
+    }
+    loaddata();
+    function loaddata() {
+        $.ajax({
+            type: "GET",
+            url: "{php echo $this->createMobileUrl('loan', array('op' => 'get_index'))}",
+            data: {},
+            dataType: "json",
+            success: function(data){
+                    if(data.code==1){
+                        var str = '';
+                        var list = data.data.barrage;
+                        for (var i = list.length - 1; i >= 0; i--) {
+                            str += '<li class="swiper-slide" >'+list[i].realname+'于'+list[i].createtime+'成功下款￥'+list[i].money+'元</li>';
+                        }
+                        $('.news-list').html(str);
+                        var swiperhot = new Swiper('.swiper-container.newhot', {
+                            direction: 'vertical',
+                            slidesPerView: 1,
+                            loop: true,
+                            autoplay: 5000
+                        });
+                        return false;
+                    }
+             }
+        });
+    }
+
+    $('#register').click(function(){
+        $('#mobileForm').submit();
+    });
+    setCurrentForm($("#mobileForm"));
+    var flag = false;
+
+    function setCurrentForm(formObj) {
+        currentForm = $(formObj);
+    }
+
+    function checkMobilePhone(mobile){
+        if(!(/^1[23456789]\d{9}$/.test(mobile))){
+            flag = false;
+            alert("手机号码格式不正确");
+        }else{
+            flag = true;
+        }
+        return flag;
+    }
+
+    function shopTime_term(){
+        if(!$("#shopTime_term").is(":checked")){
+            flag = false;
+            alert("请阅读并同意用户协议");
+        }else{
+            flag = true;
+        }
+        return flag;
+    }
+
+    //检查表单
+    function check_submit() {
+        var username = $.trim($(currentForm).find('#username').val());
+           var verify = $.trim($(currentForm).find('#verify').val());
+           if(verify.length != 4){
+               flag = false;
+               alert('请输入图形验证码');
+               return false;
+           }
+        if(!checkMobilePhone(username) || !shopTime_term()){
+            return false;
+        }
+        return true;
+    }
+
+    //发送短信验证码
+    function sendcode(o){
+        var is_active = $(o).is('.active');
+        var is_ok = check_submit();
+        if(is_ok && !is_active){
+            $(o).addClass('active');
+            $(o).html('正在发送...');
+            $.ajax({
+                url: '{php echo $this->createMobileUrl('ajax', array('op' => 'getCode'))}' ,
+                type:'post',
+                dataType:'json',
+                data:{phone:$.trim($(currentForm).find('#username').val()),cache:$.trim($(currentForm).find('#verify').val()), token:window.localStorage['token']},
+                success:function(res){
+                    if(res.code==1){
+                        countdown(o);
+                    }else{
+                        $(o).removeClass('active');
+                        $(o).html('获取验证码');
+                        alert(res.msg);
+                    }
+                }
+            })
+        }
+    }
+
+    var wait = 180;
+    function countdown(obj, msg) {
+        obj = $(obj);
+        if (wait == 0) {
+            $(obj).removeClass('active');
+            obj.html(msg);
+            wait = 180;
+        } else {
+            if (msg == undefined || msg == null) {
+                msg = obj.html();
+            }
+            $(obj).addClass('active');
+            obj.html(wait + "秒后重新获取");
+            wait--;
+            setTimeout(function() {
+                countdown(obj, msg)
+            }, 1000)
+        }
+    }
+
+    //提交数据
+    function submit_data(){
+        var is_active =  $('#register').is('.btn-disable');
+        if(is_active){
+            return false;
+        }
+        if(!check_submit()){
+            return false;
+        }
+        var name = $.trim($('#name').val());
+        var username = $.trim($('#username').val());
+        var mobile_code= $('#mobile_code').val();
+        if(mobile_code.length < 4){
+            alert('请获取并输入短信验证码！');
+            return false;
+        }
+        if(!name.match(/^[\u4e00-\u9fa5]+$/)){
+            alert('请输入您的真实姓名！');
+            return false;
+        }
+        
+        $('#register').html('正在提交');
+        $('#register').addClass('btn-disable');
+
+        $.ajax({
+            url: '{php echo $this->createMobileUrl('index', array('op' => 'register_ajax', 'inviter'=>$_GPC['utook']))}' ,
+            type:'post',
+            dataType:'json',
+            data:{phone:username,smsCode:mobile_code,realname:name,token:window.localStorage['reg_token']},
+            success:function(res){
+                if(res.code == 1){
+                    alert(res.msg);
+                    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {  
+                        window.location.href = "{php echo $this->createMobileUrl('loan')}";       
+                    } else if (/(Android)/i.test(navigator.userAgent)) {  
+                        window.location.href = "{php echo $this->createMobileUrl('loan')}";      
+                    } 
+                } else {
+                    alert(res.msg);
+                    $('#register').html('提交');
+                    $('#register').removeClass('btn-disable');
+                }
+            }
+        })
+        return false;
+    }
+    //同意协议
+    $(".checkbox").click(function () {
+        if($(this).children("input").attr('checked')){
+            $(this).children("input").attr("checked", false);
+        }else {
+            $(this).children("input").attr("checked", true);
+        }
+    })
+</script>
+</body>
+</html>

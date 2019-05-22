@@ -7,6 +7,8 @@ $config = $this->module['config'];
 (!empty($_GPC['op']))?$operation=$_GPC['op']:$operation='';
 if($operation == 'getCode'){
 	//发送验证码
+	$imgCache = strtolower($_GPC['cache']);
+	$token = $_GPC['token'];
 	$time = time()-86400;
 	$cache =  rand(111111,999999);
 	$phone = $_GPC['phone'];
@@ -16,10 +18,23 @@ if($operation == 'getCode'){
 			show_json(102);
 		}
 	}
+    if (empty($imgCache)) {
+        show_json(-1, [], '验证码为空');
+    }
+    $record = pdo_fetch('select cache,updatetime from ' . tablename('xuan_mixloan_cache') . '
+        where token=:token', array(':token' => $token));
+    if ($record['updatetime'] < time() - 90)
+    {
+        show_json(-1, null, "图形验证码已失效");
+    }
+    if ($imgCache != $record['cache'])
+    {
+        show_json(-1, null, "图形验证码不符");
+    }
 	if($_GPC['type']=='register'){
-		$content = "尊敬的用户，您的本次操作验证码为：{$cache}";
+		$content = "【{$config['title']}】尊敬的用户，您的本次操作验证码为：{$cache}";
 	} else {
-		$content = "尊敬的用户，您的验证码为：{$cache}";
+		$content = "【{$config['title']}】尊敬的用户，您的验证码为：{$cache}";
 	}
 	if (isset($_COOKIE['cache_code'])) {
 		show_json(-1, null, "您的手太快啦，请休息会再获取");
@@ -30,7 +45,7 @@ if($operation == 'getCode'){
 	}
 	$res = baoSendSMS($_GPC['phone'],$content,$config);
 	if($res==0){
-		show_json(0, null, "发送验证码成功");
+		show_json(1, null, "发送验证码成功");
 	}else if($res==42){
 		show_json(-1, null, "短信帐号过期");
 	}else if($res==30){
@@ -206,7 +221,31 @@ if($operation == 'getCode'){
     } else {
         echo 'empty';
     }
+} else if ($operation == 'get_cache') {
+    // 获取验证码
+    require_once('../addons/xuan_mixloan/inc/model/cache.php');
+    $cache     = new Xuan_mixloan_Cache();
+    $cache_img = $cache->doimg();
+    if (!$cache_img['result']) {
+        show_json(-1, [], '生成验证码失败');
+    }
+    $code   = $cache->getCode();
+    $token  = md5(sha1($code));
+    $record  = pdo_fetch('select id,updatetime from ' . tablename('xuan_mixloan_cache') . '
+        					where token=:token', array(':token' => $token));
+    if ($record) {
+        if ($record['updatetime'] > time() - 60) {
+            show_json(-1, null, "您的手太快啦，请休息会再获取");
+        }
+        $update['cache'] = $code;
+        $update['updatetime'] = time();
+        pdo_update('xuan_mixloan_cache', $update, array('id' => $record['id']));
+    } else {
+        $insert = array();
+        $insert['cache'] = $code;
+        $insert['token'] = $token;
+        $insert['updatetime'] = time();
+        pdo_insert('xuan_mixloan_cache', $insert);
+    }
+    show_json(1, ['img' => $cache_img['file'], 'token' => $token]);
 }
-
-
-?>
