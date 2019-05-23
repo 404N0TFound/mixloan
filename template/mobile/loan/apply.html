@@ -11,6 +11,28 @@
 </head>
 
 <body>
+<style type="text/css">
+
+    .shade{ position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(136, 135, 135, 0.5); z-index: 20000000;}
+    .shade img{
+        position: absolute;
+        width: 200px;
+        height: 120px;
+        right: 10%;
+        top: 5%;
+
+    }
+</style>
+{if is_weixin() && $item['ext_info']['apply_shade']}
+<div class="shade">
+    <img src="../addons/xuan_mixloan/template/style/images/wechat_tips.png">
+</div>
+{/if}
 <!--<header>贷款详情</header>-->
 <div class="dkxq">
     <div class="logo"><img src="{php echo tomedia($item['ext_info']['logo']);}" alt="">{$item['name']}<p>内部合作通道，优先审核下款</p></div>
