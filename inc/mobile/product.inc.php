@@ -409,4 +409,37 @@ if($operation=='index'){
         unset($row);
     }
     include $this->template('product/customer_detail');
+} else if ($operation == 'copy_short') {
+    // 复制链接
+    if (empty($member['id'])) {
+        show_json(-1, [], '请先登陆');
+    }
+    $agent = m('member')->checkAgent($member['id']);
+    if ($agent['code'] != 1) {
+        // show_json(-1, [], '您还不是代理哦');
+    }
+    $type = trim($_GPC['type']);
+    if (empty($type)) {
+        show_json(-1, [], '请选择产品');
+    }
+    $urls = array();
+    if ($type == 'is_new') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['is_show'=>1, 'is_new'=>1], ' id desc', 9);
+    } else if ($type == 'hot') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['day_hot'=>1, 'is_show'=>1], FALSE);
+    } else if ($type == 'credit') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>1, 'is_show'=>1], FALSE);
+    } else if ($type == 'loan_day') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>2, 'is_show'=>1, 'count_time'=>1], ' sort desc');
+    } else if ($type == 'loan_week') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>2, 'is_show'=>1, 'count_time'=>7], ' sort desc');
+    } else if ($type == 'loan_month') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>2, 'is_show'=>1, 'count_time'=>30], ' sort desc');
+    } else if ($type == 'loan_ready') {
+        $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>2, 'is_show'=>1, 'ready'=>1], ' sort desc');
+    }
+    foreach ($list as $item) {
+        $urls[] = $item['name'] . ':' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$item['relate_id'], 'inviter'=>$member['id'], 'pid'=>$value['id'], 'rand' => 1)));
+    }
+    show_json(1, ['urls' => $urls], '获取成功');
 }
