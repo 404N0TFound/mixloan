@@ -66,5 +66,15 @@ if ($operation == 'list') {
         message("提交成功", $this->createWebUrl('poster', array('op' => '')), "sccuess");
     }
 }
+else if ($operation == 'clear_poster')
+{
+    // 清理海报缓存
+    pdo_delete('xuan_mixloan_poster');
+    pdo_delete('xuan_mixloan_shorturl');
+    $date = date('Y-m-d');
+    $url = "https://12i.cn/api.ashx?format=delBeforDay&userId=3331&key=281F23F79EAB1E2E54B39B5C5E0CC23D&url={$date}";
+    $result = file_get_contents($url);
+    message("清除成功", referer(), "success");
+}
 include $this->template('poster');
 ?>
