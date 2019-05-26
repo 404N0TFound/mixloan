@@ -439,7 +439,7 @@ if($operation=='index'){
         $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>2, 'is_show'=>1, 'ready'=>1], ' sort desc');
     }
     foreach ($list as $item) {
-        $urls[] = $item['name'] . ':' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$item['relate_id'], 'inviter'=>$member['id'], 'pid'=>$value['id'], 'rand' => 1)));
+        $urls[] = $item['name'] . ':' .  shortUrl($_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$item['relate_id'], 'inviter'=>$member['id'], 'pid'=>$item['id'], 'rand' => 1)));
     }
     show_json(1, ['urls' => $urls], '获取成功');
 }
