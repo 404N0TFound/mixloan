@@ -76,6 +76,21 @@
         }
     }
     var rollFlag=0;//监听屏幕滚动
+    $('#cache_img').click(function(){
+        getImgCache();
+    })
+    getImgCache();
+    function getImgCache(){
+        $.post("{php echo $this->createMobileUrl('mix', array('op'=>'apply_cache'))}",{},
+            function(data){
+                if (data.code == 1) {
+                    console.log(data);
+                    $('#cache_img').attr("src", data.data.img)
+                }else{
+                    layer.msg(data.msg);
+                }
+            },'json')
+    }
     //避免输入法影响样式
     $('div.popLoanInfo input').on('focus',function(e){
         var isIOS=(/iphone|ipad/gi).test(navigator.appVersion);
