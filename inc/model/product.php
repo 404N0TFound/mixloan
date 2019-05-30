@@ -207,7 +207,6 @@ class Xuan_mixloan_Product
         $list = pdo_fetchall($sql);
         $ret = [];
         if (!empty($list)) {
-            var_dump($list);die;
             foreach ($list as $value) {
                 if ($value['ext_info']) {
                     $value['ext_info'] = json_decode($value['ext_info'], true);
