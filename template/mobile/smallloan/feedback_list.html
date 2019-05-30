@@ -1,0 +1,116 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>反馈中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/bcardwithdraw.css">
+    <script src="../addons/xuan_mixloan/template/style/js/jquery.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/js/lmy.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer.js"></script>
+    <style type="text/css">
+        /*避免缓存*/
+        div.bindCardBox ul li input{background: transparent;}
+        .bindqrcode{width: 60%;height: 6rem; margin: 0 auto;}
+        .chooseImg{
+            position: absolute;
+            display: inline-block;
+            width: 4rem;
+            height: 4rem;
+            top: 2rem;
+            left: 6rem;
+        }
+    </style>
+</head>
+<body class="bodybg">
+
+<style type="text/css">
+    .app_header{ height: 2rem; background: white}
+    .app_header .div_back{position: absolute;top: 0.4rem;left: 0.8rem}
+    .app_header .div_back img{width: 1rem}
+    .header_title{position: absolute;top: 0.5rem;left: 42%;font-size: 0.65rem}
+    div.bindCardBox ul li span{font-size: 0.55rem;width: 30%}
+    div.bindCardBox ul li input{font-size: 0.55rem;width: 58%}
+    div.bindCardBox a{font-size: 0.63rem}
+</style>
+<div class="app_header">
+    <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/back_grey.png"></div>
+    <div class="header_title">反馈中心</div>
+</div>
+<div class="bindCardBox" data-userId="10086" data-cardId="" data-urlIndex="1">
+    <div class="bindCardMain" style="margin-top: 1rem">
+        <ul>
+            <li><span>反馈新系列<em></em></span><input id="new_loan" type="text" name="new_loan" placeholder="反馈新系列"></li>
+            <li><span>反馈失效口子<em></em></span><input id="old_loan" type="text" name="old_loan" placeholder="反馈失效口子"></li>
+            <li><span>口子所属系列<em></em></span><input id="old_category" type="text" name="old_category" placeholder="注明口子失效的那个系列"></li>
+        </ul>
+    </div>
+    <a href="javascript:void(0);" id="bind_card" onclick="regSubmit();">立即反馈</a>
+</div>
+<!-- js&&插件 -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/exif_1.js"></script><!-- 旋转图片矫正插件 -->
+<script type="text/javascript">
+    if (userId == null) {
+        openNew('../index/login.html');
+    }
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    var user_id=$("div.bindCardBox").attr('data-userId');
+
+    //绑卡
+    function regSubmit() {
+        $("#bind_card").css({"color":"rgba(0,0,0,0.4)","background-color":"rgba(0,0,0,0.2)","box-shadow":"0 3px 20px rgba(0,0,0,0.2)"});
+        $("#bind_card").attr("onclick",'javascript:void(0);');
+        var new_loan=$("input[name='new_loan']").val();
+        var old_loan=$("input[name='old_loan']").val();
+        var old_category=$("input[name='old_category']").val();
+        _submit();
+        //恢复点击
+        function _click(){
+            $("#bind_card").css({"color":"#fff","background-color":"#0084ff"})
+            $("#bind_card").attr("onclick","regSubmit();");
+        }
+        //信息验证正确，前往绑卡接口
+        function _submit(){
+            var ajax = {};
+            ajax.url = "{php echo $this->createMobileUrl('smallloan', array('op' => 'feedback_submit'))}";
+            ajax.dataType = "json";
+            ajax.type = "post";
+            ajax.data = {"new_loan":new_loan, "old_loan":old_loan, "old_category":old_category};
+            ajax.success = function (data) {
+                if (data.code == 1) {
+                    layer.msg('提交完成', {
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        _url = data.data.url;
+                        if (_url) {
+                            openNew(_url);
+                        }
+                    });
+                } else {
+                    layer.msg(data.msg, function(){
+                        _url = data.data.url;
+                        if (_url) {
+                            openNew(_url);
+                        }
+                    });
+                    _click();
+                    return false;
+                }
+            }
+            $.ajax(ajax);
+        }
+    }
+</script>
+
+</body>
+</html>

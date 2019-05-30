@@ -243,7 +243,7 @@ if($operation == 'getCode'){
 	$list = pdo_fetchall('SELECT id,img_url FROM '.tablename('xuan_mixloan_withdraw_qrcode').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
 	foreach ($list as $row) {
 		if (strstr($row['img_url'], 'yyzq.fuziyo.cn')) {
-			$img_url = str_replace('yyzq.fuziyo.cn', 'weixin.jhhai.cn', $row['img_url']);
+			$img_url = str_replace('yyzq.fuziyo.cn', 'mzdw.hnlq520.cn', $row['img_url']);
 			// echo $img_url;
 			pdo_update('xuan_mixloan_withdraw_qrcode', array('img_url'=>$img_url), array('id'=>$row['id']));
 		}
@@ -251,7 +251,7 @@ if($operation == 'getCode'){
 	$list = pdo_fetchall('SELECT id,avatar FROM '.tablename('xuan_mixloan_member').' WHERE uniacid=:uniacid', array(':uniacid'=>$_W['uniacid']));
 	foreach ($list as $row) {
 		if (strstr($row['avatar'], 'yyzq.fuziyo.cn')) {
-			$avatar = str_replace('yyzq.fuziyo.cn', 'weixin.jhhai.cn', $row['avatar']);
+			$avatar = str_replace('yyzq.fuziyo.cn', 'mzdw.hnlq520.cn', $row['avatar']);
 			// echo $img_url;
 			pdo_update('xuan_mixloan_member', array('avatar'=>$avatar), array('id'=>$row['id']));
 		}

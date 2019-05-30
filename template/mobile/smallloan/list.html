@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/swiper/swiper.min.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/new_loan/1.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/index_2.css">
+</head>
+<body>
+    <style type="text/css">
+        .app_header{ height: 50px; background: #f7eeee}
+        .app_header .div_back{position: absolute;top: 20px;left: 10px;z-index: 888888}
+        .app_header .div_back img{width: 20px}
+        .header_title{position: absolute;
+                    top: 18px;
+                    /* left: 40%; */
+                    font-size: 16px;
+                    text-align: center;
+                    /* margin-top: 10px; */
+                    width: 100%;}
+        div.releaseCon textarea{border: none}
+        div.pageTab ul li p img.tabFind {
+            height: 23px;
+        }
+        div.pageTab ul li p img.tabPersonal {
+            height: 23px;
+        }
+        div.pageTab ul li p img.tabIdaik {
+            height: 23px;
+        }
+        a{text-decoration:none}
+    </style>
+    <div class="app_header">
+        <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/picture/back_grey.png"></div>
+        <div class="header_title">放款/新口子</div>
+    </div>
+    <ul class="list2">
+        
+    </ul>
+    <!-- 底部标签 -->
+    <div class="footerGap"></div>
+    <div style="height: 50px"></div>
+    <script src="../addons/xuan_mixloan/template/style/js/jquery_1.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>   
+    <script src="../addons/xuan_mixloan/template/style/new_loan/swiper/swiper.min.js"></script>
+    <script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+    <script>
+        var keyword = "{$_GPC['keyword']}"
+        var type = "{$_GPC['type']}"
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+
+    load_index();
+    function load_index(){
+        $.post("{php echo $this->createMobileUrl('smallloan', array('op'=>'get_list'))}",{keyword:keyword, type:type},
+            function(res){
+                if(res.code==1){
+                    var list=res.data.list;
+                    $("ul.list2").html("");
+                    var str = '';
+                    for(var i=0;i<list.length;i++){
+                        var url = "{php echo $this->createMobileUrl('vip', array('op'=>'inviteCode', 'type' => 4))}&pid=" + list[i].id;
+                        str+='<li onclick="openNew(\''+url+'\');">\
+                                <img src="'+ list[i].ext_info.logo +'">\
+                                <div>\
+                                    <p>'+ list[i].name +'</p>\
+                                    <span>'+ list[i].ext_info.v_name +'</span>\
+                                </div>\
+                            </li>';
+                    }
+                    $("ul.list2").html(str);
+                    $('.header_title').text(res.data.title);
+                } else {
+                    layer.msg(res.msg);
+                }
+        },'json')
+    }
+    </script>
+</body>
+</html>

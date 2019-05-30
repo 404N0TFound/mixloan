@@ -261,6 +261,11 @@ if($operation=='buy'){
         $imgUrl = tomedia($config['share_image']);
         $desc = $config['share_desc'];
         $link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
+    } else if ($type == 4) {
+        $title = $config['share_title'];
+        $imgUrl = tomedia($config['share_image']);
+        $desc = $config['share_desc'];
+        $link = $_W['siteroot'] . 'app/' .$this->createMobileUrl('product', array('op'=>'allProduct', 'inviter'=>$member['id']));
     }
     include $this->template('vip/inviteCode');
 } else if ($operation == 'followList_bp') {
@@ -446,6 +451,41 @@ if($operation=='buy'){
                     "url" => $share_url,
                     "member" => $member,
                     "type" => 1,
+                    "pid" => $pid,
+                    "out" => $out,
+                    "poster_path" => $poster_path
+                );
+                $invite_res = m('poster')->createNewPoster($params);
+                if (!$invite_res) {
+                    message('生成海报失败，请检查海报背景图上传是否正确', '', 'error');
+                } else {
+                    $temp = [];
+                    $temp['poster'] = $invite_res;
+                    $posterArr[] = $temp;
+                }
+            }
+        }
+    } else if ($type == 4){
+        $pid = intval($_GPC['pid']);
+        $product = pdo_fetch('select * from ' . tablename('xuan_mixloan_smallloan') . '
+        			where id=:id', array(':id' => $pid));
+        $product['ext_info'] = json_decode($product['ext_info'], 1);
+        $url = $product['ext_info']['url'];
+        $share_url = shortUrl( $url );
+        $tips = "{$config['title']}—我的随身银行：{$share_url}";
+        if (!$posterArr) {
+            $created = false;
+            if (empty($product['ext_info']['poster'])) {
+                message("请检查海报是否上传", "", "error");
+            }
+            foreach ($product['ext_info']['poster'] as $row) {
+                $out = XUAN_MIXLOAN_PATH."data/poster/loan_{$pid}_{$member['id']}_{$row}.png";
+                $poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/loan_{$pid}_{$member['id']}_{$row}.png";
+                $params = array(
+                    "poster_id" => $row,
+                    "url" => $share_url,
+                    "member" => $member,
+                    "type" => 4,
                     "pid" => $pid,
                     "out" => $out,
                     "poster_path" => $poster_path
