@@ -1,0 +1,72 @@
+﻿
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>升级合伙人</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="edge">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/partner_upgrade/css/base.css">
+    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/partner_upgrade/css/bcardwithdraw.css">
+    <script src="../addons/xuan_mixloan/template/style/partner_upgrade/js/jquery.js"></script>
+    <script src="../addons/xuan_mixloan/template/style/partner_upgrade/js/lmy.js"></script>
+    <style type="text/css">
+        /*避免缓存 2018.05.02*/
+        div.withdrawCard ul{padding:0.5rem 6% 0 10%;}
+        div.withdrawCard ul li{overflow: visible;height: 4.6rem;}
+        div.withdrawCard ul li a{width: 0.7rem; left: -8%;right: 0;height: 4.6rem;line-height: 4.4rem; top:0;}
+        div.withdrawCard ul li em{display: inline-block; position: absolute;height: 4.6rem;line-height: 4.2rem; right: 4%;top:0;}
+        div.withdrawCard ul li em img{display: inline-block;height: 0.6rem;}
+    </style>
+  
+</head>
+<body class="bodybg">
+   
+     <style type="text/css">
+        .app_header{ height: 2rem; background: white}
+        .app_header .div_back{position: absolute;top: 0.4rem;left: 0.8rem}
+        .app_header .div_back img{width: 1rem}
+        .header_title{position: absolute;top: 0.5rem;left: 36%;font-size: 0.65rem}
+    </style>
+    <div class="app_header">
+        <div class="div_back" onclick="mui.back()"><img src="../addons/xuan_mixloan/template/style/help/picture/back_grey.png"></div>
+        <div class="header_title">我要升级合伙人</div>
+    </div> 
+    <div class="withdrawBox" data-userId="10086">
+        <div class="withdrawHandle">
+            <p>升级合伙人条件<span style="font-size: 0.7rem;float: right">直推<em id="system_con">{$config['partner_apply_nums']}</em>单</span></p>
+            <p>我已达到的条件<span style="font-size: 0.7rem;float: right">直推<em id="my_con">{$count}</em>单</span></p>
+        </div>
+        <div class="withdrawCard">
+            <a class="toWithdraw" id="toWithdraw" href="javascript:void(0);" onclick="tiSubmit()" {if $count < $config['partner_apply_nums']} style="background: rgba(0,0,0,0.2)"{/if}>立即升级</a>
+        </div>
+    </div>
+<!-- js&&插件 -->
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/js/layer_2.js"></script>
+<script type="text/javascript" src="../addons/xuan_mixloan/template/style/mui/js/mui.min.js"></script>
+<script type="text/javascript">
+    function openNew(url){
+        mui.openWindow({url:url,createNew:true});
+    }
+    function tiSubmit(){
+        $.post("{php echo $this->createMobileUrl('vip', array('op' => 'partner_upgrade', 'post' => 1))}",{},
+            function(res){
+                if(res.code==1){
+                    layer.msg('升级成功',{time:800},function(){
+                        openNew(res.data.url)
+                    })
+                } else{
+                    layer.msg(res.msg);
+                    return false;
+                }
+        },'json')
+    }
+
+</script>
+
+</body>
+</html>

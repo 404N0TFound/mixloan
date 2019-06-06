@@ -80,6 +80,24 @@
 						</div>
 
 						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户初始余额</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="init_money" value="{$setting['init_money']}" class="form-control" >
+								<span class="help-block">单位为元</span>
+							</div>
+						</div>
+						<div class="form-group" >
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现限制</label>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="withdraw_limit" value="{$setting['withdraw_limit']}" class="form-control" >
+								<span class="help-block">最低提现，单位为元</span>
+							</div>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="withdraw_times" value="{$setting['withdraw_times']}" class="form-control" >
+								<span class="help-block">一天多少次</span>
+							</div>
+						</div>
+						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">征信查询</label>
 							<div class="col-sm-3 col-xs-12">
 								<input type="text"  value="{$setting['pcredit_url1']}" class="form-control" name="pcredit_url1">
@@ -693,13 +711,17 @@
 					<div class="panel-body">
 						<div class="form-group" >
 							<label class="col-xs-12 col-sm-3 col-md-2 control-label">升级条件</label>
-							<div class="col-sm-4 col-xs-12">
+							<div class="col-sm-3 col-xs-12">
 								<input type="text" name="buy_partner_price" value="{$setting['buy_partner_price']}" class="form-control" >
 								<span class="help-block">条件一：直接购买多少元</span>
 							</div>
-							<div class="col-sm-4 col-xs-12">
+							<div class="col-sm-3 col-xs-12">
 								<input type="text" name="partner_vip_nums" value="{$setting['partner_vip_nums']}" class="form-control" >
 								<span class="help-block">条件二：直推几个代理</span>
+							</div>
+							<div class="col-sm-3 col-xs-12">
+								<input type="text" name="partner_apply_nums" value="{$setting['partner_apply_nums']}" class="form-control" >
+								<span class="help-block">条件三：直推多少单子</span>
 							</div>
 						</div>
 						<div class="form-group" >

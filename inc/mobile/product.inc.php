@@ -66,6 +66,12 @@ if($operation=='index'){
     if ( empty($info['is_show']) ) {
         message('该代理产品已被下架', $this->createMobileUrl('user'), 'info');
     }
+    if ($info['day_hot']) {
+        $agent = m('member')->checkAgent($member['id']);
+        if ($agent['code'] != 1) {
+            $verify = 0;
+        }
+    }
     $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_verify_data') . '
         where uid=:uid', array(':uid' => $member['id']));
     if (!$record) {
@@ -426,6 +432,10 @@ if($operation=='index'){
     if ($type == 'is_new') {
         $list = m('product')->getList(['id', 'name', 'relate_id'], ['is_show'=>1, 'is_new'=>1], ' id desc', 9);
     } else if ($type == 'hot') {
+        $agent = m('member')->checkAgent($member['id']);
+        if ($agent['code'] != 1) {
+            show_json(-1, [], '您还不是代理哦');
+        }
         $list = m('product')->getList(['id', 'name', 'relate_id'], ['day_hot'=>1, 'is_show'=>1], FALSE);
     } else if ($type == 'credit') {
         $list = m('product')->getList(['id', 'name', 'relate_id'], ['type'=>1, 'is_show'=>1], FALSE);

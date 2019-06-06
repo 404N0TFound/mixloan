@@ -420,6 +420,9 @@ if($operation=='buy'){
         } else if ($row['type'] == 5){
             $row['name'] = '每日佣金奖励';
             $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
+        } else if ($row['type'] == 6){
+            $row['name'] = '系统赠余额';
+            $row['logo'] = '../addons/xuan_mixloan/template/style/picture/fc_header.png';
         }
         if($row['type'] == 1) {
             if ($pros[$row['pid']]['count_time'] == 1) {
@@ -491,14 +494,21 @@ if($operation=='buy'){
 	if (!$bank_id) {
 		show_json(-1, null, "请选择提现银行卡");
 	}
+    $date = date('Y-m-d');
+    $today = strtotime("{$date}");
+    $times = pdo_fetchcolumn('select count(*) from ' .tablename('xuan_mixloan_withdraw'). "
+		where uid=:uid and createtime>{$today}", array(':uid'=>$member['id']));
+    if ($times>$config['withdraw_times']) {
+        show_json(-1, null, "一天只能提现{$config['withdraw_times']}次");
+    }
 	$all = pdo_fetchcolumn("SELECT SUM(re_bonus+done_bonus+extra_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE uniacid={$_W['uniacid']} AND inviter={$member['id']}");
 	$used = m('member')->sumWithdraw($member['id']);
 	$use = $all - $used;
 	if ($bonus > $use) {
 		show_json(-1, null, "可提现余额不足");
 	}
-	if ($bonus < 30) {
-		show_json(-1, null, "提现最低限额为30元哦");
+	if ($bonus < $config['withdraw_limit']) {
+		show_json(-1, null, "提现最低限额为{$config['withdraw_limit']}元哦");
 	}
 	$bank = pdo_fetch('SELECT * FROM '.tablename('xuan_mixloan_creditCard').' WHERE id=:id', array(':id'=>$bank_id));
 	$bank_code = m('pay')->getBankCode($bank['bankname']);
@@ -884,6 +894,30 @@ if($operation=='buy'){
         }
     }
     include $this->template('vip/partner_upgrade');
+} else if ($operation == 'partner_upgrade_by_apply') {
+    //满足条件自动升级
+    $partner = m('member')->checkPartner($member['id']);
+    if ($partner['code']) {
+        message('您已经是合伙人了', $this->createMobileUrl('user'), 'error');
+    }
+    $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . ' a 
+                    left join ' . tablename('xuan_mixloan_product') . ' b on a.relate_id=b.id
+                    where a.inviter=:inviter and a.degree=1 and a.type=1 and a.status>0 and b.loan_type=2', array(':inviter' => $member['id'])) ? : 0;
+    if ($_GPC['post']) {
+        if ($count >= $config['partner_apply_nums']) {
+            $tid = "30002" . date('YmdHis', time());
+            $insert['uid'] = $member['id'];
+            $insert['createtime'] = time();
+            $insert['uniacid'] = $_W['uniacid'];
+            $insert['tid'] = $tid;
+            $insert['fee'] = 0;
+            pdo_insert('xuan_mixloan_partner', $insert);
+            show_json(1, ['url' => $this->createMobileUrl('user')], 'success');
+        } else {
+            show_json(-1, [], '您还没达到升级条件呢');
+        }
+    }
+    include $this->template('vip/partner_upgrade_by_apply');
 } else if ($operation == 'partner_center') {
     //合伙人中心
     $list = pdo_fetchall('select * from ' .tablename('xuan_mixloan_product_apply'). '
@@ -948,8 +982,9 @@ if($operation=='buy'){
         header("location:{$this->createMobileUrl('user')}");
         exit();
     }
-    $upgrade_free_a = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . '
-                    where inviter=:inviter and degree=1 and type=1 and status>0', array(':inviter' => $member['id'])) ? : 0;
+    $upgrade_free_a = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_product_apply') . ' a 
+                    left join ' . tablename('xuan_mixloan_product') . ' b on a.relate_id=b.id
+                    where a.inviter=:inviter and a.degree=1 and a.type=1 and a.status>0 and b.loan_type=2', array(':inviter' => $member['id'])) ? : 0;
     $list = pdo_fetchall('select openid from ' . tablename('qrcode_stat') . ' 
                     where qrcid=:qrcid 
                     group by openid', array(':qrcid' => $member['id']));
