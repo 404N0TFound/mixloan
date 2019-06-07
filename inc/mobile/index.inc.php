@@ -104,9 +104,9 @@ if($operation=='register'){
         if ($config['init_money']) {
             $insert = array();
             $insert['uniacid'] = $_W['uniacid'];
-            $insert['uid'] = $member['id'];
+            $insert['uid'] = $member_id;
             $insert['phone'] = $phone;
-            $insert['inviter'] = $member['id'];
+            $insert['inviter'] = $member_id;
             $insert['extra_bonus'] = $config['init_money'];
             $insert['status'] = 2;
             $insert['type'] = 6;

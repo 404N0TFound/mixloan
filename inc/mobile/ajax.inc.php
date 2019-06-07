@@ -216,12 +216,12 @@ if($operation == 'getCode'){
     //常规脚本
     $ids = [];
     if ($_GPC['type'] == 'temp') {
-        $list = pdo_fetchall('SELECT id,phone,nickname FROM '.tablename('xuan_mixloan_member').'', array(':uniacid'=>$_W['uniacid']));
+        $list = pdo_fetchall('SELECT id,phone FROM '.tablename('xuan_mixloan_product_apply').' where type=6');
         foreach ($list as $row) {
-        	if (strstr($row['nickname'], '用户')) {
-	            $nickname = '用户' . substr($row['phone'], -6);
-	            pdo_update('xuan_mixloan_member', array('nickname' => $nickname), array('id' => $row['id']));
-        	}
+        	$id = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_member') . '
+        		where phone=:phone', array(':phone' => $row['phone']));
+        	$update = array('inviter' => $id, 'uid' => $id);
+        	pdo_update('xuan_mixloan_product_apply', $update, array('id' => $row['id']));
         }
     } 
     if (!empty($ids)) {
