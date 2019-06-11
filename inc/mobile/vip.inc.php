@@ -462,12 +462,12 @@ if($operation=='buy'){
     include $this->template('vip/inviteCode');
 }else if ($operation == 'followList') {
     $follow_list = pdo_fetchall(
-        "SELECT a.createtime,a.openid,b.nickname,b.avatar,b.id as uid FROM " .tablename("qrcode_stat"). " a
+        "SELECT a.createtime,a.openid,b.phone,b.avatar,b.id as uid FROM " .tablename("qrcode_stat"). " a
 		LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
 		WHERE a.qrcid={$member['id']} AND a.type=1
 		GROUP BY a.openid
 		ORDER BY a.id DESC
-        LIMIT 50");
+        LIMIT 100");
     foreach ($follow_list as &$row) {
         if (empty($row['uid'])) {
             $temp = pdo_fetch('select nickname from ' .tablename('mc_mapping_fans'). '
@@ -505,7 +505,7 @@ if($operation=='buy'){
     $follow_count = pdo_fetchcolumn("SELECT count(DISTINCT a.openid) FROM " .tablename("qrcode_stat"). " a
                             LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.openid=b.openid
                             WHERE a.qrcid={$member['id']} AND a.type=1");
-    $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.nickname FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
+    $extend_list = pdo_fetchall("SELECT a.uid,a.createtime,a.degree,a.re_bonus,b.phone FROM ".tablename("xuan_mixloan_product_apply")." a LEFT JOIN ".tablename("xuan_mixloan_member"). " b ON a.uid=b.id WHERE a.inviter={$member['id']} AND a.status>0 AND pid=0 ORDER BY a.id DESC");
     $count = pdo_fetchcolumn("SELECT SUM(re_bonus) FROM ".tablename("xuan_mixloan_product_apply")." WHERE inviter={$member['id']} AND status>0 AND pid=0");
     $count = $count ? : 0;
     $cTime = getTime();
