@@ -74,7 +74,7 @@ if($operation=='index'){
 } else if ($operation == 'allProduct') {
 	//全部产品
 	$inviter = intval($_GPC['inviter']);
-	$credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1]);
+	$credits = m('product')->getList(['id', 'name', 'relate_id', 'ext_info'], ['type'=>1, 'is_show'=>1], ' id asc');
 	foreach ($credits as $credit) {
 		$id[] = $credit['relate_id'];
 	}
