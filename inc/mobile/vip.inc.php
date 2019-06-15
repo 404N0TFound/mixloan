@@ -33,6 +33,18 @@ if($operation=='buy'){
     {
         message('请先绑定手机号', $this->createMobileUrl('index'), 'error');
     }
+    if ($config['buy_init_vip_price'] == 0) {
+        $out_trade_no = "10001" . date('YmdHis', time());
+        $insert = array(
+            "uniacid"=>$_W["uniacid"],
+            "uid"=>$member['id'],
+            "createtime"=>time(),
+            "tid"=>$out_trade_no,
+            "fee"=>0,
+        );
+        pdo_insert("xuan_mixloan_payment", $insert);
+        message('购买成功', $this->createMobileUrl('user'), 'success');
+    }
     if (is_weixin())
     {
         $tid = "10001" . date('YmdHis', time());
