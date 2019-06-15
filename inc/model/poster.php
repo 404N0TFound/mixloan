@@ -54,11 +54,11 @@ class Xuan_mixloan_Poster
         $newl = imagecreatetruecolor(imagesx($bgpng)*0.35,imagesx($bgpng)*0.35);
         imagecopyresized($newl,$QR,0,0,0,0,imagesx($bgpng)*0.35,imagesx($bgpng)*0.35,imagesx($QR),imagesy($QR));
         if (!$config['poster_avatar']) {
-            $height = 0.4;
+            $height = 0.65;
         } else {
-            $height = 0.4;
+            $height = 0.65;
         }
-        imagecopymerge($bgpng,$newl,imagesx($bgpng)*0.33,imagesy($bgpng)*$height,0,0,imagesx($newl),imagesy($newl),100);
+        imagecopymerge($bgpng,$newl,imagesx($bgpng)*0.15,imagesy($bgpng)*$height,0,0,imagesx($newl),imagesy($newl),100);
         $res = imagepng($bgpng,$params['out']);
         imagedestroy($QR);
         imagedestroy($bgpng);

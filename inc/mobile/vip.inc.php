@@ -270,7 +270,7 @@ if($operation=='buy'){
             $url = $_W['siteroot'] . 'app/' .$this->createMobileUrl('loan', array('op'=>'apply', 'id'=>$product['relate_id'], 'pid'=>$id, 'inviter'=>$member['id']));
         }
         $out = XUAN_MIXLOAN_PATH."data/poster/{$id}_{$member['id']}.png";
-    	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png";
+    	$poster_path = getNowHostUrl()."/addons/xuan_mixloan/data/poster/{$id}_{$member['id']}.png?v=" . time();
 	} else {
 		$id = 0;
 		$cfg = $config;
