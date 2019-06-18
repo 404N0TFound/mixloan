@@ -97,8 +97,9 @@ if($operation=='service'){
 		where uniacid=:uniacid order by id desc', array(':uniacid' => $_W['uniacid']));
     if ($announce) {
         $announce['ext_info'] = json_decode($announce['ext_info'], 1);
+        $announce['ext_info']['image'] = tomedia($announce['ext_info']['image']);
         if (!$cid) {
-            show_json(1, [], $announce['ext_info']['content']);
+            show_json(1, $announce, '获取成功');
         }
         $record = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_announce_record') . '
 			where relate_id=:relate_id and cid=:cid', array(':relate_id'=>$announce['id'], ':cid'=>$cid));
@@ -107,7 +108,7 @@ if($operation=='service'){
             $insert['cid'] = $cid;
             $insert['relate_id'] = $announce['id'];
             pdo_insert('xuan_mixloan_announce_record', $insert);
-            show_json(1, [], $announce['ext_info']['content']);
+            show_json(1, $announce, '获取成功');
         }
     } else {
         show_json(-1);

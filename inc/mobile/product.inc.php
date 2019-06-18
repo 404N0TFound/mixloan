@@ -116,13 +116,14 @@ if($operation=='index'){
 	//申请产品
 	$id = intval($_GPC['id']);
 	$inviter = intval($_GPC['inviter']);
-    $info = m('product')->getList(['id', 'ext_info', 'is_show'],['id'=>$id])[$id];
+    $info = m('product')->getList(['id', 'ext_info', 'is_show', 'relate_id'],['id'=>$id])[$id];
     if ( empty($info['is_show']) ) {
         header("location:{$this->createMobileUrl('product', array('op' => 'allProduct', 'inviter' => $inviter))}");
         exit();
     }
     $is_close = pdo_fetchcolumn('select is_close from ' . tablename('xuan_mixloan_agent_close') . '
         where uid=:uid', array(':uid' => $inviter));
+    $item = m('bank')->getCard(['id', 'name'], ['id' => $info['relate_id']])[$info['relate_id']];
 	include $this->template('product/apply');
 } else if ($operation == 'apply_submit') {
 	//申请产品

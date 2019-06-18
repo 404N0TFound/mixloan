@@ -112,6 +112,8 @@ if ($operation == 'list') {
         $data['uniacid'] = $_W['uniacid'];
         $data['createtime'] = time();
         $data['card_type'] = implode(',', $data['card_type']); 
+        $data['ext_info']['conditions'] = htmlspecialchars_decode($data['ext_info']['conditions']);
+        $data['ext_info']['reminds'] = htmlspecialchars_decode($data['ext_info']['reminds']);
         $data['ext_info'] = json_encode($data['ext_info']);
         pdo_insert('xuan_mixloan_bank_card', $data);
         message("提交成功", $this->createWebUrl('bank', array('op' => 'card_list', 'bank_id'=>$bank_id)), "sccuess");
@@ -125,6 +127,8 @@ if ($operation == 'list') {
     $item['card_type'] = array_values(explode(',', $item['card_type']));
     $item['ext_info'] = json_decode($item['ext_info'], true);
     if ($_GPC['post'] == 1) {
+        $_GPC['data']['ext_info']['conditions'] = htmlspecialchars_decode($_GPC['data']['ext_info']['conditions']);
+        $_GPC['data']['ext_info']['reminds'] = htmlspecialchars_decode($_GPC['data']['ext_info']['reminds']);
         $_GPC['data']['card_type'] = implode(',', $_GPC['data']['card_type']);
         $_GPC['data']['ext_info'] = json_encode($_GPC['data']['ext_info']);
         pdo_update('xuan_mixloan_bank_card', $_GPC['data'], array('id'=>$item['id']));

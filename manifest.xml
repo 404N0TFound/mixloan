@@ -139,6 +139,7 @@ DROP TABLE IF EXISTS `ims_xuan_mixloan_announce`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_announce` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
+  `type` tinyint(11) NOT NULL,
   `uniacid` int(11) NOT NULL,
   `ext_info` text NOT NULL,
   `createtime` int(11) NOT NULL,
