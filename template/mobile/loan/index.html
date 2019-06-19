@@ -372,37 +372,10 @@
     {if !is_weixin()}
     <div style="height: 4rem"></div>
     {/if}
-    <div class="announce" style="display: none"><img src="" width="250px" height="400px" onclick="announce_href()"></div>
     <script type="text/javascript" src=../addons/xuan_mixloan/template/style/js/swiper.min_2.js></script>
     <script type="text/javascript">
         // 页面初始化
         $(document).ready(function(){
-            var announce_locaiton = '';
-            var cid = '{$member['id']}';
-            $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
-                function(data){
-                    if (data.code == 1) {
-                        if (data.data.type == 1) {
-                            layer.alert(data.data.ext_info.content, {
-                                icon: 1,
-                                skin: 'layer-ext-moon',
-                                title:'公告'
-                            })
-                        } else {
-                            announce_locaiton = data.data.ext_info.location;
-                            $('.announce img').attr('src', data.data.ext_info.image);
-                            layer.open({
-                                type: 1,
-                                shade: false,
-                                title: false, //不显示标题
-                                content: $('.announce')
-                            });
-                        }
-                    }
-                },'json')
-            function announce_href(){
-                openW(announce_locaiton);
-            }
             var fr_T=($("div.loan_tab").height())+"px";
             $("div.loanindex_frame").css("margin-top",fr_T);
             $("img.ani_model").load(function(){

@@ -13,7 +13,7 @@
     <meta content="telephone=no" name="format-detection">
     <meta  content="e-mail=no" name="format-detection"/>
     <title>口子中心</title>
-    <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss">
+    <!-- <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/layer5_1.css" id="layui_layer_skinlayercss"> -->
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/main_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/new_base_4.css">
     <link rel="stylesheet" href="../addons/xuan_mixloan/template/style/css/swiper.min_2.css">
@@ -240,7 +240,7 @@
     <!-- <div class="to_search" data-condition="1">
         <img src="../addons/xuan_mixloan/template/style/picture/search_white_1.png" />
     </div> -->
-
+    <div class="announce" style="display: none"><img src="" style="width: 320px;height: 550px" onclick="announce_href()"></div>
 </body>
 <script>
     var swiper_w=($(window).width())*0.94;
@@ -417,5 +417,73 @@
         var _url="{php echo $this->createMobileUrl('channel', array('op'=>'search', 'type'=>1))}";
         openNew(_url);
     })
+    var announce_locaiton = '';
+    var cid = '{$member['id']}';
+    $.post("{php echo $this->createMobileUrl('mix', array('op'=>'announce'))}",{cid:cid},
+        function(data){
+            if (data.code == 1) {
+                if (data.data.type == 1) {
+                    layer.alert(data.data.ext_info.content, {
+                        icon: 1,
+                        skin: 'layer-ext-moon',
+                        title:'公告'
+                    })
+                } else {
+                    announce_locaiton = data.data.ext_info.location;
+                    $('.announce img').attr('src', data.data.ext_info.image);
+                    layer.open({
+                        type: 1,
+                        shade: false,
+                        title: false, //不显示标题
+                        content: $('.announce')
+                    });
+                }
+            }
+        },'json')
+    function announce_href(){
+        openLoan(announce_locaiton);
+    }
+    var ws=null;
+    var webview = null;
+    function plusReady(){
+        ws=plus.webview.currentWebview();
+    }
+    if(window.plus){
+        plusReady();
+    }else{
+        document.addEventListener('plusready', plusReady, false);
+    }
+    function clickButton(){
+        var url = "{php echo $this->createMobileUrl('loan')}";
+        webview = plus.webview.create(url)
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("返回首页");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+
+    }
+    function openLoan(url){
+        webview = plus.webview.create(url, 'test', {'titleNView':{'backgroundColor':'#5386d2','titleText':'贷款超市','titleColor':'white',buttons:[{text:' 返回',float:'left',onclick:clickButton}] }});
+        webview.onloading = function(){
+            plus.nativeUI.showWaiting("跳转中");
+        }
+        webview.onloaded = function(){
+            plus.nativeUI.closeWaiting();
+        }
+        webview.addEventListener('close', function(){
+            webview=null;
+        });
+        webview.addEventListener('titleUpdate', function(){
+            webview.show();
+        });
+    }
 </script>
 </html>
