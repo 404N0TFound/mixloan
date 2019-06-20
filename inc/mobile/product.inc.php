@@ -149,9 +149,12 @@ if($operation=='index'){
 	} else {
 		$pro = m('loan')->getList(['id', 'ext_info'], ['id'=>$info['relate_id']])[$info['relate_id']];
 	}
-	if ($record) {
-		show_json(1, $pro['ext_info']['url']);
-	}
+    $record = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply') . '
+             where phone=:phone and pid=:pid and degree=1', array(':phone' => trim($_GPC['phone']), ':pid' => $id));
+    if ($record) {
+        $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $record));
+        show_json(1, $location);
+    }
 	if ($inviter) {
 		$inviter_one = pdo_fetch("SELECT openid,nickname FROM ".tablename("xuan_mixloan_member") . " WHERE id=:id", array(':id'=>$inviter));
 		$datam = array(
@@ -214,13 +217,17 @@ if($operation=='index'){
 		'done_bonus'=>0,
 		'extra_bonus'=>0,
 		'status'=>$status,
-		'createtime'=>time()
+		'createtime'=>time(),
+        'ip'=>getServerIp(),
+        'device_type'=>getDeviceType(),
 	);
+    $insert['browser_type'] = is_weixin() ? 1 : 2;
     $agent = m('member')->checkAgent($inviter);
     if ($agent['code'] != 1) {
         $insert['agent'] = 0;
     }
 	pdo_insert('xuan_mixloan_product_apply', $insert);
+    $insert_id = pdo_insertid();
 	//二级
 	$inviter_info = m('member')->getInviterInfo($inviter);
     $second_inviter = m('member')->getInviter($inviter_info['phone'], $inviter_info['openid']);
@@ -260,7 +267,8 @@ if($operation=='index'){
         );
         pdo_insert('xuan_mixloan_msg', $insert);
     }
-	show_json(1, $pro['ext_info']['url']);
+    $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $insert_id));
+    show_json(1, $location);
 } else if ($operation == 'customer') {
 	//客户列表
 	include $this->template('product/customer');

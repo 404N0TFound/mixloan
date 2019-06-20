@@ -77,6 +77,17 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_pcredit` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `ims_xuan_mixloan_apply_time`;
+CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_apply_time` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `inviter` int(11) NOT NULL,
+  `relate_id` int(11) NOT NULL,
+  `last_time` int(11) NOT NULL,
+  `createtime` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `relate_id` (`relate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=0 ;
+
 DROP TABLE IF EXISTS `ims_xuan_mixloan_msg_queue`;
 CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_msg_queue` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -416,6 +427,10 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product_apply` (
   `degree` tinyint(2) NOT NULL DEFAULT 1,
   `type` tinyint(2) NOT NULL DEFAULT 1,
   `agent` tinyint(2) NOT NULL DEFAULT 1,
+  `ip` varchar(30) NOT NULL,
+  `device_type` tinyint(2) NOT NULL COMMENT '设备标识，1安卓，2苹果，3windows',
+  `browser_type` tinyint(2) NOT NULL COMMENT '浏览器标识，1微信，2浏览器',
+  `is_fake` tinyint(2) NOT NULL COMMENT '是否刷单',
   PRIMARY KEY (`id`),
   KEY `uniacid` (`uniacid`),
   KEY `uid` (`uid`),
@@ -481,6 +496,7 @@ CREATE TABLE IF NOT EXISTS `ims_xuan_mixloan_product` (
   `re_reward_type` int(11) NOT NULL COMMENT '填写资料奖励方式，0不奖励，1奖励现金，2奖励点数',
   `re_reward_money` int(11) NOT NULL COMMENT '填写资料奖励多少元',
   `re_reward_per` decimal(5,2) NOT NULL COMMENT '填写资料奖励多少点',
+  `middleware` tinyint(2) DEFAULT 1 COMMENT '是否开启中间件',
   `createtime` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `ext_info` TEXT NOT NULL,

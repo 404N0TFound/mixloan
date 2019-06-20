@@ -242,4 +242,38 @@ if($operation == 'getCode'){
     $uploadtoken = $auth->uploadToken($_W['setting']['remote']['qiniu']['bucket'], $filename, 3600, $putpolicy);
     list($ret, $err) = $uploadmgr->putFile($uploadtoken, $filename, $fileroot);
     echo $_W['setting']['remote']['qiniu']['url'] . '/' . $filename ;
+} else if ($operation == 'apply_analysis') {
+    // 分析
+    $endtime = strtotime(date("Y-m-d"));
+    $starttime = $endtime - 86400;
+    $list = pdo_fetchall('select count(*) as count,inviter from ' . tablename('xuan_mixloan_product_apply') . "
+                    where degree=1 and createtime>{$starttime} and createtime<{$endtime} and type=1
+                    group by inviter");
+    foreach ($list as $row) {
+        $count = pdo_fetchcolumn('select count(*) from ' . tablename('xuan_mixloan_apply_time') . "
+                        where inviter={$row['inviter']} and last_time>8
+                        and createtime>{$starttime} and createtime<{$endtime}") ? : 0;
+        $rate = ($count / $row['count']) * 100;
+        $insert = array();
+        $insert['inviter'] = $row['inviter'];
+        $insert['createtime'] = time();
+        $insert['rate'] = $rate;
+        $insert['count'] = $row['count'];
+        pdo_insert('xuan_mixloan_apply_analysis', $insert);
+    }
+} else if ($operation == 'apply_update') {
+    // 更新
+    $starttime = strtotime(date("Y-m-d"));
+    $last_day = $starttime - 86400;
+    $inviters = pdo_fetchall('select inviter from ' . tablename('xuan_mixloan_apply_analysis') . "
+        where createtime>{$starttime} and rate<10 and count>4");
+    foreach ($inviters as $row) {
+        $update = array('is_fake' => 1);
+        $list = pdo_fetchall('select pid,phone from ' . tablename('xuan_mixloan_product_apply') . "
+            where degree=1 and inviter={$row['inviter']} and type=1 and createtime>{$last_day}");
+        foreach ($list as $value) {
+            $condition = array('pid' => $value['pid'], 'phone' => $value['phone'], 'type' => 1);
+            pdo_update('xuan_mixloan_product_apply', $update, $condition);
+        }
+    }
 }
