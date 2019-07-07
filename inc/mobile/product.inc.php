@@ -152,7 +152,8 @@ if($operation=='index'){
     $record = pdo_fetchcolumn('select id from ' . tablename('xuan_mixloan_product_apply') . '
              where phone=:phone and pid=:pid and degree=1', array(':phone' => trim($_GPC['phone']), ':pid' => $id));
     if ($record) {
-        $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $record));
+        // $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $record));
+        $location = $pro['ext_info']['url'];
         show_json(1, $location);
     }
 	if ($inviter) {
@@ -267,7 +268,8 @@ if($operation=='index'){
         );
         pdo_insert('xuan_mixloan_msg', $insert);
     }
-    $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $insert_id));
+    // $location = $_W['siteroot'] . 'app/' . $this->createMobileUrl('loan', array('op' => 'middleware', 'id' => $insert_id));
+    $location = $pro['ext_info']['url'];
     show_json(1, $location);
 } else if ($operation == 'customer') {
 	//客户列表
